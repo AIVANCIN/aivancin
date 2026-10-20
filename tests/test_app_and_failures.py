@@ -82,6 +82,28 @@ def test_vectors_from_another_model_are_rejected(tmp_path):
     assert_ai_unavailable_but_manual_works(d, "different model")
 
 
+def test_task_vectors_from_another_task_list_are_rejected(tmp_path):
+    d = copy_data(tmp_path)
+    meta_path = d / "vectors" / "task_vectors.json"
+    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    meta["statements_sha256"] = "0" * 64
+    meta_path.write_text(json.dumps(meta), encoding="utf-8")
+    assert_ai_unavailable_but_manual_works(d, "different task list")
+
+
+def test_corrupted_task_vectors_are_rejected(tmp_path):
+    d = copy_data(tmp_path)
+    with open(d / "vectors" / "task_vectors.npy", "r+b") as f:
+        f.seek(5000)
+        f.write(b"\x00\x01\x02\x03")
+    assert_ai_unavailable_but_manual_works(d, "task-statement vector file is corrupted")
+
+
+def test_missing_task_vectors_report_ai_unavailable(tmp_path):
+    d = copy_data(tmp_path)
+    (d / "vectors" / "task_vectors.npy").unlink()
+    assert_ai_unavailable_but_manual_works(d, "missing vectors/task_vectors.npy")
+
 def test_missing_model_reports_ai_unavailable(tmp_path):
     d = copy_data(tmp_path)
     (d / "model" / "model.onnx").unlink()

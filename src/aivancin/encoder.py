@@ -1,15 +1,19 @@
-"""Local sentence encoder (all-MiniLM-L6-v2, ONNX on CPU) and the precomputed DWA vectors."""
+"""Local sentence encoder (all-MiniLM-L6-v2, ONNX on CPU) and the precomputed activity and task-statement vectors."""
+import hashlib
 import json
 import os
+from collections import defaultdict
 from pathlib import Path
 
 import numpy as np
 
+from .aei import norm_task
 from .snapshots import sha256_file
 
 os.environ.setdefault("ORT_DISABLE_TELEMETRY", "1")
 
 MAX_TOKENS = 256
+NAME_WEIGHT = 0.7  # an activity's score: this share from its name, the rest from its closest linked task statement
 
 
 class AIUnavailable(RuntimeError):
@@ -52,8 +56,48 @@ class Encoder:
         return np.vstack(out).astype(np.float32)
 
 
+def task_statements(onet):
+    """Distinct O*NET task statements (normalised, sorted) and the activities each is linked to."""
+    links = defaultdict(set)
+    text = {}
+    for code, pairs in onet.occupation_dwas.items():
+        for tid, dwa in pairs:
+            key = norm_task(onet.tasks[(code, tid)]["task"])
+            text.setdefault(key, onet.tasks[(code, tid)]["task"].strip())
+            links[key].add(dwa)
+    keys = sorted(links)
+    return [text[k] for k in keys], [sorted(links[k]) for k in keys], keys
+
+
+def statements_sha256(keys):
+    return hashlib.sha256("\n".join(keys).encode("utf-8")).hexdigest()
+
+
+class ActivityIndex:
+    """Scores every activity for one encoded sentence: NAME_WEIGHT x cosine with the activity's name plus the rest
+    x the best cosine with an O*NET task statement linked to it. Task statements carry the concrete wording people
+    use ("test new versions of software"); an activity no task links to is scored by its name alone."""
+
+    def __init__(self, names, tasks, links, dwa_ids):
+        self.names = names
+        self.tasks = tasks
+        pos = {d: i for i, d in enumerate(dwa_ids)}
+        pairs = [(j, pos[d]) for j, ds in enumerate(links) for d in ds if d in pos]
+        self.rows = np.array([j for j, _ in pairs], dtype=np.int64)
+        self.cols = np.array([i for _, i in pairs], dtype=np.int64)
+        self.linked = np.zeros(len(dwa_ids), dtype=bool)
+        self.linked[self.cols] = True
+
+    def scores(self, q):
+        name = self.names @ q
+        best = np.full(name.shape, -np.inf, dtype=np.float32)
+        np.maximum.at(best, self.cols, (self.tasks @ q)[self.rows])
+        best = np.where(self.linked, best, name)
+        return NAME_WEIGHT * name + (1 - NAME_WEIGHT) * best
+
+
 def load_ai(snapshots):
-    """Return (encoder, dwa_vectors) or raise AIUnavailable with a reason."""
+    """Return (encoder, ActivityIndex) or raise AIUnavailable with a reason."""
     data_dir = Path(snapshots.data_dir)
     model_rec = snapshots.source("minilm-onnx")
     tok_rec = snapshots.source("minilm-tokenizer")
@@ -61,7 +105,9 @@ def load_ai(snapshots):
     tok_path = data_dir / tok_rec["derived_path"]
     vec_path = data_dir / "vectors" / "dwa_vectors.npy"
     meta_path = data_dir / "vectors" / "dwa_vectors.json"
-    for p in (model_path, tok_path, vec_path, meta_path):
+    tvec_path = data_dir / "vectors" / "task_vectors.npy"
+    tmeta_path = data_dir / "vectors" / "task_vectors.json"
+    for p in (model_path, tok_path, vec_path, meta_path, tvec_path, tmeta_path):
         if not p.exists():
             raise AIUnavailable(f"missing {p.relative_to(data_dir).as_posix()}")
     if sha256_file(model_path) != model_rec["derived_sha256"]:
@@ -78,8 +124,19 @@ def load_ai(snapshots):
     vectors = np.load(vec_path, allow_pickle=False)
     if vectors.shape != (len(snapshots.onet.dwa_ids), meta.get("dim")):
         raise AIUnavailable("activity vectors do not match the activity list")
+    tmeta = json.loads(tmeta_path.read_text(encoding="utf-8"))
+    _, links, keys = task_statements(snapshots.onet)
+    if tmeta.get("model_sha256") != model_rec["derived_sha256"]:
+        raise AIUnavailable("task-statement vectors were computed with a different model")
+    if tmeta.get("statements_sha256") != statements_sha256(keys):
+        raise AIUnavailable("task-statement vectors were computed from a different task list")
+    if sha256_file(tvec_path) != tmeta.get("vectors_sha256"):
+        raise AIUnavailable("task-statement vector file is corrupted")
+    tasks = np.load(tvec_path, allow_pickle=False).astype(np.float32)
+    if tasks.shape != (len(keys), meta.get("dim")):
+        raise AIUnavailable("task-statement vectors do not match the task list")
     try:
         encoder = Encoder(model_path, tok_path)
     except Exception as exc:
         raise AIUnavailable(f"model failed to load ({type(exc).__name__})") from exc
-    return encoder, vectors
+    return encoder, ActivityIndex(vectors, tasks, links, snapshots.onet.dwa_ids)

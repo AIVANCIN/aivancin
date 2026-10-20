@@ -171,3 +171,27 @@ def test_network_is_blocked_during_tests():
     import urllib.request
     with pytest.raises(OSError):
         urllib.request.urlopen("https://www.onetcenter.org/", timeout=5)
+
+
+def test_activity_score_mixes_name_and_closest_task_statement():
+    """Worked by hand for a query along the first axis, with w = NAME_WEIGHT:
+    a0 name 1.0, best statement 1.0 -> 1.0; a1 name 0.0, statements 0.0 and 0.6 -> (1 - w) x 0.6;
+    a2 name 0.6, statement 0.0 -> w x 0.6; a3 links to no statement -> its name, 0.8."""
+    import numpy as np
+    from aivancin.encoder import NAME_WEIGHT, ActivityIndex
+    w = NAME_WEIGHT
+    names = np.array([[1, 0], [0, 1], [0.6, 0.8], [0.8, 0.6]], dtype=np.float32)
+    tasks = np.array([[0, 1], [1, 0], [0.6, 0.8]], dtype=np.float32)
+    links = [["a1", "a2"], ["a0"], ["a1"]]
+    idx = ActivityIndex(names, tasks, links, ["a0", "a1", "a2", "a3"])
+    got = idx.scores(np.array([1, 0], dtype=np.float32))
+    assert np.allclose(got, [1.0, (1 - w) * 0.6, w * 0.6, 0.8], atol=1e-6)
+
+
+def test_plain_statements_reach_their_activities(snaps, ai):
+    encoder, index = ai
+    cases = {"I test new versions of our ticketing app before they go live and report the bugs.": "4.A.1.b.2.h.3",
+             "I built a website for my uncle's hardware shop and I keep it updated.": "4.A.2.b.2.b.8"}
+    for text, dwa in cases.items():
+        top = intake.suggest({"other_work": text}, encoder, index, snaps.onet)["sentences"][0]["top"]
+        assert dwa in top, (text, [snaps.onet.dwa_names[d] for d in top])

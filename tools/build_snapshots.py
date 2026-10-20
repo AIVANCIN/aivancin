@@ -31,7 +31,8 @@ sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "tools"))
 
 from aivancin.aei import adapt_release, RELEASES  # noqa: E402
-from aivancin.encoder import Encoder  # noqa: E402
+from aivancin import snapshots  # noqa: E402
+from aivancin.encoder import Encoder, statements_sha256, task_statements  # noqa: E402
 from aivancin.outlook import band_score  # noqa: E402
 from fetch_outlook import CACHE as OUTLOOK_CACHE, candidate_codes, parse_page  # noqa: E402
 from aivancin.snapshots import sha256_file  # noqa: E402
@@ -507,6 +508,23 @@ def main():
 
     manifest = {"snapshots": final}
     (DATA / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8", newline="\n")
+
+    # Task-statement vectors for suggestion scoring (encoder.ActivityIndex), stored as float16 and re-encoded only
+    # when the model or the task list changes (about 17,600 statements, one per run).
+    texts, _, keys = task_statements(snapshots.load(DATA).onet)
+    tmeta_path, tvec_path = vec_dir / "task_vectors.json", vec_dir / "task_vectors.npy"
+    old = json.loads(tmeta_path.read_text(encoding="utf-8")) if tmeta_path.exists() else {}
+    want = {"model_sha256": enc.model_sha256, "statements_sha256": statements_sha256(keys)}
+    if not (tvec_path.exists() and all(old.get(k) == v for k, v in want.items())
+            and old.get("vectors_sha256") == sha256_file(tvec_path)):
+        tvecs = np.stack([enc.encode([t])[0] for t in texts]).astype(np.float16)
+        np.save(tvec_path, tvecs, allow_pickle=False)
+        tmeta = {**want, "tokenizer_sha256": enc.tokenizer_sha256, "count": int(tvecs.shape[0]),
+                 "dim": int(tvecs.shape[1]), "dtype": "float16", "vectors_sha256": sha256_file(tvec_path)}
+        tmeta_path.write_text(json.dumps(tmeta, indent=2) + "\n", encoding="utf-8", newline="\n")
+        print(f"task-statement vectors: {tvecs.shape[0]} x {tvecs.shape[1]} (re-encoded)")
+    else:
+        print("task-statement vectors: unchanged")
     print(json.dumps({r["source_id"]: r.get("derived_rows") for r in final}, indent=2))
     for r in final:
         if "join" in r:

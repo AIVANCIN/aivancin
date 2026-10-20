@@ -12,7 +12,8 @@ from .report import ONET_SRC, ReportError, fig, pct
 WEEKS = (4, 8, 12)
 PRIORITY_GAPS = 8
 MAX_ROUTES = 3
-MIN_DONE = 2  # initial: a route needs at least two confirmed activities among the role's
+MIN_DONE = 2  # initial: a route needs at least two confirmed activities that count for the role (see credited)
+SIBLING_CREDIT = True  # a confirmed near-twin of one of the role's activities counts (table built by tools/build_routes.py)
 PER_GAP = 2  # initial: at most two entries per prioritized gap in a block (an introduction, then practice)
 LONG_SHARE = 0.5  # initial: an entry needing more than this share of the block's hours waits for the shorter ones
 CAT = "aivancin-catalogue"
@@ -72,6 +73,23 @@ class Planner:
         return {"weeks": weeks, "willing_long": willing, "scenario": scenario, "threshold": float(threshold),
                 "pace": float(pace), "release": release, "horizon": horizon, "completed": set(completed), "target": target,
                 "capacity": weeks * profile["weekly_hours"], "budget": profile["budget_rm"]}
+
+    def credited(self, code, prof):
+        """Confirmed activities that count toward the two-activity rule: the role's own, and (with SIBLING_CREDIT)
+        near-twins of the role's activities, because O*NET links near-identical activities to different roles
+        ("Develop computer or online applications" only to Computer Programmers, "Design software applications" only
+        to Software Developers). A near-twin shares the O*NET intermediate work activity and has a similar name (the
+        destination's sibling table). Overlap, gaps and order stay exact."""
+        role = self.m.w.get(code, {})
+        direct = sorted(d for d in prof if d in role)
+        related = []
+        if SIBLING_CREDIT:
+            twin_of = {}
+            for d, wgt in sorted(role.items(), key=lambda kv: (-kv[1], kv[0])):
+                for x in self.dests[code].get("siblings", {}).get(d, []):
+                    twin_of.setdefault(x, d)
+            related = [(d, twin_of[d]) for d in sorted(prof) if d not in role and d in twin_of]
+        return direct, related
 
     # ---- requirements ----------------------------------------------------------------------------
     def requirement_status(self, req, profile, o):
@@ -239,6 +257,8 @@ class Planner:
             "job_zone": fig(onet.job_zones.get(code), "onet31-job-zones"),
             "overlap": fig(pct(self.m.overlap(code, prof)), *ONET_SRC),
             "done_count": fig(len(done), *ONET_SRC), "total_count": fig(total, *ONET_SRC),
+            "related": [{"dwa_id": d, "name": onet.dwa_names[d], "role_dwa_id": r, "role_name": onet.dwa_names[r]}
+                        for d, r in self.credited(code, prof)[1]],
             "done": [{**d, "weight": fig(d["weight"], *ONET_SRC), "sdg": ["4.4"]} for d in done],
             "requirements": reqs, "masco": masco, "job_outlook": self.rep.job_outlook(code), "local_evidence": LOCAL_EVIDENCE,
             "pay": None if pay is None else {"step": fig(pay, "dosm-wages-occupation", "esco-onet-isco")},
@@ -274,9 +294,9 @@ class Planner:
         for code in sorted(self.dests):
             if code == profile.get("title_code"):
                 continue
-            done, _ = self.m.done_and_missing(code, prof)
+            direct, related = self.credited(code, prof)
             ov = self.m.overlap(code, prof)
-            if ov > 0 and len(done) >= MIN_DONE:
+            if ov > 0 and len(direct) + len(related) >= MIN_DONE:
                 fits.append((ov, code))
         fits.sort(key=lambda t: (-t[0], t[1]))
         chosen = [c for _, c in fits[:MAX_ROUTES]]

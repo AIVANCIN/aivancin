@@ -1,5 +1,6 @@
 """Routes, first learning blocks, shared foundations and the update comparison (SPEC section 10, checks B1-B6)."""
 import copy
+import csv
 import datetime as dt
 
 import pytest
@@ -7,6 +8,7 @@ import pytest
 from aivancin import intake, pathway
 from aivancin.matching import Matcher
 from aivancin.report import Reporter, ReportError
+from aivancin import routes as routes_mod
 from aivancin.routes import MAX_ROUTES, MIN_DONE, PER_GAP, Planner, effort, fits_family
 
 TODAY = dt.date(2026, 10, 21)
@@ -61,12 +63,71 @@ def test_b2_routes_are_supported_overlapping_and_ordered(snaps, planner, hafiz, 
         assert overlaps == sorted(overlaps, reverse=True)
         for r in routes:
             assert r["code"] in planner.dests
-            assert r["overlap"]["v"] > 0 and r["done_count"]["v"] >= MIN_DONE
+            assert r["overlap"]["v"] > 0 and r["done_count"]["v"] + len(r["related"]) >= MIN_DONE
+            for x in r["related"]:
+                assert x["dwa_id"] in planner.dests[r["code"]]["siblings"][x["role_dwa_id"]]
+                assert x["role_dwa_id"] in planner.m.w[r["code"]] and x["dwa_id"] not in planner.m.w[r["code"]]
             # dimensions are reported separately, never folded into one score
             assert "score" not in r
             for key in ("requirements", "job_outlook", "block", "supported_share", "local_evidence"):
                 assert key in r
 
+
+def _manual_profile(snaps, dwas):
+    req = {"weekly_hours": 6, "budget_rm": 0, "degree_level": "degree",
+           "confirmed": [{"dwa_id": d, "source": "added_by_you", "lane": "other_work"} for d in dwas]}
+    return intake.build_profile(req, snaps.onet, None, snaps.cip)
+
+
+def test_b2_a_sibling_activity_counts_toward_the_two_activity_rule(snaps, planner, monkeypatch):
+    """O*NET links "Design software applications" to Software Developers and its near-twin "Develop computer or
+    online applications" to Computer Programmers only. Groups are read here from the raw activity file."""
+    iwa = {r["dwa_id"]: r["iwa_id"] for r in csv.DictReader(open(snaps.data_dir / "onet" / "dwas.csv", encoding="utf-8"))}
+    role, direct, sibling, other = "15-1252.00", "4.A.2.b.2.b.10", "4.A.2.b.2.b.4", "4.A.3.a.2.c.7"  # other: Cook foods
+    w = planner.m.w[role]
+    assert direct in w and sibling not in w and other not in w and iwa[direct] == iwa[sibling] != iwa[other]
+    got_direct, related = planner.credited(role, {direct, sibling, other})
+    assert got_direct == [direct] and [d for d, _ in related] == [sibling]
+    assert iwa[related[0][1]] == iwa[sibling] and related[0][1] in w
+
+    prof = _manual_profile(snaps, [direct, sibling])
+    codes = [r["code"] for r in planner.routes(prof, {"weeks": 4}, today=TODAY)["routes"]]
+    assert role in codes
+    monkeypatch.setattr(routes_mod, "SIBLING_CREDIT", False)
+    assert role not in [r["code"] for r in planner.routes(prof, {"weeks": 4}, today=TODAY)["routes"]]
+
+
+def test_b2_sibling_tables_hold_only_near_twins(snaps, planner, ai):
+    """Every table entry shares the raw file's intermediate work activity and has name similarity >= the rule's."""
+    iwa = {r["dwa_id"]: r["iwa_id"] for r in csv.DictReader(open(snaps.data_dir / "onet" / "dwas.csv", encoding="utf-8"))}
+    names = ai[1].names
+    pos = {d: i for i, d in enumerate(snaps.onet.dwa_ids)}
+    floor = snaps.routes["sibling_rule"]["min_name_similarity"]
+    n = 0
+    for code, dest in planner.dests.items():
+        for d, twins in dest["siblings"].items():
+            assert d in planner.m.w[code]
+            for x in twins:
+                n += 1
+                assert x not in planner.m.w[code] and iwa[x] == iwa[d]
+                assert float(names[pos[d]] @ names[pos[x]]) >= floor - 1e-6
+    assert n > 0
+
+
+def test_b2_a_loose_group_member_does_not_count(snaps, planner):
+    """Same O*NET group, different work: a driver's "Read maps to determine routes" is not a near-twin of
+    "Read documents to gather technical information" (User Support)."""
+    role, maps, docs = "15-1232.00", "4.A.1.a.1.b.2", "4.A.1.a.1.b.7"
+    assert snaps.onet.dwa_names[maps].startswith("Read maps") and docs in planner.m.w[role]
+    assert snaps.onet.dwa_iwa[maps] == snaps.onet.dwa_iwa[docs]
+    _, related = planner.credited(role, {maps})
+    assert related == []
+
+def test_b2_a_route_still_needs_one_exact_activity(snaps, planner):
+    """Siblings alone never open a route: overlap with the role's own activities must be above zero."""
+    prof = _manual_profile(snaps, ["4.A.2.b.2.b.4", "4.A.2.b.2.b.1"])  # both absent from Software Developers
+    for r in planner.routes(prof, {"weeks": 4}, today=TODAY)["routes"]:
+        assert r["overlap"]["v"] > 0
 
 def test_b2_families_follow_the_work(planner, hafiz, priya):
     h = {r["family"] for r in planner.routes(hafiz, {"weeks": 4}, today=TODAY)["routes"]}

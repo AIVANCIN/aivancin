@@ -1,6 +1,8 @@
 """A1-A3 acceptance checks (SPEC section 9) on tests/acceptance/a1_a3_sets.json, offline.
 
-python tools/checks/a1_a3.py [result.json]
+python tools/checks/a1_a3.py [result.json] [sets.json]
+sets.json defaults to tests/acceptance/a1_a3_sets.json; a file with only an "a1" list (tests/acceptance/a1_set_2.json)
+runs A1 alone.
 A1: intake accuracy. A2: the complete chain with strict simulated confirmation. A3: the same chain
 with BM25 keyword suggestions instead of the model. Pass rules are in the sets file, written first.
 """
@@ -61,7 +63,8 @@ def relevant(code, title, rule):
 
 
 def main():
-    sets = json.loads(SETS.read_text(encoding="utf-8"))
+    path = Path(sys.argv[2]) if len(sys.argv) > 2 else SETS
+    sets = json.loads(path.read_text(encoding="utf-8"))
     snaps = snapshots.load()
     encoder, vectors = load_ai(snaps)
     onet = snaps.onet
@@ -83,7 +86,7 @@ def main():
                 "relevant": sum(rel)}
 
     a2, a3 = [], []
-    for p in sets["a2"]:
+    for p in sets.get("a2", []):
         sug = intake.suggest({"other_work": p["other_work"]}, encoder, vectors, onet)
         model = {d for s in sug["sentences"] if s["guard"] is None for d in s["top"]} & set(p["true"])
         keyword = {d for s in sug["sentences"] if s["guard"] is None for d in bm25.top(s["text"])} & set(p["true"])
@@ -95,21 +98,22 @@ def main():
     a2_ok = sum(r["relevant"] >= 3 for r in a2)
     a3_rel = sum(r["relevant"] for r in a3)
     res = {
-        "sets_sha256": hashlib.sha256(SETS.read_bytes()).hexdigest(),
+        "sets": path.name, "sets_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
         "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         "run_date": dt.date.today().isoformat(),
         "A1": {"passed": a1_n, "of": len(a1), "pass": a1_n >= 16, "cases": a1},
-        "A2": {"relevant_top5": a2_rel, "of": 5 * len(a2), "profiles_3plus": a2_ok,
-               "pass": a2_rel >= 30 and a2_ok >= 7, "profiles": a2},
-        "A3": {"model_relevant": a2_rel, "keyword_relevant": a3_rel, "margin": a2_rel - a3_rel,
-               "pass": a2_rel - a3_rel >= 10, "profiles": a3},
     }
+    if a2:
+        res["A2"] = {"relevant_top5": a2_rel, "of": 5 * len(a2), "profiles_3plus": a2_ok,
+                     "pass": a2_rel >= 30 and a2_ok >= 7, "profiles": a2}
+        res["A3"] = {"model_relevant": a2_rel, "keyword_relevant": a3_rel, "margin": a2_rel - a3_rel,
+                     "pass": a2_rel - a3_rel >= 10, "profiles": a3}
     text = json.dumps(res, indent=1, ensure_ascii=False)
     if len(sys.argv) > 1:
         Path(sys.argv[1]).write_text(text + "\n", encoding="utf-8")
-    print(json.dumps({k: {x: v for x, v in res[k].items() if x not in ("cases", "profiles")} for k in ("A1", "A2", "A3")},
-                     indent=1))
-    for k in ("A2", "A3"):
+    print(json.dumps({k: {x: v for x, v in res[k].items() if x not in ("cases", "profiles")}
+                      for k in ("A1", "A2", "A3") if k in res}, indent=1))
+    for k in [k for k in ("A2", "A3") if k in res]:
         for r in res[k]["profiles"]:
             print(k, r["name"], f"confirmed {r['confirmed']}/{r['true_size']}", "relevant", r["relevant"], "|", "; ".join(r["top5"]))
     for r in a1:

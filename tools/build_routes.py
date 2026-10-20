@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from aivancin import snapshots  # noqa: E402
+from aivancin.encoder import load_ai  # noqa: E402
 from aivancin.matching import Matcher  # noqa: E402
 from aivancin.pathway import verified_courses  # noqa: E402
 from aivancin.report import Reporter  # noqa: E402
@@ -26,6 +27,22 @@ CURATION = ROOT / "tools" / "destinations_curation.json"
 OUT = ROOT / "data" / "routes" / "destinations.json"
 ONET_URL = "https://www.onetonline.org/link/summary/"
 TOP_ACTIVITIES = 10
+SIBLING_MIN_SIMILARITY = 0.5  # initial: about the median name similarity of activities in the same O*NET group
+
+
+def sibling_table(code, weights, onet, names, pos):
+    """{role activity: [near-twin activities the role lacks]}: same O*NET intermediate work activity and encoder
+    similarity of the two activity names at least SIBLING_MIN_SIMILARITY (routes.Planner.credited reads it)."""
+    by_group = {}
+    for d in onet.dwa_ids:
+        by_group.setdefault(onet.dwa_iwa.get(d), []).append(d)
+    out = {}
+    for d in sorted(weights):
+        twins = [x for x in by_group.get(onet.dwa_iwa.get(d), []) if x not in weights
+                 and float(names[pos[d]] @ names[pos[x]]) >= SIBLING_MIN_SIMILARITY]
+        if twins:
+            out[d] = sorted(twins)
+    return out
 
 
 def raw(path):
@@ -38,6 +55,8 @@ def main():
     m = Matcher(snaps)
     rep = Reporter(snaps, m)
     onet = snaps.onet
+    _, index = load_ai(snaps)  # verified activity-name vectors, for the sibling table
+    pos = {d: i for i, d in enumerate(onet.dwa_ids)}
     data = ROOT / "data" / "onet"
     zones = {r["job_zone"]: {"Education": r["education"]} for r in raw(data / "job_zone_reference.csv")}
     rl_names = {int(r["category"]): r["description"] for r in raw(data / "education_categories.csv")}
@@ -77,8 +96,11 @@ def main():
                   "resources_for_3_top_activities": len(covered) >= 3}
         out.append({"code": code, "title": onet.occupations[code], "family": d["family"], "family_label": cur["families"][d["family"]],
                     "job_zone": jz, "masco": masco, "requirements": reqs, "top_activities": top,
-                    "top_activities_with_resources": covered, "admission": checks, "admitted": all(checks.values())})
+                    "top_activities_with_resources": covered, "admission": checks, "admitted": all(checks.values()),
+                    "siblings": sibling_table(code, weights, onet, index.names, pos)})
     result = {"built_on": dt.date.today().isoformat(), "curated_on": cur["curated_on"], "families": cur["families"],
+              "sibling_rule": {"same": "O*NET intermediate work activity", "min_name_similarity": SIBLING_MIN_SIMILARITY,
+                               "model_sha256": snaps.source("minilm-onnx")["derived_sha256"]},
               "destinations": out}
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(result, indent=1, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")

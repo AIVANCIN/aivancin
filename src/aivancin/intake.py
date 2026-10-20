@@ -58,8 +58,9 @@ def guard(sentence):
     return None
 
 
-def suggest(texts, encoder, vectors, onet, k=TOP_K):
-    """Top-k activities per sentence by cosine similarity, merged so each activity appears once."""
+def suggest(texts, encoder, index, onet, k=TOP_K):
+    """Top-k activities per sentence by the activity index's score (encoder.ActivityIndex), merged so each activity
+    appears once."""
     sentences = []
     for f in FIELDS:
         for start, end, body in split_sentences(texts.get(f) or ""):
@@ -69,7 +70,7 @@ def suggest(texts, encoder, vectors, onet, k=TOP_K):
     for s in sentences:
         # One sentence per call keeps each sentence's scores independent of the rest of the input.
         q = encoder.encode([s["text"]])[0]
-        sims = vectors @ q
+        sims = index.scores(q)
         order = np.argsort(-sims, kind="stable")[:k]
         s["top"] = []
         for rank, i in enumerate(order, 1):

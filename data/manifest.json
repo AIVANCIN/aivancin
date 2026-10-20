@@ -362,10 +362,10 @@
       "release": "2026-10-20",
       "licence": "Derived from CC BY sources",
       "access_date": "2026-10-20",
-      "original_sha256": "9b661b9640cdf0fd427cb8f9bd723a94bca70a975eb57f051b120198fe0ff32c",
+      "original_sha256": "c70df3ea0277d7caeed702de095a139bbdc05cf9d29a881e199d677452b15a86",
       "derived_rows": null,
       "derived_path": "routes/destinations.json",
-      "derived_sha256": "9b661b9640cdf0fd427cb8f9bd723a94bca70a975eb57f051b120198fe0ff32c"
+      "derived_sha256": "c70df3ea0277d7caeed702de095a139bbdc05cf9d29a881e199d677452b15a86"
     },
     {
       "source_id": "aivancin-catalogue",

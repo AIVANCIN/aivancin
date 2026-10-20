@@ -831,7 +831,8 @@ function routeCard(r) {
     <h3 id="rt-${esc(r.code)}">${esc(r.title)}</h3>
     <p class="rr-meta">O*NET ${esc(r.code)} · Job Zone ${fig(r.job_zone, "")} · ${esc(r.masco.label || "")}</p>
     <div class="rc-sec"><h4>Your work in this role</h4>
-      <p>You do ${fig(r.done_count, "int")} of its ${fig(r.total_count, "int")} recorded activities (activity overlap ${fig(r.overlap, "pct")}).</p></div>
+      <p>You do ${fig(r.done_count, "int")} of its ${fig(r.total_count, "int")} recorded activities (activity overlap ${fig(r.overlap, "pct")}).</p>
+      ${r.related.length ? `<p class="foot">Also counted toward this route: ${r.related.map(x => `“${esc(x.name.replace(/\.$/, ""))}”, which O*NET groups with its “${esc(x.role_name.replace(/\.$/, ""))}”`).join("; ")}. These do not change the overlap or the gaps.</p>` : ""}</div>
     <div class="rc-sec"><h4>Requirements</h4><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul></div>
     <div class="rc-sec"><h4>Opportunity</h4>
       <p><span class="tag good">US outlook: ${esc(bandShort(r.job_outlook))}</span>${r.job_outlook.bright.length ? ` <span class="tag sdg">Bright Outlook</span>` : ""}${srcMarks(r.job_outlook.src)}</p>
@@ -852,7 +853,7 @@ function renderRoutes() {
   $("#routes-body").innerHTML = `
     ${d.fewer_note ? `<div class="callout">${icon("info")}<p>${esc(d.fewer_note)}</p></div>` : ""}
     ${d.routes.length ? `<div class="route-grid">${d.routes.map(routeCard).join("")}</div>` :
-      `<div class="callout">${icon("info")}<p>None of the supported routes uses at least two of your confirmed activities yet. Explore all roles, or tick more activities.</p></div>`}
+      `<div class="callout">${icon("info")}<p>None of the supported routes counts at least two of your confirmed activities yet. Explore all roles, or tick more activities.</p></div>`}
     ${shared ? `<section class="path-card" data-scope aria-labelledby="h-shared"><h3 id="h-shared">Shared foundations</h3>
       <p>${shared.common_steps.length ? `${shared.common_steps.length} step${shared.common_steps.length === 1 ? "" : "s"} (${fig(shared.common_hours, "")} hours) appear in every route's block and serve a priority gap of each, so they keep these options open.` : "No step is common to every route's block."}</p>
       <ul>${shared.extra_hours.map(e => `<li>${esc(e.title)}: ${fig(e.hours, "")} hours beyond the shared steps</li>`).join("")}</ul>
