@@ -380,7 +380,12 @@ textarea::placeholder, input::placeholder { color: var(--text2); opacity: 1; }
 @media (min-width: 760px) { .reading { padding-top: 40px; } }
 .reading-art { position: relative; flex: 1; min-height: 260px; margin-top: 16px; }
 .reading-art img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: 62% 40%; -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 24%, #000 70%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0, #000 24%, #000 70%, transparent 100%); }
-.reading-status { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 20px 16px calc(28px + env(safe-area-inset-bottom)); font-size: 15px; color: var(--text2); }
+.reading-status { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 20px 16px calc(28px + env(safe-area-inset-bottom)); font-size: 15px; color: var(--text2); }
+.reading-status > p { display: flex; align-items: center; gap: 10px; }
+/* What the read actually does, in order; nothing here pretends to tick off progress. */
+.reading-steps { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; font-size: 14px; line-height: 1.35; }
+.reading-steps li { display: flex; align-items: center; gap: 10px; }
+.reading-steps li::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
 .spinner { width: 18px; height: 18px; border: 2px solid var(--track); border-top-color: var(--accent); border-radius: 50%; animation: spin 900ms linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -433,7 +438,8 @@ textarea::placeholder, input::placeholder { color: var(--text2); opacity: 1; }
 .sort-seg:has(input[value="entry"]:checked) { --i: 2; }
 .sort-ctl .foot { margin-top: 8px; }
 .route-list { display: grid; gap: 12px; margin: 16px 0 0; padding: 0; list-style: none; }
-.route-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 14px; align-items: start; width: 100%; padding: 18px 14px 18px 18px; border: 0; border-radius: 20px; background: var(--card); box-shadow: var(--shadow-card); color: var(--text); text-align: left; cursor: pointer; transition: box-shadow 150ms var(--ease); }
+.route-item { position: relative; }
+.route-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: start; width: 100%; padding: 18px 56px 18px 18px; border: 0; border-radius: 20px; background: var(--card); box-shadow: var(--shadow-card); color: var(--text); text-align: left; cursor: pointer; transition: box-shadow 150ms var(--ease); }
 .route-row:hover { box-shadow: var(--shadow-float); }
 .route-row.chosen { box-shadow: 0 0 0 2px var(--accent), var(--shadow-card); }
 .route-row > .ico { align-self: center; color: var(--text2); }
@@ -447,7 +453,11 @@ textarea::placeholder, input::placeholder { color: var(--text2); opacity: 1; }
 .list-srcs { padding: 0 4px; }
 
 /* one route: header, tabs, panels */
-.rd-head { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; align-items: center; }
+.rd-head { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 16px; align-items: center; }
+.save-btn { position: absolute; top: 8px; right: 6px; color: var(--text2); }
+.rd-head .save-btn { position: static; align-self: start; margin: -4px -8px 0 0; }
+.save-btn[aria-pressed="true"] { color: var(--accent); }
+.save-btn[aria-pressed="true"] .ico { fill: currentColor; }
 .rd-head > p, .rd-head > .chips { grid-column: 1 / -1; }
 .rd-title { margin-top: 2px; font: 700 clamp(26px, 5vw, 34px)/1.12 var(--display); letter-spacing: -0.025em; }
 .rd-title:focus { outline: none; }
@@ -459,6 +469,7 @@ textarea::placeholder, input::placeholder { color: var(--text2); opacity: 1; }
 .tab-seg label { min-height: 40px; font-size: 14px; }
 .tab-seg:has(input[value="ai"]:checked) { --i: 1; }
 .tab-seg:has(input[value="block"]:checked) { --i: 2; }
+.tab-seg:has(input[value="jobs"]:checked) { --i: 3; }
 .rd-lead { margin-top: 16px; font-size: 16px; line-height: 1.47; color: var(--text2); }
 .rd-note { margin-top: 16px; }
 .ring-row { display: flex; gap: 16px; align-items: center; margin-top: 4px; }
@@ -533,7 +544,7 @@ details.plan-scen { margin-top: 12px; padding: 0 20px; border-radius: 18px; back
 .ai-tag { margin-left: 8px; padding: 2px 8px; background: var(--card); color: var(--evidence); font-size: 12px; }
 .pstep .check-line { margin-top: 8px; }
 @media (max-width: 599px) {
-  .route-row { padding: 16px 10px 16px 14px; gap: 12px; }
+  .route-row { padding: 16px 52px 16px 14px; gap: 12px; }
   .fam-tile { width: 44px; height: 44px; border-radius: 12px; }
   .plan-head { padding: 20px; }
   .psteps { padding-left: 34px; }
@@ -544,6 +555,75 @@ details.plan-scen { margin-top: 12px; padding: 0 20px; border-radius: 18px; back
   .stat-row p { padding: 10px 12px; }
   .stat-row b { font-size: 19px; }
 }
+
+/* Section tabs: once routes exist, Routes, Plan, Learn, Saved and Profile sit one tap apart. A bar along
+   the bottom edge on phones; a floating capsule on wider screens. */
+.tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); padding: 4px 4px calc(4px + env(safe-area-inset-bottom)); border-top: 1px solid var(--glass-edge); background: var(--glass-solid); }
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .tabbar { background: var(--glass); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); }
+}
+@media (prefers-reduced-transparency: reduce) { .tabbar { background: var(--glass-solid); -webkit-backdrop-filter: none; backdrop-filter: none; } }
+.tab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 50px; padding: 4px 0; border: 0; border-radius: 12px; background: none; color: var(--text2); font: 500 11px/1.2 var(--sans); letter-spacing: 0; cursor: pointer; }
+.tab .ico { width: 24px; height: 24px; stroke-width: 1.75; }
+.tab[aria-current="page"] { color: var(--accent); font-weight: 600; }
+.tab[aria-current="page"] .ico { stroke-width: 2.25; }
+/* Hover only where a pointer can hover; a tap must not leave a tab looking selected. */
+@media (hover: hover) {
+  .tab:hover { color: var(--text); }
+  .tab[aria-current="page"]:hover { color: var(--accent); }
+}
+.tab:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+@media (min-width: 760px) {
+  .tabbar { left: 50%; right: auto; bottom: calc(16px + env(safe-area-inset-bottom)); width: 460px; padding: 4px; border: 0; border-radius: 999px; box-shadow: var(--shadow-float); transform: translateX(-50%); }
+  .tab { border-radius: 999px; }
+}
+/* With tabs on, the tab bar shows where you are, so the step progress steps aside, and content and action bars clear the tabs. */
+body[data-tabs="on"] .progress, body[data-tabs="on"] .bar-step { visibility: hidden; }
+body[data-tabs="on"] .screen:not(.welcome):not(.q-screen):not(.reading) { padding-bottom: calc(136px + env(safe-area-inset-bottom)); }
+body[data-tabs="on"] .stage-cta { bottom: calc(72px + env(safe-area-inset-bottom)); }
+@media (min-width: 760px) { body[data-tabs="on"] .stage-cta { bottom: calc(92px + env(safe-area-inset-bottom)); } }
+
+.empty { display: grid; justify-items: center; gap: 8px; margin-top: 24px; padding: 36px 20px; border-radius: 20px; background: var(--card); box-shadow: var(--shadow-card); text-align: center; }
+.empty > .ico { width: 32px; height: 32px; margin-bottom: 4px; color: var(--text2); stroke-width: 1.5; }
+.empty h2 { font: 600 19px/1.3 var(--display); letter-spacing: -0.015em; }
+.empty p { max-width: 36ch; font-size: 15px; line-height: 1.45; color: var(--text2); }
+.empty .btn { margin-top: 8px; }
+
+/* Learn: courses per gap */
+.learn-pick { margin-top: 20px; }
+.learn-sum { margin-top: 12px; }
+.res-list { display: grid; gap: 8px; margin: 12px 0 0; padding: 0; list-style: none; }
+.res-list .res-row { margin-top: 0; }
+.res-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.res-tags .tag { padding: 2px 8px; font-size: 12px; }
+.plain-rows { margin: 10px 0 0; padding: 0; list-style: none; }
+.plain-rows li { display: flex; gap: 10px; align-items: center; justify-content: space-between; min-height: 44px; padding: 6px 0; font-size: 15px; line-height: 1.38; }
+.plain-rows li + li { border-top: 1px solid var(--sep); }
+.plain-rows li > .ico { flex: none; color: var(--accent); }
+.plain-rows li > .ico + span { flex: 1; }
+
+/* Profile */
+.progress-list { margin: 14px 0 0; padding: 0; list-style: none; }
+.progress-list li { display: flex; align-items: center; gap: 12px; min-height: 44px; font-size: 16px; }
+.progress-list li + li { border-top: 1px solid var(--sep); }
+.progress-list li:not(.ok) { color: var(--text2); }
+.pl-mark { display: grid; place-items: center; width: 24px; height: 24px; flex: none; border: 2px solid var(--border); border-radius: 50%; }
+.ok .pl-mark { border: 0; background: var(--accent); color: var(--on-accent); }
+.ok .pl-mark .ico { width: 14px; height: 14px; stroke-width: 3; }
+.answers { margin: 4px 0 16px; }
+.answers dt { margin-top: 14px; font-size: 13px; font-weight: 600; color: var(--text2); }
+.answers dd { margin: 4px 0 0; font-size: 16px; line-height: 1.5; }
+.soft-card > .btn + .foot { margin-top: 10px; }
+.soft-card > .btn { margin-top: 14px; }
+.soft-card > h2 .num { margin-left: 6px; color: var(--text2); font-weight: 500; }
+.btn-danger-text { color: var(--danger); }
+.btn-danger { background: var(--danger); color: var(--on-danger); font-weight: 600; }
+.btn-danger:hover { filter: brightness(0.94); }
+.sheet-actions { display: grid; gap: 8px; }
+.sheet form > p { font-size: 15px; line-height: 1.45; color: var(--text2); }
+/* The secondary action on the artwork: white text on a translucent white fill over the deep blue scrim. */
+.btn-on-art { min-height: 52px; background: rgba(255, 255, 255, 0.16); color: #FFFFFF; font-size: 17px; font-weight: 600; }
+.btn-on-art:hover { background: rgba(255, 255, 255, 0.26); }
 
 /* State changes are brief, optional, and never hide content while waiting. */
 @keyframes state-in { from { opacity: 0.5; transform: translateY(8px); } to { opacity: 1; transform: none; } }

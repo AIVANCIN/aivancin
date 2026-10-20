@@ -335,3 +335,24 @@ def test_routes_carry_the_onet_description_and_ai_use_by_threshold(snaps, planne
     low = {a["dwa_id"] for r in planner.routes(hafiz, {"threshold": 50}, TODAY)["routes"] for a in r["ai_use"] if a["class"].startswith("AI")}
     high = {a["dwa_id"] for r in planner.routes(hafiz, {"threshold": 80}, TODAY)["routes"] for a in r["ai_use"] if a["class"].startswith("AI")}
     assert high < low
+
+
+def test_learn_lists_every_verified_entry_per_gap_with_block_entries_first(snaps, planner, hafiz, priya):
+    verified = pathway.verified_courses(snaps.catalogue, TODAY)
+    usable = [c for c in verified if (c.get("checkpoint") and not c.get("ai_skill")) or (c.get("ai_skill") and c.get("dwas"))]
+    left_out = 0
+    for prof in (hafiz, priya):
+        for r in planner.routes(prof, {"weeks": 4}, TODAY)["routes"]:
+            block = {s["id"] for s in r["block"]["steps"]}
+            assert [g["dwa_id"] for g in r["resources"]] == [g["dwa_id"] for g in r["prioritized"]]
+            for g in r["resources"]:
+                expected = {c["id"] for c in usable if g["dwa_id"] in c.get("dwas", []) and fits_family(c, r["family"])}
+                ids = [o["id"] for o in g["options"]]
+                assert set(ids) == expected and len(ids) == len(expected)
+                assert all(o["in_block"] == (o["id"] in block) for o in g["options"])
+                flags = [o["in_block"] for o in g["options"]]
+                assert flags == sorted(flags, reverse=True)
+                assert g["served"] == (g["dwa_id"] in r["block"]["gaps_served"])
+                left_out += sum(not f for f in flags)
+    # The point of the list: alternatives the four-week block leaves out are visible.
+    assert left_out > 0

@@ -213,6 +213,24 @@ class Planner:
                         "class": outlook.classify(ol["now"] if ol else None, o["threshold"])})
         return out
 
+    def resources(self, family, prioritized, courses, ai_courses, block_ids, served):
+        """Every verified entry for each prioritized gap, including the ones the first block leaves out (time,
+        budget or breadth), so the person can see the alternatives. Entries in the block come first."""
+        pool = [c for c in courses + ai_courses if fits_family(c, family)]
+        out = []
+        for g in prioritized:
+            opts = [c for c in pool if g["dwa_id"] in c.get("dwas", [])]
+            opts.sort(key=lambda c: (c["id"] not in block_ids, c["cost_rm"], effort(c), c["id"]))
+            out.append({"dwa_id": g["dwa_id"], "name": g["name"], "served": g["dwa_id"] in served,
+                        "options": [{"id": c["id"], "title": c["title"], "provider": c["provider"], "url": c["url"],
+                                     "access": c.get("access", ""), "coverage": c.get("coverage"),
+                                     "ai_practice": bool(c.get("ai_skill")), "in_block": c["id"] in block_ids,
+                                     "provider_hours": fig(c["hours"], CAT),
+                                     "practice_hours": fig(c.get("practice_hours", 0.0), CAT, estimate=True),
+                                     "cost_rm": fig(c["cost_rm"], CAT), "checked_on": c["link_check"]["checked_on"]}
+                                    for c in opts]})
+        return out
+
     # ---- one route -------------------------------------------------------------------------------
     def route(self, code, prof, profile, courses, ai_courses, o):
         onet = self.snaps.onet
@@ -267,6 +285,7 @@ class Planner:
         pay = step_pay(code)
         description = onet.descriptions.get(code, "")
         job_outlook = self.rep.job_outlook(code)
+        learn = self.resources(dest["family"], b["prioritized"], courses, ai_courses, {s["id"] for s in steps}, served)
         return {
             "code": code, "title": onet.occupations[code], "family": dest["family"], "family_label": dest["family_label"],
             "description": {"text": description, "first": description.split(". ")[0].rstrip(".") + "." if description else "",
@@ -286,6 +305,7 @@ class Planner:
             "prioritized": [{"dwa_id": g["dwa_id"], "name": g["name"], "weight": fig(g["weight"], *ONET_SRC),
                              "served": g["dwa_id"] in served, "has_resource": g["dwa_id"] in b["supported"], "sdg": ["4.4"]}
                             for g in b["prioritized"]],
+            "resources": learn,
             "supported_share": fig(pct(len(b["supported"]) / len(b["prioritized"])) if b["prioritized"] else 0.0, CAT, *ONET_SRC),
             "block": {"steps": steps, "effort_hours": fig(round(provider + practice, 1), CAT),
                       "provider_hours": fig(round(provider, 1), CAT), "practice_hours": fig(round(practice, 1), CAT, estimate=True),
