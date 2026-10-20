@@ -1,0 +1,56 @@
+{
+ "purpose": "Reproducible evidence-to-plan example: the same person, constraints, target and completed work under two dated AI-usage evidence bundles. Only the evidence changes.",
+ "written": "2026-10-20. The candidate change was found by comparing every pair of bundled releases for Hafiz's IT routes in the default scenario. Every change found is either across the June 2026 format change or driven by the January 2026 release, so this pair, which shares one format, was chosen to demonstrate traceability. The expected change is stated here and is checked against both the app and a separate recomputation from the raw files.",
+ "profile": {
+  "persona": "hafiz",
+  "confirmed": [
+   "4.A.3.b.1.d.1",
+   "4.A.3.b.1.d.3",
+   "4.A.3.b.1.c.1",
+   "4.A.3.b.1.b.2",
+   "4.A.3.b.1.f.4",
+   "4.A.2.b.2.b.8"
+  ],
+  "weekly_hours": 5,
+  "budget_rm": 0
+ },
+ "options": {
+  "weeks": 4,
+  "willing_long": false,
+  "scenario": "moderate",
+  "threshold": 50,
+  "target": "15-1244.00"
+ },
+ "today": "2026-10-21",
+ "evidence": {
+  "before": {
+   "release": "2026-01-15",
+   "pooled": [
+    "2025-09-15",
+    "2026-01-15"
+   ],
+   "derived_sha256": "2ccaca4b17a2f86ee3f3d23d010b6ac3d9aacd603d86c799f30cfe3be15af166"
+  },
+  "after": {
+   "release": "2026-03-24",
+   "pooled": [
+    "2025-09-15",
+    "2026-01-15",
+    "2026-03-24"
+   ],
+   "derived_sha256": "63eadf13ab566010c4617a400d58de2d7abb77e7a7dc411673d4f8e09a409a66"
+  }
+ },
+ "expected": {
+  "changed": [
+   {
+    "step": "learn.azure.network-fundamentals",
+    "from": "plain",
+    "to": "ai",
+    "activity": "4.A.4.b.6.d.5"
+   }
+  ],
+  "completed_step": "learn.wwl.design-implement-network-monitoring"
+ },
+ "limits": "This shows that the plan responds to the evidence and why; it is not a trend. In the January 2026 release only one of the activity's task statements had data (26 conversations, none where AI did the task directly), so its pooled value fell below the threshold; the March 2026 release covers two statements (17 and 72 conversations) and lifts it back over. AI-usage shares describe Claude conversations worldwide in one-week samples, not Malaysian employers or job demand. The plan keeps the networking foundation, because checking a suggested fix needs the knowledge to judge it; requirements beyond the block (US O*NET data) are unchanged and listed separately."
+}

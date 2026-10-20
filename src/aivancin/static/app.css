@@ -257,6 +257,7 @@ footer .foot { margin-top: 8px; }
 .chg { padding: 14px 16px; border-radius: 14px; background: var(--card); box-shadow: var(--shadow-card); }
 .chg.retained { box-shadow: none; background: transparent; border: 1px solid var(--sep); }
 .chg .meta { margin-top: 2px; font-size: 14px; }
+.chg .foot + .foot { margin-top: 6px; }
 .change-ctl { display: grid; gap: 6px; margin-top: 16px; max-width: 420px; }
 .callout { flex-wrap: wrap; }
 .callout > .srcs { flex-basis: 100%; margin: 4px 0 0 34px; }

@@ -90,6 +90,8 @@ A demo video is not yet available. The same walkthrough runs locally ([start it 
 4. **Compare and choose:** three routes appear (Web Developers, Computer Network Support Specialists, Network and Computer Systems Administrators), each with its requirements, outlook and first-block hours, plus the shared foundations common to all three. Choose one to see the ordered block with checkpoints; switch the scenario to see which checkpoints add AI checking.
 5. **What changed:** compare the plan under the August 2025 and May 2026 evidence. In the moderate scenario two web-development steps (web accessibility, and getting started with web development) change their checkpoint form, with the figures that caused it. "Or explore all roles" shows the full ranked list, where all six closest roles change against his job title alone.
 
+**Replay an evidence update:** `python tools/checks/replay.py` keeps Hafiz, his limits (5 hours a week for 4 weeks, RM0, no new degree), his target (Network and Computer Systems Administrators) and a completed step fixed, and swaps only the AI-usage evidence from the January 2026 to the March 2026 release. One step, "Fundamentals of computer networking", gains AI checking, because "Provide technical support for computer network issues" moves from 38.1% to 50.4% (threshold 50%); the other six steps, the hours and the cost stay. The command prints both plans and runs 12 checks, including a separate recomputation of every figure and checkpoint from the raw files and an unrelated evidence change that must leave the plan alone. It is a demonstration of traceability, not of a trend: the January value rests on one task statement and 26 conversations, which the "What changed" view shows.
+
 **Try the same scenario through the API:** `http://127.0.0.1:8000/docs` lists `POST /api/suggest`, `/api/profile`, `/api/results`, `/api/routes` and `/api/update`.
 
 **When something goes wrong:** send `{"weekly_hours": 0}` to `/api/profile` and the response lists a message for each invalid field; remove `data/model/model.onnx` and `/api/status` reports AI suggestions as unavailable while search still works.
@@ -136,6 +138,7 @@ flowchart LR
 | Role matching with lanes, requirement labels | WORKING | `tests/test_matching_and_report.py`, `POST /api/results` |
 | AI-usage evidence, replay, scenarios, plan, SDG reasons | WORKING (first version) | `tests/test_matching_and_report.py` |
 | Routes, first learning blocks, shared foundations, what changed | WORKING (first version) | `tests/test_routes.py` (B1-B6), `/api/routes`, `/api/update` |
+| Evidence-to-plan replay | WORKING | `python tools/checks/replay.py`, `tests/test_replay.py` |
 | Future Skills Radar and job outlook | WORKING (first version) | `tests/test_matching_and_report.py`, `python tools/checks/a18_backtest.py` |
 | Web interface | WORKING (local) | `tests/test_app_and_failures.py`; a scripted browser run of the full flow, 20 Oct 2026 |
 | Acceptance checks A1-A3 on fresh test sets | RUN: A1 and A3 pass, A2 fails | `python tools/checks/a1_a3.py`; see Evidence |
@@ -149,7 +152,7 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 
 | What we checked | Observation | Reproduction and limits |
 | --- | --- | --- |
-| **Core path and recovery** | PASS, 102/102 tests | `python -m pytest`, 20 Oct 2026, Windows 11, Python 3.13; network access blocked during tests; includes missing, altered and mismatched model files, a corrupted AI-usage release and expired course link checks |
+| **Core path and recovery** | PASS, 104/104 tests | `python -m pytest`, 20 Oct 2026, Windows 11, Python 3.13; network access blocked during tests; includes missing, altered and mismatched model files, a corrupted AI-usage release and expired course link checks |
 | **Skill-outlook backtest** | Predicting the June 2026 value of 500 activities from the three earlier releases: historical average 16.3 points mean absolute error, last value 17.8, trend line 22.0. Past changes continued in only 31.9% of 364 cases | `python tools/checks/a18_backtest.py`; protocol and thresholds fixed before the run; one release only, across a format change. Hence the moderate scenario uses the average and the radar shows no rising or falling labels |
 | **Hafiz contrast** | Job title alone: 0 of the top 10 roles are computing roles; with his confirmed weekend work: at least 6 of 10 | `tests/test_matching_and_report.py`; relevance rule fixed before the earlier research probe; synthetic persona |
 | **Suggestion accuracy (A1)** | PASS, 16 of 20 fresh everyday descriptions have a correct activity in the top five (bar: 16) | `python tools/checks/a1_a3.py`; sets in `tests/acceptance/`, written and hashed before the run; synthetic, agent-written English |
@@ -157,6 +160,7 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 | **Improvement against a baseline (A3)** | PASS, the model chain beats keyword (BM25) suggestions on the same text by 13 relevant roles per 50 (29 against 16; bar: 10) | Same run and sets as A2 |
 | **Regression (A4)** | PASS after a fix: the earlier probes' 35 of 50 (all true activities) and 31 of 50 (the full chain) reproduce | The first run gave 29 of 50 for the chain; the cause was that the quantized model made a text's vector depend on the other texts in its batch, so every text is now encoded on its own |
 | **Guard (A6)** | FAIL, 12 of 18 sentences fully guarded; all 10 fresh sentences with a listed cue ("never", "don't", "want to"...) pass | Not caught: someone else's work ("My cousin repairs computers"), hobbies, and plans phrased without a listed cue ("My dream is to..."). Those suggestions still need the user's tick |
+| **Evidence-to-plan replay (B6)** | PASS, 12 of 12 checks; the expected change (one step gains AI checking) matches both the app and a separate recomputation from the raw files | `python tools/checks/replay.py`; the only checkpoint changes among bundled releases for Hafiz's IT routes in the default scenario cross the June 2026 format change or rest on the thin January 2026 sample, so this shows the mechanism, not a market shift |
 | **Phase 2 target (B7)** | FAIL. Second fresh set (written after the catalogue gained Saylor courses): 4 of 12 in-scope profiles receive two relevant routes, each with sourced requirements and a four-week block serving three priority gaps (target: 80%); the build before routes managed 1 of 12. First set: 5 of 12 against 0 of 12. Reruns on the current code, with both sets already seen: 6 of 12 and 4 of 12 | `python tools/checks/b7_target.py routes [result.json] [profiles.json]`; each set written and hashed before its first run; synthetic, agent-written English. Main remaining cause: two profiles confirm no activity and others too few, because the suggestions miss some plain statements ("I test new versions of our ticketing app") and O\*NET links near-identical activities to different roles |
 | **Requirement labels (A7)** | PASS, 20 of 20 roles agree with the raw O\*NET Job Zone and experience files | `python tools/checks/a7_labels.py`; sample rule fixed in the script before the run |
 | **Usability with target users** | NOT RUN | Personas and test sentences are synthetic |
@@ -214,6 +218,7 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 │   ├── destinations_curation.json  # The 12 supported destinations
 │   ├── fetch_outlook.py    # Caches O*NET OnLine job-outlook pages for the snapshot
 │   ├── checks/a18_backtest.py  # Skill-outlook backtest behind the displayed error
+│   ├── checks/replay.py    # Evidence-to-plan replay: one update, 12 checks
 │   └── catalogue_curation.json  # Curated course-to-activity links
 ├── .env.example            # Optional HOST and PORT
 ├── .gitignore
@@ -273,7 +278,7 @@ pip install -r requirements-dev.txt
 python -m pytest
 ```
 
-**Expected result:** `102 passed`. Tests run offline; outbound network access is blocked.  
+**Expected result:** `104 passed`. Tests run offline; outbound network access is blocked.  
 **Rebuild the data (optional):** `python tools/build_snapshots.py` downloads the original files into `.cache/` and rebuilds `data/`; pinned files (model, AEI releases) are checked against their hashes, while live sources such as DOSM and the ESCO API can change. `python tools/build_catalogue.py` refreshes the course list and its link checks.
 
 ---

@@ -884,7 +884,7 @@ function stepItem(s, i) {
   const why = s.reason.filter(r => r.projected[d.scenario].v >= d.threshold.v);
   const purpose = s.kind === "prerequisite" ? "Required first by a later step." : s.kind === "ai_practice" ? "AI practice on an activity in this plan." : s.purpose;
   const because = ai && why.length
-    ? `<p class="foot">Because ${why.map(r => `AI does “${esc(r.name)}” directly in ${fig(r.now, "pct")} of observed Claude conversations now, ${fig(r.projected[d.scenario], "pct")} projected in the ${esc(d.scenario)} scenario`).join("; ")}; threshold ${fig(d.threshold, "pct")}.</p>`
+    ? `<p class="foot">Because ${why.map(r => `AI does “${esc(r.name.replace(/\.$/, ""))}” directly in ${fig(r.now, "pct")} of observed Claude conversations now, ${fig(r.projected[d.scenario], "pct")} projected in the ${esc(d.scenario)} scenario`).join("; ")}; threshold ${fig(d.threshold, "pct")}.</p>`
     : "";
   return `<li class="pstep${s.completed ? " done" : ""}" data-scope>
     <div class="pstep-head"><span class="pnum">${i + 1}</span>
@@ -938,9 +938,13 @@ function renderChanged(res) {
   const ids = state.status.releases;
   const sel = (name, v) => `<select id="${name}">${ids.map(r => `<option value="${esc(r)}" ${r === v ? "selected" : ""}>${esc(releaseLabel(r))} (release ${esc(r)})</option>`).join("")}</select>`;
   const formText = f => (f === "ai" ? "with AI checking" : "plain");
+  // Each pooled release's value and the evidence behind it, so a thin sample is visible next to the change it caused.
+  const perRelease = c => (c.after.reason || []).map(r => `<p class="foot">${esc(r.name.replace(/\.$/, ""))}, by release: ${(r.per_release || []).map(x =>
+    `${esc(releaseLabel(x.release))} ${fig(x.share, "pct")} (${fig(x.statements, "int")} task statement${x.statements.v === 1 ? "" : "s"}${x.conversations
+      ? `, ${fig(x.conversations, "int")} conversations` : ", no counts published"})`).join("; ")}.</p>`).join("");
   const reasonText = c => (c.after.reason || []).map(r => {
     const b0 = (c.before.reason || []).find(x => x.dwa_id === r.dwa_id);
-    return `${esc(r.name)}: ${b0 ? `${fig(b0.now, "pct")} → ` : ""}${fig(r.now, "pct")} of observed Claude conversations where AI does it directly`;
+    return `${esc(r.name.replace(/\.$/, ""))}: ${b0 ? `${fig(b0.now, "pct")} → ` : ""}${fig(r.now, "pct")} of observed Claude conversations where AI does it directly`;
   }).join("; ");
   $("#changed-body").innerHTML = `
     <p class="lead-left">Same work, constraints, target, completed steps and scenario (${esc(routeState.opts.scenario)}). Only the AI-usage evidence changes, from one bundled release to another.</p>
@@ -951,7 +955,7 @@ function renderChanged(res) {
     <ol class="changes">${res.changes.map(c => `<li class="chg ${c.change.replace(" ", "-")}" data-scope>
       <p class="gap-name">${esc(c.title)}${c.completed ? ` <span class="tag good">done</span>` : ""}</p>
       <p class="meta"><b>${esc(capitalise(c.change))}</b>${c.before && c.after && c.change !== "retained" ? `: checkpoint ${formText(c.before.form)} → ${formText(c.after.form)}` : ""}</p>
-      ${c.change === "changed form" ? `<p class="foot">${reasonText(c)}.</p>` : ""}
+      ${c.change === "changed form" ? `<p class="foot">${reasonText(c)}.</p>${perRelease(c)}` : ""}
     </li>`).join("")}</ol>`;
   attachSources($("#changed"));
   const go = () => { routeState.change = { from: $("#c-from").value, to: $("#c-to").value }; showChanged(); };

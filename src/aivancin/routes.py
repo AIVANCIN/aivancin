@@ -172,7 +172,12 @@ class Planner:
             reason.append({"dwa_id": g["dwa_id"], "name": g["name"], "now": fig(ol["now"], *ol["src"]),
                            "projected": {s: fig(v, *ol["src"], *(["aei-report-2511.15080", "your-input"] if s == "faster" else []))
                                          for s, v in proj.items()},
-                           "releases": [r["release"] for r in ol["releases"]], "weak": ol["weak"]})
+                           "releases": [r["release"] for r in ol["releases"]], "weak": ol["weak"],
+                           # what each pooled release contributed, and how much evidence stood behind it
+                           "per_release": [{"release": r["release"], "share": fig(r["share"], f"aei-{r['release']}", "onet31-task-dwas"),
+                                            "statements": fig(r["tasks"], f"aei-{r['release']}", "onet31-task-dwas"),
+                                            "conversations": None if r["conversations"] is None else
+                                            fig(r["conversations"], f"aei-{r['release']}")} for r in ol["releases"]]})
         for s in outlook.SCENARIOS:
             forms[s] = "ai" if any(r["projected"][s]["v"] >= o["threshold"] for r in reason) else "plain"
         return forms, reason

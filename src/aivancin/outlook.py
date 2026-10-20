@@ -75,6 +75,19 @@ class SkillOutlook:
                 out.append((rid, sum(shares) / len(shares), len(shares)))
         return out
 
+    def release_conversations(self, dwa):
+        """{release_id: classified conversations behind the release value}, None where a release publishes no counts."""
+        out = {}
+        for rid, tasks, _ in self.ev.releases:
+            counts = []
+            for ids in self.groups.get(dwa, []):
+                hit = next((tasks[t] for t in ids if t in tasks), None)
+                if hit is not None:
+                    counts.append(hit.get("classified"))
+            if counts:
+                out[rid] = None if any(c is None for c in counts) else sum(counts)
+        return out
+
     def outlook(self, dwa, release=None):
         key = (dwa, release)
         if key in self._cache:
@@ -85,7 +98,9 @@ class SkillOutlook:
             res = None
         else:
             now = sum(v for _, v, _ in vals) / len(vals)
-            res = {"now": round(now, 1), "releases": [{"release": r, "share": round(v, 1), "tasks": n} for r, v, n in vals],
+            conv = self.release_conversations(dwa)
+            res = {"now": round(now, 1), "releases": [{"release": r, "share": round(v, 1), "tasks": n, "conversations": conv.get(r)}
+                                                      for r, v, n in vals],
                    "weak": len(vals) < 2 or all(n == 1 for _, _, n in vals),
                    "src": [f"aei-{r}" for r, _, _ in vals] + ["onet31-task-dwas"]}
         self._cache[key] = res
