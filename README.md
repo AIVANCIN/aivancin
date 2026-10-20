@@ -16,6 +16,8 @@ You describe what you actually do, in your own words. An AI suggests the matchin
 
 ## Team Information
 
+<div align="center">
+
 | Field | Details |
 | --- | --- |
 | **Team Name** | DOVUN |
@@ -25,7 +27,11 @@ You describe what you actually do, in your own words. An AI suggests the matchin
 | **University** | German-Malaysian Institute |
 | **Number of Members** | 5 |
 
+</div>
+
 ## Links
+
+<div align="center">
 
 | Resource | Link |
 | --- | --- |
@@ -35,6 +41,8 @@ You describe what you actually do, in your own words. An AI suggests the matchin
 | RunPod Endpoint | Not yet available |
 | Slide Deck | Not yet available |
 | Demo Video | Not yet available |
+
+</div>
 
 ---
 
