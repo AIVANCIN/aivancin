@@ -166,3 +166,18 @@ def test_web_interface_is_served_from_bundled_files(client):
         assert client.get(path).status_code == 200, path
     # the page loads nothing from other hosts, so it works offline
     assert "http://" not in page.text.replace("http://www.w3.org", "") and "https://" not in page.text
+
+
+def test_routes_and_update_endpoints(client):
+    req = hafiz_request(client, weeks=4)
+    r = client.post("/api/routes", json=req)
+    assert r.status_code == 200
+    body = r.json()
+    assert 1 <= len(body["routes"]) <= 3 and body["supported_destinations"]["v"] == 12
+    target = body["routes"][0]["code"]
+    u = client.post("/api/update", json=hafiz_request(client, weeks=4, target=target, from_release="2025-09-15",
+                                                       to_release="2026-06-26"))
+    assert u.status_code == 200 and u.json()["target"] == target
+    bad = client.post("/api/routes", json=hafiz_request(client, weeks=6))
+    assert bad.status_code == 422 and "weeks" in bad.json()["errors"]
+    assert client.post("/api/update", json=hafiz_request(client, weeks=4)).status_code == 422

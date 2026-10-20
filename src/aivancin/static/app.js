@@ -88,9 +88,10 @@ function initTheme() {
 function showStage(id) {
   const sec = document.getElementById(id);
   sec.hidden = false;
-  const link = $(`.stage-links a[data-stage="${id}"]`);
+  const key = { review: "work", results: "routes" }[id] || id;
+  const link = $(`.stage-links a[data-stage="${key}"]`);
   if (link) link.removeAttribute("aria-disabled");
-  $$(".stage-links a").forEach(a => a.toggleAttribute("aria-current", a.dataset.stage === id));
+  $$(".stage-links a").forEach(a => a.toggleAttribute("aria-current", a.dataset.stage === key));
   $$(".stage-links a[aria-current]").forEach(a => a.setAttribute("aria-current", "step"));
   sec.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
   const h = $("h2[tabindex]", sec);
@@ -780,3 +781,202 @@ async function start() {
 }
 
 start();
+
+/* ---------- adopted revision: compare routes, your plan, what changed (SPEC section 10) ---------- */
+const routeState = { data: null, target: null, completed: new Set(), opts: { weeks: 4, willing_long: false, scenario: "moderate", threshold: 50 }, change: null };
+const STATUS_CLASS = { met: "good", missing: "limit", planned: "sdg", "you decide": "weak" };
+
+function routesRequest(extra = {}) {
+  const base = resultsBody();
+  return { ...base, options: { ...routeState.opts, completed: [...routeState.completed], ...(routeState.target ? { target: routeState.target } : {}), ...extra } };
+}
+
+function readRouteOpts() {
+  const f = $("#intake");
+  routeState.opts.weeks = Number(f.elements.weeks.value);
+  routeState.opts.willing_long = f.elements.willing_long.value === "yes";
+}
+
+async function compareRoutes() {
+  $("#rank-err").textContent = "";
+  readRouteOpts();
+  try {
+    routeState.data = await api("/api/routes", routesRequest());
+    renderRoutes();
+    showStage("routes");
+  } catch (err) {
+    const errors = err.data?.errors || {};
+    if (["weekly_hours", "budget_rm", "degree_level"].some(k => k in errors)) {
+      const first = showFieldErrors(errors);
+      $("#rank-err").textContent = "Some details in step 1 need attention.";
+      showStage("work");
+      first?.closest(".field")?.querySelector("input, textarea")?.focus();
+      return;
+    }
+    $("#rank-err").textContent = errors.activities || Object.values(errors)[0] || "Something went wrong. Please try again.";
+  }
+}
+
+function reqRow(q) {
+  return `<li><span class="tag ${STATUS_CLASS[q.status] || "weak"}">${esc(capitalise(q.status))}</span> <span>${esc(q.text)}</span>
+    <span class="foot">${esc(q.scope)} · ${esc(q.why)}</span>${srcMarks(q.src)}</li>`;
+}
+
+function routeCard(r) {
+  const b = r.block;
+  const chosen = routeState.target === r.code;
+  const served = r.prioritized.filter(g => g.served).length;
+  return `<article class="route-card${chosen ? " chosen" : ""}" data-scope aria-labelledby="rt-${esc(r.code)}">
+    <p class="d-kicker">${esc(r.family_label)}</p>
+    <h3 id="rt-${esc(r.code)}">${esc(r.title)}</h3>
+    <p class="rr-meta">O*NET ${esc(r.code)} · Job Zone ${fig(r.job_zone, "")} · ${esc(r.masco.label || "")}</p>
+    <div class="rc-sec"><h4>Your work in this role</h4>
+      <p>You do ${fig(r.done_count, "int")} of its ${fig(r.total_count, "int")} recorded activities (activity overlap ${fig(r.overlap, "pct")}).</p></div>
+    <div class="rc-sec"><h4>Requirements</h4><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul></div>
+    <div class="rc-sec"><h4>Opportunity</h4>
+      <p><span class="tag good">US outlook: ${esc(bandShort(r.job_outlook))}</span>${r.job_outlook.bright.length ? ` <span class="tag sdg">Bright Outlook</span>` : ""}${srcMarks(r.job_outlook.src)}</p>
+      <p class="foot">${esc(r.local_evidence)}</p>
+      ${r.pay ? `<p class="foot">DOSM 2025 median pay step from your current group: ${fig(r.pay.step, "step")}. Group medians, not a salary offer.</p>` : ""}</div>
+    <div class="rc-sec"><h4>First ${fig(routeState.data.weeks, "int")}-week block</h4>
+      <p><b>${fig(b.effort_hours, "")}</b> of ${fig(b.capacity_hours, "")} hours · ${fig(b.cost_rm, "rm")} · serves ${served} of ${r.prioritized.length} priority gaps</p>
+      <p class="foot">${esc(capitalise(b.status))}. Verified resources exist for ${fig(r.supported_share, "pct")} of the priority gaps.</p></div>
+    <p class="foot"><b>SDG 8.5:</b> ${esc(r.sdg[0].reason)}${srcMarks(r.sdg[0].src)}</p>
+    <button type="button" class="btn ${chosen ? "btn-primary" : "btn-gray"} choose-route" data-route="${esc(r.code)}">${chosen ? "Chosen: see your plan" : "Choose this route"}</button>
+  </article>`;
+}
+
+function renderRoutes() {
+  const d = routeState.data;
+  $("#routes-lead").innerHTML = `<p>Supported destinations (${fig(d.supported_destinations, "int")} roles in three families) where your confirmed work already counts. Each card shows its dimensions separately; there is no combined score, and you choose.</p>`;
+  const shared = d.shared;
+  $("#routes-body").innerHTML = `
+    ${d.fewer_note ? `<div class="callout">${icon("info")}<p>${esc(d.fewer_note)}</p></div>` : ""}
+    ${d.routes.length ? `<div class="route-grid">${d.routes.map(routeCard).join("")}</div>` :
+      `<div class="callout">${icon("info")}<p>None of the supported routes uses at least two of your confirmed activities yet. Explore all roles, or tick more activities.</p></div>`}
+    ${shared ? `<section class="path-card" data-scope aria-labelledby="h-shared"><h3 id="h-shared">Shared foundations</h3>
+      <p>${shared.common_steps.length ? `${shared.common_steps.length} step${shared.common_steps.length === 1 ? "" : "s"} (${fig(shared.common_hours, "")} hours) appear in every route's block and serve a priority gap of each, so they keep these options open.` : "No step is common to every route's block."}</p>
+      <ul>${shared.extra_hours.map(e => `<li>${esc(e.title)}: ${fig(e.hours, "")} hours beyond the shared steps</li>`).join("")}</ul>
+      <p class="foot">These describe the compared plans, not a probability of anything.</p></section>` : ""}
+    <p class="explore-row"><button type="button" class="link-btn" data-action="rank">Explore all roles, including ones without complete-route support</button></p>`;
+  attachSources($("#routes"));
+  $$(".stage-links a").forEach(a => { if (a.dataset.stage === "routes") a.removeAttribute("aria-disabled"); });
+}
+
+async function choose(code) {
+  routeState.target = code;
+  await refreshPlan();
+  showStage("plan");
+}
+
+async function refreshPlan() {
+  try {
+    routeState.data = await api("/api/routes", routesRequest());
+    renderRoutes();
+    renderPlan();
+  } catch (err) {
+    $("#plan-body").innerHTML = `<div class="callout">${icon("triangle-alert")}<p>${esc(Object.values(err.data?.errors || {})[0] || "Could not build the plan.")}</p></div>`;
+  }
+}
+
+function stepItem(s, i) {
+  const ai = s.form === "ai";
+  const d = routeState.data;
+  const why = s.reason.filter(r => r.projected[d.scenario].v >= d.threshold.v);
+  const purpose = s.kind === "prerequisite" ? "Required first by a later step." : s.kind === "ai_practice" ? "AI practice on an activity in this plan." : s.purpose;
+  const because = ai && why.length
+    ? `<p class="foot">Because ${why.map(r => `AI does “${esc(r.name)}” directly in ${fig(r.now, "pct")} of observed Claude conversations now, ${fig(r.projected[d.scenario], "pct")} projected in the ${esc(d.scenario)} scenario`).join("; ")}; threshold ${fig(d.threshold, "pct")}.</p>`
+    : "";
+  return `<li class="pstep${s.completed ? " done" : ""}" data-scope>
+    <div class="pstep-head"><span class="pnum">${i + 1}</span>
+      <div><p class="gap-name">${esc(s.title)} <a href="${esc(s.url)}" target="_blank" rel="noopener" aria-label="Open ${esc(s.title)} at ${esc(s.provider)}">${icon("external-link", "sm")}</a></p>
+      <p class="meta">${esc(purpose)}</p></div></div>
+    ${s.objective ? `<p class="objective">Provider's objective: “${esc(s.objective)}”</p>` : ""}
+    <p class="meta">${esc(s.provider)} · ${fig(s.provider_hours, "")} h course + ${fig(s.practice_hours, "")} h practice (estimate) · ${fig(s.cost_rm, "rm")} · link checked ${esc(s.checked_on)} · SDG 4.4</p>
+    <div class="checkpoint${ai ? " ai" : ""}"><p><b>${ai ? "Checkpoint, with AI checking" : "Checkpoint"}:</b> ${esc(s.checkpoint)}</p>${because}</div>
+    <label class="check-line"><input type="checkbox" data-done="${esc(s.id)}" ${s.completed ? "checked" : ""}> I have done this step</label>
+  </li>`;
+}
+
+function renderPlan() {
+  const d = routeState.data;
+  const r = d.routes.find(x => x.code === routeState.target);
+  if (!r) { $("#plan-body").innerHTML = ""; return; }
+  const b = r.block;
+  const next = b.steps.find(s => !s.completed);
+  $("#plan-body").innerHTML = `
+    <div class="plan-head" data-scope>
+      <p class="d-kicker">${esc(r.family_label)}</p><h3 class="plan-title">${esc(r.title)}</h3>
+      <p>${fig(b.effort_hours, "")} of your ${fig(b.capacity_hours, "")} hours over ${fig(d.weeks, "int")} weeks (${fig(b.provider_hours, "")} h of courses, ${fig(b.practice_hours, "")} h of practice, estimated) · ${fig(b.cost_rm, "rm")} of your ${fig(d.budget_rm, "rm")} budget.</p>
+      <p class="foot">${esc(capitalise(b.status))}. This block is a start, not a complete transition; it does not make anyone ready for the role.</p>
+      ${next ? `<p class="next">${icon("route", "sm")} <b>Start with:</b> ${esc(next.title)}</p>` : `<p class="next">${icon("check", "sm")} Every step in this block is marked done.</p>`}
+    </div>
+    <fieldset class="ctl plan-scen" data-scope><legend>Future scenario for the checkpoints</legend>
+      <div class="seg-ctl small scen-ctl" style="--n:3">${["slower", "moderate", "faster"].map(k => `<label><input type="radio" name="pscen" value="${k}" ${d.scenario === k ? "checked" : ""}>${k === "moderate" ? "Moderate" : capitalise(k)}</label>`).join("")}</div>
+      <p class="foot">Looking ${fig(b.horizon.months, "")} months ahead (${esc(b.horizon.basis)}). A step's checkpoint adds AI checking when AI does its activity directly in at least ${fig(d.threshold, "pct")} of observed Claude conversations by then. ${b.scenario_differs.length ? `Steps that change between scenarios: ${esc(b.scenario_differs.join("; "))}.` : "No step changes between scenarios."} Slower and faster are assumptions, not forecasts.</p></fieldset>
+    <ol class="psteps">${b.steps.map(stepItem).join("")}</ol>
+    ${b.uncovered.length ? `<section class="sec-block" data-scope><h5>Priority gaps without a step in this block</h5><ul class="gaps">${b.uncovered.map(g => `<li><b></b><span>${esc(g.name)}</span><span class="w">SDG 4.4</span></li>`).join("")}</ul>
+      <p class="foot">Either no verified resource teaches them yet, or the block's time or budget ran out.</p></section>` : ""}
+    <section class="sec-block" data-scope><h5>Beyond this block</h5><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul></section>
+    <p class="explore-row"><button type="button" class="btn btn-gray" data-action="changed">See what new evidence changes</button></p>`;
+  attachSources($("#plan"));
+  $$(".stage-links a").forEach(a => { if (a.dataset.stage === "plan" || a.dataset.stage === "changed") a.removeAttribute("aria-disabled"); });
+}
+
+async function showChanged() {
+  const ids = state.status.releases;
+  routeState.change = routeState.change || { from: ids[0], to: ids[ids.length - 1] };
+  try {
+    const res = await api("/api/update", routesRequest({ from_release: routeState.change.from, to_release: routeState.change.to }));
+    renderChanged(res);
+  } catch (err) {
+    $("#changed-body").innerHTML = `<div class="callout">${icon("triangle-alert")}<p>${esc(Object.values(err.data?.errors || {})[0] || "Could not compare.")}</p></div>`;
+  }
+  showStage("changed");
+}
+
+function renderChanged(res) {
+  const ids = state.status.releases;
+  const sel = (name, v) => `<select id="${name}">${ids.map(r => `<option value="${esc(r)}" ${r === v ? "selected" : ""}>${esc(releaseLabel(r))} (release ${esc(r)})</option>`).join("")}</select>`;
+  const formText = f => (f === "ai" ? "with AI checking" : "plain");
+  const reasonText = c => (c.after.reason || []).map(r => {
+    const b0 = (c.before.reason || []).find(x => x.dwa_id === r.dwa_id);
+    return `${esc(r.name)}: ${b0 ? `${fig(b0.now, "pct")} → ` : ""}${fig(r.now, "pct")} of observed Claude conversations where AI does it directly`;
+  }).join("; ");
+  $("#changed-body").innerHTML = `
+    <p class="lead-left">Same work, constraints, target, completed steps and scenario (${esc(routeState.opts.scenario)}). Only the AI-usage evidence changes, from one bundled release to another.</p>
+    <div class="ctl change-ctl"><label for="c-from">Earlier evidence</label>${sel("c-from", res.from_release)}<label for="c-to">Later evidence</label>${sel("c-to", res.to_release)}</div>
+    <div class="callout" data-scope>${icon("history")}<div><p><b>${esc(res.summary)}</b></p>
+      <p class="foot">Effort ${fig(res.hours_before, "")} h → ${fig(res.hours_after, "")} h; cost ${fig(res.cost_before, "rm")} → ${fig(res.cost_after, "rm")}. Your completed steps and chosen target are kept.</p>
+      ${res.comparability_note ? `<p class="foot">${esc(res.comparability_note)}</p>` : ""}</div></div>
+    <ol class="changes">${res.changes.map(c => `<li class="chg ${c.change.replace(" ", "-")}" data-scope>
+      <p class="gap-name">${esc(c.title)}${c.completed ? ` <span class="tag good">done</span>` : ""}</p>
+      <p class="meta"><b>${esc(capitalise(c.change))}</b>${c.before && c.after && c.change !== "retained" ? `: checkpoint ${formText(c.before.form)} → ${formText(c.after.form)}` : ""}</p>
+      ${c.change === "changed form" ? `<p class="foot">${reasonText(c)}.</p>` : ""}
+    </li>`).join("")}</ol>`;
+  attachSources($("#changed"));
+  const go = () => { routeState.change = { from: $("#c-from").value, to: $("#c-to").value }; showChanged(); };
+  $("#c-from").addEventListener("change", go);
+  $("#c-to").addEventListener("change", go);
+}
+
+function routeEvents() {
+  document.addEventListener("click", e => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    if (b.dataset.action === "routes") compareRoutes();
+    else if (b.classList.contains("choose-route")) choose(b.dataset.route);
+    else if (b.dataset.action === "changed") showChanged();
+    else if (b.dataset.action === "rank" && !b.closest("#review")) rank();
+  });
+  $("#plan").addEventListener("change", e => {
+    if (e.target.matches("input[data-done]")) {
+      const id = e.target.dataset.done;
+      if (e.target.checked) routeState.completed.add(id); else routeState.completed.delete(id);
+      refreshPlan();
+    } else if (e.target.matches('input[name="pscen"]')) {
+      routeState.opts.scenario = e.target.value;
+      refreshPlan();
+    }
+  });
+}
+routeEvents();

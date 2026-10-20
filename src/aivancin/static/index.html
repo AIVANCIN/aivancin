@@ -49,8 +49,9 @@
     </a>
     <ol class="stage-links" aria-label="Steps">
       <li><a href="#work" data-stage="work">1 Your work</a></li>
-      <li><a href="#review" data-stage="review" aria-disabled="true">2 Check what we read</a></li>
-      <li><a href="#results" data-stage="results" aria-disabled="true">3 Closest roles</a></li>
+      <li><a href="#routes" data-stage="routes" aria-disabled="true">2 Compare routes</a></li>
+      <li><a href="#plan" data-stage="plan" aria-disabled="true">3 Your plan</a></li>
+      <li><a href="#changed" data-stage="changed" aria-disabled="true">4 What changed</a></li>
     </ol>
     <fieldset class="seg-ctl small theme" aria-label="Appearance">
       <legend class="vh">Appearance</legend>
@@ -64,7 +65,7 @@
 <main id="main">
 <section class="stage-sec" id="work" aria-labelledby="h-work">
   <div class="wrap narrow">
-    <p class="eyebrow">Step 1 of 3</p>
+    <p class="eyebrow">Step 1 of 4 · Your work</p>
     <h1 id="h-work" class="page-title">Show the work you already do.</h1>
     <p class="lead-left">Describe your work in your own words. A small AI model on this server reads each sentence and suggests matching work activities from O*NET. It is often wrong, so nothing counts until you tick it. Then you see the graduate roles that use that work.</p>
     <div class="persona-bar" id="personas" aria-label="Examples">
@@ -122,6 +123,21 @@
           <input id="f-budget" name="budget_rm" type="number" min="0" step="10" value="0" inputmode="numeric">
           <p class="err" data-err="budget_rm"></p>
         </div>
+        <fieldset class="field">
+          <legend>Planning period</legend>
+          <div class="seg-ctl weeks-ctl" style="--n:3">
+            <label><input type="radio" name="weeks" value="4" checked>4 weeks</label>
+            <label><input type="radio" name="weeks" value="8">8 weeks</label>
+            <label><input type="radio" name="weeks" value="12">12 weeks</label>
+          </div>
+        </fieldset>
+        <fieldset class="field">
+          <legend>Would you take a longer qualification, such as a degree top-up?</legend>
+          <div class="seg-ctl long-ctl" style="--n:2">
+            <label><input type="radio" name="willing_long" value="no" checked>Not now</label>
+            <label><input type="radio" name="willing_long" value="yes">Yes</label>
+          </div>
+        </fieldset>
       </div>
       <div class="form-actions">
         <button class="btn btn-primary" type="submit" id="read-btn">Read my work</button>
@@ -133,7 +149,7 @@
 
 <section class="stage-sec alt" id="review" aria-labelledby="h-review" hidden>
   <div class="wrap">
-    <p class="eyebrow">Step 2 of 3</p>
+    <p class="eyebrow">Step 1 of 4 · Your work</p>
     <h2 id="h-review" class="page-title" tabindex="-1">Check what we read</h2>
     <p class="lead-left">Tick each activity that is true for you. Suggestions start unticked, and there is no "accept all": the model proposes, you decide.</p>
     <div class="review">
@@ -153,18 +169,44 @@
         </fieldset>
         <p class="foot lane-note" id="lane-note"></p>
         <div class="cta-bar">
-          <button class="btn btn-primary btn-block" type="button" data-action="rank">Show closest roles</button>
+          <button class="btn btn-primary btn-block" type="button" data-action="routes">Compare routes</button>
+          <button class="link-btn explore-link" type="button" data-action="rank">Or explore all roles</button>
           <p class="err" id="rank-err" role="alert"></p>
         </div>
       </aside>
     </div>
-    <div class="mob-cta"><span><b class="num" id="count-m">0</b> confirmed</span><button class="btn btn-primary" type="button" data-action="rank">Show closest roles</button></div>
+    <div class="mob-cta"><span><b class="num" id="count-m">0</b> confirmed</span><button class="btn btn-primary" type="button" data-action="routes">Compare routes</button></div>
   </div>
 </section>
 
-<section class="stage-sec" id="results" aria-labelledby="h-results" hidden>
+<section class="stage-sec" id="routes" aria-labelledby="h-routes" hidden>
   <div class="wrap">
-    <p class="eyebrow">Step 3 of 3</p>
+    <p class="eyebrow">Step 2 of 4 · Compare routes</p>
+    <h2 id="h-routes" class="page-title" tabindex="-1">Routes that use your work</h2>
+    <div class="lead-left" id="routes-lead" data-scope></div>
+    <div id="routes-body"></div>
+  </div>
+</section>
+
+<section class="stage-sec alt" id="plan" aria-labelledby="h-plan-stage" hidden>
+  <div class="wrap narrow">
+    <p class="eyebrow">Step 3 of 4 · Your plan</p>
+    <h2 id="h-plan-stage" class="page-title" tabindex="-1">Your first learning block</h2>
+    <div id="plan-body"></div>
+  </div>
+</section>
+
+<section class="stage-sec" id="changed" aria-labelledby="h-changed" hidden>
+  <div class="wrap narrow">
+    <p class="eyebrow">Step 4 of 4 · What changed</p>
+    <h2 id="h-changed" class="page-title" tabindex="-1">What new evidence changes</h2>
+    <div id="changed-body"></div>
+  </div>
+</section>
+
+<section class="stage-sec alt" id="results" aria-labelledby="h-results" hidden>
+  <div class="wrap">
+    <p class="eyebrow">Explore all roles</p>
     <h2 id="h-results" class="page-title" tabindex="-1">Closest roles to explore</h2>
     <div class="lead-left" id="results-lead" data-scope></div>
     <div id="change" class="change" aria-live="polite"></div>

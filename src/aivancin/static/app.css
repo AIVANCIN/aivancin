@@ -219,3 +219,44 @@ footer .foot { margin-top: 8px; }
 .check-line { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 14px; font-weight: 500; color: var(--text); cursor: pointer; min-height: 32px; }
 .check-line input { width: 18px; height: 18px; accent-color: var(--accent); }
 .sdg-mini { font-size: 11px; font-weight: 600; color: var(--accent); white-space: nowrap; }
+
+/* adopted revision: routes, plan, what changed */
+.weeks-ctl:has(input[value="8"]:checked) { --i: 1; }
+.weeks-ctl:has(input[value="12"]:checked) { --i: 2; }
+.long-ctl:has(input[value="yes"]:checked) { --i: 1; }
+.field .weeks-ctl, .field .long-ctl { max-width: 320px; }
+.explore-link { display: block; margin: 12px auto 0; font-size: 14px; }
+.route-grid { display: grid; gap: 16px; margin-top: 20px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) { .route-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.route-card { display: flex; flex-direction: column; gap: 4px; padding: 22px 20px; border-radius: 22px; background: var(--card); box-shadow: var(--shadow-card); }
+.route-card.chosen { box-shadow: 0 0 0 2px var(--accent), var(--shadow-card); }
+.route-card h3 { font: 700 22px/1.2 var(--display); letter-spacing: -0.02em; }
+.route-card .choose-route { margin-top: auto; align-self: flex-start; }
+.rc-sec { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--sep); }
+.rc-sec h4 { font: 600 13px/1.3 var(--display); color: var(--text2); letter-spacing: 0.01em; margin-bottom: 6px; }
+.rc-sec p { font-size: 15px; line-height: 1.45; }
+.reqs { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 14px; line-height: 1.4; }
+.reqs li .tag { margin-right: 4px; }
+.reqs li .foot { display: block; margin-top: 2px; }
+.explore-row { margin-top: 20px; }
+.plan-head { margin-top: 16px; padding: 22px 20px; border-radius: 22px; background: var(--card); box-shadow: var(--shadow-card); }
+.plan-title { font: 700 26px/1.2 var(--display); letter-spacing: -0.02em; margin: 2px 0 8px; }
+.plan-head .next { margin-top: 12px; display: flex; gap: 8px; align-items: center; font-size: 16px; }
+.plan-scen { margin-top: 16px; padding: 16px 20px; border-radius: 18px; background: var(--card); box-shadow: var(--shadow-card); }
+.plan-scen .seg-ctl { max-width: 360px; margin-top: 8px; }
+.psteps { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.pstep { padding: 18px 20px; border-radius: 18px; background: var(--card); box-shadow: var(--shadow-card); }
+.pstep.done { opacity: 0.7; }
+.pstep-head { display: flex; gap: 12px; align-items: flex-start; }
+.pnum { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--fill); font-weight: 600; font-size: 14px; }
+.pstep .objective { margin-top: 8px; font-family: var(--serif); font-size: 15px; color: var(--text2); }
+.pstep .meta { margin-top: 4px; font-size: 13px; color: var(--text2); }
+.checkpoint { margin-top: 10px; padding: 12px 14px; border-radius: 12px; background: var(--canvas); font-size: 15px; line-height: 1.45; }
+.checkpoint.ai { background: var(--evidence-tint); }
+.changes { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.chg { padding: 14px 16px; border-radius: 14px; background: var(--card); box-shadow: var(--shadow-card); }
+.chg.retained { box-shadow: none; background: transparent; border: 1px solid var(--sep); }
+.chg .meta { margin-top: 2px; font-size: 14px; }
+.change-ctl { display: grid; gap: 6px; margin-top: 16px; max-width: 420px; }
+.callout { flex-wrap: wrap; }
+.callout > .srcs { flex-basis: 100%; margin: 4px 0 0 34px; }

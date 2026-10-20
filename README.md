@@ -42,12 +42,12 @@ You describe what you actually do, in your own words. An AI suggests the matchin
 
 > **The problem:** many Malaysian graduates work in jobs below their qualification, and before spending evenings and savings on retraining they cannot easily see which graduate-level job is closest to what they already do.  
 > **Our approach:** read the user's own description of their work, suggest the matching O\*NET work activities with a local AI model, let the user confirm each one, then match roles by activity overlap.  
-> **The result today:** a working web app, run locally from bundled files: free text in, activity suggestions with the sentence that triggered each, a guard against "I have never..." statements, confirmation, then the closest graduate-level roles by activity overlap, each with requirement labels, a US job outlook, dated AI-usage evidence, a Future Skills Radar projecting how each activity shifts under three scenarios, a DOSM pay step, SDG reasons and a plan from link-checked free courses.
+> **The result today:** a working web app, run locally from bundled files: free text in, activity suggestions with the sentence that triggered each, a guard against "I have never..." statements and confirmation; then up to three supported career routes compared side by side, a chosen route's first learning block that fits your weeks, hours and budget, and what changes when the AI-usage evidence changes. An exploration view still lists the closest graduate-level roles by activity overlap, each with requirement labels, a US job outlook, dated AI-usage evidence, a Future Skills Radar projecting how each activity shifts under three scenarios, a DOSM pay step, SDG reasons and a plan from link-checked free courses.
 
 | Snapshot | Details |
 | --- | --- |
 | **Who it's for** | A Malaysian diploma or degree holder aged 25-34 working in a semi- or low-skilled job (for example a van driver, cashier or call-centre agent), before committing to retraining |
-| **What works now** | Intake with suggestions, guard and confirmation; role matching by lane; requirement labels; job outlook with an optional outlook order; AI-usage evidence across four releases with replay; Future Skills Radar with slower, moderate and faster scenarios; plan; SDG tags; web interface (not yet deployed) |
+| **What works now** | Intake with suggestions, guard and confirmation; route comparison over 12 supported destinations; first learning blocks with practice checkpoints; what-changed comparison between evidence releases; role matching by lane; requirement labels; job outlook with an optional outlook order; AI-usage evidence across four releases with replay; Future Skills Radar with slower, moderate and faster scenarios; plan; SDG tags; web interface (not yet deployed) |
 | **Demo mode** | Model inference runs live on the CPU from bundled files; data are bundled, dated snapshots; personas are synthetic |
 | **Reviewed revision** | Checks below were run on 20 October 2026 (Windows 11, Python 3.13) |
 
@@ -70,6 +70,8 @@ The AI is a local sentence encoder, all-MiniLM-L6-v2 (quantized ONNX, about 23 M
 - **Activity suggestions from your own words:** "I install software and clean out viruses" suggests "Install computer software" and "Resolve computer software problems", with the sentence highlighted by character offsets.
 - **Nothing accepted silently:** every activity needs an explicit tick; "I have never repaired a laptop" puts its suggestions under a second confirmation; the server rejects activities the model never suggested.
 - **Works when the AI does not:** if the model, tokenizer or vectors are missing or do not match their recorded hashes, the API says AI suggestions are unavailable and keyword search keeps working.
+- **Compare routes, then plan:** up to three supported destinations (12 roles in IT and network support, software development and testing, and finance and analytics) that your confirmed work already overlaps, each with its requirements (met, missing or for you to decide), US outlook, first-block hours and cost, and the share of its priority gaps that have a verified resource, shown side by side without a combined score. Choose one to get an ordered first block: curated free courses in prerequisite order, each with the provider's stated objective, a practice checkpoint that produces something you can show, and hours counted once.
+- **What changed:** with your work, constraints, target and completed steps fixed, compare the plan under two AI-usage releases; steps are marked added, removed, changed or retained, with the dated figures behind each change.
 - **Roles that use your work:** the closest graduate-level roles (O\*NET Job Zone 3 or 4, and skilled in Malaysian terms: MASCO major groups 1-3; semi-skilled and unmapped roles appear only if you choose to explore them) by activity overlap, in a lane you choose (current job, other work, studies or all), with what you already do, what is still to build and labels such as "usually needs a bachelor's degree".
 - **AI-usage evidence, kept separate:** the share of Claude conversations on each role's tasks where AI does the work directly, averaged over four Anthropic Economic Index releases with intervals and a release replay. It changes the order only if you set a weight (off by default).
 - **Future Skills Radar:** for each activity you do and each gap, how much of it AI does directly in observed Claude use, now and projected over an estimated planning horizon (or one you choose) under slower, moderate and faster scenarios, with the moderate projection's error measured by backtest. A gap that crosses the threshold gets a "learn to direct and check AI output" step, so a new release or scenario changes the plan.
@@ -84,10 +86,11 @@ A demo video is not yet available. The same walkthrough runs locally ([start it 
 
 1. **Start:** press "Try Hafiz's example" (a synthetic persona: computing diploma, van driver), then "Read my work".
 2. **Watch:** each of his 9 sentences appears with its five suggested activities, all unticked; "On weekends I fix my friends' laptops and set up their home wifi" includes "Resolve computer network problems".
-3. **Decide:** tick what is true for his weekend work (network and software problems, installing software, backups, the shop website), choose the "Other work" lane and press "Show closest roles".
-4. **Finish:** all six closest roles change against his job title alone (Web Developers, Computer Network Support Specialists and other computing roles instead of vehicle-operator roles). Open a role to see the activities he already does, the gaps, the AI-usage evidence, the pay step and the plan; move the weights, the scenario and the release to see what changes.
+3. **Decide:** tick what is true for his weekend work (network and software problems, installing software, backups, the shop website), then press "Compare routes".
+4. **Compare and choose:** three routes appear (Web Developers, Computer Network Support Specialists, Network and Computer Systems Administrators), each with its requirements, outlook and first-block hours, plus the shared foundations common to all three. Choose one to see the ordered block with checkpoints; switch the scenario to see which checkpoints add AI checking.
+5. **What changed:** compare the plan under the August 2025 and May 2026 evidence. In the moderate scenario two web-development steps (web accessibility, and getting started with web development) change their checkpoint form, with the figures that caused it. "Or explore all roles" shows the full ranked list, where all six closest roles change against his job title alone.
 
-**Try the same scenario through the API:** `http://127.0.0.1:8000/docs` lists `POST /api/suggest`, `/api/profile` and `/api/results`.
+**Try the same scenario through the API:** `http://127.0.0.1:8000/docs` lists `POST /api/suggest`, `/api/profile`, `/api/results`, `/api/routes` and `/api/update`.
 
 **When something goes wrong:** send `{"weekly_hours": 0}` to `/api/profile` and the response lists a message for each invalid field; remove `data/model/model.onnx` and `/api/status` reports AI suggestions as unavailable while search still works.
 
@@ -132,6 +135,7 @@ flowchart LR
 | O\*NET 31.0 and model snapshots | CACHED (bundled, hashed) | `data/manifest.json`, `python tools/build_snapshots.py` |
 | Role matching with lanes, requirement labels | WORKING | `tests/test_matching_and_report.py`, `POST /api/results` |
 | AI-usage evidence, replay, scenarios, plan, SDG reasons | WORKING (first version) | `tests/test_matching_and_report.py` |
+| Routes, first learning blocks, shared foundations, what changed | WORKING (first version) | `tests/test_routes.py` (B1-B6), `/api/routes`, `/api/update` |
 | Future Skills Radar and job outlook | WORKING (first version) | `tests/test_matching_and_report.py`, `python tools/checks/a18_backtest.py` |
 | Web interface | WORKING (local) | `tests/test_app_and_failures.py`; a scripted browser run of the full flow, 20 Oct 2026 |
 | Acceptance checks A1-A3 on fresh test sets | RUN: A1 and A3 pass, A2 fails | `python tools/checks/a1_a3.py`; see Evidence |
@@ -145,7 +149,7 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 
 | What we checked | Observation | Reproduction and limits |
 | --- | --- | --- |
-| **Core path and recovery** | PASS, 74/74 tests | `python -m pytest`, 20 Oct 2026, Windows 11, Python 3.13; network access blocked during tests; includes missing, altered and mismatched model files, a corrupted AI-usage release and expired course link checks |
+| **Core path and recovery** | PASS, 91/91 tests | `python -m pytest`, 20 Oct 2026, Windows 11, Python 3.13; network access blocked during tests; includes missing, altered and mismatched model files, a corrupted AI-usage release and expired course link checks |
 | **Skill-outlook backtest** | Predicting the June 2026 value of 500 activities from the three earlier releases: historical average 16.3 points mean absolute error, last value 17.8, trend line 22.0. Past changes continued in only 31.9% of 364 cases | `python tools/checks/a18_backtest.py`; protocol and thresholds fixed before the run; one release only, across a format change. Hence the moderate scenario uses the average and the radar shows no rising or falling labels |
 | **Hafiz contrast** | Job title alone: 0 of the top 10 roles are computing roles; with his confirmed weekend work: at least 6 of 10 | `tests/test_matching_and_report.py`; relevance rule fixed before the earlier research probe; synthetic persona |
 | **Suggestion accuracy (A1)** | PASS, 16 of 20 fresh everyday descriptions have a correct activity in the top five (bar: 16) | `python tools/checks/a1_a3.py`; sets in `tests/acceptance/`, written and hashed before the run; synthetic, agent-written English |
@@ -153,6 +157,7 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 | **Improvement against a baseline (A3)** | PASS, the model chain beats keyword (BM25) suggestions on the same text by 13 relevant roles per 50 (29 against 16; bar: 10) | Same run and sets as A2 |
 | **Regression (A4)** | PASS after a fix: the earlier probes' 35 of 50 (all true activities) and 31 of 50 (the full chain) reproduce | The first run gave 29 of 50 for the chain; the cause was that the quantized model made a text's vector depend on the other texts in its batch, so every text is now encoded on its own |
 | **Guard (A6)** | FAIL, 12 of 18 sentences fully guarded; all 10 fresh sentences with a listed cue ("never", "don't", "want to"...) pass | Not caught: someone else's work ("My cousin repairs computers"), hobbies, and plans phrased without a listed cue ("My dream is to..."). Those suggestions still need the user's tick |
+| **Phase 2 target (B7)** | FAIL, 5 of 12 fresh in-scope profiles receive two relevant routes, each with sourced requirements and a four-week block serving three priority gaps (target: 80%); the earlier build managed 0 of 12 | `python tools/checks/b7_target.py routes`; profiles written and hashed before the route code. Short descriptions confirmed too few activities for three profiles, and finance destinations have few resources beyond product-specific modules |
 | **Requirement labels (A7)** | PASS, 20 of 20 roles agree with the raw O\*NET Job Zone and experience files | `python tools/checks/a7_labels.py`; sample rule fixed in the script before the run |
 | **Usability with target users** | NOT RUN | Personas and test sentences are synthetic |
 | **Speed** | 45 ms for Hafiz's 9 sentences, model already loaded | One run on a laptop CPU; Replit not measured |
@@ -166,7 +171,9 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 - **Idioms can miss:** "I keep the books" does not surface a bookkeeping activity in the top five; the user can add it by keyword search.
 - **Guard is a word list:** it works per sentence, so "I don't just drive, I also fix laptops" is flagged and needs the second confirmation.
 - **US occupation data:** roles, activities and requirement labels come from O\*NET (United States); Malaysian pay steps use DOSM major-group medians mapped through the ESCO crosswalk, and 81 of 940 occupations stay "skill level unmapped".
-- **Short courses:** the catalogue holds 33 free Microsoft Learn items, mostly short introductions, so many gaps show "no verified resource" and plan hours are small. An AI-practice step names the activity it teaches; where none does, the plan offers a general guide to directing and checking AI output and says so.
+- **Short courses:** the catalogue holds 64 free Microsoft Learn items, mostly short modules, so many gaps still show "no verified resource"; a block's effort adds a stated practice estimate to the provider's hours. An AI-practice step names the activity it teaches; where none does, the plan offers a general guide to directing and checking AI output and says so.
+- **Malaysian requirements and opportunity evidence are not shown yet:** route requirements come from O\*NET (US) and are labelled so; MyCOL and the MyMahir impact study stay out until their reuse permission is confirmed, and the accountancy body's pages could not be checked automatically.
+- **Finance routes lean on product-specific courses:** most free finance modules found are about Microsoft Dynamics 365 Finance; they teach the processes, but in one product's terms.
 - **Projections are estimates:** the moderate projection's error is large (80% of errors within 26 points), the faster and slower scenarios are assumptions, and job outlooks are US projections; no Malaysian per-occupation projection was found to show.
 - **AI-usage figures describe Claude usage worldwide,** not Malaysian labour demand; older releases match about 83% of their tasks to O\*NET 31.0 by text, and unmatched tasks are left out, not guessed.
 
@@ -202,7 +209,9 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 ├── tests/                  # Offline tests
 ├── tools/
 │   ├── build_snapshots.py  # Rebuilds data/ from the original sources
-│   ├── build_catalogue.py  # Rebuilds the course catalogue and its link checks
+│   ├── build_catalogue.py  # Rebuilds the course catalogue, link checks and provider objectives
+│   ├── build_routes.py     # Builds the supported destinations and applies the admission rule
+│   ├── destinations_curation.json  # The 12 supported destinations
 │   ├── fetch_outlook.py    # Caches O*NET OnLine job-outlook pages for the snapshot
 │   ├── checks/a18_backtest.py  # Skill-outlook backtest behind the displayed error
 │   └── catalogue_curation.json  # Curated course-to-activity links
@@ -222,6 +231,7 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 Browser ──► FastAPI app (src/main.py) ──► intake: sentence split, guard, validation
                   │                            └──► local encoder (ONNX, CPU) + bundled activity vectors
                   ├──► matching: activity overlap by lane over O*NET Job Zone 3-4 roles
+                  ├──► routes: supported destinations, first learning blocks, shared foundations, what changed
                   ├──► report: labels, job outlook, AEI evidence and replay, skill outlook (radar), DOSM pay step, SDG, scenarios, plan
                   └──► page and JSON, every number tagged with its source
 ```
@@ -263,7 +273,7 @@ pip install -r requirements-dev.txt
 python -m pytest
 ```
 
-**Expected result:** `74 passed`. Tests run offline; outbound network access is blocked.  
+**Expected result:** `91 passed`. Tests run offline; outbound network access is blocked.  
 **Rebuild the data (optional):** `python tools/build_snapshots.py` downloads the original files into `.cache/` and rebuilds `data/`; pinned files (model, AEI releases) are checked against their hashes, while live sources such as DOSM and the ESCO API can change. `python tools/build_catalogue.py` refreshes the course list and its link checks.
 
 ---
