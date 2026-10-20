@@ -72,8 +72,9 @@ input[type="number"] { max-width: 180px; }
 .guard .opt { background: var(--card); }
 .guard .confirm-guard { margin-top: 12px; }
 .title-acts { margin-top: 18px; }
-.title-acts summary { cursor: pointer; font: 600 16px/1.35 var(--display); list-style: none; display: flex; align-items: center; gap: 8px; min-height: 44px; }
+details.title-acts > summary { cursor: pointer; font: 600 16px/1.35 var(--display); list-style: none; display: flex; align-items: center; gap: 8px; min-height: 44px; }
 .title-acts summary::-webkit-details-marker { display: none; }
+.title-acts summary > span { flex: 1; }
 .title-acts summary .ico { transition: transform 250ms var(--ease); }
 .title-acts[open] summary .ico { transform: rotate(180deg); }
 .mine li { justify-content: space-between; }

@@ -54,6 +54,15 @@ def test_api_rejects_invalid_intake_with_field_messages(client):
     assert hits[0]["dwa_id"] == "4.A.3.b.1.d.1" and hits[0]["match"] == "meaning"
 
 
+def test_bundled_fonts_are_served_with_their_licences(client):
+    for path in ("kl-pro/KLPro-Regular.woff2", "kl-pro/KLPro-Medium.woff2", "kl-pro/KLPro-Semibold.woff2",
+                 "kl-pro/KLPro-Bold.woff2", "jost/Jost-SemiBold-latin.woff2"):
+        r = client.get(f"/fonts/{path}")
+        assert r.status_code == 200 and r.content[:4] == b"wOF2", path
+    assert "All rights reserved" in client.get("/fonts/kl-pro/LICENSE.txt").text
+    assert "SIL Open Font License" in client.get("/fonts/jost/OFL.txt").text
+
+
 def copy_data(tmp_path):
     dst = tmp_path / "data"
     shutil.copytree(DATA, dst)

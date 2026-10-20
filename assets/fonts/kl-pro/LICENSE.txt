@@ -1,0 +1,7 @@
+KL Pro
+Created for Dovun, 2026.
+All rights reserved.
+
+KL Pro is not covered by the Apache License 2.0 that applies to the rest of this
+repository. These font files are included only so that AIVANCIN displays as
+designed. No licence to copy, modify or redistribute them is granted.

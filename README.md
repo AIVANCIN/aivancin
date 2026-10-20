@@ -206,6 +206,7 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 ```
 .
 ├── assets/icon/            # App icon
+├── assets/fonts/           # KL Pro (separate licence) and Jost (OFL 1.1) web fonts
 ├── data/                   # Bundled snapshots: manifest.json, onet/, aei/, dosm/, crosswalk/, catalogue/, forecast/, model/, vectors/, personas.json
 ├── src/
 │   ├── main.py             # Application entry point
@@ -333,6 +334,8 @@ The product code, tests and synthetic personas were written during the event. Th
 | NCES CIP-SOC crosswalk | U.S. NCES and BLS, public domain | Field of study to occupations (studies lane) | To be declared |
 | O\*NET OnLine job outlook | USDOL/ETA with BLS 2025-2035 projections, CC BY 4.0 | US projected-growth bands and Bright Outlook flags | To be declared |
 | Microsoft Learn and Saylor University course pages | Microsoft; Saylor University, run by the Constitution Foundation (Saylor-authored content CC BY 3.0, final exams excluded) | Linked, not copied: title, stated duration and stated objectives of each catalogue entry | To be declared |
+| KL Pro typeface | Created for Dovun before the event (October 2026); all rights reserved, separate licence in `assets/fonts/kl-pro/LICENSE.txt`, not covered by Apache 2.0 | Interface typeface; the four web font files, unmodified | To be declared as pre-existing material |
+| Jost | Owen Earl and the Jost Project Authors, [SIL Open Font License 1.1](assets/fonts/jost/OFL.txt) | Wordmark only: SemiBold (600) instance, cut to Basic Latin | To be declared |
 | Claude Code (Claude Opus 5.5) | Anthropic | Development assistance, reviewed by the team | To be declared |
 
 This product includes information from the O\*NET 31.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O\*NET® is a trademark of USDOL/ETA. AIVANCIN has modified all or some of this information (column selection and sorting). USDOL/ETA has not approved, endorsed, or tested these modifications. Every snapshot's source URL, release, access date, licence and SHA-256 hashes are in `data/manifest.json`.
@@ -351,4 +354,4 @@ This product includes information from the O\*NET 31.0 Database by the U.S. Depa
 
 ## License
 
-This project is licensed under the [Apache License 2.0](LICENSE). Third-party components and datasets keep their own licences.
+This project is licensed under the [Apache License 2.0](LICENSE). Third-party components and datasets keep their own licences. The KL Pro font files in `assets/fonts/kl-pro/` are not covered by the Apache License 2.0; see their own licence file.

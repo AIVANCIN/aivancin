@@ -27,7 +27,7 @@ mark.words { background: var(--marker); color: var(--marker-text); padding: 0.04
 }
 @media (prefers-reduced-transparency: reduce) { .nav { background: var(--glass-solid); -webkit-backdrop-filter: none; backdrop-filter: none; } }
 .nav .wrap { display: flex; align-items: center; gap: 24px; height: 52px; }
-.brand { display: flex; align-items: center; gap: 10px; font: 700 17px/1 var(--display); letter-spacing: 0.06em; color: var(--text); }
+.brand { display: flex; align-items: center; gap: 10px; font: 600 17px/1 "Jost", var(--display); letter-spacing: 0.1em; color: var(--text); }
 .brand svg { width: 26px; height: 26px; flex: none; }
 .nav-links { display: none; gap: 28px; margin: 0 auto; padding: 0; list-style: none; }
 .nav-links a { color: var(--text); font-size: 13px; opacity: 0.8; }

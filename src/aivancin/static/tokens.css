@@ -1,6 +1,13 @@
 /* Colour tokens re-derived from the app icon (blue gradient #249FF5 to #0955D4, blush #F6BADA).
    Accent text: #0955D4 on light (6.4:1 on white), #249FF5 on dark (6.8:1 on #0E0D12).
    The blush marker is used only as a band behind dark text: the user's own words and activities they confirmed. */
+/* KL Pro sets the interface (licensed separately: assets/fonts/kl-pro/LICENSE.txt). Jost SemiBold, OFL 1.1,
+   sets only the wordmark; the bundled file is a weight-600 instance cut to Basic Latin. */
+@font-face { font-family: "KL Pro"; src: url("/fonts/kl-pro/KLPro-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "KL Pro"; src: url("/fonts/kl-pro/KLPro-Medium.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "KL Pro"; src: url("/fonts/kl-pro/KLPro-Semibold.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "KL Pro"; src: url("/fonts/kl-pro/KLPro-Bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "Jost"; src: url("/fonts/jost/Jost-SemiBold-latin.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
 :root {
   --canvas: #F5F5F7; --card: #FFFFFF; --text: #1D1D1F; --text2: #5C5C62; --sep: #E3E3E8; --border: #7A7A82;
   --fill: #EDEDF0; --fill-hover: #E3E3E8; --track: #E3E3E8;
@@ -12,8 +19,8 @@
   --shadow-card: 0 0 0 1px rgba(16, 16, 24, 0.04), 0 1px 2px rgba(16, 16, 24, 0.04), 0 6px 20px -8px rgba(16, 16, 24, 0.08);
   --shadow-float: 0 0 0 1px rgba(16, 16, 24, 0.05), 0 12px 32px -12px rgba(16, 16, 24, 0.18);
   --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
-  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
-  --display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+  --sans: "KL Pro", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --display: "KL Pro", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
   --serif: "Source Serif 4", "Iowan Old Style", Georgia, "Times New Roman", serif;
   --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
   color-scheme: light;

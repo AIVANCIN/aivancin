@@ -14,6 +14,7 @@ from .routes import Planner
 
 STATIC = Path(__file__).resolve().parent / "static"
 ICON = Path(__file__).resolve().parents[2] / "assets" / "icon"
+FONTS = Path(__file__).resolve().parents[2] / "assets" / "fonts"
 
 AI_UNAVAILABLE = "AI suggestions are unavailable. You can still add activities by searching the list."
 
@@ -115,6 +116,7 @@ def create_app(data_dir=snapshots.DEFAULT_DATA_DIR):
     if STATIC.exists():
         app.mount("/static", StaticFiles(directory=STATIC), name="static")
         app.mount("/icon", StaticFiles(directory=ICON), name="icon")
+        app.mount("/fonts", StaticFiles(directory=FONTS), name="fonts")
 
         @app.get("/", include_in_schema=False)
         def index():
