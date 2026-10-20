@@ -3,10 +3,16 @@ import json
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from . import intake, snapshots
 from .encoder import AIUnavailable, load_ai
+from .matching import Matcher
+from .report import Reporter, ReportError
+
+STATIC = Path(__file__).resolve().parent / "static"
+ICON = Path(__file__).resolve().parents[2] / "assets" / "icon"
 
 AI_UNAVAILABLE = "AI suggestions are unavailable. You can still add activities by searching the list."
 
@@ -22,6 +28,7 @@ def create_app(data_dir=snapshots.DEFAULT_DATA_DIR):
         ai_reason = str(exc)
     personas = json.loads((Path(data_dir) / "personas.json").read_text(encoding="utf-8"))
 
+    reporter = Reporter(snaps, Matcher(snaps))
     app = FastAPI(title="AIVANCIN")
 
     def suggestions_for(texts):
@@ -33,7 +40,10 @@ def create_app(data_dir=snapshots.DEFAULT_DATA_DIR):
     def status():
         return {"ai_suggestions": "available" if encoder else "unavailable",
                 "ai_unavailable_reason": ai_reason,
-                "snapshots": [{k: r[k] for k in ("source_id", "title", "release", "access_date", "licence")}
+                "rejected_releases": snaps.rejected,
+                "releases": snaps.evidence.ids if snaps.evidence else [],
+                "snapshots": [{k: r.get(k) for k in ("source_id", "title", "publisher", "url", "release", "access_date",
+                                                     "licence", "window_start", "window_end")}
                               for r in snaps.manifest["snapshots"]]}
 
     @app.get("/api/personas")
@@ -54,6 +64,10 @@ def create_app(data_dir=snapshots.DEFAULT_DATA_DIR):
             raise HTTPException(404, "Unknown job title.")
         return {"code": code, "title": onet.occupations[code], "activities": intake.title_activities(onet, code)}
 
+    @app.get("/api/fields")
+    def fields(q: str = ""):
+        return intake.search_fields(snaps.cip, q)
+
     @app.post("/api/suggest")
     def suggest(texts: dict):
         result = suggestions_for(texts)
@@ -64,9 +78,26 @@ def create_app(data_dir=snapshots.DEFAULT_DATA_DIR):
     @app.post("/api/profile")
     def profile(req: dict):
         try:
-            return intake.build_profile(req, onet, suggestions_for(req))
+            return intake.build_profile(req, onet, suggestions_for(req), snaps.cip)
         except intake.IntakeError as exc:
             return JSONResponse(status_code=422, content={"errors": exc.errors})
+
+    @app.post("/api/results")
+    def results(req: dict):
+        """Rebuild the confirmed profile from the submitted intake, then rank and explain roles."""
+        try:
+            prof = intake.build_profile(req, onet, suggestions_for(req), snaps.cip)
+            return reporter.report(prof, req.get("options") or {})
+        except (intake.IntakeError, ReportError) as exc:
+            return JSONResponse(status_code=422, content={"errors": exc.errors})
+
+    if STATIC.exists():
+        app.mount("/static", StaticFiles(directory=STATIC), name="static")
+        app.mount("/icon", StaticFiles(directory=ICON), name="icon")
+
+        @app.get("/", include_in_schema=False)
+        def index():
+            return FileResponse(STATIC / "index.html")
 
     return app
 

@@ -1,0 +1,2426 @@
+code,example,commodity,hot
+11-1011.00,Microsoft Excel,Spreadsheet software,Y
+11-1011.00,Microsoft Office software,Office suite software,Y
+11-1011.00,Microsoft Outlook,Electronic mail software,Y
+11-1011.00,Microsoft PowerPoint,Presentation software,Y
+11-1011.03,Microsoft Excel,Spreadsheet software,Y
+11-1011.03,Microsoft Office software,Office suite software,Y
+11-1011.03,Microsoft Outlook,Electronic mail software,Y
+11-1011.03,Microsoft PowerPoint,Presentation software,Y
+11-1021.00,Microsoft Excel,Spreadsheet software,Y
+11-1021.00,Microsoft Office software,Office suite software,Y
+11-1021.00,Microsoft PowerPoint,Presentation software,Y
+11-2011.00,Microsoft Excel,Spreadsheet software,Y
+11-2011.00,Microsoft Office software,Office suite software,Y
+11-2011.00,Microsoft PowerPoint,Presentation software,Y
+11-2021.00,Atlassian JIRA,Content workflow software,Y
+11-2021.00,Microsoft Excel,Spreadsheet software,Y
+11-2021.00,Microsoft Office software,Office suite software,Y
+11-2021.00,Microsoft PowerPoint,Presentation software,Y
+11-2021.00,Salesforce software,Customer relationship management CRM software,Y
+11-2021.00,Structured query language SQL,Data base user interface and query software,Y
+11-2022.00,Microsoft Excel,Spreadsheet software,Y
+11-2022.00,Microsoft Office software,Office suite software,Y
+11-2022.00,Microsoft Outlook,Electronic mail software,Y
+11-2022.00,Microsoft PowerPoint,Presentation software,Y
+11-2022.00,Salesforce software,Customer relationship management CRM software,Y
+11-2032.00,Microsoft Excel,Spreadsheet software,Y
+11-2032.00,Microsoft Office software,Office suite software,Y
+11-2032.00,Microsoft PowerPoint,Presentation software,Y
+11-2032.00,Salesforce software,Customer relationship management CRM software,Y
+11-2033.00,Blackbaud The Raiser's Edge,Customer relationship management CRM software,N
+11-2033.00,Microsoft Excel,Spreadsheet software,Y
+11-2033.00,Microsoft Office software,Office suite software,Y
+11-2033.00,Microsoft Outlook,Electronic mail software,Y
+11-2033.00,Microsoft PowerPoint,Presentation software,Y
+11-2033.00,Microsoft Word,Word processing software,Y
+11-2033.00,Salesforce software,Customer relationship management CRM software,Y
+11-3012.00,Microsoft Excel,Spreadsheet software,Y
+11-3012.00,Microsoft Office software,Office suite software,Y
+11-3012.00,Microsoft Outlook,Electronic mail software,Y
+11-3012.00,Microsoft PowerPoint,Presentation software,Y
+11-3012.00,Microsoft Word,Word processing software,Y
+11-3013.00,Microsoft Excel,Spreadsheet software,Y
+11-3013.00,Microsoft Office software,Office suite software,Y
+11-3013.00,Microsoft Outlook,Electronic mail software,Y
+11-3013.00,Microsoft PowerPoint,Presentation software,Y
+11-3013.00,Microsoft Word,Word processing software,Y
+11-3013.01,Microsoft Excel,Spreadsheet software,Y
+11-3013.01,Microsoft Office software,Office suite software,Y
+11-3013.01,Microsoft Outlook,Electronic mail software,Y
+11-3013.01,Microsoft PowerPoint,Presentation software,Y
+11-3013.01,SAP software,Enterprise resource planning ERP software,Y
+11-3021.00,Amazon Web Services AWS software,Data base user interface and query software,Y
+11-3021.00,Enterprise application integration EAI software,Enterprise application integration software,N
+11-3021.00,Microsoft Azure software,Development environment software,Y
+11-3031.00,Microsoft Excel,Spreadsheet software,Y
+11-3031.00,Microsoft Office software,Office suite software,Y
+11-3031.00,Microsoft Outlook,Electronic mail software,Y
+11-3031.00,Microsoft PowerPoint,Presentation software,Y
+11-3031.00,SAP software,Enterprise resource planning ERP software,Y
+11-3031.01,Intuit QuickBooks,Accounting software,Y
+11-3031.01,Microsoft Excel,Spreadsheet software,Y
+11-3031.01,Microsoft Office software,Office suite software,Y
+11-3031.01,Microsoft PowerPoint,Presentation software,Y
+11-3031.01,SAP software,Enterprise resource planning ERP software,Y
+11-3031.03,Microsoft Excel,Spreadsheet software,Y
+11-3031.03,Microsoft Office software,Office suite software,Y
+11-3031.03,Microsoft PowerPoint,Presentation software,Y
+11-3051.00,Microsoft Excel,Spreadsheet software,Y
+11-3051.00,Microsoft Office software,Office suite software,Y
+11-3051.00,Microsoft Outlook,Electronic mail software,Y
+11-3051.00,Microsoft PowerPoint,Presentation software,Y
+11-3051.00,SAP software,Enterprise resource planning ERP software,Y
+11-3051.01,Microsoft Excel,Spreadsheet software,Y
+11-3051.01,Microsoft Office software,Office suite software,Y
+11-3051.01,Microsoft Outlook,Electronic mail software,Y
+11-3051.01,Microsoft PowerPoint,Presentation software,Y
+11-3061.00,Microsoft Excel,Spreadsheet software,Y
+11-3061.00,Microsoft Office software,Office suite software,Y
+11-3061.00,Microsoft Outlook,Electronic mail software,Y
+11-3061.00,Microsoft PowerPoint,Presentation software,Y
+11-3061.00,Purchasing software,Procurement software,N
+11-3061.00,SAP software,Enterprise resource planning ERP software,Y
+11-3071.00,Microsoft Excel,Spreadsheet software,Y
+11-3071.00,Microsoft Office software,Office suite software,Y
+11-3071.00,Microsoft Outlook,Electronic mail software,Y
+11-3071.00,Microsoft PowerPoint,Presentation software,Y
+11-3071.00,Warehouse management system WMS,Materials requirements planning logistics and supply chain software,N
+11-3071.04,Inventory management systems,Inventory management software,N
+11-3071.04,Microsoft Excel,Spreadsheet software,Y
+11-3071.04,Microsoft Office software,Office suite software,Y
+11-3071.04,Microsoft Outlook,Electronic mail software,Y
+11-3071.04,Microsoft PowerPoint,Presentation software,Y
+11-3071.04,SAP software,Enterprise resource planning ERP software,Y
+11-3071.04,Warehouse management system WMS,Materials requirements planning logistics and supply chain software,N
+11-3111.00,Microsoft Excel,Spreadsheet software,Y
+11-3111.00,Microsoft Office software,Office suite software,Y
+11-3111.00,Microsoft PowerPoint,Presentation software,Y
+11-3111.00,Oracle HRIS,Human resources software,N
+11-3111.00,Workday software,Enterprise resource planning ERP software,Y
+11-3121.00,Applicant tracking software,Human resources software,N
+11-3121.00,Microsoft Excel,Spreadsheet software,Y
+11-3121.00,Microsoft Office software,Office suite software,Y
+11-3121.00,Microsoft Outlook,Electronic mail software,Y
+11-3121.00,Microsoft PowerPoint,Presentation software,Y
+11-3121.00,Oracle HRIS,Human resources software,N
+11-3121.00,Workday software,Enterprise resource planning ERP software,Y
+11-3131.00,Learning management system LMS,Computer based training software,N
+11-3131.00,Microsoft Excel,Spreadsheet software,Y
+11-3131.00,Microsoft Office software,Office suite software,Y
+11-3131.00,Microsoft Outlook,Electronic mail software,Y
+11-3131.00,Microsoft PowerPoint,Presentation software,Y
+11-9013.00,Microsoft Excel,Spreadsheet software,Y
+11-9013.00,Microsoft Office software,Office suite software,Y
+11-9021.00,Microsoft Excel,Spreadsheet software,Y
+11-9021.00,Microsoft Office software,Office suite software,Y
+11-9021.00,Microsoft Outlook,Electronic mail software,Y
+11-9021.00,Microsoft PowerPoint,Presentation software,Y
+11-9021.00,Microsoft Project,Project management software,Y
+11-9021.00,Procore software,Analytical or scientific software,Y
+11-9031.00,Microsoft Office software,Office suite software,Y
+11-9032.00,Microsoft Excel,Spreadsheet software,Y
+11-9032.00,Microsoft Office software,Office suite software,Y
+11-9032.00,Student information systems SIS software,Data base user interface and query software,N
+11-9033.00,Microsoft Excel,Spreadsheet software,Y
+11-9033.00,Microsoft Office software,Office suite software,Y
+11-9033.00,Microsoft Outlook,Electronic mail software,Y
+11-9033.00,Microsoft PowerPoint,Presentation software,Y
+11-9033.00,Student information systems SIS software,Data base user interface and query software,N
+11-9041.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+11-9041.00,Microsoft Excel,Spreadsheet software,Y
+11-9041.00,Microsoft Office software,Office suite software,Y
+11-9041.00,Microsoft PowerPoint,Presentation software,Y
+11-9051.00,Microsoft Office software,Office suite software,Y
+11-9071.00,Microsoft Excel,Spreadsheet software,Y
+11-9071.00,Microsoft Office software,Office suite software,Y
+11-9071.00,Microsoft Outlook,Electronic mail software,Y
+11-9072.00,Microsoft Excel,Spreadsheet software,Y
+11-9072.00,Microsoft Office software,Office suite software,Y
+11-9081.00,Microsoft Excel,Spreadsheet software,Y
+11-9081.00,Microsoft Office software,Office suite software,Y
+11-9081.00,Microsoft Outlook,Electronic mail software,Y
+11-9081.00,Property management system PMS software,Data base user interface and query software,N
+11-9111.00,Microsoft Excel,Spreadsheet software,Y
+11-9111.00,Microsoft Office software,Office suite software,Y
+11-9111.00,Microsoft Outlook,Electronic mail software,Y
+11-9111.00,Microsoft PowerPoint,Presentation software,Y
+11-9121.00,Microsoft Excel,Spreadsheet software,Y
+11-9121.00,Microsoft Office software,Office suite software,Y
+11-9121.00,Microsoft PowerPoint,Presentation software,Y
+11-9121.01,Clinical trial management software,Data base user interface and query software,N
+11-9121.01,Microsoft Excel,Spreadsheet software,Y
+11-9121.01,Microsoft Office software,Office suite software,Y
+11-9121.01,Microsoft PowerPoint,Presentation software,Y
+11-9121.02,ESRI ArcGIS software,Geographic information system,Y
+11-9121.02,Geographic information system GIS systems,Geographic information system,N
+11-9121.02,Microsoft Excel,Spreadsheet software,Y
+11-9121.02,Microsoft Office software,Office suite software,Y
+11-9131.00,Microsoft Excel,Spreadsheet software,Y
+11-9131.00,Microsoft Office software,Office suite software,Y
+11-9131.00,Microsoft Outlook,Electronic mail software,Y
+11-9141.00,Microsoft Excel,Spreadsheet software,Y
+11-9141.00,Microsoft Office software,Office suite software,Y
+11-9141.00,Microsoft Outlook,Electronic mail software,Y
+11-9141.00,Microsoft Word,Word processing software,Y
+11-9141.00,Yardi software,Data base user interface and query software,Y
+11-9151.00,Microsoft Office software,Office suite software,Y
+11-9161.00,Microsoft Excel,Spreadsheet software,Y
+11-9161.00,Microsoft Office software,Office suite software,Y
+11-9161.00,Microsoft Outlook,Electronic mail software,Y
+11-9161.00,Microsoft PowerPoint,Presentation software,Y
+11-9171.00,Microsoft Excel,Spreadsheet software,Y
+11-9171.00,Microsoft Office software,Office suite software,Y
+11-9171.00,Microsoft PowerPoint,Presentation software,Y
+11-9179.01,Microsoft Excel,Spreadsheet software,Y
+11-9179.01,Microsoft Office software,Office suite software,Y
+11-9179.02,Microsoft Office software,Office suite software,Y
+11-9199.01,Microsoft Excel,Spreadsheet software,Y
+11-9199.01,Microsoft Office software,Office suite software,Y
+11-9199.01,Microsoft Outlook,Electronic mail software,Y
+11-9199.01,Microsoft PowerPoint,Presentation software,Y
+11-9199.02,Microsoft Excel,Spreadsheet software,Y
+11-9199.02,Microsoft Office software,Office suite software,Y
+11-9199.02,Microsoft Outlook,Electronic mail software,Y
+11-9199.02,Microsoft PowerPoint,Presentation software,Y
+11-9199.08,Enterprise application integration EAI software,Enterprise application integration software,N
+11-9199.08,Google Workspace software,Office suite software,Y
+11-9199.08,Microsoft Excel,Spreadsheet software,Y
+11-9199.08,Microsoft Office software,Office suite software,Y
+11-9199.08,Microsoft Outlook,Electronic mail software,Y
+11-9199.08,Microsoft PowerPoint,Presentation software,Y
+11-9199.08,Reporting software,Data base reporting software,N
+11-9199.11,Business software applications,Office suite software,N
+11-9199.11,Microsoft Excel,Spreadsheet software,Y
+11-9199.11,Microsoft Office software,Office suite software,Y
+13-1021.00,Microsoft Excel,Spreadsheet software,Y
+13-1021.00,Microsoft Office software,Office suite software,Y
+13-1021.00,Microsoft Outlook,Electronic mail software,Y
+13-1021.00,Microsoft PowerPoint,Presentation software,Y
+13-1021.00,Microsoft Word,Word processing software,Y
+13-1021.00,Purchasing software,Procurement software,N
+13-1021.00,SAP software,Enterprise resource planning ERP software,Y
+13-1022.00,Microsoft Excel,Spreadsheet software,Y
+13-1022.00,Microsoft Office software,Office suite software,Y
+13-1022.00,Microsoft Outlook,Electronic mail software,Y
+13-1022.00,Microsoft PowerPoint,Presentation software,Y
+13-1022.00,Purchasing software,Procurement software,N
+13-1022.00,SAP software,Enterprise resource planning ERP software,Y
+13-1023.00,Microsoft Excel,Spreadsheet software,Y
+13-1023.00,Microsoft Office software,Office suite software,Y
+13-1023.00,Microsoft Outlook,Electronic mail software,Y
+13-1023.00,Microsoft PowerPoint,Presentation software,Y
+13-1023.00,Microsoft SharePoint,Document management software,Y
+13-1023.00,Microsoft Word,Word processing software,Y
+13-1023.00,SAP software,Enterprise resource planning ERP software,Y
+13-1031.00,Microsoft Excel,Spreadsheet software,Y
+13-1031.00,Microsoft Office software,Office suite software,Y
+13-1031.00,Microsoft Outlook,Electronic mail software,Y
+13-1031.00,Xactware Xactimate,Data base user interface and query software,N
+13-1032.00,Disassembler software,Compiler and decompiler software,N
+13-1032.00,Microsoft Office software,Office suite software,Y
+13-1041.00,Microsoft Excel,Spreadsheet software,Y
+13-1041.00,Microsoft Office software,Office suite software,Y
+13-1041.00,Microsoft Outlook,Electronic mail software,Y
+13-1041.00,Microsoft PowerPoint,Presentation software,Y
+13-1041.00,Microsoft Word,Word processing software,Y
+13-1041.01,Microsoft Excel,Spreadsheet software,Y
+13-1041.01,Microsoft Office software,Office suite software,Y
+13-1041.01,Microsoft PowerPoint,Presentation software,Y
+13-1041.03,Microsoft Excel,Spreadsheet software,Y
+13-1041.03,Microsoft Office software,Office suite software,Y
+13-1041.04,Apple iOS,Operating system software,Y
+13-1041.04,Google Workspace software,Office suite software,Y
+13-1041.04,Microsoft Excel,Spreadsheet software,Y
+13-1041.04,Microsoft Outlook,Electronic mail software,Y
+13-1041.04,Microsoft Word,Word processing software,Y
+13-1041.06,Microsoft Office software,Office suite software,Y
+13-1041.07,Microsoft Excel,Spreadsheet software,Y
+13-1041.07,Microsoft Office software,Office suite software,Y
+13-1041.07,Microsoft Outlook,Electronic mail software,Y
+13-1041.07,Microsoft PowerPoint,Presentation software,Y
+13-1041.07,Microsoft Word,Word processing software,Y
+13-1041.08,Microsoft Excel,Spreadsheet software,Y
+13-1041.08,Microsoft Office software,Office suite software,Y
+13-1041.08,Microsoft Outlook,Electronic mail software,Y
+13-1041.08,Microsoft PowerPoint,Presentation software,Y
+13-1041.08,Microsoft Word,Word processing software,Y
+13-1051.00,ConstructConnect PlanSwift,Project management software,N
+13-1051.00,Microsoft Excel,Spreadsheet software,Y
+13-1051.00,Microsoft Office software,Office suite software,Y
+13-1051.00,Microsoft Outlook,Electronic mail software,Y
+13-1051.00,On Center On-Screen Takeoff,Project management software,N
+13-1071.00,Applicant tracking software,Human resources software,N
+13-1071.00,Microsoft Excel,Spreadsheet software,Y
+13-1071.00,Microsoft Office software,Office suite software,Y
+13-1071.00,Microsoft Outlook,Electronic mail software,Y
+13-1071.00,Microsoft PowerPoint,Presentation software,Y
+13-1071.00,Oracle HRIS,Human resources software,N
+13-1071.00,Workday software,Enterprise resource planning ERP software,Y
+13-1075.00,Microsoft Excel,Spreadsheet software,Y
+13-1075.00,Microsoft Office software,Office suite software,Y
+13-1075.00,Microsoft Outlook,Electronic mail software,Y
+13-1075.00,Microsoft PowerPoint,Presentation software,Y
+13-1075.00,Oracle HRIS,Human resources software,N
+13-1075.00,ServiceNow,Data base user interface and query software,Y
+13-1075.00,Workday software,Enterprise resource planning ERP software,Y
+13-1081.00,Microsoft Excel,Spreadsheet software,Y
+13-1081.00,Microsoft Office software,Office suite software,Y
+13-1081.00,Microsoft Outlook,Electronic mail software,Y
+13-1081.00,Microsoft PowerPoint,Presentation software,Y
+13-1081.00,SAP software,Enterprise resource planning ERP software,Y
+13-1081.01,Microsoft Excel,Spreadsheet software,Y
+13-1081.01,Microsoft Office software,Office suite software,Y
+13-1081.01,Microsoft PowerPoint,Presentation software,Y
+13-1081.01,SAP software,Enterprise resource planning ERP software,Y
+13-1081.02,Inventory management systems,Inventory management software,N
+13-1081.02,Microsoft Access,Data base user interface and query software,Y
+13-1081.02,Microsoft Excel,Spreadsheet software,Y
+13-1081.02,Microsoft Office software,Office suite software,Y
+13-1081.02,Microsoft Outlook,Electronic mail software,Y
+13-1081.02,Microsoft Power BI,Business intelligence and data analysis software,Y
+13-1081.02,Microsoft PowerPoint,Presentation software,Y
+13-1081.02,SAP software,Enterprise resource planning ERP software,Y
+13-1081.02,Structured query language SQL,Data base user interface and query software,Y
+13-1081.02,Tableau,Business intelligence and data analysis software,Y
+13-1082.00,Atlassian JIRA,Content workflow software,Y
+13-1082.00,Microsoft Excel,Spreadsheet software,Y
+13-1082.00,Microsoft Office software,Office suite software,Y
+13-1082.00,Microsoft Outlook,Electronic mail software,Y
+13-1082.00,Microsoft PowerPoint,Presentation software,Y
+13-1082.00,Microsoft Project,Project management software,Y
+13-1111.00,Atlassian JIRA,Content workflow software,Y
+13-1111.00,Microsoft Excel,Spreadsheet software,Y
+13-1111.00,Microsoft Office software,Office suite software,Y
+13-1111.00,Microsoft Power BI,Business intelligence and data analysis software,Y
+13-1111.00,Microsoft PowerPoint,Presentation software,Y
+13-1111.00,Microsoft SharePoint,Document management software,Y
+13-1111.00,Microsoft Visio,Process mapping and design software,Y
+13-1111.00,Python,Object or component oriented development software,Y
+13-1111.00,Salesforce software,Customer relationship management CRM software,Y
+13-1111.00,Structured query language SQL,Data base user interface and query software,Y
+13-1111.00,Tableau,Business intelligence and data analysis software,Y
+13-1121.00,Microsoft Excel,Spreadsheet software,Y
+13-1121.00,Microsoft Office software,Office suite software,Y
+13-1121.00,Microsoft Outlook,Electronic mail software,Y
+13-1121.00,Microsoft PowerPoint,Presentation software,Y
+13-1131.00,Blackbaud The Raiser's Edge,Customer relationship management CRM software,N
+13-1131.00,Microsoft Excel,Spreadsheet software,Y
+13-1131.00,Microsoft Office software,Office suite software,Y
+13-1131.00,Microsoft Outlook,Electronic mail software,Y
+13-1131.00,Microsoft PowerPoint,Presentation software,Y
+13-1131.00,Microsoft Word,Word processing software,Y
+13-1131.00,Salesforce software,Customer relationship management CRM software,Y
+13-1141.00,Microsoft Excel,Spreadsheet software,Y
+13-1141.00,Microsoft Office software,Office suite software,Y
+13-1141.00,Microsoft Outlook,Electronic mail software,Y
+13-1141.00,Microsoft PowerPoint,Presentation software,Y
+13-1141.00,Oracle HRIS,Human resources software,N
+13-1141.00,Workday software,Enterprise resource planning ERP software,Y
+13-1151.00,Learning management system LMS,Computer based training software,N
+13-1151.00,Microsoft Excel,Spreadsheet software,Y
+13-1151.00,Microsoft Office software,Office suite software,Y
+13-1151.00,Microsoft Outlook,Electronic mail software,Y
+13-1151.00,Microsoft PowerPoint,Presentation software,Y
+13-1161.00,Adobe Creative Cloud software,Graphics or photo imaging software,Y
+13-1161.00,Canva,Graphics or photo imaging software,Y
+13-1161.00,Google Analytics,Data mining software,Y
+13-1161.00,Microsoft Excel,Spreadsheet software,Y
+13-1161.00,Microsoft Office software,Office suite software,Y
+13-1161.00,Microsoft Outlook,Electronic mail software,Y
+13-1161.00,Microsoft PowerPoint,Presentation software,Y
+13-1161.00,Salesforce software,Customer relationship management CRM software,Y
+13-1161.00,TikTok,Video creation and editing software,Y
+13-1161.01,Adobe Analytics,Analytical or scientific software,N
+13-1161.01,Ahrefs Site Explorer,Web platform development software,N
+13-1161.01,Bing Ads,Sales and marketing software,N
+13-1161.01,Cascading style sheets CSS,Web platform development software,Y
+13-1161.01,Content management systems CMS,Web page creation and editing software,N
+13-1161.01,Google,Data base user interface and query software,N
+13-1161.01,Google Ads,Sales and marketing software,N
+13-1161.01,Google Analytics,Data mining software,Y
+13-1161.01,Google Looker Analytics,Business intelligence and data analysis software,Y
+13-1161.01,Google Tag Manager,Sales and marketing software,N
+13-1161.01,Hypertext markup language HTML,Web platform development software,Y
+13-1161.01,JavaScript,Web platform development software,Y
+13-1161.01,Microsoft Excel,Spreadsheet software,Y
+13-1161.01,Microsoft Office software,Office suite software,Y
+13-1161.01,Microsoft PowerPoint,Presentation software,Y
+13-1161.01,Moz search engine optimization SEO software,Web platform development software,N
+13-1161.01,Python,Object or component oriented development software,Y
+13-1161.01,Screaming Frog SEO Spider,Web platform development software,N
+13-1161.01,Semrush,Web platform development software,N
+13-1161.01,WordPress,Web page creation and editing software,Y
+13-1199.04,Atlassian JIRA,Content workflow software,Y
+13-1199.04,Microsoft Excel,Spreadsheet software,Y
+13-1199.04,Microsoft Office software,Office suite software,Y
+13-1199.04,Microsoft PowerPoint,Presentation software,Y
+13-1199.04,Microsoft SharePoint,Document management software,Y
+13-1199.04,ServiceNow,Data base user interface and query software,Y
+13-1199.05,Microsoft Excel,Spreadsheet software,Y
+13-1199.05,Microsoft Office software,Office suite software,Y
+13-1199.05,Microsoft Outlook,Electronic mail software,Y
+13-1199.05,Microsoft Power BI,Business intelligence and data analysis software,Y
+13-1199.05,Microsoft PowerPoint,Presentation software,Y
+13-1199.05,Tableau,Business intelligence and data analysis software,Y
+13-1199.06,Google Analytics,Data mining software,Y
+13-1199.06,Microsoft Excel,Spreadsheet software,Y
+13-1199.06,Microsoft Office software,Office suite software,Y
+13-1199.06,Microsoft PowerPoint,Presentation software,Y
+13-1199.06,Shopify software,Point of sale POS software,N
+13-1199.07,Amazon Web Services AWS software,Data base user interface and query software,Y
+13-1199.07,Firewall software,Network security and virtual private network VPN equipment software,N
+13-1199.07,Linux,Operating system software,Y
+13-1199.07,MITRE ATT&CK software,Program testing software,N
+13-1199.07,Microsoft Active Directory,Internet directory services software,Y
+13-1199.07,Microsoft Azure software,Development environment software,Y
+13-1199.07,Microsoft Excel,Spreadsheet software,Y
+13-1199.07,Microsoft Office software,Office suite software,Y
+13-1199.07,Microsoft PowerPoint,Presentation software,Y
+13-2011.00,Intuit QuickBooks,Accounting software,Y
+13-2011.00,Microsoft Excel,Spreadsheet software,Y
+13-2011.00,Microsoft Office software,Office suite software,Y
+13-2011.00,Microsoft Outlook,Electronic mail software,Y
+13-2011.00,Microsoft PowerPoint,Presentation software,Y
+13-2011.00,SAP software,Enterprise resource planning ERP software,Y
+13-2023.00,Microsoft Excel,Spreadsheet software,Y
+13-2023.00,Microsoft Office software,Office suite software,Y
+13-2023.00,Microsoft Outlook,Electronic mail software,Y
+13-2023.00,Microsoft PowerPoint,Presentation software,Y
+13-2023.00,Microsoft Word,Word processing software,Y
+13-2031.00,Microsoft Access,Data base user interface and query software,Y
+13-2031.00,Microsoft Excel,Spreadsheet software,Y
+13-2031.00,Microsoft Office software,Office suite software,Y
+13-2031.00,Microsoft Outlook,Electronic mail software,Y
+13-2031.00,Microsoft Power BI,Business intelligence and data analysis software,Y
+13-2031.00,Microsoft PowerPoint,Presentation software,Y
+13-2031.00,Microsoft Word,Word processing software,Y
+13-2031.00,SAP software,Enterprise resource planning ERP software,Y
+13-2041.00,Microsoft Excel,Spreadsheet software,Y
+13-2041.00,Microsoft Office software,Office suite software,Y
+13-2041.00,Microsoft Outlook,Electronic mail software,Y
+13-2041.00,Microsoft PowerPoint,Presentation software,Y
+13-2041.00,Microsoft Word,Word processing software,Y
+13-2051.00,Microsoft Excel,Spreadsheet software,Y
+13-2051.00,Microsoft Office software,Office suite software,Y
+13-2051.00,Microsoft Outlook,Electronic mail software,Y
+13-2051.00,Microsoft Power BI,Business intelligence and data analysis software,Y
+13-2051.00,Microsoft PowerPoint,Presentation software,Y
+13-2051.00,SAP software,Enterprise resource planning ERP software,Y
+13-2051.00,Structured query language SQL,Data base user interface and query software,Y
+13-2051.00,Tableau,Business intelligence and data analysis software,Y
+13-2052.00,Microsoft Excel,Spreadsheet software,Y
+13-2052.00,Microsoft Office software,Office suite software,Y
+13-2052.00,Microsoft PowerPoint,Presentation software,Y
+13-2053.00,Microsoft Excel,Spreadsheet software,Y
+13-2053.00,Microsoft Office software,Office suite software,Y
+13-2053.00,Microsoft Outlook,Electronic mail software,Y
+13-2053.00,Microsoft PowerPoint,Presentation software,Y
+13-2054.00,Microsoft Excel,Spreadsheet software,Y
+13-2054.00,Microsoft Office software,Office suite software,Y
+13-2054.00,Microsoft Power BI,Business intelligence and data analysis software,Y
+13-2054.00,Microsoft PowerPoint,Presentation software,Y
+13-2054.00,Python,Object or component oriented development software,Y
+13-2054.00,R,Object or component oriented development software,Y
+13-2054.00,Structured query language SQL,Data base user interface and query software,Y
+13-2054.00,Tableau,Business intelligence and data analysis software,Y
+13-2061.00,Microsoft Excel,Spreadsheet software,Y
+13-2061.00,Microsoft Office software,Office suite software,Y
+13-2061.00,Microsoft Outlook,Electronic mail software,Y
+13-2061.00,Microsoft PowerPoint,Presentation software,Y
+13-2061.00,Microsoft Word,Word processing software,Y
+13-2071.00,Microsoft Excel,Spreadsheet software,Y
+13-2071.00,Microsoft Office software,Office suite software,Y
+13-2071.00,Microsoft Outlook,Electronic mail software,Y
+13-2071.00,Microsoft PowerPoint,Presentation software,Y
+13-2071.00,Microsoft Word,Word processing software,Y
+13-2072.00,Microsoft Excel,Spreadsheet software,Y
+13-2072.00,Microsoft Office software,Office suite software,Y
+13-2072.00,Microsoft Outlook,Electronic mail software,Y
+13-2081.00,Alteryx software,Business intelligence and data analysis software,Y
+13-2081.00,Microsoft Excel,Spreadsheet software,Y
+13-2081.00,Microsoft Office software,Office suite software,Y
+13-2081.00,Microsoft Outlook,Electronic mail software,Y
+13-2081.00,Microsoft PowerPoint,Presentation software,Y
+13-2081.00,SAP software,Enterprise resource planning ERP software,Y
+13-2081.00,Tax compliance property tax management software,Compliance software,N
+13-2081.00,Tax software,Accounting software,N
+13-2082.00,Intuit TurboTax,Tax preparation software,Y
+13-2082.00,Microsoft Excel,Spreadsheet software,Y
+13-2082.00,Microsoft Office software,Office suite software,Y
+13-2082.00,Tax compliance property tax management software,Compliance software,N
+13-2082.00,Tax software,Accounting software,N
+13-2099.01,C++,Object or component oriented development software,Y
+13-2099.01,Microsoft Excel,Spreadsheet software,Y
+13-2099.01,Microsoft Office software,Office suite software,Y
+13-2099.01,Microsoft PowerPoint,Presentation software,Y
+13-2099.01,Microsoft Visual Basic for Applications VBA,Development environment software,Y
+13-2099.01,Python,Object or component oriented development software,Y
+13-2099.01,R,Object or component oriented development software,Y
+13-2099.01,SAS,Analytical or scientific software,Y
+13-2099.01,Structured query language SQL,Data base user interface and query software,Y
+13-2099.01,Tableau,Business intelligence and data analysis software,Y
+13-2099.01,The MathWorks MATLAB,Analytical or scientific software,Y
+13-2099.04,Microsoft Excel,Spreadsheet software,Y
+13-2099.04,Microsoft Office software,Office suite software,Y
+13-2099.04,Microsoft Outlook,Electronic mail software,Y
+13-2099.04,Microsoft PowerPoint,Presentation software,Y
+13-2099.04,Microsoft Word,Word processing software,Y
+13-2099.04,Structured query language SQL,Data base user interface and query software,Y
+15-1211.00,Atlassian JIRA,Content workflow software,Y
+15-1211.00,Microsoft Excel,Spreadsheet software,Y
+15-1211.00,Microsoft Office software,Office suite software,Y
+15-1211.00,Microsoft Power BI,Business intelligence and data analysis software,Y
+15-1211.00,Microsoft PowerPoint,Presentation software,Y
+15-1211.00,Microsoft SharePoint,Document management software,Y
+15-1211.00,Python,Object or component oriented development software,Y
+15-1211.00,SAP software,Enterprise resource planning ERP software,Y
+15-1211.00,ServiceNow,Data base user interface and query software,Y
+15-1211.00,Structured query language SQL,Data base user interface and query software,Y
+15-1211.01,Microsoft Excel,Spreadsheet software,Y
+15-1211.01,Microsoft Office software,Office suite software,Y
+15-1211.01,Microsoft Outlook,Electronic mail software,Y
+15-1211.01,Microsoft Power BI,Business intelligence and data analysis software,Y
+15-1211.01,Microsoft PowerPoint,Presentation software,Y
+15-1211.01,Microsoft Word,Word processing software,Y
+15-1211.01,Python,Object or component oriented development software,Y
+15-1211.01,R,Object or component oriented development software,Y
+15-1211.01,SAS,Analytical or scientific software,Y
+15-1211.01,Structured query language SQL,Data base user interface and query software,Y
+15-1211.01,Tableau,Business intelligence and data analysis software,Y
+15-1212.00,Amazon Web Services AWS software,Data base user interface and query software,Y
+15-1212.00,Firewall software,Network security and virtual private network VPN equipment software,N
+15-1212.00,Linux,Operating system software,Y
+15-1212.00,MITRE ATT&CK software,Program testing software,N
+15-1212.00,Microsoft Azure software,Development environment software,Y
+15-1212.00,Microsoft Excel,Spreadsheet software,Y
+15-1212.00,Microsoft Office software,Office suite software,Y
+15-1212.00,Microsoft PowerPoint,Presentation software,Y
+15-1212.00,Microsoft PowerShell,Development environment software,Y
+15-1212.00,Python,Object or component oriented development software,Y
+15-1212.00,Splunk Enterprise,Cloud-based management software,Y
+15-1212.00,Tenable Nessus,Transaction security and virus protection software,N
+15-1212.00,UNIX,Operating system software,Y
+15-1212.00,eMASS,Risk management data and analysis software,N
+15-1221.00,Amazon Web Services AWS SageMaker,Cloud-based management software,N
+15-1221.00,Amazon Web Services AWS software,Data base user interface and query software,Y
+15-1221.00,Ansible software,Expert system software,Y
+15-1221.00,Apache Hadoop,Data base management system software,Y
+15-1221.00,Apache Kafka,Development environment software,Y
+15-1221.00,Apache Spark,Business intelligence and data analysis software,Y
+15-1221.00,Bash,Operating system software,Y
+15-1221.00,C,Development environment software,Y
+15-1221.00,C++,Object or component oriented development software,Y
+15-1221.00,Docker,Application server software,Y
+15-1221.00,Git,File versioning software,Y
+15-1221.00,GitHub,Application server software,Y
+15-1221.00,Go,Development environment software,Y
+15-1221.00,Grafana Labs Grafana Cloud,Graphical user interface development software,Y
+15-1221.00,Hugging Face,Development environment software,N
+15-1221.00,IBM Terraform,Configuration management software,Y
+15-1221.00,JavaScript,Web platform development software,Y
+15-1221.00,Jenkins CI,Enterprise application integration software,Y
+15-1221.00,Kubernetes,Application server software,Y
+15-1221.00,LangChain,Object or component oriented development software,N
+15-1221.00,Linux,Operating system software,Y
+15-1221.00,Microsoft Azure software,Development environment software,Y
+15-1221.00,Oracle Java,Object or component oriented development software,Y
+15-1221.00,Prometheus,Data base user interface and query software,Y
+15-1221.00,PyTorch,Data base user interface and query software,Y
+15-1221.00,Python,Object or component oriented development software,Y
+15-1221.00,R,Object or component oriented development software,Y
+15-1221.00,Scala,Object or component oriented development software,Y
+15-1221.00,Scikit-learn,Development environment software,N
+15-1221.00,Snowflake,Data mining software,Y
+15-1221.00,Structured query language SQL,Data base user interface and query software,Y
+15-1221.00,TensorFlow,Analytical or scientific software,Y
+15-1221.00,Vector database software,Data base management system software,N
+15-1221.00,pandas,Data base user interface and query software,N
+15-1231.00,Apple macOS,Operating system software,Y
+15-1231.00,Firewall software,Network security and virtual private network VPN equipment software,N
+15-1231.00,Linux,Operating system software,Y
+15-1231.00,Microsoft Active Directory,Internet directory services software,Y
+15-1231.00,Microsoft Excel,Spreadsheet software,Y
+15-1231.00,Microsoft Office software,Office suite software,Y
+15-1231.00,Microsoft Outlook,Electronic mail software,Y
+15-1231.00,Microsoft Windows,Operating system software,Y
+15-1231.00,Microsoft Windows Server,Operating system software,Y
+15-1231.00,ServiceNow,Data base user interface and query software,Y
+15-1232.00,Apple iOS,Operating system software,Y
+15-1232.00,Apple macOS,Operating system software,Y
+15-1232.00,Firewall software,Network security and virtual private network VPN equipment software,N
+15-1232.00,Linux,Operating system software,Y
+15-1232.00,Microsoft Active Directory,Internet directory services software,Y
+15-1232.00,Microsoft Azure software,Development environment software,Y
+15-1232.00,Microsoft Excel,Spreadsheet software,Y
+15-1232.00,Microsoft Office software,Office suite software,Y
+15-1232.00,Microsoft Outlook,Electronic mail software,Y
+15-1232.00,Microsoft Windows,Operating system software,Y
+15-1232.00,ServiceNow,Data base user interface and query software,Y
+15-1232.00,Structured query language SQL,Data base user interface and query software,Y
+15-1241.00,Amazon Web Services AWS software,Data base user interface and query software,Y
+15-1241.00,Ansible software,Expert system software,Y
+15-1241.00,Border Gateway Protocol BGP,Switch or router software,Y
+15-1241.00,Firewall software,Network security and virtual private network VPN equipment software,N
+15-1241.00,IBM Terraform,Configuration management software,Y
+15-1241.00,Linux,Operating system software,Y
+15-1241.00,Microsoft Azure software,Development environment software,Y
+15-1241.00,Microsoft Excel,Spreadsheet software,Y
+15-1241.00,Microsoft Office software,Office suite software,Y
+15-1241.00,Microsoft PowerShell,Development environment software,Y
+15-1241.00,Oracle Java,Object or component oriented development software,Y
+15-1241.00,Python,Object or component oriented development software,Y
+15-1241.00,Structured query language SQL,Data base user interface and query software,Y
+15-1241.01,Autodesk AutoCAD,Computer aided design CAD software,Y
+15-1241.01,Autodesk Navisworks,Computer aided design CAD software,N
+15-1241.01,Autodesk Revit,Computer aided design CAD software,Y
+15-1241.01,Firewall software,Network security and virtual private network VPN equipment software,N
+15-1241.01,Microsoft Excel,Spreadsheet software,Y
+15-1241.01,Microsoft Office software,Office suite software,Y
+15-1241.01,Microsoft Outlook,Electronic mail software,Y
+15-1241.01,Microsoft PowerPoint,Presentation software,Y
+15-1241.01,Microsoft Visio,Process mapping and design software,Y
+15-1241.01,Microsoft Word,Word processing software,Y
+15-1241.01,NavisWorks Jetstream,Computer aided design CAD software,N
+15-1242.00,Amazon Redshift,Data base user interface and query software,Y
+15-1242.00,Amazon Web Services AWS software,Data base user interface and query software,Y
+15-1242.00,Apache Airflow,Procedure management software,Y
+15-1242.00,Apache Hadoop,Data base management system software,Y
+15-1242.00,Apache Kafka,Development environment software,Y
+15-1242.00,Apache Spark,Business intelligence and data analysis software,Y
+15-1242.00,Atlassian JIRA,Content workflow software,Y
+15-1242.00,Git,File versioning software,Y
+15-1242.00,GitHub,Application server software,Y
+15-1242.00,IBM Terraform,Configuration management software,Y
+15-1242.00,Informatica software,Metadata management software,Y
+15-1242.00,Kubernetes,Application server software,Y
+15-1242.00,Linux,Operating system software,Y
+15-1242.00,Microsoft Access,Data base user interface and query software,Y
+15-1242.00,Microsoft Azure Data Factory,Cloud-based management software,N
+15-1242.00,Microsoft Azure software,Development environment software,Y
+15-1242.00,Microsoft Power BI,Business intelligence and data analysis software,Y
+15-1242.00,Microsoft PowerShell,Development environment software,Y
+15-1242.00,Microsoft SQL Server,Data base user interface and query software,Y
+15-1242.00,Microsoft SQL Server Integration Services SSIS,Enterprise application integration software,Y
+15-1242.00,MongoDB,Data base management system software,Y
+15-1242.00,MySQL,Data base user interface and query software,Y
+15-1242.00,NoSQL,Data base management system software,Y
+15-1242.00,Oracle Database,Data base user interface and query software,Y
+15-1242.00,Oracle Java,Object or component oriented development software,Y
+15-1242.00,Oracle PL/SQL,Data base management system software,Y
+15-1242.00,PostgreSQL,Object oriented data base management software,Y
+15-1242.00,PySpark,Data base user interface and query software,N
+15-1242.00,Python,Object or component oriented development software,Y
+15-1242.00,Relational database management system software,Data base management system software,N
+15-1242.00,Salesforce software,Customer relationship management CRM software,Y
+15-1242.00,Scala,Object or component oriented development software,Y
+15-1242.00,Shell script,Operating system software,Y
+15-1242.00,Snowflake,Data mining software,Y
+15-1242.00,Structured query language SQL,Data base user interface and query software,Y
+15-1242.00,Tableau,Business intelligence and data analysis software,Y
+15-1242.00,Transact-SQL,Object oriented data base management software,Y
+15-1242.00,UNIX,Operating system software,Y
+15-1243.00,Amazon Web Services AWS software,Data base user interface and query software,Y
+15-1243.00,Apache Kafka,Development environment software,Y
+15-1243.00,Apache Spark,Object or component oriented development software,Y
+15-1243.00,Microsoft Azure software,Development environment software,Y
+15-1243.00,Microsoft Excel,Spreadsheet software,Y
+15-1243.00,Microsoft Office software,Office suite software,Y
+15-1243.00,Microsoft Power BI,Business intelligence and data analysis software,Y
+15-1243.00,Microsoft PowerPoint,Presentation software,Y
+15-1243.00,Oracle Java,Object or component oriented development software,Y
+15-1243.00,Python,Object or component oriented development software,Y
+15-1243.00,Snowflake,Data mining software,Y
+15-1243.00,Structured query language SQL,Data base user interface and query software,Y
+15-1243.00,Tableau,Business intelligence and data analysis software,Y
+15-1243.01,Microsoft Access,Data base user interface and query software,Y
+15-1243.01,Microsoft Excel,Spreadsheet software,Y
+15-1243.01,Microsoft Office software,Office suite software,Y
+15-1243.01,Microsoft Outlook,Electronic mail software,Y
+15-1243.01,Microsoft Power BI,Business intelligence and data analysis software,Y
+15-1243.01,Microsoft PowerPoint,Presentation software,Y
+15-1243.01,Operational Data Store ODS software,Data base user interface and query software,N
+15-1243.01,Python,Object or component oriented development software,Y
+15-1243.01,Structured query language SQL,Data base user interface and query software,Y
+15-1243.01,Tableau,Business intelligence and data analysis software,Y
+15-1244.00,Amazon Web Services AWS software,Data base user interface and query software,Y
+15-1244.00,Ansible software,Expert system software,Y
+15-1244.00,Bash,Operating system software,Y
+15-1244.00,Firewall software,Network security and virtual private network VPN equipment software,N
+15-1244.00,Linux,Operating system software,Y
+15-1244.00,Microsoft Active Directory,Internet directory services software,Y
+15-1244.00,Microsoft Azure software,Development environment software,Y
+15-1244.00,Microsoft Excel,Spreadsheet software,Y
+15-1244.00,Microsoft Office software,Office suite software,Y
+15-1244.00,Microsoft Outlook,Electronic mail software,Y
+15-1244.00,Microsoft PowerShell,Development environment software,Y
+15-1244.00,Microsoft SharePoint,Document management software,Y
+15-1244.00,Microsoft Windows Server,Operating system software,Y
+15-1244.00,Python,Object or component oriented development software,Y
+15-1244.00,Red Hat Enterprise Linux,Operating system software,Y
+15-1244.00,ServiceNow,Data base user interface and query software,Y
+15-1244.00,Structured query language SQL,Data base user interface and query software,Y
+15-1244.00,UNIX,Operating system software,Y
+15-1251.00,C#,Object or component oriented development software,Y
+15-1251.00,C++,Object or component oriented development software,Y
+15-1251.00,Cascading style sheets CSS,Web platform development software,Y
+15-1251.00,Extensible markup language XML,Enterprise application integration software,Y
+15-1251.00,Git,File versioning software,Y
+15-1251.00,Hypertext markup language HTML,Web platform development software,Y
+15-1251.00,JavaScript,Web platform development software,Y
+15-1251.00,Linux,Operating system software,Y
+15-1251.00,Microsoft Azure software,Development environment software,Y
+15-1251.00,Microsoft Excel,Spreadsheet software,Y
+15-1251.00,Microsoft Office software,Office suite software,Y
+15-1251.00,Microsoft PowerPoint,Presentation software,Y
+15-1251.00,Microsoft SQL Server,Data base user interface and query software,Y
+15-1251.00,Microsoft Visual Studio,Development environment software,Y
+15-1251.00,Oracle Java,Object or component oriented development software,Y
+15-1251.00,Python,Object or component oriented development software,Y
+15-1251.00,R,Object or component oriented development software,Y
+15-1251.00,SAS,Analytical or scientific software,Y
+15-1251.00,Structured query language SQL,Data base user interface and query software,Y
+15-1252.00,Amazon Web Services AWS software,Data base user interface and query software,Y
+15-1252.00,Apache Kafka,Development environment software,Y
+15-1252.00,Atlassian JIRA,Content workflow software,Y
+15-1252.00,C,Development environment software,Y
+15-1252.00,C#,Object or component oriented development software,Y
+15-1252.00,C++,Object or component oriented development software,Y
+15-1252.00,Cascading style sheets CSS,Web platform development software,Y
+15-1252.00,Docker,Application server software,Y
+15-1252.00,Git,File versioning software,Y
+15-1252.00,GitHub,Application server software,Y
+15-1252.00,Go,Development environment software,Y
+15-1252.00,Google Angular,Web platform development software,Y
+15-1252.00,Hypertext markup language HTML,Web platform development software,Y
+15-1252.00,IBM Terraform,Configuration management software,Y
+15-1252.00,JavaScript,Web platform development software,Y
+15-1252.00,Jenkins CI,Enterprise application integration software,Y
+15-1252.00,Kubernetes,Application server software,Y
+15-1252.00,Linux,Operating system software,Y
+15-1252.00,Microsoft Azure software,Development environment software,Y
+15-1252.00,NoSQL,Data base management system software,Y
+15-1252.00,Node.js,Web platform development software,Y
+15-1252.00,Oracle Java,Object or component oriented development software,Y
+15-1252.00,PostgreSQL,Object oriented data base management software,Y
+15-1252.00,Python,Object or component oriented development software,Y
+15-1252.00,RESTful API,Web platform development software,N
+15-1252.00,React,Web platform development software,Y
+15-1252.00,Spring Boot,Application server software,Y
+15-1252.00,Spring Framework,Web platform development software,Y
+15-1252.00,Structured query language SQL,Data base user interface and query software,Y
+15-1252.00,TypeScript,Object or component oriented development software,Y
+15-1253.00,Amazon Web Services AWS software,Data base user interface and query software,Y
+15-1253.00,Apache JMeter,Object or component oriented development software,N
+15-1253.00,Appium,Program testing software,N
+15-1253.00,Atlassian JIRA,Project management software,Y
+15-1253.00,C#,Object or component oriented development software,Y
+15-1253.00,C++,Object or component oriented development software,Y
+15-1253.00,Git,File versioning software,Y
+15-1253.00,GitHub,Application server software,Y
+15-1253.00,JavaScript,Web platform development software,Y
+15-1253.00,Jenkins CI,Enterprise application integration software,Y
+15-1253.00,Linux,Operating system software,Y
+15-1253.00,Microsoft Azure DevOps Services,Development environment software,N
+15-1253.00,Microsoft Azure software,Development environment software,Y
+15-1253.00,Microsoft Excel,Spreadsheet software,Y
+15-1253.00,Microsoft Office software,Office suite software,Y
+15-1253.00,Microsoft Playwright,Program testing software,N
+15-1253.00,Oracle Java,Object or component oriented development software,Y
+15-1253.00,Postman,Operating system software,N
+15-1253.00,Python,Object or component oriented development software,Y
+15-1253.00,REST Assured,Program testing software,N
+15-1253.00,RESTful API,Web platform development software,N
+15-1253.00,Selenium,Program testing software,Y
+15-1253.00,Structured query language SQL,Data base user interface and query software,Y
+15-1253.00,TestNG,Program testing software,N
+15-1254.00,Amazon Web Services AWS software,Data base user interface and query software,Y
+15-1254.00,Apache Kafka,Development environment software,Y
+15-1254.00,Atlassian JIRA,Content workflow software,Y
+15-1254.00,C#,Object or component oriented development software,Y
+15-1254.00,Cascading style sheets CSS,Web platform development software,Y
+15-1254.00,Docker,Application server software,Y
+15-1254.00,Git,File versioning software,Y
+15-1254.00,GitHub,Application server software,Y
+15-1254.00,Go,Development environment software,Y
+15-1254.00,Google Angular,Web platform development software,Y
+15-1254.00,GraphQL,Data base user interface and query software,Y
+15-1254.00,Hypertext markup language HTML,Web platform development software,Y
+15-1254.00,JavaScript,Web platform development software,Y
+15-1254.00,JavaScript Object Notation JSON,Web platform development software,Y
+15-1254.00,JavaScript framework software,Web platform development software,N
+15-1254.00,Jenkins CI,Enterprise application integration software,Y
+15-1254.00,Kubernetes,Application server software,Y
+15-1254.00,Linux,Operating system software,Y
+15-1254.00,Microsoft Azure software,Development environment software,Y
+15-1254.00,MongoDB,Data base management system software,Y
+15-1254.00,MySQL,Data base management system software,Y
+15-1254.00,NoSQL,Data base management system software,Y
+15-1254.00,Node.js,Web platform development software,Y
+15-1254.00,Oracle Java,Object or component oriented development software,Y
+15-1254.00,PHP,Web platform development software,Y
+15-1254.00,PostgreSQL,Object oriented data base management software,Y
+15-1254.00,Python,Object or component oriented development software,Y
+15-1254.00,RESTful API,Web platform development software,N
+15-1254.00,React,Web platform development software,Y
+15-1254.00,Spring Boot,Application server software,Y
+15-1254.00,Spring Framework,Web platform development software,Y
+15-1254.00,Structured query language SQL,Data base user interface and query software,Y
+15-1254.00,TypeScript,Object or component oriented development software,Y
+15-1254.00,Vue.js,Web platform development software,Y
+15-1254.00,Web application software,Development environment software,N
+15-1254.00,WordPress,Web page creation and editing software,Y
+15-1254.00,jQuery,Object or component oriented development software,Y
+15-1255.00,Adobe Creative Cloud software,Graphics or photo imaging software,Y
+15-1255.00,Adobe Illustrator,Graphics or photo imaging software,Y
+15-1255.00,Adobe Photoshop,Graphics or photo imaging software,Y
+15-1255.00,Adobe XD,Graphics or photo imaging software,N
+15-1255.00,Atlassian JIRA,Content workflow software,Y
+15-1255.00,Cascading style sheets CSS,Web platform development software,Y
+15-1255.00,Figma,Graphical user interface development software,Y
+15-1255.00,Google Angular,Web platform development software,Y
+15-1255.00,Hypertext markup language HTML,Web platform development software,Y
+15-1255.00,JavaScript,Web platform development software,Y
+15-1255.00,React,Web platform development software,Y
+15-1255.00,TypeScript,Object or component oriented development software,Y
+15-1255.01,Adobe Photoshop,Graphics or photo imaging software,Y
+15-1255.01,Autodesk Maya,Graphics or photo imaging software,N
+15-1255.01,C#,Object or component oriented development software,Y
+15-1255.01,C++,Object or component oriented development software,Y
+15-1255.01,Python,Object or component oriented development software,Y
+15-1255.01,Unity Technologies Unity,Development environment software,N
+15-1255.01,Unreal Technology Unreal Engine,Development environment software,N
+15-1299.01,Adobe Photoshop,Graphics or photo imaging software,Y
+15-1299.01,Cascading style sheets CSS,Web platform development software,Y
+15-1299.01,Content management systems CMS,Web page creation and editing software,N
+15-1299.01,Drupal,Web platform development software,N
+15-1299.01,Google Analytics,Analytical or scientific software,Y
+15-1299.01,Hypertext markup language HTML,Web platform development software,Y
+15-1299.01,JavaScript,Web platform development software,Y
+15-1299.01,Microsoft Access,Data base user interface and query software,Y
+15-1299.01,Microsoft Active Directory,Internet directory services software,Y
+15-1299.01,Microsoft Internet Information Services (IIS),Transaction server software,N
+15-1299.01,Microsoft Internet Information Services (IIS) Manager,Transaction server software,N
+15-1299.01,Microsoft Office software,Office suite software,Y
+15-1299.01,Microsoft SQL Server,Data base user interface and query software,Y
+15-1299.01,Microsoft SharePoint,Document management software,Y
+15-1299.01,Oracle Java,Object or component oriented development software,Y
+15-1299.01,PHP,Web platform development software,Y
+15-1299.01,Software development tools,Development environment software,N
+15-1299.01,Structured query language SQL,Data base user interface and query software,Y
+15-1299.01,Web application framework software,Web platform development software,N
+15-1299.01,Web application software,Development environment software,N
+15-1299.01,Web server software,Transaction server software,N
+15-1299.01,WordPress,Web page creation and editing software,Y
+15-1299.02,Amazon Web Services AWS software,Data base user interface and query software,Y
+15-1299.02,Autodesk AutoCAD,Computer aided design CAD software,Y
+15-1299.02,ESRI ArcGIS ArcPy,Analytical or scientific software,N
+15-1299.02,ESRI ArcGIS Survey 123,Analytical or scientific software,N
+15-1299.02,ESRI ArcGIS software,Geographic information system,Y
+15-1299.02,Geographic information system GIS software,Geographic information system,N
+15-1299.02,Geographic information system GIS systems,Geographic information system,N
+15-1299.02,JavaScript,Web platform development software,Y
+15-1299.02,Microsoft Access,Data base user interface and query software,Y
+15-1299.02,Microsoft Azure software,Development environment software,Y
+15-1299.02,Microsoft Excel,Spreadsheet software,Y
+15-1299.02,Microsoft Office software,Office suite software,Y
+15-1299.02,Microsoft Outlook,Electronic mail software,Y
+15-1299.02,Microsoft PowerPoint,Presentation software,Y
+15-1299.02,Python,Object or component oriented development software,Y
+15-1299.02,QGIS,Geographic information system,N
+15-1299.02,RockWare ArcMap,Map creation software,N
+15-1299.02,Structured query language SQL,Data base user interface and query software,Y
+15-1299.03,Microsoft Excel,Spreadsheet software,Y
+15-1299.03,Microsoft Office software,Office suite software,Y
+15-1299.03,Microsoft Outlook,Electronic mail software,Y
+15-1299.03,Microsoft PowerPoint,Presentation software,Y
+15-1299.03,Microsoft SharePoint,Document management software,Y
+15-1299.03,Microsoft Word,Word processing software,Y
+15-1299.04,Amazon Web Services AWS software,Data base user interface and query software,Y
+15-1299.04,Bash,Operating system software,Y
+15-1299.04,C,Development environment software,Y
+15-1299.04,C#,Object or component oriented development software,Y
+15-1299.04,C++,Object or component oriented development software,Y
+15-1299.04,Firewall software,Network security and virtual private network VPN equipment software,N
+15-1299.04,JavaScript,Web platform development software,Y
+15-1299.04,Kali Linux,Program testing software,N
+15-1299.04,Linux,Operating system software,Y
+15-1299.04,MITRE ATT&CK software,Program testing software,N
+15-1299.04,Metasploit,Transaction security and virus protection software,N
+15-1299.04,Microsoft Active Directory,Internet directory services software,Y
+15-1299.04,Microsoft Azure software,Development environment software,Y
+15-1299.04,Microsoft PowerShell,Development environment software,Y
+15-1299.04,Nmap,Transaction security and virus protection software,N
+15-1299.04,Oracle Java,Object or component oriented development software,Y
+15-1299.04,Portswigger BurP Suite,Transaction security and virus protection software,N
+15-1299.04,Python,Object or component oriented development software,Y
+15-1299.04,Qualys Cloud Platform,Cloud-based protection or security software,N
+15-1299.04,Splunk Enterprise,Enterprise system management software,Y
+15-1299.04,Tenable Nessus,Transaction security and virus protection software,N
+15-1299.04,UNIX,Operating system software,Y
+15-1299.05,Amazon Web Services AWS software,Data base user interface and query software,Y
+15-1299.05,Bash,Operating system software,Y
+15-1299.05,Firewall software,Network security and virtual private network VPN equipment software,N
+15-1299.05,IBM Terraform,Configuration management software,Y
+15-1299.05,Kubernetes,Application server software,Y
+15-1299.05,Linux,Operating system software,Y
+15-1299.05,Microsoft Active Directory,Internet directory services software,Y
+15-1299.05,Microsoft Azure software,Development environment software,Y
+15-1299.05,Microsoft PowerShell,Development environment software,Y
+15-1299.05,Oracle Java,Object or component oriented development software,Y
+15-1299.05,Python,Object or component oriented development software,Y
+15-1299.05,Single sign-on SSO,Authentication server software,N
+15-1299.05,Splunk Enterprise,Enterprise system management software,Y
+15-1299.06,Amazon Web Services AWS software,Data base user interface and query software,Y
+15-1299.06,Firewall software,Network security and virtual private network VPN equipment software,N
+15-1299.06,Linux,Operating system software,Y
+15-1299.06,MITRE ATT&CK software,Program testing software,N
+15-1299.06,Microsoft PowerShell,Development environment software,Y
+15-1299.06,Python,Object or component oriented development software,Y
+15-1299.06,Splunk Enterprise,Enterprise system management software,Y
+15-1299.06,Structured query language SQL,Data base user interface and query software,Y
+15-1299.07,Amazon Web Services AWS software,Data base user interface and query software,Y
+15-1299.07,C#,Object or component oriented development software,Y
+15-1299.07,C++,Object or component oriented development software,Y
+15-1299.07,Docker,Application server software,Y
+15-1299.07,Git,File versioning software,Y
+15-1299.07,Go,Development environment software,Y
+15-1299.07,JavaScript,Web platform development software,Y
+15-1299.07,Kubernetes,Application server software,Y
+15-1299.07,Microsoft Azure software,Development environment software,Y
+15-1299.07,MongoDB,Data base management system software,Y
+15-1299.07,Node.js,Web platform development software,Y
+15-1299.07,Oracle Java,Object or component oriented development software,Y
+15-1299.07,PostgreSQL,Object oriented data base management software,Y
+15-1299.07,Python,Object or component oriented development software,Y
+15-1299.07,RESTful API,Web platform development software,N
+15-1299.07,React,Web platform development software,Y
+15-1299.07,Rust programming language,Development environment software,N
+15-1299.07,Solidity,Development environment software,N
+15-1299.07,Structured query language SQL,Data base user interface and query software,Y
+15-1299.07,TypeScript,Object or component oriented development software,Y
+15-1299.08,Amazon Web Services AWS CloudFormation,Cloud-based management software,Y
+15-1299.08,Amazon Web Services AWS software,Data base user interface and query software,Y
+15-1299.08,Ansible software,Expert system software,Y
+15-1299.08,Atlassian JIRA,Content workflow software,Y
+15-1299.08,Bash,Operating system software,Y
+15-1299.08,C++,Object or component oriented development software,Y
+15-1299.08,Docker,Application server software,Y
+15-1299.08,Firewall software,Network security and virtual private network VPN equipment software,N
+15-1299.08,Git,File versioning software,Y
+15-1299.08,GitHub,Application server software,Y
+15-1299.08,Go,Development environment software,Y
+15-1299.08,IBM Terraform,Configuration management software,Y
+15-1299.08,JavaScript,Web platform development software,Y
+15-1299.08,Jenkins CI,Enterprise application integration software,Y
+15-1299.08,Kubernetes,Application server software,Y
+15-1299.08,Linux,Operating system software,Y
+15-1299.08,Microsoft Active Directory,Internet directory services software,Y
+15-1299.08,Microsoft Azure software,Development environment software,Y
+15-1299.08,Microsoft PowerShell,Development environment software,Y
+15-1299.08,Oracle Java,Object or component oriented development software,Y
+15-1299.08,Python,Object or component oriented development software,Y
+15-1299.08,Structured query language SQL,Data base user interface and query software,Y
+15-1299.09,Amazon Web Services AWS software,Data base user interface and query software,Y
+15-1299.09,Atlassian Confluence,Project management software,Y
+15-1299.09,Atlassian JIRA,Project management software,Y
+15-1299.09,Microsoft Azure software,Development environment software,Y
+15-1299.09,Microsoft Excel,Spreadsheet software,Y
+15-1299.09,Microsoft Office software,Office suite software,Y
+15-1299.09,Microsoft PowerPoint,Presentation software,Y
+15-1299.09,SAP software,Enterprise resource planning ERP software,Y
+15-1299.09,ServiceNow,Data base user interface and query software,Y
+15-1299.09,Structured query language SQL,Data base user interface and query software,Y
+15-2011.00,Microsoft Excel,Spreadsheet software,Y
+15-2011.00,Microsoft Office software,Office suite software,Y
+15-2011.00,Microsoft Power BI,Business intelligence and data analysis software,Y
+15-2011.00,Microsoft PowerPoint,Presentation software,Y
+15-2011.00,Microsoft Visual Basic for Applications VBA,Development environment software,Y
+15-2011.00,Python,Object or component oriented development software,Y
+15-2011.00,R,Object or component oriented development software,Y
+15-2011.00,SAS,Analytical or scientific software,Y
+15-2011.00,Structured query language SQL,Data base user interface and query software,Y
+15-2011.00,Tableau,Business intelligence and data analysis software,Y
+15-2021.00,Atlassian JIRA,Content workflow software,Y
+15-2021.00,C,Development environment software,Y
+15-2021.00,C#,Object or component oriented development software,Y
+15-2021.00,C++,Object or component oriented development software,Y
+15-2021.00,Chatbot software,Industrial control software,N
+15-2021.00,Microsoft Excel,Spreadsheet software,Y
+15-2021.00,Microsoft Office software,Office suite software,Y
+15-2021.00,Perforce software,Metadata management software,N
+15-2021.00,Python,Object or component oriented development software,Y
+15-2021.00,R,Object or component oriented development software,Y
+15-2021.00,The MathWorks MATLAB,Analytical or scientific software,Y
+15-2021.00,Version control software,File versioning software,N
+15-2031.00,Microsoft Excel,Spreadsheet software,Y
+15-2031.00,Microsoft Office software,Office suite software,Y
+15-2031.00,Microsoft Outlook,Electronic mail software,Y
+15-2031.00,Microsoft Power BI,Business intelligence and data analysis software,Y
+15-2031.00,Microsoft PowerPoint,Presentation software,Y
+15-2031.00,Python,Object or component oriented development software,Y
+15-2031.00,Salesforce software,Customer relationship management CRM software,Y
+15-2031.00,Structured query language SQL,Data base user interface and query software,Y
+15-2031.00,Tableau,Business intelligence and data analysis software,Y
+15-2041.00,IBM SPSS Statistics,Analytical or scientific software,Y
+15-2041.00,Microsoft Excel,Spreadsheet software,Y
+15-2041.00,Microsoft Office software,Office suite software,Y
+15-2041.00,Python,Object or component oriented development software,Y
+15-2041.00,R,Object or component oriented development software,Y
+15-2041.00,SAS,Analytical or scientific software,Y
+15-2041.00,SAS JMP,Analytical or scientific software,N
+15-2041.00,StataCorp Stata,Analytical or scientific software,N
+15-2041.00,Statistical software,Analytical or scientific software,N
+15-2041.00,Structured query language SQL,Data base user interface and query software,Y
+15-2041.00,Tableau,Business intelligence and data analysis software,Y
+15-2041.01,IBM SPSS Statistics,Analytical or scientific software,Y
+15-2041.01,Microsoft Excel,Spreadsheet software,Y
+15-2041.01,Microsoft Office software,Office suite software,Y
+15-2041.01,Microsoft PowerPoint,Presentation software,Y
+15-2041.01,Python,Object or component oriented development software,Y
+15-2041.01,R,Object or component oriented development software,Y
+15-2041.01,SAP software,Enterprise resource planning ERP software,Y
+15-2041.01,SAS,Analytical or scientific software,Y
+15-2041.01,StataCorp Stata,Analytical or scientific software,N
+15-2041.01,Statistical software,Analytical or scientific software,N
+15-2041.01,Structured query language SQL,Data base user interface and query software,Y
+15-2051.00,Amazon Web Services AWS software,Data base user interface and query software,Y
+15-2051.00,Apache Hadoop,Data base management system software,Y
+15-2051.00,Apache Spark,Business intelligence and data analysis software,Y
+15-2051.00,C++,Object or component oriented development software,Y
+15-2051.00,Git,File versioning software,Y
+15-2051.00,Microsoft Azure software,Development environment software,Y
+15-2051.00,Microsoft Excel,Spreadsheet software,Y
+15-2051.00,Microsoft Power BI,Business intelligence and data analysis software,Y
+15-2051.00,Microsoft PowerPoint,Presentation software,Y
+15-2051.00,NumPy,Data base user interface and query software,N
+15-2051.00,PyTorch,Data base user interface and query software,Y
+15-2051.00,Python,Object or component oriented development software,Y
+15-2051.00,R,Object or component oriented development software,Y
+15-2051.00,SAS,Analytical or scientific software,Y
+15-2051.00,Scikit-learn,Development environment software,N
+15-2051.00,Snowflake,Data mining software,Y
+15-2051.00,Structured query language SQL,Data base user interface and query software,Y
+15-2051.00,Tableau,Business intelligence and data analysis software,Y
+15-2051.00,TensorFlow,Analytical or scientific software,Y
+15-2051.00,The MathWorks MATLAB,Analytical or scientific software,Y
+15-2051.00,pandas,Data base user interface and query software,N
+15-2051.01,Amazon Web Services AWS software,Data base user interface and query software,Y
+15-2051.01,Microsoft Azure software,Development environment software,Y
+15-2051.01,Microsoft Excel,Spreadsheet software,Y
+15-2051.01,Microsoft Office software,Office suite software,Y
+15-2051.01,Microsoft Power BI,Business intelligence and data analysis software,Y
+15-2051.01,Microsoft PowerPoint,Presentation software,Y
+15-2051.01,Python,Object or component oriented development software,Y
+15-2051.01,R,Object or component oriented development software,Y
+15-2051.01,SAP software,Enterprise resource planning ERP software,Y
+15-2051.01,SAS,Analytical or scientific software,Y
+15-2051.01,Salesforce software,Customer relationship management CRM software,Y
+15-2051.01,Snowflake,Data mining software,Y
+15-2051.01,Structured query language SQL,Data base user interface and query software,Y
+15-2051.01,Tableau,Business intelligence and data analysis software,Y
+15-2051.02,Epic Systems,Medical software,Y
+15-2051.02,Microsoft Excel,Spreadsheet software,Y
+15-2051.02,Microsoft Office software,Office suite software,Y
+15-2051.02,Microsoft PowerPoint,Presentation software,Y
+15-2051.02,Structured query language SQL,Data base user interface and query software,Y
+17-1011.00,Adobe Creative Cloud software,Graphics or photo imaging software,Y
+17-1011.00,Adobe Illustrator,Graphics or photo imaging software,Y
+17-1011.00,Adobe InDesign,Desktop publishing software,Y
+17-1011.00,Adobe Photoshop,Graphics or photo imaging software,Y
+17-1011.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-1011.00,Autodesk Revit,Computer aided design CAD software,Y
+17-1011.00,Chaos Enscape,Computer aided design CAD software,N
+17-1011.00,McNeel Rhinoceros 3D,Graphics or photo imaging software,N
+17-1011.00,Microsoft Office software,Office suite software,Y
+17-1011.00,Trimble SketchUp Pro,Computer aided design CAD software,Y
+17-1012.00,Adobe Creative Cloud software,Graphics or photo imaging software,Y
+17-1012.00,Adobe Illustrator,Graphics or photo imaging software,Y
+17-1012.00,Adobe InDesign,Desktop publishing software,Y
+17-1012.00,Adobe Photoshop,Graphics or photo imaging software,Y
+17-1012.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-1012.00,Autodesk AutoCAD Civil 3D,Computer aided design CAD software,Y
+17-1012.00,Autodesk Revit,Computer aided design CAD software,Y
+17-1012.00,ESRI ArcGIS software,Geographic information system,Y
+17-1012.00,ESRI ArcView,Geographic information system,N
+17-1012.00,Lumion,Computer aided design CAD software,N
+17-1012.00,McNeel Rhinoceros 3D,Computer aided design CAD software,N
+17-1012.00,Microsoft Excel,Spreadsheet software,Y
+17-1012.00,Microsoft Office software,Office suite software,Y
+17-1012.00,Microsoft Outlook,Electronic mail software,Y
+17-1012.00,Microsoft PowerPoint,Presentation software,Y
+17-1012.00,Trimble SketchUp Pro,Computer aided design CAD software,Y
+17-1021.00,ESRI ArcGIS software,Geographic information system,Y
+17-1021.00,Geographic information system GIS systems,Geographic information system,N
+17-1022.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-1022.00,Autodesk AutoCAD Civil 3D,Computer aided design CAD software,Y
+17-1022.00,Bentley MicroStation,Computer aided design CAD software,Y
+17-1022.00,Microsoft Excel,Spreadsheet software,Y
+17-1022.00,Microsoft Office software,Office suite software,Y
+17-2011.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-2011.00,C,Development environment software,Y
+17-2011.00,C++,Object or component oriented development software,Y
+17-2011.00,Dassault Systemes CATIA,Computer aided design CAD software,N
+17-2011.00,Dassault Systemes SolidWorks,Computer aided design CAD software,Y
+17-2011.00,MathWorks Simulink,Analytical or scientific software,N
+17-2011.00,Microsoft Excel,Spreadsheet software,Y
+17-2011.00,Microsoft Office software,Office suite software,Y
+17-2011.00,Microsoft PowerPoint,Presentation software,Y
+17-2011.00,Python,Object or component oriented development software,Y
+17-2011.00,The MathWorks MATLAB,Analytical or scientific software,Y
+17-2031.00,Microsoft Excel,Spreadsheet software,Y
+17-2031.00,Microsoft Office software,Office suite software,Y
+17-2031.00,Microsoft PowerPoint,Presentation software,Y
+17-2031.00,Python,Object or component oriented development software,Y
+17-2031.00,R,Object or component oriented development software,Y
+17-2041.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-2041.00,Microsoft Excel,Spreadsheet software,Y
+17-2041.00,Microsoft Office software,Office suite software,Y
+17-2041.00,Microsoft PowerPoint,Presentation software,Y
+17-2051.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-2051.00,Autodesk AutoCAD Civil 3D,Computer aided design CAD software,Y
+17-2051.00,Autodesk Revit,Computer aided design CAD software,Y
+17-2051.00,Bentley MicroStation,Computer aided design CAD software,Y
+17-2051.00,Microsoft Excel,Spreadsheet software,Y
+17-2051.00,Microsoft Office software,Office suite software,Y
+17-2051.00,Microsoft Outlook,Electronic mail software,Y
+17-2051.00,Microsoft PowerPoint,Presentation software,Y
+17-2051.01,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-2051.01,Autodesk AutoCAD Civil 3D,Computer aided design CAD software,Y
+17-2051.01,Bentley MicroStation,Computer aided design CAD software,Y
+17-2051.01,Cubic Synchro Studio,Analytical or scientific software,N
+17-2051.01,Microsoft Excel,Spreadsheet software,Y
+17-2051.01,Microsoft Office software,Office suite software,Y
+17-2051.01,Microsoft PowerPoint,Presentation software,Y
+17-2051.01,OpenRoads Designer,Computer aided design CAD software,N
+17-2051.01,PTV Vissim,Analytical or scientific software,N
+17-2051.02,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-2051.02,Autodesk AutoCAD Civil 3D,Computer aided design CAD software,Y
+17-2051.02,Autodesk Revit,Computer aided design CAD software,Y
+17-2051.02,Bentley MicroStation,Computer aided design CAD software,Y
+17-2051.02,ESRI ArcGIS software,Geographic information system,Y
+17-2051.02,HEC-HMS,Analytical or scientific software,N
+17-2051.02,HEC-RAS,Analytical or scientific software,N
+17-2051.02,Microsoft Excel,Spreadsheet software,Y
+17-2051.02,Microsoft Office software,Office suite software,Y
+17-2051.02,Microsoft PowerPoint,Presentation software,Y
+17-2061.00,C,Development environment software,Y
+17-2061.00,C++,Object or component oriented development software,Y
+17-2061.00,Linux,Operating system software,Y
+17-2061.00,Magellan Firmware,Operating system software,N
+17-2061.00,PCI Express PCIe,Data base user interface and query software,N
+17-2061.00,Perl,Object or component oriented development software,Y
+17-2061.00,Python,Object or component oriented development software,Y
+17-2061.00,Simulation program with integrated circuit emphasis SPICE,Analytical or scientific software,N
+17-2061.00,SystemVerilog,Development environment software,N
+17-2061.00,The MathWorks MATLAB,Analytical or scientific software,Y
+17-2061.00,Tool command language Tcl,Development environment software,N
+17-2061.00,Verilog,Development environment software,N
+17-2061.00,Very high speed integrated circuit VHSIC hardware description language VHDL simulation software,Analytical or scientific software,N
+17-2071.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-2071.00,Autodesk Revit,Computer aided design CAD software,Y
+17-2071.00,C++,Object or component oriented development software,Y
+17-2071.00,ETAP,Geographic information system,N
+17-2071.00,Microsoft Excel,Spreadsheet software,Y
+17-2071.00,Microsoft Office software,Office suite software,Y
+17-2071.00,Microsoft PowerPoint,Presentation software,Y
+17-2071.00,Python,Object or component oriented development software,Y
+17-2071.00,SKM Systems Analysis Power Tools,Analytical or scientific software,N
+17-2071.00,The MathWorks MATLAB,Analytical or scientific software,Y
+17-2072.00,Microsoft Excel,Spreadsheet software,Y
+17-2072.00,Microsoft Office software,Office suite software,Y
+17-2072.00,Python,Object or component oriented development software,Y
+17-2072.00,The MathWorks MATLAB,Analytical or scientific software,Y
+17-2072.01,ANSYS simulation software,Analytical or scientific software,N
+17-2072.01,C,Development environment software,Y
+17-2072.01,C++,Object or component oriented development software,Y
+17-2072.01,Forsk Atoll,Network monitoring software,N
+17-2072.01,Magellan Firmware,Operating system software,N
+17-2072.01,Microsoft Excel,Spreadsheet software,Y
+17-2072.01,Microsoft Office software,Office suite software,Y
+17-2072.01,Python,Object or component oriented development software,Y
+17-2072.01,The MathWorks MATLAB,Analytical or scientific software,Y
+17-2081.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-2081.00,Microsoft Excel,Spreadsheet software,Y
+17-2081.00,Microsoft Office software,Office suite software,Y
+17-2081.00,Microsoft PowerPoint,Presentation software,Y
+17-2081.00,Microsoft Word,Word processing software,Y
+17-2111.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-2111.00,Microsoft Excel,Spreadsheet software,Y
+17-2111.00,Microsoft Office software,Office suite software,Y
+17-2111.00,Microsoft Outlook,Electronic mail software,Y
+17-2111.00,Microsoft PowerPoint,Presentation software,Y
+17-2111.00,Microsoft SharePoint,Document management software,Y
+17-2111.00,Microsoft Word,Word processing software,Y
+17-2111.02,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-2111.02,Autodesk Revit,Computer aided design CAD software,Y
+17-2111.02,Mechanical electrical plumbing MEP design software,Computer aided design CAD software,N
+17-2111.02,Microsoft Excel,Spreadsheet software,Y
+17-2111.02,Microsoft Office software,Office suite software,Y
+17-2112.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-2112.00,Microsoft Excel,Spreadsheet software,Y
+17-2112.00,Microsoft Office software,Office suite software,Y
+17-2112.00,Microsoft PowerPoint,Presentation software,Y
+17-2112.00,SAP software,Enterprise resource planning ERP software,Y
+17-2112.00,Structured query language SQL,Data base user interface and query software,Y
+17-2112.01,Microsoft Excel,Spreadsheet software,Y
+17-2112.01,Microsoft Office software,Office suite software,Y
+17-2112.01,Microsoft PowerPoint,Presentation software,Y
+17-2112.02,Amazon Web Services AWS software,Data base user interface and query software,Y
+17-2112.02,Docker,Application server software,Y
+17-2112.02,IBM Terraform,Configuration management software,Y
+17-2112.02,JavaScript,Web platform development software,Y
+17-2112.02,Kubernetes,Application server software,Y
+17-2112.02,Microsoft Azure software,Development environment software,Y
+17-2112.02,Microsoft Excel,Spreadsheet software,Y
+17-2112.02,Microsoft Office software,Office suite software,Y
+17-2112.02,Microsoft Power BI,Business intelligence and data analysis software,Y
+17-2112.02,Microsoft Power Platform software,Enterprise application integration software,Y
+17-2112.02,Microsoft PowerPoint,Presentation software,Y
+17-2112.02,Oracle Java,Object or component oriented development software,Y
+17-2112.02,Python,Object or component oriented development software,Y
+17-2112.02,Structured query language SQL,Data base user interface and query software,Y
+17-2112.03,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-2112.03,Dassault Systemes SolidWorks,Computer aided design CAD software,Y
+17-2112.03,Microsoft Excel,Spreadsheet software,Y
+17-2112.03,Microsoft Office software,Office suite software,Y
+17-2112.03,Microsoft PowerPoint,Presentation software,Y
+17-2112.03,SAP software,Enterprise resource planning ERP software,Y
+17-2121.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-2121.00,McNeel Rhinoceros 3D,Graphics or photo imaging software,N
+17-2121.00,Microsoft Excel,Spreadsheet software,Y
+17-2121.00,Microsoft Office software,Office suite software,Y
+17-2121.00,Microsoft PowerPoint,Presentation software,Y
+17-2131.00,Microsoft Excel,Spreadsheet software,Y
+17-2131.00,Microsoft Office software,Office suite software,Y
+17-2131.00,Microsoft PowerPoint,Presentation software,Y
+17-2141.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-2141.00,Autodesk Revit,Computer aided design CAD software,Y
+17-2141.00,Dassault Systemes SolidWorks,Computer aided design CAD software,Y
+17-2141.00,Microsoft Excel,Spreadsheet software,Y
+17-2141.00,Microsoft Office software,Office suite software,Y
+17-2141.00,Microsoft Outlook,Electronic mail software,Y
+17-2141.00,Microsoft PowerPoint,Presentation software,Y
+17-2141.00,PTC Creo Parametric,Computer aided design CAD software,N
+17-2141.00,Python,Object or component oriented development software,Y
+17-2141.01,MathWorks Simulink,Analytical or scientific software,N
+17-2141.01,Microsoft Excel,Spreadsheet software,Y
+17-2141.01,Microsoft Office software,Office suite software,Y
+17-2141.01,Microsoft PowerPoint,Presentation software,Y
+17-2141.01,Python,Object or component oriented development software,Y
+17-2141.01,The MathWorks MATLAB,Analytical or scientific software,Y
+17-2141.02,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-2141.02,Dassault Systemes CATIA,Computer aided design CAD software,N
+17-2141.02,Dassault Systemes SolidWorks,Computer aided design CAD software,Y
+17-2141.02,Microsoft Excel,Spreadsheet software,Y
+17-2141.02,Microsoft Office software,Office suite software,Y
+17-2141.02,Microsoft PowerPoint,Presentation software,Y
+17-2141.02,PTC Creo Parametric,Computer aided design CAD software,N
+17-2141.02,Python,Object or component oriented development software,Y
+17-2141.02,Siemens Teamcenter,Project management software,N
+17-2141.02,The MathWorks MATLAB,Analytical or scientific software,Y
+17-2151.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-2151.00,Autodesk AutoCAD Civil 3D,Computer aided design CAD software,Y
+17-2151.00,Bentley MicroStation,Computer aided design CAD software,Y
+17-2151.00,Microsoft Excel,Spreadsheet software,Y
+17-2151.00,Microsoft Office software,Office suite software,Y
+17-2151.00,Microsoft PowerPoint,Presentation software,Y
+17-2161.00,ANSYS simulation software,Analytical or scientific software,N
+17-2161.00,Microsoft Excel,Spreadsheet software,Y
+17-2161.00,Microsoft Office software,Office suite software,Y
+17-2161.00,Python,Object or component oriented development software,Y
+17-2171.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-2171.00,Microsoft Excel,Spreadsheet software,Y
+17-2171.00,Microsoft Office software,Office suite software,Y
+17-2171.00,Microsoft PowerPoint,Presentation software,Y
+17-2199.03,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-2199.03,C++,Object or component oriented development software,Y
+17-2199.03,Microsoft Excel,Spreadsheet software,Y
+17-2199.03,Microsoft Office software,Office suite software,Y
+17-2199.03,Microsoft PowerPoint,Presentation software,Y
+17-2199.03,Python,Object or component oriented development software,Y
+17-2199.03,The MathWorks MATLAB,Analytical or scientific software,Y
+17-2199.05,ANSYS simulation software,Analytical or scientific software,N
+17-2199.05,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-2199.05,C,Development environment software,Y
+17-2199.05,C#,Object or component oriented development software,Y
+17-2199.05,C++,Object or component oriented development software,Y
+17-2199.05,Dassault Systemes SolidWorks,Computer aided design CAD software,Y
+17-2199.05,Embedded systems development software,Development environment software,N
+17-2199.05,MathWorks Simulink,Analytical or scientific software,N
+17-2199.05,Microsoft Excel,Spreadsheet software,Y
+17-2199.05,Microsoft Office software,Office suite software,Y
+17-2199.05,Microsoft PowerPoint,Presentation software,Y
+17-2199.05,Python,Object or component oriented development software,Y
+17-2199.05,The MathWorks MATLAB,Analytical or scientific software,Y
+17-2199.07,C++,Object or component oriented development software,Y
+17-2199.07,Dassault Systemes SolidWorks,Computer aided design CAD software,Y
+17-2199.07,National Instruments LabVIEW,Development environment software,N
+17-2199.07,Python,Object or component oriented development software,Y
+17-2199.07,The MathWorks MATLAB,Analytical or scientific software,Y
+17-2199.07,Zemax,Computer aided design CAD software,N
+17-2199.08,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-2199.08,C,Development environment software,Y
+17-2199.08,C#,Object or component oriented development software,Y
+17-2199.08,C++,Object or component oriented development software,Y
+17-2199.08,Dassault Systemes SolidWorks,Computer aided design CAD software,Y
+17-2199.08,Git,File versioning software,Y
+17-2199.08,Linux,Operating system software,Y
+17-2199.08,Oracle Java,Object or component oriented development software,Y
+17-2199.08,Python,Object or component oriented development software,Y
+17-2199.08,The MathWorks MATLAB,Analytical or scientific software,Y
+17-2199.10,ANSYS simulation software,Analytical or scientific software,N
+17-2199.10,C++,Object or component oriented development software,Y
+17-2199.10,Dassault Systemes SolidWorks,Computer aided design CAD software,Y
+17-2199.10,Git,File versioning software,Y
+17-2199.10,Linux,Operating system software,Y
+17-2199.10,Microsoft Excel,Spreadsheet software,Y
+17-2199.10,Microsoft Office software,Office suite software,Y
+17-2199.10,Microsoft PowerPoint,Presentation software,Y
+17-2199.10,PTC Creo Parametric,Computer aided design CAD software,N
+17-2199.10,Python,Object or component oriented development software,Y
+17-2199.10,The MathWorks MATLAB,Analytical or scientific software,Y
+17-2199.11,Aurora HelioScope,Analytical or scientific software,N
+17-2199.11,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-2199.11,ETAP,Geographic information system,N
+17-2199.11,Microsoft Excel,Spreadsheet software,Y
+17-2199.11,Microsoft Office software,Office suite software,Y
+17-2199.11,Microsoft Outlook,Electronic mail software,Y
+17-2199.11,Microsoft PowerPoint,Presentation software,Y
+17-2199.11,Microsoft Word,Word processing software,Y
+17-2199.11,PVsyst,Analytical or scientific software,N
+17-2199.11,Python,Object or component oriented development software,Y
+17-2199.11,SKM Systems Analysis Power Tools,Analytical or scientific software,N
+17-3011.00,Adobe Creative Cloud software,Graphics or photo imaging software,Y
+17-3011.00,Adobe Illustrator,Graphics or photo imaging software,Y
+17-3011.00,Adobe Photoshop,Graphics or photo imaging software,Y
+17-3011.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-3011.00,Autodesk AutoCAD Civil 3D,Computer aided design CAD software,Y
+17-3011.00,Autodesk Navisworks,Computer aided design CAD software,N
+17-3011.00,Autodesk Revit,Computer aided design CAD software,Y
+17-3011.00,Bentley MicroStation,Computer aided design CAD software,Y
+17-3011.00,McNeel Rhinoceros 3D,Graphics or photo imaging software,N
+17-3011.00,Microsoft Excel,Spreadsheet software,Y
+17-3011.00,Microsoft Office software,Office suite software,Y
+17-3011.00,Microsoft Outlook,Electronic mail software,Y
+17-3011.00,Microsoft PowerPoint,Presentation software,Y
+17-3011.00,Trimble SketchUp Pro,Computer aided design CAD software,Y
+17-3012.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-3012.00,Autodesk Navisworks,Computer aided design CAD software,N
+17-3012.00,Autodesk Revit,Computer aided design CAD software,Y
+17-3012.00,Bentley MicroStation,Computer aided design CAD software,Y
+17-3012.00,Microsoft Excel,Spreadsheet software,Y
+17-3012.00,Microsoft Office software,Office suite software,Y
+17-3012.00,Microsoft Outlook,Electronic mail software,Y
+17-3012.00,NavisWorks Jetstream,Computer aided design CAD software,N
+17-3013.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-3013.00,Autodesk Inventor,Computer aided design CAD software,N
+17-3013.00,Autodesk Navisworks,Computer aided design CAD software,N
+17-3013.00,Autodesk Revit,Computer aided design CAD software,Y
+17-3013.00,Bentley MicroStation,Computer aided design CAD software,Y
+17-3013.00,Dassault Systemes SolidWorks,Computer aided design CAD software,Y
+17-3013.00,Microsoft Excel,Spreadsheet software,Y
+17-3013.00,Microsoft Office software,Office suite software,Y
+17-3013.00,Microsoft Outlook,Electronic mail software,Y
+17-3013.00,Microsoft PowerPoint,Presentation software,Y
+17-3013.00,Microsoft Word,Word processing software,Y
+17-3013.00,NavisWorks Jetstream,Computer aided design CAD software,N
+17-3022.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-3022.00,Autodesk AutoCAD Civil 3D,Computer aided design CAD software,Y
+17-3022.00,Bentley MicroStation,Computer aided design CAD software,Y
+17-3022.00,ESRI ArcGIS software,Geographic information system,Y
+17-3022.00,Geographic information system GIS systems,Geographic information system,N
+17-3022.00,Microsoft Excel,Spreadsheet software,Y
+17-3022.00,Microsoft Office software,Office suite software,Y
+17-3022.00,Microsoft Outlook,Electronic mail software,Y
+17-3023.00,Microsoft Excel,Spreadsheet software,Y
+17-3023.00,Microsoft Office software,Office suite software,Y
+17-3023.00,Microsoft Outlook,Electronic mail software,Y
+17-3024.01,Microsoft Excel,Spreadsheet software,Y
+17-3024.01,Microsoft Office software,Office suite software,Y
+17-3024.01,Microsoft Outlook,Electronic mail software,Y
+17-3024.01,Microsoft PowerPoint,Presentation software,Y
+17-3024.01,Microsoft Word,Word processing software,Y
+17-3026.00,Microsoft Excel,Spreadsheet software,Y
+17-3026.00,Microsoft Office software,Office suite software,Y
+17-3027.00,Dassault Systemes SolidWorks,Computer aided design CAD software,Y
+17-3027.00,Microsoft Excel,Spreadsheet software,Y
+17-3027.00,Microsoft Office software,Office suite software,Y
+17-3028.00,MathWorks Simulink,Analytical or scientific software,N
+17-3028.00,Microsoft Excel,Spreadsheet software,Y
+17-3028.00,Microsoft Office software,Office suite software,Y
+17-3028.00,Microsoft Outlook,Electronic mail software,Y
+17-3028.00,Microsoft Word,Word processing software,Y
+17-3028.00,The MathWorks MATLAB,Analytical or scientific software,Y
+17-3029.01,Microsoft Excel,Spreadsheet software,Y
+17-3029.01,Microsoft Office software,Office suite software,Y
+17-3029.01,Microsoft Word,Word processing software,Y
+17-3029.08,Microsoft Excel,Spreadsheet software,Y
+17-3031.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+17-3031.00,Autodesk AutoCAD Civil 3D,Computer aided design CAD software,Y
+17-3031.00,Bentley MicroStation,Computer aided design CAD software,Y
+17-3031.00,ESRI ArcGIS software,Geographic information system,Y
+17-3031.00,Geographic information system GIS systems,Geographic information system,N
+17-3031.00,Microsoft Excel,Spreadsheet software,Y
+17-3031.00,Microsoft Office software,Office suite software,Y
+17-3031.00,Microsoft Outlook,Electronic mail software,Y
+19-1012.00,Microsoft Excel,Spreadsheet software,Y
+19-1012.00,Microsoft Office software,Office suite software,Y
+19-1012.00,Microsoft Outlook,Electronic mail software,Y
+19-1012.00,Microsoft PowerPoint,Presentation software,Y
+19-1013.00,Microsoft Excel,Spreadsheet software,Y
+19-1013.00,Microsoft Office software,Office suite software,Y
+19-1021.00,Electronic lab notebook software,Analytical or scientific software,N
+19-1021.00,Microsoft Excel,Spreadsheet software,Y
+19-1021.00,Microsoft Office software,Office suite software,Y
+19-1021.00,Microsoft PowerPoint,Presentation software,Y
+19-1022.00,Microsoft Excel,Spreadsheet software,Y
+19-1022.00,Microsoft Office software,Office suite software,Y
+19-1022.00,Microsoft PowerPoint,Presentation software,Y
+19-1022.00,Microsoft Word,Word processing software,Y
+19-1023.00,ESRI ArcGIS software,Geographic information system,Y
+19-1023.00,Microsoft Excel,Spreadsheet software,Y
+19-1023.00,Microsoft Office software,Office suite software,Y
+19-1023.00,Microsoft Outlook,Electronic mail software,Y
+19-1023.00,Microsoft PowerPoint,Presentation software,Y
+19-1023.00,Microsoft Word,Word processing software,Y
+19-1029.01,Amazon Web Services AWS software,Data base user interface and query software,Y
+19-1029.01,Bash,Operating system software,Y
+19-1029.01,Bioconductor software,Data base user interface and query software,N
+19-1029.01,C,Development environment software,Y
+19-1029.01,C++,Object or component oriented development software,Y
+19-1029.01,Docker,Application server software,Y
+19-1029.01,Git,File versioning software,Y
+19-1029.01,GitHub,Application server software,Y
+19-1029.01,Linux,Operating system software,Y
+19-1029.01,Oracle Java,Object or component oriented development software,Y
+19-1029.01,Perl,Object or component oriented development software,Y
+19-1029.01,Python,Object or component oriented development software,Y
+19-1029.01,R,Object or component oriented development software,Y
+19-1029.01,Snakemake,Analytical or scientific software,N
+19-1029.01,Structured query language SQL,Data base user interface and query software,Y
+19-1029.01,The MathWorks MATLAB,Analytical or scientific software,Y
+19-1029.01,UNIX,Operating system software,Y
+19-1029.02,Microsoft Excel,Spreadsheet software,Y
+19-1029.02,Microsoft Office software,Office suite software,Y
+19-1029.03,R,Object or component oriented development software,Y
+19-1029.04,Microsoft Excel,Spreadsheet software,Y
+19-1029.04,Microsoft Office software,Office suite software,Y
+19-1029.04,Python,Object or component oriented development software,Y
+19-1029.04,R,Object or component oriented development software,Y
+19-1031.00,ESRI ArcGIS software,Geographic information system,Y
+19-1031.00,Microsoft Excel,Spreadsheet software,Y
+19-1031.00,Microsoft Office software,Office suite software,Y
+19-1031.00,Microsoft PowerPoint,Presentation software,Y
+19-1031.03,Microsoft Office software,Office suite software,Y
+19-1032.00,ESRI ArcGIS software,Geographic information system,Y
+19-1032.00,Geographic information system GIS systems,Geographic information system,N
+19-1032.00,Microsoft Excel,Spreadsheet software,Y
+19-1032.00,Microsoft Office software,Office suite software,Y
+19-1032.00,Microsoft PowerPoint,Presentation software,Y
+19-1041.00,Microsoft Excel,Spreadsheet software,Y
+19-1041.00,Microsoft Office software,Office suite software,Y
+19-1041.00,Microsoft PowerPoint,Presentation software,Y
+19-1041.00,R,Object or component oriented development software,Y
+19-1041.00,SAS,Analytical or scientific software,Y
+19-1042.00,Microsoft Excel,Spreadsheet software,Y
+19-1042.00,Microsoft Office software,Office suite software,Y
+19-1042.00,R,Object or component oriented development software,Y
+19-2011.00,C,Development environment software,Y
+19-2011.00,C++,Object or component oriented development software,Y
+19-2011.00,Python,Object or component oriented development software,Y
+19-2011.00,The MathWorks MATLAB,Analytical or scientific software,Y
+19-2012.00,Eclipse IDE,Development environment software,Y
+19-2012.00,Python,Object or component oriented development software,Y
+19-2021.00,Microsoft Office software,Office suite software,Y
+19-2031.00,Microsoft Excel,Spreadsheet software,Y
+19-2031.00,Microsoft Office software,Office suite software,Y
+19-2031.00,Microsoft PowerPoint,Presentation software,Y
+19-2032.00,Microsoft Excel,Spreadsheet software,Y
+19-2032.00,Microsoft Office software,Office suite software,Y
+19-2032.00,Microsoft PowerPoint,Presentation software,Y
+19-2032.00,Python,Object or component oriented development software,Y
+19-2032.00,R,Object or component oriented development software,Y
+19-2041.00,ESRI ArcGIS software,Geographic information system,Y
+19-2041.00,Geographic information system GIS systems,Geographic information system,N
+19-2041.00,Microsoft Excel,Spreadsheet software,Y
+19-2041.00,Microsoft Office software,Office suite software,Y
+19-2041.00,Microsoft Outlook,Electronic mail software,Y
+19-2041.00,Microsoft PowerPoint,Presentation software,Y
+19-2041.00,Microsoft Word,Word processing software,Y
+19-2041.01,Microsoft Excel,Spreadsheet software,Y
+19-2041.01,Microsoft Office software,Office suite software,Y
+19-2041.01,Microsoft PowerPoint,Presentation software,Y
+19-2041.02,Microsoft Excel,Spreadsheet software,Y
+19-2041.02,Microsoft Office software,Office suite software,Y
+19-2041.02,Microsoft PowerPoint,Presentation software,Y
+19-2041.03,Microsoft Excel,Spreadsheet software,Y
+19-2042.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+19-2042.00,ESRI ArcGIS software,Geographic information system,Y
+19-2042.00,Geographic information system GIS systems,Geographic information system,N
+19-2042.00,Git,File versioning software,Y
+19-2042.00,Microsoft Excel,Spreadsheet software,Y
+19-2042.00,Microsoft Office software,Office suite software,Y
+19-2042.00,Microsoft Outlook,Electronic mail software,Y
+19-2042.00,Microsoft PowerPoint,Presentation software,Y
+19-2042.00,Microsoft Word,Word processing software,Y
+19-2042.00,Python,Object or component oriented development software,Y
+19-2043.00,ESRI ArcGIS software,Geographic information system,Y
+19-2043.00,Geographic information system GIS systems,Geographic information system,N
+19-2043.00,HEC-HMS,Analytical or scientific software,N
+19-2043.00,HEC-RAS,Analytical or scientific software,N
+19-2043.00,Microsoft Excel,Spreadsheet software,Y
+19-2043.00,Microsoft Office software,Office suite software,Y
+19-2043.00,Microsoft PowerPoint,Presentation software,Y
+19-2043.00,Python,Object or component oriented development software,Y
+19-2043.00,R,Object or component oriented development software,Y
+19-2043.00,RockWare MODFLOW,Analytical or scientific software,N
+19-2099.01,Python,Object or component oriented development software,Y
+19-3011.00,Microsoft Access,Data base user interface and query software,Y
+19-3011.00,Microsoft Excel,Spreadsheet software,Y
+19-3011.00,Microsoft Office software,Office suite software,Y
+19-3011.00,Microsoft Power BI,Business intelligence and data analysis software,Y
+19-3011.00,Microsoft PowerPoint,Presentation software,Y
+19-3011.00,Python,Object or component oriented development software,Y
+19-3011.00,R,Object or component oriented development software,Y
+19-3011.00,SAS,Analytical or scientific software,Y
+19-3011.00,StataCorp Stata,Analytical or scientific software,N
+19-3011.00,Statistical software,Analytical or scientific software,N
+19-3011.00,Structured query language SQL,Data base user interface and query software,Y
+19-3011.00,Tableau,Business intelligence and data analysis software,Y
+19-3022.00,IBM SPSS Statistics,Analytical or scientific software,Y
+19-3022.00,Microsoft Excel,Spreadsheet software,Y
+19-3022.00,Microsoft Office software,Office suite software,Y
+19-3022.00,Microsoft PowerPoint,Presentation software,Y
+19-3022.00,Python,Object or component oriented development software,Y
+19-3022.00,Qualtrics Insight,Project management software,N
+19-3022.00,R,Object or component oriented development software,Y
+19-3022.00,REDCap Research Electronic Data Capture,Analytical or scientific software,N
+19-3022.00,SAS,Analytical or scientific software,Y
+19-3022.00,StataCorp Stata,Analytical or scientific software,N
+19-3033.00,Google Meet,Video conferencing software,N
+19-3033.00,Microsoft Teams,Project management software,Y
+19-3033.00,Zoom,Video conferencing software,Y
+19-3051.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+19-3051.00,ESRI ArcGIS software,Geographic information system,Y
+19-3051.00,Geographic information system GIS systems,Geographic information system,N
+19-3051.00,Microsoft Excel,Spreadsheet software,Y
+19-3051.00,Microsoft Office software,Office suite software,Y
+19-3051.00,Microsoft Outlook,Electronic mail software,Y
+19-3051.00,Microsoft PowerPoint,Presentation software,Y
+19-3091.00,ESRI ArcGIS Survey 123,Analytical or scientific software,N
+19-3091.00,ESRI ArcGIS software,Geographic information system,Y
+19-3091.00,Geographic information system GIS systems,Geographic information system,N
+19-3091.00,Microsoft Excel,Spreadsheet software,Y
+19-3091.00,Microsoft Office software,Office suite software,Y
+19-3091.00,Microsoft Word,Word processing software,Y
+19-3092.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+19-3092.00,ESRI ArcGIS software,Geographic information system,Y
+19-3092.00,Geographic information system GIS software,Geographic information system,N
+19-3092.00,Geographic information system GIS systems,Geographic information system,N
+19-3092.00,Python,Object or component oriented development software,Y
+19-3092.00,Structured query language SQL,Data base user interface and query software,Y
+19-3093.00,Adobe Acrobat,Document management software,Y
+19-3093.00,ESRI ArcGIS software,Geographic information system,Y
+19-3093.00,Microsoft Excel,Spreadsheet software,Y
+19-3093.00,Microsoft Office software,Office suite software,Y
+19-3093.00,Microsoft PowerPoint,Presentation software,Y
+19-3093.00,Microsoft Word,Word processing software,Y
+19-3094.00,Microsoft Excel,Spreadsheet software,Y
+19-3094.00,Microsoft Office software,Office suite software,Y
+19-3094.00,Microsoft Outlook,Electronic mail software,Y
+19-3094.00,Microsoft PowerPoint,Presentation software,Y
+19-3094.00,Microsoft Word,Word processing software,Y
+19-3099.01,ESRI ArcGIS software,Geographic information system,Y
+19-3099.01,Geographic information system GIS systems,Geographic information system,N
+19-3099.01,Microsoft Access,Data base user interface and query software,Y
+19-3099.01,Microsoft Excel,Spreadsheet software,Y
+19-3099.01,Microsoft Office software,Office suite software,Y
+19-3099.01,Microsoft Outlook,Electronic mail software,Y
+19-3099.01,Microsoft Power BI,Business intelligence and data analysis software,Y
+19-3099.01,Microsoft PowerPoint,Presentation software,Y
+19-3099.01,Microsoft Word,Word processing software,Y
+19-3099.01,SAP software,Enterprise resource planning ERP software,Y
+19-3099.01,Structured query language SQL,Data base user interface and query software,Y
+19-3099.01,Tableau,Business intelligence and data analysis software,Y
+19-3099.01,Transportation management system TMS software,Mobile location based services software,N
+19-4012.00,Microsoft Excel,Spreadsheet software,Y
+19-4012.00,Microsoft Office software,Office suite software,Y
+19-4012.01,Microsoft Excel,Spreadsheet software,Y
+19-4012.01,Microsoft Office software,Office suite software,Y
+19-4012.01,Microsoft Outlook,Electronic mail software,Y
+19-4012.01,Microsoft Word,Word processing software,Y
+19-4013.00,Microsoft Excel,Spreadsheet software,Y
+19-4013.00,Microsoft Office software,Office suite software,Y
+19-4013.00,Microsoft Outlook,Electronic mail software,Y
+19-4013.00,Microsoft PowerPoint,Presentation software,Y
+19-4013.00,Microsoft Word,Word processing software,Y
+19-4021.00,Microsoft .NET Framework,Development environment software,Y
+19-4021.00,Microsoft Excel,Spreadsheet software,Y
+19-4021.00,Microsoft Office software,Office suite software,Y
+19-4031.00,Microsoft Excel,Spreadsheet software,Y
+19-4031.00,Microsoft Office software,Office suite software,Y
+19-4031.00,Microsoft Outlook,Electronic mail software,Y
+19-4042.00,Microsoft Excel,Spreadsheet software,Y
+19-4042.00,Microsoft Office software,Office suite software,Y
+19-4042.00,Microsoft Outlook,Electronic mail software,Y
+19-4043.00,Microsoft Excel,Spreadsheet software,Y
+19-4043.00,Microsoft Outlook,Electronic mail software,Y
+19-4044.00,Geographic information system GIS systems,Geographic information system,N
+19-4061.00,Microsoft Excel,Spreadsheet software,Y
+19-4061.00,Microsoft Office software,Office suite software,Y
+19-4061.00,Microsoft PowerPoint,Presentation software,Y
+19-4061.00,Python,Object or component oriented development software,Y
+19-4061.00,R,Object or component oriented development software,Y
+19-4071.00,ESRI ArcGIS software,Geographic information system,Y
+19-4071.00,Geographic information system GIS systems,Geographic information system,N
+19-4071.00,Microsoft Excel,Spreadsheet software,Y
+19-4071.00,Microsoft Office software,Office suite software,Y
+19-4092.00,Guidance Software EnCase Enterprise,Analytical or scientific software,N
+19-4092.00,Microsoft Excel,Spreadsheet software,Y
+19-4092.00,Microsoft Office software,Office suite software,Y
+19-4092.00,Microsoft Outlook,Electronic mail software,Y
+19-4092.00,Microsoft PowerPoint,Presentation software,Y
+19-4099.01,Microsoft Excel,Spreadsheet software,Y
+19-4099.01,Microsoft Office software,Office suite software,Y
+19-4099.01,Microsoft Outlook,Electronic mail software,Y
+19-4099.01,Microsoft PowerPoint,Presentation software,Y
+19-4099.01,Microsoft Word,Word processing software,Y
+19-4099.01,SAP software,Enterprise resource planning ERP software,Y
+19-4099.01,Sparta Systems TrackWise,Compliance software,N
+19-4099.03,C,Development environment software,Y
+19-4099.03,C++,Object or component oriented development software,Y
+19-4099.03,ESRI ArcGIS software,Geographic information system,Y
+19-4099.03,Geographic information system GIS systems,Geographic information system,N
+19-4099.03,Microsoft Office software,Office suite software,Y
+19-4099.03,Python,Object or component oriented development software,Y
+19-4099.03,QGIS,Geographic information system,N
+19-4099.03,R,Object or component oriented development software,Y
+19-4099.03,The MathWorks MATLAB,Analytical or scientific software,Y
+19-5011.00,Microsoft Excel,Spreadsheet software,Y
+19-5011.00,Microsoft Office software,Office suite software,Y
+19-5011.00,Microsoft Outlook,Electronic mail software,Y
+19-5011.00,Microsoft PowerPoint,Presentation software,Y
+19-5011.00,Microsoft Word,Word processing software,Y
+19-5012.00,Microsoft Excel,Spreadsheet software,Y
+19-5012.00,Microsoft Office software,Office suite software,Y
+19-5012.00,Microsoft Outlook,Electronic mail software,Y
+19-5012.00,Microsoft PowerPoint,Presentation software,Y
+19-5012.00,Microsoft Word,Word processing software,Y
+21-1012.00,Microsoft Excel,Spreadsheet software,Y
+21-1012.00,Microsoft Office software,Office suite software,Y
+21-1012.00,Microsoft Outlook,Electronic mail software,Y
+21-1012.00,Microsoft PowerPoint,Presentation software,Y
+21-1013.00,Google Meet,Video conferencing software,N
+21-1013.00,Zoom,Video conferencing software,Y
+21-1015.00,Microsoft Office software,Office suite software,Y
+21-1021.00,Microsoft Excel,Spreadsheet software,Y
+21-1021.00,Microsoft Office software,Office suite software,Y
+21-1021.00,Microsoft Outlook,Electronic mail software,Y
+21-1022.00,Google Meet,Video conferencing software,N
+21-1022.00,Microsoft Teams,Project management software,Y
+21-1022.00,Zoom,Video conferencing software,Y
+21-1023.00,Microsoft Excel,Spreadsheet software,Y
+21-1023.00,Microsoft Office software,Office suite software,Y
+21-1023.00,Microsoft Outlook,Electronic mail software,Y
+21-1091.00,Microsoft Excel,Spreadsheet software,Y
+21-1091.00,Microsoft Office software,Office suite software,Y
+21-1091.00,Microsoft Outlook,Electronic mail software,Y
+21-1091.00,Microsoft PowerPoint,Presentation software,Y
+21-1092.00,Microsoft Office software,Office suite software,Y
+21-1093.00,Microsoft Office software,Office suite software,Y
+21-1094.00,Microsoft Excel,Spreadsheet software,Y
+21-1094.00,Microsoft Office software,Office suite software,Y
+21-1094.00,Microsoft Outlook,Electronic mail software,Y
+21-1094.00,Microsoft Word,Word processing software,Y
+21-2021.00,Microsoft Excel,Spreadsheet software,Y
+21-2021.00,Microsoft Office software,Office suite software,Y
+21-2021.00,Microsoft Outlook,Electronic mail software,Y
+21-2021.00,Microsoft PowerPoint,Presentation software,Y
+23-1011.00,Microsoft Office software,Office suite software,Y
+23-1012.00,Microsoft Excel,Spreadsheet software,Y
+23-1012.00,Microsoft Office software,Office suite software,Y
+23-1012.00,Microsoft Outlook,Electronic mail software,Y
+23-1012.00,Thomson Reuters Westlaw,Information retrieval or search software,N
+23-1021.00,Microsoft Office software,Office suite software,Y
+23-1022.00,Microsoft Excel,Spreadsheet software,Y
+23-1022.00,Microsoft Office software,Office suite software,Y
+23-1022.00,Microsoft Outlook,Electronic mail software,Y
+23-1022.00,Microsoft Word,Word processing software,Y
+23-1023.00,Microsoft Excel,Spreadsheet software,Y
+23-1023.00,Microsoft Office software,Office suite software,Y
+23-1023.00,Microsoft Outlook,Electronic mail software,Y
+23-2011.00,Microsoft Excel,Spreadsheet software,Y
+23-2011.00,Microsoft Office software,Office suite software,Y
+23-2011.00,Microsoft Outlook,Electronic mail software,Y
+23-2011.00,Microsoft PowerPoint,Presentation software,Y
+23-2011.00,Microsoft Word,Word processing software,Y
+23-2011.00,Orion Law Management Systems Orion,Data base user interface and query software,N
+23-2011.00,Thomson Reuters Westlaw,Information retrieval or search software,N
+23-2093.00,Microsoft Excel,Spreadsheet software,Y
+23-2093.00,Microsoft Office software,Office suite software,Y
+23-2093.00,Microsoft Outlook,Electronic mail software,Y
+25-1011.00,Learning management system LMS,Computer based training software,N
+25-1021.00,C++,Object or component oriented development software,Y
+25-1021.00,Learning management system LMS,Computer based training software,N
+25-1021.00,Oracle Java,Object or component oriented development software,Y
+25-1021.00,Python,Object or component oriented development software,Y
+25-1022.00,Learning management system LMS,Computer based training software,N
+25-1031.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+25-1031.00,Autodesk Revit,Computer aided design CAD software,Y
+25-1031.00,Learning management system LMS,Computer based training software,N
+25-1032.00,Learning management system LMS,Computer based training software,N
+25-1042.00,Learning management system LMS,Computer based training software,N
+25-1051.00,Learning management system LMS,Computer based training software,N
+25-1052.00,Learning management system LMS,Computer based training software,N
+25-1054.00,Learning management system LMS,Computer based training software,N
+25-1061.00,Learning management system LMS,Computer based training software,N
+25-1062.00,Learning management system LMS,Computer based training software,N
+25-1063.00,Learning management system LMS,Computer based training software,N
+25-1064.00,Geographic information system GIS systems,Geographic information system,N
+25-1065.00,Learning management system LMS,Computer based training software,N
+25-1066.00,Learning management system LMS,Computer based training software,N
+25-1067.00,Learning management system LMS,Computer based training software,N
+25-1067.00,Microsoft Office software,Office suite software,Y
+25-1071.00,Learning management system LMS,Computer based training software,N
+25-1072.00,Learning management system LMS,Computer based training software,N
+25-1072.00,Microsoft Office software,Office suite software,Y
+25-1081.00,Learning management system LMS,Computer based training software,N
+25-1111.00,Learning management system LMS,Computer based training software,N
+25-1111.00,Microsoft Office software,Office suite software,Y
+25-1112.00,Learning management system LMS,Computer based training software,N
+25-1113.00,Learning management system LMS,Computer based training software,N
+25-1121.00,Learning management system LMS,Computer based training software,N
+25-1122.00,Learning management system LMS,Computer based training software,N
+25-1122.00,Microsoft PowerPoint,Presentation software,Y
+25-1122.00,Microsoft Windows,Operating system software,Y
+25-1123.00,Learning management system LMS,Computer based training software,N
+25-1124.00,Learning management system LMS,Computer based training software,N
+25-1125.00,Learning management system LMS,Computer based training software,N
+25-1125.00,Microsoft Excel,Spreadsheet software,Y
+25-1125.00,Microsoft PowerPoint,Presentation software,Y
+25-1126.00,Learning management system LMS,Computer based training software,N
+25-1193.00,Learning management system LMS,Computer based training software,N
+25-1194.00,Microsoft Office software,Office suite software,Y
+25-2058.00,Microsoft Excel,Spreadsheet software,Y
+25-2058.00,Microsoft Outlook,Electronic mail software,Y
+25-3011.00,Microsoft Excel,Spreadsheet software,Y
+25-3011.00,Microsoft Office software,Office suite software,Y
+25-4011.00,Archivists' Toolkit,Data base user interface and query software,N
+25-4011.00,Microsoft Excel,Spreadsheet software,Y
+25-4011.00,Microsoft Office software,Office suite software,Y
+25-4011.00,Microsoft Outlook,Electronic mail software,Y
+25-4012.00,Microsoft Excel,Spreadsheet software,Y
+25-4012.00,Microsoft Office software,Office suite software,Y
+25-4012.00,Microsoft Outlook,Electronic mail software,Y
+25-4012.00,Microsoft PowerPoint,Presentation software,Y
+25-4022.00,Microsoft Excel,Spreadsheet software,Y
+25-4022.00,Microsoft Office software,Office suite software,Y
+25-4022.00,Springshare LibGuides,Web platform development software,N
+25-4031.00,Microsoft Excel,Spreadsheet software,Y
+25-4031.00,Microsoft Office software,Office suite software,Y
+25-9031.00,Articulate Storyline,Computer based training software,N
+25-9031.00,Learning management system LMS,Computer based training software,N
+25-9031.00,Microsoft Excel,Spreadsheet software,Y
+25-9031.00,Microsoft Office software,Office suite software,Y
+25-9031.00,Microsoft Outlook,Electronic mail software,Y
+25-9031.00,Microsoft PowerPoint,Presentation software,Y
+25-9031.00,TechSmith Camtasia,Video creation and editing software,N
+25-9043.00,Microsoft Office software,Office suite software,Y
+25-9044.00,Microsoft Excel,Spreadsheet software,Y
+25-9044.00,Microsoft Office software,Office suite software,Y
+27-1011.00,Adobe After Effects,Video creation and editing software,Y
+27-1011.00,Adobe Creative Cloud software,Graphics or photo imaging software,Y
+27-1011.00,Adobe Illustrator,Graphics or photo imaging software,Y
+27-1011.00,Adobe InDesign,Desktop publishing software,Y
+27-1011.00,Adobe Photoshop,Graphics or photo imaging software,Y
+27-1011.00,Figma,Graphical user interface development software,Y
+27-1011.00,Microsoft Office software,Office suite software,Y
+27-1011.00,Microsoft PowerPoint,Presentation software,Y
+27-1013.00,Adobe Illustrator,Graphics or photo imaging software,Y
+27-1013.00,Adobe Photoshop,Graphics or photo imaging software,Y
+27-1013.00,Autodesk Maya,Graphics or photo imaging software,N
+27-1014.00,Adobe After Effects,Video creation and editing software,Y
+27-1014.00,Adobe Creative Cloud software,Graphics or photo imaging software,Y
+27-1014.00,Adobe Illustrator,Graphics or photo imaging software,Y
+27-1014.00,Adobe InDesign,Desktop publishing software,Y
+27-1014.00,Adobe Photoshop,Graphics or photo imaging software,Y
+27-1014.00,Adobe Premiere Pro,Video creation and editing software,N
+27-1014.00,Autodesk Maya,Graphics or photo imaging software,N
+27-1014.00,Canva,Graphics or photo imaging software,Y
+27-1014.00,Cascading style sheets CSS,Web platform development software,Y
+27-1014.00,Figma,Graphical user interface development software,Y
+27-1014.00,Hypertext markup language HTML,Web platform development software,Y
+27-1014.00,Maxon Cinema 4D,Video creation and editing software,N
+27-1014.00,Microsoft Excel,Spreadsheet software,Y
+27-1014.00,Microsoft Office software,Office suite software,Y
+27-1014.00,Microsoft PowerPoint,Presentation software,Y
+27-1014.00,SideFX Houdini,Graphics or photo imaging software,N
+27-1014.00,Unity Technologies Unity,Development environment software,N
+27-1014.00,Unreal Technology Unreal Engine,Development environment software,N
+27-1021.00,Adobe Creative Cloud software,Graphics or photo imaging software,Y
+27-1021.00,Adobe Illustrator,Graphics or photo imaging software,Y
+27-1021.00,Adobe Photoshop,Graphics or photo imaging software,Y
+27-1021.00,Dassault Systemes SolidWorks,Computer aided design CAD software,Y
+27-1021.00,Figma,Graphical user interface development software,Y
+27-1021.00,Microsoft Excel,Spreadsheet software,Y
+27-1021.00,Microsoft Office software,Office suite software,Y
+27-1021.00,Microsoft PowerPoint,Presentation software,Y
+27-1022.00,Adobe Creative Cloud software,Graphics or photo imaging software,Y
+27-1022.00,Adobe Illustrator,Graphics or photo imaging software,Y
+27-1022.00,Adobe InDesign,Desktop publishing software,Y
+27-1022.00,Adobe Photoshop,Graphics or photo imaging software,Y
+27-1022.00,Microsoft Excel,Spreadsheet software,Y
+27-1022.00,Microsoft Office software,Office suite software,Y
+27-1022.00,Microsoft PowerPoint,Presentation software,Y
+27-1024.00,Adobe After Effects,Video creation and editing software,Y
+27-1024.00,Adobe Creative Cloud software,Graphics or photo imaging software,Y
+27-1024.00,Adobe Illustrator,Graphics or photo imaging software,Y
+27-1024.00,Adobe InDesign,Desktop publishing software,Y
+27-1024.00,Adobe Photoshop,Graphics or photo imaging software,Y
+27-1024.00,Adobe Premiere Pro,Video creation and editing software,N
+27-1024.00,Canva,Graphics or photo imaging software,Y
+27-1024.00,Cascading style sheets CSS,Web platform development software,Y
+27-1024.00,Figma,Graphical user interface development software,Y
+27-1024.00,Hypertext markup language HTML,Web platform development software,Y
+27-1024.00,Microsoft Excel,Spreadsheet software,Y
+27-1024.00,Microsoft Office software,Office suite software,Y
+27-1024.00,Microsoft PowerPoint,Presentation software,Y
+27-1025.00,Adobe Creative Cloud software,Graphics or photo imaging software,Y
+27-1025.00,Adobe Illustrator,Graphics or photo imaging software,Y
+27-1025.00,Adobe InDesign,Desktop publishing software,Y
+27-1025.00,Adobe Photoshop,Graphics or photo imaging software,Y
+27-1025.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+27-1025.00,Autodesk Revit,Computer aided design CAD software,Y
+27-1025.00,Chaos Enscape,Computer aided design CAD software,N
+27-1025.00,Microsoft Excel,Spreadsheet software,Y
+27-1025.00,Microsoft Office software,Office suite software,Y
+27-1025.00,Trimble SketchUp Pro,Computer aided design CAD software,Y
+27-1026.00,Microsoft Excel,Spreadsheet software,Y
+27-1027.00,Adobe Creative Cloud software,Graphics or photo imaging software,Y
+27-1027.00,Adobe Illustrator,Graphics or photo imaging software,Y
+27-1027.00,Adobe Photoshop,Graphics or photo imaging software,Y
+27-1027.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+27-1027.00,Autodesk Revit,Computer aided design CAD software,Y
+27-1027.00,Microsoft Excel,Spreadsheet software,Y
+27-1027.00,Microsoft Office software,Office suite software,Y
+27-2012.00,Adobe After Effects,Video creation and editing software,Y
+27-2012.00,Adobe Creative Cloud software,Graphics or photo imaging software,Y
+27-2012.00,Adobe Photoshop,Graphics or photo imaging software,Y
+27-2012.00,Adobe Premiere Pro,Video creation and editing software,N
+27-2012.00,Microsoft Excel,Spreadsheet software,Y
+27-2012.00,Microsoft Office software,Office suite software,Y
+27-2012.00,Microsoft PowerPoint,Presentation software,Y
+27-2012.03,Google Analytics,Analytical or scientific software,Y
+27-2012.03,Microsoft Excel,Spreadsheet software,Y
+27-2012.03,Microsoft Office software,Office suite software,Y
+27-2012.03,Microsoft PowerPoint,Presentation software,Y
+27-2012.03,TikTok,Video creation and editing software,Y
+27-2012.04,Microsoft Excel,Spreadsheet software,Y
+27-2012.04,Microsoft Office software,Office suite software,Y
+27-2012.04,Microsoft PowerPoint,Presentation software,Y
+27-2012.04,Salesforce software,Customer relationship management CRM software,Y
+27-2012.05,Microsoft Office software,Office suite software,Y
+27-2091.00,Microsoft Office software,Office suite software,Y
+27-3011.00,Adobe Audition,Music or sound editing software,N
+27-3011.00,Microsoft Office software,Office suite software,Y
+27-3031.00,Adobe Creative Cloud software,Graphics or photo imaging software,Y
+27-3031.00,Adobe InDesign,Desktop publishing software,Y
+27-3031.00,Adobe Photoshop,Graphics or photo imaging software,Y
+27-3031.00,Canva,Graphics or photo imaging software,Y
+27-3031.00,Microsoft Excel,Spreadsheet software,Y
+27-3031.00,Microsoft Office software,Office suite software,Y
+27-3031.00,Microsoft Outlook,Electronic mail software,Y
+27-3031.00,Microsoft PowerPoint,Presentation software,Y
+27-3031.00,Microsoft SharePoint,Document management software,Y
+27-3031.00,WordPress,Web page creation and editing software,Y
+27-3041.00,Adobe Photoshop,Graphics or photo imaging software,Y
+27-3041.00,Content management systems CMS,Web page creation and editing software,N
+27-3041.00,Hypertext markup language HTML,Web platform development software,Y
+27-3041.00,Microsoft Excel,Spreadsheet software,Y
+27-3041.00,Microsoft Office software,Office suite software,Y
+27-3041.00,Microsoft Outlook,Electronic mail software,Y
+27-3041.00,Microsoft PowerPoint,Presentation software,Y
+27-3041.00,Microsoft Word,Word processing software,Y
+27-3042.00,Atlassian Confluence,Project management software,Y
+27-3042.00,Atlassian JIRA,Content workflow software,Y
+27-3042.00,Extensible markup language XML,Enterprise application integration software,Y
+27-3042.00,Microsoft Excel,Spreadsheet software,Y
+27-3042.00,Microsoft Office software,Office suite software,Y
+27-3042.00,Microsoft Outlook,Electronic mail software,Y
+27-3042.00,Microsoft PowerPoint,Presentation software,Y
+27-3042.00,Microsoft SharePoint,Document management software,Y
+27-3042.00,Microsoft Visio,Process mapping and design software,Y
+27-3042.00,Microsoft Word,Word processing software,Y
+27-3043.00,Adobe Creative Cloud software,Graphics or photo imaging software,Y
+27-3043.00,Adobe Photoshop,Graphics or photo imaging software,Y
+27-3043.00,Adobe Premiere Pro,Video creation and editing software,N
+27-3043.00,Canva,Graphics or photo imaging software,Y
+27-3043.00,Microsoft Excel,Spreadsheet software,Y
+27-3043.00,Microsoft Office software,Office suite software,Y
+27-3043.00,Microsoft PowerPoint,Presentation software,Y
+27-3043.00,Microsoft Word,Word processing software,Y
+27-3043.00,TikTok,Video creation and editing software,Y
+27-3091.00,Microsoft Excel,Spreadsheet software,Y
+27-3091.00,Microsoft Office software,Office suite software,Y
+27-3091.00,Microsoft PowerPoint,Presentation software,Y
+27-3091.00,Productivity software,Project management software,N
+27-3092.00,Microsoft Office software,Office suite software,Y
+27-4011.00,Microsoft Office software,Office suite software,Y
+27-4011.00,Microsoft Teams,Project management software,Y
+27-4011.00,Zoom,Video conferencing software,Y
+27-4012.00,Microsoft Excel,Spreadsheet software,Y
+27-4012.00,Microsoft Office software,Office suite software,Y
+27-4015.00,Microsoft Office software,Office suite software,Y
+27-4021.00,Adobe Photoshop,Graphics or photo imaging software,Y
+27-4021.00,Adobe Photoshop Lightroom,Graphics or photo imaging software,N
+27-4031.00,Adobe After Effects,Video creation and editing software,Y
+27-4031.00,Adobe Creative Cloud software,Graphics or photo imaging software,Y
+27-4031.00,Adobe Illustrator,Graphics or photo imaging software,Y
+27-4031.00,Adobe Photoshop,Graphics or photo imaging software,Y
+27-4031.00,Adobe Premiere Pro,Video creation and editing software,N
+27-4031.00,Apple Final Cut Pro,Video creation and editing software,N
+27-4031.00,TikTok,Video creation and editing software,Y
+27-4031.00,Video editing software,Video creation and editing software,N
+27-4032.00,Adobe After Effects,Graphics or photo imaging software,Y
+27-4032.00,Adobe Creative Cloud software,Graphics or photo imaging software,Y
+27-4032.00,Adobe Illustrator,Graphics or photo imaging software,Y
+27-4032.00,Adobe InDesign,Desktop publishing software,Y
+27-4032.00,Adobe Photoshop,Graphics or photo imaging software,Y
+27-4032.00,Adobe Premiere Pro,Video creation and editing software,N
+27-4032.00,Apple Final Cut Pro,Video creation and editing software,N
+27-4032.00,DaVinci Resolve,Video creation and editing software,N
+27-4032.00,TikTok,Video creation and editing software,Y
+27-4032.00,Video editing software,Video creation and editing software,N
+29-1041.00,Apple Safari,Internet browser software,Y
+29-1041.00,Microsoft Edge,Internet browser software,Y
+29-1041.00,Mozilla Firefox,Internet browser software,Y
+29-1041.00,Web browser software,Internet browser software,N
+29-1071.00,Epic Systems,Medical software,Y
+29-1125.00,Microsoft Office software,Office suite software,Y
+29-1128.00,Microsoft Excel,Spreadsheet software,Y
+29-1128.00,Microsoft Office software,Office suite software,Y
+29-1141.02,Google Meet,Video conferencing software,N
+29-1141.02,Microsoft Teams,Project management software,Y
+29-1151.00,Epic Systems,Medical software,Y
+29-1151.00,Patient management software,Medical software,N
+29-1181.00,Microsoft Excel,Spreadsheet software,Y
+29-1211.00,Epic Systems,Medical software,Y
+29-1212.00,Epic Systems,Medical software,Y
+29-1214.00,Epic Systems,Medical software,Y
+29-1215.00,Epic Systems,Medical software,Y
+29-1217.00,Epic Systems,Medical software,Y
+29-1218.00,Epic Systems,Medical software,Y
+29-1221.00,Epic Systems,Medical software,Y
+29-1224.00,Epic Systems,Medical software,Y
+29-1229.02,Epic Systems,Medical software,Y
+29-1229.03,Epic Systems,Medical software,Y
+29-1229.06,Epic Systems,Medical software,Y
+29-1242.00,Epic Systems,Medical software,Y
+29-1292.00,Henry Schein Dentrix,Medical software,Y
+29-1299.01,Google Meet,Video conferencing software,N
+29-1299.01,Zoom,Video conferencing software,Y
+29-2012.00,Microsoft Excel,Spreadsheet software,Y
+29-2012.00,Microsoft Office software,Office suite software,Y
+29-2034.00,R,Object or component oriented development software,Y
+29-2036.00,Eclipse IDE,Development environment software,Y
+29-2036.00,Epic Systems,Medical software,Y
+29-2052.00,Microsoft Excel,Spreadsheet software,Y
+29-2052.00,Microsoft Office software,Office suite software,Y
+29-2052.00,Microsoft Outlook,Electronic mail software,Y
+29-2052.00,Microsoft PowerPoint,Presentation software,Y
+29-2057.00,Microsoft Excel,Spreadsheet software,Y
+29-2072.00,Epic Systems,Medical software,Y
+29-2072.00,Microsoft Excel,Spreadsheet software,Y
+29-2072.00,Microsoft Office software,Office suite software,Y
+29-2072.00,Microsoft Outlook,Electronic mail software,Y
+29-2099.01,R,Object or component oriented development software,Y
+29-2099.08,Epic Systems,Medical software,Y
+29-2099.08,Microsoft Excel,Spreadsheet software,Y
+29-2099.08,Microsoft Office software,Office suite software,Y
+29-2099.08,Microsoft Outlook,Electronic mail software,Y
+29-9021.00,Microsoft Excel,Spreadsheet software,Y
+29-9021.00,Microsoft Office software,Office suite software,Y
+29-9091.00,Microsoft Office software,Office suite software,Y
+29-9092.00,Microsoft Excel,Spreadsheet software,Y
+29-9092.00,Microsoft Office software,Office suite software,Y
+29-9092.00,Microsoft Outlook,Electronic mail software,Y
+29-9092.00,Microsoft PowerPoint,Presentation software,Y
+29-9099.01,Epic Systems,Medical software,Y
+31-9091.00,Henry Schein Dentrix,Medical software,Y
+31-9092.00,Epic Systems,Medical software,Y
+31-9092.00,Microsoft Office software,Office suite software,Y
+31-9095.00,Microsoft Excel,Spreadsheet software,Y
+31-9095.00,Microsoft Office software,Office suite software,Y
+31-9097.00,Microsoft Office software,Office suite software,Y
+33-1011.00,Microsoft Office software,Office suite software,Y
+33-1012.00,Microsoft Office software,Office suite software,Y
+33-1021.00,Microsoft Excel,Spreadsheet software,Y
+33-1021.00,Microsoft Office software,Office suite software,Y
+33-1021.00,Microsoft PowerPoint,Presentation software,Y
+33-1091.00,Microsoft Office software,Office suite software,Y
+33-2021.00,Microsoft Excel,Spreadsheet software,Y
+33-2021.00,Microsoft Office software,Office suite software,Y
+33-2021.00,Microsoft Outlook,Electronic mail software,Y
+33-2021.00,Microsoft Word,Word processing software,Y
+33-3011.00,Microsoft Office software,Office suite software,Y
+33-3021.00,Microsoft Excel,Spreadsheet software,Y
+33-3021.00,Microsoft Office software,Office suite software,Y
+33-3021.06,Microsoft Excel,Spreadsheet software,Y
+33-3021.06,Microsoft Office software,Office suite software,Y
+33-3021.06,Microsoft PowerPoint,Presentation software,Y
+33-3041.00,Microsoft Excel,Spreadsheet software,Y
+33-9011.00,Microsoft Excel,Spreadsheet software,Y
+33-9011.00,Microsoft Office software,Office suite software,Y
+33-9021.00,Microsoft Excel,Spreadsheet software,Y
+33-9021.00,Microsoft Office software,Office suite software,Y
+33-9021.00,Microsoft Word,Word processing software,Y
+33-9031.00,Microsoft Office software,Office suite software,Y
+35-1011.00,Microsoft Excel,Spreadsheet software,Y
+35-1011.00,Microsoft Office software,Office suite software,Y
+35-1011.00,Microsoft Outlook,Electronic mail software,Y
+37-1011.00,Microsoft Excel,Spreadsheet software,Y
+37-1011.00,Microsoft Office software,Office suite software,Y
+37-1011.00,Microsoft Outlook,Electronic mail software,Y
+39-1013.00,Microsoft Excel,Spreadsheet software,Y
+39-1013.00,Microsoft Office software,Office suite software,Y
+39-1014.00,Microsoft Office software,Office suite software,Y
+39-3092.00,Microsoft Excel,Spreadsheet software,Y
+39-3092.00,Microsoft Office software,Office suite software,Y
+39-4021.00,Microsoft Office software,Office suite software,Y
+39-4031.00,Microsoft Access,Data base user interface and query software,Y
+39-4031.00,Microsoft Excel,Spreadsheet software,Y
+39-4031.00,Microsoft Office software,Office suite software,Y
+39-4031.00,Microsoft Outlook,Electronic mail software,Y
+39-4031.00,Microsoft PowerPoint,Presentation software,Y
+39-6012.00,Microsoft Excel,Spreadsheet software,Y
+39-6012.00,Microsoft Office software,Office suite software,Y
+39-6012.00,Microsoft Outlook,Electronic mail software,Y
+39-7012.00,Microsoft Excel,Spreadsheet software,Y
+39-7012.00,Microsoft Office software,Office suite software,Y
+39-9032.00,Microsoft Office software,Office suite software,Y
+39-9041.00,Microsoft Office software,Office suite software,Y
+41-1011.00,Microsoft Office software,Office suite software,Y
+41-1012.00,Microsoft Excel,Spreadsheet software,Y
+41-1012.00,Microsoft Office software,Office suite software,Y
+41-1012.00,Microsoft Outlook,Electronic mail software,Y
+41-1012.00,Microsoft PowerPoint,Presentation software,Y
+41-1012.00,Salesforce software,Customer relationship management CRM software,Y
+41-2012.00,Microsoft Excel,Spreadsheet software,Y
+41-2021.00,Microsoft Excel,Spreadsheet software,Y
+41-2021.00,Microsoft Office software,Office suite software,Y
+41-2021.00,Microsoft Outlook,Electronic mail software,Y
+41-2022.00,Inventory control system software,Inventory management software,N
+41-2022.00,Inventory management systems,Inventory management software,N
+41-2022.00,Microsoft Excel,Spreadsheet software,Y
+41-2022.00,Microsoft Office software,Office suite software,Y
+41-2022.00,Microsoft Word,Word processing software,Y
+41-3011.00,Adobe Creative Cloud software,Graphics or photo imaging software,Y
+41-3011.00,Adobe InDesign,Desktop publishing software,Y
+41-3011.00,Adobe Photoshop,Graphics or photo imaging software,Y
+41-3011.00,Canva,Graphics or photo imaging software,Y
+41-3011.00,Microsoft Excel,Spreadsheet software,Y
+41-3011.00,Microsoft Office software,Office suite software,Y
+41-3011.00,Microsoft Outlook,Electronic mail software,Y
+41-3011.00,Microsoft PowerPoint,Presentation software,Y
+41-3011.00,Microsoft Word,Word processing software,Y
+41-3011.00,Salesforce software,Customer relationship management CRM software,Y
+41-3021.00,Microsoft Office software,Office suite software,Y
+41-3021.00,Microsoft Outlook,Electronic mail software,Y
+41-3031.00,Microsoft Excel,Spreadsheet software,Y
+41-3031.00,Microsoft Office software,Office suite software,Y
+41-3041.00,Amadeus CRS,Data base user interface and query software,N
+41-3041.00,Microsoft Excel,Spreadsheet software,Y
+41-3041.00,Microsoft Office software,Office suite software,Y
+41-3041.00,Microsoft Outlook,Electronic mail software,Y
+41-3041.00,Sabre Central Command,Enterprise resource planning ERP software,N
+41-3091.00,Microsoft Excel,Spreadsheet software,Y
+41-3091.00,Microsoft Office software,Office suite software,Y
+41-3091.00,Salesforce software,Customer relationship management CRM software,Y
+41-4011.00,Microsoft Excel,Spreadsheet software,Y
+41-4011.00,Microsoft Office software,Office suite software,Y
+41-4011.00,Microsoft Outlook,Electronic mail software,Y
+41-4011.00,Salesforce software,Customer relationship management CRM software,Y
+41-4011.07,Salesforce software,Customer relationship management CRM software,Y
+41-4012.00,Microsoft Excel,Spreadsheet software,Y
+41-4012.00,Microsoft Office software,Office suite software,Y
+41-4012.00,Microsoft Outlook,Electronic mail software,Y
+41-4012.00,Microsoft PowerPoint,Presentation software,Y
+41-4012.00,Salesforce software,Customer relationship management CRM software,Y
+41-9021.00,Microsoft Office software,Office suite software,Y
+41-9021.00,Microsoft Outlook,Electronic mail software,Y
+41-9022.00,Microsoft Excel,Spreadsheet software,Y
+41-9022.00,Microsoft Office software,Office suite software,Y
+41-9022.00,Microsoft Outlook,Electronic mail software,Y
+41-9022.00,Microsoft Word,Word processing software,Y
+41-9022.00,Yardi software,Data base user interface and query software,Y
+41-9031.00,Amazon Web Services AWS software,Data base user interface and query software,Y
+41-9031.00,Microsoft Azure software,Development environment software,Y
+41-9031.00,Microsoft Excel,Spreadsheet software,Y
+41-9031.00,Microsoft Office software,Office suite software,Y
+41-9031.00,Microsoft PowerPoint,Presentation software,Y
+41-9031.00,Python,Object or component oriented development software,Y
+41-9031.00,Salesforce software,Customer relationship management CRM software,Y
+43-1011.00,Microsoft Excel,Spreadsheet software,Y
+43-1011.00,Microsoft Office software,Office suite software,Y
+43-1011.00,Microsoft Outlook,Electronic mail software,Y
+43-1011.00,Microsoft PowerPoint,Presentation software,Y
+43-2011.00,Microsoft Excel,Spreadsheet software,Y
+43-2011.00,Microsoft Office software,Office suite software,Y
+43-2021.00,Microsoft Office software,Office suite software,Y
+43-3011.00,Microsoft Excel,Spreadsheet software,Y
+43-3011.00,Microsoft Office software,Office suite software,Y
+43-3011.00,Microsoft Outlook,Electronic mail software,Y
+43-3011.00,Microsoft Word,Word processing software,Y
+43-3011.00,SAP software,Enterprise resource planning ERP software,Y
+43-3021.00,Microsoft Excel,Spreadsheet software,Y
+43-3021.00,Microsoft Office software,Office suite software,Y
+43-3021.00,Microsoft Outlook,Electronic mail software,Y
+43-3021.00,Microsoft Word,Word processing software,Y
+43-3031.00,Intuit QuickBooks,Accounting software,Y
+43-3031.00,Microsoft Excel,Spreadsheet software,Y
+43-3031.00,Microsoft Office software,Office suite software,Y
+43-3031.00,Microsoft Outlook,Electronic mail software,Y
+43-3031.00,SAP software,Enterprise resource planning ERP software,Y
+43-3051.00,ADP Workforce Now,Data base user interface and query software,N
+43-3051.00,Kronos Workforce Timekeeper,Time accounting software,Y
+43-3051.00,Microsoft Excel,Spreadsheet software,Y
+43-3051.00,Microsoft Office software,Office suite software,Y
+43-3051.00,Microsoft Outlook,Electronic mail software,Y
+43-3051.00,Oracle HRIS,Human resources software,N
+43-3051.00,Payroll software,Human resources software,N
+43-3051.00,Workday software,Enterprise resource planning ERP software,Y
+43-3061.00,Microsoft Excel,Spreadsheet software,Y
+43-3061.00,Microsoft Office software,Office suite software,Y
+43-3061.00,Microsoft Outlook,Electronic mail software,Y
+43-3061.00,Microsoft PowerPoint,Presentation software,Y
+43-3061.00,Microsoft Word,Word processing software,Y
+43-3061.00,SAP software,Enterprise resource planning ERP software,Y
+43-3071.00,Microsoft Office software,Office suite software,Y
+43-4011.00,Microsoft Excel,Spreadsheet software,Y
+43-4011.00,Microsoft Office software,Office suite software,Y
+43-4011.00,Microsoft Outlook,Electronic mail software,Y
+43-4011.00,Microsoft PowerPoint,Presentation software,Y
+43-4011.00,Microsoft Word,Word processing software,Y
+43-4021.00,Epic Systems,Medical software,Y
+43-4021.00,Microsoft Excel,Spreadsheet software,Y
+43-4021.00,Microsoft Office software,Office suite software,Y
+43-4021.00,Microsoft Outlook,Electronic mail software,Y
+43-4021.00,Microsoft Word,Word processing software,Y
+43-4031.00,Microsoft Excel,Spreadsheet software,Y
+43-4031.00,Microsoft Office software,Office suite software,Y
+43-4031.00,Microsoft Outlook,Electronic mail software,Y
+43-4031.00,Microsoft Word,Word processing software,Y
+43-4041.00,Microsoft Excel,Spreadsheet software,Y
+43-4041.00,Microsoft Office software,Office suite software,Y
+43-4041.00,Microsoft Outlook,Electronic mail software,Y
+43-4041.00,Microsoft PowerPoint,Presentation software,Y
+43-4041.00,Microsoft Word,Word processing software,Y
+43-4051.00,Microsoft Excel,Spreadsheet software,Y
+43-4051.00,Microsoft Office software,Office suite software,Y
+43-4051.00,Microsoft Outlook,Electronic mail software,Y
+43-4061.00,Microsoft Excel,Spreadsheet software,Y
+43-4061.00,Microsoft Office software,Office suite software,Y
+43-4061.00,Microsoft Outlook,Electronic mail software,Y
+43-4061.00,Microsoft Word,Word processing software,Y
+43-4071.00,Microsoft Excel,Spreadsheet software,Y
+43-4071.00,Microsoft Office software,Office suite software,Y
+43-4071.00,Microsoft Outlook,Electronic mail software,Y
+43-4071.00,Microsoft Word,Word processing software,Y
+43-4081.00,Microsoft Office software,Office suite software,Y
+43-4081.00,Property management system PMS software,Data base user interface and query software,N
+43-4111.00,Microsoft Teams,Project management software,Y
+43-4111.00,Zoom,Video conferencing software,Y
+43-4121.00,Microsoft Excel,Spreadsheet software,Y
+43-4121.00,Microsoft Office software,Office suite software,Y
+43-4131.00,Microsoft Excel,Spreadsheet software,Y
+43-4131.00,Microsoft Office software,Office suite software,Y
+43-4131.00,Microsoft Outlook,Electronic mail software,Y
+43-4131.00,Microsoft PowerPoint,Presentation software,Y
+43-4131.00,Microsoft Word,Word processing software,Y
+43-4141.00,Microsoft Excel,Spreadsheet software,Y
+43-4141.00,Microsoft Office software,Office suite software,Y
+43-4151.00,Microsoft Excel,Spreadsheet software,Y
+43-4151.00,Microsoft Office software,Office suite software,Y
+43-4151.00,Order management software,Procurement software,N
+43-4161.00,Applicant tracking software,Human resources software,N
+43-4161.00,Microsoft Excel,Spreadsheet software,Y
+43-4161.00,Microsoft Office software,Office suite software,Y
+43-4161.00,Microsoft Outlook,Electronic mail software,Y
+43-4161.00,Microsoft PowerPoint,Presentation software,Y
+43-4161.00,Microsoft Word,Word processing software,Y
+43-4161.00,Oracle HRIS,Human resources software,N
+43-4171.00,Microsoft Excel,Spreadsheet software,Y
+43-4171.00,Microsoft Office software,Office suite software,Y
+43-4171.00,Microsoft Outlook,Electronic mail software,Y
+43-4171.00,Microsoft Word,Word processing software,Y
+43-4181.00,Microsoft Excel,Spreadsheet software,Y
+43-4181.00,Microsoft Office software,Office suite software,Y
+43-4181.00,Microsoft Outlook,Electronic mail software,Y
+43-5011.00,Microsoft Excel,Spreadsheet software,Y
+43-5011.00,Microsoft Office software,Office suite software,Y
+43-5011.01,Microsoft Excel,Spreadsheet software,Y
+43-5011.01,Microsoft Office software,Office suite software,Y
+43-5011.01,Microsoft Outlook,Electronic mail software,Y
+43-5031.00,Microsoft Excel,Spreadsheet software,Y
+43-5031.00,Microsoft Office software,Office suite software,Y
+43-5032.00,Microsoft Excel,Spreadsheet software,Y
+43-5032.00,Microsoft Office software,Office suite software,Y
+43-5032.00,Microsoft Outlook,Electronic mail software,Y
+43-5032.00,Microsoft Word,Word processing software,Y
+43-5041.00,Microsoft Office software,Office suite software,Y
+43-5061.00,Microsoft Excel,Spreadsheet software,Y
+43-5061.00,Microsoft Office software,Office suite software,Y
+43-5061.00,Microsoft Outlook,Electronic mail software,Y
+43-5061.00,Microsoft PowerPoint,Presentation software,Y
+43-5071.00,Apple Safari,Internet browser software,Y
+43-5071.00,Inventory management systems,Inventory management software,N
+43-5071.00,Microsoft Edge,Internet browser software,Y
+43-5071.00,Microsoft Excel,Spreadsheet software,Y
+43-5071.00,Microsoft Office software,Office suite software,Y
+43-5071.00,Microsoft Outlook,Electronic mail software,Y
+43-5071.00,Mozilla Firefox,Internet browser software,Y
+43-5071.00,SAP software,Enterprise resource planning ERP software,Y
+43-5071.00,Warehouse management system WMS,Materials requirements planning logistics and supply chain software,N
+43-5071.00,Web browser software,Internet browser software,N
+43-5111.00,Inventory management systems,Inventory management software,N
+43-6011.00,Google Workspace software,Office suite software,Y
+43-6011.00,Microsoft Excel,Spreadsheet software,Y
+43-6011.00,Microsoft Office software,Office suite software,Y
+43-6011.00,Microsoft Outlook,Electronic mail software,Y
+43-6011.00,Microsoft PowerPoint,Presentation software,Y
+43-6011.00,Microsoft SharePoint,Document management software,Y
+43-6011.00,Microsoft Word,Word processing software,Y
+43-6011.00,SAP Concur,Accounting software,Y
+43-6011.00,Zoom,Video conferencing software,Y
+43-6012.00,Microsoft Excel,Spreadsheet software,Y
+43-6012.00,Microsoft Office software,Office suite software,Y
+43-6012.00,Microsoft Outlook,Electronic mail software,Y
+43-6012.00,Microsoft PowerPoint,Presentation software,Y
+43-6012.00,Microsoft Word,Word processing software,Y
+43-6013.00,Henry Schein Dentrix,Medical software,Y
+43-6013.00,Microsoft Excel,Spreadsheet software,Y
+43-6013.00,Microsoft Office software,Office suite software,Y
+43-6014.00,Microsoft Excel,Spreadsheet software,Y
+43-6014.00,Microsoft Office software,Office suite software,Y
+43-6014.00,Microsoft Outlook,Electronic mail software,Y
+43-6014.00,Microsoft PowerPoint,Presentation software,Y
+43-6014.00,Microsoft Word,Word processing software,Y
+43-9021.00,Microsoft Excel,Spreadsheet software,Y
+43-9021.00,Microsoft Office software,Office suite software,Y
+43-9021.00,Microsoft Outlook,Electronic mail software,Y
+43-9021.00,Microsoft Word,Word processing software,Y
+43-9022.00,Microsoft Excel,Spreadsheet software,Y
+43-9022.00,Microsoft Office software,Office suite software,Y
+43-9022.00,Microsoft Outlook,Electronic mail software,Y
+43-9031.00,Adobe Photoshop,Graphics or photo imaging software,Y
+43-9041.00,Microsoft Excel,Spreadsheet software,Y
+43-9041.00,Microsoft Office software,Office suite software,Y
+43-9041.00,Microsoft Outlook,Electronic mail software,Y
+43-9041.00,Microsoft PowerPoint,Presentation software,Y
+43-9041.00,Microsoft Word,Word processing software,Y
+43-9051.00,Microsoft Excel,Spreadsheet software,Y
+43-9051.00,Microsoft Office software,Office suite software,Y
+43-9051.00,Microsoft Outlook,Electronic mail software,Y
+43-9061.00,Google Workspace software,Office suite software,Y
+43-9061.00,Intuit QuickBooks,Accounting software,Y
+43-9061.00,Microsoft Excel,Spreadsheet software,Y
+43-9061.00,Microsoft Office software,Office suite software,Y
+43-9061.00,Microsoft Outlook,Electronic mail software,Y
+43-9061.00,Microsoft PowerPoint,Presentation software,Y
+43-9061.00,Microsoft Word,Word processing software,Y
+43-9081.00,Adobe Creative Cloud software,Graphics or photo imaging software,Y
+43-9081.00,Adobe Illustrator,Graphics or photo imaging software,Y
+43-9081.00,Adobe InDesign,Desktop publishing software,Y
+43-9081.00,Adobe Photoshop,Graphics or photo imaging software,Y
+43-9081.00,Microsoft Excel,Spreadsheet software,Y
+43-9081.00,Microsoft Office software,Office suite software,Y
+43-9081.00,Microsoft Outlook,Electronic mail software,Y
+43-9081.00,Microsoft PowerPoint,Presentation software,Y
+43-9081.00,Microsoft Word,Word processing software,Y
+43-9111.00,C#,Object or component oriented development software,Y
+43-9111.00,Python,Object or component oriented development software,Y
+43-9111.00,R,Object or component oriented development software,Y
+43-9111.00,SAS,Analytical or scientific software,Y
+45-2011.00,Microsoft Excel,Spreadsheet software,Y
+45-2011.00,Microsoft Office software,Office suite software,Y
+45-2041.00,Microsoft Excel,Spreadsheet software,Y
+45-2041.00,Microsoft Outlook,Electronic mail software,Y
+45-4011.00,ESRI ArcGIS software,Geographic information system,Y
+45-4011.00,Geographic information system GIS systems,Geographic information system,N
+47-1011.00,Microsoft Office software,Office suite software,Y
+47-2152.04,Microsoft Office software,Office suite software,Y
+47-2231.00,Microsoft Excel,Spreadsheet software,Y
+47-2231.00,Microsoft Office software,Office suite software,Y
+47-4011.00,Microsoft Excel,Spreadsheet software,Y
+47-4011.00,Microsoft Office software,Office suite software,Y
+47-4011.00,Microsoft Outlook,Electronic mail software,Y
+47-4011.00,Microsoft Word,Word processing software,Y
+47-4011.01,Microsoft Excel,Spreadsheet software,Y
+47-4011.01,Microsoft Office software,Office suite software,Y
+47-4011.01,Microsoft Outlook,Electronic mail software,Y
+47-4011.01,Microsoft PowerPoint,Presentation software,Y
+47-4011.01,Microsoft Word,Word processing software,Y
+47-4011.01,Python,Object or component oriented development software,Y
+47-4011.01,R,Object or component oriented development software,Y
+47-4011.01,Structured query language SQL,Data base user interface and query software,Y
+47-4099.03,Microsoft Excel,Spreadsheet software,Y
+47-4099.03,Microsoft Office software,Office suite software,Y
+47-4099.03,Microsoft Outlook,Electronic mail software,Y
+49-1011.00,Microsoft Excel,Spreadsheet software,Y
+49-1011.00,Microsoft Office software,Office suite software,Y
+49-1011.00,Microsoft Outlook,Electronic mail software,Y
+49-2011.00,Microsoft Excel,Spreadsheet software,Y
+49-2011.00,Microsoft Office software,Office suite software,Y
+49-2021.00,Microsoft Excel,Spreadsheet software,Y
+49-2021.00,Microsoft Office software,Office suite software,Y
+49-2021.00,Microsoft Outlook,Electronic mail software,Y
+49-2021.00,Microsoft PowerPoint,Presentation software,Y
+49-2021.00,Microsoft Word,Word processing software,Y
+49-2022.00,Microsoft Excel,Spreadsheet software,Y
+49-2022.00,Microsoft Office software,Office suite software,Y
+49-2091.00,Microsoft Excel,Spreadsheet software,Y
+49-2091.00,Microsoft Office software,Office suite software,Y
+49-2093.00,Microsoft Excel,Spreadsheet software,Y
+49-2093.00,Microsoft Office software,Office suite software,Y
+49-2093.00,Microsoft Outlook,Electronic mail software,Y
+49-2093.00,Microsoft PowerPoint,Presentation software,Y
+49-2094.00,Microsoft Excel,Spreadsheet software,Y
+49-2094.00,Microsoft Office software,Office suite software,Y
+49-2095.00,Microsoft Excel,Spreadsheet software,Y
+49-2095.00,Microsoft Office software,Office suite software,Y
+49-2095.00,Microsoft Word,Word processing software,Y
+49-2098.00,Microsoft Excel,Spreadsheet software,Y
+49-2098.00,Microsoft Office software,Office suite software,Y
+49-3011.00,Microsoft Office software,Office suite software,Y
+49-3043.00,Disassembler software,Compiler and decompiler software,N
+49-3093.00,Microsoft Outlook,Electronic mail software,Y
+49-9012.00,Microsoft Excel,Spreadsheet software,Y
+49-9012.00,Microsoft Office software,Office suite software,Y
+49-9012.00,Microsoft Outlook,Electronic mail software,Y
+49-9062.00,Inventory control system software,Inventory management software,N
+49-9062.00,Microsoft Office software,Office suite software,Y
+49-9071.00,Microsoft Office software,Office suite software,Y
+49-9081.00,Microsoft Excel,Spreadsheet software,Y
+49-9081.00,Microsoft Office software,Office suite software,Y
+49-9081.00,Microsoft Outlook,Electronic mail software,Y
+49-9081.00,Microsoft PowerPoint,Presentation software,Y
+51-1011.00,Microsoft Excel,Spreadsheet software,Y
+51-1011.00,Microsoft Office software,Office suite software,Y
+51-1011.00,Microsoft Outlook,Electronic mail software,Y
+51-1011.00,Microsoft PowerPoint,Presentation software,Y
+51-1011.00,SAP software,Enterprise resource planning ERP software,Y
+51-2041.00,Microsoft Outlook,Electronic mail software,Y
+51-3022.00,Web browser software,Internet browser software,N
+51-4041.00,G-code,Object or component oriented development software,N
+51-4041.00,Mastercam computer-aided design and manufacturing software,Computer aided manufacturing CAM software,N
+51-4191.00,Microsoft Word,Word processing software,Y
+51-5111.00,Adobe Creative Cloud software,Graphics or photo imaging software,Y
+51-5111.00,Adobe Illustrator,Graphics or photo imaging software,Y
+51-5111.00,Adobe InDesign,Desktop publishing software,Y
+51-5111.00,Adobe Photoshop,Graphics or photo imaging software,Y
+51-5111.00,Microsoft Excel,Spreadsheet software,Y
+51-5111.00,Microsoft Office software,Office suite software,Y
+51-6092.00,Adobe Illustrator,Graphics or photo imaging software,Y
+51-6092.00,Adobe Photoshop,Graphics or photo imaging software,Y
+51-6092.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+51-6092.00,Microsoft Excel,Spreadsheet software,Y
+51-6092.00,Microsoft Office software,Office suite software,Y
+51-8011.00,Outage management system OMS,Industrial control software,N
+51-8013.00,Microsoft Excel,Spreadsheet software,Y
+51-8013.00,Microsoft Office software,Office suite software,Y
+51-8013.00,Microsoft Outlook,Electronic mail software,Y
+51-8013.00,Microsoft PowerPoint,Presentation software,Y
+51-8031.00,Microsoft Excel,Spreadsheet software,Y
+51-8031.00,Microsoft Office software,Office suite software,Y
+51-8031.00,Microsoft Outlook,Electronic mail software,Y
+51-8091.00,Microsoft Excel,Spreadsheet software,Y
+51-8091.00,Microsoft Office software,Office suite software,Y
+51-8092.00,Google Android,Operating system software,Y
+51-8092.00,Microsoft Excel,Spreadsheet software,Y
+51-8092.00,Microsoft Office software,Office suite software,Y
+51-8092.00,Microsoft Outlook,Electronic mail software,Y
+51-9011.00,Microsoft Excel,Spreadsheet software,Y
+51-9011.00,Microsoft Office software,Office suite software,Y
+51-9011.00,Microsoft Outlook,Electronic mail software,Y
+51-9011.00,SAP software,Enterprise resource planning ERP software,Y
+51-9012.00,Microsoft Office software,Office suite software,Y
+51-9061.00,Microsoft Excel,Spreadsheet software,Y
+51-9061.00,Microsoft Office software,Office suite software,Y
+51-9061.00,Microsoft Outlook,Electronic mail software,Y
+51-9061.00,Microsoft PowerPoint,Presentation software,Y
+51-9061.00,Microsoft Word,Word processing software,Y
+51-9141.00,Microsoft Excel,Spreadsheet software,Y
+51-9141.00,Microsoft Office software,Office suite software,Y
+51-9141.00,Microsoft PowerPoint,Presentation software,Y
+51-9141.00,Python,Object or component oriented development software,Y
+51-9141.00,SAP software,Enterprise resource planning ERP software,Y
+51-9151.00,Microsoft Excel,Spreadsheet software,Y
+51-9151.00,Microsoft Outlook,Electronic mail software,Y
+51-9151.00,Microsoft Word,Word processing software,Y
+51-9161.00,G-code,Object or component oriented development software,N
+51-9162.00,Autodesk AutoCAD,Computer aided design CAD software,Y
+51-9162.00,Autodesk Fusion 360,Computer aided manufacturing CAM software,N
+51-9162.00,Dassault Systemes SolidWorks,Computer aided design CAD software,Y
+51-9162.00,G-code,Object or component oriented development software,N
+51-9162.00,Mastercam computer-aided design and manufacturing software,Computer aided manufacturing CAM software,N
+51-9162.00,Microsoft Office software,Office suite software,Y
+51-9194.00,Microsoft Office software,Office suite software,Y
+53-1042.00,Inventory management systems,Inventory management software,N
+53-1042.00,Microsoft Excel,Spreadsheet software,Y
+53-1042.00,Microsoft Office software,Office suite software,Y
+53-1042.00,Microsoft Outlook,Electronic mail software,Y
+53-1042.00,Microsoft PowerPoint,Presentation software,Y
+53-1042.00,Microsoft Word,Word processing software,Y
+53-1042.00,SAP software,Enterprise resource planning ERP software,Y
+53-1042.00,Warehouse management system WMS,Inventory management software,N
+53-1042.01,Microsoft Excel,Spreadsheet software,Y
+53-1042.01,Microsoft Office software,Office suite software,Y
+53-1042.01,Microsoft Outlook,Electronic mail software,Y
+53-1042.01,Microsoft PowerPoint,Presentation software,Y
+53-1043.00,Microsoft Excel,Spreadsheet software,Y
+53-1043.00,Microsoft Office software,Office suite software,Y
+53-1043.00,Microsoft Outlook,Electronic mail software,Y
+53-1043.00,SAP software,Enterprise resource planning ERP software,Y
+53-1043.00,Warehouse management system WMS,Materials requirements planning logistics and supply chain software,N
+53-1044.00,Microsoft Excel,Spreadsheet software,Y
+53-1044.00,Microsoft Office software,Office suite software,Y
+53-1044.00,Microsoft Outlook,Electronic mail software,Y
+53-1044.00,Microsoft PowerPoint,Presentation software,Y
+53-2011.00,R,Object or component oriented development software,Y
+53-2021.00,Microsoft Excel,Spreadsheet software,Y
+53-2021.00,Microsoft Office software,Office suite software,Y
+53-2021.00,Microsoft Outlook,Electronic mail software,Y
+53-2021.00,Microsoft PowerPoint,Presentation software,Y
+53-2022.00,Microsoft Excel,Spreadsheet software,Y
+53-2022.00,Microsoft Office software,Office suite software,Y
+53-2031.00,Microsoft Excel,Spreadsheet software,Y
+53-2031.00,Microsoft Office software,Office suite software,Y
+53-2031.00,Microsoft PowerPoint,Presentation software,Y
+53-2031.00,Microsoft Word,Word processing software,Y
+53-4022.00,Google Android,Operating system software,Y
+53-4022.00,Microsoft Office software,Office suite software,Y
+53-4031.00,Microsoft Office software,Office suite software,Y
+53-5021.00,Microsoft Office software,Office suite software,Y
+53-6031.00,Apple Safari,Internet browser software,Y
+53-6031.00,Microsoft Edge,Internet browser software,Y
+53-6031.00,Mozilla Firefox,Internet browser software,Y
+53-6031.00,Web browser software,Internet browser software,N
+53-6041.00,Microsoft Excel,Spreadsheet software,Y
+53-6041.00,Microsoft Office software,Office suite software,Y
+53-6051.00,Microsoft Excel,Spreadsheet software,Y
+53-6051.00,Microsoft Office software,Office suite software,Y
+53-6051.00,Microsoft Outlook,Electronic mail software,Y
+53-6051.00,Microsoft Word,Word processing software,Y
+53-6051.01,IBM WebSphere MQ,Cloud-based management software,Y
+53-6051.01,Microsoft Excel,Spreadsheet software,Y
+53-6051.01,Microsoft Office software,Office suite software,Y
+53-6051.07,Microsoft Excel,Spreadsheet software,Y
+53-6051.07,Microsoft Office software,Office suite software,Y
+53-6051.07,Microsoft Outlook,Electronic mail software,Y
+53-7051.00,Warehouse management system WMS,Materials requirements planning logistics and supply chain software,N
+53-7062.00,Warehouse management system WMS,Materials requirements planning logistics and supply chain software,N
+53-7072.00,Microsoft Excel,Spreadsheet software,Y
+53-7072.00,Microsoft Office software,Office suite software,Y
+53-7072.00,Microsoft Outlook,Electronic mail software,Y
+53-7121.00,Warehouse management system WMS,Materials requirements planning logistics and supply chain software,N

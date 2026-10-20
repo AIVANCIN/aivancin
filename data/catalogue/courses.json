@@ -1,0 +1,919 @@
+{
+ "catalogue_date": "2026-10-20",
+ "validity_days": 60,
+ "curated_on": "2026-10-20",
+ "source": "Microsoft Learn catalog API (https://learn.microsoft.com/api/catalog/?type=modules,learningPaths&locale=en-us)",
+ "courses": [
+  {
+   "id": "learn-bizapps.get-started-with-power-bi",
+   "title": "Get started building with Power BI",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/get-started-with-power-bi/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 0.3,
+   "hours_source": "21 minutes stated by the provider's catalog",
+   "provider_last_modified": "2026-06-15",
+   "dwas": [
+    "4.A.2.b.2.o.14"
+   ],
+   "tools": [
+    "Microsoft Power BI"
+   ],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Get Started Building With Power BI - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn-dynamics.accounts-receivable-daily-procedures-in-dynamics-365-finance-ops",
+   "title": "Get started with accounts receivable daily procedures in Dynamics 365 Finance",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/accounts-receivable-daily-procedures-dyn365-finance/",
+   "kind": "module",
+   "level": [
+    "intermediate"
+   ],
+   "cost_rm": 0,
+   "hours": 1.6,
+   "hours_source": "97 minutes stated by the provider's catalog",
+   "provider_last_modified": "2026-09-28",
+   "dwas": [
+    "4.A.4.c.1.c.6",
+    "4.A.3.b.6.j.3",
+    "4.A.3.b.6.h.15",
+    "4.A.4.c.3.d.1"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Get started with accounts receivable daily procedures in Dynamics 365 Finance - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn-dynamics.bank-reconciliation-dynamics-365-business-central",
+   "title": "Perform a bank reconciliation in Dynamics 365 Business Central",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/bank-reconciliation-dynamics-365-business-central/",
+   "kind": "module",
+   "level": [
+    "intermediate"
+   ],
+   "cost_rm": 0,
+   "hours": 0.8,
+   "hours_source": "47 minutes stated by the provider's catalog",
+   "provider_last_modified": "2026-09-22",
+   "dwas": [
+    "4.A.2.a.2.d.1",
+    "4.A.2.a.2.a.1",
+    "4.A.2.a.2.a.9"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Perform a bank reconciliation in Dynamics 365 Business Central - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn-dynamics.create-financial-reports-dynamics-365-business-central",
+   "title": "Create financial reports in Microsoft Dynamics 365 Business Central",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/paths/create-financial-reports-dynamics-365-business-central/",
+   "kind": "learning path",
+   "level": [
+    "intermediate"
+   ],
+   "cost_rm": 0,
+   "hours": 2.9,
+   "hours_source": "176 minutes stated by the provider's catalog",
+   "provider_last_modified": "2025-03-24",
+   "dwas": [
+    "4.A.3.b.6.a.2",
+    "4.A.2.a.4.k.4",
+    "4.A.2.a.4.k.1",
+    "4.A.2.a.4.k.6"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Create financial reports in Microsoft Dynamics 365 Business Central - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn-dynamics.setup-use-basic-budgeting-finance",
+   "title": "Set up and use basic budgeting Dynamics 365 Finance",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/setup-use-basic-budgeting-finance/",
+   "kind": "module",
+   "level": [
+    "intermediate"
+   ],
+   "cost_rm": 0,
+   "hours": 1.3,
+   "hours_source": "79 minutes stated by the provider's catalog",
+   "provider_last_modified": "2026-09-24",
+   "dwas": [
+    "4.A.3.b.6.a.2",
+    "4.A.4.b.4.h.4"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Set up and use basic budgeting Dynamics 365 Finance - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn-dynamics.work-taxes-finance",
+   "title": "Work with taxes in Dynamics 365 Finance",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/work-taxes-finance/",
+   "kind": "module",
+   "level": [
+    "intermediate"
+   ],
+   "cost_rm": 0,
+   "hours": 0.7,
+   "hours_source": "43 minutes stated by the provider's catalog",
+   "provider_last_modified": "2026-09-23",
+   "dwas": [
+    "4.A.1.b.3.c.3",
+    "4.A.2.a.3.c.5"
+   ],
+   "tools": [
+    "Tax software"
+   ],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Work with taxes in Dynamics 365 Finance - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn-m365.wwl.analyze-visualize-data-copilot",
+   "title": "Analyze and visualize data using Microsoft Copilot",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/analyze-visualize-data-copilot/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 1.1,
+   "hours_source": "66 minutes stated by the provider's catalog",
+   "provider_last_modified": "2026-09-07",
+   "dwas": [
+    "4.A.2.a.4.g.12",
+    "4.A.2.b.2.o.14"
+   ],
+   "tools": [],
+   "ai_skill": true,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Analyze and visualize data using Microsoft Copilot - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn-windows.introduction-to-web-development",
+   "title": "Get started with web development using Visual Studio Code",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/get-started-with-web-development/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 0.7,
+   "hours_source": "44 minutes stated by the provider's catalog",
+   "provider_last_modified": "2026-04-27",
+   "dwas": [
+    "4.A.3.b.2.a.3",
+    "4.A.3.b.1.a.3",
+    "4.A.2.b.2.b.4",
+    "4.A.2.b.2.b.8"
+   ],
+   "tools": [
+    "Hypertext markup language HTML",
+    "Cascading style sheets CSS",
+    "JavaScript"
+   ],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Get started with web development using Visual Studio Code - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.azure.network-fundamentals",
+   "title": "Fundamentals of computer networking",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/network-fundamentals/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 0.8,
+   "hours_source": "47 minutes stated by the provider's catalog",
+   "provider_last_modified": "2025-03-28",
+   "dwas": [
+    "4.A.3.b.1.c.4",
+    "4.A.3.b.1.d.1",
+    "4.A.4.b.6.d.5"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Fundamentals of computer networking - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.build-with-playwright",
+   "title": "Build your first end-to-end test with Playwright",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/build-with-playwright/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 1.1,
+   "hours_source": "64 minutes stated by the provider's catalog",
+   "provider_last_modified": "2026-05-11",
+   "dwas": [
+    "4.A.3.b.2.f.15",
+    "4.A.1.b.2.h.3",
+    "4.A.3.b.6.i.6"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Build your first end-to-end test with Playwright - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.cela-accessibility.web-accessibility-principles-guidelines",
+   "title": "Web accessibility principles and guidelines",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/web-accessibility-principles-guidelines/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 0.3,
+   "hours_source": "17 minutes stated by the provider's catalog",
+   "provider_last_modified": "2024-11-21",
+   "dwas": [
+    "4.A.3.b.2.a.3"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Web accessibility principles and guidelines - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.dpu.introduction-to-windows-server-2025",
+   "title": "Introduction to Windows Server 2025",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-windows-server-2025/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 0.3,
+   "hours_source": "18 minutes stated by the provider's catalog",
+   "provider_last_modified": "2025-09-10",
+   "dwas": [],
+   "tools": [
+    "Microsoft Windows Server"
+   ],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Introduction To Windows Server 2025 - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.dpu.summarize-sales-data",
+   "title": "Summarize sales data using Copilot in Excel",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/summarize-sales-data/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 0.3,
+   "hours_source": "16 minutes stated by the provider's catalog",
+   "provider_last_modified": "2025-10-13",
+   "dwas": [
+    "4.A.2.a.4.k.4",
+    "4.A.3.b.6.j.1"
+   ],
+   "tools": [
+    "Microsoft Excel"
+   ],
+   "ai_skill": true,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Summarize Sales Data Using Copilot In Excel - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.dpu.work-smarter-excel",
+   "title": "Work smarter in Excel with Copilot Chat",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/work-smarter-excel/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 0.3,
+   "hours_source": "21 minutes stated by the provider's catalog",
+   "provider_last_modified": "2025-09-26",
+   "dwas": [],
+   "tools": [
+    "Microsoft Excel"
+   ],
+   "ai_skill": true,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Work Smarter In Excel With Copilot Chat - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.github.introduction-to-github",
+   "title": "Introduction to GitHub",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-github/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 1.8,
+   "hours_source": "105 minutes stated by the provider's catalog",
+   "provider_last_modified": "2024-09-20",
+   "dwas": [],
+   "tools": [
+    "GitHub"
+   ],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Introduction to GitHub - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.github.introduction-to-github-copilot",
+   "title": "Introduction to GitHub Copilot",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-github-copilot/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 0.3,
+   "hours_source": "19 minutes stated by the provider's catalog",
+   "provider_last_modified": "2026-01-28",
+   "dwas": [],
+   "tools": [],
+   "ai_skill": true,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Introduction to GitHub Copilot - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.introduction-to-azure-backup",
+   "title": "Introduction to Azure Backup",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-azure-backup/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 0.3,
+   "hours_source": "18 minutes stated by the provider's catalog",
+   "provider_last_modified": "2025-03-28",
+   "dwas": [
+    "4.A.3.b.1.b.2",
+    "4.A.2.b.2.p.2"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Introduction to Azure Backup - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.philanthropies.explore-responsible-ai",
+   "title": "Explore responsible AI",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/responsible-ai/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 0.6,
+   "hours_source": "34 minutes stated by the provider's catalog",
+   "provider_last_modified": "2025-08-12",
+   "dwas": [],
+   "tools": [],
+   "ai_skill": true,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "AI fluency: Explore responsible AI - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.startup.ux-design",
+   "title": "Foundations of user experience and design thinking",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/ux-design/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 0.3,
+   "hours_source": "21 minutes stated by the provider's catalog",
+   "provider_last_modified": "2025-03-28",
+   "dwas": [
+    "4.A.2.b.2.b.10",
+    "4.A.2.b.2.b.8"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Foundations of user experience and design thinking - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.student-evangelism.introduction-to-git",
+   "title": "Introduction to Git",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-git/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 1.4,
+   "hours_source": "86 minutes stated by the provider's catalog",
+   "provider_last_modified": "2026-04-16",
+   "dwas": [],
+   "tools": [
+    "Git"
+   ],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Introduction to Git - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.test-python-with-pytest",
+   "title": "Testing with Pytest",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/test-python-with-pytest/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 0.3,
+   "hours_source": "21 minutes stated by the provider's catalog",
+   "provider_last_modified": "2025-12-16",
+   "dwas": [
+    "4.A.3.b.2.f.15",
+    "4.A.1.b.2.h.3",
+    "4.A.1.b.2.h.2"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Testing with Pytest - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.wwl.build-web-pages-html-css-for-beginners",
+   "title": "Build web pages with HTML and CSS for beginners",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/paths/build-web-pages-html-css-for-beginners/",
+   "kind": "learning path",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 1.4,
+   "hours_source": "81 minutes stated by the provider's catalog",
+   "provider_last_modified": "2023-11-16",
+   "dwas": [
+    "4.A.3.b.2.a.3",
+    "4.A.3.b.1.a.3",
+    "4.A.2.b.2.b.8"
+   ],
+   "tools": [
+    "Hypertext markup language HTML",
+    "Cascading style sheets CSS"
+   ],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Build web pages with HTML and CSS for beginners - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.wwl.describe-concepts-of-security-compliance-identity",
+   "title": "Introduction to security, compliance, and identity concepts",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/paths/describe-concepts-of-security-compliance-identity/",
+   "kind": "learning path",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 1.6,
+   "hours_source": "97 minutes stated by the provider's catalog",
+   "provider_last_modified": "2026-04-27",
+   "dwas": [
+    "4.A.3.b.1.b.1"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Introduction to security, compliance, and identity concepts - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.wwl.describe-device-based-threats-security-controls",
+   "title": "Describe device-based threats and security controls",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/describe-device-based-threats-security-controls/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 0.3,
+   "hours_source": "17 minutes stated by the provider's catalog",
+   "provider_last_modified": "2026-04-24",
+   "dwas": [
+    "4.A.2.a.4.l.2",
+    "4.A.3.b.1.b.1"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Describe Device-Based Threats and Security Controls - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.wwl.describe-expense-management-fixed-asset-management",
+   "title": "Describe expense tracking, asset control, and budgeting processes in Dynamics 365 Finance",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/describe-expense-management-fixed-asset-management/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 2.0,
+   "hours_source": "118 minutes stated by the provider's catalog",
+   "provider_last_modified": "2025-12-23",
+   "dwas": [
+    "4.A.2.a.4.k.5",
+    "4.A.2.a.4.k.1",
+    "4.A.1.a.2.c.2"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Describe Expense Tracking, Asset Control, and Budgeting Processes in Microsoft Dynamics 365 Finance - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.wwl.describe-general-ledger-cash-bank-management",
+   "title": "Describe general ledger and cash and bank management processes in Dynamics 365 Finance",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/describe-general-ledger-cash-bank-management/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 2.3,
+   "hours_source": "137 minutes stated by the provider's catalog",
+   "provider_last_modified": "2026-01-06",
+   "dwas": [
+    "4.A.1.a.2.c.4",
+    "4.A.1.a.2.c.1",
+    "4.A.3.b.6.j.3"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": false,
+    "status": 200,
+    "page_title": "Financial Management in Dynamics 365 Finance - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.wwl.explore-accounts-payable-accounts-receivable-microsoft-dynamics-365-finance",
+   "title": "Describe accounts payable and accounts receivable in Dynamics 365 Finance",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/explore-accounts-payable-accounts-receivable-microsoft/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 1.0,
+   "hours_source": "61 minutes stated by the provider's catalog",
+   "provider_last_modified": "2025-08-04",
+   "dwas": [
+    "4.A.4.c.1.c.6",
+    "4.A.3.b.6.h.15",
+    "4.A.3.b.6.j.3",
+    "4.A.4.c.3.d.1"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Describe Accounts Payable and Accounts Receivable in Dynamics 365 Finance - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.wwl.explore-fundamentals-of-data-visualization",
+   "title": "Explore fundamentals of data visualization",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-data-visualization/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 0.7,
+   "hours_source": "39 minutes stated by the provider's catalog",
+   "provider_last_modified": "2026-10-13",
+   "dwas": [
+    "4.A.2.b.2.o.14",
+    "4.A.2.a.4.k.4",
+    "4.A.2.a.4.g.12"
+   ],
+   "tools": [
+    "Microsoft Power BI"
+   ],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Explore Fundamentals of Data Visualization - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.wwl.get-started-querying-with-transact-sql",
+   "title": "Query and modify data with Transact-SQL",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/paths/get-started-querying-with-transact-sql/",
+   "kind": "learning path",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 5.8,
+   "hours_source": "345 minutes stated by the provider's catalog",
+   "provider_last_modified": "2026-08-10",
+   "dwas": [
+    "4.A.3.b.6.h.14",
+    "4.A.3.b.1.f.5",
+    "4.A.3.b.1.f.6"
+   ],
+   "tools": [
+    "Structured query language SQL",
+    "Microsoft SQL Server"
+   ],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Query and modify data with Transact-SQL - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.wwl.get-started-with-python-fundamentals",
+   "title": "Get Started with Python Programming: Part 1 - Fundamentals",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/paths/get-started-with-python-fundamentals/",
+   "kind": "learning path",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 3.2,
+   "hours_source": "192 minutes stated by the provider's catalog",
+   "provider_last_modified": "2026-08-07",
+   "dwas": [
+    "4.A.3.b.1.a.3",
+    "4.A.2.b.2.b.1"
+   ],
+   "tools": [
+    "Python"
+   ],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Get Started with Python Programming: Part 1 - Fundamentals - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.wwl.monitor-maintain-devices-intune",
+   "title": "Monitor and maintain devices using Microsoft Intune",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/monitor-maintain-devices-intune/",
+   "kind": "module",
+   "level": [
+    "intermediate"
+   ],
+   "cost_rm": 0,
+   "hours": 1.0,
+   "hours_source": "60 minutes stated by the provider's catalog",
+   "provider_last_modified": "2026-07-14",
+   "dwas": [
+    "4.A.4.b.6.d.2",
+    "4.A.1.a.2.j.3",
+    "4.A.3.b.5.c.6"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Monitor and maintain devices using Microsoft Intune - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.wwl.work-smarter-with-ai",
+   "title": "Work smarter with AI",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/paths/work-smarter-with-ai/",
+   "kind": "learning path",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 0.7,
+   "hours_source": "42 minutes stated by the provider's catalog",
+   "provider_last_modified": "2026-09-01",
+   "dwas": [],
+   "tools": [],
+   "ai_skill": true,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Work smarter with AI - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  },
+  {
+   "id": "learn.wwl.write-effective-prompts-do-more-prompting",
+   "title": "Write effective prompts to achieve optimal results",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/write-effective-prompts-do-more-prompting/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 0.5,
+   "hours_source": "29 minutes stated by the provider's catalog",
+   "provider_last_modified": "2026-10-16",
+   "dwas": [],
+   "tools": [],
+   "ai_skill": true,
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Write Effective Prompts to Achieve Optimal Results - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   }
+  }
+ ],
+ "requirements": []
+}

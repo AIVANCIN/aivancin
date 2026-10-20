@@ -1,0 +1,941 @@
+code,isco_major,mapping,isco_unit_groups
+11-1011.00,1,ESCO exactMatch,1120
+11-1011.03,1,ESCO exactMatch,1219
+11-1021.00,1,ESCO exactMatch,1120
+11-1031.00,1,ESCO exactISCO,1111
+11-2011.00,1,ESCO exactMatch,1221
+11-2021.00,1,ESCO exactMatch,1221
+11-2022.00,1,ESCO exactMatch,1221
+11-2032.00,1,ESCO exactMatch,1222
+11-2033.00,2,ESCO exactMatch,2432
+11-3012.00,,unmapped (closeMatch matches disagree),1349 3341
+11-3013.00,1,ESCO exactMatch,1219
+11-3013.01,1,ESCO exactMatch,1219
+11-3021.00,1,ESCO closeMatch,1330
+11-3031.00,1,ESCO exactISCO,1211
+11-3031.01,1,ESCO exactMatch,1211
+11-3031.03,2,ESCO exactMatch,2412
+11-3051.00,1,ESCO exactMatch,1321
+11-3051.01,,unmapped (closeMatch matches disagree),1219 2149 2519 3112 3142
+11-3051.02,,unmapped (closeMatch concepts unresolved),
+11-3051.03,,unmapped (closeMatch matches disagree),1321 3122
+11-3051.04,1,ESCO narrowMatch,1219
+11-3051.06,2,ESCO closeMatch,2142
+11-3061.00,1,ESCO exactMatch,1324
+11-3071.00,1,ESCO exactMatch,1324
+11-3071.04,1,ESCO exactMatch,1324
+11-3111.00,1,ESCO narrowMatch,1212
+11-3121.00,1,ESCO exactMatch,1212
+11-3131.00,2,ESCO exactMatch,2424
+11-9013.00,6,ESCO closeMatch,6130
+11-9021.00,1,ESCO exactMatch,1323
+11-9031.00,1,ESCO exactMatch,1341
+11-9032.00,1,ESCO exactMatch,1345
+11-9033.00,1,ESCO exactMatch,1345
+11-9039.00,2,ESCO broadMatch,2621
+11-9041.00,,unmapped (closeMatch matches disagree),1323 2161
+11-9041.01,2,ESCO closeMatch,2145
+11-9051.00,1,ESCO exactMatch,1412
+11-9071.00,1,ESCO exactMatch,1431
+11-9072.00,1,ESCO exactMatch,1431
+11-9081.00,1,ESCO exactMatch,1411
+11-9111.00,1,ESCO exactMatch,1342
+11-9121.00,1,ESCO exactMatch,1223
+11-9121.01,1,ESCO narrowMatch,1223
+11-9121.02,2,ESCO closeMatch,2133 2142 2143 2422
+11-9141.00,3,ESCO exactMatch,3334
+11-9151.00,1,ESCO exactMatch,1344
+11-9161.00,2,ESCO exactMatch,2263
+11-9171.00,5,ESCO closeMatch,5163
+11-9179.01,1,ESCO exactMatch,1431
+11-9179.02,1,ESCO exactMatch,1431
+11-9199.00,1,"ESCO broadMatch, 9 of 14 unit groups",1112 1120 1219 1223 1321 1322 1324 1330 1343 2431 2434 2519 3339 5221
+11-9199.01,2,ESCO exactMatch,2619
+11-9199.02,2,ESCO closeMatch,2619
+11-9199.08,,unmapped (closeMatch matches disagree),1219 5414
+11-9199.09,1,ESCO narrowMatch,1219
+11-9199.10,1,ESCO narrowMatch,1219
+13-1011.00,3,ESCO exactMatch,3339
+13-1021.00,3,ESCO closeMatch,3323
+13-1023.00,3,ESCO exactMatch,3323
+13-1031.00,3,ESCO exactMatch,3315
+13-1032.00,3,ESCO narrowMatch,3315
+13-1041.00,3,ESCO exactMatch,3354
+13-1041.01,3,ESCO exactMatch,3257
+13-1041.03,1,ESCO closeMatch,1212
+13-1041.04,3,ESCO closeMatch,3315
+13-1041.06,2,ESCO exactMatch,2619
+13-1041.07,2,ESCO closeMatch,2619
+13-1041.08,3,ESCO exactMatch,3331
+13-1051.00,2,ESCO closeMatch,2149 2411
+13-1071.00,2,ESCO exactMatch,2423
+13-1075.00,2,ESCO exactMatch,2423
+13-1081.00,2,ESCO exactMatch,2141
+13-1081.01,2,ESCO exactMatch,2149
+13-1081.02,2,ESCO narrowMatch,2141 2149
+13-1082.00,1,ESCO exactMatch,1219
+13-1111.00,2,ESCO closeMatch,2413 2421
+13-1121.00,3,ESCO exactMatch,3332
+13-1131.00,,unmapped (closeMatch matches disagree),2432 3343
+13-1141.00,2,ESCO exactMatch,2423
+13-1151.00,2,ESCO closeMatch,2359 2424
+13-1161.00,2,ESCO closeMatch,2431
+13-1161.01,2,ESCO exactMatch,2513
+13-1199.00,3,ESCO broadMatch,3435
+13-1199.04,2,ESCO exactMatch,2519
+13-1199.05,2,ESCO exactMatch,2133
+13-1199.06,2,ESCO exactMatch,2431
+13-1199.07,5,ESCO exactMatch,5414
+13-2011.00,2,ESCO exactMatch,2411
+13-2022.00,3,ESCO exactMatch,3315
+13-2023.00,3,ESCO exactMatch,3315
+13-2031.00,2,ESCO exactMatch,2411
+13-2041.00,3,ESCO exactMatch,3312
+13-2051.00,2,ESCO closeMatch,2412
+13-2052.00,2,ESCO exactMatch,2412
+13-2053.00,3,ESCO exactMatch,3321
+13-2054.00,2,ESCO exactMatch,2413
+13-2061.00,2,ESCO exactMatch,2411
+13-2071.00,3,ESCO exactMatch,3312
+13-2072.00,3,ESCO exactMatch,3312
+13-2081.00,3,ESCO exactMatch,3352
+13-2082.00,2,ESCO exactMatch,2411
+13-2099.00,2,ESCO broadMatch,2412
+13-2099.01,2,ESCO closeMatch,2413
+13-2099.04,2,ESCO exactMatch,2411
+15-1211.00,2,ESCO exactMatch,2511
+15-1211.01,2,"ESCO closeMatch, 2 of 3 unit groups",1342 2511 2512
+15-1212.00,2,ESCO exactMatch,2529
+15-1221.00,2,ESCO exactMatch,2511
+15-1231.00,2,ESCO exactMatch,2522
+15-1232.00,3,ESCO exactMatch,3512
+15-1241.00,2,ESCO closeMatch,2511
+15-1241.01,2,ESCO exactMatch,2153
+15-1242.00,2,ESCO exactMatch,2521
+15-1243.00,2,ESCO broadMatch,2521
+15-1243.01,2,ESCO exactMatch,2521
+15-1244.00,2,ESCO closeMatch,2523
+15-1251.00,2,ESCO closeMatch,2512
+15-1252.00,2,ESCO exactISCO,2512
+15-1253.00,2,ESCO exactMatch,2519
+15-1254.00,2,ESCO exactMatch,2513
+15-1255.00,2,ESCO exactMatch,2513
+15-1255.01,2,ESCO exactMatch,2166
+15-1299.01,3,ESCO exactMatch,3514
+15-1299.02,2,ESCO exactMatch,2165
+15-1299.03,,unmapped (exactMatch concepts unresolved),
+15-1299.04,2,ESCO exactMatch,2529
+15-1299.05,,unmapped (closeMatch matches disagree),2529 3512
+15-1299.06,2,ESCO exactMatch,2529
+15-1299.07,,unmapped (broadMatch concepts unresolved),
+15-1299.08,2,ESCO exactMatch,2511
+15-1299.09,1,ESCO exactMatch,1330
+15-2011.00,2,ESCO exactMatch,2120
+15-2021.00,2,ESCO exactMatch,2120
+15-2031.00,2,ESCO closeMatch,2141 2149 2421 2423
+15-2041.00,2,ESCO exactMatch,2120
+15-2041.01,2,ESCO exactMatch,2120
+15-2051.00,2,ESCO exactMatch,2511
+15-2051.01,2,ESCO exactMatch,2421
+15-2051.02,,unmapped (closeMatch matches disagree),1342 3252
+15-2099.00,2,ESCO broadMatch,2120
+15-2099.01,2,ESCO closeMatch,2131
+17-1011.00,2,ESCO exactMatch,2161
+17-1012.00,2,ESCO exactMatch,2162
+17-1021.00,,unmapped (closeMatch matches disagree),2165 3112
+17-1022.00,,unmapped (closeMatch matches disagree),2165 3112
+17-2011.00,2,ESCO exactMatch,2144
+17-2021.00,2,ESCO exactMatch,2144
+17-2031.00,2,ESCO exactMatch,2149
+17-2041.00,2,ESCO exactMatch,2145
+17-2051.00,,unmapped (exactMatch concepts unresolved),
+17-2051.01,2,ESCO exactMatch,2142
+17-2051.02,3,ESCO closeMatch,3112
+17-2061.00,2,ESCO exactMatch,2152
+17-2071.00,2,ESCO exactMatch,2151
+17-2072.00,2,ESCO exactMatch,2152
+17-2072.01,2,"ESCO closeMatch, 3 of 4 unit groups",2151 2152 2153 3114
+17-2081.00,2,ESCO exactMatch,2143
+17-2111.00,2,ESCO exactMatch,2149
+17-2111.02,2,ESCO exactMatch,2149
+17-2112.00,2,ESCO exactISCO,2141
+17-2112.01,2,ESCO closeMatch,2149
+17-2112.02,2,ESCO exactMatch,2149
+17-2112.03,2,ESCO exactMatch,2141
+17-2121.00,3,ESCO closeMatch,3118 3151
+17-2131.00,2,ESCO closeMatch,2149
+17-2141.00,2,ESCO exactMatch,2144
+17-2141.01,,unmapped (exactMatch concepts unresolved),
+17-2141.02,2,ESCO exactMatch,2144
+17-2151.00,2,ESCO exactMatch,2142
+17-2161.00,2,ESCO exactMatch,2149
+17-2171.00,2,ESCO exactMatch,2146
+17-2199.00,2,ESCO broadMatch,2144 2145 2149
+17-2199.03,3,ESCO closeMatch,3112
+17-2199.05,2,ESCO exactMatch,2144
+17-2199.06,2,ESCO exactMatch,2152
+17-2199.07,2,ESCO exactMatch,2149
+17-2199.08,2,ESCO exactMatch,2149
+17-2199.09,2,ESCO exactMatch,2149
+17-2199.10,2,ESCO closeMatch,2149
+17-2199.11,2,ESCO exactMatch,2149
+17-3011.00,3,ESCO closeMatch,3118
+17-3012.00,3,ESCO narrowMatch,3118
+17-3013.00,3,ESCO exactMatch,3118
+17-3021.00,3,ESCO exactMatch,3115
+17-3022.00,3,ESCO exactMatch,3112
+17-3023.00,3,ESCO closeMatch,3114
+17-3024.00,,unmapped (closeMatch matches disagree),3119 8211
+17-3024.01,3,ESCO exactMatch,3119
+17-3025.00,,unmapped (closeMatch matches disagree),2143 3111
+17-3026.00,3,ESCO exactMatch,3119
+17-3026.01,2,ESCO closeMatch,2149
+17-3027.00,3,ESCO exactMatch,3115
+17-3027.01,3,ESCO exactMatch,3115
+17-3028.00,3,ESCO exactMatch,3111
+17-3029.00,3,"ESCO broadMatch, 4 of 5 unit groups",2141 3115 3116 3119 3132
+17-3029.01,7,ESCO exactMatch,7543
+17-3029.08,3,ESCO exactMatch,3119
+17-3031.00,3,ESCO exactMatch,3112
+19-1011.00,2,ESCO closeMatch,2131 2250
+19-1012.00,,unmapped (closeMatch matches disagree),2131 3119
+19-1013.00,2,ESCO narrowMatch,2132
+19-1021.00,2,ESCO broadMatch,2131
+19-1022.00,2,ESCO exactMatch,2131
+19-1023.00,3,ESCO closeMatch,3141
+19-1029.01,2,ESCO exactMatch,2131
+19-1029.02,2,ESCO closeMatch,2131
+19-1029.03,2,ESCO exactMatch,2131
+19-1029.04,2,ESCO exactMatch,2131
+19-1031.00,2,ESCO exactMatch,2133
+19-1031.02,,unmapped (closeMatch matches disagree),1311 2133
+19-1031.03,,unmapped (closeMatch matches disagree),2133 5113
+19-1032.00,3,"ESCO closeMatch, 2 of 4 unit groups",2133 3141 3143 9215
+19-1041.00,2,ESCO exactMatch,2131
+19-1042.00,2,ESCO closeMatch,2131
+19-2011.00,2,ESCO exactMatch,2111
+19-2012.00,2,ESCO exactMatch,2111
+19-2021.00,2,ESCO closeMatch,2112
+19-2031.00,2,ESCO exactMatch,2113
+19-2032.00,2,ESCO exactMatch,2149
+19-2041.00,2,"ESCO exactMatch, 2 of 3 unit groups",1349 2133 2143
+19-2041.01,2,ESCO narrowMatch,2422
+19-2041.02,2,"ESCO closeMatch, 2 of 3 unit groups",2133 2143 3111
+19-2041.03,2,ESCO closeMatch,2133 2143
+19-2042.00,2,ESCO exactMatch,2114
+19-2043.00,2,ESCO exactMatch,2114
+19-2099.01,2,"ESCO closeMatch, 2 of 3 unit groups",2114 2632 3111
+19-3011.00,2,ESCO exactMatch,2631
+19-3011.01,2,ESCO closeMatch,2422
+19-3022.00,2,"ESCO broadMatch, 3 of 5 unit groups",2120 2431 2632 3341 4227
+19-3032.00,2,ESCO closeMatch,2423
+19-3033.00,2,ESCO exactMatch,2634
+19-3034.00,2,ESCO exactMatch,2634
+19-3039.02,2,ESCO narrowMatch,2634
+19-3039.03,2,ESCO exactMatch,2634
+19-3041.00,2,ESCO exactMatch,2632
+19-3051.00,2,ESCO closeMatch,2161 2422
+19-3091.00,2,ESCO broadMatch,2632
+19-3092.00,2,ESCO exactMatch,2632
+19-3093.00,2,ESCO exactMatch,2633
+19-3094.00,2,ESCO exactMatch,2633
+19-3099.00,2,ESCO broadMatch,2422 2643
+19-3099.01,2,ESCO exactMatch,2164
+19-4012.00,3,ESCO exactMatch,3142
+19-4012.01,2,ESCO closeMatch,2132 2144
+19-4013.00,3,ESCO exactMatch,3111
+19-4021.00,3,ESCO exactMatch,3141
+19-4031.00,3,ESCO exactMatch,3111
+19-4042.00,3,ESCO exactMatch,3111
+19-4043.00,3,ESCO exactMatch,3111
+19-4044.00,2,ESCO closeMatch,2114
+19-4051.00,3,ESCO exactMatch,3111
+19-4051.02,3,ESCO exactMatch,3111
+19-4061.00,2,ESCO closeMatch,2632
+19-4071.00,3,ESCO exactMatch,3143
+19-4092.00,3,ESCO closeMatch,3355
+19-4099.01,3,"ESCO broadMatch, 3 of 5 unit groups",3116 3119 3341 6112 7543
+19-4099.03,3,ESCO exactMatch,3111
+19-5011.00,3,ESCO exactMatch,3257
+19-5012.00,3,"ESCO broadMatch, 3 of 4 unit groups",2263 3112 3117 3257
+21-1011.00,2,ESCO exactMatch,2635
+21-1012.00,2,"ESCO broadMatch, 2 of 3 unit groups",2359 2423 3312
+21-1013.00,2,ESCO exactMatch,2635
+21-1014.00,2,ESCO exactMatch,2635
+21-1015.00,2,ESCO exactMatch,2635
+21-1019.00,,unmapped (broadMatch matches disagree),2635 3354
+21-1021.00,,unmapped (broadMatch matches disagree),2635 3412
+21-1022.00,2,ESCO closeMatch,2635
+21-1023.00,2,ESCO closeMatch,2635
+21-1029.00,2,ESCO broadMatch,2635
+21-1091.00,2,ESCO narrowMatch,2422
+21-1092.00,2,ESCO exactMatch,2635
+21-1093.00,3,ESCO exactMatch,3412
+21-1094.00,3,ESCO exactMatch,3253
+21-1099.00,2,"ESCO broadMatch, 2 of 3 unit groups",2432 2635 3412
+21-2011.00,2,ESCO exactMatch,2636
+21-2021.00,2,ESCO exactMatch,2636
+23-1011.00,2,ESCO exactMatch,2611
+23-1012.00,3,ESCO exactMatch,3411
+23-1021.00,2,ESCO closeMatch,2612
+23-1023.00,2,ESCO exactMatch,2612
+23-2011.00,3,ESCO exactMatch,3411
+23-2093.00,3,ESCO closeMatch,3411
+23-2099.00,3,ESCO broadMatch,3354 3412
+25-1011.00,2,ESCO exactMatch,2310
+25-1021.00,2,ESCO exactMatch,2310
+25-1022.00,2,ESCO exactMatch,2310
+25-1031.00,2,ESCO exactMatch,2310
+25-1032.00,2,ESCO exactMatch,2310
+25-1041.00,2,ESCO closeMatch,2310 2320
+25-1042.00,2,ESCO exactMatch,2310
+25-1043.00,2,ESCO narrowMatch,2310
+25-1051.00,2,ESCO narrowMatch,2310
+25-1052.00,2,ESCO exactMatch,2310
+25-1053.00,2,ESCO closeMatch,2310
+25-1054.00,2,ESCO exactMatch,2310
+25-1061.00,2,ESCO closeMatch,2310
+25-1062.00,2,ESCO closeMatch,2310
+25-1063.00,2,ESCO exactMatch,2310
+25-1064.00,2,ESCO closeMatch,2330 2632
+25-1065.00,2,ESCO exactMatch,2310
+25-1066.00,2,ESCO exactMatch,2310
+25-1067.00,2,ESCO exactMatch,2310
+25-1071.00,2,ESCO exactMatch,2310
+25-1072.00,2,ESCO exactMatch,2310
+25-1081.00,2,ESCO exactMatch,2310
+25-1082.00,2,ESCO narrowMatch,2310
+25-1111.00,2,ESCO narrowMatch,2310
+25-1112.00,2,ESCO exactMatch,2310
+25-1113.00,2,ESCO exactMatch,2310
+25-1121.00,2,ESCO closeMatch,2310 2330
+25-1122.00,2,ESCO exactMatch,2310
+25-1123.00,2,ESCO closeMatch,2310 2330 2353
+25-1124.00,2,ESCO closeMatch,2353
+25-1125.00,2,ESCO exactMatch,2310
+25-1126.00,2,ESCO exactMatch,2310
+25-1192.00,2,ESCO closeMatch,2310
+25-1193.00,2,ESCO closeMatch,2320 2330
+25-1194.00,2,ESCO exactMatch,2320
+25-1199.00,,unmapped (broadMatch concepts unresolved),
+25-2011.00,2,ESCO narrowMatch,2342
+25-2012.00,2,ESCO exactMatch,2342
+25-2021.00,2,ESCO exactMatch,2341
+25-2022.00,2,ESCO broadMatch,2353
+25-2023.00,2,ESCO narrowMatch,2330
+25-2031.00,2,ESCO exactMatch,2330
+25-2032.00,2,ESCO exactISCO,2320
+25-2051.00,,unmapped (closeMatch matches disagree),2352 5312
+25-2055.00,2,ESCO exactMatch,2352
+25-2056.00,2,ESCO exactMatch,2352
+25-2057.00,2,ESCO closeMatch,2352
+25-2058.00,2,ESCO exactMatch,2352
+25-2059.01,3,ESCO closeMatch,3423
+25-3011.00,2,ESCO exactMatch,2352
+25-3021.00,3,ESCO exactMatch,3412
+25-3031.00,,unmapped (closeMatch matches disagree),2330 5312
+25-3041.00,2,ESCO exactMatch,2359
+25-3099.00,3,"ESCO broadMatch, 3 of 7 unit groups",2320 2355 3253 3422 3423 5113 5165
+25-4011.00,2,ESCO exactMatch,2621
+25-4012.00,,unmapped (broadMatch matches disagree),1431 2621
+25-4013.00,2,ESCO narrowMatch,2621
+25-4022.00,2,ESCO exactMatch,2622
+25-4031.00,4,ESCO exactMatch,4411
+25-9031.00,2,ESCO exactISCO,2351
+25-9042.00,5,ESCO exactISCO,5312
+25-9043.00,5,ESCO exactMatch,5312
+25-9044.00,2,ESCO exactMatch,2310
+27-1011.00,2,ESCO exactMatch,2166
+27-1012.00,7,"ESCO broadMatch, 6 of 7 unit groups",2651 7312 7316 7317 7318 7522 7533
+27-1013.00,2,ESCO exactMatch,2651
+27-1014.00,2,ESCO closeMatch,2166
+27-1019.00,,unmapped (broadMatch matches disagree),2659 3435 5161
+27-1021.00,2,ESCO exactMatch,2163
+27-1022.00,2,ESCO exactMatch,2163
+27-1023.00,5,ESCO exactMatch,5223
+27-1024.00,2,ESCO exactMatch,2166
+27-1025.00,3,ESCO exactMatch,3432
+27-1026.00,3,ESCO exactMatch,3432
+27-1027.00,3,ESCO exactMatch,3432
+27-1029.00,,unmapped (broadMatch matches disagree),2163 3435
+27-2011.00,2,ESCO exactMatch,2655
+27-2012.00,2,ESCO exactISCO,2654
+27-2012.03,2,ESCO closeMatch,2166
+27-2012.04,2,ESCO exactMatch,2166
+27-2012.05,,unmapped (closeMatch matches disagree),2166 3435
+27-2021.00,3,ESCO exactMatch,3421
+27-2022.00,,unmapped (closeMatch matches disagree),2330 3422
+27-2023.00,3,ESCO exactMatch,3422
+27-2031.00,2,ESCO exactMatch,2653
+27-2032.00,2,ESCO exactMatch,2653
+27-2041.00,2,ESCO broadMatch,2641 2652 2654
+27-2042.00,2,ESCO narrowMatch,2659
+27-2091.00,2,ESCO narrowMatch,2659
+27-2099.00,,unmapped (broadMatch matches disagree),3435 5161
+27-3011.00,2,ESCO exactMatch,2656
+27-3023.00,2,ESCO closeMatch,2642
+27-3031.00,2,ESCO exactISCO,2432
+27-3041.00,2,"ESCO broadMatch, 2 of 4 unit groups",1349 2641 2642 3343
+27-3042.00,2,ESCO exactMatch,2641
+27-3043.00,2,ESCO broadMatch,2431 2641 2642
+27-3043.05,2,ESCO broadMatch,2641 2642
+27-3091.00,2,ESCO exactISCO,2643
+27-3092.00,3,ESCO exactMatch,3343
+27-3099.00,2,ESCO broadMatch,2656
+27-4011.00,,unmapped (closeMatch concepts unresolved),
+27-4012.00,3,ESCO exactMatch,3521
+27-4014.00,3,ESCO closeMatch,3435
+27-4015.00,3,ESCO exactMatch,3435
+27-4021.00,3,ESCO exactMatch,3431
+27-4031.00,3,ESCO narrowMatch,3521
+27-4032.00,2,"ESCO broadMatch, 3 of 4 unit groups",2166 2651 2654 8132
+27-4099.00,,unmapped (broadMatch matches disagree),3435 7215
+29-1011.00,2,ESCO exactMatch,2269
+29-1021.00,2,ESCO exactMatch,2261
+29-1022.00,2,ESCO closeMatch,2261
+29-1023.00,3,ESCO closeMatch,3214
+29-1024.00,3,ESCO exactISCO,3214
+29-1031.00,2,ESCO exactISCO,2265
+29-1041.00,2,ESCO exactMatch,2267
+29-1051.00,2,ESCO exactISCO,2262
+29-1071.00,3,ESCO closeMatch,3256
+29-1071.01,3,ESCO exactMatch,3259
+29-1081.00,2,ESCO exactMatch,2269
+29-1122.00,2,ESCO exactMatch,2269
+29-1122.01,2,ESCO closeMatch,2635
+29-1123.00,2,ESCO exactMatch,2264
+29-1124.00,,unmapped (exactMatch concepts unresolved),
+29-1125.00,2,ESCO exactMatch,2269
+29-1126.00,3,ESCO broadMatch,3211 3259
+29-1127.00,2,ESCO exactMatch,2266
+29-1128.00,3,ESCO broadMatch,3423
+29-1129.00,2,ESCO broadMatch,2269
+29-1129.01,2,ESCO exactMatch,2269
+29-1129.02,2,ESCO exactMatch,2269
+29-1131.00,2,ESCO exactISCO,2250
+29-1141.00,2,ESCO exactMatch,2221
+29-1141.01,2,ESCO narrowMatch,2221
+29-1141.02,2,ESCO closeMatch,2634
+29-1141.03,2,ESCO broadMatch,2221
+29-1141.04,2,ESCO broadMatch,2221 2222
+29-1151.00,3,ESCO closeMatch,3256 3259
+29-1161.00,2,ESCO closeMatch,2222 2320
+29-1171.00,2,ESCO exactISCO,2221
+29-1181.00,2,ESCO exactMatch,2266
+29-1211.00,2,ESCO narrowMatch,2212
+29-1212.00,2,ESCO narrowMatch,2212
+29-1213.00,2,ESCO narrowMatch,2212
+29-1214.00,2,ESCO narrowMatch,2212
+29-1215.00,2,ESCO exactMatch,2211
+29-1216.00,2,ESCO closeMatch,2131 2212
+29-1217.00,2,ESCO narrowMatch,2212
+29-1218.00,2,ESCO narrowMatch,2212
+29-1221.00,2,ESCO narrowMatch,2212
+29-1222.00,,unmapped (closeMatch matches disagree),2131 3212
+29-1223.00,2,ESCO narrowMatch,2212
+29-1224.00,2,ESCO exactMatch,2269
+29-1229.01,2,ESCO closeMatch,2131
+29-1229.02,2,ESCO closeMatch,2211
+29-1229.03,2,ESCO narrowMatch,2212
+29-1229.04,2,ESCO closeMatch,2264
+29-1229.05,2,ESCO closeMatch,2211
+29-1229.06,3,ESCO closeMatch,3423
+29-1241.00,2,ESCO closeMatch,2267
+29-1242.00,2,ESCO narrowMatch,2212
+29-1243.00,2,ESCO narrowMatch,2212
+29-1291.00,2,ESCO exactMatch,2230
+29-1292.00,3,ESCO exactMatch,3251
+29-1299.01,,unmapped (broadMatch matches disagree),2230 3255
+29-1299.02,2,ESCO exactMatch,2267
+29-2011.00,3,ESCO exactMatch,3212
+29-2011.01,2,ESCO closeMatch,2131
+29-2011.02,3,ESCO exactMatch,3212
+29-2011.04,3,ESCO closeMatch,3212
+29-2012.00,3,ESCO closeMatch,3141 3212
+29-2012.01,3,ESCO closeMatch,3141 3212
+29-2031.00,3,ESCO closeMatch,3211
+29-2032.00,2,ESCO closeMatch,2269
+29-2033.00,2,ESCO exactMatch,2269
+29-2034.00,2,ESCO broadMatch,2269
+29-2035.00,2,ESCO closeMatch,2269
+29-2036.00,,unmapped (closeMatch concepts unresolved),
+29-2042.00,3,ESCO closeMatch,3258
+29-2043.00,3,ESCO exactMatch,3258
+29-2051.00,3,ESCO exactMatch,3259
+29-2052.00,3,ESCO exactMatch,3213
+29-2053.00,3,ESCO exactMatch,3412
+29-2055.00,3,ESCO exactMatch,3256
+29-2056.00,3,ESCO exactMatch,3240
+29-2057.00,2,ESCO closeMatch,2267
+29-2061.00,5,"ESCO broadMatch, 2 of 3 unit groups",2635 5321 5322
+29-2072.00,3,ESCO closeMatch,3252 3344
+29-2081.00,3,ESCO exactMatch,3254
+29-2091.00,3,ESCO exactMatch,3214
+29-2092.00,3,ESCO exactMatch,3214
+29-2099.01,2,ESCO narrowMatch,2269
+29-2099.05,2,ESCO closeMatch,2267
+29-9021.00,1,"ESCO closeMatch, 2 of 4 unit groups",1330 1342 2622 3252
+29-9091.00,2,ESCO closeMatch,2264 2269
+29-9092.00,2,ESCO closeMatch,2131
+29-9093.00,3,"ESCO closeMatch, 3 of 4 unit groups",3211 3256 3259 5321
+29-9099.01,2,ESCO exactMatch,2222
+31-1121.00,5,ESCO exactMatch,5322
+31-1122.00,5,"ESCO broadMatch, 2 of 3 unit groups",3412 5162 5322
+31-1131.00,5,ESCO exactMatch,5321
+31-1132.00,5,ESCO exactMatch,5329
+31-1133.00,5,ESCO narrowMatch,5321
+31-2011.00,2,ESCO exactMatch,2269
+31-2012.00,2,ESCO narrowMatch,2269
+31-2021.00,2,ESCO closeMatch,2230
+31-2022.00,3,ESCO closeMatch,3255
+31-9011.00,2,ESCO narrowMatch,2230
+31-9091.00,3,ESCO exactMatch,3251
+31-9092.00,3,ESCO exactISCO,3256
+31-9093.00,5,ESCO exactMatch,5329
+31-9094.00,3,ESCO exactMatch,3344
+31-9095.00,3,ESCO exactMatch,3213
+31-9096.00,3,ESCO exactMatch,3240
+31-9097.00,5,ESCO exactMatch,5329
+31-9099.01,2,ESCO closeMatch,2266
+33-1011.00,1,ESCO exactMatch,1349
+33-1012.00,1,ESCO exactMatch,1112
+33-1021.00,1,ESCO closeMatch,1112 1349
+33-1091.00,5,ESCO exactMatch,5414
+33-1099.00,5,ESCO broadMatch,5411
+33-2011.00,5,ESCO exactMatch,5411
+33-2021.00,3,ESCO exactMatch,3112
+33-2022.00,3,ESCO exactMatch,3359
+33-3011.00,3,ESCO exactMatch,3411
+33-3012.00,5,ESCO exactMatch,5413
+33-3021.00,3,ESCO exactISCO,3355
+33-3021.02,3,ESCO closeMatch,3355
+33-3021.06,2,ESCO exactMatch,2422
+33-3031.00,5,ESCO narrowMatch,5164
+33-3041.00,5,ESCO closeMatch,5419
+33-3051.00,,unmapped (broadMatch matches disagree),3355 3411 5412 5419
+33-3051.04,3,ESCO exactMatch,3351
+33-3052.00,5,ESCO narrowMatch,5412 5419
+33-9011.00,5,ESCO exactMatch,5164
+33-9021.00,3,ESCO exactMatch,3411
+33-9031.00,3,ESCO exactMatch,3359
+33-9032.00,5,ESCO exactMatch,5414
+33-9091.00,8,ESCO closeMatch,8312
+33-9092.00,,unmapped (broadMatch matches disagree),5419 9129
+33-9093.00,3,ESCO exactISCO,3351
+33-9094.00,5,ESCO exactMatch,5311
+35-1011.00,3,ESCO exactMatch,3434
+35-1012.00,,unmapped (closeMatch matches disagree),1412 5246
+35-2011.00,9,ESCO exactISCO,9411
+35-2012.00,,unmapped (closeMatch matches disagree),3434 5120
+35-2013.00,3,ESCO exactMatch,3434
+35-2014.00,3,ESCO closeMatch,3434
+35-2015.00,9,ESCO closeMatch,9411
+35-2021.00,9,ESCO exactMatch,9412
+35-3011.00,5,ESCO exactMatch,5132
+35-3023.00,9,ESCO exactMatch,9411
+35-3023.01,5,ESCO exactMatch,5132
+35-3031.00,5,ESCO exactMatch,5131
+35-3041.00,5,ESCO narrowMatch,5131
+35-9021.00,9,ESCO exactMatch,9412
+35-9031.00,,unmapped (exactMatch concepts unresolved),
+35-9099.00,5,ESCO broadMatch,5131
+37-1011.00,5,ESCO exactMatch,5151
+37-1012.00,,unmapped (closeMatch matches disagree),2162 6113
+37-2011.00,9,ESCO exactMatch,9112
+37-2012.00,9,ESCO exactMatch,9111
+37-2021.00,7,ESCO exactMatch,7544
+37-3011.00,6,ESCO exactMatch,6113
+37-3012.00,7,ESCO exactMatch,7544
+37-3013.00,6,ESCO exactMatch,6113
+39-1013.00,4,ESCO exactMatch,4212
+39-1014.00,3,ESCO broadMatch,3339 3423
+39-2011.00,5,ESCO exactMatch,5164
+39-2021.00,5,ESCO exactISCO,5164
+39-3011.00,4,ESCO exactMatch,4212
+39-3012.00,4,ESCO exactMatch,4212
+39-3021.00,3,ESCO exactMatch,3521
+39-3031.00,9,"ESCO broadMatch, 2 of 4 unit groups",4221 5230 9621 9629
+39-3091.00,9,ESCO exactMatch,9629
+39-3092.00,3,ESCO exactMatch,3435
+39-3093.00,,unmapped (broadMatch matches disagree),3423 5142 9629
+39-4011.00,5,ESCO exactMatch,5163
+39-4012.00,5,ESCO broadMatch,5163
+39-4021.00,5,ESCO exactMatch,5163
+39-4031.00,5,ESCO exactMatch,5163
+39-5011.00,5,ESCO exactMatch,5141
+39-5012.00,7,ESCO closeMatch,7531
+39-5091.00,5,ESCO exactMatch,5142
+39-5092.00,5,ESCO narrowMatch,5142
+39-5093.00,5,ESCO exactMatch,5141
+39-5094.00,5,ESCO exactMatch,5142
+39-6011.00,9,ESCO broadMatch,9333 9621
+39-6012.00,4,ESCO broadMatch,4229
+39-7011.00,5,ESCO exactMatch,5113
+39-7012.00,,unmapped (closeMatch matches disagree),4221 5113
+39-9011.00,5,ESCO exactMatch,5311
+39-9011.01,5,ESCO exactMatch,5311
+39-9031.00,3,ESCO exactMatch,3422
+39-9032.00,3,ESCO exactMatch,3423
+39-9041.00,2,ESCO closeMatch,2635
+41-1011.00,1,ESCO exactMatch,1420
+41-1012.00,1,ESCO closeMatch,1420
+41-2011.00,5,ESCO exactMatch,5230
+41-2012.00,,unmapped (broadMatch matches disagree),4212 5230
+41-2021.00,5,ESCO exactMatch,5249
+41-2022.00,5,ESCO closeMatch,5223
+41-2031.00,5,ESCO exactMatch,5223
+41-3011.00,3,ESCO exactMatch,3339
+41-3021.00,3,ESCO exactMatch,3321
+41-3031.00,3,ESCO exactISCO,3311
+41-3041.00,4,ESCO exactMatch,4221
+41-3091.00,,unmapped (closeMatch matches disagree),2433 5243
+41-4011.00,2,ESCO exactMatch,2433
+41-4011.07,2,ESCO exactMatch,2433
+41-4012.00,,unmapped (narrowMatch matches disagree),2431 3322
+41-9011.00,5,ESCO exactMatch,5242
+41-9012.00,5,ESCO exactISCO,5241
+41-9021.00,3,ESCO exactMatch,3334
+41-9022.00,3,ESCO exactMatch,3334
+41-9031.00,2,ESCO exactMatch,2433
+41-9041.00,5,ESCO exactMatch,5244
+41-9091.00,5,"ESCO broadMatch, 3 of 5 unit groups",5211 5212 5243 9510 9520
+41-9099.00,5,ESCO broadMatch,5223
+43-1011.00,3,ESCO exactMatch,3341
+43-2011.00,4,ESCO exactMatch,4223
+43-2021.00,4,ESCO closeMatch,4222
+43-3011.00,4,ESCO exactMatch,4214
+43-3021.00,4,ESCO exactMatch,4311
+43-3031.00,4,ESCO closeMatch,4312
+43-3041.00,4,ESCO exactMatch,4212
+43-3051.00,4,ESCO exactMatch,4313
+43-3061.00,,unmapped (exactMatch concepts unresolved),
+43-3071.00,4,ESCO exactMatch,4211
+43-4011.00,4,ESCO exactMatch,4312
+43-4021.00,4,"ESCO closeMatch, 3 of 4 unit groups",3343 4110 4131 4226
+43-4031.00,3,ESCO closeMatch,3343 3411
+43-4041.00,3,ESCO closeMatch,3312
+43-4051.00,4,ESCO exactMatch,4225
+43-4061.00,3,ESCO closeMatch,3351 3353
+43-4071.00,4,ESCO exactMatch,4415
+43-4081.00,4,ESCO exactMatch,4229
+43-4111.00,,unmapped (closeMatch concepts unresolved),
+43-4121.00,,unmapped (closeMatch matches disagree),2621 3433 4415
+43-4131.00,3,ESCO closeMatch,3311 3312
+43-4141.00,3,ESCO exactMatch,3312
+43-4151.00,,unmapped (closeMatch matches disagree),4311 9333
+43-4161.00,4,ESCO exactMatch,4416
+43-4171.00,4,ESCO broadMatch,4222 4224 4226
+43-4181.00,4,ESCO exactMatch,4221
+43-4199.00,4,ESCO broadMatch,4110
+43-5011.00,3,ESCO closeMatch,3331
+43-5011.01,4,ESCO exactMatch,4323
+43-5021.00,8,"ESCO broadMatch, 2 of 4 unit groups",4412 8321 8322 9331
+43-5031.00,4,ESCO exactMatch,4223
+43-5032.00,,unmapped (broadMatch matches disagree),4323 8312 9333
+43-5041.00,9,ESCO exactMatch,9623
+43-5051.00,4,ESCO exactMatch,4211
+43-5052.00,4,ESCO exactMatch,4412
+43-5053.00,4,ESCO narrowMatch,4412
+43-5061.00,3,ESCO closeMatch,3323 3343
+43-5071.00,4,ESCO exactMatch,4321
+43-5111.00,,unmapped (closeMatch matches disagree),3359 7543
+43-6011.00,3,ESCO exactMatch,3343
+43-6012.00,3,ESCO exactMatch,3342
+43-6013.00,3,ESCO exactMatch,3344
+43-6014.00,3,"ESCO closeMatch, 3 of 4 unit groups",3342 3343 3344 4419
+43-9021.00,4,ESCO exactMatch,4132
+43-9022.00,4,ESCO exactMatch,4131
+43-9031.00,2,ESCO exactMatch,2166
+43-9041.00,4,ESCO exactMatch,4312
+43-9051.00,4,ESCO exactMatch,4412
+43-9061.00,4,ESCO exactMatch,4110
+43-9071.00,4,ESCO closeMatch,4110
+43-9081.00,,unmapped (broadMatch matches disagree),2642 4413 7321
+43-9111.00,3,ESCO exactMatch,3314
+43-9199.00,2,ESCO broadMatch,2619
+45-1011.00,6,"ESCO closeMatch, 2 of 3 unit groups",1312 6114 6130
+45-2011.00,3,ESCO exactMatch,3359
+45-2021.00,6,ESCO exactISCO,612
+45-2041.00,7,ESCO exactISCO,7515
+45-2091.00,8,ESCO exactMatch,8341
+45-2092.00,,unmapped (closeMatch matches disagree),6112 9214
+45-2093.00,9,ESCO exactISCO,921
+45-2099.00,9,ESCO broadMatch,9216
+45-3031.00,6,ESCO exactISCO,622
+45-4011.00,9,ESCO exactMatch,9215
+45-4021.00,8,ESCO closeMatch,8172 8341
+45-4022.00,8,ESCO exactMatch,8341
+45-4023.00,7,ESCO exactMatch,7543
+47-1011.00,3,"ESCO broadMatch, 2 of 3 unit groups",3121 3123 4323
+47-1011.03,,unmapped (closeMatch matches disagree),3123 7411
+47-2011.00,7,ESCO exactMatch,7213
+47-2021.00,7,ESCO exactMatch,7112
+47-2022.00,7,ESCO exactMatch,7113
+47-2031.00,7,ESCO exactMatch,7115
+47-2041.00,7,ESCO exactMatch,7122
+47-2042.00,7,ESCO closeMatch,7122
+47-2043.00,7,ESCO closeMatch,7122 7523
+47-2044.00,7,"ESCO closeMatch, 2 of 3 unit groups",3123 7112 7113
+47-2051.00,7,ESCO exactMatch,7114
+47-2053.00,7,ESCO broadMatch,7114
+47-2061.00,9,ESCO exactISCO,9312
+47-2071.00,8,ESCO exactMatch,8342
+47-2072.00,8,ESCO exactMatch,8342
+47-2073.00,8,ESCO broadMatch,8342
+47-2081.00,7,ESCO broadMatch,7123
+47-2111.00,7,ESCO exactMatch,7411
+47-2121.00,7,ESCO exactMatch,7125
+47-2131.00,7,ESCO narrowMatch,7124
+47-2132.00,7,ESCO narrowMatch,7124
+47-2141.00,7,ESCO exactMatch,7131
+47-2142.00,7,ESCO exactMatch,7131
+47-2151.00,9,ESCO narrowMatch,9312
+47-2152.00,7,ESCO closeMatch,7212
+47-2152.04,7,ESCO narrowMatch,7411
+47-2161.00,7,ESCO broadMatch,7123
+47-2171.00,7,ESCO closeMatch,7214
+47-2181.00,7,ESCO exactMatch,7121
+47-2211.00,7,ESCO exactMatch,7213
+47-2221.00,7,ESCO exactMatch,7214
+47-2231.00,7,ESCO exactMatch,7411
+47-3011.00,7,ESCO closeMatch,7112 7113
+47-3012.00,7,ESCO closeMatch,7115
+47-3013.00,7,ESCO closeMatch,7411
+47-3014.00,7,ESCO closeMatch,7123 7131
+47-3015.00,7,ESCO closeMatch,7126
+47-3016.00,7,ESCO closeMatch,7121
+47-3019.00,7,ESCO broadMatch,7215
+47-4011.00,3,ESCO broadMatch,3112 3119
+47-4011.01,3,ESCO exactMatch,3112
+47-4021.00,7,ESCO exactMatch,7412
+47-4031.00,7,ESCO closeMatch,7115
+47-4041.00,3,ESCO closeMatch,3116
+47-4051.00,9,ESCO exactMatch,9312
+47-4061.00,3,ESCO exactMatch,3112
+47-4071.00,,unmapped (closeMatch matches disagree),3112 7126 9312
+47-4091.00,8,ESCO narrowMatch,8342
+47-4099.03,7,"ESCO closeMatch, 4 of 5 unit groups",3123 7115 7121 7123 7124
+47-5011.00,8,ESCO exactMatch,8113
+47-5012.00,8,ESCO exactMatch,8111 8113
+47-5013.00,8,ESCO closeMatch,8113 8131
+47-5022.00,8,ESCO exactISCO,8342
+47-5023.00,8,"ESCO closeMatch, 2 of 3 unit groups",7223 8112 8113
+47-5032.00,7,ESCO exactISCO,7542
+47-5041.00,8,ESCO exactMatch,8111
+47-5043.00,8,ESCO narrowMatch,8111
+47-5044.00,8,ESCO exactISCO,8111
+47-5051.00,8,ESCO exactMatch,8114
+47-5071.00,8,ESCO exactMatch,8113
+47-5081.00,9,ESCO exactMatch,9311
+49-1011.00,3,"ESCO broadMatch, 3 of 5 unit groups",1439 3115 3122 3123 7231
+49-2011.00,7,ESCO exactMatch,7422
+49-2021.00,7,ESCO narrowMatch,7422
+49-2022.00,7,ESCO exactMatch,7422
+49-2091.00,7,ESCO exactMatch,7421
+49-2092.00,7,ESCO exactMatch,7412
+49-2093.00,7,ESCO narrowMatch,7422
+49-2094.00,7,ESCO exactMatch,7421
+49-2095.00,,unmapped (closeMatch matches disagree),3131 7413
+49-2096.00,7,ESCO exactMatch,7421
+49-2098.00,7,ESCO exactMatch,7422
+49-3011.00,7,ESCO exactMatch,7232
+49-3021.00,7,ESCO exactMatch,7231
+49-3022.00,7,ESCO exactMatch,7125
+49-3023.00,7,ESCO exactMatch,7231
+49-3031.00,,unmapped (closeMatch matches disagree),3115 8211
+49-3041.00,7,ESCO exactMatch,7233
+49-3042.00,7,ESCO exactMatch,7233
+49-3043.00,,unmapped (closeMatch matches disagree),7412 8211
+49-3051.00,7,ESCO exactMatch,7233
+49-3052.00,7,ESCO narrowMatch,7231
+49-3053.00,7,ESCO exactMatch,7412
+49-3091.00,7,ESCO exactMatch,7234
+49-3092.00,7,ESCO closeMatch,7231
+49-3093.00,7,ESCO exactMatch,7231
+49-9011.00,7,ESCO closeMatch,7222
+49-9012.00,7,ESCO closeMatch,7233
+49-9021.00,7,ESCO exactMatch,7127
+49-9031.00,7,ESCO exactMatch,7412
+49-9041.00,7,ESCO exactMatch,7233
+49-9043.00,7,ESCO exactMatch,7233
+49-9044.00,7,ESCO closeMatch,7214 7215 7233
+49-9045.00,7,"ESCO closeMatch, 2 of 3 unit groups",7112 7113 8114
+49-9051.00,7,ESCO exactMatch,7413
+49-9052.00,7,ESCO exactMatch,7422
+49-9061.00,7,ESCO narrowMatch,7421
+49-9062.00,2,ESCO closeMatch,2149
+49-9063.00,7,ESCO exactMatch,7312
+49-9064.00,7,ESCO exactMatch,7311
+49-9071.00,9,ESCO exactMatch,9622
+49-9081.00,7,ESCO exactISCO,7412
+49-9091.00,7,ESCO closeMatch,7421
+49-9092.00,3,ESCO closeMatch,3123
+49-9094.00,7,ESCO exactMatch,7222
+49-9095.00,7,ESCO closeMatch,7115 7119 7123 7125 7126
+49-9096.00,7,ESCO exactMatch,7215
+49-9097.00,,unmapped (closeMatch matches disagree),4323 7421 8312
+49-9099.00,2,ESCO closeMatch,2433
+49-9099.01,,unmapped (exactMatch concepts unresolved),
+51-1011.00,3,ESCO exactMatch,3122
+51-2011.00,8,ESCO exactMatch,8211
+51-2021.00,8,ESCO closeMatch,8142
+51-2022.00,8,ESCO exactISCO,8212
+51-2023.00,8,ESCO exactMatch,8212
+51-2031.00,8,ESCO exactISCO,8211
+51-2041.00,7,ESCO closeMatch,7212 7213 7214
+51-2051.00,8,ESCO exactMatch,8142
+51-2061.00,7,ESCO closeMatch,7311
+51-2092.00,8,ESCO exactISCO,821
+51-2099.00,,unmapped (broadMatch matches disagree),7317 8219
+51-3011.00,7,ESCO exactMatch,7512
+51-3021.00,7,ESCO exactMatch,7511
+51-3022.00,7,ESCO closeMatch,7511
+51-3023.00,7,ESCO exactMatch,7511
+51-3091.00,,unmapped (closeMatch matches disagree),7521 8181
+51-3092.00,8,ESCO closeMatch,8160
+51-3093.00,8,ESCO closeMatch,8160
+51-3099.00,7,"ESCO broadMatch, 3 of 4 unit groups",7513 7514 7515 8160
+51-4021.00,8,"ESCO closeMatch, 2 of 3 unit groups",7223 8121 8142
+51-4022.00,7,"ESCO broadMatch, 2 of 3 unit groups",7221 7223 8121
+51-4023.00,7,"ESCO closeMatch, 2 of 3 unit groups",7221 7223 8121
+51-4031.00,7,ESCO closeMatch,7223
+51-4032.00,7,"ESCO closeMatch, 2 of 3 unit groups",7223 7523 8112
+51-4033.00,7,ESCO closeMatch,7523
+51-4034.00,7,ESCO exactMatch,7223
+51-4035.00,8,"ESCO closeMatch, 2 of 3 unit groups",7223 8122 8172
+51-4041.00,7,ESCO broadMatch,7222 7223
+51-4051.00,3,ESCO exactMatch,3135
+51-4052.00,7,ESCO exactMatch,7211
+51-4061.00,7,ESCO exactMatch,7222
+51-4062.00,7,ESCO closeMatch,7211 7222
+51-4071.00,7,ESCO exactMatch,7211
+51-4072.00,8,"ESCO broadMatch, 2 of 3 unit groups",7223 8121 8142
+51-4081.00,7,ESCO closeMatch,7222
+51-4111.00,7,ESCO exactMatch,7222
+51-4121.00,7,ESCO broadMatch,7212
+51-4122.00,8,ESCO exactMatch,8212
+51-4191.00,8,ESCO closeMatch,8121
+51-4193.00,7,"ESCO closeMatch, 2 of 3 unit groups",7132 7224 8122
+51-4194.00,7,ESCO exactMatch,7224
+51-4199.00,,unmapped (broadMatch matches disagree),7223 8219
+51-5111.00,7,ESCO broadMatch,7321
+51-5112.00,7,ESCO broadMatch,7321 7322
+51-5113.00,7,ESCO exactISCO,7323
+51-6011.00,8,ESCO exactMatch,8157
+51-6021.00,9,ESCO exactMatch,9121
+51-6031.00,8,ESCO exactMatch,8153
+51-6041.00,8,ESCO closeMatch,8156
+51-6042.00,8,ESCO broadMatch,8156
+51-6051.00,7,ESCO closeMatch,7533
+51-6052.00,8,ESCO closeMatch,8153
+51-6061.00,8,ESCO exactISCO,8154
+51-6062.00,8,ESCO exactMatch,8156
+51-6063.00,8,ESCO exactISCO,8152
+51-6064.00,8,ESCO broadMatch,8151 8159
+51-6091.00,8,ESCO exactMatch,8181
+51-6092.00,7,ESCO exactMatch,7532
+51-6093.00,7,ESCO exactMatch,7534
+51-6099.00,8,"ESCO broadMatch, 6 of 12 unit groups",2141 2163 3139 7322 7533 7543 8141 8151 8152 8154 8155 8159
+51-7011.00,7,ESCO exactMatch,7522
+51-7021.00,,unmapped (closeMatch matches disagree),7522 9112
+51-7031.00,7,ESCO closeMatch,7522
+51-7032.00,7,ESCO closeMatch,7222 7317
+51-7041.00,8,ESCO closeMatch,8172
+51-7042.00,7,ESCO exactISCO,7523
+51-7099.00,,unmapped (broadMatch matches disagree),7522 8172
+51-8011.00,3,ESCO exactMatch,3131
+51-8012.00,3,ESCO broadMatch,3131
+51-8013.00,3,ESCO exactISCO,3131
+51-8013.03,3,ESCO exactMatch,3133
+51-8013.04,3,ESCO exactMatch,3113
+51-8021.00,,unmapped (broadMatch matches disagree),2144 8182
+51-8031.00,3,ESCO closeMatch,3132
+51-8091.00,,unmapped (broadMatch matches disagree),3133 8131
+51-8092.00,3,ESCO exactMatch,3133
+51-8093.00,,unmapped (broadMatch matches disagree),3134 8131
+51-8099.00,3,ESCO broadMatch,3132
+51-9011.00,8,ESCO exactISCO,8131
+51-9012.00,8,ESCO closeMatch,8160
+51-9021.00,8,ESCO closeMatch,8114
+51-9022.00,,unmapped (broadMatch matches disagree),7224 7523 8114 8181
+51-9023.00,8,ESCO broadMatch,8114 8131 8155 8160
+51-9031.00,7,ESCO broadMatch,7532 7536
+51-9032.00,8,ESCO closeMatch,8189
+51-9041.00,8,"ESCO broadMatch, 6 of 7 unit groups",7514 8121 8131 8141 8142 8160 8181
+51-9051.00,8,"ESCO broadMatch, 3 of 4 unit groups",7521 8121 8131 8181
+51-9061.00,7,ESCO closeMatch,7543
+51-9071.00,7,ESCO exactMatch,7313
+51-9071.06,,unmapped (closeMatch matches disagree),7313 8219
+51-9081.00,3,ESCO exactMatch,3214
+51-9082.00,3,ESCO exactMatch,3214
+51-9083.00,3,ESCO exactMatch,3254
+51-9111.00,8,ESCO closeMatch,8131 8160 8183
+51-9123.00,7,ESCO broadMatch,7316 7522 7536
+51-9124.00,7,ESCO closeMatch,7132
+51-9141.00,8,ESCO exactMatch,8212
+51-9151.00,3,ESCO closeMatch,3431
+51-9161.00,7,ESCO exactMatch,7223
+51-9162.00,2,ESCO exactMatch,2514
+51-9191.00,8,ESCO closeMatch,8143 8172 8183 8189
+51-9192.00,8,ESCO broadMatch,8122 8160 8171
+51-9193.00,8,ESCO closeMatch,8160
+51-9194.00,7,ESCO closeMatch,7322
+51-9195.00,7,ESCO closeMatch,7314
+51-9195.03,7,ESCO closeMatch,7313
+51-9195.04,7,ESCO exactISCO,7315
+51-9195.05,7,ESCO exactISCO,7314
+51-9196.00,8,ESCO closeMatch,8171
+51-9197.00,8,ESCO exactMatch,8141
+51-9198.00,9,ESCO exactMatch,9329
+51-9199.00,8,"ESCO broadMatch, 5 of 8 unit groups",7317 7322 7534 8131 8141 8142 8155 8160
+53-1041.00,4,ESCO exactMatch,4323
+53-1042.00,,unmapped (closeMatch matches disagree),3123 7215
+53-1042.01,2,ESCO exactMatch,2143
+53-1043.00,3,ESCO broadMatch,3123
+53-1044.00,5,ESCO exactMatch,5111 5112
+53-2011.00,3,ESCO exactMatch,3153
+53-2012.00,3,ESCO exactMatch,3153
+53-2021.00,3,ESCO exactMatch,3154
+53-2022.00,3,ESCO exactMatch,3154
+53-2031.00,5,ESCO exactMatch,5111
+53-3011.00,3,ESCO exactMatch,3258
+53-3031.00,8,ESCO exactMatch,8322
+53-3032.00,8,ESCO exactISCO,8332
+53-3033.00,8,ESCO closeMatch,8322
+53-3051.00,8,ESCO closeMatch,8331
+53-3052.00,8,ESCO exactMatch,8331
+53-3053.00,8,ESCO closeMatch,8322 8331
+53-3054.00,8,ESCO exactMatch,8322
+53-4011.00,8,ESCO exactMatch,8311
+53-4013.00,8,ESCO exactMatch,8312
+53-4022.00,,unmapped (closeMatch matches disagree),3112 4323 8312
+53-4031.00,,unmapped (closeMatch matches disagree),5112 8312
+53-4041.00,8,ESCO closeMatch,8311 8331
+53-5011.00,,unmapped (closeMatch matches disagree),3152 7215
+53-5021.00,6,ESCO closeMatch,6223
+53-5022.00,,unmapped (closeMatch matches disagree),3152 8350
+53-5031.00,3,ESCO exactMatch,3151
+53-6011.00,3,ESCO broadMatch,3123
+53-6021.00,8,ESCO exactMatch,8322
+53-6031.00,7,"ESCO broadMatch, 2 of 3 unit groups",7231 7233 8332
+53-6032.00,8,ESCO broadMatch,8332
+53-6051.00,3,"ESCO broadMatch, 2 of 4 unit groups",3115 3359 4323 7543
+53-6051.01,3,ESCO exactMatch,3154
+53-6051.07,,unmapped (broadMatch matches disagree),3115 7543
+53-6061.00,5,"ESCO broadMatch, 2 of 3 unit groups",4221 5111 5112
+53-6099.00,8,ESCO broadMatch,8343
+53-7021.00,,unmapped (broadMatch matches disagree),7215 8343
+53-7031.00,8,ESCO exactMatch,8342
+53-7041.00,8,ESCO closeMatch,8343
+53-7051.00,8,ESCO closeMatch,8332
+53-7061.00,9,ESCO exactMatch,9122
+53-7062.00,9,ESCO broadMatch,9333
+53-7062.04,,unmapped (closeMatch matches disagree),2143 3132 7214 9611
+53-7063.00,8,ESCO broadMatch,8160
+53-7064.00,9,ESCO exactMatch,9321
+53-7065.00,9,ESCO exactMatch,9333
+53-7071.00,3,"ESCO closeMatch, 2 of 3 unit groups",3133 3134 4323
+53-7072.00,8,ESCO exactMatch,8113
+53-7073.00,3,ESCO exactMatch,3134
+53-7081.00,9,ESCO exactMatch,9611
+53-7121.00,3,ESCO broadMatch,3134

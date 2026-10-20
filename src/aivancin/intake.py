@@ -116,7 +116,17 @@ def title_activities(onet, code):
     return sorted(({"dwa_id": d, "name": onet.dwa_names[d]} for d in ids), key=lambda a: (a["name"].lower(), a["dwa_id"]))
 
 
-def build_profile(req, onet, suggestion_result):
+def search_fields(cip, q, limit=20):
+    """Degree fields from the NCES CIP 2020 list, by keyword."""
+    toks = _tokens(q)
+    if not toks:
+        return []
+    hits = [c for c, rec in cip.items() if all(t in rec["title"].lower() for t in toks)]
+    hits.sort(key=lambda c: (cip[c]["title"].lower(), c))
+    return [{"cip": c, "title": cip[c]["title"]} for c in hits[:limit]]
+
+
+def build_profile(req, onet, suggestion_result, cip=None):
     """Validate an intake submission and return the confirmed profile.
 
     `suggestion_result` is recomputed by the server from the submitted text (None when AI suggestions
@@ -135,6 +145,9 @@ def build_profile(req, onet, suggestion_result):
     code = req.get("title_code") or None
     if code is not None and code not in onet.occupations:
         errors["title_code"] = "Choose a job title from the list."
+    cip_code = req.get("cip_code") or None
+    if cip_code is not None and cip is not None and cip_code not in cip:
+        errors["cip_code"] = "Choose what you studied from the list."
 
     activities = {}
 
@@ -184,6 +197,7 @@ def build_profile(req, onet, suggestion_result):
     return {
         "title_code": code,
         "degree_field": (req.get("degree_field") or "").strip(),
+        "cip_code": cip_code if "cip_code" not in errors else None,
         "degree_level": level,
         "weekly_hours": hours,
         "budget_rm": budget,
