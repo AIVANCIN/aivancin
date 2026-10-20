@@ -1,39 +1,632 @@
 {
-  "note": "Curated Microsoft Learn items. For each item the encoder proposed activities from the provider's title and summary; the curator kept only the links listed here (dwas), named the in-demand tools it teaches (tools, using O*NET software example names) and marked items that teach directing and checking AI output (ai_skill). Titles, URLs and durations come from the Microsoft Learn catalog API when tools/build_catalogue.py runs.",
-  "curated_on": "2026-10-20",
-  "items": [
-    {"uid": "learn.wwl.build-web-pages-html-css-for-beginners", "dwas": ["4.A.3.b.2.a.3", "4.A.3.b.1.a.3", "4.A.2.b.2.b.8"], "tools": ["Hypertext markup language HTML", "Cascading style sheets CSS"]},
-    {"uid": "learn-windows.introduction-to-web-development", "dwas": ["4.A.3.b.2.a.3", "4.A.3.b.1.a.3", "4.A.2.b.2.b.4", "4.A.2.b.2.b.8"], "tools": ["Hypertext markup language HTML", "Cascading style sheets CSS", "JavaScript"]},
-    {"uid": "learn.startup.ux-design", "dwas": ["4.A.2.b.2.b.10", "4.A.2.b.2.b.8"]},
-    {"uid": "learn.cela-accessibility.web-accessibility-principles-guidelines", "dwas": ["4.A.3.b.2.a.3"]},
-    {"uid": "learn.azure.network-fundamentals", "dwas": ["4.A.3.b.1.c.4", "4.A.3.b.1.d.1", "4.A.4.b.6.d.5"]},
-    {"uid": "learn.wwl.get-started-with-python-fundamentals", "dwas": ["4.A.3.b.1.a.3", "4.A.2.b.2.b.1"], "tools": ["Python"]},
-    {"uid": "learn.test-python-with-pytest", "dwas": ["4.A.3.b.2.f.15", "4.A.1.b.2.h.3", "4.A.1.b.2.h.2"]},
-    {"uid": "learn.build-with-playwright", "dwas": ["4.A.3.b.2.f.15", "4.A.1.b.2.h.3", "4.A.3.b.6.i.6"]},
-    {"uid": "learn.wwl.get-started-querying-with-transact-sql", "dwas": ["4.A.3.b.6.h.14", "4.A.3.b.1.f.5", "4.A.3.b.1.f.6"], "tools": ["Structured query language SQL", "Microsoft SQL Server"]},
-    {"uid": "learn.introduction-to-azure-backup", "dwas": ["4.A.3.b.1.b.2", "4.A.2.b.2.p.2"]},
-    {"uid": "learn.wwl.monitor-maintain-devices-intune", "dwas": ["4.A.4.b.6.d.2", "4.A.1.a.2.j.3", "4.A.3.b.5.c.6"]},
-    {"uid": "learn.wwl.describe-concepts-of-security-compliance-identity", "dwas": ["4.A.3.b.1.b.1"]},
-    {"uid": "learn.wwl.describe-device-based-threats-security-controls", "dwas": ["4.A.2.a.4.l.2", "4.A.3.b.1.b.1"]},
-    {"uid": "learn.student-evangelism.introduction-to-git", "dwas": [], "tools": ["Git"]},
-    {"uid": "learn.github.introduction-to-github", "dwas": [], "tools": ["GitHub"]},
-    {"uid": "learn.dpu.introduction-to-windows-server-2025", "dwas": [], "tools": ["Microsoft Windows Server"]},
-    {"uid": "learn.wwl.explore-fundamentals-of-data-visualization", "dwas": ["4.A.2.b.2.o.14", "4.A.2.a.4.k.4", "4.A.2.a.4.g.12"], "tools": ["Microsoft Power BI"]},
-    {"uid": "learn-bizapps.get-started-with-power-bi", "dwas": ["4.A.2.b.2.o.14"], "tools": ["Microsoft Power BI"]},
-    {"uid": "learn.wwl.explore-accounts-payable-accounts-receivable-microsoft-dynamics-365-finance", "dwas": ["4.A.4.c.1.c.6", "4.A.3.b.6.h.15", "4.A.3.b.6.j.3", "4.A.4.c.3.d.1"]},
-    {"uid": "learn.wwl.describe-general-ledger-cash-bank-management", "dwas": ["4.A.1.a.2.c.4", "4.A.1.a.2.c.1", "4.A.3.b.6.j.3"]},
-    {"uid": "learn-dynamics.bank-reconciliation-dynamics-365-business-central", "dwas": ["4.A.2.a.2.d.1", "4.A.2.a.2.a.1", "4.A.2.a.2.a.9"]},
-    {"uid": "learn-dynamics.create-financial-reports-dynamics-365-business-central", "dwas": ["4.A.3.b.6.a.2", "4.A.2.a.4.k.4", "4.A.2.a.4.k.1", "4.A.2.a.4.k.6"]},
-    {"uid": "learn-dynamics.work-taxes-finance", "dwas": ["4.A.1.b.3.c.3", "4.A.2.a.3.c.5"], "tools": ["Tax software"]},
-    {"uid": "learn.wwl.describe-expense-management-fixed-asset-management", "dwas": ["4.A.2.a.4.k.5", "4.A.2.a.4.k.1", "4.A.1.a.2.c.2"]},
-    {"uid": "learn-dynamics.setup-use-basic-budgeting-finance", "dwas": ["4.A.3.b.6.a.2", "4.A.4.b.4.h.4"]},
-    {"uid": "learn-dynamics.accounts-receivable-daily-procedures-in-dynamics-365-finance-ops", "dwas": ["4.A.4.c.1.c.6", "4.A.3.b.6.j.3", "4.A.3.b.6.h.15", "4.A.4.c.3.d.1"]},
-    {"uid": "learn.dpu.summarize-sales-data", "dwas": ["4.A.2.a.4.k.4", "4.A.3.b.6.j.1"], "tools": ["Microsoft Excel"], "ai_skill": true},
-    {"uid": "learn.dpu.work-smarter-excel", "dwas": [], "tools": ["Microsoft Excel"], "ai_skill": true},
-    {"uid": "learn-m365.wwl.analyze-visualize-data-copilot", "dwas": ["4.A.2.a.4.g.12", "4.A.2.b.2.o.14"], "ai_skill": true},
-    {"uid": "learn.wwl.work-smarter-with-ai", "dwas": [], "ai_skill": true},
-    {"uid": "learn.wwl.write-effective-prompts-do-more-prompting", "dwas": [], "ai_skill": true},
-    {"uid": "learn.philanthropies.explore-responsible-ai", "dwas": [], "ai_skill": true},
-    {"uid": "learn.github.introduction-to-github-copilot", "dwas": ["4.A.3.b.1.a.3", "4.A.2.b.2.b.1"], "tools": ["GitHub"], "ai_skill": true}
-  ]
+ "note": "Curated Microsoft Learn items. For each item the encoder proposed activities from the provider's title and summary; the curator kept only the links listed here (dwas), named the in-demand tools it teaches (tools, using O*NET software example names) and marked items that teach directing and checking AI output (ai_skill). Titles, URLs and durations come from the Microsoft Learn catalog API when tools/build_catalogue.py runs. Route entries also record a coverage grade (introduces or practises), a practice checkpoint that produces an inspectable artifact and the entries they require first.",
+ "curated_on": "2026-10-20",
+ "items": [
+  {
+   "uid": "learn.wwl.build-web-pages-html-css-for-beginners",
+   "dwas": [
+    "4.A.3.b.2.a.3",
+    "4.A.3.b.1.a.3",
+    "4.A.2.b.2.b.8"
+   ],
+   "tools": [
+    "Hypertext markup language HTML",
+    "Cascading style sheets CSS"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Build a two-page site with HTML and CSS and keep its source in a repository."
+  },
+  {
+   "uid": "learn-windows.introduction-to-web-development",
+   "dwas": [
+    "4.A.3.b.2.a.3",
+    "4.A.3.b.1.a.3",
+    "4.A.2.b.2.b.4",
+    "4.A.2.b.2.b.8"
+   ],
+   "tools": [
+    "Hypertext markup language HTML",
+    "Cascading style sheets CSS",
+    "JavaScript"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Add a small script to your site and record how you checked it in the browser's developer tools."
+  },
+  {
+   "uid": "learn.startup.ux-design",
+   "dwas": [
+    "4.A.2.b.2.b.10",
+    "4.A.2.b.2.b.8"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Sketch two screens for an app and explain how each design choice serves its users."
+  },
+  {
+   "uid": "learn.cela-accessibility.web-accessibility-principles-guidelines",
+   "dwas": [
+    "4.A.3.b.2.a.3"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "List the accessibility requirements you would write into a website specification."
+  },
+  {
+   "uid": "learn.azure.network-fundamentals",
+   "dwas": [
+    "4.A.3.b.1.c.4",
+    "4.A.3.b.1.d.1",
+    "4.A.4.b.6.d.5"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Draw a labelled diagram of a home or small-office network (router, switch, devices, address ranges) and list the order in which you would check for a connection fault."
+  },
+  {
+   "uid": "learn.wwl.get-started-with-python-fundamentals",
+   "dwas": [
+    "4.A.3.b.1.a.3",
+    "4.A.2.b.2.b.1"
+   ],
+   "tools": [
+    "Python"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Write a small program that solves a task from your own work (for example totalling a day's deliveries) and keep it in a repository."
+  },
+  {
+   "uid": "learn.test-python-with-pytest",
+   "dwas": [
+    "4.A.3.b.2.f.15",
+    "4.A.1.b.2.h.3",
+    "4.A.1.b.2.h.2"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Write tests for your program, including one that fails before a fix and passes after it."
+  },
+  {
+   "uid": "learn.build-with-playwright",
+   "dwas": [
+    "4.A.3.b.2.f.15",
+    "4.A.1.b.2.h.3",
+    "4.A.3.b.6.i.6"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Write an end-to-end test for one page of a site and a bug report for any failure you find."
+  },
+  {
+   "uid": "learn.wwl.get-started-querying-with-transact-sql",
+   "dwas": [
+    "4.A.3.b.6.h.14",
+    "4.A.3.b.1.f.5",
+    "4.A.3.b.1.f.6"
+   ],
+   "tools": [
+    "Structured query language SQL",
+    "Microsoft SQL Server"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Write and save the queries that answer five questions about a sample database."
+  },
+  {
+   "uid": "learn.introduction-to-azure-backup",
+   "dwas": [
+    "4.A.3.b.1.b.2",
+    "4.A.2.b.2.p.2"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Write a backup plan for a small office: what is backed up, how often, where it is kept and how a restore is tested."
+  },
+  {
+   "uid": "learn.wwl.monitor-maintain-devices-intune",
+   "dwas": [
+    "4.A.4.b.6.d.2",
+    "4.A.1.a.2.j.3",
+    "4.A.3.b.5.c.6"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "List the monthly health checks you would run on the devices you support and what result counts as a problem."
+  },
+  {
+   "uid": "learn.wwl.describe-concepts-of-security-compliance-identity",
+   "dwas": [
+    "4.A.3.b.1.b.1"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Write a one-page note on how identity, access and data protection apply to a small shop's computers."
+  },
+  {
+   "uid": "learn.wwl.describe-device-based-threats-security-controls",
+   "dwas": [
+    "4.A.2.a.4.l.2",
+    "4.A.3.b.1.b.1"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "List the devices in a small office, the main threat to each and the control you would apply."
+  },
+  {
+   "uid": "learn.student-evangelism.introduction-to-git",
+   "dwas": [],
+   "tools": [
+    "Git"
+   ]
+  },
+  {
+   "uid": "learn.github.introduction-to-github",
+   "dwas": [],
+   "tools": [
+    "GitHub"
+   ]
+  },
+  {
+   "uid": "learn.dpu.introduction-to-windows-server-2025",
+   "dwas": [],
+   "tools": [
+    "Microsoft Windows Server"
+   ]
+  },
+  {
+   "uid": "learn.wwl.explore-fundamentals-of-data-visualization",
+   "dwas": [
+    "4.A.2.b.2.o.14",
+    "4.A.2.a.4.k.4",
+    "4.A.2.a.4.g.12"
+   ],
+   "tools": [
+    "Microsoft Power BI"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Build one dashboard page from a public dataset and note what question each chart answers."
+  },
+  {
+   "uid": "learn-bizapps.get-started-with-power-bi",
+   "dwas": [
+    "4.A.2.b.2.o.14"
+   ],
+   "tools": [
+    "Microsoft Power BI"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Load a public dataset into Power BI and publish one report page."
+  },
+  {
+   "uid": "learn.wwl.explore-accounts-payable-accounts-receivable-microsoft-dynamics-365-finance",
+   "dwas": [
+    "4.A.4.c.1.c.6",
+    "4.A.3.b.6.h.15",
+    "4.A.3.b.6.j.3",
+    "4.A.4.c.3.d.1"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Record a month of synthetic supplier invoices and customer receipts in a spreadsheet ledger and list what is outstanding."
+  },
+  {
+   "uid": "learn.wwl.describe-general-ledger-cash-bank-management",
+   "dwas": [
+    "4.A.1.a.2.c.4",
+    "4.A.1.a.2.c.1",
+    "4.A.3.b.6.j.3"
+   ]
+  },
+  {
+   "uid": "learn-dynamics.bank-reconciliation-dynamics-365-business-central",
+   "dwas": [
+    "4.A.2.a.2.d.1",
+    "4.A.2.a.2.a.1",
+    "4.A.2.a.2.a.9"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Reconcile a synthetic bank statement against a cash book and explain each difference."
+  },
+  {
+   "uid": "learn-dynamics.create-financial-reports-dynamics-365-business-central",
+   "dwas": [
+    "4.A.3.b.6.a.2",
+    "4.A.2.a.4.k.4",
+    "4.A.2.a.4.k.1",
+    "4.A.2.a.4.k.6"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Produce a profit and loss statement and a balance sheet for a synthetic shop and write three observations."
+  },
+  {
+   "uid": "learn-dynamics.work-taxes-finance",
+   "dwas": [
+    "4.A.1.b.3.c.3",
+    "4.A.2.a.3.c.5"
+   ],
+   "tools": [
+    "Tax software"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Calculate the sales tax and withholding on a set of synthetic invoices and show the working."
+  },
+  {
+   "uid": "learn.wwl.describe-expense-management-fixed-asset-management",
+   "dwas": [
+    "4.A.2.a.4.k.5",
+    "4.A.2.a.4.k.1",
+    "4.A.1.a.2.c.2"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Build an expense and asset register for a synthetic shop and compare it with the budget."
+  },
+  {
+   "uid": "learn-dynamics.setup-use-basic-budgeting-finance",
+   "dwas": [
+    "4.A.3.b.6.a.2",
+    "4.A.4.b.4.h.4"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Build a yearly budget for a synthetic business with monthly figures and a variance column."
+  },
+  {
+   "uid": "learn-dynamics.accounts-receivable-daily-procedures-in-dynamics-365-finance-ops",
+   "dwas": [
+    "4.A.4.c.1.c.6",
+    "4.A.3.b.6.j.3",
+    "4.A.3.b.6.h.15",
+    "4.A.4.c.3.d.1"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Issue three synthetic invoices, record the payments and produce an aged receivables list."
+  },
+  {
+   "uid": "learn.dpu.summarize-sales-data",
+   "dwas": [
+    "4.A.2.a.4.k.4",
+    "4.A.3.b.6.j.1"
+   ],
+   "tools": [
+    "Microsoft Excel"
+   ],
+   "ai_skill": true,
+   "coverage": "introduces",
+   "checkpoint": "Summarise a synthetic sales sheet with formulas, then check every figure an AI assistant produced against them."
+  },
+  {
+   "uid": "learn.dpu.work-smarter-excel",
+   "dwas": [],
+   "tools": [
+    "Microsoft Excel"
+   ],
+   "ai_skill": true
+  },
+  {
+   "uid": "learn-m365.wwl.analyze-visualize-data-copilot",
+   "dwas": [
+    "4.A.2.a.4.g.12",
+    "4.A.2.b.2.o.14"
+   ],
+   "ai_skill": true
+  },
+  {
+   "uid": "learn.wwl.work-smarter-with-ai",
+   "dwas": [],
+   "ai_skill": true
+  },
+  {
+   "uid": "learn.wwl.write-effective-prompts-do-more-prompting",
+   "dwas": [],
+   "ai_skill": true
+  },
+  {
+   "uid": "learn.philanthropies.explore-responsible-ai",
+   "dwas": [],
+   "ai_skill": true
+  },
+  {
+   "uid": "learn.github.introduction-to-github-copilot",
+   "dwas": [
+    "4.A.3.b.1.a.3",
+    "4.A.2.b.2.b.1"
+   ],
+   "tools": [
+    "GitHub"
+   ],
+   "ai_skill": true
+  },
+  {
+   "uid": "learn.wwl.manage-network-service-settings-for-windows-devices-use-powershell-cmdlets",
+   "dwas": [
+    "4.A.3.b.1.c.4",
+    "4.A.3.b.1.d.1",
+    "4.A.3.b.5.c.2"
+   ],
+   "coverage": "practises",
+   "requires": [
+    "learn.azure.network-fundamentals"
+   ],
+   "checkpoint": "Record the commands you used to view and change a test machine's network settings, with the output before and after."
+  },
+  {
+   "uid": "learn.wwl.design-implement-network-monitoring",
+   "dwas": [
+    "4.A.1.a.2.j.2"
+   ],
+   "coverage": "introduces",
+   "requires": [
+    "learn.azure.network-fundamentals"
+   ],
+   "checkpoint": "Write a one-page monitoring plan: the signals you would watch on a small network, the alert threshold for each and who is told."
+  },
+  {
+   "uid": "learn.devrel.understand-windows-packet-monitor",
+   "dwas": [
+    "4.A.1.a.2.j.2",
+    "4.A.3.b.1.d.1"
+   ],
+   "coverage": "practises",
+   "requires": [
+    "learn.azure.network-fundamentals"
+   ],
+   "checkpoint": "Capture traffic for a failing connection on a test machine and write up what the capture showed."
+  },
+  {
+   "uid": "learn.philanthropies.describe-best-practices-datacenter-operations",
+   "dwas": [
+    "4.A.3.b.5.c.1",
+    "4.A.3.b.5.c.2",
+    "4.A.1.a.2.j.3"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Write a monthly maintenance checklist for the computers and network you look after."
+  },
+  {
+   "uid": "learn.wwl.monitor-windows-server-performance",
+   "dwas": [
+    "4.A.1.a.2.j.3",
+    "4.A.2.a.4.g.14"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Collect a performance baseline for one machine and note one finding with the counter that shows it."
+  },
+  {
+   "uid": "learn.wwl.explore-windows-package-manager-tool",
+   "dwas": [
+    "4.A.3.b.1.c.1",
+    "4.A.4.b.6.d.2"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Write a list of package-manager commands that installs and updates a standard set of applications, and test it on one machine."
+  },
+  {
+   "uid": "learn.wwl.troubleshoot-intune-devices",
+   "dwas": [
+    "4.A.3.b.1.d.2",
+    "4.A.3.b.1.d.3"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Write a troubleshooting log for one real or practice problem: symptom, checks in order, cause, fix and how you confirmed it."
+  },
+  {
+   "uid": "learn.wwl.describe-security-concepts-methodologies",
+   "dwas": [
+    "4.A.3.b.1.b.1",
+    "4.A.3.b.2.f.9"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Write a one-page security policy for a small shop: passwords, updates, backups and who has admin rights."
+  },
+  {
+   "uid": "learn.wwl.describe-basic-cybersecurity-threats-attacks-mitigations",
+   "dwas": [
+    "4.A.2.a.4.l.2",
+    "4.A.3.b.1.b.1"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Assess one small organisation's setup against five common threats and list a mitigation for each."
+  },
+  {
+   "uid": "learn.wwl.describe-authentication-authorization-cybersecurity",
+   "dwas": [
+    "4.A.3.b.1.b.1"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Document how user accounts and permissions are set up on a shared computer and one change that would reduce risk."
+  },
+  {
+   "uid": "learn.wwl.describe-network-based-threats-mitigations",
+   "dwas": [
+    "4.A.2.a.4.l.2",
+    "4.A.3.b.1.b.1"
+   ],
+   "coverage": "introduces",
+   "requires": [
+    "learn.azure.network-fundamentals"
+   ],
+   "checkpoint": "Review a home or office router's settings and record three changes that reduce network risk."
+  },
+  {
+   "uid": "learn.wwl.manage-security-active-directory",
+   "dwas": [
+    "4.A.3.b.1.b.1",
+    "4.A.1.a.2.j.1"
+   ],
+   "coverage": "practises",
+   "requires": [
+    "learn.wwl.describe-authentication-authorization-cybersecurity"
+   ],
+   "checkpoint": "Write the account, group and password rules you would set for a ten-person office."
+  },
+  {
+   "uid": "learn.wwl.write-reusable-code-python",
+   "dwas": [
+    "4.A.3.b.1.a.3",
+    "4.A.2.b.2.b.7"
+   ],
+   "coverage": "practises",
+   "requires": [
+    "learn.wwl.get-started-with-python-fundamentals"
+   ],
+   "checkpoint": "Refactor your earlier program into reusable functions and note what changed and why."
+  },
+  {
+   "uid": "learn.wwl.explore-analyze-data-with-python",
+   "dwas": [
+    "4.A.3.b.1.f.7",
+    "4.A.2.a.4.d.2"
+   ],
+   "coverage": "practises",
+   "requires": [
+    "learn.wwl.get-started-with-python-fundamentals"
+   ],
+   "checkpoint": "Load a public dataset, clean it and write three findings with the code that produced them."
+  },
+  {
+   "uid": "learn.python-advanced-pytest",
+   "dwas": [
+    "4.A.1.b.2.h.3",
+    "4.A.3.b.2.f.15"
+   ],
+   "coverage": "practises",
+   "requires": [
+    "learn.test-python-with-pytest"
+   ],
+   "checkpoint": "Add parametrised tests and a fixture to your test suite and keep the run output."
+  },
+  {
+   "uid": "learn.cela-accessibility.accessibility-evaluation-and-testing",
+   "dwas": [
+    "4.A.4.b.6.d.6"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Test one web page for accessibility and write three recommended changes with the problem each fixes."
+  },
+  {
+   "uid": "learn.github.manage-work-github-projects",
+   "dwas": [
+    "4.A.4.a.2.h.9",
+    "4.A.4.b.4.e.7"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Set up a project board for a small piece of work with an issue for each task and its status."
+  },
+  {
+   "uid": "learn.wwl.spec-driven-development-github-spec-kit-greenfield-intro",
+   "dwas": [
+    "4.A.2.a.4.e.5",
+    "4.A.2.a.2.c.2",
+    "4.A.3.b.6.i.4"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Write a one-page specification for a small app: its users, requirements and acceptance checks."
+  },
+  {
+   "uid": "learn.azure.inclusive-design-principles",
+   "dwas": [
+    "4.A.2.b.2.b.10",
+    "4.A.4.a.2.h.7"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Review one app screen against inclusive design principles and propose two changes."
+  },
+  {
+   "uid": "learn.wwl.explore-performance-based-design",
+   "dwas": [
+    "4.A.2.a.1.g.6",
+    "4.A.2.b.2.f.4"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Design the tables for a small booking system and note how you would investigate a slow query."
+  },
+  {
+   "uid": "learn.wwl.review-principles-code-debugging-exception-handling-c-sharp",
+   "dwas": [
+    "4.A.3.b.1.d.3",
+    "4.A.2.b.2.b.7"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Write a debugging log for one bug: how you reproduced it, what you inspected, the fix and the test that proves it."
+  },
+  {
+   "uid": "learn.tm-use-recommended-tools-to-create-a-data-flow-diagram",
+   "dwas": [
+    "4.A.2.b.2.o.13"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Draw a data-flow diagram of an app you know and label where data is stored and sent."
+  },
+  {
+   "uid": "learn.owasp-top-10-for-dotnet-developers",
+   "dwas": [
+    "4.A.3.b.1.b.1",
+    "4.A.2.a.4.l.2"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Review a small web app against the OWASP Top 10 and list each risk found with its fix."
+  },
+  {
+   "uid": "learn.wwl.explore-general-ledger-dynamics-365",
+   "dwas": [
+    "4.A.2.a.3.c.3",
+    "4.A.2.a.3.c.2"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Draw up a chart of accounts for a small business you know and post five sample transactions."
+  },
+  {
+   "uid": "learn-dynamics.general-ledger-daily-procedures-in-dynamics-365-finance-ops",
+   "dwas": [
+    "4.A.3.b.6.a.1",
+    "4.A.3.b.6.a.2"
+   ],
+   "coverage": "practises",
+   "requires": [
+    "learn.wwl.explore-general-ledger-dynamics-365"
+   ],
+   "checkpoint": "Prepare a month's journal entries and a trial balance for a synthetic shop in a spreadsheet."
+  },
+  {
+   "uid": "learn.philanthropies.intro-to-budgeting-for-students",
+   "dwas": [
+    "4.A.3.b.6.a.2",
+    "4.A.2.a.4.k.1"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Build a 12-month budget in a spreadsheet with actual and budget columns and a variance for each month."
+  },
+  {
+   "uid": "learn-dynamics.explore-reporting-tools-dynamics-365-finance-operations",
+   "dwas": [
+    "4.A.4.a.2.c.10",
+    "4.A.2.a.4.k.4"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Write a one-page monthly report for a manager from your synthetic accounts, with one chart."
+  },
+  {
+   "uid": "learn-dynamics.process-credit-collections-in-dynamics-365-finance-ops",
+   "dwas": [
+    "4.A.4.c.3.d.3",
+    "4.A.2.a.1.i.2"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Assess three synthetic customers' payment histories and recommend a credit limit for each with reasons."
+  },
+  {
+   "uid": "learn.wwl.get-started-data-analytics",
+   "dwas": [
+    "4.A.2.a.4.b.6",
+    "4.A.2.a.4.k.4",
+    "4.A.2.a.4.d.2"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Pick a public dataset and write the question, the analysis steps and the answer for one business question."
+  },
+  {
+   "uid": "learn-bizapps.data-analytics-microsoft",
+   "dwas": [
+    "4.A.3.b.1.f.7",
+    "4.A.2.a.4.k.4"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Describe each stage of the analytics process for one dataset you know, from source to report."
+  },
+  {
+   "uid": "learn-bizapps.power-bi-effective-requirements",
+   "dwas": [
+    "4.A.3.b.6.i.4"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Write the requirements for a report: its audience, questions, measures and refresh frequency."
+  }
+ ]
 }

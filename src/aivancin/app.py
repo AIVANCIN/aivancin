@@ -10,6 +10,7 @@ from . import intake, snapshots
 from .encoder import AIUnavailable, load_ai
 from .matching import Matcher
 from .report import Reporter, ReportError
+from .routes import Planner
 
 STATIC = Path(__file__).resolve().parent / "static"
 ICON = Path(__file__).resolve().parents[2] / "assets" / "icon"
@@ -28,7 +29,9 @@ def create_app(data_dir=snapshots.DEFAULT_DATA_DIR):
         ai_reason = str(exc)
     personas = json.loads((Path(data_dir) / "personas.json").read_text(encoding="utf-8"))
 
-    reporter = Reporter(snaps, Matcher(snaps))
+    matcher = Matcher(snaps)
+    reporter = Reporter(snaps, matcher)
+    planner = Planner(snaps, matcher, reporter)
     app = FastAPI(title="AIVANCIN")
 
     def suggestions_for(texts):
@@ -88,6 +91,24 @@ def create_app(data_dir=snapshots.DEFAULT_DATA_DIR):
         try:
             prof = intake.build_profile(req, onet, suggestions_for(req), snaps.cip)
             return reporter.report(prof, req.get("options") or {})
+        except (intake.IntakeError, ReportError) as exc:
+            return JSONResponse(status_code=422, content={"errors": exc.errors})
+
+    @app.post("/api/routes")
+    def routes(req: dict):
+        """Compare up to three supported routes with their first learning blocks (SPEC section 10)."""
+        try:
+            prof = intake.build_profile(req, onet, suggestions_for(req), snaps.cip)
+            return planner.routes(prof, req.get("options") or {})
+        except (intake.IntakeError, ReportError) as exc:
+            return JSONResponse(status_code=422, content={"errors": exc.errors})
+
+    @app.post("/api/update")
+    def update(req: dict):
+        """What changed in the chosen route's plan between two evidence bundles (SPEC section 10.6)."""
+        try:
+            prof = intake.build_profile(req, onet, suggestions_for(req), snaps.cip)
+            return planner.compare(prof, req.get("options") or {})
         except (intake.IntakeError, ReportError) as exc:
             return JSONResponse(status_code=422, content={"errors": exc.errors})
 

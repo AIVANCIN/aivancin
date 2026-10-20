@@ -1,0 +1,12 @@
+category,description
+1,None
+2,Up to and including 1 month
+3,"Over 1 month, up to and including 3 months"
+4,"Over 3 months, up to and including 6 months"
+5,"Over 6 months, up to and including 1 year"
+6,"Over 1 year, up to and including 2 years"
+7,"Over 2 years, up to and including 4 years"
+8,"Over 4 years, up to and including 6 years"
+9,"Over 6 years, up to and including 8 years"
+10,"Over 8 years, up to and including 10 years"
+11,Over 10 years

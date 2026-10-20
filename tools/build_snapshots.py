@@ -71,6 +71,10 @@ SOURCES = [
     {"source_id": "onet31-emerging-tasks", "title": "O*NET 31.0 Emerging Tasks", "file": "emerging_tasks.csv", **ONET_COMMON},
     {"source_id": "onet31-software", "title": "O*NET 31.0 Software Skills (In Demand, Hot Technology)",
      "file": "software_skills.csv", **ONET_COMMON},
+    {"source_id": "onet31-job-zone-reference", "title": "O*NET 31.0 Job Zone Reference", "file": "job_zone_reference.csv", **ONET_COMMON},
+    {"source_id": "onet31-education-categories", "title": "O*NET 31.0 Education Categories", "file": "education_categories.csv", **ONET_COMMON},
+    {"source_id": "onet31-experience-categories", "title": "O*NET 31.0 Training and Experience Categories",
+     "file": "training_and_experience_categories.csv", **ONET_COMMON},
     {"source_id": "minilm-onnx", "title": "all-MiniLM-L6-v2 ONNX (quantized, AVX2)", "file": "onnx/model_quint8_avx2.onnx",
      "url": MODEL_BASE + "onnx/model_quint8_avx2.onnx",
      "sha256": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21", **MODEL_COMMON},
@@ -234,6 +238,14 @@ def derive_onet(raw):
     rw = modal_category(read_csv(raw["onet31-experience"]), "RW")
     out["onet31-experience"] = ("onet/experience.csv", ["code", "rw_category", "rw_pct", "date"],
                                 sorted((c, *v) for c, v in rw.items()))
+    rows = read_csv(raw["onet31-job-zone-reference"])
+    out["onet31-job-zone-reference"] = ("onet/job_zone_reference.csv", ["job_zone", "name", "education", "experience"],
+                                        sorted((r["Job Zone"], r["Name"], r["Education"], r["Experience"]) for r in rows))
+    for sid, scale, rel in (("onet31-education-categories", "RL", "onet/education_categories.csv"),
+                            ("onet31-experience-categories", "RW", "onet/experience_categories.csv")):
+        rows = read_csv(raw[sid])
+        out[sid] = (rel, ["category", "description"],
+                    sorted(((r["Category"], r["Category Description"]) for r in rows if r["Scale ID"] == scale), key=lambda t: int(t[0])))
     rows = read_csv(raw["onet31-emerging-tasks"])
     out["onet31-emerging-tasks"] = ("onet/emerging_tasks.csv", ["code", "task", "category", "date"],
                                     sorted((r["O*NET-SOC Code"], r["Task"], r["Category"], r["Date"]) for r in rows))
@@ -453,6 +465,15 @@ def main():
                       "licence": "Derived from CC BY sources", "access_date": dt.date.today().isoformat(),
                       "original_sha256": sha256_file(bt), "derived_rows": None,
                       "derived_path": "forecast/a18_backtest.json", "derived_sha256": sha256_file(bt)})
+
+    routes = DATA / "routes" / "destinations.json"
+    if routes.exists():
+        final.append({"source_id": "aivancin-routes", "title": "AIVANCIN supported destinations and their sourced requirements",
+                      "publisher": "AIVANCIN (team DOVUN), from O*NET 31.0 and the curated catalogue",
+                      "url": "tools/destinations_curation.json", "release": json.loads(routes.read_text(encoding="utf-8"))["built_on"],
+                      "licence": "Derived from CC BY sources", "access_date": dt.date.today().isoformat(),
+                      "original_sha256": sha256_file(routes), "derived_rows": None,
+                      "derived_path": "routes/destinations.json", "derived_sha256": sha256_file(routes)})
 
     cat = DATA / "catalogue" / "courses.json"
     if cat.exists():

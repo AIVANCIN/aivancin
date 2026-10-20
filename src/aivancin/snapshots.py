@@ -79,6 +79,7 @@ class Snapshots:
     catalogue: dict = field(default_factory=dict, repr=False)
     outlook: dict = field(default_factory=dict, repr=False)
     backtest: dict = field(default_factory=dict, repr=False)
+    routes: dict = field(default_factory=dict, repr=False)
     rejected: dict = field(default_factory=dict)
 
     def source(self, source_id):
@@ -175,6 +176,8 @@ def load(data_dir=DEFAULT_DATA_DIR):
                                      "openings_period": r["openings_period"],
                                      "bright": [x.strip() for x in r["bright_outlook"].split(";") if x.strip()]}
                          for r in _rows(paths["onet-online-outlook"])}
+    if "aivancin-routes" in paths:
+        snaps.routes = json.loads(paths["aivancin-routes"].read_text(encoding="utf-8"))
     if "aivancin-backtest" in paths:
         snaps.backtest = json.loads(paths["aivancin-backtest"].read_text(encoding="utf-8"))
     if "aivancin-catalogue" in paths:

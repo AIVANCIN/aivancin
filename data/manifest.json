@@ -118,6 +118,45 @@
       "derived_sha256": "2edd7485cdc6f780af83dcabd2d74ec5cfa9056288f2260f5b63de3fb11c6af9"
     },
     {
+      "source_id": "onet31-job-zone-reference",
+      "title": "O*NET 31.0 Job Zone Reference",
+      "publisher": "U.S. Department of Labor, Employment and Training Administration (USDOL/ETA)",
+      "url": "https://www.onetcenter.org/dl_files/database/db_31_0_csv/job_zone_reference.csv",
+      "release": "O*NET 31.0 (files dated 2026-08-25)",
+      "licence": "CC BY 4.0",
+      "access_date": "2026-10-20",
+      "original_sha256": "75e21c0bbe0ec4d70428863b6930fbff0e279537faba1e630d7f2105ba2b6038",
+      "derived_rows": 4,
+      "derived_path": "onet/job_zone_reference.csv",
+      "derived_sha256": "43fd33e2ab2d11679d762f95a65af443c6d02dd162a4055f9b1ec0f9ffe7bfb9"
+    },
+    {
+      "source_id": "onet31-education-categories",
+      "title": "O*NET 31.0 Education Categories",
+      "publisher": "U.S. Department of Labor, Employment and Training Administration (USDOL/ETA)",
+      "url": "https://www.onetcenter.org/dl_files/database/db_31_0_csv/education_categories.csv",
+      "release": "O*NET 31.0 (files dated 2026-08-25)",
+      "licence": "CC BY 4.0",
+      "access_date": "2026-10-20",
+      "original_sha256": "84b259f9e661d81356afd6f6080535dd0047f363887a574e747d612ee4adddac",
+      "derived_rows": 12,
+      "derived_path": "onet/education_categories.csv",
+      "derived_sha256": "c958ddf6eb750294af040d19674409d00a08978b448ae47963011c0b080f795f"
+    },
+    {
+      "source_id": "onet31-experience-categories",
+      "title": "O*NET 31.0 Training and Experience Categories",
+      "publisher": "U.S. Department of Labor, Employment and Training Administration (USDOL/ETA)",
+      "url": "https://www.onetcenter.org/dl_files/database/db_31_0_csv/training_and_experience_categories.csv",
+      "release": "O*NET 31.0 (files dated 2026-08-25)",
+      "licence": "CC BY 4.0",
+      "access_date": "2026-10-20",
+      "original_sha256": "fcb51e8552199ae2b6b70eb6f1c14f2323c3d90338ea962eea042694569f59ef",
+      "derived_rows": 11,
+      "derived_path": "onet/experience_categories.csv",
+      "derived_sha256": "6d76b046eafa351c477f2fb86888d63916b0569331a75b5569b08c1b0b90e5dd"
+    },
+    {
       "source_id": "minilm-onnx",
       "title": "all-MiniLM-L6-v2 ONNX (quantized, AVX2)",
       "publisher": "sentence-transformers (Hugging Face)",
@@ -316,6 +355,19 @@
       "derived_sha256": "28febea60402cec902bbee18f65d7e29bef0147cd163636dc9286178d1fac4f8"
     },
     {
+      "source_id": "aivancin-routes",
+      "title": "AIVANCIN supported destinations and their sourced requirements",
+      "publisher": "AIVANCIN (team DOVUN), from O*NET 31.0 and the curated catalogue",
+      "url": "tools/destinations_curation.json",
+      "release": "2026-10-20",
+      "licence": "Derived from CC BY sources",
+      "access_date": "2026-10-20",
+      "original_sha256": "39219dcf75dbab31405edc473b46b2d7cf5b4072bcf77cfdb28824f3399d5dff",
+      "derived_rows": null,
+      "derived_path": "routes/destinations.json",
+      "derived_sha256": "39219dcf75dbab31405edc473b46b2d7cf5b4072bcf77cfdb28824f3399d5dff"
+    },
+    {
       "source_id": "aivancin-catalogue",
       "title": "AIVANCIN curated course catalogue",
       "publisher": "AIVANCIN (team DOVUN)",
@@ -323,10 +375,10 @@
       "release": "2026-10-20",
       "licence": "Links to third-party pages; see each entry",
       "access_date": "2026-10-20",
-      "original_sha256": "ebd5745d22eddcb2c8a214ce08a94cd1f569fe542f1bc058389844f47bc63598",
-      "derived_rows": 33,
+      "original_sha256": "f25346415410ac3fb8635a291db58b4ea36e2574ccfd00db90253097c91be174",
+      "derived_rows": 64,
       "derived_path": "catalogue/courses.json",
-      "derived_sha256": "ebd5745d22eddcb2c8a214ce08a94cd1f569fe542f1bc058389844f47bc63598"
+      "derived_sha256": "f25346415410ac3fb8635a291db58b4ea36e2574ccfd00db90253097c91be174"
     },
     {
       "source_id": "aei-report-2511.15080",

@@ -8,6 +8,7 @@ Run python tools/build_snapshots.py afterwards so the manifest records the new c
 """
 import datetime as dt
 import json
+import math
 import re
 import sys
 import urllib.request
@@ -28,15 +29,41 @@ def get(url, timeout=60):
         return r.status, r.read()
 
 
+def _text(fragment):
+    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", fragment)).strip()
+
+
+def page_facts(html):
+    """The provider's stated learning objectives and prerequisites, from the module or path page."""
+    objectives, prereq = [], ""
+    m = re.search(r"Learning objectives(.*?)(?:Prerequisites|<h2|$)", html, re.S)
+    if m:
+        objectives = [_text(li) for li in re.findall(r"<li[^>]*>(.*?)</li>", m.group(1), re.S)]
+        objectives = [o for o in objectives if o][:8]
+    m = re.search(r"Prerequisites\s*</h2>(.*?)(?:<h2|Get started with Azure|$)", html, re.S) or \
+        re.search(r"Prerequisites(.*?)(?:<h2|Get started with Azure|$)", html, re.S)
+    if m:
+        prereq = _text(m.group(1))
+        prereq = re.split(r"\s(?:Introduction|Exercise|Module assessment|Knowledge check)\s+min", prereq)[0][:400].strip()
+    return objectives, prereq
+
+
 def link_check(url, title):
     try:
         status, body = get(url)
     except Exception as exc:
-        return {"ok": False, "status": getattr(exc, "code", None), "detail": type(exc).__name__}
-    page_title = re.search(rb"<title>([^<]*)", body)
-    page_title = page_title.group(1).decode("utf-8", "replace") if page_title else ""
+        return {"ok": False, "status": getattr(exc, "code", None), "detail": type(exc).__name__}, "", ""
+    html = body.decode("utf-8", "replace")
+    page_title = re.search(r"<title>([^<]*)", html)
+    page_title = page_title.group(1) if page_title else ""
     ok = status == 200 and "not found" not in page_title.lower() and title.lower()[:30] in page_title.lower()
-    return {"ok": ok, "status": status, "page_title": page_title.strip()}
+    objectives, prereq = page_facts(html)
+    return {"ok": ok, "status": status, "page_title": page_title.strip()}, objectives, prereq
+
+
+def practice_hours(provider_hours):
+    """Curated estimate for the practice checkpoint: half the provider's time, at least 30 minutes, in half hours."""
+    return max(0.5, math.ceil(provider_hours) / 2 if provider_hours >= 1 else 0.5)
 
 
 def main():
@@ -54,14 +81,21 @@ def main():
     def build(c):
         p = items[c["uid"]]
         url = p["url"].split("?")[0]
-        return {"id": c["uid"], "title": p["title"], "provider": "Microsoft Learn", "url": url,
-                "kind": "learning path" if p["type"] == "learningPath" else "module",
-                "level": p.get("levels", []), "cost_rm": 0,
-                "hours": round(p["duration_in_minutes"] / 60, 1),
-                "hours_source": f"{p['duration_in_minutes']} minutes stated by the provider's catalog",
-                "provider_last_modified": p.get("last_modified", "")[:10],
-                "dwas": c.get("dwas", []), "tools": c.get("tools", []), "ai_skill": bool(c.get("ai_skill")),
-                "verified_on": today, "link_check": {**link_check(url, p["title"]), "checked_on": today}}
+        hours = round(p["duration_in_minutes"] / 60, 1)
+        check, objectives, prereq = link_check(url, p["title"])
+        entry = {"id": c["uid"], "title": p["title"], "provider": "Microsoft Learn", "url": url,
+                 "kind": "learning path" if p["type"] == "learningPath" else "module",
+                 "level": p.get("levels", []), "cost_rm": 0, "hours": hours,
+                 "hours_source": f"{p['duration_in_minutes']} minutes stated by the provider's catalog",
+                 "provider_last_modified": p.get("last_modified", "")[:10],
+                 "dwas": c.get("dwas", []), "tools": c.get("tools", []), "ai_skill": bool(c.get("ai_skill")),
+                 "objectives": objectives or [p.get("summary", "")], "provider_prerequisites": prereq,
+                 "verified_on": today, "link_check": {**check, "checked_on": today}}
+        if c.get("checkpoint"):
+            entry.update({"coverage": c["coverage"], "checkpoint": c["checkpoint"], "requires": c.get("requires", []),
+                          "practice_hours": practice_hours(hours),
+                          "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"})
+        return entry
 
     with ThreadPoolExecutor(max_workers=6) as ex:
         courses = list(ex.map(build, curation["items"]))

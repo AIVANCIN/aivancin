@@ -1,0 +1,940 @@
+{
+ "built_on": "2026-10-20",
+ "curated_on": "2026-10-20",
+ "families": {
+  "it_support": "IT and network support and administration",
+  "software": "Software development and testing",
+  "finance_analytics": "Finance, reporting and business analytics"
+ },
+ "destinations": [
+  {
+   "code": "15-1232.00",
+   "title": "Computer User Support Specialists",
+   "family": "it_support",
+   "family_label": "IT and network support and administration",
+   "job_zone": 3,
+   "masco": {
+    "major": "3",
+    "group": "Technicians and associate professionals",
+    "skill": "skilled",
+    "mapping": "ESCO exactMatch",
+    "label": "MASCO major group 3, Technicians and associate professionals (skilled)"
+   },
+   "requirements": [
+    {
+     "id": "job_zone_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "O*NET Job Zone 3: Most occupations in this zone require training in vocational schools, related on-the-job experience, or an associate's degree.",
+     "judge": "you_decide",
+     "src": [
+      "onet31-job-zones",
+      "onet31-job-zone-reference"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1232.00"
+    },
+    {
+     "id": "typical_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "Most common required education in the US: Bachelor's Degree (47% of respondents)",
+     "judge": "degree",
+     "src": [
+      "onet31-education",
+      "onet31-education-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1232.00"
+    },
+    {
+     "id": "related_experience",
+     "kind": "experience",
+     "scope": "US",
+     "text": "Most common related work experience in the US: Over 2 years, up to and including 4 years (51% of respondents)",
+     "judge": "you_decide",
+     "src": [
+      "onet31-experience",
+      "onet31-experience-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1232.00"
+    }
+   ],
+   "top_activities": [
+    "4.A.1.a.1.b.7",
+    "4.A.3.b.1.c.2",
+    "4.A.4.b.1.a.3",
+    "4.A.1.a.2.j.3",
+    "4.A.1.b.2.h.1",
+    "4.A.1.b.2.h.3",
+    "4.A.2.a.1.g.8",
+    "4.A.2.b.3.a.7",
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.1.d.3"
+   ],
+   "top_activities_with_resources": [
+    "4.A.1.a.2.j.3",
+    "4.A.1.b.2.h.3",
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.1.d.3"
+   ],
+   "admission": {
+    "job_zone_3_or_4": true,
+    "masco_skilled": true,
+    "sourced_requirement": true,
+    "activity_links_10_plus": true,
+    "resources_for_3_top_activities": true
+   },
+   "admitted": true
+  },
+  {
+   "code": "15-1231.00",
+   "title": "Computer Network Support Specialists",
+   "family": "it_support",
+   "family_label": "IT and network support and administration",
+   "job_zone": 4,
+   "masco": {
+    "major": "2",
+    "group": "Professionals",
+    "skill": "skilled",
+    "mapping": "ESCO exactMatch",
+    "label": "MASCO major group 2, Professionals (skilled)"
+   },
+   "requirements": [
+    {
+     "id": "job_zone_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "O*NET Job Zone 4: Most of these occupations require a four-year bachelor's degree, but some do not.",
+     "judge": "degree",
+     "src": [
+      "onet31-job-zones",
+      "onet31-job-zone-reference"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1231.00"
+    },
+    {
+     "id": "typical_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "Most common required education in the US: Bachelor's Degree (47% of respondents)",
+     "judge": "degree",
+     "src": [
+      "onet31-education",
+      "onet31-education-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1231.00"
+    },
+    {
+     "id": "related_experience",
+     "kind": "experience",
+     "scope": "US",
+     "text": "Most common related work experience in the US: Over 4 years, up to and including 6 years (31% of respondents)",
+     "judge": "you_decide",
+     "src": [
+      "onet31-experience",
+      "onet31-experience-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1231.00"
+    }
+   ],
+   "top_activities": [
+    "4.A.3.b.6.i.3",
+    "4.A.3.b.1.c.2",
+    "4.A.3.b.1.d.1",
+    "4.A.1.b.2.h.2",
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.1.c.4",
+    "4.A.1.a.1.t.4",
+    "4.A.1.a.2.j.2",
+    "4.A.1.b.2.h.1",
+    "4.A.1.b.2.h.3"
+   ],
+   "top_activities_with_resources": [
+    "4.A.1.a.2.j.2",
+    "4.A.1.b.2.h.2",
+    "4.A.1.b.2.h.3",
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.1.c.4",
+    "4.A.3.b.1.d.1"
+   ],
+   "admission": {
+    "job_zone_3_or_4": true,
+    "masco_skilled": true,
+    "sourced_requirement": true,
+    "activity_links_10_plus": true,
+    "resources_for_3_top_activities": true
+   },
+   "admitted": true
+  },
+  {
+   "code": "15-1244.00",
+   "title": "Network and Computer Systems Administrators",
+   "family": "it_support",
+   "family_label": "IT and network support and administration",
+   "job_zone": 3,
+   "masco": {
+    "major": "2",
+    "group": "Professionals",
+    "skill": "skilled",
+    "mapping": "ESCO closeMatch",
+    "label": "MASCO major group 2, Professionals (skilled)"
+   },
+   "requirements": [
+    {
+     "id": "job_zone_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "O*NET Job Zone 3: Most occupations in this zone require training in vocational schools, related on-the-job experience, or an associate's degree.",
+     "judge": "you_decide",
+     "src": [
+      "onet31-job-zones",
+      "onet31-job-zone-reference"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1244.00"
+    },
+    {
+     "id": "related_experience",
+     "kind": "experience",
+     "scope": "US",
+     "text": "Most common related work experience in the US: Over 2 years, up to and including 4 years (43% of respondents)",
+     "judge": "you_decide",
+     "src": [
+      "onet31-experience",
+      "onet31-experience-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1244.00"
+    }
+   ],
+   "top_activities": [
+    "4.A.3.b.1.b.1",
+    "4.A.1.a.2.j.2",
+    "4.A.2.a.4.e.5",
+    "4.A.2.b.1.h.2",
+    "4.A.3.b.5.c.2",
+    "4.A.4.b.6.d.6",
+    "4.A.4.b.6.d.5",
+    "4.A.1.a.1.n.5",
+    "4.A.1.a.1.t.4",
+    "4.A.1.b.2.h.1"
+   ],
+   "top_activities_with_resources": [
+    "4.A.1.a.2.j.2",
+    "4.A.2.a.4.e.5",
+    "4.A.3.b.1.b.1",
+    "4.A.3.b.5.c.2",
+    "4.A.4.b.6.d.5",
+    "4.A.4.b.6.d.6"
+   ],
+   "admission": {
+    "job_zone_3_or_4": true,
+    "masco_skilled": true,
+    "sourced_requirement": true,
+    "activity_links_10_plus": true,
+    "resources_for_3_top_activities": true
+   },
+   "admitted": true
+  },
+  {
+   "code": "15-1212.00",
+   "title": "Information Security Analysts",
+   "family": "it_support",
+   "family_label": "IT and network support and administration",
+   "job_zone": 4,
+   "masco": {
+    "major": "2",
+    "group": "Professionals",
+    "skill": "skilled",
+    "mapping": "ESCO exactMatch",
+    "label": "MASCO major group 2, Professionals (skilled)"
+   },
+   "requirements": [
+    {
+     "id": "job_zone_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "O*NET Job Zone 4: Most of these occupations require a four-year bachelor's degree, but some do not.",
+     "judge": "degree",
+     "src": [
+      "onet31-job-zones",
+      "onet31-job-zone-reference"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1212.00"
+    },
+    {
+     "id": "typical_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "Most common required education in the US: Bachelor's Degree (53% of respondents)",
+     "judge": "degree",
+     "src": [
+      "onet31-education",
+      "onet31-education-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1212.00"
+    },
+    {
+     "id": "related_experience",
+     "kind": "experience",
+     "scope": "US",
+     "text": "Most common related work experience in the US: Over 2 years, up to and including 4 years (24% of respondents)",
+     "judge": "you_decide",
+     "src": [
+      "onet31-experience",
+      "onet31-experience-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1212.00"
+    }
+   ],
+   "top_activities": [
+    "4.A.3.b.1.b.1",
+    "4.A.1.a.2.j.1",
+    "4.A.1.b.2.h.2",
+    "4.A.2.b.3.a.7",
+    "4.A.3.b.1.d.2",
+    "4.A.3.b.2.f.9",
+    "4.A.3.b.6.h.2",
+    "4.A.4.b.1.a.3",
+    "4.A.4.b.3.e.4",
+    "4.A.4.b.4.j.32"
+   ],
+   "top_activities_with_resources": [
+    "4.A.1.a.2.j.1",
+    "4.A.1.b.2.h.2",
+    "4.A.3.b.1.b.1",
+    "4.A.3.b.1.d.2"
+   ],
+   "admission": {
+    "job_zone_3_or_4": true,
+    "masco_skilled": true,
+    "sourced_requirement": true,
+    "activity_links_10_plus": true,
+    "resources_for_3_top_activities": true
+   },
+   "admitted": true
+  },
+  {
+   "code": "15-1252.00",
+   "title": "Software Developers",
+   "family": "software",
+   "family_label": "Software development and testing",
+   "job_zone": 4,
+   "masco": {
+    "major": "2",
+    "group": "Professionals",
+    "skill": "skilled",
+    "mapping": "ESCO exactISCO",
+    "label": "MASCO major group 2, Professionals (skilled)"
+   },
+   "requirements": [
+    {
+     "id": "job_zone_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "O*NET Job Zone 4: Most of these occupations require a four-year bachelor's degree, but some do not.",
+     "judge": "degree",
+     "src": [
+      "onet31-job-zones",
+      "onet31-job-zone-reference"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1252.00"
+    },
+    {
+     "id": "typical_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "Most common required education in the US: Bachelor's Degree (85% of respondents)",
+     "judge": "degree",
+     "src": [
+      "onet31-education",
+      "onet31-education-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1252.00"
+    },
+    {
+     "id": "related_experience",
+     "kind": "experience",
+     "scope": "US",
+     "text": "Most common related work experience in the US: Over 6 years, up to and including 8 years (44% of respondents)",
+     "judge": "you_decide",
+     "src": [
+      "onet31-experience",
+      "onet31-experience-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1252.00"
+    }
+   ],
+   "top_activities": [
+    "4.A.2.a.4.e.5",
+    "4.A.2.b.2.b.7",
+    "4.A.2.a.1.g.6",
+    "4.A.2.a.4.d.1",
+    "4.A.2.b.2.b.10",
+    "4.A.3.b.1.f.7",
+    "4.A.3.b.2.a.7",
+    "4.A.3.b.2.f.15",
+    "4.A.4.a.2.h.7",
+    "4.A.4.a.2.h.9"
+   ],
+   "top_activities_with_resources": [
+    "4.A.2.a.1.g.6",
+    "4.A.2.a.4.e.5",
+    "4.A.2.b.2.b.10",
+    "4.A.2.b.2.b.7",
+    "4.A.3.b.1.f.7",
+    "4.A.3.b.2.f.15",
+    "4.A.4.a.2.h.7",
+    "4.A.4.a.2.h.9"
+   ],
+   "admission": {
+    "job_zone_3_or_4": true,
+    "masco_skilled": true,
+    "sourced_requirement": true,
+    "activity_links_10_plus": true,
+    "resources_for_3_top_activities": true
+   },
+   "admitted": true
+  },
+  {
+   "code": "15-1253.00",
+   "title": "Software Quality Assurance Analysts and Testers",
+   "family": "software",
+   "family_label": "Software development and testing",
+   "job_zone": 4,
+   "masco": {
+    "major": "2",
+    "group": "Professionals",
+    "skill": "skilled",
+    "mapping": "ESCO exactMatch",
+    "label": "MASCO major group 2, Professionals (skilled)"
+   },
+   "requirements": [
+    {
+     "id": "job_zone_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "O*NET Job Zone 4: Most of these occupations require a four-year bachelor's degree, but some do not.",
+     "judge": "degree",
+     "src": [
+      "onet31-job-zones",
+      "onet31-job-zone-reference"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1253.00"
+    },
+    {
+     "id": "typical_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "Most common required education in the US: Bachelor's Degree (50% of respondents)",
+     "judge": "degree",
+     "src": [
+      "onet31-education",
+      "onet31-education-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1253.00"
+    },
+    {
+     "id": "related_experience",
+     "kind": "experience",
+     "scope": "US",
+     "text": "Most common related work experience in the US: Over 6 months, up to and including 1 year (29% of respondents)",
+     "judge": "you_decide",
+     "src": [
+      "onet31-experience",
+      "onet31-experience-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1253.00"
+    }
+   ],
+   "top_activities": [
+    "4.A.1.b.2.h.3",
+    "4.A.3.b.2.f.15",
+    "4.A.4.b.6.d.6",
+    "4.A.1.a.2.j.3",
+    "4.A.1.b.2.h.2",
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.6.h.11",
+    "4.A.1.a.1.b.7",
+    "4.A.2.a.1.g.6",
+    "4.A.2.a.1.g.8"
+   ],
+   "top_activities_with_resources": [
+    "4.A.1.a.2.j.3",
+    "4.A.1.b.2.h.2",
+    "4.A.1.b.2.h.3",
+    "4.A.2.a.1.g.6",
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.2.f.15",
+    "4.A.4.b.6.d.6"
+   ],
+   "admission": {
+    "job_zone_3_or_4": true,
+    "masco_skilled": true,
+    "sourced_requirement": true,
+    "activity_links_10_plus": true,
+    "resources_for_3_top_activities": true
+   },
+   "admitted": true
+  },
+  {
+   "code": "15-1254.00",
+   "title": "Web Developers",
+   "family": "software",
+   "family_label": "Software development and testing",
+   "job_zone": 3,
+   "masco": {
+    "major": "2",
+    "group": "Professionals",
+    "skill": "skilled",
+    "mapping": "ESCO exactMatch",
+    "label": "MASCO major group 2, Professionals (skilled)"
+   },
+   "requirements": [
+    {
+     "id": "job_zone_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "O*NET Job Zone 3: Most occupations in this zone require training in vocational schools, related on-the-job experience, or an associate's degree.",
+     "judge": "you_decide",
+     "src": [
+      "onet31-job-zones",
+      "onet31-job-zone-reference"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1254.00"
+    },
+    {
+     "id": "typical_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "Most common required education in the US: Bachelor's Degree (46% of respondents)",
+     "judge": "degree",
+     "src": [
+      "onet31-education",
+      "onet31-education-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1254.00"
+    },
+    {
+     "id": "related_experience",
+     "kind": "experience",
+     "scope": "US",
+     "text": "Most common related work experience in the US: Over 1 year, up to and including 2 years (29% of respondents)",
+     "judge": "you_decide",
+     "src": [
+      "onet31-experience",
+      "onet31-experience-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1254.00"
+    }
+   ],
+   "top_activities": [
+    "4.A.2.b.2.b.8",
+    "4.A.3.b.1.f.4",
+    "4.A.3.b.2.a.3",
+    "4.A.4.b.1.a.3",
+    "4.A.1.b.2.h.3",
+    "4.A.3.b.1.c.4",
+    "4.A.3.b.6.i.5",
+    "4.A.2.a.1.g.8",
+    "4.A.2.a.4.e.5",
+    "4.A.2.b.2.f.4"
+   ],
+   "top_activities_with_resources": [
+    "4.A.1.b.2.h.3",
+    "4.A.2.a.4.e.5",
+    "4.A.2.b.2.b.8",
+    "4.A.2.b.2.f.4",
+    "4.A.3.b.1.c.4",
+    "4.A.3.b.2.a.3"
+   ],
+   "admission": {
+    "job_zone_3_or_4": true,
+    "masco_skilled": true,
+    "sourced_requirement": true,
+    "activity_links_10_plus": true,
+    "resources_for_3_top_activities": true
+   },
+   "admitted": true
+  },
+  {
+   "code": "15-1251.00",
+   "title": "Computer Programmers",
+   "family": "software",
+   "family_label": "Software development and testing",
+   "job_zone": 4,
+   "masco": {
+    "major": "2",
+    "group": "Professionals",
+    "skill": "skilled",
+    "mapping": "ESCO closeMatch",
+    "label": "MASCO major group 2, Professionals (skilled)"
+   },
+   "requirements": [
+    {
+     "id": "job_zone_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "O*NET Job Zone 4: Most of these occupations require a four-year bachelor's degree, but some do not.",
+     "judge": "degree",
+     "src": [
+      "onet31-job-zones",
+      "onet31-job-zone-reference"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1251.00"
+    },
+    {
+     "id": "typical_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "Most common required education in the US: Bachelor's Degree (88% of respondents)",
+     "judge": "degree",
+     "src": [
+      "onet31-education",
+      "onet31-education-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1251.00"
+    },
+    {
+     "id": "related_experience",
+     "kind": "experience",
+     "scope": "US",
+     "text": "Most common related work experience in the US: Over 6 months, up to and including 1 year (37% of respondents)",
+     "judge": "you_decide",
+     "src": [
+      "onet31-experience",
+      "onet31-experience-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-1251.00"
+    }
+   ],
+   "top_activities": [
+    "4.A.2.b.2.b.7",
+    "4.A.1.b.2.h.2",
+    "4.A.1.b.2.h.3",
+    "4.A.3.b.1.a.3",
+    "4.A.4.b.1.a.3",
+    "4.A.2.b.2.o.13",
+    "4.A.3.b.1.d.3",
+    "4.A.3.b.2.d.2",
+    "4.A.3.b.6.i.5",
+    "4.A.3.b.6.l.8"
+   ],
+   "top_activities_with_resources": [
+    "4.A.1.b.2.h.2",
+    "4.A.1.b.2.h.3",
+    "4.A.2.b.2.b.7",
+    "4.A.2.b.2.o.13",
+    "4.A.3.b.1.a.3",
+    "4.A.3.b.1.d.3"
+   ],
+   "admission": {
+    "job_zone_3_or_4": true,
+    "masco_skilled": true,
+    "sourced_requirement": true,
+    "activity_links_10_plus": true,
+    "resources_for_3_top_activities": true
+   },
+   "admitted": true
+  },
+  {
+   "code": "13-2011.00",
+   "title": "Accountants and Auditors",
+   "family": "finance_analytics",
+   "family_label": "Finance, reporting and business analytics",
+   "job_zone": 4,
+   "masco": {
+    "major": "2",
+    "group": "Professionals",
+    "skill": "skilled",
+    "mapping": "ESCO exactMatch",
+    "label": "MASCO major group 2, Professionals (skilled)"
+   },
+   "requirements": [
+    {
+     "id": "job_zone_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "O*NET Job Zone 4: Most of these occupations require a four-year bachelor's degree, but some do not.",
+     "judge": "degree",
+     "src": [
+      "onet31-job-zones",
+      "onet31-job-zone-reference"
+     ],
+     "url": "https://www.onetonline.org/link/summary/13-2011.00"
+    },
+    {
+     "id": "related_experience",
+     "kind": "experience",
+     "scope": "US",
+     "text": "Most common related work experience in the US: None (34% of respondents)",
+     "judge": "none",
+     "src": [
+      "onet31-experience",
+      "onet31-experience-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/13-2011.00"
+    }
+   ],
+   "top_activities": [
+    "4.A.2.a.3.c.2",
+    "4.A.2.a.3.c.3",
+    "4.A.3.b.6.a.2",
+    "4.A.2.a.2.a.1",
+    "4.A.2.a.2.a.5",
+    "4.A.2.a.4.k.4",
+    "4.A.3.b.6.a.1",
+    "4.A.4.a.2.c.10",
+    "4.A.4.b.6.k.3",
+    "4.A.1.a.1.c.1"
+   ],
+   "top_activities_with_resources": [
+    "4.A.2.a.2.a.1",
+    "4.A.2.a.3.c.2",
+    "4.A.2.a.3.c.3",
+    "4.A.2.a.4.k.4",
+    "4.A.3.b.6.a.1",
+    "4.A.3.b.6.a.2",
+    "4.A.4.a.2.c.10"
+   ],
+   "admission": {
+    "job_zone_3_or_4": true,
+    "masco_skilled": true,
+    "sourced_requirement": true,
+    "activity_links_10_plus": true,
+    "resources_for_3_top_activities": true
+   },
+   "admitted": true
+  },
+  {
+   "code": "13-2031.00",
+   "title": "Budget Analysts",
+   "family": "finance_analytics",
+   "family_label": "Finance, reporting and business analytics",
+   "job_zone": 4,
+   "masco": {
+    "major": "2",
+    "group": "Professionals",
+    "skill": "skilled",
+    "mapping": "ESCO exactMatch",
+    "label": "MASCO major group 2, Professionals (skilled)"
+   },
+   "requirements": [
+    {
+     "id": "job_zone_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "O*NET Job Zone 4: Most of these occupations require a four-year bachelor's degree, but some do not.",
+     "judge": "degree",
+     "src": [
+      "onet31-job-zones",
+      "onet31-job-zone-reference"
+     ],
+     "url": "https://www.onetonline.org/link/summary/13-2031.00"
+    },
+    {
+     "id": "typical_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "Most common required education in the US: Bachelor's Degree (77% of respondents)",
+     "judge": "degree",
+     "src": [
+      "onet31-education",
+      "onet31-education-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/13-2031.00"
+    },
+    {
+     "id": "related_experience",
+     "kind": "experience",
+     "scope": "US",
+     "text": "Most common related work experience in the US: Over 1 year, up to and including 2 years (46% of respondents)",
+     "judge": "you_decide",
+     "src": [
+      "onet31-experience",
+      "onet31-experience-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/13-2031.00"
+    }
+   ],
+   "top_activities": [
+    "4.A.2.a.4.k.1",
+    "4.A.2.a.4.k.4",
+    "4.A.3.b.6.a.2",
+    "4.A.4.b.6.k.3",
+    "4.A.1.a.1.d.4",
+    "4.A.1.b.1.b.6",
+    "4.A.2.a.2.a.5",
+    "4.A.2.b.4.a.3",
+    "4.A.4.a.2.e.5",
+    "4.A.4.a.3.a.1"
+   ],
+   "top_activities_with_resources": [
+    "4.A.2.a.4.k.1",
+    "4.A.2.a.4.k.4",
+    "4.A.3.b.6.a.2"
+   ],
+   "admission": {
+    "job_zone_3_or_4": true,
+    "masco_skilled": true,
+    "sourced_requirement": true,
+    "activity_links_10_plus": true,
+    "resources_for_3_top_activities": true
+   },
+   "admitted": true
+  },
+  {
+   "code": "13-2041.00",
+   "title": "Credit Analysts",
+   "family": "finance_analytics",
+   "family_label": "Finance, reporting and business analytics",
+   "job_zone": 4,
+   "masco": {
+    "major": "3",
+    "group": "Technicians and associate professionals",
+    "skill": "skilled",
+    "mapping": "ESCO exactMatch",
+    "label": "MASCO major group 3, Technicians and associate professionals (skilled)"
+   },
+   "requirements": [
+    {
+     "id": "job_zone_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "O*NET Job Zone 4: Most of these occupations require a four-year bachelor's degree, but some do not.",
+     "judge": "degree",
+     "src": [
+      "onet31-job-zones",
+      "onet31-job-zone-reference"
+     ],
+     "url": "https://www.onetonline.org/link/summary/13-2041.00"
+    },
+    {
+     "id": "typical_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "Most common required education in the US: Bachelor's Degree (95% of respondents)",
+     "judge": "degree",
+     "src": [
+      "onet31-education",
+      "onet31-education-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/13-2041.00"
+    },
+    {
+     "id": "related_experience",
+     "kind": "experience",
+     "scope": "US",
+     "text": "Most common related work experience in the US: Over 1 year, up to and including 2 years (30% of respondents)",
+     "judge": "you_decide",
+     "src": [
+      "onet31-experience",
+      "onet31-experience-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/13-2041.00"
+    }
+   ],
+   "top_activities": [
+    "4.A.2.a.4.k.4",
+    "4.A.2.a.4.b.4",
+    "4.A.2.a.4.c.1",
+    "4.A.2.a.4.g.1",
+    "4.A.3.b.6.a.2",
+    "4.A.3.b.6.m.2",
+    "4.A.4.a.8.c.6",
+    "4.A.2.a.1.i.2",
+    "4.A.2.a.3.c.2",
+    "4.A.4.b.1.c.8"
+   ],
+   "top_activities_with_resources": [
+    "4.A.2.a.1.i.2",
+    "4.A.2.a.3.c.2",
+    "4.A.2.a.4.k.4",
+    "4.A.3.b.6.a.2"
+   ],
+   "admission": {
+    "job_zone_3_or_4": true,
+    "masco_skilled": true,
+    "sourced_requirement": true,
+    "activity_links_10_plus": true,
+    "resources_for_3_top_activities": true
+   },
+   "admitted": true
+  },
+  {
+   "code": "15-2051.01",
+   "title": "Business Intelligence Analysts",
+   "family": "finance_analytics",
+   "family_label": "Finance, reporting and business analytics",
+   "job_zone": 4,
+   "masco": {
+    "major": "2",
+    "group": "Professionals",
+    "skill": "skilled",
+    "mapping": "ESCO exactMatch",
+    "label": "MASCO major group 2, Professionals (skilled)"
+   },
+   "requirements": [
+    {
+     "id": "job_zone_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "O*NET Job Zone 4: Most of these occupations require a four-year bachelor's degree, but some do not.",
+     "judge": "degree",
+     "src": [
+      "onet31-job-zones",
+      "onet31-job-zone-reference"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-2051.01"
+    },
+    {
+     "id": "typical_education",
+     "kind": "qualification",
+     "scope": "US",
+     "text": "Most common required education in the US: Bachelor's Degree (68% of respondents)",
+     "judge": "degree",
+     "src": [
+      "onet31-education",
+      "onet31-education-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-2051.01"
+    },
+    {
+     "id": "related_experience",
+     "kind": "experience",
+     "scope": "US",
+     "text": "Most common related work experience in the US: Over 2 years, up to and including 4 years (36% of respondents)",
+     "judge": "you_decide",
+     "src": [
+      "onet31-experience",
+      "onet31-experience-categories"
+     ],
+     "url": "https://www.onetonline.org/link/summary/15-2051.01"
+    }
+   ],
+   "top_activities": [
+    "4.A.2.a.4.b.6",
+    "4.A.3.b.2.f.3",
+    "4.A.1.a.1.n.5",
+    "4.A.2.b.2.f.4",
+    "4.A.2.b.3.a.7",
+    "4.A.3.b.1.f.5",
+    "4.A.3.b.2.d.2",
+    "4.A.3.b.6.c.5",
+    "4.A.3.b.6.h.2",
+    "4.A.3.b.6.i.4"
+   ],
+   "top_activities_with_resources": [
+    "4.A.2.a.4.b.6",
+    "4.A.2.b.2.f.4",
+    "4.A.3.b.1.f.5",
+    "4.A.3.b.6.i.4"
+   ],
+   "admission": {
+    "job_zone_3_or_4": true,
+    "masco_skilled": true,
+    "sourced_requirement": true,
+    "activity_links_10_plus": true,
+    "resources_for_3_top_activities": true
+   },
+   "admitted": true
+  }
+ ]
+}
