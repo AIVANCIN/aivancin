@@ -57,7 +57,7 @@ mark.words { background: var(--marker); color: var(--marker-text); padding: 0.04
 /* buttons */
 
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 0 18px; border: 0; border-radius: 999px; font: 500 15px/1 var(--sans); letter-spacing: -0.01em; cursor: pointer; text-decoration: none; transition: background-color 150ms var(--ease), transform 150ms var(--ease); }
-.btn:active { transform: scale(0.97); }
+html[data-motion="on"] .btn:active { transform: scale(0.97); }
 .btn-primary { background: var(--accent); color: var(--on-accent); font-weight: 600; font-size: 16px; min-height: 46px; padding: 0 24px; }
 .btn-primary:hover { background: var(--accent-pressed); }
 .btn-gray { background: var(--fill); color: var(--text); }
@@ -219,4 +219,9 @@ details.sent[open] > summary { margin-bottom: 16px; }
 footer { padding: 40px 0 56px; border-top: 1px solid var(--sep); background: var(--canvas); }
 footer p { max-width: 900px; }
 code { overflow-wrap: anywhere; }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
+html:not([data-motion="on"]) *, html:not([data-motion="on"]) *::before, html:not([data-motion="on"]) *::after {
+  transition: none !important; animation: none !important; scroll-behavior: auto !important;
+}
+html[data-motion-paused="true"] *, html[data-motion-paused="true"] *::before, html[data-motion-paused="true"] *::after {
+  animation-play-state: paused !important; transition: none !important;
+}

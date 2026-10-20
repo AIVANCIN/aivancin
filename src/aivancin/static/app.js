@@ -90,11 +90,11 @@ function showStage(id) {
   sec.hidden = false;
   const key = { review: "work", results: "routes" }[id] || id;
   const link = $(`.stage-links a[data-stage="${key}"]`);
-  if (link) link.removeAttribute("aria-disabled");
+  if (link) { link.removeAttribute("aria-disabled"); link.removeAttribute("tabindex"); }
   $$(".stage-links a").forEach(a => a.toggleAttribute("aria-current", a.dataset.stage === key));
   $$(".stage-links a[aria-current]").forEach(a => a.setAttribute("aria-current", "step"));
-  sec.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
-  const h = $("h2[tabindex]", sec);
+  sec.scrollIntoView({ behavior: document.documentElement.dataset.motion === "on" && !document.hidden ? "smooth" : "instant", block: "start" });
+  const h = $("[tabindex='-1']", sec);
   if (h) h.focus({ preventScroll: true });
 }
 
@@ -343,10 +343,11 @@ function laneCounts() {
 }
 
 function renderRail() {
+  const previous = new Set($$("#mine [data-remove]").map(b => b.dataset.remove));
   const smap = suggestionMap();
   const items = [...state.ticked.keys()].map(id => ({ id, name: smap.get(id)?.name || id, note: "suggested, ticked by you", icon: "check" }))
     .concat([...state.manual].map(([id, m]) => ({ id, name: m.name, note: `added by you, ${FIELD_LABEL[m.lane].toLowerCase()}`, icon: "pencil-line" })));
-  $("#mine").innerHTML = items.map(it => `<li>${icon(it.icon, "sm")}<span class="mine-text">${esc(it.name)}<span class="mine-note">${esc(it.note)}</span></span>
+  $("#mine").innerHTML = items.map(it => `<li class="${previous.has(it.id) ? "" : "is-new"}">${icon(it.icon, "sm")}<span class="mine-text">${esc(it.name)}<span class="mine-note">${esc(it.note)}</span></span>
     <button type="button" class="rm" data-remove="${esc(it.id)}" aria-label="Remove ${esc(it.name)}">${icon("x", "sm")}</button></li>`).join("");
   $("#mine-empty").hidden = items.length > 0;
   const c = laneCounts();
@@ -756,6 +757,15 @@ function renderSources() {
 
 async function start() {
   initTheme();
+  $$(".stage-links a").forEach(link => {
+    if (link.getAttribute("aria-disabled") === "true") link.tabIndex = -1;
+    link.addEventListener("click", event => {
+      event.preventDefault();
+      if (link.getAttribute("aria-disabled") === "true") return;
+      if (link.dataset.stage === "changed") showChanged();
+      else showStage(link.dataset.stage);
+    });
+  });
   $("#intake").addEventListener("submit", readWork);
   combo($("#f-title"), $("#f-title-list"), async q => (await api(`/api/occupations?q=${encodeURIComponent(q)}`)).map(o => ({ ...o, label: o.title, meta: o.code })), it => setTitle(it.code));
   combo($("#f-field"), $("#f-field-list"), async q => (await api(`/api/fields?q=${encodeURIComponent(q)}`)).map(o => ({ ...o, label: o.title, meta: `CIP ${o.cip}` })), it => setCip({ cip: it.cip, title: it.title }));
@@ -827,11 +837,12 @@ function routeCard(r) {
   const chosen = routeState.target === r.code;
   const served = r.prioritized.filter(g => g.served).length;
   return `<article class="route-card${chosen ? " chosen" : ""}" data-scope aria-labelledby="rt-${esc(r.code)}">
-    <p class="d-kicker">${esc(r.family_label)}</p>
+    <p class="d-kicker">${icon("route")}${esc(r.family_label)}</p>
     <h3 id="rt-${esc(r.code)}">${esc(r.title)}</h3>
     <p class="rr-meta">O*NET ${esc(r.code)} · Job Zone ${fig(r.job_zone, "")} · ${esc(r.masco.label || "")}</p>
     <div class="rc-sec"><h4>Your work in this role</h4>
       <p>You do ${fig(r.done_count, "int")} of its ${fig(r.total_count, "int")} recorded activities (activity overlap ${fig(r.overlap, "pct")}).</p>
+      <div class="bar" aria-hidden="true"><span class="seg done" style="flex:${r.overlap.v}"></span><span class="seg" style="flex:${100 - r.overlap.v}"></span></div>
       ${r.related.length ? `<p class="foot">Also counted toward this route: ${r.related.map(x => `“${esc(x.name.replace(/\.$/, ""))}”, which O*NET groups with its “${esc(x.role_name.replace(/\.$/, ""))}”`).join("; ")}. These do not change the overlap or the gaps.</p>` : ""}</div>
     <div class="rc-sec"><h4>Requirements</h4><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul></div>
     <div class="rc-sec"><h4>Opportunity</h4>
@@ -860,7 +871,7 @@ function renderRoutes() {
       <p class="foot">These describe the compared plans, not a probability of anything.</p></section>` : ""}
     <p class="explore-row"><button type="button" class="link-btn" data-action="rank">Explore all roles, including ones without complete-route support</button></p>`;
   attachSources($("#routes"));
-  $$(".stage-links a").forEach(a => { if (a.dataset.stage === "routes") a.removeAttribute("aria-disabled"); });
+  $$(".stage-links a").forEach(a => { if (a.dataset.stage === "routes") { a.removeAttribute("aria-disabled"); a.removeAttribute("tabindex"); } });
 }
 
 async function choose(code) {
@@ -870,10 +881,17 @@ async function choose(code) {
 }
 
 async function refreshPlan() {
+  const active = document.activeElement;
+  const focusDone = active?.dataset.done;
+  const focusScenario = active?.name === "pscen" ? active.value : null;
   try {
     routeState.data = await api("/api/routes", routesRequest());
+    const keepFocus = document.activeElement === active;
     renderRoutes();
     renderPlan();
+    const restore = focusDone ? $$("#plan input[data-done]").find(input => input.dataset.done === focusDone)
+      : focusScenario ? $$("#plan input[name='pscen']").find(input => input.value === focusScenario) : null;
+    if (keepFocus) restore?.focus({ preventScroll: true });
   } catch (err) {
     $("#plan-body").innerHTML = `<div class="callout">${icon("triangle-alert")}<p>${esc(Object.values(err.data?.errors || {})[0] || "Could not build the plan.")}</p></div>`;
   }
@@ -920,7 +938,7 @@ function renderPlan() {
     <section class="sec-block" data-scope><h5>Beyond this block</h5><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul></section>
     <p class="explore-row"><button type="button" class="btn btn-gray" data-action="changed">See what new evidence changes</button></p>`;
   attachSources($("#plan"));
-  $$(".stage-links a").forEach(a => { if (a.dataset.stage === "plan" || a.dataset.stage === "changed") a.removeAttribute("aria-disabled"); });
+  $$(".stage-links a").forEach(a => { if (a.dataset.stage === "plan" || a.dataset.stage === "changed") { a.removeAttribute("aria-disabled"); a.removeAttribute("tabindex"); } });
 }
 
 async function showChanged() {

@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AIVANCIN</title>
 <meta name="description" content="Find the closest graduate roles to the work you already do, with what each still requires, dated AI-usage evidence and a free, verified plan.">
+<meta property="og:image" content="/art/social-1200.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<link rel="apple-touch-icon" href="/icon/icon-rounded.svg">
+<script src="/static/motion.js"></script>
 <link rel="icon" href="/icon/icon-rounded.svg" type="image/svg+xml">
 <link rel="preload" href="/fonts/kl-pro/KLPro-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/jost/Jost-SemiBold-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -46,30 +51,47 @@
 <header class="nav">
   <div class="wrap">
     <a class="brand" href="#top" aria-label="AIVANCIN, back to top">
-      <img src="/icon/icon-rounded.svg" alt="" width="26" height="26">
+      <span class="brand-mark" aria-hidden="true"></span>
       AIVANCIN
     </a>
     <ol class="stage-links" aria-label="Steps">
-      <li><a href="#work" data-stage="work">1 Your work</a></li>
-      <li><a href="#routes" data-stage="routes" aria-disabled="true">2 Compare routes</a></li>
-      <li><a href="#plan" data-stage="plan" aria-disabled="true">3 Your plan</a></li>
-      <li><a href="#changed" data-stage="changed" aria-disabled="true">4 What changed</a></li>
+      <li><a href="#work" data-stage="work" aria-current="step">1 Your work</a></li>
+      <li><a href="#routes" data-stage="routes" aria-disabled="true" tabindex="-1">2 Compare routes</a></li>
+      <li><a href="#plan" data-stage="plan" aria-disabled="true" tabindex="-1">3 Your plan</a></li>
+      <li><a href="#changed" data-stage="changed" aria-disabled="true" tabindex="-1">4 What changed</a></li>
     </ol>
+    <div class="display-settings">
     <fieldset class="seg-ctl small theme" aria-label="Appearance">
-      <legend class="vh">Appearance</legend>
+      <legend>Appearance</legend>
       <label><input type="radio" name="theme" value="auto" checked>Auto</label>
       <label><input type="radio" name="theme" value="light">Light</label>
       <label><input type="radio" name="theme" value="dark">Dark</label>
     </fieldset>
+    <fieldset class="seg-ctl small motion-setting" hidden data-motion-setting>
+      <legend>Motion</legend>
+      <label><input type="radio" name="motion" value="auto" checked>Device</label>
+      <label><input type="radio" name="motion" value="force">Full</label>
+      <label><input type="radio" name="motion" value="reduce">Reduced</label>
+    </fieldset>
+    </div>
   </div>
 </header>
 
 <main id="main">
 <section class="stage-sec" id="work" aria-labelledby="h-work">
-  <div class="wrap narrow">
+  <div class="wrap work-wrap">
+    <div class="work-hero">
+    <picture class="hero-art">
+      <source media="(max-width: 599px)" srcset="/art/art-portrait-390.webp 390w, /art/art-portrait-780.webp 780w" sizes="calc(100vw - 32px)" width="390" height="693">
+      <img src="/art/art-1120.webp" srcset="/art/art-640.webp 640w, /art/art-1120.webp 1120w, /art/art-1680.webp 1680w" sizes="(min-width: 900px) 480px, calc(100vw - 80px)" width="2560" height="1440" alt="" loading="eager" fetchpriority="high">
+    </picture>
+    <div class="hero-copy">
     <p class="eyebrow">Step 1 of 4 · Your work</p>
-    <h1 id="h-work" class="page-title">Show the work you already do.</h1>
+    <h1 id="h-work" class="page-title" tabindex="-1">Show the work you already do.</h1>
     <p class="lead-left">Describe your work in your own words. A small AI model on this server reads each sentence and suggests matching work activities from O*NET. It is often wrong, so nothing counts until you tick it. Then you see the graduate roles that use that work.</p>
+    </div>
+    </div>
+    <div class="intake-wrap">
     <div class="persona-bar" id="personas" aria-label="Examples">
       <span class="foot">Try a synthetic example:</span>
     </div>
@@ -146,6 +168,7 @@
         <p class="foot" id="read-note">Your text stays on this server for this request only. Nothing is saved.</p>
       </div>
     </form>
+    </div>
   </div>
 </section>
 

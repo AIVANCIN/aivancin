@@ -262,3 +262,110 @@ footer .foot { margin-top: 8px; }
 .change-ctl { display: grid; gap: 6px; margin-top: 16px; max-width: 420px; }
 .callout { flex-wrap: wrap; }
 .callout > .srcs { flex-basis: 100%; margin: 4px 0 0 34px; }
+
+
+/* Artwork and quiet, responsive chrome. Text stays on the canvas. */
+.brand-mark { width: 26px; height: 26px; flex: none; background: currentColor; mask: url("/icon/icon-black.svg") center / 31px 31px no-repeat; }
+.nav .wrap { height: auto; min-height: 88px; flex-wrap: wrap; gap: 8px 24px; padding-top: 12px; padding-bottom: 12px; }
+.brand { min-height: 44px; }
+.display-settings { display: flex; gap: 16px; margin-left: auto; }
+.display-settings fieldset { margin: 0; --n: 3; }
+.display-settings legend { font-size: 11px; font-weight: 600; color: var(--text2); margin-bottom: 4px; }
+.display-settings .seg-ctl::before { top: 2px; }
+.display-settings .seg-ctl label { min-height: 44px; padding: 0 9px; }
+.motion-setting:has(input[value="force"]:checked) { --i: 1; }
+.motion-setting:has(input[value="reduce"]:checked) { --i: 2; }
+.stage-links { order: 3; width: 100%; justify-content: center; display: flex; flex-wrap: wrap; gap: 4px; }
+.stage-links a { min-height: 44px; opacity: 1; }
+.stage-links a[aria-current="step"] { background: var(--accent-tint); color: var(--accent); }
+.stage-links a[aria-disabled="true"] { opacity: 1; color: var(--text2); }
+html { scroll-padding-top: 156px; }
+.stage-sec { padding: 48px 0 72px; }
+.stage-sec.alt { background: var(--canvas); }
+.work-hero { display: grid; gap: 32px; align-items: center; }
+.hero-art { display: block; overflow: hidden; border-radius: 24px; }
+.hero-art img { display: block; width: 100%; height: 220px; object-fit: cover; }
+.hero-copy .page-title { max-width: 12ch; }
+.intake-wrap { max-width: 780px; margin: auto; }
+.status-line:empty { display: none; }
+.form-card { border-radius: 24px; }
+.form-card .hint-line { padding: 16px; }
+.persona-bar .btn, .seg-ctl label, .seg-ctl.small label, .lanes .seg-ctl label,
+.check-line, .guard summary, .ctl select, .mob-cta .btn { min-height: 44px; }
+.link-btn { min-height: 44px; }
+.sent-actions .btn, .find .results select { min-height: 44px; }
+.mine li .rm { width: 44px; height: 44px; }
+.route-card { padding: 28px 24px; gap: 8px; }
+.route-card > .d-kicker { display: flex; align-items: center; gap: 10px; color: var(--accent); font-weight: 600; }
+.route-card > .d-kicker .ico { box-sizing: content-box; padding: 10px; border-radius: 14px; background: var(--accent-tint); }
+.route-card .choose-route { width: 100%; margin-top: 20px; }
+.route-card .rc-sec:first-of-type { padding: 16px; border: 0; border-radius: 16px; background: var(--accent-tint); }
+.route-card .bar { margin-top: 12px; }
+.route-card .rc-sec h4 { color: var(--text); }
+.plan-head { padding: 28px; }
+.plan-head .next { padding: 16px; border-radius: 14px; background: var(--accent-tint); align-items: flex-start; }
+.plan-head .next b { white-space: nowrap; }
+.plan-scen { padding: 24px; background: var(--evidence-tint); }
+.plan-scen legend { float: left; width: 100%; margin-bottom: 8px; }
+.plan-scen > .seg-ctl { clear: both; }
+.ctl .seg-ctl label { display: flex; color: var(--text); }
+.plan-scen .foot { margin-top: 12px; color: var(--text); }
+.psteps { position: relative; gap: 24px; margin-top: 32px; padding-left: 44px; }
+.psteps::before { content: ""; position: absolute; left: 15px; top: 24px; bottom: 24px; width: 2px; background: var(--sep); }
+.pstep { position: relative; padding: 24px; border-radius: 22px; }
+.pnum { position: absolute; left: -44px; top: 24px; width: 32px; height: 32px; background: var(--accent); color: var(--on-accent); box-shadow: 0 0 0 5px var(--canvas); }
+.pstep.done { opacity: 1; }
+.pstep.done .pnum { background: var(--fill); color: var(--text); }
+.pstep .checkpoint { margin-top: 16px; padding: 16px; }
+.pstep .gap-name a { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; vertical-align: middle; }
+.chg { padding: 20px; }
+.chg.changed-form { background: var(--evidence-tint); }
+.chg.added { background: var(--accent-tint); }
+.chg.removed { background: var(--rust-tint); }
+.change-ctl { padding: 20px; border-radius: 18px; background: var(--card); max-width: none; }
+.fact dt .tile-ico { width: 40px; height: 40px; background: var(--accent-tint); color: var(--accent); }
+.fact:has(.ev) { background: var(--evidence-tint); }
+@media (min-width: 900px) {
+  .work-hero { grid-template-columns: 1.05fr 1fr; gap: 48px; }
+  .hero-art { order: 2; }
+  .hero-art img { height: 320px; }
+  .hero-copy .page-title { font-size: 52px; }
+  .hero-copy .lead-left { font-size: 17px; }
+}
+@media (min-width: 980px) {
+  .rail, .role-list { top: 164px; }
+}
+@media (max-width: 599px) {
+  .nav { position: relative; }
+  .nav .wrap { gap: 4px 0; padding-top: 8px; padding-bottom: 8px; }
+  .brand { width: 100%; justify-content: center; }
+  .display-settings { width: 100%; justify-content: space-between; gap: 8px; }
+  .display-settings fieldset { flex: 1; }
+  .display-settings .seg-ctl label { padding: 0 5px; font-size: 12px; }
+  .stage-links { display: grid; grid-template-columns: 1fr 1fr; margin-top: 8px; }
+  .stage-links a { width: 100%; font-size: 12px; justify-content: center; padding: 0 8px; }
+  html { scroll-padding-top: 16px; }
+  .stage-sec { padding: 24px 0 48px; }
+  .work-hero { gap: 20px; }
+  .hero-art { border-radius: 18px; }
+  .hero-art img { height: 144px; object-position: center 27%; }
+  .hero-copy .page-title { max-width: 16ch; }
+  .hero-copy .lead-left { font-size: 16px; }
+  .persona-bar { margin-top: 20px; }
+  .route-card { padding: 24px 20px; }
+  .plan-head, .plan-scen { padding: 20px; }
+  .psteps { padding-left: 36px; }
+  .psteps::before { left: 11px; }
+  .pstep { padding: 20px 16px; }
+  .pnum { left: -36px; width: 24px; height: 24px; font-size: 12px; }
+}
+/* State changes are brief, optional, and never hide content while waiting. */
+@keyframes state-in { from { opacity: 0.5; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+html[data-motion="on"] .stage-sec:not([hidden]),
+html[data-motion="on"] .sent,
+html[data-motion="on"] .mine li.is-new,
+html[data-motion="on"] .route-card,
+html[data-motion="on"] .role-row,
+html[data-motion="on"] .pstep,
+html[data-motion="on"] .chg { animation: state-in 280ms var(--spring); }
+html[data-motion="on"] .btn { transition: transform 200ms var(--spring), background-color 150ms var(--ease); }

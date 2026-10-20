@@ -196,7 +196,7 @@ def test_unparseable_release_fails_loudly_at_build_time(tmp_path):
 def test_web_interface_is_served_from_bundled_files(client):
     page = client.get("/")
     assert page.status_code == 200 and "Check what we read" in page.text
-    for path in ("/static/app.js", "/static/app.css", "/static/base.css", "/static/tokens.css", "/icon/icon-rounded.svg"):
+    for path in ("/static/app.js", "/static/app.css", "/static/base.css", "/static/tokens.css", "/icon/icon-rounded.svg", "/icon/icon-black.svg", "/static/motion.js", "/art/art-640.webp", "/art/art-1120.webp", "/art/art-1680.webp", "/art/art-portrait-390.webp", "/art/art-portrait-780.webp", "/art/social-1200.jpg"):
         assert client.get(path).status_code == 200, path
     # the page loads nothing from other hosts, so it works offline
     assert "http://" not in page.text.replace("http://www.w3.org", "") and "https://" not in page.text
