@@ -61,6 +61,33 @@ def test_guard_leaves_plain_statements_alone(sentence):
     assert intake.guard(sentence) is None
 
 
+@pytest.mark.parametrize("sentence, expected", [
+    ("I built an IOC enricher.", ["IOC"]),
+    ("I built a SIEM dashboard and triage IOCs.", ["SIEM", "IOC"]),
+    ("I do KYC checks and R&D on the POS system.", ["KYC", "R&D", "POS"]),
+    ("I handle the POS and EOD reports.", ["POS", "EOD"]),
+    ("I give IT support and update CVs.", ["IT", "CV"]),
+])
+def test_short_forms_are_flagged_for_plain_words(sentence, expected):
+    assert intake.short_forms(sentence) == expected
+
+
+@pytest.mark.parametrize("sentence", [
+    "I fix PCs for the HR team and check CCTV and GPS logs.",
+    "I drive a van delivering parcels around Shah Alam.",
+    "I DRIVE A VAN AND LOAD IT EVERY MORNING.",
+    "I wrote a script in Python. A B C.",
+])
+def test_short_forms_leave_everyday_words_and_shouting_alone(sentence):
+    assert intake.short_forms(sentence) == []
+
+
+def test_suggest_reports_short_forms_per_sentence(snaps, ai):
+    enc, vec = ai
+    result = intake.suggest(texts(other_work="I built an IOC enricher. I fix laptops."), enc, vec, snaps.onet)
+    assert [s["short_forms"] for s in result["sentences"]] == [["IOC"], []]
+
+
 def test_hafiz_side_work_suggests_computer_support_activities(snaps, ai, personas):
     enc, vec = ai
     result = intake.suggest(personas["hafiz"], enc, vec, snaps.onet)

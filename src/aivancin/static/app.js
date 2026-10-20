@@ -7,6 +7,7 @@ const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const FIELD_LABEL = { current_job: "Current job", other_work: "Other work", studies: "Studies" };
 const FIELD_ICON = { current_job: "briefcase-business", other_work: "wrench", studies: "graduation-cap", all: "layers" };
 const LANE_TEXT = { current_job: "current-job", other_work: "other-work", studies: "studies", all: "" };
+const FIELD_PAGE = { current_job: [1, "#f-current"], other_work: [2, "#f-other"], studies: [3, "#f-studies"] };
 
 const state = {
   status: null, personas: [], sources: {}, sourceNo: {},
@@ -333,6 +334,7 @@ function renderReview() {
     html += `<div class="sent" data-sentence="${s.index}">
       <p class="src">${src}</p>
       <blockquote class="words"><mark class="words">${esc(s.text)}</mark></blockquote>
+      ${shortFormHint(s)}
       ${dismissed ? `<p class="dismissed">You said none of the 5 suggestions fit. <button type="button" class="link-btn" data-undismiss="${s.index}">Show them again</button></p>`
         : `<fieldset class="sugg"><legend class="vh">Activities suggested for this sentence</legend>${rows}</fieldset>
       <div class="sent-actions"><button type="button" class="btn btn-gray" data-dismiss="${s.index}">None of these fit</button><button type="button" class="btn btn-gray" data-find="${s.index}">${icon("search", "sm")}Find another activity</button></div>
@@ -345,6 +347,16 @@ function renderReview() {
   const manual = $('[data-find-box="manual"]', box);
   if (manual) openFind(manual, "other_work", false);
   renderRail();
+}
+
+/* The small model does not know most short forms (IOC, SIEM, KYC) and matches the rest of the sentence instead. */
+function shortFormHint(s) {
+  const forms = s.short_forms || [];
+  if (!forms.length) return "";
+  const quoted = forms.map(f => `“${esc(f)}”`);
+  const list = quoted.length === 1 ? quoted[0] : `${quoted.slice(0, -1).join(", ")} and ${quoted[quoted.length - 1]}`;
+  return `<p class="short-hint">${icon("info", "sm")}<span>${list} may not be understood. Write ${forms.length === 1 ? "it" : "them"} out in plain words for better suggestions.
+    <button type="button" class="link-btn" data-edit-sentence="${s.index}">Edit this answer</button></span></p>`;
 }
 
 function optionRow(entry, sentence) {
@@ -486,6 +498,14 @@ function reviewEvents() {
       renderReview();
     } else if (b.dataset.action === "rank") {
       rank();
+    } else if (b.dataset.editSentence !== undefined) {
+      // Back to the question this sentence came from, with the sentence selected in the text box.
+      const s = state.suggest.sentences.find(x => x.index === Number(b.dataset.editSentence));
+      const [page, box] = FIELD_PAGE[s.field];
+      navigate("work", page);
+      const ta = $(box);
+      ta.focus();
+      ta.setSelectionRange(s.start, s.end);
     } else if (b.dataset.openTitle !== undefined) {
       const d = $(".title-acts");
       d.open = true;

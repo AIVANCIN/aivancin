@@ -46,6 +46,10 @@ input[type="number"] { max-width: 180px; }
 .opt.dashed { box-shadow: none; }
 .sugg .opt { border: 1.5px dashed transparent; }
 .opt .also { display: block; margin-top: 2px; font-size: 13px; color: var(--text2); }
+.short-hint { display: flex; gap: 8px; align-items: flex-start; margin: -6px 0 14px; padding: 10px 12px; border-radius: 12px; background: var(--fill); font-size: 14px; line-height: 1.4; }
+.short-hint .ico { margin-top: 2px; color: var(--text2); }
+.short-hint .link-btn { position: relative; min-height: 0; font-size: 14px; }
+.short-hint .link-btn::after { content: ""; position: absolute; inset: -13px -8px; }
 .sent-actions .btn { min-height: 36px; font-size: 14px; padding: 0 14px; }
 .find { margin-top: 14px; }
 .find input { margin-top: 0; }

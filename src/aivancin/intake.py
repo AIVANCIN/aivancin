@@ -22,6 +22,13 @@ _ASPIRATION = [r"would like to", r"i'd like to", r"wants? to", r"hope to", r"pla
 _NEGATION_RE = re.compile(r"\b(?:" + "|".join(_NEGATION) + r")\b", re.IGNORECASE)
 _ASPIRATION_RE = re.compile(r"\b(?:" + "|".join(_ASPIRATION) + r")\b", re.IGNORECASE)
 
+# Capitalised short forms such as IOC, SIEM or KYC: the small encoder does not know most of them and matches the
+# rest of the sentence instead, so the review asks for plain words. Everyday ones it reads well are left alone.
+_SHORT_FORM_RE = re.compile(r"\b([A-Z][A-Z0-9&]{1,5})(?:'?s)?\b")
+# Checked 20 Oct: "IT support" and "CVs" read badly, so IT and CV are flagged; PC, HR, CCTV and GPS read well.
+_EVERYDAY_SHORT_FORMS = {"HR", "PC", "CEO", "TV", "AM", "PM", "OK", "UK", "US", "USA", "GPS", "PDF", "SMS", "ATM",
+                         "USB", "CCTV", "ID"}
+
 
 class IntakeError(ValueError):
     def __init__(self, errors):
@@ -58,6 +65,20 @@ def guard(sentence):
     return None
 
 
+def short_forms(sentence):
+    """Capitalised short forms in a sentence, in order, without the everyday ones. A sentence written mostly in
+    capitals is shouting, not short forms, and returns none."""
+    letters = [c for c in sentence if c.isalpha()]
+    if letters and sum(c.isupper() for c in letters) / len(letters) > 0.6:
+        return []
+    found = []
+    for m in _SHORT_FORM_RE.finditer(sentence):
+        token = m.group(1)
+        if sum(c.isalpha() for c in token) >= 2 and token not in _EVERYDAY_SHORT_FORMS and token not in found:
+            found.append(token)
+    return found
+
+
 def suggest(texts, encoder, index, onet, k=TOP_K):
     """Top-k activities per sentence by the activity index's score (encoder.ActivityIndex), merged so each activity
     appears once."""
@@ -65,7 +86,7 @@ def suggest(texts, encoder, index, onet, k=TOP_K):
     for f in FIELDS:
         for start, end, body in split_sentences(texts.get(f) or ""):
             sentences.append({"index": len(sentences), "field": f, "start": start, "end": end,
-                              "text": body, "guard": guard(body)})
+                              "text": body, "guard": guard(body), "short_forms": short_forms(body)})
     merged = {}
     for s in sentences:
         # One sentence per call keeps each sentence's scores independent of the rest of the input.
