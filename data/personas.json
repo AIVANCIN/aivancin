@@ -1,0 +1,30 @@
+[
+  {
+    "id": "hafiz",
+    "name": "Hafiz",
+    "age": 27,
+    "synthetic": true,
+    "title_code": "53-3033.00",
+    "current_job": "I drive a van delivering parcels around Shah Alam. I load the van in the morning and plan the route between drops. Customers sign for their parcels on my handheld scanner.",
+    "other_work": "On weekends I fix my friends' laptops and set up their home wifi. I install software and clean out viruses. I back up their phones and laptops to external drives. I built a website for my uncle's hardware shop and I keep it updated.",
+    "studies": "Diploma in computer science. I wrote small programs in Java and set up a computer lab network for my final project.",
+    "degree_field": "Computer science",
+    "degree_level": "diploma",
+    "weekly_hours": 8,
+    "budget_rm": 200
+  },
+  {
+    "id": "priya",
+    "name": "Priya",
+    "age": 29,
+    "synthetic": true,
+    "title_code": "53-3054.00",
+    "current_job": "I drive an e-hailing car in Penang, mostly airport runs. Every week I record my fares, fuel and servicing costs in a spreadsheet.",
+    "other_work": "I keep the books for my mother's catering business. I prepare the monthly invoices and follow up on late payments. I reconcile her bank statements and file her yearly tax return.",
+    "studies": "Bachelor of Accounting. I studied financial reporting, auditing and taxation.",
+    "degree_field": "Accounting",
+    "degree_level": "degree",
+    "weekly_hours": 6,
+    "budget_rm": 150
+  }
+]

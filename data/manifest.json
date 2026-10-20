@@ -1,0 +1,95 @@
+{
+  "snapshots": [
+    {
+      "source_id": "onet31-dwas",
+      "title": "O*NET 31.0 GWAs to IWAs to DWAs",
+      "publisher": "U.S. Department of Labor, Employment and Training Administration (USDOL/ETA)",
+      "url": "https://www.onetcenter.org/dl_files/database/db_31_0_csv/gwas_to_iwas_to_dwas.csv",
+      "release": "O*NET 31.0 (files dated 2026-08-25)",
+      "licence": "CC BY 4.0",
+      "access_date": "2026-10-20",
+      "original_sha256": "ae4e9f166187bfe8e6328a21470689ed188e7ed831090ace2a21c66cebb31a49",
+      "derived_rows": 2087,
+      "derived_path": "onet/dwas.csv",
+      "derived_sha256": "1d3cf40dd0a8bbbfb393cb135cba7ffa840611e32f728a835dd9af7520234449"
+    },
+    {
+      "source_id": "onet31-occupations",
+      "title": "O*NET 31.0 Occupation Data",
+      "publisher": "U.S. Department of Labor, Employment and Training Administration (USDOL/ETA)",
+      "url": "https://www.onetcenter.org/dl_files/database/db_31_0_csv/occupation_data.csv",
+      "release": "O*NET 31.0 (files dated 2026-08-25)",
+      "licence": "CC BY 4.0",
+      "access_date": "2026-10-20",
+      "original_sha256": "a09eae1d6609686e44e05b7290993a1c8b523d8ca224bc0eedc194c855c3ee02",
+      "derived_rows": 1016,
+      "derived_path": "onet/occupations.csv",
+      "derived_sha256": "489bc5469e04c474fd7ca1faba205735daf00d58d6ba5e11540c946fbcb9ae00"
+    },
+    {
+      "source_id": "onet31-tasks",
+      "title": "O*NET 31.0 Task Statements",
+      "publisher": "U.S. Department of Labor, Employment and Training Administration (USDOL/ETA)",
+      "url": "https://www.onetcenter.org/dl_files/database/db_31_0_csv/task_statements.csv",
+      "release": "O*NET 31.0 (files dated 2026-08-25)",
+      "licence": "CC BY 4.0",
+      "access_date": "2026-10-20",
+      "original_sha256": "4568e14d8db6f05551ad37e056e909b13ebae4a26bcb5ff915bb5f281d582c57",
+      "derived_rows": 18838,
+      "derived_path": "onet/tasks.csv",
+      "derived_sha256": "5c4057d74f0c6dccf3827139d804f27ca49a1ddf550c4f45c038f2c2b1731296"
+    },
+    {
+      "source_id": "onet31-task-dwas",
+      "title": "O*NET 31.0 Tasks to DWAs",
+      "publisher": "U.S. Department of Labor, Employment and Training Administration (USDOL/ETA)",
+      "url": "https://www.onetcenter.org/dl_files/database/db_31_0_csv/tasks_to_dwas.csv",
+      "release": "O*NET 31.0 (files dated 2026-08-25)",
+      "licence": "CC BY 4.0",
+      "access_date": "2026-10-20",
+      "original_sha256": "15624d31acb85627736a87dc7c485edffe30361262571c8242fad4ae9e7678a6",
+      "derived_rows": 24087,
+      "derived_path": "onet/task_dwas.csv",
+      "derived_sha256": "2149eb8d5d2a8cc41a4c848785acb6916bc198ec605c86d6c1318c8f73b2472d"
+    },
+    {
+      "source_id": "onet31-job-zones",
+      "title": "O*NET 31.0 Job Zones",
+      "publisher": "U.S. Department of Labor, Employment and Training Administration (USDOL/ETA)",
+      "url": "https://www.onetcenter.org/dl_files/database/db_31_0_csv/job_zones.csv",
+      "release": "O*NET 31.0 (files dated 2026-08-25)",
+      "licence": "CC BY 4.0",
+      "access_date": "2026-10-20",
+      "original_sha256": "093f01891ac2e602a8cc6c859ecb619b5bc00eb50cd3f3c1134c05b704481944",
+      "derived_rows": 923,
+      "derived_path": "onet/job_zones.csv",
+      "derived_sha256": "c1edce0a501fdc74598328fa1ad370329db8e407a7d4f6d44fa7cbc821dbcba9"
+    },
+    {
+      "source_id": "minilm-onnx",
+      "title": "all-MiniLM-L6-v2 ONNX (quantized, AVX2)",
+      "publisher": "sentence-transformers (Hugging Face)",
+      "url": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/onnx/model_quint8_avx2.onnx",
+      "release": "revision 1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+      "licence": "Apache-2.0",
+      "access_date": "2026-10-20",
+      "original_sha256": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21",
+      "derived_rows": null,
+      "derived_path": "model/model.onnx",
+      "derived_sha256": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21"
+    },
+    {
+      "source_id": "minilm-tokenizer",
+      "title": "all-MiniLM-L6-v2 tokenizer",
+      "publisher": "sentence-transformers (Hugging Face)",
+      "url": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/tokenizer.json",
+      "release": "revision 1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+      "licence": "Apache-2.0",
+      "access_date": "2026-10-20",
+      "original_sha256": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037",
+      "derived_rows": null,
+      "derived_path": "model/tokenizer.json",
+      "derived_sha256": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037"
+    }
+  ]
+}

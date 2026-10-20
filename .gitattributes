@@ -1,0 +1,5 @@
+* text=auto eol=lf
+# Hashed snapshots must stay byte-identical to data/manifest.json.
+data/** -text
+# Supplied artwork is kept byte for byte.
+assets/icon/** -text
