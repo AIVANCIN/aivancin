@@ -1,5 +1,5 @@
 {
- "note": "Curated Microsoft Learn items. For each item the encoder proposed activities from the provider's title and summary; the curator kept only the links listed here (dwas), named the in-demand tools it teaches (tools, using O*NET software example names) and marked items that teach directing and checking AI output (ai_skill). Titles, URLs and durations come from the Microsoft Learn catalog API when tools/build_catalogue.py runs. Route entries also record a coverage grade (introduces or practises), a practice checkpoint that produces an inspectable artifact and the entries they require first.",
+ "note": "Curated Microsoft Learn items and Saylor Academy courses. For each Microsoft Learn item the encoder proposed activities from the provider's title and summary; for each Saylor course the curator read the stated course learning outcomes. The curator kept only the links listed here (dwas), named the in-demand tools it teaches (tools, using O*NET software example names) and marked items that teach directing and checking AI output (ai_skill). Titles, URLs and durations come from the Microsoft Learn catalog API and from each Saylor course page when tools/build_catalogue.py runs. Route entries also record a coverage grade (introduces or practises), a practice checkpoint that produces an inspectable artifact and the entries they require first; Saylor states no prerequisites, so a requires link there is the curator's reading of the course sequence.",
  "curated_on": "2026-10-20",
  "items": [
   {
@@ -627,6 +627,197 @@
    ],
    "coverage": "introduces",
    "checkpoint": "Write the requirements for a report: its audience, questions, measures and refresh frequency."
+  },
+  {
+   "uid": "saylor.prdv004",
+   "provider": "saylor",
+   "code": "prdv004",
+   "dwas": [
+    "4.A.3.b.6.a.2",
+    "4.A.3.b.6.a.1",
+    "4.A.3.b.6.m.2"
+   ],
+   "tools": [
+    "Microsoft Excel",
+    "Google Sheets"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Build a monthly budget and an invoice template for a synthetic small shop, with a formula behind every total."
+  },
+  {
+   "uid": "saylor.prdv006",
+   "provider": "saylor",
+   "code": "prdv006",
+   "dwas": [
+    "4.A.2.a.4.g.1",
+    "4.A.2.a.4.k.1"
+   ],
+   "tools": [
+    "Microsoft Excel",
+    "Google Sheets"
+   ],
+   "coverage": "practises",
+   "requires": [
+    "saylor.prdv004"
+   ],
+   "checkpoint": "Summarise a synthetic year of shop expenses by category and month with SUMIFS and a lookup, and write what the totals show."
+  },
+  {
+   "uid": "saylor.prdv007",
+   "provider": "saylor",
+   "code": "prdv007",
+   "dwas": [
+    "4.A.3.b.6.c.5"
+   ],
+   "tools": [
+    "Microsoft Excel",
+    "Google Sheets"
+   ],
+   "coverage": "introduces",
+   "requires": [
+    "saylor.prdv004"
+   ],
+   "checkpoint": "Turn a synthetic sales table into a filtered table and two charts, one with a trendline, and write two sentences on what they show."
+  },
+  {
+   "uid": "saylor.prdv200",
+   "provider": "saylor",
+   "code": "prdv200",
+   "dwas": [
+    "4.A.3.b.6.c.5",
+    "4.A.4.a.2.c.10"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Build a one-page dashboard from a synthetic dataset for a manager, then list any chart that could mislead and how you fixed it."
+  },
+  {
+   "uid": "saylor.prdv433",
+   "provider": "saylor",
+   "code": "prdv433",
+   "dwas": [
+    "4.A.2.a.4.k.4",
+    "4.A.2.a.4.g.1"
+   ],
+   "tools": [
+    "Microsoft Excel"
+   ],
+   "ai_skill": true,
+   "coverage": "practises",
+   "checkpoint": "Ask an AI assistant for the formulas that summarise a synthetic expense sheet, check each result by hand and record any it got wrong."
+  },
+  {
+   "uid": "saylor.prdv002",
+   "provider": "saylor",
+   "code": "prdv002",
+   "dwas": [
+    "4.A.3.b.6.h.11",
+    "4.A.3.b.6.h.2",
+    "4.A.3.b.6.i.3",
+    "4.A.4.a.2.c.10"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Write a one-page step-by-step procedure for a task you already do (for example restoring a backup), revise it with the course's editing strategies and keep both drafts."
+  },
+  {
+   "uid": "saylor.prdv201",
+   "provider": "saylor",
+   "code": "prdv201",
+   "dwas": [
+    "4.A.1.a.1.t.4",
+    "4.A.1.a.1.b.7",
+    "4.A.2.b.3.a.7"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Write a one-page brief on a recent tool or practice in your target field from three sources, with your search terms and why you trusted each source."
+  },
+  {
+   "uid": "saylor.prdv011",
+   "provider": "saylor",
+   "code": "prdv011",
+   "dwas": [
+    "4.A.4.b.6.k.3",
+    "4.A.2.a.1.i.2"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Prepare a budget and debt summary for a synthetic household and write three pieces of advice, each tied to a figure."
+  },
+  {
+   "uid": "saylor.bus202",
+   "provider": "saylor",
+   "code": "bus202",
+   "dwas": [
+    "4.A.2.a.4.k.4",
+    "4.A.2.a.4.b.4"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Compute five ratios from a listed company's published statements and write what they say about it."
+  },
+  {
+   "uid": "saylor.bus103",
+   "provider": "saylor",
+   "code": "bus103",
+   "dwas": [
+    "4.A.2.a.3.c.2",
+    "4.A.2.a.3.c.3",
+    "4.A.3.b.6.a.1",
+    "4.A.3.b.6.a.2",
+    "4.A.2.a.2.a.5",
+    "4.A.2.a.4.k.1"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Record a month of synthetic transactions for a small shop, produce its trial balance, income statement and balance sheet, and note one internal control you would add."
+  },
+  {
+   "uid": "saylor.bus107",
+   "provider": "saylor",
+   "code": "bus107",
+   "dwas": [
+    "4.A.4.a.8.c.6"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Write replies to three synthetic customer complaints, one by email, and an escalation note for the one you cannot resolve."
+  },
+  {
+   "uid": "saylor.bus250",
+   "provider": "saylor",
+   "code": "bus250",
+   "dwas": [
+    "4.A.2.a.4.b.6",
+    "4.A.3.b.6.c.5"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Analyse a synthetic customer dataset, report three findings with one chart each and state the limits of the data."
+  },
+  {
+   "uid": "saylor.cs402",
+   "provider": "saylor",
+   "code": "cs402",
+   "dwas": [
+    "4.A.3.b.1.c.4"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Plan the IP addressing and subnets for a synthetic three-department office and document the plan in a table."
+  },
+  {
+   "uid": "learn.dpu.windows-11-readiness-assessment",
+   "dwas": [
+    "4.A.2.a.1.g.8"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Assess one computer you look after (or the module's example) for Windows 11 and write an upgrade recommendation naming each requirement it meets or misses."
+  },
+  {
+   "uid": "learn.dpu.work-smarter-copilot-finance",
+   "dwas": [
+    "4.A.2.a.4.k.4",
+    "4.A.3.b.6.a.2"
+   ],
+   "tools": [
+    "Microsoft Excel"
+   ],
+   "ai_skill": true,
+   "coverage": "introduces",
+   "checkpoint": "Ask an AI assistant to draft a monthly cost summary from a synthetic ledger, then check every figure against your own totals and note each correction."
   }
  ]
 }

@@ -150,7 +150,7 @@ class Planner:
                 "provider_hours": fig(c["hours"], CAT), "practice_hours": fig(c.get("practice_hours", 0.0), CAT, estimate=True),
                 "cost_rm": fig(c["cost_rm"], CAT), "checked_on": c["link_check"]["checked_on"],
                 "requires": c.get("requires", []), "checkpoint": checkpoint, "form": form, "reason": reason,
-                "completed": c["id"] in completed, "sdg": ["4.4"]}
+                "completed": c["id"] in completed, "access": c.get("access", ""), "sdg": ["4.4"]}
 
     def _forms(self, step_gaps, months, o):
         """Checkpoint form per scenario for a step's gaps, with the figures that decided it."""

@@ -1,10 +1,11 @@
 """B7 Phase 2 target (SPEC section 10.8) on tests/acceptance/b7_profiles.json, offline.
 
-python tools/checks/b7_target.py pre|routes [result.json]
+python tools/checks/b7_target.py pre|routes [result.json] [profiles.json]
 pre:    the pre-revision build: its top three roles (default skilled scope, other-work lane) and their plans.
 routes: the adopted revision: the routes and their first four-week blocks.
 A profile passes with two or more relevant candidates, each with a sourced requirement and a block that serves
 at least three prioritized gaps with verified resources within 4 x weekly hours and the budget.
+profiles.json defaults to tests/acceptance/b7_profiles.json; tests/acceptance/b7_profiles_2.json is the second fresh set.
 """
 import datetime as dt
 import hashlib
@@ -18,8 +19,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from aivancin import intake, snapshots  # noqa: E402
 from aivancin.encoder import load_ai  # noqa: E402
 from aivancin.matching import Matcher  # noqa: E402
-from aivancin.report import Reporter  # noqa: E402
-from aivancin.routes import Planner  # noqa: E402
+from aivancin.report import Reporter, ReportError  # noqa: E402
 
 SETS = ROOT / "tests" / "acceptance" / "b7_profiles.json"
 WEEKS = 4
@@ -57,6 +57,7 @@ def pre_candidates(rep, prof, p, today):
 
 
 def route_candidates(rep, prof, p, today):
+    from aivancin.routes import Planner  # imported here so "pre" also runs on commits before the route code
     res = Planner(rep.snaps, rep.m, rep).routes(prof, {"weeks": WEEKS}, today=today)
     out = []
     for r in res["routes"]:
@@ -69,7 +70,8 @@ def route_candidates(rep, prof, p, today):
 
 def main():
     mode = sys.argv[1]
-    sets = json.loads(SETS.read_text(encoding="utf-8"))
+    path = Path(sys.argv[3]) if len(sys.argv) > 3 else SETS
+    sets = json.loads(path.read_text(encoding="utf-8"))
     snaps = snapshots.load()
     encoder, vectors = load_ai(snaps)
     rep = Reporter(snaps, Matcher(snaps))
@@ -80,13 +82,17 @@ def main():
         for p in sets[group]:
             req, prof, n = confirmed_profile(p, encoder, vectors, snaps)
             fam = tuple(sets["families"].get(p["family"], []))
-            cands = judge(rep, prof, p, today)
+            # A profile the app cannot answer (for example no confirmed activity) stays in the count and fails.
+            try:
+                cands, error = judge(rep, prof, p, today), None
+            except ReportError as exc:
+                cands, error = [], "; ".join(f"{k}: {v}" for k, v in exc.errors.items())
             good = [c for c in cands if fam and c["code"].startswith(fam) and c["requirements"] >= 1
                     and c["gaps_served"] >= 3 and c["within_budget"]]
-            rows.append({"id": p["id"], "group": group, "confirmed": n, "candidates": cands,
+            rows.append({"id": p["id"], "group": group, "confirmed": n, "candidates": cands, "error": error,
                          "qualifying": len(good), "pass": len(good) >= 2})
     ins = [r for r in rows if r["group"] == "in_scope"]
-    res = {"mode": mode, "sets_sha256": hashlib.sha256(SETS.read_bytes()).hexdigest(),
+    res = {"mode": mode, "sets": path.name, "sets_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
            "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
            "run_date": dt.date.today().isoformat(),
            "in_scope_passed": sum(r["pass"] for r in ins), "in_scope_of": len(ins),
@@ -98,7 +104,7 @@ def main():
         Path(sys.argv[2]).write_text(text + "\n", encoding="utf-8")
     print(json.dumps({k: res[k] for k in ("mode", "in_scope_passed", "in_scope_of", "share", "target_met", "out_of_scope")}))
     for r in rows:
-        print(r["id"], r["group"], "confirmed", r["confirmed"], "qualifying", r["qualifying"], "|",
+        print(r["id"], r["group"], "confirmed", r["confirmed"], "qualifying", r["qualifying"], r["error"] or "", "|",
               "; ".join(f"{c['title'][:30]} req{c['requirements']} gaps{c['gaps_served']}{'' if c['within_budget'] else ' over'}"
                         for c in r["candidates"]))
 

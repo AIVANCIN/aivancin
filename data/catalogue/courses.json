@@ -2,7 +2,7 @@
  "catalogue_date": "2026-10-20",
  "validity_days": 60,
  "curated_on": "2026-10-20",
- "source": "Microsoft Learn catalog API (https://learn.microsoft.com/api/catalog/?type=modules,learningPaths&locale=en-us)",
+ "source": "Microsoft Learn catalog API (https://learn.microsoft.com/api/catalog/?type=modules,learningPaths&locale=en-us) and Saylor Academy course pages (https://learn.saylor.org/course/)",
  "courses": [
   {
    "id": "learn-bizapps.data-analytics-microsoft",
@@ -829,6 +829,85 @@
    },
    "coverage": "introduces",
    "checkpoint": "Summarise a synthetic sales sheet with formulas, then check every figure an AI assistant produced against them.",
+   "requires": [],
+   "practice_hours": 0.5,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "learn.dpu.windows-11-readiness-assessment",
+   "title": "Perform a Windows 11 device readiness assessment",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/windows-11-readiness-assessment/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 0.5,
+   "hours_source": "27 minutes stated by the provider's catalog",
+   "provider_last_modified": "2025-12-31",
+   "dwas": [
+    "4.A.2.a.1.g.8"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "objectives": [
+    "Assess Windows 11 readiness for unmanaged devices using PC Health Check.",
+    "Evaluate managed devices using Endpoint Analytics in Microsoft Intune.",
+    "Interpret readiness results to determine which devices require upgrades or replacements.",
+    "Document findings to support planning and deployment decisions."
+   ],
+   "provider_prerequisites": "None Introduction min Assess unmanaged devices with PC Health Check min Evaluate readiness using PC Health Check min Assess managed devices with Endpoint Analytics in Microsoft Intune min Review readiness with data in endpoint analytics min Knowledge check min Summary min Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions",
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Perform A Windows 11 Device Readiness Assessment - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   },
+   "coverage": "introduces",
+   "checkpoint": "Assess one computer you look after (or the module's example) for Windows 11 and write an upgrade recommendation naming each requirement it meets or misses.",
+   "requires": [],
+   "practice_hours": 0.5,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "learn.dpu.work-smarter-copilot-finance",
+   "title": "Work smarter with Copilot prompts for finance professionals",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/work-smarter-copilot-finance/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 0.5,
+   "hours_source": "28 minutes stated by the provider's catalog",
+   "provider_last_modified": "2026-07-21",
+   "dwas": [
+    "4.A.2.a.4.k.4",
+    "4.A.3.b.6.a.2"
+   ],
+   "tools": [
+    "Microsoft Excel"
+   ],
+   "ai_skill": true,
+   "objectives": [
+    "Use Microsoft 365 Copilot and Copilot+ PC to plan your day and prioritize tasks.",
+    "Analyze data, create models and reports, and collaborate with stakeholders more effectively.",
+    "Understand how to use Copilot prompts to streamline your work as a finance professional.",
+    "Identify best practices for using Microsoft 365 Copilot and Copilot+ PC in finance workflows."
+   ],
+   "provider_prerequisites": "None Introduction min Plan the day min Analysis, modeling, and reporting min Stakeholder review min Knowledge check min Summary min Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions correctly to earn a pass designation on your profile. Start en-us Your Privacy Choices Theme Light Dark High contrast AI Disclaimer Previous",
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Work Smarter With Copilot Prompts For Finance Professionals - Training | Microsoft Learn",
+    "checked_on": "2026-10-20"
+   },
+   "coverage": "introduces",
+   "checkpoint": "Ask an AI assistant to draft a monthly cost summary from a synthetic ledger, then check every figure against your own totals and note each correction.",
    "requires": [],
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
@@ -2481,6 +2560,548 @@
     "learn.wwl.get-started-with-python-fundamentals"
    ],
    "practice_hours": 0.5,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "saylor.bus103",
+   "title": "BUS103: Introduction to Financial Accounting",
+   "provider": "Saylor Academy",
+   "url": "https://learn.saylor.org/course/bus103",
+   "kind": "course",
+   "level": [],
+   "cost_rm": 0,
+   "hours": 63.0,
+   "hours_source": "63 hours stated on the provider's course page",
+   "provider_last_modified": "",
+   "access": "Free; enrolling needs a free Saylor Academy account",
+   "dwas": [
+    "4.A.2.a.3.c.2",
+    "4.A.2.a.3.c.3",
+    "4.A.3.b.6.a.1",
+    "4.A.3.b.6.a.2",
+    "4.A.2.a.2.a.5",
+    "4.A.2.a.4.k.1"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "objectives": [
+    "Explain the foundational principles and objectives of accounting",
+    "Analyze business transactions and record them using Generally Accepted Accounting Principles (GAAP)",
+    "Define assets, liabilities, and equity, and apply the specific rules governing their treatment in accounting",
+    "Perform the steps of the accounting cycle",
+    "Create the four major financial statements: income statement, balance sheet, statement of stockholders' equity, and cash flow statement",
+    "Apply ratio and trend analysis to financial statements to aid in decision-making",
+    "Identify fraud risk and describe the role of internal controls in an organization"
+   ],
+   "provider_prerequisites": "None stated by the provider",
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Course: BUS103: Introduction to Financial Accounting | Saylor University",
+    "checked_on": "2026-10-20"
+   },
+   "coverage": "practises",
+   "checkpoint": "Record a month of synthetic transactions for a small shop, produce its trial balance, income statement and balance sheet, and note one internal control you would add.",
+   "requires": [],
+   "practice_hours": 31.5,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "saylor.bus107",
+   "title": "BUS107: Customer Service",
+   "provider": "Saylor Academy",
+   "url": "https://learn.saylor.org/course/bus107",
+   "kind": "course",
+   "level": [],
+   "cost_rm": 0,
+   "hours": 26.0,
+   "hours_source": "26 hours stated on the provider's course page",
+   "provider_last_modified": "",
+   "access": "Free; enrolling needs a free Saylor Academy account",
+   "dwas": [
+    "4.A.4.a.8.c.6"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "objectives": [
+    "Describe how to create favorable impressions with customers",
+    "Illustrate how to maintain a professional attitude even when handling difficult customers",
+    "Describe components of proper telephone etiquette",
+    "Detail the verbal and nonverbal processes of communication",
+    "Formulate steps to work effectively on a team",
+    "Explain the concepts of time management and healthy work habits",
+    "Strategize how to conduct customer service through electronic media such as email and the Internet",
+    "Describe methods to anticipate, prevent and solve problems and complaints posed by customers"
+   ],
+   "provider_prerequisites": "None stated by the provider",
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Course: BUS107: Customer Service | Saylor University",
+    "checked_on": "2026-10-20"
+   },
+   "coverage": "practises",
+   "checkpoint": "Write replies to three synthetic customer complaints, one by email, and an escalation note for the one you cannot resolve.",
+   "requires": [],
+   "practice_hours": 13.0,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "saylor.bus202",
+   "title": "BUS202: Principles of Finance",
+   "provider": "Saylor Academy",
+   "url": "https://learn.saylor.org/course/bus202",
+   "kind": "course",
+   "level": [],
+   "cost_rm": 0,
+   "hours": 33.0,
+   "hours_source": "33 hours stated on the provider's course page",
+   "provider_last_modified": "",
+   "access": "Free; enrolling needs a free Saylor Academy account",
+   "dwas": [
+    "4.A.2.a.4.k.4",
+    "4.A.2.a.4.b.4"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "objectives": [
+    "Explain the objectives of finance",
+    "Explain financial statement methods and ratio analysis",
+    "Discuss using time value of money concepts to make financial decisions",
+    "Compare stocks and bonds as sources of capital and investment",
+    "Explain the relationship between risk and return in financial valuation",
+    "Compare methods companies use to make capital budgeting decisions",
+    "Compare debt and equity in a firm's capital structure",
+    "Describe the principles and tools of working capital management"
+   ],
+   "provider_prerequisites": "None stated by the provider",
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Course: BUS202: Principles of Finance | Saylor University",
+    "checked_on": "2026-10-20"
+   },
+   "coverage": "introduces",
+   "checkpoint": "Compute five ratios from a listed company's published statements and write what they say about it.",
+   "requires": [],
+   "practice_hours": 16.5,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "saylor.bus250",
+   "title": "BUS250: Introduction to Business Intelligence and Analytics",
+   "provider": "Saylor Academy",
+   "url": "https://learn.saylor.org/course/bus250",
+   "kind": "course",
+   "level": [],
+   "cost_rm": 0,
+   "hours": 46.0,
+   "hours_source": "46 hours stated on the provider's course page",
+   "provider_last_modified": "",
+   "access": "Free; enrolling needs a free Saylor Academy account",
+   "dwas": [
+    "4.A.2.a.4.b.6",
+    "4.A.3.b.6.c.5"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "objectives": [
+    "Explain the fundamentals of business intelligence and how business intelligence is applied in modern organizations",
+    "Analyze the sources of data that are used for business intelligence purposes",
+    "Use data modeling and data warehousing concepts to organize and store business data",
+    "Implement techniques used to analyze and interpret data to generate actionable insights",
+    "Apply data visualization and reporting techniques to present data",
+    "Apply data analytics for business intelligence",
+    "Apply common business intelligence tools to solve relevant problems",
+    "Apply legal and ethical considerations inherent in the use of business intelligence systems to specific case situations"
+   ],
+   "provider_prerequisites": "None stated by the provider",
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Course: BUS250: Introduction to Business Intelligence and Analytics | Saylor University",
+    "checked_on": "2026-10-20"
+   },
+   "coverage": "introduces",
+   "checkpoint": "Analyse a synthetic customer dataset, report three findings with one chart each and state the limits of the data.",
+   "requires": [],
+   "practice_hours": 23.0,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "saylor.cs402",
+   "title": "CS402: Computer Communications and Networks",
+   "provider": "Saylor Academy",
+   "url": "https://learn.saylor.org/course/cs402",
+   "kind": "course",
+   "level": [],
+   "cost_rm": 0,
+   "hours": 38.0,
+   "hours_source": "38 hours stated on the provider's course page",
+   "provider_last_modified": "",
+   "access": "Free; enrolling needs a free Saylor Academy account",
+   "dwas": [
+    "4.A.3.b.1.c.4"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "objectives": [
+    "Describe the architecture of a computer network and how each device in a network communicates with each other",
+    "Compare the basic network protocols in each layer of a transmission control protocol/Internet protocol (TCP/IP) stack with its counterpart Open Systems Interconnection (OSI) layer",
+    "Configure Internet Protocol (IP) addresses and use them in complex computer networks",
+    "Illustrate the use of subnetting and supernetting to divide a large network into smaller logical subnetworks",
+    "Compare the different link layer access mechanisms, protocols, and technologies",
+    "Compare application layer protocols",
+    "Apply network techniques to create wide-area networks"
+   ],
+   "provider_prerequisites": "None stated by the provider",
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Course: CS402: Computer Communications and Networks | Saylor University",
+    "checked_on": "2026-10-20"
+   },
+   "coverage": "introduces",
+   "checkpoint": "Plan the IP addressing and subnets for a synthetic three-department office and document the plan in a table.",
+   "requires": [],
+   "practice_hours": 19.0,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "saylor.prdv002",
+   "title": "PRDV002: Professional Writing",
+   "provider": "Saylor Academy",
+   "url": "https://learn.saylor.org/course/prdv002",
+   "kind": "course",
+   "level": [],
+   "cost_rm": 0,
+   "hours": 12.0,
+   "hours_source": "12 hours stated on the provider's course page",
+   "provider_last_modified": "",
+   "access": "Free; enrolling needs a free Saylor Academy account",
+   "dwas": [
+    "4.A.3.b.6.h.11",
+    "4.A.3.b.6.h.2",
+    "4.A.3.b.6.i.3",
+    "4.A.4.a.2.c.10"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "objectives": [
+    "Identify the purpose of your writing among the major genres of professional writing",
+    "Adapt your message to reach different contexts and audiences",
+    "Combine your understanding of your audience and purpose to write effectively through a chosen channel",
+    "Explain how to avoid common ethical problems in professional writing",
+    "Explain editorial strategies for revising and improving documents"
+   ],
+   "provider_prerequisites": "None stated by the provider",
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Course: PRDV002: Professional Writing | Saylor University",
+    "checked_on": "2026-10-20"
+   },
+   "coverage": "introduces",
+   "checkpoint": "Write a one-page step-by-step procedure for a task you already do (for example restoring a backup), revise it with the course's editing strategies and keep both drafts.",
+   "requires": [],
+   "practice_hours": 6.0,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "saylor.prdv004",
+   "title": "PRDV004: Spreadsheets",
+   "provider": "Saylor Academy",
+   "url": "https://learn.saylor.org/course/prdv004",
+   "kind": "course",
+   "level": [],
+   "cost_rm": 0,
+   "hours": 5.0,
+   "hours_source": "5 hours stated on the provider's course page",
+   "provider_last_modified": "",
+   "access": "Free; enrolling needs a free Saylor Academy account",
+   "dwas": [
+    "4.A.3.b.6.a.2",
+    "4.A.3.b.6.a.1",
+    "4.A.3.b.6.m.2"
+   ],
+   "tools": [
+    "Microsoft Excel",
+    "Google Sheets"
+   ],
+   "ai_skill": false,
+   "objectives": [
+    "Describe the basic components of a spreadsheet, such as workbooks, sheets, cells, rows, and columns",
+    "Perform basic calculations and apply formulas in Microsoft Excel and Google Sheets",
+    "Use spreadsheets for real-life applications, including budgets and invoices"
+   ],
+   "provider_prerequisites": "None stated by the provider",
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Course: PRDV004: Spreadsheets | Saylor University",
+    "checked_on": "2026-10-20"
+   },
+   "coverage": "practises",
+   "checkpoint": "Build a monthly budget and an invoice template for a synthetic small shop, with a formula behind every total.",
+   "requires": [],
+   "practice_hours": 2.5,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "saylor.prdv006",
+   "title": "PRDV006: Spreadsheets II: Formatting and Functions",
+   "provider": "Saylor Academy",
+   "url": "https://learn.saylor.org/course/prdv006",
+   "kind": "course",
+   "level": [],
+   "cost_rm": 0,
+   "hours": 11.0,
+   "hours_source": "11 hours stated on the provider's course page",
+   "provider_last_modified": "",
+   "access": "Free; enrolling needs a free Saylor Academy account",
+   "dwas": [
+    "4.A.2.a.4.g.1",
+    "4.A.2.a.4.k.1"
+   ],
+   "tools": [
+    "Microsoft Excel",
+    "Google Sheets"
+   ],
+   "ai_skill": false,
+   "objectives": [
+    "Use formatting features to format text, cells, and numbers, and use conditional formatting as appropriate",
+    "Write basic formulas and use functions SUM, AVERAGE, COUNT, MAX, MIN, PMT, and FV to perform basic, statistical, and financial calculations",
+    "Use logical functions including IF, OR, AND, NOT, COUNTIF, AVERAGEIF(S), and SUMIF(S) to summarize data",
+    "Use lookup functions, including VLOOKUP, HLOOKUP, and XLOOKUP to retrieve data from a worksheet",
+    "Format multiple worksheets at one time and use 3-dimensional references"
+   ],
+   "provider_prerequisites": "None stated by the provider",
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Course: PRDV006: Spreadsheets II: Formatting and Functions | Saylor University",
+    "checked_on": "2026-10-20"
+   },
+   "coverage": "practises",
+   "checkpoint": "Summarise a synthetic year of shop expenses by category and month with SUMIFS and a lookup, and write what the totals show.",
+   "requires": [
+    "saylor.prdv004"
+   ],
+   "practice_hours": 5.5,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "saylor.prdv007",
+   "title": "PRDV007: Spreadsheets III: Presenting Data",
+   "provider": "Saylor Academy",
+   "url": "https://learn.saylor.org/course/prdv007",
+   "kind": "course",
+   "level": [],
+   "cost_rm": 0,
+   "hours": 10.0,
+   "hours_source": "10 hours stated on the provider's course page",
+   "provider_last_modified": "",
+   "access": "Free; enrolling needs a free Saylor Academy account",
+   "dwas": [
+    "4.A.3.b.6.c.5"
+   ],
+   "tools": [
+    "Microsoft Excel",
+    "Google Sheets"
+   ],
+   "ai_skill": false,
+   "objectives": [
+    "Illustrate a line, column/bar, pie, and stacked column/bar chart that is appropriate for the given data",
+    "Diagram a scatterplot with a trendline and line equation for a data series",
+    "Explain how to add graphics, symbols, hyperlinks, headers, and footers to a worksheet",
+    "Create and filter a table",
+    "Arrange collaboration features to present data in various contexts"
+   ],
+   "provider_prerequisites": "None stated by the provider",
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Course: PRDV007: Spreadsheets III: Presenting Data | Saylor University",
+    "checked_on": "2026-10-20"
+   },
+   "coverage": "introduces",
+   "checkpoint": "Turn a synthetic sales table into a filtered table and two charts, one with a trendline, and write two sentences on what they show.",
+   "requires": [
+    "saylor.prdv004"
+   ],
+   "practice_hours": 5.0,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "saylor.prdv011",
+   "title": "PRDV011: Financial Literacy from a Global Perspective",
+   "provider": "Saylor Academy",
+   "url": "https://learn.saylor.org/course/prdv011",
+   "kind": "course",
+   "level": [],
+   "cost_rm": 0,
+   "hours": 22.0,
+   "hours_source": "22 hours stated on the provider's course page",
+   "provider_last_modified": "",
+   "access": "Free; enrolling needs a free Saylor Academy account",
+   "dwas": [
+    "4.A.4.b.6.k.3",
+    "4.A.2.a.1.i.2"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "objectives": [
+    "Outline how to prepare a personal budget and the financial benefits of saving",
+    "Define credit score and the benefits and risks of consumer credit options",
+    "Explain common terms and conditions consumers adopt when they borrow money and manage debt",
+    "Discuss the types and terms of various insurance plans consumers and businesses purchase to protect themselves, their families, and their property",
+    "Describe strategies for increasing the value of savings and investments as you plan for retirement",
+    "Explain the purpose, benefits, and costs of paying and managing taxes",
+    "Discuss how career planning, education, and training affect your financial future",
+    "Identify frauds and scams and ways to safeguard your personal information and money"
+   ],
+   "provider_prerequisites": "None stated by the provider",
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Course: PRDV011: Financial Literacy from a Global Perspective | Saylor University",
+    "checked_on": "2026-10-20"
+   },
+   "coverage": "introduces",
+   "checkpoint": "Prepare a budget and debt summary for a synthetic household and write three pieces of advice, each tied to a figure.",
+   "requires": [],
+   "practice_hours": 11.0,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "saylor.prdv200",
+   "title": "PRDV200: Communicating with Data",
+   "provider": "Saylor Academy",
+   "url": "https://learn.saylor.org/course/prdv200",
+   "kind": "course",
+   "level": [],
+   "cost_rm": 0,
+   "hours": 9.0,
+   "hours_source": "9 hours stated on the provider's course page",
+   "provider_last_modified": "",
+   "access": "Free; enrolling needs a free Saylor Academy account",
+   "dwas": [
+    "4.A.3.b.6.c.5",
+    "4.A.4.a.2.c.10"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "objectives": [
+    "Identify the foundations of dashboard design theory",
+    "Summarize the benefits of data visualization practices in industry",
+    "Create basic charts",
+    "Scan dashboards for misleading content",
+    "Select an appropriate visualization method for a particular application",
+    "Build a presentable data visualization that tells a story"
+   ],
+   "provider_prerequisites": "None stated by the provider",
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Course: PRDV200: Communicating with Data | Saylor University",
+    "checked_on": "2026-10-20"
+   },
+   "coverage": "practises",
+   "checkpoint": "Build a one-page dashboard from a synthetic dataset for a manager, then list any chart that could mislead and how you fixed it.",
+   "requires": [],
+   "practice_hours": 4.5,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "saylor.prdv201",
+   "title": "PRDV201: Information Literacy",
+   "provider": "Saylor Academy",
+   "url": "https://learn.saylor.org/course/prdv201",
+   "kind": "course",
+   "level": [],
+   "cost_rm": 0,
+   "hours": 7.0,
+   "hours_source": "7 hours stated on the provider's course page",
+   "provider_last_modified": "",
+   "access": "Free; enrolling needs a free Saylor Academy account",
+   "dwas": [
+    "4.A.1.a.1.t.4",
+    "4.A.1.a.1.b.7",
+    "4.A.2.b.3.a.7"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "objectives": [
+    "Explain the steps in the research process, including identifying your topic, gathering background information, locating material, evaluating sources, and citing sources",
+    "Identify the appropriate research tool for your information need",
+    "Design an effective search strategy to find relevant information sources",
+    "Implement evaluation criteria such as lateral reading or the CRAAPO test to determine the value of an information source",
+    "Use information ethically and legally, including creating proper attributions"
+   ],
+   "provider_prerequisites": "None stated by the provider",
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Course: PRDV201: Information Literacy | Saylor University",
+    "checked_on": "2026-10-20"
+   },
+   "coverage": "practises",
+   "checkpoint": "Write a one-page brief on a recent tool or practice in your target field from three sources, with your search terms and why you trusted each source.",
+   "requires": [],
+   "practice_hours": 3.5,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "saylor.prdv433",
+   "title": "PRDV433: Enhancing Spreadsheets with Generative AI",
+   "provider": "Saylor Academy",
+   "url": "https://learn.saylor.org/course/prdv433",
+   "kind": "course",
+   "level": [],
+   "cost_rm": 0,
+   "hours": 10.0,
+   "hours_source": "10 hours stated on the provider's course page",
+   "provider_last_modified": "",
+   "access": "Free; enrolling needs a free Saylor Academy account",
+   "dwas": [
+    "4.A.2.a.4.k.4",
+    "4.A.2.a.4.g.1"
+   ],
+   "tools": [
+    "Microsoft Excel"
+   ],
+   "ai_skill": true,
+   "objectives": [
+    "Explain the key concepts and benefits of using generative AI tools (like ChatGPT and Claude) in spreadsheet environments",
+    "Use generative AI tools to generate and interpret basic and advanced Excel formulas based on natural language prompts",
+    "Implement AI-assisted techniques to clean, extract, and analyze spreadsheet data, including handling inconsistencies and missing values",
+    "Use prompt-based solutions to automate routine Excel tasks",
+    "Use generative AI to generate and adapt macro and VBA scripts for automating spreadsheet operations in real-world scenarios"
+   ],
+   "provider_prerequisites": "None stated by the provider",
+   "verified_on": "2026-10-20",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Course: PRDV433: Enhancing Spreadsheets with Generative AI | Saylor University",
+    "checked_on": "2026-10-20"
+   },
+   "coverage": "practises",
+   "checkpoint": "Ask an AI assistant for the formulas that summarise a synthetic expense sheet, check each result by hand and record any it got wrong.",
+   "requires": [],
+   "practice_hours": 5.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   }
  ],

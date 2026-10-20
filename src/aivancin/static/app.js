@@ -891,7 +891,7 @@ function stepItem(s, i) {
       <div><p class="gap-name">${esc(s.title)} <a href="${esc(s.url)}" target="_blank" rel="noopener" aria-label="Open ${esc(s.title)} at ${esc(s.provider)}">${icon("external-link", "sm")}</a></p>
       <p class="meta">${esc(purpose)}</p></div></div>
     ${s.objective ? `<p class="objective">Provider's objective: “${esc(s.objective)}”</p>` : ""}
-    <p class="meta">${esc(s.provider)} · ${fig(s.provider_hours, "")} h course + ${fig(s.practice_hours, "")} h practice (estimate) · ${fig(s.cost_rm, "rm")} · link checked ${esc(s.checked_on)} · SDG 4.4</p>
+    <p class="meta">${esc(s.provider)} · ${fig(s.provider_hours, "")} h course + ${fig(s.practice_hours, "")} h practice (estimate) · ${fig(s.cost_rm, "rm")} · link checked ${esc(s.checked_on)}${s.access ? ` · ${esc(s.access)}` : ""} · SDG 4.4</p>
     <div class="checkpoint${ai ? " ai" : ""}"><p><b>${ai ? "Checkpoint, with AI checking" : "Checkpoint"}:</b> ${esc(s.checkpoint)}</p>${because}</div>
     <label class="check-line"><input type="checkbox" data-done="${esc(s.id)}" ${s.completed ? "checked" : ""}> I have done this step</label>
   </li>`;

@@ -1,0 +1,353 @@
+{
+ "check": "B7 Phase 2 target (SPEC section 10.8)",
+ "written": "2026-10-20, after the catalogue gained Saylor Academy courses and before any run on these profiles; the first set's results (5 of 12) were known, its profiles were not reused",
+ "author": "AIVANCIN builder (Claude Code; model reported by the client: Claude Opus 5.5). Synthetic, agent-written English",
+ "labelling_rule": "True activities chosen by meaning from keyword searches of the O*NET 31.0 activity names; no model or BM25 scores consulted",
+ "confirmation": "Strict simulated confirmation: a suggested activity is ticked only if it is in the profile's true set; guard-flagged suggestions are never ticked; other-work lane",
+ "pass_rule": "A profile passes when it receives at least two relevant routes (route role in the profile family's SOC list), each with at least one sourced requirement and a first four-week block that serves at least three prioritized gaps with verified resources within 4 x weekly hours of effort and the budget. Target: at least 80% of in-scope profiles. Out-of-scope profiles are reported separately. The pre-revision build is measured first on the same profiles, counting its top three roles and their plans the same way",
+ "families": {
+  "it_support": [
+   "15-1231",
+   "15-1232",
+   "15-1241",
+   "15-1244",
+   "15-1212",
+   "15-1211",
+   "15-1299.01"
+  ],
+  "software": [
+   "15-1251",
+   "15-1252",
+   "15-1253",
+   "15-1254",
+   "15-1255",
+   "15-1211"
+  ],
+  "finance_analytics": [
+   "13-2011",
+   "13-2031",
+   "13-2041",
+   "13-2051",
+   "13-2052",
+   "13-2054",
+   "13-2061",
+   "13-2099.01",
+   "15-2051",
+   "13-1161",
+   "13-1111"
+  ]
+ },
+ "in_scope": [
+  {
+   "id": "u01",
+   "name": "Farid",
+   "family": "it_support",
+   "field": "Diploma, computer systems",
+   "level": "diploma",
+   "job": "53-3033.00",
+   "hours": 6,
+   "budget": 0,
+   "other_work": "I run the computers and the wifi at my uncle's tuition centre. I replace broken keyboards, screens and hard drives when they fail. When a teacher cannot print or log in, I sit with them until it works. I install the antivirus and the updates on every machine each month. I write down every fault and fix in a shared spreadsheet.",
+   "true": [
+    "4.A.3.b.5.c.2",
+    "4.A.3.b.5.c.1",
+    "4.A.3.b.1.c.2",
+    "4.A.3.b.1.d.3",
+    "4.A.4.b.6.d.2",
+    "4.A.3.b.1.d.2",
+    "4.A.3.b.1.b.1",
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.6.h.24",
+    "4.A.3.b.6.h.22"
+   ]
+  },
+  {
+   "id": "u02",
+   "name": "Mei Ling",
+   "family": "it_support",
+   "field": "Degree, information systems",
+   "level": "degree",
+   "job": "43-4051.00",
+   "hours": 8,
+   "budget": 50,
+   "other_work": "At the call centre I am the one colleagues ask when their headsets or software freeze. I reset their passwords and unlock their accounts in the admin tool. I test new versions of our ticketing app before they go live and report the bugs. I train new staff to use the system. I keep a guide of common fixes on our team page.",
+   "true": [
+    "4.A.3.b.1.d.3",
+    "4.A.3.b.1.d.2",
+    "4.A.4.b.6.d.2",
+    "4.A.3.b.5.c.2",
+    "4.A.1.b.2.h.3",
+    "4.A.3.b.6.i.6",
+    "4.A.4.b.3.e.4",
+    "4.A.3.b.6.h.2",
+    "4.A.3.b.6.i.1"
+   ]
+  },
+  {
+   "id": "u03",
+   "name": "Kumar",
+   "family": "it_support",
+   "field": "Diploma, electronics",
+   "level": "diploma",
+   "job": "43-5071.00",
+   "hours": 5,
+   "budget": 0,
+   "other_work": "I set up the network at my church: the router, two switches and the wireless access points. I run cables through the ceiling and test each one. When the internet slows down I check which devices use the most bandwidth. I keep a diagram of where every cable and device goes.",
+   "true": [
+    "4.A.3.b.1.c.4",
+    "4.A.3.b.1.c.2",
+    "4.A.3.a.2.ah.4",
+    "4.A.3.a.2.ah.5",
+    "4.A.1.b.2.h.2",
+    "4.A.1.a.2.j.2",
+    "4.A.3.b.1.d.1",
+    "4.A.3.b.6.i.3",
+    "4.A.2.b.2.o.13"
+   ]
+  },
+  {
+   "id": "u04",
+   "name": "Aisyah",
+   "family": "it_support",
+   "field": "Degree, business information technology",
+   "level": "degree",
+   "job": "41-2031.00",
+   "hours": 6,
+   "budget": 100,
+   "other_work": "I manage the laptops and phones for my mother's small travel agency. I set up email, file sharing and backups for the five staff. I make sure everyone uses strong passwords and two-step login. When a laptop is too slow I compare models, order a new one and set it up. I answer their computer questions over WhatsApp.",
+   "true": [
+    "4.A.3.b.5.c.6",
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.1.b.2",
+    "4.A.3.b.1.b.1",
+    "4.A.2.a.1.g.8",
+    "4.A.4.c.3.e.3",
+    "4.A.3.b.1.c.2",
+    "4.A.4.b.6.d.2",
+    "4.A.4.b.6.d.3"
+   ]
+  },
+  {
+   "id": "u05",
+   "name": "Hakim",
+   "family": "software",
+   "field": "Degree, software engineering",
+   "level": "degree",
+   "job": "53-7062.00",
+   "hours": 7,
+   "budget": 0,
+   "other_work": "I build Android apps in Kotlin for small shops in my area. I design the screens with the owners and change them after they try the app. I connect each app to a database of the shop's products and prices. I fix crashes that users report. I publish updates every few weeks.",
+   "true": [
+    "4.A.2.b.2.b.1",
+    "4.A.3.b.1.a.3",
+    "4.A.2.b.2.b.10",
+    "4.A.4.a.2.h.7",
+    "4.A.2.b.2.f.4",
+    "4.A.3.b.1.d.3",
+    "4.A.2.b.2.b.7",
+    "4.A.2.b.2.b.4"
+   ]
+  },
+  {
+   "id": "u06",
+   "name": "Siti",
+   "family": "software",
+   "field": "Diploma, computer science",
+   "level": "diploma",
+   "job": "43-9061.00",
+   "hours": 6,
+   "budget": 0,
+   "other_work": "I write Python scripts that automate the weekly reports at my office. I clean the data from our three branches so the columns match. I keep my scripts in a GitHub repository with notes on how to run them. I test each script on last month's data before anyone uses it.",
+   "true": [
+    "4.A.3.b.1.a.3",
+    "4.A.2.b.2.b.1",
+    "4.A.3.b.1.f.7",
+    "4.A.2.a.2.a.6",
+    "4.A.3.b.6.i.5",
+    "4.A.3.b.6.i.4",
+    "4.A.1.b.2.h.3",
+    "4.A.3.b.2.f.15"
+   ]
+  },
+  {
+   "id": "u07",
+   "name": "Daniel",
+   "family": "software",
+   "field": "Degree, multimedia computing",
+   "level": "degree",
+   "job": "35-3031.00",
+   "hours": 8,
+   "budget": 50,
+   "other_work": "I make websites for local events with HTML, CSS and JavaScript. I make sure the pages load fast and work on phones. I check that the sites can be used with a screen reader. I set up the hosting and the domain names. I fix layout bugs that people send me.",
+   "true": [
+    "4.A.2.b.2.b.8",
+    "4.A.3.b.1.a.3",
+    "4.A.1.b.2.h.3",
+    "4.A.2.b.2.b.7",
+    "4.A.3.b.1.f.4",
+    "4.A.3.b.1.d.3",
+    "4.A.2.b.2.b.4",
+    "4.A.2.b.2.b.1"
+   ]
+  },
+  {
+   "id": "u08",
+   "name": "Nurul",
+   "family": "software",
+   "field": "Diploma, games technology",
+   "level": "diploma",
+   "job": "41-2011.00",
+   "hours": 5,
+   "budget": 0,
+   "other_work": "I test games for an indie studio run by my friends. I play each new build and record every bug with the steps to reproduce it. I write simple test cases in a spreadsheet and tick them off for each release. I check that fixed bugs stay fixed in the next build.",
+   "true": [
+    "4.A.1.b.2.h.3",
+    "4.A.1.b.2.c.2",
+    "4.A.3.b.6.i.6",
+    "4.A.3.b.2.f.15",
+    "4.A.1.b.2.c.3",
+    "4.A.4.a.2.c.10",
+    "4.A.3.b.6.i.7",
+    "4.A.1.b.2.h.2"
+   ]
+  },
+  {
+   "id": "u09",
+   "name": "Rina",
+   "family": "finance_analytics",
+   "field": "Degree, accounting",
+   "level": "degree",
+   "job": "43-4171.00",
+   "hours": 6,
+   "budget": 0,
+   "other_work": "I keep the accounts for my father's hardware shop. I record every sale and purchase and reconcile the bank statement each month. I prepare the yearly figures for the tax agent. I check supplier invoices against the delivery orders before we pay.",
+   "true": [
+    "4.A.3.b.6.j.3",
+    "4.A.3.b.6.j.1",
+    "4.A.2.a.2.d.1",
+    "4.A.3.b.6.a.1",
+    "4.A.3.b.6.a.2",
+    "4.A.2.a.2.a.9",
+    "4.A.2.a.3.c.2",
+    "4.A.1.a.1.d.4"
+   ]
+  },
+  {
+   "id": "u10",
+   "name": "Arif",
+   "family": "finance_analytics",
+   "field": "Degree, finance",
+   "level": "degree",
+   "job": "53-3054.00",
+   "hours": 7,
+   "budget": 100,
+   "other_work": "I am treasurer of our residents' association. I prepare the yearly budget and track spending against it every month. I present the accounts at the annual meeting and answer questions about them. I compare quotes from contractors and recommend the best value.",
+   "true": [
+    "4.A.3.b.6.a.2",
+    "4.A.4.b.4.h.4",
+    "4.A.1.a.2.c.2",
+    "4.A.2.a.4.k.1",
+    "4.A.4.a.3.c.2",
+    "4.A.4.a.1.d.2",
+    "4.A.2.a.1.g.1",
+    "4.A.4.b.6.k.3"
+   ]
+  },
+  {
+   "id": "u11",
+   "name": "Grace",
+   "family": "finance_analytics",
+   "field": "Diploma, business studies",
+   "level": "diploma",
+   "job": "43-5071.00",
+   "hours": 6,
+   "budget": 0,
+   "other_work": "I build sales reports in Excel and Power BI for the online shop where I pack orders. I pull the order data every week and remove duplicate customers. I make charts that show which products sell best in each state. I send the owner a short summary of what changed.",
+   "true": [
+    "4.A.3.b.6.c.5",
+    "4.A.2.a.4.b.6",
+    "4.A.3.b.1.f.7",
+    "4.A.2.a.2.a.8",
+    "4.A.2.b.2.o.14",
+    "4.A.2.a.4.d.2",
+    "4.A.4.a.2.c.10",
+    "4.A.2.a.4.k.4"
+   ]
+  },
+  {
+   "id": "u12",
+   "name": "Jason",
+   "family": "finance_analytics",
+   "field": "Degree, economics",
+   "level": "degree",
+   "job": "41-2031.00",
+   "hours": 5,
+   "budget": 50,
+   "other_work": "I help my cousin's car-loan agency check new applicants. I go through their payslips and bank statements and work out how much they can repay. I enter each case into a spreadsheet that scores the risk. I explain the loan terms to customers who are unsure.",
+   "true": [
+    "4.A.2.a.1.i.2",
+    "4.A.1.a.1.n.3",
+    "4.A.2.a.2.a.3",
+    "4.A.1.b.3.c.4",
+    "4.A.1.b.3.c.1",
+    "4.A.3.b.1.f.6",
+    "4.A.2.a.4.k.2",
+    "4.A.4.a.1.d.3"
+   ]
+  }
+ ],
+ "out_of_scope": [
+  {
+   "id": "v01",
+   "name": "Hana",
+   "family": "none",
+   "field": "Degree, environmental biology",
+   "level": "degree",
+   "job": "41-2031.00",
+   "hours": 6,
+   "budget": 0,
+   "other_work": "I take water samples from the river for a conservation group. I test them for pH and bacteria in a small lab. I record the results and send them to the state office.",
+   "true": [
+    "4.A.3.a.2.al.5",
+    "4.A.1.b.2.c.1",
+    "4.A.3.a.3.i.1",
+    "4.A.3.b.6.h.18",
+    "4.A.4.c.1.e.3"
+   ]
+  },
+  {
+   "id": "v02",
+   "name": "Ravi",
+   "family": "none",
+   "field": "Diploma, tourism management",
+   "level": "diploma",
+   "job": "53-3033.00",
+   "hours": 6,
+   "budget": 0,
+   "other_work": "I organise weekend hiking trips for tourists. I plan the routes and book the transport. I teach first-timers how to pack and stay safe.",
+   "true": [
+    "4.A.4.b.1.e.1",
+    "4.A.3.a.1.l.1",
+    "4.A.4.a.5.j.9",
+    "4.A.4.b.3.e.6",
+    "4.A.4.a.5.j.3"
+   ]
+  },
+  {
+   "id": "v03",
+   "name": "Lina",
+   "family": "none",
+   "field": "Degree, architecture",
+   "level": "degree",
+   "job": "43-4051.00",
+   "hours": 6,
+   "budget": 0,
+   "other_work": "I design kitchens and wardrobes for friends' homes. I draw the plans in SketchUp and pick the materials. I check the measurements on site before the carpenter starts.",
+   "true": [
+    "4.A.3.b.2.b.5",
+    "4.A.2.b.2.o.16",
+    "4.A.4.a.2.j.6"
+   ]
+  }
+ ]
+}
