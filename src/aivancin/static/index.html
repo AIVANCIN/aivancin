@@ -88,6 +88,11 @@
   <div class="wrap q-wrap">
   <form id="intake" novalidate>
     <div class="q-page" data-page="1">
+      <div class="examples" hidden>
+        <p class="examples-label">Example people, synthetic</p>
+        <div class="persona-bar" id="personas"></div>
+        <button type="button" class="link-btn" data-go="own">Use my own words instead</button>
+      </div>
       <p class="eyebrow">Your work</p>
       <h1 id="h-work" class="page-title" tabindex="-1">What do you do in your current job?</h1>
       <p class="q-lead" id="ex-current">A few short sentences, one thing you do in each.</p>
@@ -100,10 +105,6 @@
         <p class="ex" id="ex-title">Adds the activities O*NET lists for it. You can untick them later.</p>
         <ul class="combo-list" id="f-title-list" role="listbox" hidden></ul>
         <p class="err" data-err="title_code"></p>
-      </div>
-      <div class="examples">
-        <p class="examples-label">Or start from a synthetic example</p>
-        <div class="persona-bar" id="personas"></div>
       </div>
     </div>
 

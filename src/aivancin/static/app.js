@@ -209,7 +209,36 @@ async function loadPersona(p) {
   $(`#intake input[name="degree_level"][value="${p.degree_level}"]`).checked = true;
   await setTitle(p.title_code);
   setCip(p.cip_code ? { cip: p.cip_code, title: p.cip_title || p.degree_field } : null);
-  setStatus(`Loaded ${p.name}'s example. ${p.name} is a synthetic person, not a real user.`);
+  $$("#personas [data-persona]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.persona === p.id)));
+  setStatus(`Loaded ${p.name}'s example.`);
+}
+
+/* "Get started" is your own words with no examples on screen; "Try an example" fills the questions
+   with a synthetic person and shows the example switcher. Whatever you typed yourself is kept aside
+   while you look at an example and comes back when you return to your own. */
+let mode = "own", ownDraft = null;
+function snapshotIntake() {
+  return { fields: [...$("#intake").elements].filter(el => el.matches("input, textarea, select")).map(el => [el, el.type === "radio" ? el.checked : el.value]),
+    title: state.title, titleActs: state.titleActs, untickedTitle: new Set(state.untickedTitle), cip: state.cip };
+}
+function restoreIntake(d) {
+  d.fields.forEach(([el, v]) => { if (el.type === "radio") el.checked = v; else el.value = v; });
+  state.title = d.title; state.titleActs = d.titleActs; state.untickedTitle = d.untickedTitle;
+  renderChosen($("#f-title"), d.title ? `${d.title.title} (${d.title.code})` : null, () => setTitle(null));
+  setCip(d.cip);
+}
+async function setMode(next) {
+  if (next === "example" && mode !== "example") {
+    ownDraft = snapshotIntake();
+    if (state.personas[0]) await loadPersona(state.personas[0]);
+  } else if (next === "own" && mode === "example") {
+    if (ownDraft) restoreIntake(ownDraft);
+    else { $("#intake").reset(); setTitle(null); setCip(null); }
+    setStatus("");
+  }
+  mode = next;
+  showFieldErrors({});
+  $(".examples").hidden = mode !== "example";
 }
 
 async function readWork(e) {
@@ -848,11 +877,9 @@ async function start() {
     }
     const go = e.target.closest("[data-go]")?.dataset.go;
     if (go === "home") navigate("welcome");
-    else if (go === "start") navigate("work", 1);
-    else if (go === "example") {
-      if (state.personas[0]) await loadPersona(state.personas[0]);
-      navigate("work", 1);
-    }
+    else if (go === "start") { await setMode("own"); navigate("work", 1); }
+    else if (go === "example") { await setMode("example"); navigate("work", 1); }
+    else if (go === "own") { await setMode("own"); $("#h-work").focus(); }
   });
   $("#intake").addEventListener("submit", readWork);
   combo($("#f-title"), $("#f-title-list"), async q => (await api(`/api/occupations?q=${encodeURIComponent(q)}`)).map(o => ({ ...o, label: o.title, meta: o.code })), it => setTitle(it.code));

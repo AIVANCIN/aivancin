@@ -97,7 +97,7 @@ The AI is a local sentence encoder, all-MiniLM-L6-v2 (quantized ONNX, about 23 M
 
 A demo video is not yet available. The same walkthrough runs locally ([start it first](#how-to-run)) at `http://127.0.0.1:8000/`:
 
-1. **Start:** press "Try Hafiz's example" (a synthetic persona: computing diploma, van driver), then "Read my work".
+1. **Start:** on the welcome screen press "Try an example" (Hafiz, a synthetic persona: computing diploma, van driver; Priya is one tap away), then Continue through the four questions and "Read my work". "Get started" opens the same questions empty, without examples.
 2. **Watch:** each of his 9 sentences appears with its five suggested activities, all unticked; "On weekends I fix my friends' laptops and set up their home wifi" includes "Resolve computer network problems".
 3. **Decide:** tick what is true for his weekend work (network and software problems, installing software, backups, the shop website), then press "Compare routes".
 4. **Compare and choose:** three routes appear (Web Developers, Computer Network Support Specialists, Network and Computer Systems Administrators), each with its requirements, outlook and first-block hours, plus the shared foundations common to all three. Choose one to see the ordered block with checkpoints; switch the scenario to see which checkpoints add AI checking.
