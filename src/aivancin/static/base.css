@@ -56,7 +56,7 @@ html[data-motion="on"] .btn:active { transform: scale(0.97); }
 .sent { margin-top: 18px; padding: 20px; border-radius: 20px; background: var(--card); box-shadow: var(--shadow-card); }
 @media (min-width: 760px) { .sent { padding: 24px; } }
 .src { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: var(--text2); }
-blockquote.words { margin: 10px 0 16px; font: 400 clamp(19px, 2vw, 21px)/1.48 var(--serif); letter-spacing: 0; }
+blockquote.words { margin: 10px 0 16px; font: 400 clamp(18px, 2vw, 20px)/1.48 var(--sans); letter-spacing: -0.014em; }
 fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .sugg { display: block; border-radius: 14px; overflow: hidden; box-shadow: inset 0 0 0 1px var(--sep); }
 .opt { position: relative; display: flex; gap: 14px; align-items: flex-start; min-height: 48px; padding: 13px 16px; cursor: pointer; transition: background-color 120ms var(--ease); }
@@ -79,7 +79,7 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .hint { margin-top: 12px; }
 details.sent > summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; align-items: center; }
 details.sent > summary::-webkit-details-marker { display: none; }
-details.sent > summary .q { grid-column: 1; font: 400 17px/1.45 var(--serif); }
+details.sent > summary .q { grid-column: 1; font: 400 17px/1.45 var(--sans); }
 details.sent > summary .meta { grid-row: 1 / span 2; grid-column: 2; display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--text2); white-space: nowrap; }
 details.sent > summary .meta svg { transition: transform 250ms var(--ease); }
 details.sent[open] > summary .meta svg { transform: rotate(180deg); }
@@ -178,7 +178,7 @@ details.sent[open] > summary { margin-bottom: 16px; }
 .d-grid h5 + .foot { margin-top: 2px; }
 .did { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 12px; }
 .did > li { padding: 14px 16px; border-radius: 14px; background: var(--canvas); }
-.did .from { font: 400 16px/1.45 var(--serif); }
+.did .from { font: 400 16px/1.45 var(--sans); }
 .did .from + .badge { margin-top: 4px; }
 .did .act { display: flex; gap: 8px; align-items: flex-start; margin-top: 8px; font-size: 15px; font-weight: 600; line-height: 1.38; }
 .did .act .ico { color: var(--accent); margin-top: 1px; }

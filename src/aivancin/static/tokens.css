@@ -1,6 +1,7 @@
 /* Colour tokens re-derived from the app icon (blue gradient #249FF5 to #0955D4, blush #F6BADA).
    Accent text: #0955D4 on light (6.4:1 on white), #249FF5 on dark (6.8:1 on #0E0D12).
-   The blush marker is used only as a band behind dark text: the user's own words and activities they confirmed. */
+   The blush marker is used only as a band behind dark text: the user's own words and activities they confirmed.
+   It alone marks the user's words; they share the interface typeface. */
 /* KL Pro sets the interface (licensed separately: assets/fonts/kl-pro/LICENSE.txt). Jost SemiBold, OFL 1.1,
    sets only the wordmark; the bundled file is a weight-600 instance cut to Basic Latin. */
 @font-face { font-family: "KL Pro"; src: url("/fonts/kl-pro/KLPro-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
@@ -21,7 +22,6 @@
   --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
   --sans: "KL Pro", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
   --display: "KL Pro", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
-  --serif: "Source Serif 4", "Iowan Old Style", Georgia, "Times New Roman", serif;
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   --spring: linear(0, 0.12, 0.36, 0.62, 0.82, 0.95, 1.02, 1.03, 1.01, 1);
   color-scheme: light;
