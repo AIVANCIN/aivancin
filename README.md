@@ -63,7 +63,7 @@ In Q2 2026, 40.7% of employed tertiary-educated Malaysians aged 25-34 (751,100 p
 
 ### Solution
 
-The interface uses KL Pro, a live Jost wordmark and responsive WebP artwork. Appearance follows the device or your Light/Dark choice. Motion defaults to Device, with Full and Reduced overrides beside Appearance. Both choices stay on your device when browser storage is available. `?motion=auto|force|reduce` also sets motion. Hidden tabs pause animations.
+The app opens on a welcome screen with the artwork, then asks four short questions one at a time (current job, other work, studies, time and budget). Review, routes, plan and what changed each get their own screen, with a back button and a progress bar; the browser's back button follows the same path. The interface uses KL Pro, a live Jost wordmark and responsive WebP artwork. The gear button opens Display settings: Appearance follows the device or your Light/Dark choice, and Motion defaults to Device, with Full and Reduced overrides. Both choices stay on your device when browser storage is available. `?motion=auto|force|reduce` also sets motion. Hidden tabs pause animations.
 
 Run the motion preference checks with `node --test tests/motion.test.cjs` (Node.js built-in test runner), alongside `pytest`. Artwork was resized with the already available Pillow tool; there is no additional runtime dependency. Original PNGs are retained in `assets/art`, while the page loads WebP derivatives and uses the wordmark artwork only for its social preview.
 
@@ -118,10 +118,10 @@ flowchart LR
 
 | Stage | What the user does | What the product actually does |
 | --- | --- | --- |
-| **1 · Begin** | Writes about the current job, other work and studies, or loads a persona | Splits the text into sentences with offsets; flags negated or aspirational sentences |
+| **1 · Begin** | Answers four short questions (current job, other work, studies, time and budget), or loads a persona | Splits the text into sentences with offsets; flags negated or aspirational sentences |
 | **2 · Process** | Waits (tens of milliseconds) | Encodes each sentence and scores all 2,087 activities by their names and linked task statements |
 | **3 · Review** | Ticks the true activities, searches for missing ones, unticks job title activities | Shows each activity once with every sentence that triggered it |
-| **4 · Complete** | Submits hours, budget and degree level | Recomputes the suggestions server-side, enforces the guard and returns the confirmed profile |
+| **4 · Complete** | Moves on to compare routes or explore all roles | Recomputes the suggestions server-side, enforces the guard and returns the confirmed profile |
 
 ### What makes this approach different
 

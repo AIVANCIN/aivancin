@@ -84,19 +84,43 @@ function initTheme() {
   }));
 }
 
-/* ---------- stage navigation ---------- */
-function showStage(id) {
-  const sec = document.getElementById(id);
-  sec.hidden = false;
-  const key = { review: "work", results: "routes" }[id] || id;
-  const link = $(`.stage-links a[data-stage="${key}"]`);
-  if (link) { link.removeAttribute("aria-disabled"); link.removeAttribute("tabindex"); }
-  $$(".stage-links a").forEach(a => a.toggleAttribute("aria-current", a.dataset.stage === key));
-  $$(".stage-links a[aria-current]").forEach(a => a.setAttribute("aria-current", "step"));
-  sec.scrollIntoView({ behavior: document.documentElement.dataset.motion === "on" && !document.hidden ? "smooth" : "instant", block: "start" });
-  const h = $("[tabindex='-1']", sec);
-  if (h) h.focus({ preventScroll: true });
+/* ---------- screens ----------
+   One screen at a time. Each move is a history entry, so the browser's back button and the in-app
+   back button agree. The four steps drive the progress bar; the intake questions fill the first quarter. */
+const PAGES = 4;
+const STEP = { work: [1, "Your work"], reading: [1, "Your work"], review: [1, "Your work"], routes: [2, "Compare routes"],
+  results: [2, "Explore all roles"], plan: [3, "Your plan"], changed: [4, "What changed"] };
+let current = { screen: "welcome", page: 1 };
+
+function show(screen, page = 1, focus = true) {
+  current = { screen, page };
+  $$(".screen").forEach(s => { s.hidden = s.id !== screen; });
+  document.body.dataset.screen = screen;
+  $("#bar").hidden = screen === "welcome";
+  if (STEP[screen]) {
+    const [n, label] = STEP[screen];
+    const fill = screen === "work" ? page / (PAGES + 1) / 4 : screen === "reading" ? 0.22 : n / 4;
+    $("#progress-fill").style.width = `${(fill * 100).toFixed(1)}%`;
+    $("#bar-count").textContent = `${n}/4`;
+    $("#bar-label").textContent = screen === "work" ? `Step 1 of 4, ${label}, question ${page} of ${PAGES}` : `Step ${n} of 4, ${label}`;
+  }
+  let heading = $("[tabindex='-1']", document.getElementById(screen));
+  if (screen === "work") {
+    $$(".q-page").forEach(q => { q.hidden = Number(q.dataset.page) !== page; });
+    heading = $(`.q-page[data-page="${page}"] [tabindex='-1']`);
+    if (!$("#read-btn").disabled) $("#read-btn").innerHTML = page < PAGES ? `Continue${icon("arrow-right", "sm")}` : "Read my work";
+  }
+  window.scrollTo({ top: 0, behavior: "instant" });
+  if (focus && heading) heading.focus({ preventScroll: true });
 }
+
+function navigate(screen, page = 1) {
+  if (current.screen !== screen || current.page !== page) history.pushState({ screen, page }, "");
+  show(screen, page);
+}
+const showStage = navigate;
+
+function pageOf(el) { return Number(el?.closest(".q-page")?.dataset.page || 1); }
 
 /* ---------- stage 1: intake ---------- */
 function combo(input, list, fetcher, onPick) {
@@ -185,36 +209,50 @@ async function loadPersona(p) {
   $(`#intake input[name="degree_level"][value="${p.degree_level}"]`).checked = true;
   await setTitle(p.title_code);
   setCip(p.cip_code ? { cip: p.cip_code, title: p.cip_title || p.degree_field } : null);
-  $("#ai-status").textContent = `Loaded ${p.name}'s example. ${p.name} is a synthetic person, not a real user.`;
+  setStatus(`Loaded ${p.name}'s example. ${p.name} is a synthetic person, not a real user.`);
 }
 
 async function readWork(e) {
   e.preventDefault();
   const body = intakeBody();
+  if (current.page < PAGES) { setStatus(""); navigate("work", current.page + 1); return; }
   const first = showFieldErrors(clientChecks(body));
   if (first) { first.closest(".field").querySelector("input, textarea")?.focus(); return; }
   if (!body.current_job.trim() && !body.other_work.trim() && !body.studies.trim() && !body.title_code) {
-    $("#ai-status").textContent = "Write at least one sentence about your work, or choose your current job title.";
-    $("#ai-status").classList.add("warn");
+    navigate("work", 1);
+    setStatus("Write at least one sentence about your work, or choose your current job title.", true);
     return;
   }
-  $("#ai-status").classList.remove("warn");
+  setStatus("");
   $("#read-btn").disabled = true;
   $("#read-btn").textContent = "Reading";
+  // Only a slow read (cold start, busy host) shows the reading screen; a fast one goes straight to review.
+  const slow = setTimeout(() => show("reading"), 400);
   try {
     const sug = await api("/api/suggest", body);
     state.suggest = sug;
     state.ticked = new Map(); state.dismissed = new Set(); state.manual = new Map();
     state.lastIntake = body;
     renderReview();
-    showStage("review");
+    clearTimeout(slow);
+    navigate("review");
   } catch (err) {
-    $("#ai-status").textContent = "Something went wrong while reading your text. Please try again.";
-    $("#ai-status").classList.add("warn");
+    clearTimeout(slow);
+    if (current.screen === "reading") show("work", PAGES);
+    setStatus("Something went wrong while reading your text. Please try again.", true);
   } finally {
     $("#read-btn").disabled = false;
     $("#read-btn").textContent = "Read my work";
   }
+}
+
+/* The status line sits above the form's button, so it shows on every question. A warning about the
+   service itself stays until reload; other messages clear when the user moves on. */
+let serviceWarning = "";
+function setStatus(text, warn = false) {
+  const el = $("#ai-status");
+  el.textContent = text || serviceWarning;
+  el.classList.toggle("warn", Boolean(warn || (!text && serviceWarning)));
 }
 
 function clientChecks(b) {
@@ -235,7 +273,7 @@ function renderReview() {
   const box = $("#sentences");
   const sug = state.suggest;
   const smap = suggestionMap();
-  let html = `<div class="cap">${icon("info")}<p>A small AI model on this server matched each of your sentences to work activities listed by O*NET. It is often wrong, so nothing counts until you tick it.</p></div>`;
+  let html = "";
   if (!sug.available) {
     html += `<div class="callout">${icon("triangle-alert")}<div><p><b>AI suggestions are unavailable.</b></p><p class="sub">You can still search the activity list and add what you do. Results will be labelled "without AI suggestions".</p></div></div>`;
     html += manualSearchCard();
@@ -452,7 +490,7 @@ async function rank() {
     if (intakeKeys.some(k => k in errors)) {
       const first = showFieldErrors(errors);
       $("#rank-err").textContent = "Some details in step 1 need attention.";
-      showStage("work");
+      showStage("work", pageOf(first));
       first?.closest(".field")?.querySelector("input, textarea")?.focus();
       return;
     }
@@ -757,14 +795,19 @@ function renderSources() {
 
 async function start() {
   initTheme();
-  $$(".stage-links a").forEach(link => {
-    if (link.getAttribute("aria-disabled") === "true") link.tabIndex = -1;
-    link.addEventListener("click", event => {
-      event.preventDefault();
-      if (link.getAttribute("aria-disabled") === "true") return;
-      if (link.dataset.stage === "changed") showChanged();
-      else showStage(link.dataset.stage);
-    });
+  history.replaceState({ screen: "welcome", page: 1 }, "");
+  show("welcome", 1, false);
+  window.addEventListener("popstate", e => { const st = e.state || { screen: "welcome" }; show(st.screen, st.page || 1); });
+  $("#back").addEventListener("click", () => history.back());
+  document.addEventListener("click", async e => {
+    if (e.target.closest(".settings-open")) { $("#settings").showModal(); return; }
+    const go = e.target.closest("[data-go]")?.dataset.go;
+    if (go === "home") navigate("welcome");
+    else if (go === "start") navigate("work", 1);
+    else if (go === "example") {
+      if (state.personas[0]) await loadPersona(state.personas[0]);
+      navigate("work", 1);
+    }
   });
   $("#intake").addEventListener("submit", readWork);
   combo($("#f-title"), $("#f-title-list"), async q => (await api(`/api/occupations?q=${encodeURIComponent(q)}`)).map(o => ({ ...o, label: o.title, meta: o.code })), it => setTitle(it.code));
@@ -776,17 +819,17 @@ async function start() {
     state.status = status; state.personas = personas;
     renderSources();
     if (status.ai_suggestions !== "available") {
-      $("#ai-status").textContent = "AI suggestions are unavailable. You can still search for activities and see roles.";
-      $("#ai-status").classList.add("warn");
+      serviceWarning = "AI suggestions are unavailable. You can still search for activities and see roles.";
+      setStatus("");
     }
-    $("#personas").insertAdjacentHTML("beforeend", personas.map(p => `<button type="button" class="btn btn-gray" data-persona="${esc(p.id)}">Try ${esc(p.name)}'s example</button>`).join(""));
+    $("#personas").insertAdjacentHTML("beforeend", personas.map(p => `<button type="button" class="chip-btn" data-persona="${esc(p.id)}"><b>${esc(p.name)}, ${esc(p.age)}</b><span>${esc(capitalise(p.degree_level))} in ${esc(p.cip_title || p.degree_field)}</span></button>`).join(""));
     $("#personas").addEventListener("click", e => {
       const b = e.target.closest("[data-persona]");
       if (b) loadPersona(state.personas.find(p => p.id === b.dataset.persona));
     });
   } catch (e) {
-    $("#ai-status").textContent = "The service is starting or unavailable. Reload in a moment.";
-    $("#ai-status").classList.add("warn");
+    serviceWarning = "The service is starting or unavailable. Reload in a moment.";
+    setStatus("");
   }
 }
 
@@ -819,7 +862,7 @@ async function compareRoutes() {
     if (["weekly_hours", "budget_rm", "degree_level"].some(k => k in errors)) {
       const first = showFieldErrors(errors);
       $("#rank-err").textContent = "Some details in step 1 need attention.";
-      showStage("work");
+      showStage("work", pageOf(first));
       first?.closest(".field")?.querySelector("input, textarea")?.focus();
       return;
     }
@@ -859,7 +902,7 @@ function routeCard(r) {
 
 function renderRoutes() {
   const d = routeState.data;
-  $("#routes-lead").innerHTML = `<p>Supported destinations (${fig(d.supported_destinations, "int")} roles in three families) where your confirmed work already counts. Each card shows its dimensions separately; there is no combined score, and you choose.</p>`;
+  $("#routes-lead").innerHTML = `<p>From ${fig(d.supported_destinations, "int")} supported roles in three families, the routes where your confirmed work already counts. Each card keeps its dimensions separate, with no combined score: you choose.</p>`;
   const shared = d.shared;
   $("#routes-body").innerHTML = `
     ${d.fewer_note ? `<div class="callout">${icon("info")}<p>${esc(d.fewer_note)}</p></div>` : ""}
@@ -871,7 +914,6 @@ function renderRoutes() {
       <p class="foot">These describe the compared plans, not a probability of anything.</p></section>` : ""}
     <p class="explore-row"><button type="button" class="link-btn" data-action="rank">Explore all roles, including ones without complete-route support</button></p>`;
   attachSources($("#routes"));
-  $$(".stage-links a").forEach(a => { if (a.dataset.stage === "routes") { a.removeAttribute("aria-disabled"); a.removeAttribute("tabindex"); } });
 }
 
 async function choose(code) {
@@ -938,7 +980,6 @@ function renderPlan() {
     <section class="sec-block" data-scope><h5>Beyond this block</h5><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul></section>
     <p class="explore-row"><button type="button" class="btn btn-gray" data-action="changed">See what new evidence changes</button></p>`;
   attachSources($("#plan"));
-  $$(".stage-links a").forEach(a => { if (a.dataset.stage === "plan" || a.dataset.stage === "changed") { a.removeAttribute("aria-disabled"); a.removeAttribute("tabindex"); } });
 }
 
 async function showChanged() {

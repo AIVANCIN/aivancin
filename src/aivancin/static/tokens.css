@@ -9,7 +9,7 @@
 @font-face { font-family: "KL Pro"; src: url("/fonts/kl-pro/KLPro-Bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
 @font-face { font-family: "Jost"; src: url("/fonts/jost/Jost-SemiBold-latin.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
 :root {
-  --canvas: #F5F5F7; --card: #FFFFFF; --text: #1D1D1F; --text2: #5C5C62; --sep: #E3E3E8; --border: #7A7A82;
+  --canvas: #F5F5F7; --card: #FFFFFF; --page-q: #FFFFFF; --text: #1D1D1F; --text2: #5C5C62; --sep: #E3E3E8; --border: #7A7A82;
   --fill: #EDEDF0; --fill-hover: #E3E3E8; --track: #E3E3E8;
   --accent: #0955D4; --accent-pressed: #0747AE; --accent-tint: #E8F0FD; --on-accent: #FFFFFF;
   --marker: #F6BADA; --marker-text: #1D1D1F; --marker-edge: #B0287A;
@@ -28,7 +28,7 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --canvas: #0E0D12; --card: #1A1920; --text: #F5F4F8; --text2: #B6B2C0; --sep: #2C2A35; --border: #8B8698;
+    --canvas: #0E0D12; --card: #1A1920; --page-q: #0E0D12; --text: #F5F4F8; --text2: #B6B2C0; --sep: #2C2A35; --border: #8B8698;
     --fill: #2A2932; --fill-hover: #33323C; --track: #2E2C37;
     --accent: #249FF5; --accent-pressed: #5AB6F8; --accent-tint: #10263D; --on-accent: #0E0D12;
     --marker-edge: #F6BADA;
@@ -42,7 +42,7 @@
   }
 }
 :root[data-theme="dark"] {
-  --canvas: #0E0D12; --card: #1A1920; --text: #F5F4F8; --text2: #B6B2C0; --sep: #2C2A35; --border: #8B8698;
+  --canvas: #0E0D12; --card: #1A1920; --page-q: #0E0D12; --text: #F5F4F8; --text2: #B6B2C0; --sep: #2C2A35; --border: #8B8698;
   --fill: #2A2932; --fill-hover: #33323C; --track: #2E2C37;
   --accent: #249FF5; --accent-pressed: #5AB6F8; --accent-tint: #10263D; --on-accent: #0E0D12;
   --marker-edge: #F6BADA;

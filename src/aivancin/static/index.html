@@ -8,6 +8,7 @@
 <meta property="og:image" content="/art/social-1200.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta name="theme-color" content="#0955D4">
 <link rel="apple-touch-icon" href="/icon/icon-rounded.svg">
 <script src="/static/motion.js"></script>
 <link rel="icon" href="/icon/icon-rounded.svg" type="image/svg+xml">
@@ -45,142 +46,164 @@
 <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol>
 <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/></symbol>
 <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+<symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+<symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+<symbol id="i-settings" viewBox="0 0 24 24"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></symbol>
 </svg>
 
 <a class="skip" href="#main">Skip to content</a>
-<header class="nav">
-  <div class="wrap">
-    <a class="brand" href="#top" aria-label="AIVANCIN, back to top">
-      <span class="brand-mark" aria-hidden="true"></span>
-      AIVANCIN
-    </a>
-    <ol class="stage-links" aria-label="Steps">
-      <li><a href="#work" data-stage="work" aria-current="step">1 Your work</a></li>
-      <li><a href="#routes" data-stage="routes" aria-disabled="true" tabindex="-1">2 Compare routes</a></li>
-      <li><a href="#plan" data-stage="plan" aria-disabled="true" tabindex="-1">3 Your plan</a></li>
-      <li><a href="#changed" data-stage="changed" aria-disabled="true" tabindex="-1">4 What changed</a></li>
-    </ol>
-    <div class="display-settings">
-    <fieldset class="seg-ctl small theme" aria-label="Appearance">
-      <legend>Appearance</legend>
-      <label><input type="radio" name="theme" value="auto" checked>Auto</label>
-      <label><input type="radio" name="theme" value="light">Light</label>
-      <label><input type="radio" name="theme" value="dark">Dark</label>
-    </fieldset>
-    <fieldset class="seg-ctl small motion-setting" hidden data-motion-setting>
-      <legend>Motion</legend>
-      <label><input type="radio" name="motion" value="auto" checked>Device</label>
-      <label><input type="radio" name="motion" value="force">Full</label>
-      <label><input type="radio" name="motion" value="reduce">Reduced</label>
-    </fieldset>
+<header class="topbar" id="bar" hidden>
+  <div class="bar-in">
+    <button type="button" class="brand" data-go="home" aria-label="AIVANCIN, start page">
+      <span class="brand-mark" aria-hidden="true"></span>AIVANCIN
+    </button>
+    <div class="bar-mid">
+      <button type="button" class="icon-btn" id="back" aria-label="Back"><svg class="ico" aria-hidden="true"><use href="#i-chevron-left"/></svg></button>
+      <div class="progress" aria-hidden="true"><span class="progress-fill" id="progress-fill"></span></div>
+      <p class="bar-step"><span aria-hidden="true" id="bar-count">1/4</span><span class="vh" id="bar-label">Step 1 of 4, Your work</span></p>
     </div>
+    <button type="button" class="icon-btn settings-open" aria-label="Display settings" aria-haspopup="dialog"><svg class="ico" aria-hidden="true"><use href="#i-settings"/></svg></button>
   </div>
 </header>
 
 <main id="main">
-<section class="stage-sec" id="work" aria-labelledby="h-work">
-  <div class="wrap work-wrap">
-    <div class="work-hero">
-    <picture class="hero-art">
-      <source media="(max-width: 599px)" srcset="/art/art-portrait-390.webp 390w, /art/art-portrait-780.webp 780w" sizes="calc(100vw - 32px)" width="390" height="693">
-      <img src="/art/art-1120.webp" srcset="/art/art-640.webp 640w, /art/art-1120.webp 1120w, /art/art-1680.webp 1680w" sizes="(min-width: 900px) 480px, calc(100vw - 80px)" width="2560" height="1440" alt="" loading="eager" fetchpriority="high">
-    </picture>
-    <div class="hero-copy">
-    <p class="eyebrow">Step 1 of 4 · Your work</p>
-    <h1 id="h-work" class="page-title" tabindex="-1">Show the work you already do.</h1>
-    <p class="lead-left">Describe your work in your own words. A small AI model on this server reads each sentence and suggests matching work activities from O*NET. It is often wrong, so nothing counts until you tick it. Then you see the graduate roles that use that work.</p>
-    </div>
-    </div>
-    <div class="intake-wrap">
-    <div class="persona-bar" id="personas" aria-label="Examples">
-      <span class="foot">Try a synthetic example:</span>
-    </div>
-    <p class="status-line" id="ai-status" role="status"></p>
-
-    <form id="intake" class="form-card" novalidate>
-      <p class="hint-line"><svg class="ico sm" aria-hidden="true"><use href="#i-info"/></svg>Short sentences work best: one thing you do per sentence.</p>
-      <div class="field">
-        <label for="f-current">What do you do in your current job?</label>
-        <p class="ex" id="ex-current">For example: I drive a van delivering parcels. I plan the route between drops.</p>
-        <textarea id="f-current" name="current_job" rows="3" aria-describedby="ex-current"></textarea>
-      </div>
-      <div class="field combo" data-kind="occupations">
-        <label for="f-title">Current job title <span class="opt-tag">optional</span></label>
-        <p class="ex" id="ex-title">Search the O*NET list. Its activities are added to your current-job lane, and you can untick them.</p>
-        <input id="f-title" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="f-title-list" aria-autocomplete="list" aria-describedby="ex-title">
-        <ul class="combo-list" id="f-title-list" role="listbox" hidden></ul>
-        <p class="err" data-err="title_code"></p>
-      </div>
-      <div class="field">
-        <label for="f-other">What other work do you do?</label>
-        <p class="ex" id="ex-other">Side jobs, family business, volunteering. For example: I keep the books for my mother's catering business.</p>
-        <textarea id="f-other" name="other_work" rows="4" aria-describedby="ex-other"></textarea>
-      </div>
-      <div class="field">
-        <label for="f-studies">What did you study, and what did you do in your studies?</label>
-        <p class="ex" id="ex-studies">For example: I built a small inventory app in Java for my final project.</p>
-        <textarea id="f-studies" name="studies" rows="2" aria-describedby="ex-studies"></textarea>
-      </div>
-      <div class="grid2">
-        <div class="field combo" data-kind="fields">
-          <label for="f-field">Degree or diploma field</label>
-          <p class="ex" id="ex-field">From the U.S. CIP 2020 list, used for the studies lane.</p>
-          <input id="f-field" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="f-field-list" aria-autocomplete="list" aria-describedby="ex-field">
-          <ul class="combo-list" id="f-field-list" role="listbox" hidden></ul>
-          <p class="err" data-err="cip_code"></p>
-        </div>
-        <fieldset class="field">
-          <legend>Level</legend>
-          <div class="seg-ctl level" style="--n:2">
-            <label><input type="radio" name="degree_level" value="diploma" checked>Diploma</label>
-            <label><input type="radio" name="degree_level" value="degree">Degree</label>
-          </div>
-          <p class="err" data-err="degree_level"></p>
-        </fieldset>
-        <div class="field">
-          <label for="f-hours">Hours a week you can study</label>
-          <input id="f-hours" name="weekly_hours" type="number" min="1" max="80" step="1" value="6" inputmode="numeric">
-          <p class="err" data-err="weekly_hours"></p>
-        </div>
-        <div class="field">
-          <label for="f-budget">Budget for courses (RM)</label>
-          <input id="f-budget" name="budget_rm" type="number" min="0" step="10" value="0" inputmode="numeric">
-          <p class="err" data-err="budget_rm"></p>
-        </div>
-        <fieldset class="field">
-          <legend>Planning period</legend>
-          <div class="seg-ctl weeks-ctl" style="--n:3">
-            <label><input type="radio" name="weeks" value="4" checked>4 weeks</label>
-            <label><input type="radio" name="weeks" value="8">8 weeks</label>
-            <label><input type="radio" name="weeks" value="12">12 weeks</label>
-          </div>
-        </fieldset>
-        <fieldset class="field">
-          <legend>Would you take a longer qualification, such as a degree top-up?</legend>
-          <div class="seg-ctl long-ctl" style="--n:2">
-            <label><input type="radio" name="willing_long" value="no" checked>Not now</label>
-            <label><input type="radio" name="willing_long" value="yes">Yes</label>
-          </div>
-        </fieldset>
-      </div>
-      <div class="form-actions">
-        <button class="btn btn-primary" type="submit" id="read-btn">Read my work</button>
-        <p class="foot" id="read-note">Your text stays on this server for this request only. Nothing is saved.</p>
-      </div>
-    </form>
+<section class="screen welcome" id="welcome" aria-labelledby="h-welcome">
+  <picture class="welcome-art">
+    <source media="(max-width: 759px), (orientation: portrait)" srcset="/art/art-portrait-390.webp 390w, /art/art-portrait-780.webp 780w, /art/art-portrait-1170.webp 1170w" sizes="100vw" width="1170" height="2079">
+    <img src="/art/art-1680.webp" srcset="/art/art-640.webp 640w, /art/art-1120.webp 1120w, /art/art-1680.webp 1680w, /art/art-2560.webp 2560w" sizes="100vw" width="2560" height="1440" alt="" fetchpriority="high">
+  </picture>
+  <button type="button" class="icon-btn on-art settings-open" aria-label="Display settings" aria-haspopup="dialog"><svg class="ico" aria-hidden="true"><use href="#i-settings"/></svg></button>
+  <div class="welcome-body">
+    <p class="wordmark"><span class="brand-mark" aria-hidden="true"></span>AIVANCIN</p>
+    <h1 id="h-welcome" tabindex="-1">Your next role starts with the work you already do.</h1>
+    <p class="welcome-sub">Describe what you do in your own words. See the graduate roles closest to it, and a free plan that fits your time and budget.</p>
+    <div class="welcome-actions">
+      <button type="button" class="btn btn-light" data-go="start">Get started<svg class="ico sm" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>
+      <button type="button" class="link-btn on-art" data-go="example">Try an example</button>
     </div>
   </div>
 </section>
 
-<section class="stage-sec alt" id="review" aria-labelledby="h-review" hidden>
+<section class="screen q-screen" id="work" aria-label="Your work" hidden>
+  <div class="wrap q-wrap">
+  <form id="intake" novalidate>
+    <div class="q-page" data-page="1">
+      <p class="eyebrow">Your work</p>
+      <h1 id="h-work" class="page-title" tabindex="-1">What do you do in your current job?</h1>
+      <p class="q-lead" id="ex-current">A few short sentences, one thing you do in each.</p>
+      <div class="field">
+        <textarea id="f-current" name="current_job" rows="5" aria-labelledby="h-work" aria-describedby="ex-current" placeholder="For example: I drive a van delivering parcels. I plan the route between drops."></textarea>
+      </div>
+      <div class="field combo" data-kind="occupations">
+        <label for="f-title">Job title <span class="opt-tag">optional</span></label>
+        <input id="f-title" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="f-title-list" aria-autocomplete="list" aria-describedby="ex-title" placeholder="Search, for example: delivery driver">
+        <p class="ex" id="ex-title">Adds the activities O*NET lists for it. You can untick them later.</p>
+        <ul class="combo-list" id="f-title-list" role="listbox" hidden></ul>
+        <p class="err" data-err="title_code"></p>
+      </div>
+      <div class="examples">
+        <p class="examples-label">Or start from a synthetic example</p>
+        <div class="persona-bar" id="personas"></div>
+      </div>
+    </div>
+
+    <div class="q-page" data-page="2" hidden>
+      <p class="eyebrow">Your work</p>
+      <h1 id="h-other" class="page-title" tabindex="-1">What other work do you do?</h1>
+      <p class="q-lead" id="ex-other">Side jobs, family business, volunteering, helping friends. This is often where graduate-level work shows.</p>
+      <div class="field">
+        <textarea id="f-other" name="other_work" rows="6" aria-labelledby="h-other" aria-describedby="ex-other" placeholder="For example: I keep the books for my mother's catering business."></textarea>
+      </div>
+    </div>
+
+    <div class="q-page" data-page="3" hidden>
+      <p class="eyebrow">Your studies</p>
+      <h1 id="h-studies" class="page-title" tabindex="-1">What did you study?</h1>
+      <p class="q-lead" id="ex-studies">Your field, your level, and what you actually did in your course.</p>
+      <div class="field combo" data-kind="fields">
+        <label for="f-field">Degree or diploma field</label>
+        <input id="f-field" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="f-field-list" aria-autocomplete="list" aria-describedby="ex-field" placeholder="Search, for example: computer science">
+        <p class="ex" id="ex-field">From the U.S. CIP 2020 list.</p>
+        <ul class="combo-list" id="f-field-list" role="listbox" hidden></ul>
+        <p class="err" data-err="cip_code"></p>
+      </div>
+      <fieldset class="field">
+        <legend>Level</legend>
+        <div class="seg-ctl level" style="--n:2">
+          <label><input type="radio" name="degree_level" value="diploma" checked>Diploma</label>
+          <label><input type="radio" name="degree_level" value="degree">Degree</label>
+        </div>
+        <p class="err" data-err="degree_level"></p>
+      </fieldset>
+      <div class="field">
+        <label for="f-studies">What did you do in your studies?</label>
+        <textarea id="f-studies" name="studies" rows="3" placeholder="For example: I built a small inventory app in Java for my final project."></textarea>
+      </div>
+    </div>
+
+    <div class="q-page" data-page="4" hidden>
+      <p class="eyebrow">Your time</p>
+      <h1 id="h-time" class="page-title" tabindex="-1">How much can you put in?</h1>
+      <p class="q-lead">Your plan is built to fit these.</p>
+      <div class="q-grid">
+        <div class="field">
+          <label for="f-hours">Hours a week</label>
+          <input id="f-hours" name="weekly_hours" type="number" min="1" max="80" step="1" value="6" inputmode="numeric">
+          <p class="err" data-err="weekly_hours"></p>
+        </div>
+        <div class="field">
+          <label for="f-budget">Course budget (RM)</label>
+          <input id="f-budget" name="budget_rm" type="number" min="0" step="10" value="0" inputmode="numeric">
+          <p class="err" data-err="budget_rm"></p>
+        </div>
+      </div>
+      <fieldset class="field">
+        <legend>Planning period</legend>
+        <div class="seg-ctl weeks-ctl" style="--n:3">
+          <label><input type="radio" name="weeks" value="4" checked>4 weeks</label>
+          <label><input type="radio" name="weeks" value="8">8 weeks</label>
+          <label><input type="radio" name="weeks" value="12">12 weeks</label>
+        </div>
+      </fieldset>
+      <fieldset class="field">
+        <legend>Would you take a longer qualification, such as a degree top-up?</legend>
+        <div class="seg-ctl long-ctl" style="--n:2">
+          <label><input type="radio" name="willing_long" value="no" checked>Not now</label>
+          <label><input type="radio" name="willing_long" value="yes">Yes</label>
+        </div>
+      </fieldset>
+      <p class="foot privacy" id="read-note">Your text is read on this server for this request only. Nothing is saved.</p>
+    </div>
+
+    <p class="status-line" id="ai-status" role="status"></p>
+    <div class="q-actions">
+      <button class="btn btn-primary btn-block" type="submit" id="read-btn">Continue</button>
+    </div>
+  </form>
+  </div>
+</section>
+
+<section class="screen reading" id="reading" aria-labelledby="h-reading" hidden>
+  <div class="wrap q-wrap">
+    <h1 id="h-reading" class="page-title" tabindex="-1">Reading your work</h1>
+    <p class="q-lead">Matching each sentence to the work activities O*NET records.</p>
+  </div>
+  <picture class="reading-art">
+    <source media="(max-width: 759px), (orientation: portrait)" srcset="/art/art-portrait-390.webp 390w, /art/art-portrait-780.webp 780w, /art/art-portrait-1170.webp 1170w" sizes="100vw">
+    <img src="/art/art-1120.webp" srcset="/art/art-640.webp 640w, /art/art-1120.webp 1120w, /art/art-1680.webp 1680w, /art/art-2560.webp 2560w" sizes="100vw" alt="">
+  </picture>
+  <p class="reading-status" role="status"><span class="spinner" aria-hidden="true"></span>Usually a few seconds</p>
+</section>
+
+<section class="screen" id="review" aria-labelledby="h-review" hidden>
   <div class="wrap">
-    <p class="eyebrow">Step 1 of 4 · Your work</p>
-    <h2 id="h-review" class="page-title" tabindex="-1">Check what we read</h2>
-    <p class="lead-left">Tick each activity that is true for you. Suggestions start unticked, and there is no "accept all": the model proposes, you decide.</p>
+    <p class="eyebrow">Your work</p>
+    <h1 id="h-review" class="page-title" tabindex="-1">Check what we read</h1>
+    <p class="lead-left">A small model on this server matched each sentence to work activities. Tick the ones that are true for you; nothing counts until you do.</p>
     <div class="review">
       <div id="sentences"></div>
       <aside class="rail" aria-labelledby="h-mine">
-        <div class="rail-head"><h3 id="h-mine">Your activities</h3><span class="count num" id="count" aria-live="polite">0</span></div>
+        <div class="rail-head"><h2 id="h-mine">Your activities</h2><span class="count num" id="count" aria-live="polite">0</span></div>
         <ul class="mine" id="mine"></ul>
         <p class="foot empty-mine" id="mine-empty">Nothing confirmed yet. Tick suggestions to build your list.</p>
         <fieldset class="lanes">
@@ -204,35 +227,35 @@
   </div>
 </section>
 
-<section class="stage-sec" id="routes" aria-labelledby="h-routes" hidden>
+<section class="screen" id="routes" aria-labelledby="h-routes" hidden>
   <div class="wrap">
-    <p class="eyebrow">Step 2 of 4 · Compare routes</p>
-    <h2 id="h-routes" class="page-title" tabindex="-1">Routes that use your work</h2>
+    <p class="eyebrow">Compare routes</p>
+    <h1 id="h-routes" class="page-title" tabindex="-1">Routes that use your work</h1>
     <div class="lead-left" id="routes-lead" data-scope></div>
     <div id="routes-body"></div>
   </div>
 </section>
 
-<section class="stage-sec alt" id="plan" aria-labelledby="h-plan-stage" hidden>
+<section class="screen" id="plan" aria-labelledby="h-plan-stage" hidden>
   <div class="wrap narrow">
-    <p class="eyebrow">Step 3 of 4 · Your plan</p>
-    <h2 id="h-plan-stage" class="page-title" tabindex="-1">Your first learning block</h2>
+    <p class="eyebrow">Your plan</p>
+    <h1 id="h-plan-stage" class="page-title" tabindex="-1">Your first learning block</h1>
     <div id="plan-body"></div>
   </div>
 </section>
 
-<section class="stage-sec" id="changed" aria-labelledby="h-changed" hidden>
+<section class="screen" id="changed" aria-labelledby="h-changed" hidden>
   <div class="wrap narrow">
-    <p class="eyebrow">Step 4 of 4 · What changed</p>
-    <h2 id="h-changed" class="page-title" tabindex="-1">What new evidence changes</h2>
+    <p class="eyebrow">What changed</p>
+    <h1 id="h-changed" class="page-title" tabindex="-1">What new evidence changes</h1>
     <div id="changed-body"></div>
   </div>
 </section>
 
-<section class="stage-sec alt" id="results" aria-labelledby="h-results" hidden>
+<section class="screen" id="results" aria-labelledby="h-results" hidden>
   <div class="wrap">
     <p class="eyebrow">Explore all roles</p>
-    <h2 id="h-results" class="page-title" tabindex="-1">Closest roles to explore</h2>
+    <h1 id="h-results" class="page-title" tabindex="-1">Closest roles to explore</h1>
     <div class="lead-left" id="results-lead" data-scope></div>
     <div id="change" class="change" aria-live="polite"></div>
     <div class="controls" id="controls"></div>
@@ -244,6 +267,29 @@
   </div>
 </section>
 </main>
+
+<dialog class="sheet" id="settings" aria-labelledby="h-settings">
+  <form method="dialog">
+    <div class="sheet-head"><h2 id="h-settings">Display</h2><button class="link-btn" value="done">Done</button></div>
+    <fieldset class="set-group">
+      <legend>Appearance</legend>
+      <div class="seg-ctl theme">
+        <label><input type="radio" name="theme" value="auto" checked>Auto</label>
+        <label><input type="radio" name="theme" value="light">Light</label>
+        <label><input type="radio" name="theme" value="dark">Dark</label>
+      </div>
+    </fieldset>
+    <fieldset class="set-group" hidden data-motion-setting>
+      <legend>Motion</legend>
+      <div class="seg-ctl motion-setting">
+        <label><input type="radio" name="motion" value="auto" checked>Device</label>
+        <label><input type="radio" name="motion" value="force">Full</label>
+        <label><input type="radio" name="motion" value="reduce">Reduced</label>
+      </div>
+    </fieldset>
+    <p class="foot">Auto and Device follow your system settings. Saved in this browser only.</p>
+  </form>
+</dialog>
 
 <footer>
   <div class="wrap">
