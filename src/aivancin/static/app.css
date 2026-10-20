@@ -169,14 +169,24 @@ details.title-acts > summary { cursor: pointer; font: 600 16px/1.35 var(--displa
 .tech .hot { font-size: 11px; font-weight: 600; color: var(--text2); }.num { font-variant-numeric: tabular-nums; }
 .loading { display: flex; align-items: center; gap: 10px; padding: 24px; color: var(--text2); }
 
-/* footer sources */
-.foot-title { font: 600 20px/1.3 var(--display); }
-footer .foot { margin-top: 8px; }
-.sources { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
-@media (min-width: 900px) { .sources { grid-template-columns: 1fr 1fr; gap: 8px 32px; } }
-.sources li { font-size: 13px; line-height: 1.4; color: var(--text2); padding: 8px 0; border-top: 1px solid var(--sep); }
+/* footer: one licence line and the button to the sources sheet */
+footer { padding: 20px 0 28px; }
+.foot-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
+.foot-bar .foot { flex: 1 1 320px; }
+.foot-bar .btn { flex: none; }
+
+/* sources sheet */
+.sheet-wide { width: min(720px, calc(100vw - 32px)); max-height: min(84vh, 860px); }
+.sheet-wide[open] { display: flex; flex-direction: column; }
+.sheet-wide > .sheet-head { flex: none; padding: 12px 20px; border-bottom: 1px solid var(--sep); }
+.sheet-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 16px 20px 24px; }
+.sources { margin: 12px 0 0; padding: 0; list-style: none; display: grid; }
+.sources li { font-size: 13px; line-height: 1.4; color: var(--text2); padding: 10px 8px; margin: 0 -8px; border-top: 1px solid var(--sep); border-radius: 10px; scroll-margin: 16px; }
 .sources li b { color: var(--text); font-weight: 600; }
-.sources li:target { background: var(--accent-tint); border-radius: 8px; padding: 8px; }
+.sources li.hit { background: var(--accent-tint); border-top-color: transparent; }
+.sources li.hit + li { border-top-color: transparent; }
+.sources li:focus { outline: none; }
+.sources li:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
 .attribution { margin-top: 20px; }
 
 /* Phone widths: no grid track may grow past the viewport. */
@@ -414,6 +424,8 @@ textarea::placeholder, input::placeholder { color: var(--text2); opacity: 1; }
 @media (max-width: 759px) {
   .sheet { width: 100%; max-width: none; margin: auto 0 0; border-radius: 24px 24px 0 0; }
   .sheet form { padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
+  .sheet-wide { max-height: 88svh; }
+  .sheet-body { padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
 }
 
 /* stage screens */

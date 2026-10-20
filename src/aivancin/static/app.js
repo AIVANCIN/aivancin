@@ -803,14 +803,49 @@ function renderSources() {
     + `<li id="src-your-input"><b>you. Your input</b>: hours, budget and the weights you set.</li>`;
 }
 
+/* Sources open in a sheet over the current screen, so following a citation never loses your place.
+   A cited source is scrolled into view, highlighted and focused; closing returns focus to the link. */
+let sourcesOpener = null;
+function openSources(id, opener) {
+  const sheet = $("#sources-sheet");
+  sourcesOpener = opener;
+  $$("#sources li.hit").forEach(li => li.classList.remove("hit"));
+  if (!sheet.open) sheet.showModal();
+  const li = id ? document.getElementById(id) : null;
+  if (li) {
+    li.classList.add("hit");
+    li.tabIndex = -1;
+    li.scrollIntoView({ block: "center" });
+    li.focus({ preventScroll: true });
+  } else {
+    $(".sheet-body", sheet).scrollTop = 0;
+  }
+}
+
 async function start() {
   initTheme();
   history.replaceState({ screen: "welcome", page: 1 }, "");
   show("welcome", 1, false);
-  window.addEventListener("popstate", e => { const st = e.state || { screen: "welcome" }; show(st.screen, st.page || 1); });
+  // Only the app's own entries carry a state; an in-page anchor's entry has none and must not move screens.
+  window.addEventListener("popstate", e => { if (e.state) show(e.state.screen, e.state.page || 1); });
+  $("#sources-done").addEventListener("click", () => $("#sources-sheet").close());
+  $("#sources-sheet").addEventListener("close", () => { sourcesOpener?.focus({ preventScroll: true }); sourcesOpener = null; });
+  // A click on the backdrop (the dialog element itself, outside its content) closes either sheet.
+  $$("dialog.sheet").forEach(d => d.addEventListener("click", e => { if (e.target === d) d.close(); }));
   $("#back").addEventListener("click", () => history.back());
   document.addEventListener("click", async e => {
     if (e.target.closest(".settings-open")) { $("#settings").showModal(); return; }
+    const cite = e.target.closest('a[href^="#src-"]');
+    if (cite) { e.preventDefault(); openSources(cite.getAttribute("href").slice(1), cite); return; }
+    const all = e.target.closest(".sources-open");
+    if (all) { openSources(null, all); return; }
+    if (e.target.closest(".skip")) {
+      e.preventDefault();
+      const heading = current.screen === "work" ? $(`.q-page[data-page="${current.page}"] [tabindex='-1']`)
+        : $("[tabindex='-1']", document.getElementById(current.screen));
+      heading?.focus();
+      return;
+    }
     const go = e.target.closest("[data-go]")?.dataset.go;
     if (go === "home") navigate("welcome");
     else if (go === "start") navigate("work", 1);

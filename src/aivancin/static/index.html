@@ -291,12 +291,19 @@
   </form>
 </dialog>
 
-<footer>
-  <div class="wrap">
-    <h2 class="foot-title">Sources</h2>
+<dialog class="sheet sheet-wide" id="sources-sheet" aria-labelledby="h-sources">
+  <div class="sheet-head"><h2 id="h-sources">Sources and licences</h2><button type="button" class="link-btn" id="sources-done">Done</button></div>
+  <div class="sheet-body">
     <p class="foot">Every number links here. Labour figures (DOSM) and AI-usage figures (Anthropic Economic Index) are separate sources and are never combined into one score unless you set a weight.</p>
     <ul class="sources" id="sources"></ul>
     <p class="foot attribution">O*NET 31.0 data by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA), used under CC BY 4.0; AIVANCIN modified it by selecting columns and computing activity weights. USDOL/ETA has not approved, endorsed or tested these modifications. Anthropic Economic Index data under CC BY. DOSM data under CC BY 4.0. ESCO classification by the European Commission. Icons: Lucide (ISC).</p>
+  </div>
+</dialog>
+
+<footer>
+  <div class="wrap foot-bar">
+    <p class="foot">O*NET 31.0 data by USDOL/ETA, used under CC BY 4.0 and modified by AIVANCIN. Anthropic Economic Index under CC BY; DOSM under CC BY 4.0.</p>
+    <button type="button" class="btn btn-gray sources-open" aria-haspopup="dialog">Sources and licences</button>
   </div>
 </footer>
 <script src="/static/app.js" defer></script>
