@@ -31,8 +31,12 @@ class Encoder:
         self._sess = ort.InferenceSession(str(model_path), opts, providers=["CPUExecutionProvider"])
         self._inputs = {i.name for i in self._sess.get_inputs()}
 
-    def encode(self, texts, batch_size=64):
-        """Masked mean pooling over token states, then L2 normalisation."""
+    def encode(self, texts, batch_size=1):
+        """Masked mean pooling over token states, then L2 normalisation.
+
+        One text per run by default: the quantized model scales activations per batch, so batching would
+        make a text's vector depend on the other texts beside it (found by the A4 regression check).
+        """
         out = []
         for i in range(0, len(texts), batch_size):
             enc = self._tok.encode_batch(list(texts[i:i + batch_size]))

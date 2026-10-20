@@ -135,7 +135,7 @@ flowchart LR
 | Future Skills Radar and job outlook | WORKING (first version) | `tests/test_matching_and_report.py`, `python tools/checks/a18_backtest.py` |
 | Web interface | WORKING (local) | `tests/test_app_and_failures.py`; a scripted browser run of the full flow, 20 Oct 2026 |
 | Acceptance checks A1-A3 on fresh test sets | RUN: A1 and A3 pass, A2 fails | `python tools/checks/a1_a3.py`; see Evidence |
-| Acceptance checks A4 (regression), A6 (fresh guard set), A7 (label sample) | NOT RUN | |
+| Acceptance checks A4, A6, A7 | RUN: A4 and A7 pass, A6 fails | `tools/checks/`; see Evidence |
 
 **Boundary:** AIVANCIN does not judge proficiency from text, forecast jobs or say whether a role is reachable. It reads only what the user writes and never stores it.
 
@@ -151,6 +151,9 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 | **Suggestion accuracy (A1)** | PASS, 16 of 20 fresh everyday descriptions have a correct activity in the top five (bar: 16) | `python tools/checks/a1_a3.py`; sets in `tests/acceptance/`, written and hashed before the run; synthetic, agent-written English |
 | **Complete chain (A2)** | FAIL, 29 of 50 top-five roles relevant (bar: 30) and 5 of 10 profiles with three or more (bar: 7), other-work lane | Strong for electrical, motorcycle repair, laboratory, tutoring and finance work; weak for marketing, civil works, HR, statistics and agriculture. Information only: the studies lane on the same activities gave 31 of 50 and 7 of 10, partly because relevance follows the degree field |
 | **Improvement against a baseline (A3)** | PASS, the model chain beats keyword (BM25) suggestions on the same text by 13 relevant roles per 50 (29 against 16; bar: 10) | Same run and sets as A2 |
+| **Regression (A4)** | PASS after a fix: the earlier probes' 35 of 50 (all true activities) and 31 of 50 (the full chain) reproduce | The first run gave 29 of 50 for the chain; the cause was that the quantized model made a text's vector depend on the other texts in its batch, so every text is now encoded on its own |
+| **Guard (A6)** | FAIL, 12 of 18 sentences fully guarded; all 10 fresh sentences with a listed cue ("never", "don't", "want to"...) pass | Not caught: someone else's work ("My cousin repairs computers"), hobbies, and plans phrased without a listed cue ("My dream is to..."). Those suggestions still need the user's tick |
+| **Requirement labels (A7)** | PASS, 20 of 20 roles agree with the raw O\*NET Job Zone and experience files | `python tools/checks/a7_labels.py`; sample rule fixed in the script before the run |
 | **Usability with target users** | NOT RUN | Personas and test sentences are synthetic |
 | **Speed** | 45 ms for Hafiz's 9 sentences, model already loaded | One run on a laptop CPU; Replit not measured |
 

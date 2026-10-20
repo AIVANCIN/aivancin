@@ -1,0 +1,28 @@
+{
+ "check": "A6 guard (SPEC section 9)",
+ "written": "2026-10-20 about 14:49 MYT, before any run on these sentences",
+ "author": "AIVANCIN builder (Claude Code; model reported by the client: Claude Opus 5.5). Synthetic English",
+ "pass_rule": "For every sentence, no activity suggested for it can be confirmed as done work without the deliberate second action (guard_override). The S2-K1 negatives are included as written, including the non-work and someone-else cases the word-list guard is not designed to catch",
+ "s2_k1_negatives": [
+  {"id": "N1", "kind": "negation", "text": "I have never done any bookkeeping or accounts work."},
+  {"id": "N2", "kind": "negation", "text": "I do not deal with customers at all."},
+  {"id": "N3", "kind": "aspiration", "text": "I would like to learn programming one day but I have not started."},
+  {"id": "N4", "kind": "non-work", "text": "At weekends I play badminton and watch films."},
+  {"id": "N5", "kind": "someone else", "text": "My cousin repairs computers for a living."},
+  {"id": "N6", "kind": "non-work", "text": "I failed my driving test twice, so I take the bus to work."}
+ ],
+ "fresh": [
+  {"id": "f01", "kind": "negation", "text": "I have never managed a team at work."},
+  {"id": "f02", "kind": "negation", "text": "I don't do any of the accounting for the shop; my brother handles that."},
+  {"id": "f03", "kind": "aspiration", "text": "I want to start a YouTube channel about cooking."},
+  {"id": "f04", "kind": "aspiration", "text": "I'm planning to learn how to build mobile apps next year."},
+  {"id": "f05", "kind": "aspiration", "text": "I hope to become a nurse one day."},
+  {"id": "f06", "kind": "negation", "text": "I no longer repair phones because the shop closed."},
+  {"id": "f07", "kind": "negation", "text": "I can't drive, so my wife does the deliveries."},
+  {"id": "f08", "kind": "aspiration", "text": "I'd like to teach English to refugee children."},
+  {"id": "f09", "kind": "negation", "text": "I wasn't involved in the website redesign at my last job."},
+  {"id": "f10", "kind": "negation", "text": "I haven't taken any photography jobs yet."},
+  {"id": "f11", "kind": "aspiration, no listed cue", "text": "Next year I will start studying graphic design."},
+  {"id": "f12", "kind": "aspiration, no listed cue", "text": "My dream is to design buildings."}
+ ]
+}
