@@ -50,6 +50,8 @@ def test_api_rejects_invalid_intake_with_field_messages(client):
     assert r.status_code == 422
     assert set(r.json()["errors"]) == {"weekly_hours", "activities"}
     assert client.get("/api/occupations/00-0000.00/activities").status_code == 404
+    hits = client.get("/api/activities", params={"q": "fix wifi"}).json()
+    assert hits[0]["dwa_id"] == "4.A.3.b.1.d.1" and hits[0]["match"] == "meaning"
 
 
 def copy_data(tmp_path):
@@ -64,6 +66,7 @@ def assert_ai_unavailable_but_manual_works(data_dir, reason):
     assert status["ai_suggestions"] == "unavailable" and reason in status["ai_unavailable_reason"]
     assert c.post("/api/suggest", json={"other_work": "I fix laptops."}).json()["available"] is False
     assert c.get("/api/activities", params={"q": "website"}).json()
+    assert c.get("/api/activities", params={"q": "fix wifi"}).json() == []  # keyword fallback only
     ok = c.post("/api/profile", json={"weekly_hours": 5, "budget_rm": 0, "degree_level": "degree",
                                       "confirmed": [{"dwa_id": "4.A.3.b.1.f.4", "source": "added_by_you",
                                                      "lane": "other_work"}]}).json()

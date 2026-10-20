@@ -94,13 +94,23 @@ def _tokens(q):
     return [t for t in re.findall(r"[a-z0-9]+", (q or "").lower()) if len(t) >= 2]
 
 
-def search_activities(onet, q, limit=20):
+def search_activities(onet, q, limit=20, encoder=None, index=None, ranked_limit=10):
+    """Manual search. Without the encoder: names containing every word, alphabetically. With it: those names first,
+    then the closest activities by meaning, both in the encoder's order, because casual words such as "fix wifi"
+    share no word with "Resolve computer network problems"."""
     toks = _tokens(q)
     if not toks:
         return []
-    hits = [d for d in onet.dwa_ids if all(t in onet.dwa_names[d].lower() for t in toks)]
-    hits.sort(key=lambda d: (onet.dwa_names[d].lower(), d))
-    return [{"dwa_id": d, "name": onet.dwa_names[d]} for d in hits[:limit]]
+    hits = [i for i, d in enumerate(onet.dwa_ids) if all(t in onet.dwa_names[d].lower() for t in toks)]
+    if encoder is None or index is None:
+        hits.sort(key=lambda i: (onet.dwa_names[onet.dwa_ids[i]].lower(), onet.dwa_ids[i]))
+        return [{"dwa_id": onet.dwa_ids[i], "name": onet.dwa_names[onet.dwa_ids[i]], "match": "keyword"}
+                for i in hits[:limit]]
+    sims = index.scores(encoder.encode([q.strip()])[0])
+    literal = set(hits)
+    order = sorted(range(len(sims)), key=lambda i: (i not in literal, -sims[i], onet.dwa_ids[i]))[:ranked_limit]
+    return [{"dwa_id": onet.dwa_ids[i], "name": onet.dwa_names[onet.dwa_ids[i]],
+             "match": "keyword" if i in literal else "meaning"} for i in order]
 
 
 def search_occupations(onet, q, limit=20):

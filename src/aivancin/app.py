@@ -55,7 +55,7 @@ def create_app(data_dir=snapshots.DEFAULT_DATA_DIR):
 
     @app.get("/api/activities")
     def activities(q: str = ""):
-        return intake.search_activities(onet, q)
+        return intake.search_activities(onet, q, encoder=encoder, index=vectors)
 
     @app.get("/api/occupations")
     def occupations(q: str = ""):

@@ -167,6 +167,36 @@ def test_manual_search_adds_labelled_activities(snaps):
     assert intake.search_occupations(snaps.onet, "light truck")[0]["code"] == "53-3033.00"
 
 
+# Casual words that share no word with the activity a person means; targets chosen by reading the activity list.
+CASUAL_SEARCHES = {
+    "fix wifi": "4.A.3.b.1.d.1",  # Resolve computer network problems.
+    "fix laptops": "4.A.3.b.5.b.3",  # Repair electronic equipment.
+    "deal with angry customers": "4.A.4.a.8.c.5",  # Resolve customer complaints or problems.
+    "I keep the books": "4.A.3.b.6.j.3",  # Maintain financial or account records.
+}
+
+
+def test_manual_search_ranks_casual_words_by_meaning(snaps, ai):
+    encoder, index = ai
+    for q, target in CASUAL_SEARCHES.items():
+        assert intake.search_activities(snaps.onet, q) == []  # the keyword fallback finds nothing
+        hits = intake.search_activities(snaps.onet, q, encoder=encoder, index=index)
+        assert target in [h["dwa_id"] for h in hits], q
+        assert all(h["match"] == "meaning" for h in hits)
+        assert hits == intake.search_activities(snaps.onet, q, encoder=encoder, index=index)
+    assert intake.search_activities(snaps.onet, "x", encoder=encoder, index=index) == []
+
+
+def test_manual_search_keeps_name_matches_first(snaps, ai):
+    encoder, index = ai
+    keyword = {h["dwa_id"] for h in intake.search_activities(snaps.onet, "website")}
+    hits = intake.search_activities(snaps.onet, "website", encoder=encoder, index=index)
+    assert keyword and {h["dwa_id"] for h in hits[:len(keyword)]} == keyword
+    assert all(h["match"] == "keyword" for h in hits[:len(keyword)])
+    assert all(h["match"] == "meaning" for h in hits[len(keyword):])
+    assert len(hits) == 10
+
+
 def test_network_is_blocked_during_tests():
     import urllib.request
     with pytest.raises(OSError):

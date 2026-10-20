@@ -173,7 +173,7 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 **Known limitations:**
 
 - **English only:** Malay text is not supported.
-- **Idioms can miss:** "I keep the books" does not surface a bookkeeping activity in the top five; the user can add it by keyword search.
+- **Idioms can miss:** "I keep the books" does not surface a bookkeeping activity in the top five; the "Find another activity" search, which ranks by meaning, lists "Maintain financial or account records" for that wording, so the user can add it there.
 - **Guard is a word list:** it works per sentence, so "I don't just drive, I also fix laptops" is flagged and needs the second confirmation.
 - **US occupation data:** roles, activities and requirement labels come from O\*NET (United States); Malaysian pay steps use DOSM major-group medians mapped through the ESCO crosswalk, and 81 of 940 occupations stay "skill level unmapped".
 - **Courses:** the catalogue holds 79 free entries (66 Microsoft Learn modules and paths, 13 Saylor University courses), so some gaps still show "no verified resource"; Saylor courses run 5 to 63 hours, so the long ones fit only longer plans, and enrolling needs a free Saylor account. A block's effort adds a stated practice estimate to the provider's hours. An AI-practice step names the activity it teaches; where none does, the plan offers a general guide to directing and checking AI output and says so.
