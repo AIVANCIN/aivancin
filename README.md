@@ -90,7 +90,7 @@ The AI is a local sentence encoder, all-MiniLM-L6-v2 (quantized ONNX, about 23 M
 - **Future Skills Radar:** for each activity you do and each gap, how much of it AI does directly in observed Claude use, now and projected over an estimated planning horizon (or one you choose) under slower, moderate and faster scenarios, with the moderate projection's error measured by backtest. A gap that crosses the threshold gets a "learn to direct and check AI output" step, so a new release or scenario changes the plan.
 - **Job outlook, kept separate:** each role shows the US Bureau of Labor Statistics projected growth for 2025-2035 (via O\*NET OnLine) and Bright Outlook flags; you can switch to an order that adds the outlook to the overlap score.
 - **A plan from verified resources only:** steps for the largest gaps from link-checked free Microsoft Learn modules and Saylor University courses, hours and weeks at your pace, and "no verified resource" where none exists.
-- **Every number has a source:** each figure's source number opens its dated entry in a Sources and licences panel, without leaving the screen.
+- **Every number has a source:** each section's Sources button opens the dated sources behind its figures, without leaving the screen; Display settings holds the full list with the licence notes.
 - **Reproducible data:** every dataset and the model are bundled with their source, release date, licence and SHA-256 hashes; the same input always gives the same suggestions and ranking.
 
 ## See it in action

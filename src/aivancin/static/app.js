@@ -54,7 +54,7 @@ function fig(f, kind) {
   if (!f || f.v === null || f.v === undefined) return "";
   return `<span class="num" data-src="${esc(f.src.join(" "))}" title="Source: ${esc(srcTitle(f.src))}">${esc(fmtNum(f.v, kind))}</span>`;
 }
-/* Every element marked data-scope ends with one line linking the sources of the numbers inside it. */
+/* Every element marked data-scope ends with a Sources button that opens the sources of the numbers inside it. */
 function attachSources(root) {
   const scopes = root.matches("[data-scope]") ? [root, ...$$("[data-scope]", root)] : $$("[data-scope]", root);
   scopes.forEach(scope => {
@@ -67,8 +67,7 @@ function attachSources(root) {
     const order = [...ids].sort((a, b) => (state.sourceNo[a] || 999) - (state.sourceNo[b] || 999));
     const line = document.createElement("p");
     line.className = "srcs";
-    line.innerHTML = "Sources: " + order.map(id => id === "your-input" ? `<a href="#src-your-input">your input</a>`
-      : `<a href="#src-${esc(id)}" title="${esc(srcTitle([id]))}">${state.sourceNo[id] || "?"}</a>`).join(", ");
+    line.innerHTML = `<button type="button" class="src-btn" data-src-ids="${esc(order.join(" "))}" aria-haspopup="dialog" title="${esc(srcTitle(order))}">${icon("info", "sm")}Sources (${order.length})</button>`;
     (scope.querySelector(":scope > .srcs-slot") || scope).append(line);
   });
 }
@@ -832,12 +831,17 @@ function renderSources() {
     + `<li id="src-your-input"><b>you. Your input</b>: hours, budget and the weights you set.</li>`;
 }
 
-/* Sources open in a sheet over the current screen, so following a citation never loses your place.
-   A cited source is scrolled into view, highlighted and focused; closing returns focus to the link. */
+/* Sources open in a sheet over the current screen, so checking a figure never loses your place.
+   A section's button shows only that section's sources; "Show all" and the settings entry show every
+   source with the licence notes. A single cited source is highlighted and focused. Closing returns focus. */
 let sourcesOpener = null;
-function openSources(id, opener) {
+function openSources(id, opener, only = null) {
   const sheet = $("#sources-sheet");
   sourcesOpener = opener;
+  const keep = only ? new Set(only.map(x => `src-${x}`)) : null;
+  $$("#sources li").forEach(li => { li.hidden = Boolean(keep && !keep.has(li.id)); });
+  sheet.classList.toggle("filtered", Boolean(keep));
+  $("#h-sources").textContent = keep ? `Sources for this section (${keep.size})` : "Sources and licences";
   $$("#sources li.hit").forEach(li => li.classList.remove("hit"));
   if (!sheet.open) sheet.showModal();
   const li = id ? document.getElementById(id) : null;
@@ -858,6 +862,7 @@ async function start() {
   // Only the app's own entries carry a state; an in-page anchor's entry has none and must not move screens.
   window.addEventListener("popstate", e => { if (e.state) show(e.state.screen, e.state.page || 1); });
   $("#sources-done").addEventListener("click", () => $("#sources-sheet").close());
+  $("#sources-all").addEventListener("click", () => openSources(null, sourcesOpener));
   $("#sources-sheet").addEventListener("close", () => { sourcesOpener?.focus({ preventScroll: true }); sourcesOpener = null; });
   // A click on the backdrop (the dialog element itself, outside its content) closes either sheet.
   $$("dialog.sheet").forEach(d => d.addEventListener("click", e => { if (e.target === d) d.close(); }));
@@ -866,8 +871,16 @@ async function start() {
     if (e.target.closest(".settings-open")) { $("#settings").showModal(); return; }
     const cite = e.target.closest('a[href^="#src-"]');
     if (cite) { e.preventDefault(); openSources(cite.getAttribute("href").slice(1), cite); return; }
+    const section = e.target.closest(".src-btn");
+    if (section) { openSources(null, section, section.dataset.srcIds.split(" ")); return; }
     const all = e.target.closest(".sources-open");
-    if (all) { openSources(null, all); return; }
+    if (all) {
+      // From inside Display settings, focus returns to the visible gear button once sources close.
+      const settings = all.closest("dialog");
+      if (settings) settings.close();
+      openSources(null, settings ? $$(".settings-open").find(b => b.offsetParent) : all);
+      return;
+    }
     if (e.target.closest(".skip")) {
       e.preventDefault();
       const heading = current.screen === "work" ? $(`.q-page[data-page="${current.page}"] [tabindex='-1']`)
@@ -976,6 +989,7 @@ function renderRoutes() {
   const d = routeState.data;
   $("#routes-lead").innerHTML = `<p>From ${fig(d.supported_destinations, "int")} supported roles in three families, the routes where your confirmed work already counts. Each card shows overlap, requirements, outlook and a first learning block side by side, with no combined score: you choose.</p>`;
   const shared = d.shared;
+  const chosenRoute = d.routes.find(r => r.code === routeState.target);
   $("#routes-body").innerHTML = `
     ${d.fewer_note ? `<div class="callout">${icon("info")}<p>${esc(d.fewer_note)}</p></div>` : ""}
     ${d.routes.length ? `<div class="route-grid">${d.routes.map(routeCard).join("")}</div>` :
@@ -984,7 +998,8 @@ function renderRoutes() {
       <p>${shared.common_steps.length ? `${shared.common_steps.length} step${shared.common_steps.length === 1 ? "" : "s"} (${fig(shared.common_hours, "")} hours) appear in every route's block and serve a priority gap of each, so they keep these options open.` : "No step is common to every route's block."}</p>
       <ul>${shared.extra_hours.map(e => `<li>${esc(e.title)}: ${fig(e.hours, "")} hours beyond the shared steps</li>`).join("")}</ul>
       <p class="foot">These describe the compared plans, not a probability of anything.</p></section>` : ""}
-    <p class="explore-row"><button type="button" class="link-btn" data-action="rank">Explore all roles, including ones without complete-route support</button></p>`;
+    <p class="explore-row"><button type="button" class="link-btn" data-action="rank">Explore all roles, including ones without complete-route support</button></p>
+    ${chosenRoute ? `<div class="stage-cta routes-cta"><span class="cta-label"><span class="cta-kicker">Your route</span>${esc(chosenRoute.title)}</span><button type="button" class="btn btn-primary choose-route" data-route="${esc(chosenRoute.code)}">See plan</button></div>` : ""}`;
   attachSources($("#routes"));
 }
 
@@ -1050,7 +1065,7 @@ function renderPlan() {
     ${b.uncovered.length ? `<section class="sec-block" data-scope><h5>Priority gaps without a step in this block</h5><ul class="gaps">${b.uncovered.map(g => `<li><b></b><span>${esc(g.name)}</span><span class="w">SDG 4.4</span></li>`).join("")}</ul>
       <p class="foot">Either no verified resource teaches them yet, or the block's time or budget ran out.</p></section>` : ""}
     <section class="sec-block" data-scope><h5>Beyond this block</h5><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul></section>
-    <p class="explore-row"><button type="button" class="btn btn-gray" data-action="changed">See what new evidence changes</button></p>`;
+    <div class="stage-cta"><span class="cta-label"><b class="num">${b.steps.filter(s => s.completed).length}</b> of ${b.steps.length} steps done</span><button type="button" class="btn btn-primary" data-action="changed">What changed</button></div>`;
   attachSources($("#plan"));
 }
 

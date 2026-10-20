@@ -289,6 +289,9 @@
       </div>
     </fieldset>
     <p class="foot">Auto and Device follow your system settings. Saved in this browser only.</p>
+    <div class="set-group about">
+      <button type="button" class="set-row sources-open" aria-haspopup="dialog"><span><b>Sources and licences</b><span class="foot">O*NET 31.0 (USDOL/ETA, CC BY 4.0), Anthropic Economic Index, DOSM and more</span></span><svg class="ico" aria-hidden="true"><use href="#i-chevron-right"/></svg></button>
+    </div>
   </form>
 </dialog>
 
@@ -297,16 +300,11 @@
   <div class="sheet-body">
     <p class="foot">Every number links here. Labour figures (DOSM) and AI-usage figures (Anthropic Economic Index) are separate sources and are never combined into one score unless you set a weight.</p>
     <ul class="sources" id="sources"></ul>
+    <button type="button" class="link-btn" id="sources-all">Show all sources and licences</button>
     <p class="foot attribution">O*NET 31.0 data by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA), used under CC BY 4.0; AIVANCIN modified it by selecting columns and computing activity weights. USDOL/ETA has not approved, endorsed or tested these modifications. Anthropic Economic Index data under CC BY. DOSM data under CC BY 4.0. ESCO classification by the European Commission. Icons: Lucide (ISC).</p>
   </div>
 </dialog>
 
-<footer>
-  <div class="wrap foot-bar">
-    <p class="foot">O*NET 31.0 data by USDOL/ETA, used under CC BY 4.0 and modified by AIVANCIN. Anthropic Economic Index under CC BY; DOSM under CC BY 4.0.</p>
-    <button type="button" class="btn btn-gray sources-open" aria-haspopup="dialog">Sources and licences</button>
-  </div>
-</footer>
 <script src="/static/app.js" defer></script>
 </body>
 </html>

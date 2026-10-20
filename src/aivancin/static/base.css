@@ -197,9 +197,6 @@ details.sent[open] > summary { margin-bottom: 16px; }
 .ph { color: var(--text2); font-style: italic; }
 
 
-/* footer */
-footer { padding: 40px 0 56px; border-top: 1px solid var(--sep); background: var(--canvas); }
-footer p { max-width: 900px; }
 code { overflow-wrap: anywhere; }
 html:not([data-motion="on"]) *, html:not([data-motion="on"]) *::before, html:not([data-motion="on"]) *::after {
   transition: none !important; animation: none !important; scroll-behavior: auto !important;
