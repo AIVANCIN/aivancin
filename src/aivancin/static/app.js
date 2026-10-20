@@ -387,10 +387,15 @@ function renderRail() {
     .concat([...state.manual].map(([id, m]) => ({ id, name: m.name, note: `added by you, ${FIELD_LABEL[m.lane].toLowerCase()}`, icon: "pencil-line" })));
   $("#mine").innerHTML = items.map(it => `<li class="${previous.has(it.id) ? "" : "is-new"}">${icon(it.icon, "sm")}<span class="mine-text">${esc(it.name)}<span class="mine-note">${esc(it.note)}</span></span>
     <button type="button" class="rm" data-remove="${esc(it.id)}" aria-label="Remove ${esc(it.name)}">${icon("x", "sm")}</button></li>`).join("");
-  $("#mine-empty").hidden = items.length > 0;
   const c = laneCounts();
-  $("#count").textContent = c.confirmed;
-  $("#count-m").textContent = c.confirmed;
+  // Job-title activities count too, so the rail shows them as one row rather than a total that does not add up.
+  if (c.title) {
+    $("#mine").insertAdjacentHTML("beforeend", `<li class="title-row">${icon("briefcase-business", "sm")}<span class="mine-text">${c.title} from your job title<span class="mine-note">${esc(state.title.title)}, as O*NET lists it. <button type="button" class="link-btn" data-open-title>Review them</button></span></span></li>`);
+  }
+  $("#mine-empty").hidden = items.length > 0;
+  $("#count").textContent = c.all;
+  $("#count-m").textContent = c.all;
+  $("#count-m-word").textContent = c.all === 1 ? "activity" : "activities";
   $(`#lane-ctl input[value="${state.lane}"]`).checked = true;
   let note;
   if (state.lane === "studies") {
@@ -453,6 +458,11 @@ function reviewEvents() {
       renderReview();
     } else if (b.dataset.action === "rank") {
       rank();
+    } else if (b.dataset.openTitle !== undefined) {
+      const d = $(".title-acts");
+      d.open = true;
+      d.querySelector("summary").focus({ preventScroll: true });
+      d.scrollIntoView({ block: "start" });
     }
   });
 }
@@ -902,7 +912,7 @@ function routeCard(r) {
 
 function renderRoutes() {
   const d = routeState.data;
-  $("#routes-lead").innerHTML = `<p>From ${fig(d.supported_destinations, "int")} supported roles in three families, the routes where your confirmed work already counts. Each card keeps its dimensions separate, with no combined score: you choose.</p>`;
+  $("#routes-lead").innerHTML = `<p>From ${fig(d.supported_destinations, "int")} supported roles in three families, the routes where your confirmed work already counts. Each card shows overlap, requirements, outlook and a first learning block side by side, with no combined score: you choose.</p>`;
   const shared = d.shared;
   $("#routes-body").innerHTML = `
     ${d.fewer_note ? `<div class="callout">${icon("info")}<p>${esc(d.fewer_note)}</p></div>` : ""}

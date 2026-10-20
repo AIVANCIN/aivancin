@@ -10,7 +10,7 @@
 @font-face { font-family: "Jost"; src: url("/fonts/jost/Jost-SemiBold-latin.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
 :root {
   --canvas: #F5F5F7; --card: #FFFFFF; --page-q: #FFFFFF; --text: #1D1D1F; --text2: #5C5C62; --sep: #E3E3E8; --border: #7A7A82;
-  --fill: #EDEDF0; --fill-hover: #E3E3E8; --track: #E3E3E8;
+  --fill: #EDEDF0; --fill-hover: #E3E3E8; --track: #E3E3E8; --thumb: #FFFFFF;
   --accent: #0955D4; --accent-pressed: #0747AE; --accent-tint: #E8F0FD; --on-accent: #FFFFFF;
   --marker: #F6BADA; --marker-text: #1D1D1F; --marker-edge: #B0287A;
   --rust: #B54708; --rust-tint: #FBEBDD; --evidence: #0B7285; --evidence-tint: #DDF0F3;
@@ -29,7 +29,7 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --canvas: #0E0D12; --card: #1A1920; --page-q: #0E0D12; --text: #F5F4F8; --text2: #B6B2C0; --sep: #2C2A35; --border: #8B8698;
-    --fill: #2A2932; --fill-hover: #33323C; --track: #2E2C37;
+    --fill: #2A2932; --fill-hover: #33323C; --track: #2E2C37; --thumb: #4A4856;
     --accent: #249FF5; --accent-pressed: #5AB6F8; --accent-tint: #10263D; --on-accent: #0E0D12;
     --marker-edge: #F6BADA;
     --rust: #FFA86B; --rust-tint: #33231A; --evidence: #4DC7B5; --evidence-tint: #12303A;
@@ -43,7 +43,7 @@
 }
 :root[data-theme="dark"] {
   --canvas: #0E0D12; --card: #1A1920; --page-q: #0E0D12; --text: #F5F4F8; --text2: #B6B2C0; --sep: #2C2A35; --border: #8B8698;
-  --fill: #2A2932; --fill-hover: #33323C; --track: #2E2C37;
+  --fill: #2A2932; --fill-hover: #33323C; --track: #2E2C37; --thumb: #4A4856;
   --accent: #249FF5; --accent-pressed: #5AB6F8; --accent-tint: #10263D; --on-accent: #0E0D12;
   --marker-edge: #F6BADA;
   --rust: #FFA86B; --rust-tint: #33231A; --evidence: #4DC7B5; --evidence-tint: #12303A;

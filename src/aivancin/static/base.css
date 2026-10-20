@@ -22,7 +22,7 @@ mark.words { background: var(--marker); color: var(--marker-text); padding: 0.04
 /* segmented control */
 
 .seg-ctl { position: relative; display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); padding: 2px; border-radius: 10px; background: var(--fill); }
-.seg-ctl::before { content: ""; position: absolute; top: 2px; bottom: 2px; left: 2px; width: calc((100% - 4px) / var(--n, 4)); border-radius: 8px; background: var(--card); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 0 0.5px rgba(0, 0, 0, 0.04); transform: translateX(calc(100% * var(--i, 0))); transition: transform 250ms var(--ease); }
+.seg-ctl::before { content: ""; position: absolute; top: 2px; bottom: 2px; left: 2px; width: calc((100% - 4px) / var(--n, 4)); border-radius: 8px; background: var(--thumb); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 0 0.5px rgba(0, 0, 0, 0.04); transform: translateX(calc(100% * var(--i, 0))); transition: transform 250ms var(--ease); }
 .seg-ctl label { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; min-height: 34px; padding: 0 4px; border-radius: 8px; font-size: 13px; font-weight: 500; letter-spacing: -0.01em; color: var(--text); cursor: pointer; white-space: nowrap; }
 .seg-ctl label:has(input:checked) { font-weight: 600; }
 .seg-ctl input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
@@ -185,7 +185,7 @@ details.sent[open] > summary { margin-bottom: 16px; }
 .gaps { margin: 12px 0 0; padding: 0; list-style: none; }
 .gaps li { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; font-size: 15px; line-height: 1.38; }
 .gaps li + li { border-top: 1px solid var(--sep); }
-.gaps li b { width: 18px; height: 18px; flex: none; margin-top: 1px; border-radius: 50%; border: 1.5px solid var(--border); }
+.gaps li b { width: 18px; height: 18px; flex: none; margin-top: 1px; border-radius: 50%; border: 1.5px dashed var(--border); }
 .facts { display: grid; gap: 12px; margin: 28px 0 0; }
 @media (min-width: 760px) { .facts { grid-template-columns: 1fr 1fr; } }
 .fact { padding: 18px; border-radius: 16px; background: var(--canvas); }

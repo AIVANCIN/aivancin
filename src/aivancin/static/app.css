@@ -65,10 +65,21 @@ details.title-acts > summary { cursor: pointer; font: 600 16px/1.35 var(--displa
 .mine li .rm { flex: none; display: grid; place-items: center; width: 32px; height: 32px; margin: -4px -6px 0 0; border: 0; border-radius: 50%; background: none; color: var(--text2); cursor: pointer; }
 .mine li .rm:hover { background: var(--fill); }
 .mine li .mine-text { flex: 1; }
+.mine li.title-row .ico { color: var(--text2); }
+/* A 44 px hit area around a text-sized link, without changing the row's height. */
+.mine li.title-row .link-btn { position: relative; min-height: 0; font-size: 13px; }
+.mine li.title-row .link-btn::after { content: ""; position: absolute; inset: -13px -8px; }
 .lane-ctl:has(input[value="other_work"]:checked) { --i: 1; }
 .lane-ctl:has(input[value="studies"]:checked) { --i: 2; }
 .lane-ctl:has(input[value="all"]:checked) { --i: 3; }
 .lane-note { margin-top: 10px; }
+/* On wide screens the rail stays in view, so its list scrolls inside it and Compare routes is always reachable. */
+@media (min-width: 980px) {
+  .rail { display: flex; flex-direction: column; max-height: calc(100vh - 92px); max-height: calc(100svh - 92px); }
+  .rail > * { flex: none; }
+  .rail > .mine { flex: 0 1 auto; min-height: 96px; overflow-y: auto; overscroll-behavior: contain; }
+  .rail > .mine:empty { min-height: 0; }
+}
 @media (max-width: 759px) {
   .sent, .guard, .rail, .detail { padding: 18px 16px; }
   .opt { padding: 12px; gap: 12px; }
@@ -245,6 +256,7 @@ footer .foot { margin-top: 8px; }
 .chg .foot + .foot { margin-top: 6px; }
 .change-ctl { display: grid; gap: 6px; margin-top: 16px; max-width: 420px; }
 .callout { flex-wrap: wrap; }
+.callout > div, .callout > p { flex: 1 1 0; min-width: 0; }
 .callout > .srcs { flex-basis: 100%; margin: 4px 0 0 34px; }
 
 
@@ -275,12 +287,15 @@ footer .foot { margin-top: 8px; }
 .pstep.done { opacity: 1; }
 .pstep.done .pnum { background: var(--fill); color: var(--text); }
 .pstep .checkpoint { margin-top: 16px; padding: 16px; }
-.pstep .gap-name a { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; vertical-align: middle; }
+.pstep .gap-name, .chg .gap-name { font: 600 17px/1.35 var(--display); letter-spacing: -0.012em; }
+/* The link keeps a 44 px target without stretching the title's line. */
+.pstep .gap-name a { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin: -12px -10px -12px -6px; vertical-align: middle; }
 .chg { padding: 20px; }
 .chg.changed-form { background: var(--evidence-tint); }
 .chg.added { background: var(--accent-tint); }
 .chg.removed { background: var(--rust-tint); }
 .change-ctl { padding: 20px; border-radius: 18px; background: var(--card); max-width: none; }
+@media (min-width: 600px) { .change-ctl { grid-template-rows: auto auto; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 6px 16px; } .change-ctl select { max-width: none; } }
 .fact dt .tile-ico { width: 40px; height: 40px; background: var(--accent-tint); color: var(--accent); }
 .fact:has(.ev) { background: var(--evidence-tint); }
 /* Screens: one at a time. The welcome screen carries the artwork full bleed; every later screen has a quiet
