@@ -1,0 +1,351 @@
+{
+ "check": "B7 Phase 2 target (SPEC section 10.8)",
+ "written": "2026-10-20 about 16:40 MYT, before the intake-recall and sibling-activity changes and before any run on these texts; earlier sets and their results were known, none of their texts reused",
+ "author": "AIVANCIN builder (Claude Code; model reported by the client: Claude Opus 5.5). Synthetic, agent-written English",
+ "labelling_rule": "True activities chosen by meaning from keyword searches of the O*NET 31.0 activity names; no model or BM25 scores consulted",
+ "confirmation": "Strict simulated confirmation: a suggested activity is ticked only if it is in the profile's true set; guard-flagged suggestions are never ticked; other-work lane",
+ "pass_rule": "A profile passes when it receives at least two relevant routes (route role in the profile family's SOC list), each with at least one sourced requirement and a first four-week block that serves at least three prioritized gaps with verified resources within 4 x weekly hours of effort and the budget. Target: at least 80% of in-scope profiles. Out-of-scope profiles are reported separately. The pre-revision build is measured first on the same profiles, counting its top three roles and their plans the same way",
+ "families": {
+  "it_support": [
+   "15-1231",
+   "15-1232",
+   "15-1241",
+   "15-1244",
+   "15-1212",
+   "15-1211",
+   "15-1299.01"
+  ],
+  "software": [
+   "15-1251",
+   "15-1252",
+   "15-1253",
+   "15-1254",
+   "15-1255",
+   "15-1211"
+  ],
+  "finance_analytics": [
+   "13-2011",
+   "13-2031",
+   "13-2041",
+   "13-2051",
+   "13-2052",
+   "13-2054",
+   "13-2061",
+   "13-2099.01",
+   "15-2051",
+   "13-1161",
+   "13-1111"
+  ]
+ },
+ "in_scope": [
+  {
+   "id": "w01",
+   "name": "Izzat",
+   "family": "it_support",
+   "field": "Diploma, information technology",
+   "level": "diploma",
+   "job": "53-3032.00",
+   "hours": 6,
+   "budget": 0,
+   "other_work": "I look after the twelve computers in my father's accounting firm. When the shared printer or the scanner stops working I find out why and fix it. I set up new laptops for the staff and copy their files across. I renew the antivirus licences and check that the nightly backup ran.",
+   "true": [
+    "4.A.3.b.5.c.6",
+    "4.A.3.b.1.d.2",
+    "4.A.3.b.1.c.2",
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.1.b.1",
+    "4.A.3.b.1.b.2",
+    "4.A.3.b.5.c.1",
+    "4.A.4.b.6.d.2",
+    "4.A.1.a.2.j.3"
+   ]
+  },
+  {
+   "id": "w02",
+   "name": "Lim",
+   "family": "it_support",
+   "field": "Degree, computer science",
+   "level": "degree",
+   "job": "41-2031.00",
+   "hours": 8,
+   "budget": 50,
+   "other_work": "At the electronics store I set up customers' new phones and laptops before they leave. I move their contacts and photos from the old device. When a customer's wifi will not connect I talk them through it on the phone. I log every repair job in our service system.",
+   "true": [
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.1.c.2",
+    "4.A.4.b.6.d.5",
+    "4.A.3.b.1.d.1",
+    "4.A.4.b.6.b.2",
+    "4.A.4.a.1.a.5",
+    "4.A.3.b.6.h.22",
+    "4.A.3.b.1.f.6"
+   ]
+  },
+  {
+   "id": "w03",
+   "name": "Ganesh",
+   "family": "it_support",
+   "field": "Diploma, electronics",
+   "level": "diploma",
+   "job": "53-7062.00",
+   "hours": 5,
+   "budget": 0,
+   "other_work": "I installed the CCTV cameras and the network video recorder at my temple and keep them running. I run the network cables and crimp the connectors myself. I set up the router so the committee can watch the cameras from their phones. When a camera goes offline I trace the fault with a cable tester.",
+   "true": [
+    "4.A.3.a.2.t.5",
+    "4.A.3.a.2.ah.4",
+    "4.A.3.a.2.ah.9",
+    "4.A.3.b.1.c.4",
+    "4.A.3.b.1.d.1",
+    "4.A.1.b.2.l.3",
+    "4.A.3.b.5.c.4",
+    "4.A.3.b.5.c.2"
+   ]
+  },
+  {
+   "id": "w04",
+   "name": "Farah",
+   "family": "it_support",
+   "field": "Degree, information systems",
+   "level": "degree",
+   "job": "43-4051.00",
+   "hours": 6,
+   "budget": 100,
+   "other_work": "I am the IT volunteer for a women's shelter. I create email accounts for new staff and remove them when people leave. I keep a list of every laptop, who has it and when its warranty ends. I teach the staff how to spot phishing emails. When something breaks I contact the supplier and follow up until it is fixed.",
+   "true": [
+    "4.A.3.b.5.c.2",
+    "4.A.3.b.6.h.7",
+    "4.A.4.c.3.a.6",
+    "4.A.4.b.3.e.4",
+    "4.A.4.b.3.e.5",
+    "4.A.3.b.1.b.1",
+    "4.A.4.b.1.c.7",
+    "4.A.4.b.1.c.2"
+   ]
+  },
+  {
+   "id": "w05",
+   "name": "Wei Jie",
+   "family": "software",
+   "field": "Degree, computer science",
+   "level": "degree",
+   "job": "53-3054.00",
+   "hours": 8,
+   "budget": 0,
+   "other_work": "I write small web apps in React for friends' businesses. I build the forms that take bookings and store them in a database. I write tests so that a change does not break the booking flow. I review my friend's code before he merges it.",
+   "true": [
+    "4.A.2.b.2.b.8",
+    "4.A.2.b.2.b.4",
+    "4.A.3.b.1.a.3",
+    "4.A.2.b.2.f.4",
+    "4.A.3.b.2.f.15",
+    "4.A.1.b.2.h.3",
+    "4.A.2.b.2.b.1",
+    "4.A.2.a.4.e.3"
+   ]
+  },
+  {
+   "id": "w06",
+   "name": "Haziq",
+   "family": "software",
+   "field": "Diploma, computer science",
+   "level": "diploma",
+   "job": "35-2014.00",
+   "hours": 6,
+   "budget": 0,
+   "other_work": "I automate my office's spreadsheets with Python so the monthly figures come out in one click. I wrote a script that pulls our sales from the online shop every night. When the script fails I read the error and fix it. I keep notes in the repository so someone else can run it.",
+   "true": [
+    "4.A.3.b.1.a.3",
+    "4.A.2.b.2.b.1",
+    "4.A.3.b.2.f.16",
+    "4.A.3.b.1.d.2",
+    "4.A.3.b.1.d.3",
+    "4.A.3.b.6.i.5",
+    "4.A.2.b.2.b.7",
+    "4.A.3.b.1.f.7"
+   ]
+  },
+  {
+   "id": "w07",
+   "name": "Amira",
+   "family": "software",
+   "field": "Degree, multimedia",
+   "level": "degree",
+   "job": "43-4171.00",
+   "hours": 5,
+   "budget": 50,
+   "other_work": "I design and build websites for small hotels with WordPress. I change the theme's code when an owner wants a different layout. I make the pages work well on phones and load quickly. I update the room prices and photos every season.",
+   "true": [
+    "4.A.2.b.2.b.8",
+    "4.A.3.b.1.a.3",
+    "4.A.2.b.2.b.7",
+    "4.A.3.b.1.f.4",
+    "4.A.3.b.1.f.1",
+    "4.A.4.a.2.j.6",
+    "4.A.1.b.2.h.3",
+    "4.A.2.b.2.b.4"
+   ]
+  },
+  {
+   "id": "w08",
+   "name": "Ken",
+   "family": "software",
+   "field": "Diploma, information technology",
+   "level": "diploma",
+   "job": "51-9198.00",
+   "hours": 6,
+   "budget": 0,
+   "other_work": "I test mobile banking apps as a freelancer on a crowd-testing platform. For each task I follow the test steps and record what fails, with screenshots. I retest the bugs after the developers fix them. I suggest changes when a screen is confusing to use.",
+   "true": [
+    "4.A.1.b.2.h.3",
+    "4.A.1.b.2.c.2",
+    "4.A.3.b.6.i.6",
+    "4.A.3.b.6.i.7",
+    "4.A.3.b.6.e.1",
+    "4.A.2.a.4.e.3",
+    "4.A.4.b.6.d.6",
+    "4.A.4.b.6.e.9"
+   ]
+  },
+  {
+   "id": "w09",
+   "name": "Nadia",
+   "family": "finance_analytics",
+   "field": "Degree, accounting",
+   "level": "degree",
+   "job": "41-2011.00",
+   "hours": 6,
+   "budget": 0,
+   "other_work": "I do the bookkeeping for three hawker stalls. Every week I enter their receipts and bills into an accounting app. At the end of the month I prepare a simple profit and loss statement for each stall. I check that their bank balance matches the records and chase any missing receipts.",
+   "true": [
+    "4.A.3.b.6.j.3",
+    "4.A.3.b.1.f.6",
+    "4.A.3.b.6.j.1",
+    "4.A.3.b.6.a.1",
+    "4.A.3.b.6.a.2",
+    "4.A.2.a.2.d.1",
+    "4.A.2.a.2.a.9",
+    "4.A.1.a.1.d.4"
+   ]
+  },
+  {
+   "id": "w10",
+   "name": "Hanif",
+   "family": "finance_analytics",
+   "field": "Degree, finance",
+   "level": "degree",
+   "job": "53-3033.00",
+   "hours": 7,
+   "budget": 50,
+   "other_work": "I manage the money for our family's rental houses. I track the rent coming in and the repair costs going out in a spreadsheet. Each year I work out whether the rents cover the loan payments and taxes. I explain the numbers to my parents before we decide whether to sell a house.",
+   "true": [
+    "4.A.1.a.2.c.2",
+    "4.A.3.b.6.j.3",
+    "4.A.2.a.4.k.2",
+    "4.A.1.b.3.c.1",
+    "4.A.1.b.3.c.3",
+    "4.A.4.a.1.d.2",
+    "4.A.4.b.6.k.3",
+    "4.A.2.a.4.k.6"
+   ]
+  },
+  {
+   "id": "w11",
+   "name": "Priyanka",
+   "family": "finance_analytics",
+   "field": "Diploma, business studies",
+   "level": "diploma",
+   "job": "43-5071.00",
+   "hours": 6,
+   "budget": 0,
+   "other_work": "I make the weekly stock and sales dashboard for the warehouse where I work. I pull the numbers from our system into Excel and clean up the errors. I make charts that show which items are running low. I present the dashboard to the supervisor every Monday.",
+   "true": [
+    "4.A.3.b.6.c.5",
+    "4.A.3.b.1.f.7",
+    "4.A.2.a.2.a.8",
+    "4.A.2.b.2.o.14",
+    "4.A.2.a.4.g.3",
+    "4.A.4.a.3.c.2",
+    "4.A.4.a.2.c.10",
+    "4.A.2.a.4.d.2"
+   ]
+  },
+  {
+   "id": "w12",
+   "name": "Desmond",
+   "family": "finance_analytics",
+   "field": "Degree, economics",
+   "level": "degree",
+   "job": "41-3091.00",
+   "hours": 5,
+   "budget": 100,
+   "other_work": "I help my aunt's money-lending co-operative decide on loan applications. I check each applicant's income documents and past repayments. I calculate how much they can borrow and the monthly instalment. I write a short note recommending approval or not.",
+   "true": [
+    "4.A.1.a.1.n.3",
+    "4.A.2.a.2.a.3",
+    "4.A.2.a.1.i.2",
+    "4.A.1.b.3.c.4",
+    "4.A.1.b.3.c.1",
+    "4.A.4.b.6.k.3",
+    "4.A.3.b.6.c.6",
+    "4.A.2.a.4.k.2"
+   ]
+  }
+ ],
+ "out_of_scope": [
+  {
+   "id": "x01",
+   "name": "Aiman",
+   "family": "none",
+   "field": "Diploma, agriculture",
+   "level": "diploma",
+   "job": "41-2011.00",
+   "hours": 6,
+   "budget": 0,
+   "other_work": "I breed and sell guppies from tanks in my garage. I check the fish every day and treat the sick ones. I pack the orders and send them by courier.",
+   "true": [
+    "4.A.4.a.5.d.3",
+    "4.A.4.a.5.d.2",
+    "4.A.4.a.6.b.5",
+    "4.A.1.a.2.e.4",
+    "4.A.4.a.5.l.5"
+   ]
+  },
+  {
+   "id": "x02",
+   "name": "Sofia",
+   "family": "none",
+   "field": "Degree, psychology",
+   "level": "degree",
+   "job": "43-4051.00",
+   "hours": 6,
+   "budget": 0,
+   "other_work": "I volunteer on a youth helpline on weekend nights. I listen to callers and help them think through their problems. I refer callers at risk to the counsellor on duty.",
+   "true": [
+    "4.A.4.b.6.j.3",
+    "4.A.4.b.6.j.1",
+    "4.A.4.a.5.a.6",
+    "4.A.4.b.6.j.4",
+    "4.A.4.a.3.c.11"
+   ]
+  },
+  {
+   "id": "x03",
+   "name": "Rahul",
+   "family": "none",
+   "field": "Diploma, automotive technology",
+   "level": "diploma",
+   "job": "53-3033.00",
+   "hours": 6,
+   "budget": 0,
+   "other_work": "I restore old motorcycles and sell them. I rebuild the engines and respray the frames. I take photos and write the listings for each bike.",
+   "true": [
+    "4.A.3.b.4.d.1",
+    "4.A.3.b.4.d.5",
+    "4.A.3.a.2.ag.2",
+    "4.A.3.b.6.p.3",
+    "4.A.4.a.6.b.5"
+   ]
+  }
+ ]
+}

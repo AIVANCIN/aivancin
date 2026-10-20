@@ -1,0 +1,195 @@
+{
+ "check": "A1 second set (SPEC section 9)",
+ "written": "2026-10-20 about 16:40 MYT, before the intake-recall and sibling-activity changes and before any run on these texts; earlier sets and their results were known, none of their texts reused",
+ "author": "AIVANCIN builder (Claude Code; model reported by the client: Claude Opus 5.5). Synthetic, agent-written, English; not reviewed by real users",
+ "labelling_rule": "Acceptable activities chosen by meaning from keyword searches of the O*NET 31.0 activity names (data/onet/dwas.csv); no model or BM25 scores consulted. Text uses everyday wording, not O*NET phrasing",
+ "pass_rule": "a labelled activity in the sentence's top five for at least 16 of 20",
+ "a1": [
+  {
+   "id": "e01",
+   "text": "I reinstall Windows on my cousin's laptop whenever it gets slow.",
+   "labels": [
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.1.d.3",
+    "4.A.3.b.5.c.6",
+    "4.A.3.b.1.d.2"
+   ]
+  },
+  {
+   "id": "e02",
+   "text": "I keep the office wifi running and reset the router when the connection drops.",
+   "labels": [
+    "4.A.3.b.5.c.2",
+    "4.A.3.b.1.d.1",
+    "4.A.4.b.6.d.5",
+    "4.A.3.b.1.c.4"
+   ]
+  },
+  {
+   "id": "e03",
+   "text": "I check new versions of our online shop's app for bugs before they go live.",
+   "labels": [
+    "4.A.1.b.2.h.3",
+    "4.A.1.b.2.c.2",
+    "4.A.3.b.6.i.6"
+   ]
+  },
+  {
+   "id": "e04",
+   "text": "I put together a monthly sales report in Excel for my manager.",
+   "labels": [
+    "4.A.3.b.6.c.5",
+    "4.A.4.a.2.c.10",
+    "4.A.3.b.6.a.2",
+    "4.A.2.a.4.k.4"
+   ]
+  },
+  {
+   "id": "e05",
+   "text": "I record every payment and expense for our church in a ledger.",
+   "labels": [
+    "4.A.3.b.6.j.3",
+    "4.A.3.b.6.j.1",
+    "4.A.3.b.6.j.2"
+   ]
+  },
+  {
+   "id": "e06",
+   "text": "I write little Python programs that rename and sort hundreds of files at once.",
+   "labels": [
+    "4.A.3.b.1.a.3",
+    "4.A.2.b.2.b.1"
+   ]
+  },
+  {
+   "id": "e07",
+   "text": "I make sure my parents' phones have the latest updates and strong passwords.",
+   "labels": [
+    "4.A.3.b.1.b.1",
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.5.c.6"
+   ]
+  },
+  {
+   "id": "e08",
+   "text": "I compare the prices of three suppliers before we buy flour for the bakery.",
+   "labels": [
+    "4.A.2.a.1.g.1",
+    "4.A.4.c.3.e.3",
+    "4.A.4.c.3.e.4",
+    "4.A.2.b.1.a.6"
+   ]
+  },
+  {
+   "id": "e09",
+   "text": "I teach my grandparents how to make video calls on their tablet.",
+   "labels": [
+    "4.A.4.b.3.e.5",
+    "4.A.4.b.3.e.3",
+    "4.A.4.b.3.e.4"
+   ]
+  },
+  {
+   "id": "e10",
+   "text": "I work out how much tax my mother's tailoring business owes each year.",
+   "labels": [
+    "4.A.1.b.3.c.3",
+    "4.A.1.b.3.c.1",
+    "4.A.4.c.1.c.7"
+   ]
+  },
+  {
+   "id": "e11",
+   "text": "I fix leaking taps and replace broken tiles in our flat.",
+   "labels": [
+    "4.A.3.b.4.a.5",
+    "4.A.3.b.4.a.3",
+    "4.A.3.a.2.l.5"
+   ]
+  },
+  {
+   "id": "e12",
+   "text": "I bake birthday cakes to order for the neighbours.",
+   "labels": [
+    "4.A.3.a.2.c.9",
+    "4.A.3.a.2.c.11",
+    "4.A.3.a.3.f.6",
+    "4.A.3.a.2.c.7"
+   ]
+  },
+  {
+   "id": "e13",
+   "text": "I mow lawns and trim hedges for the houses on my street.",
+   "labels": [
+    "4.A.3.a.1.q.3",
+    "4.A.3.a.2.n.2"
+   ]
+  },
+  {
+   "id": "e14",
+   "text": "I look after my neighbour's kids after school and help them with their homework.",
+   "labels": [
+    "4.A.4.a.5.i.8",
+    "4.A.4.b.3.b.10",
+    "4.A.3.a.2.af.2"
+   ]
+  },
+  {
+   "id": "e15",
+   "text": "I sell second-hand clothes online and answer buyers' questions.",
+   "labels": [
+    "4.A.4.a.6.b.5",
+    "4.A.4.a.8.c.3",
+    "4.A.4.a.8.c.2"
+   ]
+  },
+  {
+   "id": "e16",
+   "text": "I translate the church notices from English into Tamil.",
+   "labels": [
+    "4.A.4.a.1.c.1"
+   ]
+  },
+  {
+   "id": "e17",
+   "text": "I organised our class reunion: the venue, the food and the guest list.",
+   "labels": [
+    "4.A.2.b.6.a.1",
+    "4.A.2.b.6.a.2",
+    "4.A.4.b.1.e.3",
+    "4.A.4.b.1.e.5",
+    "4.A.4.b.4.j.20"
+   ]
+  },
+  {
+   "id": "e18",
+   "text": "I design posters for school events on Canva.",
+   "labels": [
+    "4.A.2.b.2.o.9",
+    "4.A.2.b.2.o.12",
+    "4.A.2.b.2.o.14",
+    "4.A.2.b.2.o.20"
+   ]
+  },
+  {
+   "id": "e19",
+   "text": "I check the stock in our family's grocery shop and order more when it runs low.",
+   "labels": [
+    "4.A.3.b.6.h.7",
+    "4.A.4.c.3.g.4",
+    "4.A.4.c.3.e.1",
+    "4.A.4.c.3.e.4",
+    "4.A.4.c.3.a.3"
+   ]
+  },
+  {
+   "id": "e20",
+   "text": "On weekends I drive a lorry and deliver furniture to customers' homes.",
+   "labels": [
+    "4.A.3.a.4.a.10",
+    "4.A.3.a.1.j.5",
+    "4.A.3.a.4.a.12"
+   ]
+  }
+ ]
+}
