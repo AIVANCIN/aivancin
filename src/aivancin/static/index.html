@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIVANCIN</title>
+<meta name="description" content="Find the closest graduate roles to the work you already do, with what each still requires, dated AI-usage evidence and a free, verified plan.">
+<link rel="icon" href="/icon/icon-rounded.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/static/tokens.css">
+<link rel="stylesheet" href="/static/base.css">
+<link rel="stylesheet" href="/static/app.css">
+<script>
+  try { const t = localStorage.getItem("aivancin-theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<!-- UI icons: Lucide (ISC licence; Feather-derived icons MIT). -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-banknote" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></symbol>
+<symbol id="i-briefcase-business" viewBox="0 0 24 24"><path d="M12 12h.01"/><path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M22 13a18.15 18.15 0 0 1-20 0"/><rect width="20" height="14" x="2" y="6" rx="2"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+<symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+<symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+<symbol id="i-circle-dashed" viewBox="0 0 24 24"><path d="M10.1 2.182a10 10 0 0 1 3.8 0"/><path d="M13.9 21.818a10 10 0 0 1-3.8 0"/><path d="M17.609 3.721a10 10 0 0 1 2.69 2.7"/><path d="M2.182 13.9a10 10 0 0 1 0-3.8"/><path d="M20.279 17.609a10 10 0 0 1-2.7 2.69"/><path d="M21.818 10.1a10 10 0 0 1 0 3.8"/><path d="M3.721 6.391a10 10 0 0 1 2.7-2.69"/><path d="M6.391 20.279a10 10 0 0 1-2.69-2.7"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+<symbol id="i-external-link" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+<symbol id="i-file-text" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+<symbol id="i-graduation-cap" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></symbol>
+<symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></symbol>
+<symbol id="i-id-card" viewBox="0 0 24 24"><path d="M13 19a4 4 0 0 0-8 0"/><path d="M16 10h2"/><path d="M16 14h2"/><circle cx="9" cy="12" r="3"/><rect x="2" y="5" width="20" height="14" rx="2"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></symbol>
+<symbol id="i-pencil-line" viewBox="0 0 24 24"><path d="M13 21h8"/><path d="m15 5 4 4"/><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/></symbol>
+<symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></symbol>
+<symbol id="i-sliders-horizontal" viewBox="0 0 24 24"><path d="M10 5H3"/><path d="M12 19H3"/><path d="M14 3v4"/><path d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path d="M8 10v4"/><path d="M8 12H3"/></symbol>
+<symbol id="i-triangle-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+<symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol>
+<symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+</svg>
+
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="AIVANCIN, back to top">
+      <img src="/icon/icon-rounded.svg" alt="" width="26" height="26">
+      AIVANCIN
+    </a>
+    <ol class="stage-links" aria-label="Steps">
+      <li><a href="#work" data-stage="work">1 Your work</a></li>
+      <li><a href="#review" data-stage="review" aria-disabled="true">2 Check what we read</a></li>
+      <li><a href="#results" data-stage="results" aria-disabled="true">3 Closest roles</a></li>
+    </ol>
+    <fieldset class="seg-ctl small theme" aria-label="Appearance">
+      <legend class="vh">Appearance</legend>
+      <label><input type="radio" name="theme" value="auto" checked>Auto</label>
+      <label><input type="radio" name="theme" value="light">Light</label>
+      <label><input type="radio" name="theme" value="dark">Dark</label>
+    </fieldset>
+  </div>
+</header>
+
+<main id="main">
+<section class="stage-sec" id="work" aria-labelledby="h-work">
+  <div class="wrap narrow">
+    <p class="eyebrow">Step 1 of 3</p>
+    <h1 id="h-work" class="page-title">Show the work you already do.</h1>
+    <p class="lead-left">Describe your work in your own words. A small AI model on this server reads each sentence and suggests matching work activities from O*NET. It is often wrong, so nothing counts until you tick it. Then you see the graduate roles that use that work.</p>
+    <div class="persona-bar" id="personas" aria-label="Examples">
+      <span class="foot">Try a synthetic example:</span>
+    </div>
+    <p class="status-line" id="ai-status" role="status"></p>
+
+    <form id="intake" class="form-card" novalidate>
+      <p class="hint-line"><svg class="ico sm" aria-hidden="true"><use href="#i-info"/></svg>Short sentences work best: one thing you do per sentence.</p>
+      <div class="field">
+        <label for="f-current">What do you do in your current job?</label>
+        <p class="ex" id="ex-current">For example: I drive a van delivering parcels. I plan the route between drops.</p>
+        <textarea id="f-current" name="current_job" rows="3" aria-describedby="ex-current"></textarea>
+      </div>
+      <div class="field combo" data-kind="occupations">
+        <label for="f-title">Current job title <span class="opt-tag">optional</span></label>
+        <p class="ex" id="ex-title">Search the O*NET list. Its activities are added to your current-job lane, and you can untick them.</p>
+        <input id="f-title" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="f-title-list" aria-autocomplete="list" aria-describedby="ex-title">
+        <ul class="combo-list" id="f-title-list" role="listbox" hidden></ul>
+        <p class="err" data-err="title_code"></p>
+      </div>
+      <div class="field">
+        <label for="f-other">What other work do you do?</label>
+        <p class="ex" id="ex-other">Side jobs, family business, volunteering. For example: I keep the books for my mother's catering business.</p>
+        <textarea id="f-other" name="other_work" rows="4" aria-describedby="ex-other"></textarea>
+      </div>
+      <div class="field">
+        <label for="f-studies">What did you study, and what did you do in your studies?</label>
+        <p class="ex" id="ex-studies">For example: I built a small inventory app in Java for my final project.</p>
+        <textarea id="f-studies" name="studies" rows="2" aria-describedby="ex-studies"></textarea>
+      </div>
+      <div class="grid2">
+        <div class="field combo" data-kind="fields">
+          <label for="f-field">Degree or diploma field</label>
+          <p class="ex" id="ex-field">From the U.S. CIP 2020 list, used for the studies lane.</p>
+          <input id="f-field" type="search" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="f-field-list" aria-autocomplete="list" aria-describedby="ex-field">
+          <ul class="combo-list" id="f-field-list" role="listbox" hidden></ul>
+          <p class="err" data-err="cip_code"></p>
+        </div>
+        <fieldset class="field">
+          <legend>Level</legend>
+          <div class="seg-ctl level" style="--n:2">
+            <label><input type="radio" name="degree_level" value="diploma" checked>Diploma</label>
+            <label><input type="radio" name="degree_level" value="degree">Degree</label>
+          </div>
+          <p class="err" data-err="degree_level"></p>
+        </fieldset>
+        <div class="field">
+          <label for="f-hours">Hours a week you can study</label>
+          <input id="f-hours" name="weekly_hours" type="number" min="1" max="80" step="1" value="6" inputmode="numeric">
+          <p class="err" data-err="weekly_hours"></p>
+        </div>
+        <div class="field">
+          <label for="f-budget">Budget for courses (RM)</label>
+          <input id="f-budget" name="budget_rm" type="number" min="0" step="10" value="0" inputmode="numeric">
+          <p class="err" data-err="budget_rm"></p>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit" id="read-btn">Read my work</button>
+        <p class="foot" id="read-note">Your text stays on this server for this request only. Nothing is saved.</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="stage-sec alt" id="review" aria-labelledby="h-review" hidden>
+  <div class="wrap">
+    <p class="eyebrow">Step 2 of 3</p>
+    <h2 id="h-review" class="page-title" tabindex="-1">Check what we read</h2>
+    <p class="lead-left">Tick each activity that is true for you. Suggestions start unticked, and there is no "accept all": the model proposes, you decide.</p>
+    <div class="review">
+      <div id="sentences"></div>
+      <aside class="rail" aria-labelledby="h-mine">
+        <div class="rail-head"><h3 id="h-mine">Your activities</h3><span class="count num" id="count" aria-live="polite">0</span></div>
+        <ul class="mine" id="mine"></ul>
+        <p class="foot empty-mine" id="mine-empty">Nothing confirmed yet. Tick suggestions to build your list.</p>
+        <fieldset class="lanes">
+          <legend>Compare roles using</legend>
+          <div class="seg-ctl lane-ctl" style="--n:4" id="lane-ctl">
+            <label><input type="radio" name="lane" value="current_job">Current job</label>
+            <label><input type="radio" name="lane" value="other_work">Other work</label>
+            <label><input type="radio" name="lane" value="studies">Studies</label>
+            <label><input type="radio" name="lane" value="all" checked>All</label>
+          </div>
+        </fieldset>
+        <p class="foot lane-note" id="lane-note"></p>
+        <div class="cta-bar">
+          <button class="btn btn-primary btn-block" type="button" data-action="rank">Show closest roles</button>
+          <p class="err" id="rank-err" role="alert"></p>
+        </div>
+      </aside>
+    </div>
+    <div class="mob-cta"><span><b class="num" id="count-m">0</b> confirmed</span><button class="btn btn-primary" type="button" data-action="rank">Show closest roles</button></div>
+  </div>
+</section>
+
+<section class="stage-sec" id="results" aria-labelledby="h-results" hidden>
+  <div class="wrap">
+    <p class="eyebrow">Step 3 of 3</p>
+    <h2 id="h-results" class="page-title" tabindex="-1">Closest roles to explore</h2>
+    <div class="lead-left" id="results-lead" data-scope></div>
+    <div id="change" class="change" aria-live="polite"></div>
+    <div class="controls" id="controls"></div>
+    <div class="md">
+      <ol class="role-list" id="role-list" aria-label="Closest roles" data-scope></ol>
+      <div id="detail"></div>
+    </div>
+    <div id="path"></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <h2 class="foot-title">Sources</h2>
+    <p class="foot">Every number links here. Labour figures (DOSM) and AI-usage figures (Anthropic Economic Index) are separate sources and are never combined into one score unless you set a weight.</p>
+    <ul class="sources" id="sources"></ul>
+    <p class="foot attribution">O*NET 31.0 data by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA), used under CC BY 4.0; AIVANCIN modified it by selecting columns and computing activity weights. USDOL/ETA has not approved, endorsed or tested these modifications. Anthropic Economic Index data under CC BY. DOSM data under CC BY 4.0. ESCO classification by the European Commission. Icons: Lucide (ISC).</p>
+  </div>
+</footer>
+<script src="/static/app.js" defer></script>
+</body>
+</html>

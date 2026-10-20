@@ -1,0 +1,48 @@
+/* Colour tokens re-derived from the app icon (blue gradient #249FF5 to #0955D4, blush #F6BADA).
+   Accent text: #0955D4 on light (6.4:1 on white), #249FF5 on dark (6.8:1 on #0E0D12).
+   The blush marker is used only as a band behind dark text: the user's own words and activities they confirmed. */
+:root {
+  --canvas: #F5F5F7; --card: #FFFFFF; --text: #1D1D1F; --text2: #5C5C62; --sep: #E3E3E8; --border: #7A7A82;
+  --fill: #EDEDF0; --fill-hover: #E3E3E8; --track: #E3E3E8;
+  --accent: #0955D4; --accent-pressed: #0747AE; --accent-tint: #E8F0FD; --on-accent: #FFFFFF;
+  --marker: #F6BADA; --marker-text: #1D1D1F; --marker-edge: #B0287A;
+  --rust: #B54708; --rust-tint: #FBEBDD; --evidence: #0B7285; --evidence-tint: #DDF0F3;
+  --glass: rgba(251, 251, 253, 0.74); --glass-solid: #FBFBFD; --glass-edge: rgba(16, 16, 24, 0.08);
+  --ring: 0 0 0 1px rgba(16, 16, 24, 0.05);
+  --shadow-card: 0 0 0 1px rgba(16, 16, 24, 0.04), 0 1px 2px rgba(16, 16, 24, 0.04), 0 6px 20px -8px rgba(16, 16, 24, 0.08);
+  --shadow-float: 0 0 0 1px rgba(16, 16, 24, 0.05), 0 12px 32px -12px rgba(16, 16, 24, 0.18);
+  --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+  --serif: "Source Serif 4", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --canvas: #0E0D12; --card: #1A1920; --text: #F5F4F8; --text2: #B6B2C0; --sep: #2C2A35; --border: #8B8698;
+    --fill: #2A2932; --fill-hover: #33323C; --track: #2E2C37;
+    --accent: #249FF5; --accent-pressed: #5AB6F8; --accent-tint: #10263D; --on-accent: #0E0D12;
+    --marker-edge: #F6BADA;
+    --rust: #FFA86B; --rust-tint: #33231A; --evidence: #4DC7B5; --evidence-tint: #12303A;
+    --glass: rgba(22, 21, 28, 0.72); --glass-solid: #16151C; --glass-edge: rgba(255, 255, 255, 0.08);
+    --ring: 0 0 0 1px rgba(255, 255, 255, 0.06);
+    --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 6px 20px -8px rgba(0, 0, 0, 0.5);
+    --shadow-float: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 16px 40px -12px rgba(0, 0, 0, 0.7);
+    --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230E0D12' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --canvas: #0E0D12; --card: #1A1920; --text: #F5F4F8; --text2: #B6B2C0; --sep: #2C2A35; --border: #8B8698;
+  --fill: #2A2932; --fill-hover: #33323C; --track: #2E2C37;
+  --accent: #249FF5; --accent-pressed: #5AB6F8; --accent-tint: #10263D; --on-accent: #0E0D12;
+  --marker-edge: #F6BADA;
+  --rust: #FFA86B; --rust-tint: #33231A; --evidence: #4DC7B5; --evidence-tint: #12303A;
+  --glass: rgba(22, 21, 28, 0.72); --glass-solid: #16151C; --glass-edge: rgba(255, 255, 255, 0.08);
+  --ring: 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 6px 20px -8px rgba(0, 0, 0, 0.5);
+  --shadow-float: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 16px 40px -12px rgba(0, 0, 0, 0.7);
+  --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230E0D12' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+  color-scheme: dark;
+}

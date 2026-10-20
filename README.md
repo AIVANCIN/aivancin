@@ -42,12 +42,12 @@ You describe what you actually do, in your own words. An AI suggests the matchin
 
 > **The problem:** many Malaysian graduates work in jobs below their qualification, and before spending evenings and savings on retraining they cannot easily see which graduate-level job is closest to what they already do.  
 > **Our approach:** read the user's own description of their work, suggest the matching O\*NET work activities with a local AI model, let the user confirm each one, then match roles by activity overlap.  
-> **The result today:** the intake engine works end to end through an API: free text in, activity suggestions with the sentence that triggered each, a guard against "I have never..." statements, and a confirmed profile out. Role matching and the web interface are not built yet.
+> **The result today:** a working web app, run locally from bundled files: free text in, activity suggestions with the sentence that triggered each, a guard against "I have never..." statements, confirmation, then the closest graduate-level roles by activity overlap, each with requirement labels, dated AI-usage evidence, a DOSM pay step, SDG reasons and a plan from link-checked free courses.
 
 | Snapshot | Details |
 | --- | --- |
 | **Who it's for** | A Malaysian diploma or degree holder aged 25-34 working in a semi- or low-skilled job (for example a van driver, cashier or call-centre agent), before committing to retraining |
-| **What works now** | Intake: activity suggestions, guard, confirmation, manual search, job title activities, validation and the AI-unavailable fallback (API only) |
+| **What works now** | Intake with suggestions, guard and confirmation; role matching by lane; requirement labels; AI-usage evidence across four releases with replay; scenarios; plan; SDG tags; web interface (not yet deployed) |
 | **Demo mode** | Model inference runs live on the CPU from bundled files; data are bundled, dated snapshots; personas are synthetic |
 | **Reviewed revision** | Checks below were run on 20 October 2026 (Windows 11, Python 3.13) |
 
@@ -59,29 +59,33 @@ In Q2 2026, 40.7% of employed tertiary-educated Malaysians aged 25-34 (751,100 p
 
 **What it does not solve here.** Turning casual descriptions of side work into checkable, confirmed activity evidence, and ranking roles reproducibly from that evidence.
 
-**Challenge alignment.** Domain One asks for skills intake, an AI-trend signal layer, future-role matching, a reskilling pathway, SDG mapping and handling of uncertainty. This first part delivers the skills intake. The SDG link is target 8.5 (productive employment and decent work for young people) through the skill-level step of each role, with target 4.4 (relevant skills) on each skill.
+**Challenge alignment.** Domain One asks for skills intake, an AI-trend signal layer, future-role matching, a reskilling pathway, SDG mapping and handling of uncertainty. Each has a first working version here; the acceptance checks on fresh test sets are still to run. The SDG link is target 8.5 (productive employment and decent work for young people) through the skill-level step of each role, with target 4.4 (relevant skills) on each skill.
 
 ### Solution
 
-The AI is a local sentence encoder, all-MiniLM-L6-v2 (quantized ONNX, about 23 MB, run on the CPU with ONNX Runtime). Each sentence the user writes is encoded and compared with precomputed vectors for all 2,087 O\*NET 31.0 detailed work activities; the five closest are suggested, each with the sentence that triggered it. The AI only suggests: nothing enters the profile until the user ticks it, and suggestions that come only from a negated or aspirational sentence need a second, deliberate confirmation. Everything after the confirmed profile (matching, labels, plans) is deterministic. No generative model runs in the product, and no training or fine-tuning has been done yet.
+The AI is a local sentence encoder, all-MiniLM-L6-v2 (quantized ONNX, about 23 MB, run on the CPU with ONNX Runtime). Each sentence the user writes is encoded and compared with precomputed vectors for all 2,087 O\*NET 31.0 detailed work activities; the five closest are suggested, each with the sentence that triggered it. The AI only suggests: nothing enters the profile until the user ticks it, and suggestions that come only from a negated or aspirational sentence need a second, deliberate confirmation. Everything after the confirmed profile is deterministic: roles are ranked by the weighted share of their recorded O\*NET activity links that the user confirmed, and labels, AI-usage figures, pay steps, scenarios and plans are computed from bundled, dated sources with fixed templates. No generative model runs in the product, and no training or fine-tuning has been done yet.
 
 ### Key Features
 
 - **Activity suggestions from your own words:** "I install software and clean out viruses" suggests "Install computer software" and "Resolve computer software problems", with the sentence highlighted by character offsets.
 - **Nothing accepted silently:** every activity needs an explicit tick; "I have never repaired a laptop" puts its suggestions under a second confirmation; the server rejects activities the model never suggested.
 - **Works when the AI does not:** if the model, tokenizer or vectors are missing or do not match their recorded hashes, the API says AI suggestions are unavailable and keyword search keeps working.
-- **Reproducible data:** every dataset and the model are bundled with their source, release date, licence and SHA-256 hashes; the same input always gives the same suggestions.
+- **Roles that use your work:** the closest graduate-level roles (O\*NET Job Zone 3 or 4) by activity overlap, in a lane you choose (current job, other work, studies or all), with what you already do, what is still to build and labels such as "usually needs a bachelor's degree".
+- **AI-usage evidence, kept separate:** the share of Claude conversations on each role's tasks where AI does the work directly, averaged over four Anthropic Economic Index releases with intervals and a release replay. It changes the order only if you set a weight (off by default).
+- **A plan from verified resources only:** steps for the largest gaps from link-checked free Microsoft Learn courses, hours and weeks at your pace, and "no verified resource" where none exists.
+- **Every number has a source:** each figure links to its dated source in the page footer.
+- **Reproducible data:** every dataset and the model are bundled with their source, release date, licence and SHA-256 hashes; the same input always gives the same suggestions and ranking.
 
 ## See it in action
 
-A demo video is not yet available. The same walkthrough runs against the local API ([start it first](#how-to-run)):
+A demo video is not yet available. The same walkthrough runs locally ([start it first](#how-to-run)) at `http://127.0.0.1:8000/`:
 
-1. **Start:** load the synthetic persona Hafiz: `curl http://127.0.0.1:8000/api/personas`
-2. **Watch:** send his text to the encoder: `POST /api/suggest` with `current_job`, `other_work` and `studies`. Each of his 9 sentences returns its top five activities; "On weekends I fix my friends' laptops and set up their home wifi" includes "Resolve computer network problems".
-3. **Decide:** pick the activities that are true and send them with hours, budget and degree level to `POST /api/profile`.
-4. **Finish:** the response is the confirmed profile, with each activity's source (suggested, added by you, or from the job title) and lane (current job, other work, studies), or field-level messages if something is missing.
+1. **Start:** press "Try Hafiz's example" (a synthetic persona: computing diploma, van driver), then "Read my work".
+2. **Watch:** each of his 9 sentences appears with its five suggested activities, all unticked; "On weekends I fix my friends' laptops and set up their home wifi" includes "Resolve computer network problems".
+3. **Decide:** tick what is true for his weekend work (network and software problems, installing software, backups, the shop website), choose the "Other work" lane and press "Show closest roles".
+4. **Finish:** all six closest roles change against his job title alone (Web Developers, Computer Network Support Specialists and other computing roles instead of vehicle-operator roles). Open a role to see the activities he already does, the gaps, the AI-usage evidence, the pay step and the plan; move the weights, the scenario and the release to see what changes.
 
-**Try the same scenario:** open `http://127.0.0.1:8000/docs` and use the interactive forms, or the commands above.
+**Try the same scenario through the API:** `http://127.0.0.1:8000/docs` lists `POST /api/suggest`, `/api/profile` and `/api/results`.
 
 **When something goes wrong:** send `{"weekly_hours": 0}` to `/api/profile` and the response lists a message for each invalid field; remove `data/model/model.onnx` and `/api/status` reports AI suggestions as unavailable while search still works.
 
@@ -124,46 +128,51 @@ flowchart LR
 | Guard, confirmation and validation | WORKING (API) | `tests/test_intake.py`, `POST /api/profile` |
 | AI-unavailable fallback | WORKING (API) | `tests/test_app_and_failures.py` |
 | O\*NET 31.0 and model snapshots | CACHED (bundled, hashed) | `data/manifest.json`, `python tools/build_snapshots.py` |
-| Role matching, requirement labels | NOT IMPLEMENTED | |
-| AI-usage evidence, scenarios, pathway, SDG mapping | NOT IMPLEMENTED | |
-| Web interface | NOT IMPLEMENTED | |
+| Role matching with lanes, requirement labels | WORKING | `tests/test_matching_and_report.py`, `POST /api/results` |
+| AI-usage evidence, replay, scenarios, plan, SDG reasons | WORKING (first version) | `tests/test_matching_and_report.py` |
+| Web interface | WORKING (local) | `tests/test_app_and_failures.py`; a scripted browser run of the full flow, 20 Oct 2026 |
+| Acceptance checks on fresh test sets (accuracy, AI against keyword search) | NOT RUN | |
 
 **Boundary:** AIVANCIN does not judge proficiency from text, forecast jobs or say whether a role is reachable. It reads only what the user writes and never stores it.
 
 ## Evidence and limitations
 
-The intake engine behaves as specified on the bundled data; whether it helps real users has not been tested.
+The app behaves as specified on the bundled data and synthetic personas; whether it helps real users has not been tested.
 
 | What we checked | Observation | Reproduction and limits |
 | --- | --- | --- |
-| **Core path and recovery** | PASS, 36/36 tests | `python -m pytest`, 20 Oct 2026, Windows 11, Python 3.13; network access blocked during tests; includes missing, altered and mismatched model files |
+| **Core path and recovery** | PASS, 62/62 tests | `python -m pytest`, 20 Oct 2026, Windows 11, Python 3.13; network access blocked during tests; includes missing, altered and mismatched model files, a corrupted AI-usage release and expired course link checks |
+| **Hafiz contrast** | Job title alone: 0 of the top 10 roles are computing roles; with his confirmed weekend work: at least 6 of 10 | `tests/test_matching_and_report.py`; relevance rule fixed before the earlier research probe; synthetic persona |
 | **Improvement against a baseline** | NOT RUN | A comparison with keyword search on fresh descriptions is planned |
 | **Usability with target users** | NOT RUN | Personas and test sentences are synthetic |
 | **Speed** | 45 ms for Hafiz's 9 sentences, model already loaded | One run on a laptop CPU; Replit not measured |
 
-**What we can conclude:** suggestions, guard, confirmation and fallback work as designed on the bundled data and synthetic text.  
-**What we cannot conclude yet:** suggestion accuracy on real users' descriptions, matching quality, or any benefit to users.
+**What we can conclude:** suggestions, guard, confirmation, matching, evidence, plan and fallback work as designed on the bundled data and synthetic text.  
+**What we cannot conclude yet:** suggestion accuracy on real users' descriptions, matching quality beyond the synthetic personas, or any benefit to users. A role's overlap is overlap in recorded O\*NET activity links, not how much of the job someone can do.
 
 **Known limitations:**
 
 - **English only:** Malay text is not supported.
 - **Idioms can miss:** "I keep the books" does not surface a bookkeeping activity in the top five; the user can add it by keyword search.
 - **Guard is a word list:** it works per sentence, so "I don't just drive, I also fix laptops" is flagged and needs the second confirmation.
+- **US occupation data:** roles, activities and requirement labels come from O\*NET (United States); Malaysian pay steps use DOSM major-group medians mapped through the ESCO crosswalk, and 81 of 940 occupations stay "skill level unmapped".
+- **Short courses:** the catalogue holds 33 free Microsoft Learn items, mostly short introductions, so many gaps show "no verified resource" and plan hours are small.
+- **AI-usage figures describe Claude usage worldwide,** not Malaysian labour demand; older releases match about 83% of their tasks to O\*NET 31.0 by text, and unmatched tasks are left out, not guessed.
 
 ### Tech Stack
 
 | Layer | Technology | Responsibility |
 | --- | --- | --- |
-| Frontend | None yet | Interactive API docs at `/docs` |
-| Backend | Python 3.13, FastAPI 0.150, Uvicorn 0.54 | Intake API and validation |
-| Database | None; bundled CSV and NumPy files | O\*NET extracts, activity vectors, manifest |
+| Frontend | HTML, CSS and JavaScript without a build step, served by the app | Intake, review, results; light and dark appearance |
+| Backend | Python 3.13, FastAPI 0.150, Uvicorn 0.54 | Intake, matching, evidence and plan API |
+| Database | None; bundled CSV, JSON and NumPy files | O\*NET, AEI, DOSM, crosswalk and catalogue extracts, activity vectors, manifest |
 | AI / Compute | all-MiniLM-L6-v2 (ONNX) on CPU with ONNX Runtime 1.31 and Tokenizers 0.23 | Sentence encoding for activity suggestions |
 | Hosting / Dev | Replit (not yet deployed) | Planned deployment |
 
 ### Privacy, safety and reliability
 
 - **Data:** text is processed in memory for the request and not stored or logged by the app. There are no accounts. Demo personas are synthetic.
-- **Sharing:** none. The app makes no network requests; the model runs locally.
+- **Sharing:** none. The app makes no network requests; the model runs locally. Course links open the provider's site only when the user clicks them.
 - **Security:** inputs are validated server-side, and the server recomputes suggestions rather than trusting the client. No secrets are needed or stored.
 - **Failure behaviour:** a missing or altered model, tokenizer or vector file switches to keyword search with a clear message; an altered dataset file stops the app at start-up rather than serving wrong data.
 
@@ -174,14 +183,16 @@ The intake engine behaves as specified on the bundled data; whether it helps rea
 ```
 .
 ├── assets/icon/            # App icon
-├── data/                   # Bundled snapshots: manifest.json, onet/, model/, vectors/, personas.json
+├── data/                   # Bundled snapshots: manifest.json, onet/, aei/, dosm/, crosswalk/, catalogue/, model/, vectors/, personas.json
 ├── src/
 │   ├── main.py             # Application entry point
-│   └── aivancin/           # snapshots.py, encoder.py, intake.py, app.py
+│   └── aivancin/           # snapshots, encoder, intake, matching, aei, report, pathway, app; static/ holds the web interface
 ├── submission/             # Required submission documents (added before the deadline)
 ├── tests/                  # Offline tests
 ├── tools/
-│   └── build_snapshots.py  # Rebuilds data/ from the original sources
+│   ├── build_snapshots.py  # Rebuilds data/ from the original sources
+│   ├── build_catalogue.py  # Rebuilds the course catalogue and its link checks
+│   └── catalogue_curation.json  # Curated course-to-activity links
 ├── .env.example            # Optional HOST and PORT
 ├── .gitignore
 ├── .replit                 # Replit run configuration
@@ -195,10 +206,11 @@ The intake engine behaves as specified on the bundled data; whether it helps rea
 ### Architecture
 
 ```
-User ──► FastAPI app (src/main.py) ──► intake: sentence split, guard, validation
-                │                          │
-                │                          └──► local encoder (ONNX, CPU) + bundled activity vectors
-                └──► JSON response returned to user
+Browser ──► FastAPI app (src/main.py) ──► intake: sentence split, guard, validation
+                  │                            └──► local encoder (ONNX, CPU) + bundled activity vectors
+                  ├──► matching: activity overlap by lane over O*NET Job Zone 3-4 roles
+                  ├──► report: labels, AEI evidence and replay, DOSM pay step, SDG, scenarios, plan
+                  └──► page and JSON, every number tagged with its source
 ```
 
 Running the encoder locally on precomputed vectors keeps the demo offline, free and reproducible: there is no API key, no per-request cost and no external service to fail.
@@ -229,7 +241,7 @@ pip install -r requirements.txt
 python src/main.py
 ```
 
-Open **http://127.0.0.1:8000/docs**. Load the synthetic personas from `GET /api/personas`.
+Open **http://127.0.0.1:8000/** for the app, or **http://127.0.0.1:8000/docs** for the API.
 
 ### Run Tests
 
@@ -238,8 +250,8 @@ pip install -r requirements-dev.txt
 python -m pytest
 ```
 
-**Expected result:** `36 passed`. Tests run offline; outbound network access is blocked.  
-**Rebuild the data (optional):** `python tools/build_snapshots.py` downloads the original files into `.cache/` and reproduces `data/` byte for byte.
+**Expected result:** `62 passed`. Tests run offline; outbound network access is blocked.  
+**Rebuild the data (optional):** `python tools/build_snapshots.py` downloads the original files into `.cache/` and rebuilds `data/`; pinned files (model, AEI releases) are checked against their hashes, while live sources such as DOSM and the ESCO API can change. `python tools/build_catalogue.py` refreshes the course list and its link checks.
 
 ---
 

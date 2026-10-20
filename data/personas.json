@@ -12,7 +12,8 @@
     "degree_level": "diploma",
     "weekly_hours": 8,
     "budget_rm": 200,
-    "cip_code": "11.0701"
+    "cip_code": "11.0701",
+    "cip_title": "Computer Science"
   },
   {
     "id": "priya",
@@ -27,6 +28,7 @@
     "degree_level": "degree",
     "weekly_hours": 6,
     "budget_rm": 150,
-    "cip_code": "52.0301"
+    "cip_code": "52.0301",
+    "cip_title": "Accounting"
   }
 ]

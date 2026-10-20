@@ -157,3 +157,12 @@ def test_unparseable_release_fails_loudly_at_build_time(tmp_path):
     empty.write_text("geo_id,facet,variable,cluster_name,value\n", encoding="utf-8")
     with pytest.raises(aei.ReleaseFormatError, match="no task rows"):
         aei.adapt_release(aei.RELEASES[0], empty, [])
+
+
+def test_web_interface_is_served_from_bundled_files(client):
+    page = client.get("/")
+    assert page.status_code == 200 and "Check what we read" in page.text
+    for path in ("/static/app.js", "/static/app.css", "/static/base.css", "/static/tokens.css", "/icon/icon-rounded.svg"):
+        assert client.get(path).status_code == 200, path
+    # the page loads nothing from other hosts, so it works offline
+    assert "http://" not in page.text.replace("http://www.w3.org", "") and "https://" not in page.text
