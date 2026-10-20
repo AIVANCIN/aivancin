@@ -1,4 +1,4 @@
-"""FastAPI service. Run: uvicorn aivancin.app:app"""
+"""FastAPI service, started by src/main.py."""
 import json
 from pathlib import Path
 

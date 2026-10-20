@@ -6,7 +6,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
 
-DEFAULT_DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+DEFAULT_DATA_DIR = Path(__file__).resolve().parents[2] / "data"
 
 
 class SnapshotError(RuntimeError):
