@@ -60,7 +60,7 @@ def test_missing_saylor_page_is_kept_as_unverified_not_dropped(monkeypatch):
 
 def test_bundled_saylor_entries_carry_provider_facts_and_access_note():
     cat = json.loads((ROOT / "data" / "catalogue" / "courses.json").read_text(encoding="utf-8"))
-    saylor = [c for c in cat["courses"] if c["provider"] == "Saylor Academy"]
+    saylor = [c for c in cat["courses"] if c["provider"] == "Saylor University"]
     assert saylor
     for c in saylor:
         assert c["hours"] > 0 and "stated on the provider's course page" in c["hours_source"]

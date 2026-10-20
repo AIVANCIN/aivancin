@@ -2,7 +2,7 @@
  "catalogue_date": "2026-10-20",
  "validity_days": 60,
  "curated_on": "2026-10-20",
- "source": "Microsoft Learn catalog API (https://learn.microsoft.com/api/catalog/?type=modules,learningPaths&locale=en-us) and Saylor Academy course pages (https://learn.saylor.org/course/)",
+ "source": "Microsoft Learn catalog API (https://learn.microsoft.com/api/catalog/?type=modules,learningPaths&locale=en-us) and Saylor University course pages (https://learn.saylor.org/course/)",
  "courses": [
   {
    "id": "learn-bizapps.data-analytics-microsoft",
@@ -23,6 +23,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Distinguish the types of data analytics by the business questions each answers.",
     "Explain the roles in data analytics and what each contributes to the process.",
@@ -62,6 +63,7 @@
     "Microsoft Power BI"
    ],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Describe how Power BI services and applications work together.",
     "Explain how Power BI can make your business more efficient.",
@@ -99,6 +101,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Determine business goals.",
     "Identify your audience.",
@@ -141,6 +144,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Create free text invoices and record customer payments.",
     "Distribute funds by using accounting distributions.",
@@ -183,6 +187,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Populate bank reconciliation lines.",
     "Import bank statements.",
@@ -224,6 +229,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Are you responsible for generating financial reports from Business Central? This learning path discusses creating budgets, and using financial reports, dimensions, and row and column definitions to generate the financial reports that are typically needed for most businesses."
    ],
@@ -260,6 +266,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Learn about the capabilities of various reporting tools in finance and operations apps.",
     "Determine which types of reports should be used.",
@@ -301,6 +308,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "General ledger processes.",
     "Balance control accounts.",
@@ -343,6 +351,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "How to use customer account statements.",
     "How to process collections using Copilot in Dynamics 365 Finance.",
@@ -381,6 +390,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Set up basic budgeting components.",
     "Use inquiries and reports.",
@@ -423,6 +433,7 @@
     "Tax software"
    ],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Withholding taxes",
     "Sales tax exemptions",
@@ -464,6 +475,7 @@
    ],
    "tools": [],
    "ai_skill": true,
+   "families": [],
    "objectives": [
     "Learn how to use Microsoft Copilot to analyze and visualize your data."
    ],
@@ -501,6 +513,7 @@
     "JavaScript"
    ],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Create a basic web page using HTML.",
     "Apply styles to page elements using CSS.",
@@ -541,6 +554,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Describe inclusive product design.",
     "Explain the principles of inclusive design.",
@@ -580,6 +594,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "List the different network protocols and network standards.",
     "List the different network types and topologies.",
@@ -621,6 +636,9 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [
+    "software"
+   ],
    "objectives": [
     "How to use Playwright to test a sample web application.",
     "How to run tests, view test reports, and understand the structure of a Playwright project.",
@@ -658,6 +676,9 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [
+    "software"
+   ],
    "objectives": [
     "Explain the different types of accessibility testing, including manual, automated, and user testing.",
     "Develop the skills to conduct accessibility evaluations and testing, using two popular tools: Accessibility Insights and Accessibility Checker.",
@@ -696,6 +717,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Explain the concept and importance of accessibility.",
     "Identify the main accessibility principles and how they relate to different standards and regulations.",
@@ -739,6 +761,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Explain when Packet Monitor is useful, how cross-component capture differs from network-adapter-only capture, and what local observations can prove.",
     "Discover network components and create a narrow filter for a known address, protocol, and port.",
@@ -780,6 +803,7 @@
     "Microsoft Windows Server"
    ],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Evaluate whether Windows Server 2025 is appropriate for your organization's IT environment and business needs.",
     "Describe how the core features of Windows Server 2025—including modular server roles, advanced security, virtualization, storage, networking, management tools, and hybrid integration—work together to support modern workloads."
@@ -814,6 +838,7 @@
     "Microsoft Excel"
    ],
    "ai_skill": true,
+   "families": [],
    "objectives": [
     "Describe how Copilot in Excel interprets and summarizes structured data.",
     "Use prompts to generate summaries, comparisons, and visualizations from a dataset.",
@@ -851,6 +876,9 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [
+    "it_support"
+   ],
    "objectives": [
     "Assess Windows 11 readiness for unmanaged devices using PC Health Check.",
     "Evaluate managed devices using Endpoint Analytics in Microsoft Intune.",
@@ -892,6 +920,7 @@
     "Microsoft Excel"
    ],
    "ai_skill": true,
+   "families": [],
    "objectives": [
     "Use Microsoft 365 Copilot and Copilot+ PC to plan your day and prioritize tasks.",
     "Analyze data, create models and reports, and collaborate with stakeholders more effectively.",
@@ -930,6 +959,7 @@
     "Microsoft Excel"
    ],
    "ai_skill": true,
+   "families": [],
    "objectives": [
     "Generate formulas that calculate results quickly and accurately.",
     "Summarize data and create visualizations that highlight key insights.",
@@ -962,6 +992,7 @@
     "GitHub"
    ],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Identify the fundamental features of GitHub.",
     "Learn about repository management.",
@@ -999,6 +1030,7 @@
     "GitHub"
    ],
    "ai_skill": true,
+   "families": [],
    "objectives": [
     "Learn how GitHub Copilot can help you code by offering code suggestions.",
     "Learn about the various ways to trigger GitHub Copilot.",
@@ -1034,6 +1066,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Discern the differences between Projects and Projects (Classic).",
     "Build an organization level Project.",
@@ -1074,6 +1107,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Evaluate whether Azure Backup is appropriate to use for your backup needs.",
     "Describe how the features of Azure Backup work to provide backup solutions for your needs."
@@ -1111,6 +1145,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Describe what OWASP Top 10 is.",
     "Identify potential security vulnerabilities in your software.",
@@ -1150,6 +1185,9 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [
+    "it_support"
+   ],
    "objectives": [
     "Gain knowledge of how datacenters are monitored in real-time, including environmental, performance, security, and infrastructure monitoring.",
     "Learn about key performance indicators (KPIs) used to track datacenter health and operational efficiency.",
@@ -1187,6 +1225,7 @@
    "dwas": [],
    "tools": [],
    "ai_skill": true,
+   "families": [],
    "objectives": [
     "Evaluate the ethical implications in AI by critically analyzing AI-generated content and cross-verifying information from multiple sources.",
     "Assess the ethical and security concerns associated with deepfakes, including their potential misuse in spreading misinformation and impersonation.",
@@ -1220,6 +1259,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Explain what a budget is and why it's important.",
     "Differentiate between needs and wants.",
@@ -1259,6 +1299,9 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [
+    "software"
+   ],
    "objectives": [
     "Use @pytest.mark.parametrize to run one test function with multiple input values.",
     "Create reusable fixtures to share setup and cleanup across tests.",
@@ -1300,6 +1343,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Understand the fundamental principles of user experience.",
     "Recognize which factors contribute to ensuring that you are generating quality UX.",
@@ -1337,6 +1381,7 @@
     "Git"
    ],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Learn what version control is",
     "Understand distributed version control systems, like Git",
@@ -1373,6 +1418,9 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [
+    "software"
+   ],
    "objectives": [
     "Write tests using pytest , one of the most popular test frameworks for Python.",
     "Get used to the powerful reporting in tests failures.",
@@ -1410,6 +1458,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Learn about the Threat Modeling Tool.",
     "Learn more about Visio."
@@ -1451,6 +1500,7 @@
     "Cascading style sheets CSS"
    ],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Write HTML and CSS code to create an accessible webpage using the browser-based version of Visual Studio code."
    ],
@@ -1486,6 +1536,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Define authentication.",
     "Describe common authentication-based attacks.",
@@ -1524,6 +1575,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Define what is cybersecurity.",
     "Describe the basic threat landscape.",
@@ -1562,6 +1614,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "SC-900: Introduction to security, compliance, and identity concepts"
    ],
@@ -1598,6 +1651,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Describe what your device knows about you.",
     "Describe how devices and become cybersecurity threats.",
@@ -1637,6 +1691,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Describe expense management capabilities.",
     "Describe fixed asset management capabilities.",
@@ -1677,6 +1732,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Describe charts of accounts, including main accounts.",
     "Describe financial dimensions, dimension sets, and financial tags concepts.",
@@ -1715,6 +1771,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Describe the basics of networks.",
     "Describe the threats to network security.",
@@ -1756,6 +1813,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Describe the shared responsibility model and how responsibilities shift across on-premises, IaaS, PaaS, and SaaS environments, including AI services.",
     "Describe defense-in-depth as a layered security strategy and explain the confidentiality, integrity, and availability (CIA) triad.",
@@ -1795,6 +1853,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Configure network health alerts and logging by using Azure Monitor",
     "Create and configure a Connection Monitor instance",
@@ -1840,6 +1899,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Describe core accounts payable components, including vendors, purchase orders, and vendor invoices.",
     "Describe vendor payments and settlements, including three-way matching concepts.",
@@ -1881,6 +1941,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Common data exploration and analysis tasks.",
     "How to use Python packages like NumPy, Pandas, and Matplotlib to analyze data."
@@ -1923,6 +1984,7 @@
     "Microsoft Power BI"
    ],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Describe a high-level process for creating reporting solutions with Microsoft Power BI.",
     "Describe core principles of analytical data modeling.",
@@ -1962,6 +2024,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Describe chart of accounts, including main accounts.",
     "Describe the concept of a fiscal calendar.",
@@ -2003,6 +2066,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Explore normal forms and how they affect database design",
     "Choose appropriate datatypes for your data",
@@ -2041,6 +2105,10 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [
+    "it_support",
+    "software"
+   ],
    "objectives": [
     "Employ Windows Package Manager to streamline the process of installing, uninstalling, and updating software",
     "Choose whether to use the Windows Package Manager community repository or host a private repository",
@@ -2080,6 +2148,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Describe data aggregation.",
     "Describe grouping of data.",
@@ -2122,6 +2191,7 @@
     "Microsoft SQL Server"
    ],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Learn how to use Transact-SQL (T-SQL) to interact with relational databases by querying and modifying data. This course covers essential operations such as inserting, updating, deleting, and merging data across tables. You'll also explore how to generate automatic values and apply changes efficiently using SQL Server or Azure SQL environments."
    ],
@@ -2160,6 +2230,7 @@
     "Python"
    ],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Learn the fundamentals of programming in Python."
    ],
@@ -2197,6 +2268,9 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [
+    "it_support"
+   ],
    "objectives": [
     "Identify cmdlets for managing TCP/IP settings.",
     "Describe how to manage local routing table settings.",
@@ -2239,6 +2313,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Configure user account rights.",
     "Configure user account rights to restrict access.",
@@ -2284,6 +2359,9 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [
+    "it_support"
+   ],
    "objectives": [
     "Use Endpoint Analytics to assess device health and performance",
     "Implement proactive remediations to fix common device issues",
@@ -2323,6 +2401,9 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [
+    "it_support"
+   ],
    "objectives": [
     "Use built-in tools in Windows Server to monitor server performance",
     "Understand the fundamentals of server performance tuning"
@@ -2360,6 +2441,9 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [
+    "software"
+   ],
    "objectives": [
     "Review the responsibilities for software testing, debugging, and exception handling.",
     "Examine the code debugging process and the benefits provided by code debugger tools.",
@@ -2399,6 +2483,9 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [
+    "software"
+   ],
    "objectives": [
     "Describe the principles and phases of the spec-driven development (SDD) methodology.",
     "Use GitHub Spec Kit commands to create the constitution.md, spec.md, plan.md, and tasks.md files.",
@@ -2437,6 +2524,9 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [
+    "it_support"
+   ],
    "objectives": [
     "Describe the Intune troubleshooting workflow and common failure modes",
     "Troubleshoot enrollment, compliance, and profile conflicts",
@@ -2473,6 +2563,7 @@
    "dwas": [],
    "tools": [],
    "ai_skill": true,
+   "families": [],
    "objectives": [
     "Get more done and unleash your creativity with Microsoft Copilot."
    ],
@@ -2501,6 +2592,7 @@
    "dwas": [],
    "tools": [],
    "ai_skill": true,
+   "families": [],
    "objectives": [
     "Identify the four key elements of an effective Copilot prompt: context, goal, source, and expectations.",
     "Apply best practices to write clear, concise, and well-structured prompts.",
@@ -2536,6 +2628,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Create functions that accept parameters.",
     "Return values from functions.",
@@ -2565,7 +2658,7 @@
   {
    "id": "saylor.bus103",
    "title": "BUS103: Introduction to Financial Accounting",
-   "provider": "Saylor Academy",
+   "provider": "Saylor University",
    "url": "https://learn.saylor.org/course/bus103",
    "kind": "course",
    "level": [],
@@ -2573,7 +2666,7 @@
    "hours": 63.0,
    "hours_source": "63 hours stated on the provider's course page",
    "provider_last_modified": "",
-   "access": "Free; enrolling needs a free Saylor Academy account",
+   "access": "Free; enrolling needs a free Saylor account",
    "dwas": [
     "4.A.2.a.3.c.2",
     "4.A.2.a.3.c.3",
@@ -2584,6 +2677,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Explain the foundational principles and objectives of accounting",
     "Analyze business transactions and record them using Generally Accepted Accounting Principles (GAAP)",
@@ -2610,7 +2704,7 @@
   {
    "id": "saylor.bus107",
    "title": "BUS107: Customer Service",
-   "provider": "Saylor Academy",
+   "provider": "Saylor University",
    "url": "https://learn.saylor.org/course/bus107",
    "kind": "course",
    "level": [],
@@ -2618,12 +2712,13 @@
    "hours": 26.0,
    "hours_source": "26 hours stated on the provider's course page",
    "provider_last_modified": "",
-   "access": "Free; enrolling needs a free Saylor Academy account",
+   "access": "Free; enrolling needs a free Saylor account",
    "dwas": [
     "4.A.4.a.8.c.6"
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Describe how to create favorable impressions with customers",
     "Illustrate how to maintain a professional attitude even when handling difficult customers",
@@ -2651,7 +2746,7 @@
   {
    "id": "saylor.bus202",
    "title": "BUS202: Principles of Finance",
-   "provider": "Saylor Academy",
+   "provider": "Saylor University",
    "url": "https://learn.saylor.org/course/bus202",
    "kind": "course",
    "level": [],
@@ -2659,13 +2754,14 @@
    "hours": 33.0,
    "hours_source": "33 hours stated on the provider's course page",
    "provider_last_modified": "",
-   "access": "Free; enrolling needs a free Saylor Academy account",
+   "access": "Free; enrolling needs a free Saylor account",
    "dwas": [
     "4.A.2.a.4.k.4",
     "4.A.2.a.4.b.4"
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Explain the objectives of finance",
     "Explain financial statement methods and ratio analysis",
@@ -2693,7 +2789,7 @@
   {
    "id": "saylor.bus250",
    "title": "BUS250: Introduction to Business Intelligence and Analytics",
-   "provider": "Saylor Academy",
+   "provider": "Saylor University",
    "url": "https://learn.saylor.org/course/bus250",
    "kind": "course",
    "level": [],
@@ -2701,13 +2797,14 @@
    "hours": 46.0,
    "hours_source": "46 hours stated on the provider's course page",
    "provider_last_modified": "",
-   "access": "Free; enrolling needs a free Saylor Academy account",
+   "access": "Free; enrolling needs a free Saylor account",
    "dwas": [
     "4.A.2.a.4.b.6",
     "4.A.3.b.6.c.5"
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Explain the fundamentals of business intelligence and how business intelligence is applied in modern organizations",
     "Analyze the sources of data that are used for business intelligence purposes",
@@ -2735,7 +2832,7 @@
   {
    "id": "saylor.cs402",
    "title": "CS402: Computer Communications and Networks",
-   "provider": "Saylor Academy",
+   "provider": "Saylor University",
    "url": "https://learn.saylor.org/course/cs402",
    "kind": "course",
    "level": [],
@@ -2743,12 +2840,13 @@
    "hours": 38.0,
    "hours_source": "38 hours stated on the provider's course page",
    "provider_last_modified": "",
-   "access": "Free; enrolling needs a free Saylor Academy account",
+   "access": "Free; enrolling needs a free Saylor account",
    "dwas": [
     "4.A.3.b.1.c.4"
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Describe the architecture of a computer network and how each device in a network communicates with each other",
     "Compare the basic network protocols in each layer of a transmission control protocol/Internet protocol (TCP/IP) stack with its counterpart Open Systems Interconnection (OSI) layer",
@@ -2775,7 +2873,7 @@
   {
    "id": "saylor.prdv002",
    "title": "PRDV002: Professional Writing",
-   "provider": "Saylor Academy",
+   "provider": "Saylor University",
    "url": "https://learn.saylor.org/course/prdv002",
    "kind": "course",
    "level": [],
@@ -2783,7 +2881,7 @@
    "hours": 12.0,
    "hours_source": "12 hours stated on the provider's course page",
    "provider_last_modified": "",
-   "access": "Free; enrolling needs a free Saylor Academy account",
+   "access": "Free; enrolling needs a free Saylor account",
    "dwas": [
     "4.A.3.b.6.h.11",
     "4.A.3.b.6.h.2",
@@ -2792,6 +2890,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Identify the purpose of your writing among the major genres of professional writing",
     "Adapt your message to reach different contexts and audiences",
@@ -2816,7 +2915,7 @@
   {
    "id": "saylor.prdv004",
    "title": "PRDV004: Spreadsheets",
-   "provider": "Saylor Academy",
+   "provider": "Saylor University",
    "url": "https://learn.saylor.org/course/prdv004",
    "kind": "course",
    "level": [],
@@ -2824,7 +2923,7 @@
    "hours": 5.0,
    "hours_source": "5 hours stated on the provider's course page",
    "provider_last_modified": "",
-   "access": "Free; enrolling needs a free Saylor Academy account",
+   "access": "Free; enrolling needs a free Saylor account",
    "dwas": [
     "4.A.3.b.6.a.2",
     "4.A.3.b.6.a.1",
@@ -2835,6 +2934,7 @@
     "Google Sheets"
    ],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Describe the basic components of a spreadsheet, such as workbooks, sheets, cells, rows, and columns",
     "Perform basic calculations and apply formulas in Microsoft Excel and Google Sheets",
@@ -2857,7 +2957,7 @@
   {
    "id": "saylor.prdv006",
    "title": "PRDV006: Spreadsheets II: Formatting and Functions",
-   "provider": "Saylor Academy",
+   "provider": "Saylor University",
    "url": "https://learn.saylor.org/course/prdv006",
    "kind": "course",
    "level": [],
@@ -2865,7 +2965,7 @@
    "hours": 11.0,
    "hours_source": "11 hours stated on the provider's course page",
    "provider_last_modified": "",
-   "access": "Free; enrolling needs a free Saylor Academy account",
+   "access": "Free; enrolling needs a free Saylor account",
    "dwas": [
     "4.A.2.a.4.g.1",
     "4.A.2.a.4.k.1"
@@ -2875,6 +2975,7 @@
     "Google Sheets"
    ],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Use formatting features to format text, cells, and numbers, and use conditional formatting as appropriate",
     "Write basic formulas and use functions SUM, AVERAGE, COUNT, MAX, MIN, PMT, and FV to perform basic, statistical, and financial calculations",
@@ -2901,7 +3002,7 @@
   {
    "id": "saylor.prdv007",
    "title": "PRDV007: Spreadsheets III: Presenting Data",
-   "provider": "Saylor Academy",
+   "provider": "Saylor University",
    "url": "https://learn.saylor.org/course/prdv007",
    "kind": "course",
    "level": [],
@@ -2909,7 +3010,7 @@
    "hours": 10.0,
    "hours_source": "10 hours stated on the provider's course page",
    "provider_last_modified": "",
-   "access": "Free; enrolling needs a free Saylor Academy account",
+   "access": "Free; enrolling needs a free Saylor account",
    "dwas": [
     "4.A.3.b.6.c.5"
    ],
@@ -2918,6 +3019,7 @@
     "Google Sheets"
    ],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Illustrate a line, column/bar, pie, and stacked column/bar chart that is appropriate for the given data",
     "Diagram a scatterplot with a trendline and line equation for a data series",
@@ -2944,7 +3046,7 @@
   {
    "id": "saylor.prdv011",
    "title": "PRDV011: Financial Literacy from a Global Perspective",
-   "provider": "Saylor Academy",
+   "provider": "Saylor University",
    "url": "https://learn.saylor.org/course/prdv011",
    "kind": "course",
    "level": [],
@@ -2952,13 +3054,14 @@
    "hours": 22.0,
    "hours_source": "22 hours stated on the provider's course page",
    "provider_last_modified": "",
-   "access": "Free; enrolling needs a free Saylor Academy account",
+   "access": "Free; enrolling needs a free Saylor account",
    "dwas": [
     "4.A.4.b.6.k.3",
     "4.A.2.a.1.i.2"
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Outline how to prepare a personal budget and the financial benefits of saving",
     "Define credit score and the benefits and risks of consumer credit options",
@@ -2986,7 +3089,7 @@
   {
    "id": "saylor.prdv200",
    "title": "PRDV200: Communicating with Data",
-   "provider": "Saylor Academy",
+   "provider": "Saylor University",
    "url": "https://learn.saylor.org/course/prdv200",
    "kind": "course",
    "level": [],
@@ -2994,13 +3097,14 @@
    "hours": 9.0,
    "hours_source": "9 hours stated on the provider's course page",
    "provider_last_modified": "",
-   "access": "Free; enrolling needs a free Saylor Academy account",
+   "access": "Free; enrolling needs a free Saylor account",
    "dwas": [
     "4.A.3.b.6.c.5",
     "4.A.4.a.2.c.10"
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Identify the foundations of dashboard design theory",
     "Summarize the benefits of data visualization practices in industry",
@@ -3026,7 +3130,7 @@
   {
    "id": "saylor.prdv201",
    "title": "PRDV201: Information Literacy",
-   "provider": "Saylor Academy",
+   "provider": "Saylor University",
    "url": "https://learn.saylor.org/course/prdv201",
    "kind": "course",
    "level": [],
@@ -3034,7 +3138,7 @@
    "hours": 7.0,
    "hours_source": "7 hours stated on the provider's course page",
    "provider_last_modified": "",
-   "access": "Free; enrolling needs a free Saylor Academy account",
+   "access": "Free; enrolling needs a free Saylor account",
    "dwas": [
     "4.A.1.a.1.t.4",
     "4.A.1.a.1.b.7",
@@ -3042,6 +3146,7 @@
    ],
    "tools": [],
    "ai_skill": false,
+   "families": [],
    "objectives": [
     "Explain the steps in the research process, including identifying your topic, gathering background information, locating material, evaluating sources, and citing sources",
     "Identify the appropriate research tool for your information need",
@@ -3066,7 +3171,7 @@
   {
    "id": "saylor.prdv433",
    "title": "PRDV433: Enhancing Spreadsheets with Generative AI",
-   "provider": "Saylor Academy",
+   "provider": "Saylor University",
    "url": "https://learn.saylor.org/course/prdv433",
    "kind": "course",
    "level": [],
@@ -3074,7 +3179,7 @@
    "hours": 10.0,
    "hours_source": "10 hours stated on the provider's course page",
    "provider_last_modified": "",
-   "access": "Free; enrolling needs a free Saylor Academy account",
+   "access": "Free; enrolling needs a free Saylor account",
    "dwas": [
     "4.A.2.a.4.k.4",
     "4.A.2.a.4.g.1"
@@ -3083,6 +3188,7 @@
     "Microsoft Excel"
    ],
    "ai_skill": true,
+   "families": [],
    "objectives": [
     "Explain the key concepts and benefits of using generative AI tools (like ChatGPT and Claude) in spreadsheet environments",
     "Use generative AI tools to generate and interpret basic and advanced Excel formulas based on natural language prompts",

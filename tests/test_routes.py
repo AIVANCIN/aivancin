@@ -7,7 +7,7 @@ import pytest
 from aivancin import intake, pathway
 from aivancin.matching import Matcher
 from aivancin.report import Reporter, ReportError
-from aivancin.routes import MAX_ROUTES, MIN_DONE, PER_GAP, Planner, effort
+from aivancin.routes import MAX_ROUTES, MIN_DONE, PER_GAP, Planner, effort, fits_family
 
 TODAY = dt.date(2026, 10, 21)
 HAFIZ_SIDE_WORK = ["4.A.3.b.1.d.1", "4.A.3.b.1.d.3", "4.A.3.b.1.c.1", "4.A.3.b.1.b.2", "4.A.3.b.1.f.4", "4.A.2.b.2.b.8"]
@@ -109,6 +109,39 @@ def test_b3_partial_block_says_so_and_lists_uncovered_gaps(planner, hafiz):
         assert (b["status"] == "partial") == bool(unserved_with_resource)
         assert {g["dwa_id"] for g in b["uncovered"]} == {g["dwa_id"] for g in r["prioritized"] if not g["served"]}
 
+
+
+def test_b3_blocks_use_only_entries_meant_for_the_destination_family(snaps, planner, hafiz, priya):
+    """Unit-testing modules teach "Test software performance" for developers, not for IT support."""
+    entries = {c["id"]: c for c in snaps.catalogue["courses"]}
+    assert any(c.get("families") for c in entries.values())
+    for prof in (hafiz, priya):
+        for code, dest in planner.dests.items():
+            res = planner.routes(prof, {"weeks": 12, "target": code}, today=TODAY)
+            route = next(r for r in res["routes"] if r["code"] == code)
+            for s in route["block"]["steps"]:
+                assert fits_family(entries[s["id"]], dest["family"]), (code, s["id"])
+
+
+def _entry(cid, gap, hours, practice):
+    return {"id": cid, "dwas": [gap], "cost_rm": 0, "hours": hours, "practice_hours": practice, "requires": [],
+            "ai_skill": False, "families": []}
+
+
+@pytest.mark.parametrize("capacity,expected", [(20, {"short-g1", "short-g2", "short-g3"}),
+                                               (30, {"short-g1", "short-g2", "short-g3", "long-g1"})])
+def test_b3_a_long_entry_waits_for_shorter_ones(planner, capacity, expected):
+    """A 15-hour course on the heaviest gap must not crowd out three 3-hour courses for three gaps.
+
+    Worked by hand: shorter entries first use 9 hours; the long one then fits only when 24 <= capacity.
+    """
+    missing = [{"dwa_id": "g1", "weight": 4.0, "name": "g1"}, {"dwa_id": "g2", "weight": 1.0, "name": "g2"},
+               {"dwa_id": "g3", "weight": 1.0, "name": "g3"}]
+    courses = [_entry("long-g1", "g1", 10.0, 5.0), _entry("short-g1", "g1", 2.0, 1.0),
+               _entry("short-g2", "g2", 2.0, 1.0), _entry("short-g3", "g3", 2.0, 1.0)]
+    b = planner.block("15-1231.00", missing, courses, {"capacity": capacity, "budget": 0, "completed": set()})
+    assert {x["id"] for x in b["steps"]} == expected
+    assert b["served"] == {"g1", "g2", "g3"} and b["used"] <= capacity
 
 def test_b4_no_step_before_an_entry_it_requires(planner, hafiz, priya):
     for prof in (hafiz, priya):

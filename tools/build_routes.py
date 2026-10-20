@@ -20,6 +20,7 @@ from aivancin import snapshots  # noqa: E402
 from aivancin.matching import Matcher  # noqa: E402
 from aivancin.pathway import verified_courses  # noqa: E402
 from aivancin.report import Reporter  # noqa: E402
+from aivancin.routes import fits_family  # noqa: E402
 
 CURATION = ROOT / "tools" / "destinations_curation.json"
 OUT = ROOT / "data" / "routes" / "destinations.json"
@@ -49,7 +50,8 @@ def main():
         masco = rep.masco(code)
         weights = m.w.get(code, {})
         top = [a for a, _ in sorted(weights.items(), key=lambda kv: (-kv[1], kv[0]))[:TOP_ACTIVITIES]]
-        covered = sorted({a for a in top for c in courses if a in c.get("dwas", [])})
+        usable = [c for c in courses if fits_family(c, d["family"])]
+        covered = sorted({a for a in top for c in usable if a in c.get("dwas", [])})
         reqs = []
         if jz and str(jz) in zones:
             reqs.append({"id": "job_zone_education", "kind": "qualification", "scope": "US",

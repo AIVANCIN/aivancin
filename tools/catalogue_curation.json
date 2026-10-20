@@ -1,5 +1,5 @@
 {
- "note": "Curated Microsoft Learn items and Saylor Academy courses. For each Microsoft Learn item the encoder proposed activities from the provider's title and summary; for each Saylor course the curator read the stated course learning outcomes. The curator kept only the links listed here (dwas), named the in-demand tools it teaches (tools, using O*NET software example names) and marked items that teach directing and checking AI output (ai_skill). Titles, URLs and durations come from the Microsoft Learn catalog API and from each Saylor course page when tools/build_catalogue.py runs. Route entries also record a coverage grade (introduces or practises), a practice checkpoint that produces an inspectable artifact and the entries they require first; Saylor states no prerequisites, so a requires link there is the curator's reading of the course sequence.",
+ "note": "Curated Microsoft Learn items and Saylor University courses. For each Microsoft Learn item the encoder proposed activities from the provider's title and summary; for each Saylor course the curator read the stated course learning outcomes. The curator kept only the links listed here (dwas), named the in-demand tools it teaches (tools, using O*NET software example names) and marked items that teach directing and checking AI output (ai_skill). Titles, URLs and durations come from the Microsoft Learn catalog API and from each Saylor course page when tools/build_catalogue.py runs. Route entries also record a coverage grade (introduces or practises), a practice checkpoint that produces an inspectable artifact and the entries they require first; Saylor states no prerequisites, so a requires link there is the curator's reading of the course sequence. families, where present, limits an entry to destination families in which its activities mean the same work (an activity such as \"Test software performance\" is unit testing for a developer but not for IT support).",
  "curated_on": "2026-10-20",
  "items": [
   {
@@ -79,7 +79,10 @@
     "4.A.1.b.2.h.2"
    ],
    "coverage": "practises",
-   "checkpoint": "Write tests for your program, including one that fails before a fix and passes after it."
+   "checkpoint": "Write tests for your program, including one that fails before a fix and passes after it.",
+   "families": [
+    "software"
+   ]
   },
   {
    "uid": "learn.build-with-playwright",
@@ -89,7 +92,10 @@
     "4.A.3.b.6.i.6"
    ],
    "coverage": "practises",
-   "checkpoint": "Write an end-to-end test for one page of a site and a bug report for any failure you find."
+   "checkpoint": "Write an end-to-end test for one page of a site and a bug report for any failure you find.",
+   "families": [
+    "software"
+   ]
   },
   {
    "uid": "learn.wwl.get-started-querying-with-transact-sql",
@@ -122,7 +128,10 @@
     "4.A.3.b.5.c.6"
    ],
    "coverage": "introduces",
-   "checkpoint": "List the monthly health checks you would run on the devices you support and what result counts as a problem."
+   "checkpoint": "List the monthly health checks you would run on the devices you support and what result counts as a problem.",
+   "families": [
+    "it_support"
+   ]
   },
   {
    "uid": "learn.wwl.describe-concepts-of-security-compliance-identity",
@@ -334,7 +343,10 @@
    "requires": [
     "learn.azure.network-fundamentals"
    ],
-   "checkpoint": "Record the commands you used to view and change a test machine's network settings, with the output before and after."
+   "checkpoint": "Record the commands you used to view and change a test machine's network settings, with the output before and after.",
+   "families": [
+    "it_support"
+   ]
   },
   {
    "uid": "learn.wwl.design-implement-network-monitoring",
@@ -367,7 +379,10 @@
     "4.A.1.a.2.j.3"
    ],
    "coverage": "introduces",
-   "checkpoint": "Write a monthly maintenance checklist for the computers and network you look after."
+   "checkpoint": "Write a monthly maintenance checklist for the computers and network you look after.",
+   "families": [
+    "it_support"
+   ]
   },
   {
    "uid": "learn.wwl.monitor-windows-server-performance",
@@ -376,7 +391,10 @@
     "4.A.2.a.4.g.14"
    ],
    "coverage": "practises",
-   "checkpoint": "Collect a performance baseline for one machine and note one finding with the counter that shows it."
+   "checkpoint": "Collect a performance baseline for one machine and note one finding with the counter that shows it.",
+   "families": [
+    "it_support"
+   ]
   },
   {
    "uid": "learn.wwl.explore-windows-package-manager-tool",
@@ -385,7 +403,11 @@
     "4.A.4.b.6.d.2"
    ],
    "coverage": "practises",
-   "checkpoint": "Write a list of package-manager commands that installs and updates a standard set of applications, and test it on one machine."
+   "checkpoint": "Write a list of package-manager commands that installs and updates a standard set of applications, and test it on one machine.",
+   "families": [
+    "it_support",
+    "software"
+   ]
   },
   {
    "uid": "learn.wwl.troubleshoot-intune-devices",
@@ -394,7 +416,10 @@
     "4.A.3.b.1.d.3"
    ],
    "coverage": "practises",
-   "checkpoint": "Write a troubleshooting log for one real or practice problem: symptom, checks in order, cause, fix and how you confirmed it."
+   "checkpoint": "Write a troubleshooting log for one real or practice problem: symptom, checks in order, cause, fix and how you confirmed it.",
+   "families": [
+    "it_support"
+   ]
   },
   {
    "uid": "learn.wwl.describe-security-concepts-methodologies",
@@ -480,7 +505,10 @@
    "requires": [
     "learn.test-python-with-pytest"
    ],
-   "checkpoint": "Add parametrised tests and a fixture to your test suite and keep the run output."
+   "checkpoint": "Add parametrised tests and a fixture to your test suite and keep the run output.",
+   "families": [
+    "software"
+   ]
   },
   {
    "uid": "learn.cela-accessibility.accessibility-evaluation-and-testing",
@@ -488,7 +516,10 @@
     "4.A.4.b.6.d.6"
    ],
    "coverage": "introduces",
-   "checkpoint": "Test one web page for accessibility and write three recommended changes with the problem each fixes."
+   "checkpoint": "Test one web page for accessibility and write three recommended changes with the problem each fixes.",
+   "families": [
+    "software"
+   ]
   },
   {
    "uid": "learn.github.manage-work-github-projects",
@@ -507,7 +538,10 @@
     "4.A.3.b.6.i.4"
    ],
    "coverage": "introduces",
-   "checkpoint": "Write a one-page specification for a small app: its users, requirements and acceptance checks."
+   "checkpoint": "Write a one-page specification for a small app: its users, requirements and acceptance checks.",
+   "families": [
+    "software"
+   ]
   },
   {
    "uid": "learn.azure.inclusive-design-principles",
@@ -534,7 +568,10 @@
     "4.A.2.b.2.b.7"
    ],
    "coverage": "introduces",
-   "checkpoint": "Write a debugging log for one bug: how you reproduced it, what you inspected, the fix and the test that proves it."
+   "checkpoint": "Write a debugging log for one bug: how you reproduced it, what you inspected, the fix and the test that proves it.",
+   "families": [
+    "software"
+   ]
   },
   {
    "uid": "learn.tm-use-recommended-tools-to-create-a-data-flow-diagram",
@@ -804,7 +841,10 @@
     "4.A.2.a.1.g.8"
    ],
    "coverage": "introduces",
-   "checkpoint": "Assess one computer you look after (or the module's example) for Windows 11 and write an upgrade recommendation naming each requirement it meets or misses."
+   "checkpoint": "Assess one computer you look after (or the module's example) for Windows 11 and write an upgrade recommendation naming each requirement it meets or misses.",
+   "families": [
+    "it_support"
+   ]
   },
   {
    "uid": "learn.dpu.work-smarter-copilot-finance",

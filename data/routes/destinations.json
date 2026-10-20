@@ -73,7 +73,6 @@
    "top_activities_with_resources": [
     "4.A.1.a.1.b.7",
     "4.A.1.a.2.j.3",
-    "4.A.1.b.2.h.3",
     "4.A.2.a.1.g.8",
     "4.A.2.b.3.a.7",
     "4.A.3.b.1.c.1",
@@ -154,8 +153,6 @@
    "top_activities_with_resources": [
     "4.A.1.a.1.t.4",
     "4.A.1.a.2.j.2",
-    "4.A.1.b.2.h.2",
-    "4.A.1.b.2.h.3",
     "4.A.3.b.1.c.1",
     "4.A.3.b.1.c.4",
     "4.A.3.b.1.d.1",
@@ -224,11 +221,9 @@
    "top_activities_with_resources": [
     "4.A.1.a.1.t.4",
     "4.A.1.a.2.j.2",
-    "4.A.2.a.4.e.5",
     "4.A.3.b.1.b.1",
     "4.A.3.b.5.c.2",
-    "4.A.4.b.6.d.5",
-    "4.A.4.b.6.d.6"
+    "4.A.4.b.6.d.5"
    ],
    "admission": {
     "job_zone_3_or_4": true,
@@ -304,7 +299,6 @@
    ],
    "top_activities_with_resources": [
     "4.A.1.a.2.j.1",
-    "4.A.1.b.2.h.2",
     "4.A.2.b.3.a.7",
     "4.A.3.b.1.b.1",
     "4.A.3.b.1.d.2",
@@ -466,11 +460,9 @@
    ],
    "top_activities_with_resources": [
     "4.A.1.a.1.b.7",
-    "4.A.1.a.2.j.3",
     "4.A.1.b.2.h.2",
     "4.A.1.b.2.h.3",
     "4.A.2.a.1.g.6",
-    "4.A.2.a.1.g.8",
     "4.A.3.b.1.c.1",
     "4.A.3.b.2.f.15",
     "4.A.3.b.6.h.11",
@@ -550,7 +542,6 @@
    ],
    "top_activities_with_resources": [
     "4.A.1.b.2.h.3",
-    "4.A.2.a.1.g.8",
     "4.A.2.a.4.e.5",
     "4.A.2.b.2.b.8",
     "4.A.2.b.2.f.4",

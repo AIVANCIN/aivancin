@@ -1,5 +1,5 @@
 """Build data/catalogue/courses.json from tools/catalogue_curation.json, the Microsoft Learn catalog API
-and Saylor Academy course pages.
+and Saylor University course pages.
 
 Run from the repo root: python tools/build_catalogue.py
 Each entry takes its title, URL and stated duration from the provider (the Microsoft Learn catalog API, or
@@ -22,7 +22,7 @@ CURATION = ROOT / "tools" / "catalogue_curation.json"
 OUT = ROOT / "data" / "catalogue" / "courses.json"
 API = "https://learn.microsoft.com/api/catalog/?type=modules,learningPaths&locale=en-us"
 SAYLOR = "https://learn.saylor.org/course/"
-SAYLOR_ACCESS = "Free; enrolling needs a free Saylor Academy account"
+SAYLOR_ACCESS = "Free; enrolling needs a free Saylor account"
 UA = "Mozilla/5.0 (aivancin-catalogue-builder)"
 VALIDITY_DAYS = 60
 
@@ -122,11 +122,12 @@ def main():
 
     def build_saylor(c):
         url, title, hours, objectives, check = saylor_facts(c["code"])
-        entry = {"id": c["uid"], "title": title or c["code"].upper(), "provider": "Saylor Academy", "url": url,
+        entry = {"id": c["uid"], "title": title or c["code"].upper(), "provider": "Saylor University", "url": url,
                  "kind": "course", "level": [], "cost_rm": 0, "hours": hours or 0.0,
                  "hours_source": f"{hours:g} hours stated on the provider's course page" if hours else "not stated",
                  "provider_last_modified": "", "access": SAYLOR_ACCESS,
                  "dwas": c.get("dwas", []), "tools": c.get("tools", []), "ai_skill": bool(c.get("ai_skill")),
+                 "families": c.get("families", []),
                  "objectives": objectives, "provider_prerequisites": "None stated by the provider",
                  "verified_on": today, "link_check": {**check, "checked_on": today}}
         entry.update(route_fields(c, hours or 0.0))
@@ -145,6 +146,7 @@ def main():
                  "hours_source": f"{p['duration_in_minutes']} minutes stated by the provider's catalog",
                  "provider_last_modified": p.get("last_modified", "")[:10],
                  "dwas": c.get("dwas", []), "tools": c.get("tools", []), "ai_skill": bool(c.get("ai_skill")),
+                 "families": c.get("families", []),
                  "objectives": objectives or [p.get("summary", "")], "provider_prerequisites": prereq,
                  "verified_on": today, "link_check": {**check, "checked_on": today}}
         entry.update(route_fields(c, hours))
@@ -154,7 +156,7 @@ def main():
         courses = list(ex.map(build, curation["items"]))
     courses.sort(key=lambda c: c["id"])
     out = {"catalogue_date": today, "validity_days": VALIDITY_DAYS, "curated_on": curation["curated_on"],
-           "source": "Microsoft Learn catalog API (" + API + ") and Saylor Academy course pages (" + SAYLOR + ")",
+           "source": "Microsoft Learn catalog API (" + API + ") and Saylor University course pages (" + SAYLOR + ")",
            "courses": courses, "requirements": []}
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(out, indent=1, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")

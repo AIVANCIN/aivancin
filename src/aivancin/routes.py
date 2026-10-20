@@ -14,6 +14,7 @@ PRIORITY_GAPS = 8
 MAX_ROUTES = 3
 MIN_DONE = 2  # initial: a route needs at least two confirmed activities among the role's
 PER_GAP = 2  # initial: at most two entries per prioritized gap in a block (an introduction, then practice)
+LONG_SHARE = 0.5  # initial: an entry needing more than this share of the block's hours waits for the shorter ones
 CAT = "aivancin-catalogue"
 ROUTES_SRC = "aivancin-routes"
 AI_FORM = ("Do it yourself first, then ask an AI assistant to do the same task and check its output against yours; "
@@ -23,6 +24,11 @@ LOCAL_EVIDENCE = "Malaysian opportunity evidence: not shown until reuse permissi
 
 def effort(c):
     return c["hours"] + c.get("practice_hours", 0.0)
+
+
+def fits_family(c, family):
+    """An entry limited to some destination families serves only those (its activities mean other work elsewhere)."""
+    return not c.get("families") or family in c["families"]
 
 
 class Planner:
@@ -100,6 +106,7 @@ class Planner:
         return out
 
     def block(self, code, missing, courses, o):
+        courses = [c for c in courses if fits_family(c, self.dests[code]["family"])]
         prioritized = missing[:PRIORITY_GAPS]
         weight = {g["dwa_id"]: g["weight"] for g in prioritized}
         by_id = {c["id"]: c for c in courses}
@@ -113,10 +120,12 @@ class Planner:
         chosen, used, spent = {}, 0.0, 0.0
         done = [by_id[i] for i in sorted(o["completed"]) if i in by_id and serves(by_id[i])]
         per_gap = {}
-        for c in candidates:
+        # Breadth before depth: entries needing more than half the block's hours are considered only after the
+        # shorter ones, and an entry joins only if it serves a gap that has fewer than two entries so far.
+        long_entry = lambda c: effort(c) > o["capacity"] * LONG_SHARE  # noqa: E731
+        for c in [c for c in candidates if not long_entry(c)] + [c for c in candidates if long_entry(c)]:
             if c["id"] in chosen or c["id"] in o["completed"]:
                 continue
-            # Breadth before depth: an entry joins only if it serves a gap that has fewer than two entries so far.
             if all(per_gap.get(g["dwa_id"], 0) >= PER_GAP for g in serves(c)):
                 continue
             chain = self._closure(c, by_id, chosen, o["completed"])

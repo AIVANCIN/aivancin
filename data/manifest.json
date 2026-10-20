@@ -362,10 +362,10 @@
       "release": "2026-10-20",
       "licence": "Derived from CC BY sources",
       "access_date": "2026-10-20",
-      "original_sha256": "c18d59b3585c42753c6dd76bc56f6855c30c6f740bfc95ab2e92de014cea1979",
+      "original_sha256": "9b661b9640cdf0fd427cb8f9bd723a94bca70a975eb57f051b120198fe0ff32c",
       "derived_rows": null,
       "derived_path": "routes/destinations.json",
-      "derived_sha256": "c18d59b3585c42753c6dd76bc56f6855c30c6f740bfc95ab2e92de014cea1979"
+      "derived_sha256": "9b661b9640cdf0fd427cb8f9bd723a94bca70a975eb57f051b120198fe0ff32c"
     },
     {
       "source_id": "aivancin-catalogue",
@@ -375,10 +375,10 @@
       "release": "2026-10-20",
       "licence": "Links to third-party pages; see each entry",
       "access_date": "2026-10-20",
-      "original_sha256": "e4a5166e15257eb29060cbb68ef44c36166d34022e23ab41422b60a66d2e3ee6",
+      "original_sha256": "95a807a1c216859f76439611c04f4e2fec89d56d6cfc01b36128db1f8547636d",
       "derived_rows": 79,
       "derived_path": "catalogue/courses.json",
-      "derived_sha256": "e4a5166e15257eb29060cbb68ef44c36166d34022e23ab41422b60a66d2e3ee6"
+      "derived_sha256": "95a807a1c216859f76439611c04f4e2fec89d56d6cfc01b36128db1f8547636d"
     },
     {
       "source_id": "aei-report-2511.15080",
