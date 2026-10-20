@@ -147,12 +147,14 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 | **Core path and recovery** | PASS, 70/70 tests | `python -m pytest`, 20 Oct 2026, Windows 11, Python 3.13; network access blocked during tests; includes missing, altered and mismatched model files, a corrupted AI-usage release and expired course link checks |
 | **Skill-outlook backtest** | Predicting the June 2026 value of 500 activities from the three earlier releases: historical average 16.3 points mean absolute error, last value 17.8, trend line 22.0. Past changes continued in only 31.9% of 364 cases | `python tools/checks/a18_backtest.py`; protocol and thresholds fixed before the run; one release only, across a format change. Hence the moderate scenario uses the average and the radar shows no rising or falling labels |
 | **Hafiz contrast** | Job title alone: 0 of the top 10 roles are computing roles; with his confirmed weekend work: at least 6 of 10 | `tests/test_matching_and_report.py`; relevance rule fixed before the earlier research probe; synthetic persona |
-| **Improvement against a baseline** | NOT RUN | A comparison with keyword search on fresh descriptions is planned |
+| **Suggestion accuracy (A1)** | PASS, 16 of 20 fresh everyday descriptions have a correct activity in the top five (bar: 16) | `python tools/checks/a1_a3.py`; sets in `tests/acceptance/`, written and hashed before the run; synthetic, agent-written English |
+| **Complete chain (A2)** | FAIL, 29 of 50 top-five roles relevant (bar: 30) and 5 of 10 profiles with three or more (bar: 7), other-work lane | Strong for electrical, motorcycle repair, laboratory, tutoring and finance work; weak for marketing, civil works, HR, statistics and agriculture. Information only: the studies lane on the same activities gave 31 of 50 and 7 of 10, partly because relevance follows the degree field |
+| **Improvement against a baseline (A3)** | PASS, the model chain beats keyword (BM25) suggestions on the same text by 13 relevant roles per 50 (29 against 16; bar: 10) | Same run and sets as A2 |
 | **Usability with target users** | NOT RUN | Personas and test sentences are synthetic |
 | **Speed** | 45 ms for Hafiz's 9 sentences, model already loaded | One run on a laptop CPU; Replit not measured |
 
 **What we can conclude:** suggestions, guard, confirmation, matching, evidence, plan and fallback work as designed on the bundled data and synthetic text.  
-**What we cannot conclude yet:** suggestion accuracy on real users' descriptions, matching quality beyond the synthetic personas, or any benefit to users. A role's overlap is overlap in recorded O\*NET activity links, not how much of the job someone can do.
+**What we cannot conclude yet:** suggestion accuracy or matching quality on real users' descriptions (on synthetic profiles the complete chain missed its bar, A2), or any benefit to users. A role's overlap is overlap in recorded O\*NET activity links, not how much of the job someone can do.
 
 **Known limitations:**
 
