@@ -163,19 +163,74 @@ def test_invalid_options_are_rejected_with_field_messages(reporter, hafiz_profil
 
 
 def test_plan_shows_only_verified_entries_within_budget(reporter, hafiz_profile, snaps):
-    rep = reporter.report(hafiz_profile, {"lane": "other_work"}, today=dt.date(2026, 10, 21))
     by_id = {c["id"]: c for c in snaps.catalogue["courses"]}
+    for scenario in ("moderate", "faster"):
+        rep = reporter.report(hafiz_profile, {"lane": "other_work", "scenario": scenario, "threshold": 30},
+                              today=dt.date(2026, 10, 21))
+        for role in rep["roles"]:
+            unique = {}
+            for step in role["plan"]["steps"] + role["plan"]["ai_steps"]:
+                if step["course"] is None:
+                    assert step["status"].startswith("no verified resource")
+                else:
+                    c = by_id[step["course"]["id"]]
+                    assert c["link_check"]["ok"]
+                    unique[c["id"]] = c
+            assert sum(c["cost_rm"] for c in unique.values()) <= hafiz_profile["budget_rm"]
+
+
+def test_plan_totals_count_every_unique_course_once(reporter, hafiz_profile, snaps):
+    """Review finding: AI-practice hours were left out of totals. Totals now cover every unique course once."""
+    by_id = {c["id"]: c for c in snaps.catalogue["courses"]}
+    rep = reporter.report(hafiz_profile, {"lane": "other_work", "scenario": "faster", "threshold": 30},
+                          today=dt.date(2026, 10, 21))
+    assert any(r["plan"]["ai_steps"] for r in rep["roles"])
     for role in rep["roles"]:
-        spent = 0
-        for step in role["plan"]["steps"] + role["plan"]["ai_steps"]:
-            if step["course"] is None:
-                assert step["status"].startswith("no verified resource")
+        ids = {s["course"]["id"] for s in role["plan"]["steps"] + role["plan"]["ai_steps"] if s["course"]}
+        assert role["plan"]["unique_courses"] == len(ids)
+        assert role["plan"]["total_hours"]["v"] == round(sum(by_id[i]["hours"] for i in ids), 1)
+        assert role["plan"]["total_cost_rm"]["v"] == round(sum(by_id[i]["cost_rm"] for i in ids), 2)
+        verified = [s["course"]["id"] for s in role["plan"]["steps"] + role["plan"]["ai_steps"] if s["status"] == "verified"]
+        assert len(verified) == len(set(verified))  # a course is introduced once; later uses say so
+
+
+def test_ai_steps_match_the_activity_or_say_general(reporter, hafiz_profile, snaps):
+    """Review finding: one unrelated AI course was attached to every crossing activity."""
+    by_id = {c["id"]: c for c in snaps.catalogue["courses"]}
+    rep = reporter.report(hafiz_profile, {"lane": "other_work", "scenario": "faster", "threshold": 30},
+                          today=dt.date(2026, 10, 21))
+    seen = 0
+    for role in rep["roles"]:
+        for s in role["plan"]["ai_steps"]:
+            if not s["course"]:
+                continue
+            seen += 1
+            c = by_id[s["course"]["id"]]
+            assert c["ai_skill"]
+            if s["match"] == "activity":
+                assert s["gap"]["dwa_id"] in c["dwas"]
             else:
-                c = by_id[step["course"]["id"]]
-                assert c["link_check"]["ok"]
-                if step["status"] == "verified" and step["kind"] != "direct_ai":
-                    spent += c["cost_rm"]
-        assert spent <= hafiz_profile["budget_rm"]
+                assert s["match"] == "general" and not c["dwas"] and not c["tools"]
+    assert seen
+
+
+def test_default_scope_ranks_only_skilled_destinations(reporter, hafiz_profile, snaps):
+    """Review finding: semi-skilled and unmapped roles were presented as graduate destinations."""
+    from aivancin.report import ReportError as RE
+    rep = reporter.report(hafiz_profile, {"lane": "all"})
+    assert rep["scope"] == "skilled"
+    assert rep["roles"] and all(r["masco"].get("skill") == "skilled" for r in rep["roles"])
+    wide = reporter.report(hafiz_profile, {"lane": "all", "scope": "all"})
+    assert wide["scope"] == "all" and wide["candidate_pool"]["v"] > rep["candidate_pool"]["v"]
+    with pytest.raises(RE):
+        reporter.report(hafiz_profile, {"lane": "all", "scope": "everything"})
+
+
+def test_every_skill_carries_sdg_4_4(reporter, hafiz_profile):
+    rep = reporter.report(hafiz_profile, {"lane": "other_work", "scenario": "faster", "threshold": 30})
+    for role in rep["roles"]:
+        assert all(d["sdg"] == ["4.4"] for d in role["done"] + role["missing"])
+        assert all(s["sdg"] == ["4.4"] for s in role["plan"]["steps"] + role["plan"]["ai_steps"])
 
 
 def test_expired_link_checks_show_no_verified_resource(reporter, hafiz_profile):
@@ -267,7 +322,7 @@ def test_activity_outlook_matches_an_independent_count(snaps):
 
 def test_classes_follow_the_displayed_thresholds():
     from aivancin.outlook import classify, LOWER_CUT
-    assert classify(None, 50) == "little or no observed AI use"
+    assert classify(None, 50) == "no evidence in the bundled releases"
     assert classify(50, 50) == "AI does most of it directly"
     assert classify(LOWER_CUT - 0.1, 50) == "people mostly work with AI"
     assert classify(LOWER_CUT, 50) == "shared"
@@ -292,7 +347,6 @@ def test_horizon_counts_requirement_time(reporter, hafiz_profile, snaps):
         ids = {lab["id"] for lab in role["labels"]}
         months = role["horizon"]["months"]["v"]
         assert months >= MIN_HORIZON_MONTHS
-        assert months >= role["plan"]["months_to_ready"]["v"] - 0.05
         if "needs_degree" in ids:
             assert months >= DEGREE_TOPUP_MONTHS
         rw = snaps.onet.experience.get(role["code"])

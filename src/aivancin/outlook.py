@@ -101,7 +101,7 @@ class SkillOutlook:
 
 def classify(value, threshold):
     if value is None:
-        return "little or no observed AI use"
+        return "no evidence in the bundled releases"
     if value >= threshold:
         return "AI does most of it directly"
     if value < LOWER_CUT:
@@ -109,8 +109,9 @@ def classify(value, threshold):
     return "shared"
 
 
-def ready_months(plan_months, labels, experience):
-    """The default horizon: the longest of a one-year minimum, plan time, a degree top-up and related experience."""
+def planning_months(plan_months, labels, experience):
+    """The default planning horizon: the longest of a one-year minimum, plan time, a degree top-up and related
+    experience. It is a look-ahead for the scenarios, not a date by which anyone is ready for the role."""
     parts = {"minimum look-ahead (assumption)": MIN_HORIZON_MONTHS, "plan": plan_months}
     ids = {lab["id"] for lab in labels}
     if "needs_degree" in ids:

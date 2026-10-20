@@ -59,7 +59,7 @@ In Q2 2026, 40.7% of employed tertiary-educated Malaysians aged 25-34 (751,100 p
 
 **What it does not solve here.** Turning casual descriptions of side work into checkable, confirmed activity evidence, and ranking roles reproducibly from that evidence.
 
-**Challenge alignment.** Domain One asks for skills intake, an AI-trend signal layer, future-role matching, a reskilling pathway, SDG mapping and handling of uncertainty. Each has a first working version here; the acceptance checks on fresh test sets are still to run. The SDG link is target 8.5 (productive employment and decent work for young people) through the skill-level step of each role, with target 4.4 (relevant skills) on each skill.
+**Challenge alignment.** Domain One asks for skills intake, an AI-trend signal layer, future-role matching, a reskilling pathway, SDG mapping and handling of uncertainty. Each has a first working version here; on fresh synthetic test sets, suggestion accuracy and the advantage over keyword search pass, while the complete chain misses its bar (see Evidence). The SDG link is target 8.5 (productive employment and decent work for young people) through the skill-level step of each role, with target 4.4 (relevant skills) on each skill.
 
 ### Solution
 
@@ -70,9 +70,9 @@ The AI is a local sentence encoder, all-MiniLM-L6-v2 (quantized ONNX, about 23 M
 - **Activity suggestions from your own words:** "I install software and clean out viruses" suggests "Install computer software" and "Resolve computer software problems", with the sentence highlighted by character offsets.
 - **Nothing accepted silently:** every activity needs an explicit tick; "I have never repaired a laptop" puts its suggestions under a second confirmation; the server rejects activities the model never suggested.
 - **Works when the AI does not:** if the model, tokenizer or vectors are missing or do not match their recorded hashes, the API says AI suggestions are unavailable and keyword search keeps working.
-- **Roles that use your work:** the closest graduate-level roles (O\*NET Job Zone 3 or 4) by activity overlap, in a lane you choose (current job, other work, studies or all), with what you already do, what is still to build and labels such as "usually needs a bachelor's degree".
+- **Roles that use your work:** the closest graduate-level roles (O\*NET Job Zone 3 or 4, and skilled in Malaysian terms: MASCO major groups 1-3; semi-skilled and unmapped roles appear only if you choose to explore them) by activity overlap, in a lane you choose (current job, other work, studies or all), with what you already do, what is still to build and labels such as "usually needs a bachelor's degree".
 - **AI-usage evidence, kept separate:** the share of Claude conversations on each role's tasks where AI does the work directly, averaged over four Anthropic Economic Index releases with intervals and a release replay. It changes the order only if you set a weight (off by default).
-- **Future Skills Radar:** for each activity you do and each gap, how much of it AI does directly in observed Claude use, now and projected to your ready date under slower, moderate and faster scenarios, with the moderate projection's error measured by backtest. A gap that crosses the threshold gets a "learn to direct and check AI output" step, so a new release or scenario changes the plan.
+- **Future Skills Radar:** for each activity you do and each gap, how much of it AI does directly in observed Claude use, now and projected over an estimated planning horizon (or one you choose) under slower, moderate and faster scenarios, with the moderate projection's error measured by backtest. A gap that crosses the threshold gets a "learn to direct and check AI output" step, so a new release or scenario changes the plan.
 - **Job outlook, kept separate:** each role shows the US Bureau of Labor Statistics projected growth for 2025-2035 (via O\*NET OnLine) and Bright Outlook flags; you can switch to an order that adds the outlook to the overlap score.
 - **A plan from verified resources only:** steps for the largest gaps from link-checked free Microsoft Learn courses, hours and weeks at your pace, and "no verified resource" where none exists.
 - **Every number has a source:** each figure links to its dated source in the page footer.
@@ -134,7 +134,8 @@ flowchart LR
 | AI-usage evidence, replay, scenarios, plan, SDG reasons | WORKING (first version) | `tests/test_matching_and_report.py` |
 | Future Skills Radar and job outlook | WORKING (first version) | `tests/test_matching_and_report.py`, `python tools/checks/a18_backtest.py` |
 | Web interface | WORKING (local) | `tests/test_app_and_failures.py`; a scripted browser run of the full flow, 20 Oct 2026 |
-| Acceptance checks on fresh test sets (accuracy, AI against keyword search) | NOT RUN | |
+| Acceptance checks A1-A3 on fresh test sets | RUN: A1 and A3 pass, A2 fails | `python tools/checks/a1_a3.py`; see Evidence |
+| Acceptance checks A4 (regression), A6 (fresh guard set), A7 (label sample) | NOT RUN | |
 
 **Boundary:** AIVANCIN does not judge proficiency from text, forecast jobs or say whether a role is reachable. It reads only what the user writes and never stores it.
 
@@ -144,7 +145,7 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 
 | What we checked | Observation | Reproduction and limits |
 | --- | --- | --- |
-| **Core path and recovery** | PASS, 70/70 tests | `python -m pytest`, 20 Oct 2026, Windows 11, Python 3.13; network access blocked during tests; includes missing, altered and mismatched model files, a corrupted AI-usage release and expired course link checks |
+| **Core path and recovery** | PASS, 74/74 tests | `python -m pytest`, 20 Oct 2026, Windows 11, Python 3.13; network access blocked during tests; includes missing, altered and mismatched model files, a corrupted AI-usage release and expired course link checks |
 | **Skill-outlook backtest** | Predicting the June 2026 value of 500 activities from the three earlier releases: historical average 16.3 points mean absolute error, last value 17.8, trend line 22.0. Past changes continued in only 31.9% of 364 cases | `python tools/checks/a18_backtest.py`; protocol and thresholds fixed before the run; one release only, across a format change. Hence the moderate scenario uses the average and the radar shows no rising or falling labels |
 | **Hafiz contrast** | Job title alone: 0 of the top 10 roles are computing roles; with his confirmed weekend work: at least 6 of 10 | `tests/test_matching_and_report.py`; relevance rule fixed before the earlier research probe; synthetic persona |
 | **Suggestion accuracy (A1)** | PASS, 16 of 20 fresh everyday descriptions have a correct activity in the top five (bar: 16) | `python tools/checks/a1_a3.py`; sets in `tests/acceptance/`, written and hashed before the run; synthetic, agent-written English |
@@ -162,7 +163,7 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 - **Idioms can miss:** "I keep the books" does not surface a bookkeeping activity in the top five; the user can add it by keyword search.
 - **Guard is a word list:** it works per sentence, so "I don't just drive, I also fix laptops" is flagged and needs the second confirmation.
 - **US occupation data:** roles, activities and requirement labels come from O\*NET (United States); Malaysian pay steps use DOSM major-group medians mapped through the ESCO crosswalk, and 81 of 940 occupations stay "skill level unmapped".
-- **Short courses:** the catalogue holds 33 free Microsoft Learn items, mostly short introductions, so many gaps show "no verified resource" and plan hours are small.
+- **Short courses:** the catalogue holds 33 free Microsoft Learn items, mostly short introductions, so many gaps show "no verified resource" and plan hours are small. An AI-practice step names the activity it teaches; where none does, the plan offers a general guide to directing and checking AI output and says so.
 - **Projections are estimates:** the moderate projection's error is large (80% of errors within 26 points), the faster and slower scenarios are assumptions, and job outlooks are US projections; no Malaysian per-occupation projection was found to show.
 - **AI-usage figures describe Claude usage worldwide,** not Malaysian labour demand; older releases match about 83% of their tasks to O\*NET 31.0 by text, and unmatched tasks are left out, not guessed.
 
@@ -259,7 +260,7 @@ pip install -r requirements-dev.txt
 python -m pytest
 ```
 
-**Expected result:** `70 passed`. Tests run offline; outbound network access is blocked.  
+**Expected result:** `74 passed`. Tests run offline; outbound network access is blocked.  
 **Rebuild the data (optional):** `python tools/build_snapshots.py` downloads the original files into `.cache/` and rebuilds `data/`; pinned files (model, AEI releases) are checked against their hashes, while live sources such as DOSM and the ESCO API can change. `python tools/build_catalogue.py` refreshes the course list and its link checks.
 
 ---

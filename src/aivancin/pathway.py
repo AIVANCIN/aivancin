@@ -64,10 +64,7 @@ def build_plan(gaps, tool_gaps, courses, budget, weekly_hours):
                       "cum_hours": {"v": round(hours, 1), "src": [CATALOGUE_SRC]},
                       "cum_weeks": {"v": round(hours / weekly_hours, 1), "src": [CATALOGUE_SRC, "your-input"]}})
     months = hours / weekly_hours / WEEKS_PER_MONTH if weekly_hours else 0.0
-    return {"steps": steps, "total_hours": {"v": round(hours, 1), "src": [CATALOGUE_SRC]},
-            "total_cost_rm": {"v": round(spent, 2), "src": [CATALOGUE_SRC]},
-            "months_to_ready": {"v": round(months, 1), "src": [CATALOGUE_SRC, "your-input"], "estimate": True},
-            "_months": months, "_spent": spent}
+    return {"steps": steps, "_months": months, "_spent": spent, "_chosen": chosen}
 
 
 def scenario_check(gaps, skill_outlook, release, months, threshold, pace):
@@ -85,18 +82,49 @@ def scenario_check(gaps, skill_outlook, release, months, threshold, pace):
     return out
 
 
-def ai_steps(checks, scenario, courses, budget_left):
-    """Plan additions for gap activities whose projected share reaches the threshold in the selected scenario."""
-    ai_courses = sorted((c for c in courses if c.get("ai_skill") and c["cost_rm"] <= budget_left),
-                        key=lambda c: (c["cost_rm"], c["hours"], c["id"]))
-    steps = []
+def ai_steps(checks, scenario, courses, budget_left, chosen):
+    """Direct-and-check steps for gap activities whose projected share reaches the threshold.
+
+    An AI-practice entry that teaches the activity itself is preferred; otherwise a general entry on
+    directing and checking AI output (one with no activity or tool links) is offered and labelled general.
+    A course already in the plan is not counted again.
+    """
+    ai = [c for c in courses if c.get("ai_skill")]
+    general = sorted((c for c in ai if not c.get("dwas") and not c.get("tools")),
+                     key=lambda c: (c["cost_rm"], c["hours"], c["id"]))
+    steps, spent = [], 0.0
     for chk in checks:
         if not chk["crosses"][scenario]:
             continue
+        specific = sorted((c for c in ai if chk["dwa_id"] in c.get("dwas", [])),
+                          key=lambda c: (c["cost_rm"], c["hours"], c["id"]))
+        match, pool = ("activity", specific) if specific else ("general", general)
+        course = next((c for c in pool if c["id"] in chosen), None)
+        if course is None:
+            course = next((c for c in pool if spent + c["cost_rm"] <= budget_left), None)
+        status = "no verified resource"
+        if course is not None:
+            if course["id"] in chosen:
+                status = "covered by an earlier step"
+            else:
+                chosen[course["id"]] = course
+                spent += course["cost_rm"]
+                status = "verified"
         steps.append({"kind": "direct_ai", "gap": {"dwa_id": chk["dwa_id"], "name": chk["name"]},
                       "reason": {"now": chk["outlook"]["now"], "projected": chk["projected"][scenario],
                                  "releases": [r["release"] for r in chk["outlook"]["releases"]],
                                  "weak": chk["outlook"]["weak"], "src": chk["outlook"]["src"]},
-                      "course": _course_view(ai_courses[0]) if ai_courses else None,
-                      "status": "verified" if ai_courses else "no verified resource", "sdg": ["4.4"]})
+                      "course": _course_view(course) if course else None, "match": match if course else None,
+                      "status": status, "sdg": ["4.4"]})
     return steps
+
+
+def totals(chosen, weekly_hours):
+    """Hours and cost of the plan, counting each unique course once."""
+    hours = sum(c["hours"] for c in chosen.values())
+    cost = sum(c["cost_rm"] for c in chosen.values())
+    months = hours / weekly_hours / WEEKS_PER_MONTH if weekly_hours else 0.0
+    return {"total_hours": {"v": round(hours, 1), "src": [CATALOGUE_SRC]},
+            "total_cost_rm": {"v": round(cost, 2), "src": [CATALOGUE_SRC]},
+            "study_months": {"v": round(months, 1), "src": [CATALOGUE_SRC, "your-input"], "estimate": True},
+            "unique_courses": len(chosen)}

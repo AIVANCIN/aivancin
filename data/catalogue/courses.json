@@ -436,8 +436,13 @@
    "hours": 0.3,
    "hours_source": "19 minutes stated by the provider's catalog",
    "provider_last_modified": "2026-01-28",
-   "dwas": [],
-   "tools": [],
+   "dwas": [
+    "4.A.3.b.1.a.3",
+    "4.A.2.b.2.b.1"
+   ],
+   "tools": [
+    "GitHub"
+   ],
    "ai_skill": true,
    "verified_on": "2026-10-20",
    "link_check": {

@@ -215,3 +215,7 @@ footer .foot { margin-top: 8px; }
   .radar-t th[scope="row"], .radar-t td:last-child { grid-column: 1 / -1; }
   .radar-t td:not(:last-child)::before { content: attr(data-label); display: block; font-size: 11px; font-weight: 400; color: var(--text2); }
 }
+
+.check-line { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 14px; font-weight: 500; color: var(--text); cursor: pointer; min-height: 32px; }
+.check-line input { width: 18px; height: 18px; accent-color: var(--accent); }
+.sdg-mini { font-size: 11px; font-weight: 600; color: var(--accent); white-space: nowrap; }

@@ -34,6 +34,6 @@
     {"uid": "learn.wwl.work-smarter-with-ai", "dwas": [], "ai_skill": true},
     {"uid": "learn.wwl.write-effective-prompts-do-more-prompting", "dwas": [], "ai_skill": true},
     {"uid": "learn.philanthropies.explore-responsible-ai", "dwas": [], "ai_skill": true},
-    {"uid": "learn.github.introduction-to-github-copilot", "dwas": [], "ai_skill": true}
+    {"uid": "learn.github.introduction-to-github-copilot", "dwas": ["4.A.3.b.1.a.3", "4.A.2.b.2.b.1"], "tools": ["GitHub"], "ai_skill": true}
   ]
 }

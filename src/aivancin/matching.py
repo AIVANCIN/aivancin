@@ -35,11 +35,14 @@ class Matcher:
                 self.tasks_by_dwa[(code, dwa_id)].append(task_id)
                 self.tasks_by_code[code][task_id] = task_w[(code, task_id)]
 
-    def candidates(self, exclude=None):
+    def candidates(self, exclude=None, allow=None):
+        """Job Zone 3-4 roles outside SOC 11 and 55 with activity links; `allow(code)` narrows them further."""
         onet = self.snaps.onet
         out = []
         for code in self.w:
             if onet.job_zones.get(code) not in (3, 4) or code.startswith(("11-", "55-")) or code == exclude:
+                continue
+            if allow and not allow(code):
                 continue
             out.append(code)
         return sorted(out)
@@ -58,13 +61,13 @@ class Matcher:
         return sorted(self.tasks_by_code.get(code, {}).items(), key=lambda kv: int(kv[0]))
 
     def rank(self, profile, lane, current_code=None, cip_code=None, ai_share=None, pay_step=None,
-             outlook=None, lam=0.0, mu=0.0, nu=0.0, limit=MAX_ROLES):
+             outlook=None, allow=None, lam=0.0, mu=0.0, nu=0.0, limit=MAX_ROLES):
         """Return ranked roles and the candidate-set facts used for normalisation.
 
         ai_share(code) -> automation share or None; pay_step(code) -> RM step or None;
         outlook(code) -> projected-growth band score in [-1, 1] (0 without a projection).
         """
-        pool = self.candidates(exclude=current_code)
+        pool = self.candidates(exclude=current_code, allow=allow)
         crosswalk = None
         if lane == "studies":
             socs = self.snaps.cip.get(cip_code, {}).get("soc", set()) if cip_code else set()

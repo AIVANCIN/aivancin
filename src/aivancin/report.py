@@ -142,9 +142,12 @@ class Reporter:
         scenario = opts.get("scenario", "moderate")
         if scenario not in SCENARIOS:
             errors["scenario"] = "Choose the slower, moderate or faster scenario."
-        horizon = opts.get("horizon", "ready")
-        if horizon != "ready" and horizon not in outlook.HORIZON_CHOICES:
-            errors["horizon"] = "Choose your ready date or 12, 24, 36 or 60 months."
+        horizon = opts.get("horizon", "plan")
+        if horizon != "plan" and horizon not in outlook.HORIZON_CHOICES:
+            errors["horizon"] = "Choose the estimated planning horizon or 12, 24, 36 or 60 months."
+        scope = opts.get("scope", "skilled")
+        if scope not in ("skilled", "all"):
+            errors["scope"] = "Choose skilled roles only or all roles."
         ev = self.snaps.evidence
         release = opts.get("release") or (ev.ids[-1] if ev.ids else None)
         if release and release not in ev.ids:
@@ -162,7 +165,7 @@ class Reporter:
             raise ReportError({"lane": "No confirmed activity is in this lane yet. Choose another lane or tick more activities."})
         ai_share = self.ai_share_value(release)
         args = dict(current_code=current, cip_code=profile.get("cip_code"), ai_share=ai_share, pay_step=pay_step,
-                    outlook=self.outlook_score)
+                    outlook=self.outlook_score, allow=self.is_skilled if scope == "skilled" else None)
         ranked = self.m.rank(prof, lane, lam=lam, mu=mu, nu=nu, **args)
         base = self.m.rank(prof, lane, lam=0.0, mu=0.0, nu=0.0, **args)
         base_pos = {r["code"]: i + 1 for i, r in enumerate(base["ranked"])}
@@ -180,6 +183,10 @@ class Reporter:
             "lane": lane, "release": release, "scenario": scenario,
             "weights": {"lambda": fig(lam, "your-input"), "mu": fig(mu, "your-input"), "nu": fig(nu, "your-input")},
             "order": "outlook" if nu > 0 else "closest",
+            "scope": scope,
+            "scope_note": ("Skilled roles only (MASCO major groups 1-3, the DOSM skilled category); roles whose skill level "
+                           "is unmapped are left out rather than guessed." if scope == "skilled" else
+                           "Exploration: includes semi-skilled and unmapped roles; their skill level is shown on each role."),
             "horizon": horizon,
             "forecast": self._forecast_meta(threshold),
             "threshold": fig(threshold, "your-input"), "pace": fig(pace, "aei-report-2511.15080", "your-input"),
@@ -193,6 +200,9 @@ class Reporter:
             "baseline": self._baseline(),
             "rejected_releases": self.snaps.rejected,
         }
+
+    def is_skilled(self, code):
+        return self.masco(code).get("skill") == "skilled"
 
     def outlook_score(self, code):
         rec = self.snaps.outlook.get(code)
@@ -247,15 +257,16 @@ class Reporter:
         tgt_median = self.median(masco["major"])
         plan = pathway.build_plan(missing, tool_gaps, courses, profile["budget_rm"], profile["weekly_hours"])
         labels = self.labels(code, profile)
-        if horizon == "ready":
-            months, basis = outlook.ready_months(plan["_months"], labels, onet.experience.get(code))
+        if horizon == "plan":
+            months, basis = outlook.planning_months(plan["_months"], labels, onet.experience.get(code))
         else:
             months, basis = horizon, "your choice"
         hz_src = ["your-input"] + (["aivancin-catalogue"] if basis == "plan" else
                                     ["onet31-experience"] if basis == "related experience" else
                                     ["onet31-job-zones"] if basis.startswith("degree") else [])
         checks = pathway.scenario_check(missing, self.skills, release, months, threshold, pace)
-        extra = pathway.ai_steps(checks, scenario, courses, profile["budget_rm"] - plan["_spent"])
+        extra = pathway.ai_steps(checks, scenario, courses, profile["budget_rm"] - plan["_spent"], plan["_chosen"])
+        sums = pathway.totals(plan["_chosen"], profile["weekly_hours"])
         radar = ([self.skill_row(d["dwa_id"], d["name"], release, months, threshold, pace, "you do this") for d in done]
                  + [self.skill_row(g["dwa_id"], g["name"], release, months, threshold, pace, "still to build")
                     for g in missing[:pathway.PLAN_GAPS]])
@@ -269,8 +280,8 @@ class Reporter:
             "done_count": fig(len(done), *ONET_SRC), "total_count": fig(total, *ONET_SRC),
             "summary": f"You do {len(done)} of its {total} recorded activities (activity overlap {overlap['v']}%).",
             "score": round(r["score"], 4),
-            "done": [{**d, "weight": fig(d["weight"], *ONET_SRC)} for d in done],
-            "missing": [{**d, "weight": fig(d["weight"], *ONET_SRC)} for d in missing],
+            "done": [{**d, "weight": fig(d["weight"], *ONET_SRC), "sdg": ["4.4"]} for d in done],
+            "missing": [{**d, "weight": fig(d["weight"], *ONET_SRC), "sdg": ["4.4"]} for d in missing],
             "tool_gaps": [{**t, "src": ["onet31-software"]} for t in tool_gaps],
             "labels": labels,
             "job_outlook": self.job_outlook(code),
@@ -284,7 +295,7 @@ class Reporter:
             "emerging": {"tasks": [{**t, "src": ["onet31-emerging-tasks"]} for t in onet.emerging.get(code, [])],
                          "technologies": [{**t, "src": ["onet31-software"]} for t in onet.software.get(code, [])]},
             "sdg": [{**s, "src": sdg_src} for s in sdg],
-            "plan": {k: v for k, v in plan.items() if not k.startswith("_")} | {"ai_steps": extra},
+            "plan": {"steps": plan["steps"], "ai_steps": extra, **sums},
             "scenario_checks": checks,
             "scenario_notes": self._scenario_notes(checks, scenario, threshold),
         }

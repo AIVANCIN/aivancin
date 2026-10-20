@@ -12,7 +12,7 @@ const state = {
   status: null, personas: [], sources: {}, sourceNo: {},
   title: null, titleActs: [], untickedTitle: new Set(), cip: null,
   suggest: null, ticked: new Map(), dismissed: new Set(), manual: new Map(),
-  lane: "all", opts: { lambda: 0, mu: 0, nu: 0, scenario: "moderate", threshold: 50, pace: 1.444, release: null, horizon: "ready" },
+  lane: "all", opts: { lambda: 0, mu: 0, nu: 0, scenario: "moderate", threshold: 50, pace: 1.444, release: null, horizon: "plan", scope: "skilled" },
   knownTools: new Set(), results: null, baseline: null, selected: null, target: null, lastIntake: null,
 };
 
@@ -478,7 +478,7 @@ function releaseLabel(rid) {
   return d.toLocaleDateString("en-GB", { month: "short", year: "numeric" });
 }
 
-const DEFAULT_OPTS = { lambda: 0, mu: 0, nu: 0, scenario: "moderate", threshold: 50, pace: 1.444, release: null, horizon: "ready" };
+const DEFAULT_OPTS = { lambda: 0, mu: 0, nu: 0, scenario: "moderate", threshold: 50, pace: 1.444, release: null, horizon: "plan", scope: "skilled" };
 const SCEN_LABEL = { slower: "Slower (assumption)", moderate: "Moderate", faster: "Faster (assumption)" };
 const OUTLOOK_NU = 0.3;
 
@@ -486,11 +486,13 @@ function renderControls() {
   const o = state.opts, res = state.results;
   const rels = state.status.releases;
   const current = res.release;
-  const hz = [["ready", "Your ready date (estimate)"], [12, "1 year"], [24, "2 years"], [36, "3 years"], [60, "5 years"]];
+  const hz = [["plan", "Estimated planning horizon"], [12, "1 year"], [24, "2 years"], [36, "3 years"], [60, "5 years"]];
   $("#controls").innerHTML = `
     <fieldset class="ctl" data-scope><legend>Order roles by</legend>
       <div class="seg-ctl small order-ctl" style="--n:2"><label><input type="radio" name="order" value="closest" ${o.nu ? "" : "checked"}>Closest match</label><label><input type="radio" name="order" value="outlook" ${o.nu ? "checked" : ""}>Closest with job outlook</label></div>
-      <p class="foot">${o.nu ? `Adds ${OUTLOOK_NU} times the US projected-growth band (Decline -1 to Much faster +1) to each role's score.` : "Activity overlap only. Each role still shows its job outlook."}</p>${srcMarks(["onet-online-outlook"])}</fieldset>
+      <p class="foot">${o.nu ? `Adds ${OUTLOOK_NU} times the US projected-growth band (Decline -1 to Much faster +1) to each role's score.` : "Activity overlap only. Each role still shows its job outlook."}</p>${srcMarks(["onet-online-outlook"])}
+      <label class="check-line"><input type="checkbox" id="c-scope" ${o.scope === "all" ? "checked" : ""}> Also explore semi-skilled and unmapped roles</label>
+      <p class="foot">${esc(res.scope_note)}</p>${srcMarks(["esco-onet-isco"])}</fieldset>
     <fieldset class="ctl"><legend>${icon("history", "sm")} AI-usage release</legend>
       <div class="seg-ctl small rel-ctl" style="--n:${rels.length}">${rels.map((r, i) => `<label title="Release ${esc(r)}"><input type="radio" name="rel" value="${esc(r)}" data-i="${i}" ${r === current ? "checked" : ""}>${esc(releaseLabel(r))}</label>`).join("")}</div>
       <p class="foot">Figures and the radar average every release up to the one you choose.</p></fieldset>
@@ -507,7 +509,7 @@ function renderControls() {
       <p class="foot">Moderate keeps each activity's historical average. Slower and faster are assumptions. The plan adds a step to direct and check AI output on a gap activity when its projected share reaches the threshold.</p></fieldset>
     <div class="ctl"><label for="c-hz">Look ahead to</label>
       <select id="c-hz">${hz.map(([v, t]) => `<option value="${v}" ${String(o.horizon) === String(v) ? "selected" : ""}>${t}</option>`).join("")}</select>
-      <p class="foot">Your ready date is the longest of one year (an assumption), the plan, and the time a role's requirements imply: a degree top-up (24 months, an assumption) or related experience.</p></div>
+      <p class="foot">The estimated planning horizon is the longest of one year (an assumption), the plan's study time, and the time a role's requirements imply: a degree top-up (24 months, an assumption) or related experience. It is a look-ahead for the scenarios, not a date by which you are ready for the role.</p></div>
     <div class="ctl-wide"><p class="replay-msg">${esc(res.replay.message || "First bundled release: nothing earlier to compare.")}${res.replay.comparability_note ? ` ${esc(res.replay.comparability_note)}` : ""}</p>
       <button type="button" class="btn btn-gray" id="c-reset">Reset weights and scenario</button></div>`;
   $("#c-lambda").addEventListener("input", e => { o.lambda = Number(e.target.value); e.target.previousElementSibling.querySelector(".val").textContent = o.lambda ? o.lambda.toFixed(2) : "off"; refresh(); });
@@ -515,7 +517,8 @@ function renderControls() {
   $$('input[name="order"]').forEach(i => i.addEventListener("change", () => { o.nu = i.value === "outlook" ? OUTLOOK_NU : 0; refresh(); }));
   $$('input[name="scen"]').forEach(i => i.addEventListener("change", () => { o.scenario = i.value; refresh(); }));
   $$('input[name="rel"]').forEach(i => i.addEventListener("change", () => { o.release = i.value; refresh(); }));
-  $("#c-hz").addEventListener("change", e => { o.horizon = e.target.value === "ready" ? "ready" : Number(e.target.value); refresh(); });
+  $("#c-hz").addEventListener("change", e => { o.horizon = e.target.value === "plan" ? "plan" : Number(e.target.value); refresh(); });
+  $("#c-scope").addEventListener("change", e => { o.scope = e.target.checked ? "all" : "skilled"; refresh(); });
   $("#c-thr").addEventListener("change", e => { const v = Number(e.target.value); if (v >= 1 && v <= 100) { o.threshold = v; refresh(); } });
   $("#c-pace").addEventListener("change", e => { const v = Number(e.target.value); if (v >= 1 && v <= 3) { o.pace = v; refresh(); } });
   $("#c-reset").addEventListener("click", () => { Object.assign(o, DEFAULT_OPTS); refresh(); });
@@ -527,6 +530,7 @@ function radarBlock(r) {
   const f = state.results.forecast, sc = state.results.scenario;
   const hz = r.horizon;
   const clsKey = c => ({ "AI does most of it directly": "ai", "shared": "mid", "people mostly work with AI": "people" }[c] || "none");
+  const hzText = `${hz.basis === "your choice" ? "the look-ahead you chose" : `an estimated planning horizon (${hz.basis})`}`;
   const rows = r.radar.map(x => `<tr>
       <th scope="row"><span class="act-name">${esc(x.name)}</span><span class="kind">${esc(x.kind)}${x.weak ? " · evidence weak" : ""}</span></th>
       <td data-label="Now">${x.now ? fig(x.now, "pct") : `<span class="foot">no data</span>`}</td>
@@ -535,7 +539,7 @@ function radarBlock(r) {
   const err = f.error_mae ? `Moderate keeps the historical average; its typical error is ${fig(f.error_mae, "")} points and 80% of errors are within ${fig(f.error_p80, "")} points (backtest on the June 2026 release${f.calibrated === false ? "; the band is not calibrated" : ""}). ` : "";
   const dir = f.direction_labels ? "" : "Past release-to-release changes reversed more often than they continued, so the radar shows no rising or falling labels; change appears only through the scenarios. ";
   return `<section class="sec-block radar" data-scope aria-labelledby="h-radar"><h5 id="h-radar">${icon("history", "sm")} Future Skills Radar</h5>
-    <p class="foot">How much of each activity AI does directly in observed Claude use (global), now and projected ${fig(hz.months, "")} months ahead (${esc(hz.basis)}). These are estimates of how the work shifts between doing it and directing and checking AI, not forecasts of jobs.</p>
+    <p class="foot">How much of each activity AI does directly in observed Claude use (global), now and projected ${fig(hz.months, "")} months ahead, ${esc(hzText)}. These are estimates of how the work shifts between doing it and directing and checking AI, not forecasts of jobs.</p>
     <div class="radar-wrap"><table class="radar-t"><thead><tr><th scope="col">Activity</th><th scope="col">Now</th><th scope="col">Slower</th><th scope="col">Moderate</th><th scope="col">Faster</th><th scope="col">In the ${esc(sc)} scenario</th></tr></thead><tbody>${rows}</tbody></table></div>
     <p class="foot">${err}Slower subtracts ${fig(f.slower_drop, "")} points, the largest fall between bundled releases. ${dir}Thresholds: ${fig(f.threshold, "")}% for "AI does most of it directly", below ${fig(f.lower_cut, "")}% for "people mostly work with AI".</p>${srcMarks(["aivancin-backtest"])}
   </section>`;
@@ -610,7 +614,7 @@ function groupDone(done) {
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(d);
   }
-  return [...groups].map(([from, acts]) => `<li>${from}${acts.map(d => `<p class="act">${icon("check", "sm")}${esc(d.name)}</p>`).join("")}</li>`).join("");
+  return [...groups].map(([from, acts]) => `<li>${from}${acts.map(d => `<p class="act">${icon("check", "sm")}${esc(d.name)} <span class="sdg-mini">SDG 4.4</span></p>`).join("")}</li>`).join("");
 }
 
 function labelTag(l) {
@@ -642,13 +646,14 @@ function renderDetail() {
   const plan = r.plan;
   const steps = plan.steps.map(s => {
     const gapName = s.kind === "tool" ? `Tool: ${esc(s.gap.name)}` : esc(s.gap.name);
-    if (!s.course) return `<li class="none"><p class="gap-name">${gapName}</p><p class="meta">${esc(capitalise(s.status))}</p></li>`;
+    if (!s.course) return `<li class="none"><p class="gap-name">${gapName}</p><p class="meta">${esc(capitalise(s.status))} · SDG 4.4</p></li>`;
     return `<li><p class="gap-name">${gapName}</p><p class="course"><a href="${esc(s.course.url)}" target="_blank" rel="noopener">${esc(s.course.title)} ${icon("external-link", "sm")}</a></p>
       <p class="meta">${esc(s.course.provider)} · ${fig(s.course.cost_rm, "rm")} · ${fig(s.course.hours, "")} hours${s.cum_weeks ? ` · ${fig(s.cum_weeks, "")} weeks so far at your pace` : ""} · link checked ${esc(s.course.checked_on)} · SDG 4.4${s.status !== "verified" ? ` · ${esc(s.status)}` : ""}</p></li>`;
   }).join("");
   const aiSteps = plan.ai_steps.map(s => `<li class="ai"><p class="gap-name">Learn to direct and check AI output on: ${esc(s.gap.name)}</p>
       <p class="meta">AI does this activity directly in ${fig({ v: s.reason.now, src: s.reason.src }, "pct")} of observed Claude conversations now; ${fig({ v: s.reason.projected, src: s.reason.src.concat(["your-input"]) }, "pct")} projected ${fig(r.horizon.months, "")} months ahead in the ${esc(state.results.scenario)} scenario, at or above the ${fig(state.results.threshold, "pct")} threshold.${s.reason.weak ? " Evidence weak." : ""}</p>
-      ${s.course ? `<p class="course"><a href="${esc(s.course.url)}" target="_blank" rel="noopener">${esc(s.course.title)} ${icon("external-link", "sm")}</a> · ${fig(s.course.hours, "")} hours</p>` : `<p class="meta">No verified resource</p>`}</li>`).join("");
+      ${s.course ? `<p class="course"><a href="${esc(s.course.url)}" target="_blank" rel="noopener">${esc(s.course.title)} ${icon("external-link", "sm")}</a> · ${fig(s.course.hours, "")} hours</p>
+        <p class="meta">${s.match === "activity" ? "Teaches AI use on this activity" : "General guide to directing and checking AI output; no verified resource teaches AI use on this activity"}${s.status === "covered by an earlier step" ? " · already counted in an earlier step" : ""} · SDG 4.4</p>` : `<p class="meta">No verified resource · SDG 4.4</p>`}</li>`).join("");
   const tools = r.emerging.technologies;
   box.innerHTML = `<article class="detail" aria-labelledby="d-title" data-scope>
     <p class="d-kicker">Rank ${r.rank} of ${state.results.roles.length} · O*NET ${esc(r.code)} · Job Zone ${fig(r.job_zone, "")}</p>
@@ -659,8 +664,8 @@ function renderDetail() {
     <div class="legend"><span><i class="done"></i>You do this</span><span><i></i>Still to build</span><span>Wider segments are activities that appear in more of the role's tasks.</span></div></div>
     <div class="d-grid">
       <div><h5>You already do</h5><p class="foot">Grouped by where it came from.</p><ul class="did">${groupDone(r.done)}</ul></div>
-      <div><h5>Still to build</h5><p class="foot">Most frequent in the role's tasks first.</p><ul class="gaps">${gaps.map(g => `<li><b></b><span>${esc(g.name)}</span></li>`).join("")}</ul>
-        ${r.missing.length > gaps.length ? `<details class="more"><summary class="link-btn">${r.missing.length - gaps.length} more in the full gap table</summary><ul class="gaps">${r.missing.slice(8).map(g => `<li><b></b><span>${esc(g.name)}</span></li>`).join("")}</ul></details>` : ""}
+      <div><h5>Still to build</h5><p class="foot">Most frequent in the role's tasks first.</p><ul class="gaps">${gaps.map(g => `<li><b></b><span>${esc(g.name)}</span><span class="w">SDG 4.4</span></li>`).join("")}</ul>
+        ${r.missing.length > gaps.length ? `<details class="more"><summary class="link-btn">${r.missing.length - gaps.length} more in the full gap table</summary><ul class="gaps">${r.missing.slice(8).map(g => `<li><b></b><span>${esc(g.name)}</span><span class="w">SDG 4.4</span></li>`).join("")}</ul></details>` : ""}
         ${r.tool_gaps.length ? `<p class="foot" style="margin-top:12px">Plus ${r.tool_gaps.length} in-demand tools you have not marked as known (below).</p>` : ""}</div>
     </div>
     <dl class="facts">
@@ -670,7 +675,7 @@ function renderDetail() {
       <div class="fact" data-scope><dt><span class="tile-ico">${icon("wallet", "sm")}</span>Pay step (DOSM 2025)</dt>${pay}
         <dd class="src-line">${esc(r.masco.label)}${r.masco.mapping ? ` (mapping: ${esc(r.masco.mapping)})` : ""}${srcMarks(["esco-onet-isco"])}</dd></div>
       <div class="fact" data-scope><dt><span class="tile-ico">${icon("layers", "sm")}</span>SDG</dt>${r.sdg.map(s => `<dd><b>SDG ${esc(s.goal)}:</b> ${esc(s.reason)}${srcMarks(s.src)}</dd>`).join("")}
-        <dd><b>SDG 4.4:</b> each learning step builds a skill for employment.</dd></div>
+        <dd><b>SDG 4.4:</b> every activity you already do and every gap is a skill for employment; each learning step builds one.</dd></div>
       <div class="fact" data-scope><dt><span class="tile-ico">${icon("file-text", "sm")}</span>What's emerging</dt>
         <dd>${r.emerging.tasks.length ? `<ul class="emerging">${r.emerging.tasks.map(t => `<li>${esc(t.task)} <span class="foot">(${esc(t.category)}, ${esc(t.date)})${srcMarks(t.src)}</span></li>`).join("")}</ul>` : "No emerging-task record in O*NET 31.0."}</dd>
         <dd>${tools.length ? `In-demand technologies (US employer postings)${srcMarks(["onet31-software"])}. Tick the ones you already use:${techList(tools)}` : "No in-demand technology listed."}</dd></div>
@@ -680,8 +685,8 @@ function renderDetail() {
       <p class="foot">Free, link-checked resources only. Gaps without one say so; nothing is filled in by generated text.</p>
       <ol class="plan">${steps}${aiSteps}</ol>
       <div class="totals"><span>${icon("clock", "sm")}${fig(plan.total_hours, "")} hours in total</span><span>${icon("wallet", "sm")}${fig(plan.total_cost_rm, "rm")} of your ${fig({ v: state.lastIntake.budget_rm, src: ["your-input"] }, "rm")} budget</span>
-        <span>About ${fig(plan.months_to_ready, "")} months of study at ${fig({ v: state.lastIntake.weekly_hours, src: ["your-input"] }, "int")} hours a week (estimate)</span>
-        <span>${icon("history", "sm")}Looking ${fig(r.horizon.months, "")} months ahead (${esc(r.horizon.basis)})</span></div>
+        <span>About ${fig(plan.study_months, "")} months of study at ${fig({ v: state.lastIntake.weekly_hours, src: ["your-input"] }, "int")} hours a week (estimate; each course counted once)</span>
+        <span>${icon("history", "sm")}Scenarios look ${fig(r.horizon.months, "")} months ahead (${esc(r.horizon.basis)})</span></div>
       <ul class="notes">${r.scenario_notes.map(n => `<li>${esc(n)}</li>`).join("")}</ul>
       <button type="button" class="btn btn-primary choose" data-target="${esc(r.code)}">${state.target === r.code ? "Chosen as your target" : "Choose this role as my target"}</button>
     </section>
