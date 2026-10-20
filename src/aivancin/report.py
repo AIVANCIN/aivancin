@@ -5,14 +5,16 @@ the manifest (plus "your-input" for what the user entered). Explanations are tem
 """
 import datetime as dt
 
-from . import aei, pathway
+from . import aei, outlook, pathway
 from .matching import LANES, soc6
 from .snapshots import MASCO_GROUPS, skill_level
 
 ONET_SRC = ["onet31-task-dwas", "onet31-tasks"]
 PAY_SRC = ["dosm-wages-occupation", "esco-onet-isco"]
 ROLE_WEAK_COVERAGE = 0.25  # initial: role evidence is weak when non-weak task evidence covers under a quarter of its task weight
-SCENARIOS = ("moderate", "faster")
+SCENARIOS = outlook.SCENARIOS
+OUTLOOK_SRC = "onet-online-outlook"
+BACKTEST_SRC = "aivancin-backtest"
 
 
 class ReportError(ValueError):
@@ -38,6 +40,7 @@ class Reporter:
         for (code, tid), t in onet.tasks.items():
             self.task_weights.setdefault(code, []).append((tid, 0.5 if t["type"] == "Supplemental" else 1.0))
         self._ai_cache = {}
+        self.skills = outlook.SkillOutlook(snaps)
 
     # ---- AI-usage evidence -------------------------------------------------------------------------
     def role_ai(self, code, release):
@@ -135,9 +138,13 @@ class Reporter:
                             "The threshold must be between 1 and 100.", errors)
         pace = _number(opts.get("pace", pathway.DEFAULT_PACE), 1.0, 3.0, "pace",
                        "The faster-scenario pace must be between 1.0 and 3.0.", errors)
+        nu = _number(opts.get("nu", 0.0), 0.0, 1.0, "nu", "The job-outlook weight must be between 0 and 1.", errors)
         scenario = opts.get("scenario", "moderate")
         if scenario not in SCENARIOS:
-            errors["scenario"] = "Choose the moderate or faster scenario."
+            errors["scenario"] = "Choose the slower, moderate or faster scenario."
+        horizon = opts.get("horizon", "ready")
+        if horizon != "ready" and horizon not in outlook.HORIZON_CHOICES:
+            errors["horizon"] = "Choose your ready date or 12, 24, 36 or 60 months."
         ev = self.snaps.evidence
         release = opts.get("release") or (ev.ids[-1] if ev.ids else None)
         if release and release not in ev.ids:
@@ -154,9 +161,10 @@ class Reporter:
         if lane != "studies" and not prof:
             raise ReportError({"lane": "No confirmed activity is in this lane yet. Choose another lane or tick more activities."})
         ai_share = self.ai_share_value(release)
-        args = dict(current_code=current, cip_code=profile.get("cip_code"), ai_share=ai_share, pay_step=pay_step)
-        ranked = self.m.rank(prof, lane, lam=lam, mu=mu, **args)
-        base = self.m.rank(prof, lane, lam=0.0, mu=0.0, **args)
+        args = dict(current_code=current, cip_code=profile.get("cip_code"), ai_share=ai_share, pay_step=pay_step,
+                    outlook=self.outlook_score)
+        ranked = self.m.rank(prof, lane, lam=lam, mu=mu, nu=nu, **args)
+        base = self.m.rank(prof, lane, lam=0.0, mu=0.0, nu=0.0, **args)
         base_pos = {r["code"]: i + 1 for i, r in enumerate(base["ranked"])}
 
         catalogue_today = today or dt.date.today()
@@ -164,13 +172,16 @@ class Reporter:
         roles = []
         for i, r in enumerate(ranked["roles"], 1):
             roles.append(self._role(r, i, base_pos, prof, profile, opts, release, scenario, threshold, pace,
-                                    pay_step, known_tools, courses))
+                                    pay_step, known_tools, courses, horizon))
 
-        replay = self._replay(prof, lane, lam, mu, args, release, ranked)
+        replay = self._replay(prof, lane, lam, mu, nu, args, release, ranked)
         return {
             "heading": "closest roles to explore",
             "lane": lane, "release": release, "scenario": scenario,
-            "weights": {"lambda": fig(lam, "your-input"), "mu": fig(mu, "your-input")},
+            "weights": {"lambda": fig(lam, "your-input"), "mu": fig(mu, "your-input"), "nu": fig(nu, "your-input")},
+            "order": "outlook" if nu > 0 else "closest",
+            "horizon": horizon,
+            "forecast": self._forecast_meta(threshold),
             "threshold": fig(threshold, "your-input"), "pace": fig(pace, "aei-report-2511.15080", "your-input"),
             "without_ai_suggestions": profile.get("without_ai_suggestions", False),
             "profile_size": fig(len(prof), "your-input"),
@@ -183,8 +194,46 @@ class Reporter:
             "rejected_releases": self.snaps.rejected,
         }
 
+    def outlook_score(self, code):
+        rec = self.snaps.outlook.get(code)
+        return outlook.band_score(rec["band"]) if rec else 0.0
+
+    def job_outlook(self, code):
+        rec = self.snaps.outlook.get(code)
+        if not rec or not rec["band"]:
+            return {"band": None, "note": "No projection", "bright": rec["bright"] if rec else [], "src": [OUTLOOK_SRC]}
+        return {"band": rec["band"], "period": rec["period"], "score": outlook.band_score(rec["band"]),
+                "openings": fig(rec["openings"], OUTLOOK_SRC) if rec["openings"] is not None else None,
+                "openings_period": rec["openings_period"], "bright": rec["bright"], "scope": "US projection",
+                "src": [OUTLOOK_SRC]}
+
+    def skill_row(self, dwa_id, name, release, months, threshold, pace, kind):
+        o = self.skills.outlook(dwa_id, release)
+        row = {"dwa_id": dwa_id, "name": name, "kind": kind}
+        if o is None:
+            return {**row, "now": None, "classes": {s: outlook.classify(None, threshold) for s in SCENARIOS}}
+        proj = {s: round(self.skills.project(o["now"], s, months, pace), 1) for s in SCENARIOS}
+        src = o["src"]
+        return {**row, "now": fig(o["now"], *src), "weak": o["weak"],
+                "releases": [{**x, "share": fig(x["share"], f"aei-{x['release']}")} for x in o["releases"]],
+                # slower's drop is computed from the bundled releases; faster's pace is the cited report's, editable
+                "projected": {s: fig(v, *src, *(["aei-report-2511.15080", "your-input"] if s == "faster" else []))
+                              for s, v in proj.items()},
+                "classes": {s: outlook.classify(v, threshold) for s, v in proj.items()}}
+
+    def _forecast_meta(self, threshold):
+        bt = self.snaps.backtest or {}
+        p = bt.get("primary", {})
+        return {"error_mae": fig(p.get("mae", {}).get("mean"), BACKTEST_SRC) if p else None,
+                "error_p80": fig(p.get("mean_abs_error_p80"), BACKTEST_SRC) if p else None,
+                "calibrated": bt.get("coverage", {}).get("calibrated"),
+                "direction_labels": bool(bt.get("direction_gate_pass")),
+                "slower_drop": fig(self.skills.drop, *[f"aei-{r}" for r in self.snaps.evidence.ids]),
+                "lower_cut": fig(outlook.LOWER_CUT, "your-input"), "threshold": fig(threshold, "your-input"),
+                "degree_months": fig(outlook.DEGREE_TOPUP_MONTHS, "your-input")}
+
     def _role(self, r, rank, base_pos, prof, profile, opts, release, scenario, threshold, pace, pay_step,
-              known_tools, courses):
+              known_tools, courses, horizon):
         code = r["code"]
         onet = self.snaps.onet
         done, missing = self.m.done_and_missing(code, prof)
@@ -197,10 +246,19 @@ class Reporter:
         step = pay_step(code)
         tgt_median = self.median(masco["major"])
         plan = pathway.build_plan(missing, tool_gaps, courses, profile["budget_rm"], profile["weekly_hours"])
-        checks = pathway.scenario_check(code, missing, self.m, self.snaps.evidence, release, plan["_months"],
-                                        threshold, pace)
+        labels = self.labels(code, profile)
+        if horizon == "ready":
+            months, basis = outlook.ready_months(plan["_months"], labels, onet.experience.get(code))
+        else:
+            months, basis = horizon, "your choice"
+        hz_src = ["your-input"] + (["aivancin-catalogue"] if basis == "plan" else
+                                    ["onet31-experience"] if basis == "related experience" else
+                                    ["onet31-job-zones"] if basis.startswith("degree") else [])
+        checks = pathway.scenario_check(missing, self.skills, release, months, threshold, pace)
         extra = pathway.ai_steps(checks, scenario, courses, profile["budget_rm"] - plan["_spent"])
-        changes = [c for c in checks if c["crosses"]["moderate"] != c["crosses"]["faster"]]
+        radar = ([self.skill_row(d["dwa_id"], d["name"], release, months, threshold, pace, "you do this") for d in done]
+                 + [self.skill_row(g["dwa_id"], g["name"], release, months, threshold, pace, "still to build")
+                    for g in missing[:pathway.PLAN_GAPS]])
         sdg = [{"goal": "8.5", "reason": self._sdg85(masco, step)}]
         sdg_src = ["dosm-wages-occupation", "esco-onet-isco"] if step is not None else ["esco-onet-isco"]
         overlap = fig(pct(r["overlap"]), *ONET_SRC)
@@ -214,7 +272,10 @@ class Reporter:
             "done": [{**d, "weight": fig(d["weight"], *ONET_SRC)} for d in done],
             "missing": [{**d, "weight": fig(d["weight"], *ONET_SRC)} for d in missing],
             "tool_gaps": [{**t, "src": ["onet31-software"]} for t in tool_gaps],
-            "labels": self.labels(code, profile),
+            "labels": labels,
+            "job_outlook": self.job_outlook(code),
+            "horizon": {"months": fig(round(months, 1), *hz_src, estimate=True), "basis": basis},
+            "radar": radar,
             "masco": masco,
             "ai": ai and {**ai, "tasks": ai["tasks"][:12], "task_count": len(ai["tasks"])},
             "ai_occupation": occ_fig and {"share": fig(occ_fig["share"], f"aei-{occ_fig['release']}"),
@@ -225,12 +286,21 @@ class Reporter:
             "sdg": [{**s, "src": sdg_src} for s in sdg],
             "plan": {k: v for k, v in plan.items() if not k.startswith("_")} | {"ai_steps": extra},
             "scenario_checks": checks,
-            "scenario_notes": [f"In the faster scenario, {c['name'].rstrip('.')} reaches the {threshold:g}% threshold by "
-                               f"the ready date, so the plan adds a step to direct and check AI output on it."
-                               for c in changes if c["crosses"]["faster"]] or
-                              ["No change needed in this scenario: no gap activity in the plan crosses the threshold "
-                               "differently in the moderate and faster scenarios."],
+            "scenario_notes": self._scenario_notes(checks, scenario, threshold),
         }
+
+    def _scenario_notes(self, checks, scenario, threshold):
+        notes = []
+        for c in checks:
+            yes = [s for s in SCENARIOS if c["crosses"][s]]
+            if yes and len(yes) < len(SCENARIOS):
+                notes.append(f"{c['name'].rstrip('.')}: reaches the {threshold:g}% threshold by the horizon only in the "
+                             f"{' and '.join(yes)} scenario{'s' if len(yes) > 1 else ''}, so its direct-and-check step "
+                             f"{'is in' if scenario in yes else 'is not in'} this plan.")
+        if not notes:
+            notes.append("No change needed across scenarios: every gap activity in the plan is on the same side of the "
+                         "threshold in the slower, moderate and faster scenarios.")
+        return notes
 
     def _sdg85(self, masco, step):
         if not masco["major"]:
@@ -251,13 +321,13 @@ class Reporter:
         return {"title": self.snaps.onet.occupations[code], "masco": m,
                 "median": None if median is None else fig(median, *PAY_SRC)}
 
-    def _replay(self, prof, lane, lam, mu, args, release, ranked):
+    def _replay(self, prof, lane, lam, mu, nu, args, release, ranked):
         ids = self.snaps.evidence.ids
         if not release or ids.index(release) == 0:
             return {"release": release, "previous": None, "position_changes": None, "deltas": [],
                     "comparability_note": aei.COMPARABILITY.get(release)}
         prev = ids[ids.index(release) - 1]
-        before = self.m.rank(prof, lane, lam=lam, mu=mu, **{**args, "ai_share": self.ai_share_value(prev)})
+        before = self.m.rank(prof, lane, lam=lam, mu=mu, nu=nu, **{**args, "ai_share": self.ai_share_value(prev)})
         prev_order = [r["code"] for r in before["roles"]]
         now_order = [r["code"] for r in ranked["roles"]]
         deltas = []
@@ -270,7 +340,8 @@ class Reporter:
         return {"release": release, "previous": prev, "position_changes": changed,
                 "message": "Positions changed with this release." if changed else
                            "No position changes with this release." + ("" if lam > 0 else
-                                                                        " (The AI-evidence weight is 0, so releases never reorder roles.)"),
+                                                                        " (The AI-evidence weight is 0, so releases never reorder roles; "
+                                                                        "the skill outlook and plan still use the chosen release.)"),
                 "deltas": deltas, "comparability_note": aei.COMPARABILITY.get(release)}
 
     def _baseline(self):

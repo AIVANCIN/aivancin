@@ -192,27 +192,149 @@ def test_failed_link_check_is_never_shown_as_verified(snaps):
 
 
 def test_scenario_steps_follow_the_threshold(reporter, hafiz_profile):
-    """A12: steps are added only for gap activities that reach the displayed threshold."""
-    for threshold in (100, 1):
-        for scenario in ("moderate", "faster"):
+    """A12 (bounded forecasting, Jad 20 Oct): steps follow each gap activity's projected share at the horizon."""
+    for threshold in (100, 50, 1):
+        for scenario in ("slower", "moderate", "faster"):
             rep = reporter.report(hafiz_profile, {"lane": "other_work", "threshold": threshold, "scenario": scenario})
             for role in rep["roles"]:
                 crossing = {c["dwa_id"] for c in role["scenario_checks"] if c["crosses"][scenario]}
                 added = {s["gap"]["dwa_id"] for s in role["plan"]["ai_steps"]}
                 assert added == crossing
                 for c in role["scenario_checks"]:
-                    for t in c["tasks"]:
-                        assert t["faster"] >= t["moderate"] == t["a0"]
-                    assert c["crosses"][scenario] == any(t[scenario] >= threshold for t in c["tasks"])
-            for role in rep["roles"]:
-                differs = [c for c in role["scenario_checks"] if c["crosses"]["moderate"] != c["crosses"]["faster"]]
+                    if c["outlook"] is None:
+                        assert not any(c["crosses"].values())
+                        continue
+                    pr = c["projected"]
+                    assert pr["slower"] <= pr["moderate"] <= pr["faster"]
+                    assert pr["moderate"] == c["outlook"]["now"]
+                    assert c["crosses"][scenario] == (pr[scenario] >= threshold)
+                differs = [c for c in role["scenario_checks"] if len(set(c["crosses"].values())) > 1]
                 assert role["scenario_notes"][0].startswith("No change needed") == (not differs)
 
 
-def test_faster_projection_formula():
-    assert pathway.projected(40.0, "faster", 8) == pytest.approx(40.0 * 1.444)
-    assert pathway.projected(90.0, "faster", 24) == 100.0
-    assert pathway.projected(40.0, "moderate", 24) == 40.0
+def test_projection_formulas(snaps):
+    from aivancin.outlook import SkillOutlook
+    so = SkillOutlook(snaps)
+    assert so.project(40.0, "faster", 8, 1.444) == pytest.approx(40.0 * 1.444)
+    assert so.project(90.0, "faster", 24, 1.444) == 100.0
+    assert so.project(40.0, "moderate", 24, 1.444) == 40.0
+    assert so.project(40.0, "slower", 24, 1.444) == pytest.approx(max(0.0, 40.0 - so.drop))
+    assert so.project(40.0, "slower", 0, 1.444) == 40.0
+
+
+def _release_tasks():
+    """Bundled AEI task shares per release, read straight from the CSV files."""
+    out = {}
+    for rid in aei.RELEASE_IDS:
+        with open(DATA / f"aei/{rid}.csv", encoding="utf-8") as f:
+            out[rid] = {r["key"]: float(r["share"]) for r in csv.DictReader(f) if r["level"] == "task"}
+    return out
+
+
+def test_slower_drop_matches_an_independent_count():
+    rel = _release_tasks()
+    common = set.intersection(*(set(t) for t in rel.values()))
+    means = [sum(rel[r][t] for t in common) / len(common) for r in aei.RELEASE_IDS]
+    expected = round(max(a - b for a, b in zip(means, means[1:])), 1)
+    from aivancin import snapshots
+    from aivancin.outlook import SkillOutlook
+    assert SkillOutlook(snapshots.load(DATA)).drop == expected
+
+
+def test_activity_outlook_matches_an_independent_count(snaps):
+    """Section 4b: per release, the mean over the activity's distinct task statements present in that release."""
+    from aivancin.outlook import SkillOutlook
+    dwa = "4.A.3.b.1.d.1"  # Resolve computer network problems.
+    texts = defaultdict(set)
+    with open(DATA / "onet/task_dwas.csv", encoding="utf-8") as f:
+        links = [(r["code"], r["task_id"]) for r in csv.DictReader(f) if r["dwa_id"] == dwa]
+    for code, tid in links:
+        texts[aei.norm_task(snaps.onet.tasks[(code, tid)]["task"])].add(tid)
+    rel = _release_tasks()
+    expected = []
+    for rid in aei.RELEASE_IDS:
+        shares = []
+        for ids in texts.values():
+            hit = next((rel[rid][t] for t in sorted(ids, key=int) if t in rel[rid]), None)
+            if hit is not None:
+                shares.append(hit)
+        if shares:
+            expected.append(sum(shares) / len(shares))
+    got = SkillOutlook(snaps).outlook(dwa)
+    assert [r["share"] for r in got["releases"]] == [round(v, 1) for v in expected]
+    assert got["now"] == round(sum(expected) / len(expected), 1)
+
+
+def test_classes_follow_the_displayed_thresholds():
+    from aivancin.outlook import classify, LOWER_CUT
+    assert classify(None, 50) == "little or no observed AI use"
+    assert classify(50, 50) == "AI does most of it directly"
+    assert classify(LOWER_CUT - 0.1, 50) == "people mostly work with AI"
+    assert classify(LOWER_CUT, 50) == "shared"
+
+
+def test_radar_classes_agree_with_projections(reporter, hafiz_profile):
+    from aivancin.outlook import classify
+    for threshold in (50, 60):
+        rep = reporter.report(hafiz_profile, {"lane": "other_work", "threshold": threshold})
+        for role in rep["roles"]:
+            assert role["radar"]
+            for row in role["radar"]:
+                for s, cls in row["classes"].items():
+                    v = row["projected"][s]["v"] if row["now"] else None
+                    assert cls == classify(v, threshold)
+
+
+def test_horizon_counts_requirement_time(reporter, hafiz_profile, snaps):
+    from aivancin.outlook import DEGREE_TOPUP_MONTHS, EXPERIENCE_MONTHS, MIN_HORIZON_MONTHS
+    rep = reporter.report(hafiz_profile, {"lane": "other_work"})
+    for role in rep["roles"]:
+        ids = {lab["id"] for lab in role["labels"]}
+        months = role["horizon"]["months"]["v"]
+        assert months >= MIN_HORIZON_MONTHS
+        assert months >= role["plan"]["months_to_ready"]["v"] - 0.05
+        if "needs_degree" in ids:
+            assert months >= DEGREE_TOPUP_MONTHS
+        rw = snaps.onet.experience.get(role["code"])
+        if "needs_experience" in ids and rw and rw[0] in EXPERIENCE_MONTHS:
+            assert months >= EXPERIENCE_MONTHS[rw[0]]
+    fixed = reporter.report(hafiz_profile, {"lane": "other_work", "horizon": 36})
+    assert all(r["horizon"]["months"]["v"] == 36 and r["horizon"]["basis"] == "your choice" for r in fixed["roles"])
+    with pytest.raises(ReportError):
+        reporter.report(hafiz_profile, {"lane": "other_work", "horizon": 7})
+
+
+def test_band_scores_and_unknown_band_rejected():
+    from aivancin.outlook import band_score
+    assert band_score("Decline (-1% or lower)") == -1.0
+    assert band_score("Average (3% to 4%)") == 0.5
+    assert band_score("") == 0.0
+    with pytest.raises(ValueError):
+        band_score("Booming (99%)")
+
+
+def test_outlook_order_reproduces_the_formula_and_is_off_by_default(reporter, hafiz_profile, matcher):
+    plain = reporter.report(hafiz_profile, {"lane": "all"})
+    assert plain["order"] == "closest" and plain["weights"]["nu"]["v"] == 0
+    out = reporter.report(hafiz_profile, {"lane": "all", "nu": 0.3})
+    assert out["order"] == "outlook"
+    prof = matcher.lane_profile(hafiz_profile["activities"], "all")
+    base = matcher.rank(prof, "all", current_code=hafiz_profile["title_code"], cip_code="11.0701", limit=1000)["ranked"]
+    max_o = max(r["overlap"] for r in base)
+    expected = sorted(((r["overlap"] / max_o + 0.3 * reporter.outlook_score(r["code"]), r["code"]) for r in base),
+                      key=lambda x: (-x[0], x[1]))[:len(out["roles"])]
+    assert [r["code"] for r in out["roles"]] == [c for _, c in expected]
+    for r in out["roles"]:
+        jo = r["job_outlook"]
+        assert jo["src"] == ["onet-online-outlook"]
+        assert (jo["band"] is None) == (jo.get("note") == "No projection")
+
+
+def test_direction_labels_stay_off_when_the_backtest_gate_failed(reporter, hafiz_profile, snaps):
+    rep = reporter.report(hafiz_profile, {"lane": "other_work"})
+    assert rep["forecast"]["direction_labels"] is bool(snaps.backtest.get("direction_gate_pass"))
+    if not rep["forecast"]["direction_labels"]:
+        assert not any("direction" in row for role in rep["roles"] for row in role["radar"])
 
 
 def test_replay_reports_deltas_and_no_position_change_at_zero_weight(reporter, hafiz_profile, snaps):

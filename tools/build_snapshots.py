@@ -10,6 +10,7 @@ failure is reported and the script exits non-zero.
 """
 import csv
 import datetime as dt
+import hashlib
 import io
 import json
 import re
@@ -27,9 +28,12 @@ from xml.etree import ElementTree as ET
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "tools"))
 
 from aivancin.aei import adapt_release, RELEASES  # noqa: E402
 from aivancin.encoder import Encoder  # noqa: E402
+from aivancin.outlook import band_score  # noqa: E402
+from fetch_outlook import CACHE as OUTLOOK_CACHE, candidate_codes, parse_page  # noqa: E402
 from aivancin.snapshots import sha256_file  # noqa: E402
 
 CACHE = ROOT / ".cache"
@@ -351,6 +355,32 @@ def derive_aei(raw, onet_tasks_path):
     return out, failures
 
 
+def derive_outlook():
+    """Job outlook from the cached O*NET OnLine pages (tools/fetch_outlook.py) and its Bright Outlook list."""
+    bright_path = OUTLOOK_CACHE / "All_Bright_Outlook_Occupations.csv"
+    codes = candidate_codes(DATA)
+    pages = {c: OUTLOOK_CACHE / f"{c}.html" for c in codes}
+    missing = [c for c, path in pages.items() if not path.exists()]
+    if missing or not bright_path.exists():
+        raise RuntimeError(f"outlook cache incomplete ({len(missing)} pages missing); run tools/fetch_outlook.py")
+    bright = {r["Code"]: r["Categories"] for r in read_csv(bright_path)}
+    rows, digest = [], hashlib.sha256()
+    for code in codes:
+        digest.update(code.encode() + bytes.fromhex(sha256_file(pages[code])))
+        parsed = parse_page(pages[code])
+        period, band, open_period, openings = parsed if parsed else ("", "", "", "")
+        band_score(band)  # an unknown band label fails the build
+        rows.append((code, period, band, open_period, openings.replace(",", ""), bright.get(code, "")))
+    digest.update(bytes.fromhex(sha256_file(bright_path)))
+    accessed = max(dt.date.fromtimestamp(p.stat().st_mtime) for p in [*pages.values(), bright_path]).isoformat()
+    rec = {"source_id": "onet-online-outlook", "title": "O*NET OnLine job outlook: BLS projected growth and openings, "
+           "Bright Outlook", "publisher": "U.S. Department of Labor, Employment and Training Administration (O*NET OnLine); "
+           "projections by the U.S. Bureau of Labor Statistics", "url": "https://www.onetonline.org/find/bright",
+           "release": "BLS projections 2025-2035", "licence": "CC BY 4.0", "access_date": accessed,
+           "original_sha256": digest.hexdigest()}
+    return rec, ("onet/outlook.csv", ["code", "growth_period", "growth_band", "openings_period", "openings", "bright_outlook"], rows)
+
+
 def main():
     old = {}
     if (DATA / "manifest.json").exists():
@@ -402,6 +432,27 @@ def main():
         rec["derived_path"] = rel
         rec["derived_sha256"] = sha256_file(DATA / rel)
         final.append(rec)
+
+    try:
+        rec, (rel, header, rows) = derive_outlook()
+        rec["derived_rows"] = write_csv(DATA / rel, header, rows)
+        rec["derived_path"] = rel
+        rec["derived_sha256"] = sha256_file(DATA / rel)
+        final.append(rec)
+    except Exception as exc:
+        failures["onet-online-outlook"] = str(exc)
+        if "onet-online-outlook" in old:
+            final.append(old["onet-online-outlook"])
+
+    bt = DATA / "forecast" / "a18_backtest.json"
+    if bt.exists():
+        final.append({"source_id": "aivancin-backtest", "title": "AIVANCIN skill-outlook backtest (A18): error of the "
+                      "historical-average projection on the 2026-06-26 release",
+                      "publisher": "AIVANCIN (team DOVUN), computed from the bundled AEI and O*NET snapshots",
+                      "url": "tools/checks/a18_backtest.py", "release": json.loads(bt.read_text(encoding="utf-8"))["run_date"],
+                      "licence": "Derived from CC BY sources", "access_date": dt.date.today().isoformat(),
+                      "original_sha256": sha256_file(bt), "derived_rows": None,
+                      "derived_path": "forecast/a18_backtest.json", "derived_sha256": sha256_file(bt)})
 
     cat = DATA / "catalogue" / "courses.json"
     if cat.exists():

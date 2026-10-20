@@ -5,9 +5,9 @@ PLAN_GAPS = 6
 PLAN_TOOLS = 3
 WEEKS_PER_MONTH = 52 / 12
 DEFAULT_PACE = 1.444  # 27% to 39% directive use in eight months (AEI report, arXiv 2511.15080)
-PACE_MONTHS = 8
 DEFAULT_THRESHOLD = 50.0
 CATALOGUE_SRC = "aivancin-catalogue"
+SCENARIOS = ("slower", "moderate", "faster")
 
 
 def is_verified(course, today, validity_days):
@@ -22,12 +22,6 @@ def verified_courses(catalogue, today=None):
     today = today or dt.date.today()
     days = catalogue.get("validity_days", 60)
     return [c for c in catalogue.get("courses", []) if is_verified(c, today, days)]
-
-
-def projected(a0, scenario, months, pace=DEFAULT_PACE):
-    if scenario == "faster":
-        return min(100.0, a0 * pace ** (months / PACE_MONTHS))
-    return a0
 
 
 def _course_view(c):
@@ -76,36 +70,33 @@ def build_plan(gaps, tool_gaps, courses, budget, weekly_hours):
             "_months": months, "_spent": spent}
 
 
-def scenario_check(code, gaps, matcher, evidence, release, months, threshold, pace):
-    """For each gap activity: does any linked task of the role reach the threshold by the ready date?"""
-    onet = matcher.snaps.onet
+def scenario_check(gaps, skill_outlook, release, months, threshold, pace):
+    """For each gap activity in the plan: its outlook now and at the horizon under every scenario."""
     out = []
     for g in gaps[:PLAN_GAPS]:
-        tasks = []
-        for tid in matcher.tasks_by_dwa.get((code, g["dwa_id"]), []):
-            ev = evidence.task(tid, release)
-            if ev is None:
-                continue
-            tasks.append({"task_id": tid, "task": onet.tasks[(code, tid)]["task"], "a0": ev["share"], "weak": ev["weak"],
-                          "releases": [r["release"] for r in ev["releases"]],
-                          "moderate": round(projected(ev["share"], "moderate", months, pace), 1),
-                          "faster": round(projected(ev["share"], "faster", months, pace), 1)})
-        status = {s: any(t[s] >= threshold for t in tasks) for s in ("moderate", "faster")}
-        out.append({"dwa_id": g["dwa_id"], "name": g["name"], "tasks": tasks, "crosses": status,
-                    "evidence": "none" if not tasks else "ok"})
+        o = skill_outlook.outlook(g["dwa_id"], release)
+        if o is None:
+            out.append({"dwa_id": g["dwa_id"], "name": g["name"], "outlook": None,
+                        "crosses": {s: False for s in SCENARIOS}})
+            continue
+        proj = {s: round(skill_outlook.project(o["now"], s, months, pace), 1) for s in SCENARIOS}
+        out.append({"dwa_id": g["dwa_id"], "name": g["name"], "outlook": o, "projected": proj,
+                    "crosses": {s: proj[s] >= threshold for s in SCENARIOS}})
     return out
 
 
 def ai_steps(checks, scenario, courses, budget_left):
-    """Plan additions for gap activities that cross the threshold in the selected scenario."""
+    """Plan additions for gap activities whose projected share reaches the threshold in the selected scenario."""
     ai_courses = sorted((c for c in courses if c.get("ai_skill") and c["cost_rm"] <= budget_left),
                         key=lambda c: (c["cost_rm"], c["hours"], c["id"]))
     steps = []
     for chk in checks:
         if not chk["crosses"][scenario]:
             continue
-        top = max(chk["tasks"], key=lambda t: (t[scenario], t["task_id"]))
         steps.append({"kind": "direct_ai", "gap": {"dwa_id": chk["dwa_id"], "name": chk["name"]},
-                      "reason": top, "course": _course_view(ai_courses[0]) if ai_courses else None,
+                      "reason": {"now": chk["outlook"]["now"], "projected": chk["projected"][scenario],
+                                 "releases": [r["release"] for r in chk["outlook"]["releases"]],
+                                 "weak": chk["outlook"]["weak"], "src": chk["outlook"]["src"]},
+                      "course": _course_view(ai_courses[0]) if ai_courses else None,
                       "status": "verified" if ai_courses else "no verified resource", "sdg": ["4.4"]})
     return steps

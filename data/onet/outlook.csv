@@ -1,0 +1,389 @@
+code,growth_period,growth_band,openings_period,openings,bright_outlook
+13-1011.00,2025-2035,Much faster than average (7% or higher),2025-2035,2400,Rapid Growth
+13-1021.00,2025-2035,Faster than average (5% to 6%),2025-2035,47200,Rapid Growth
+13-1022.00,2025-2035,Faster than average (5% to 6%),2025-2035,47200,Rapid Growth
+13-1023.00,2025-2035,Faster than average (5% to 6%),2025-2035,47200,Rapid Growth
+13-1031.00,2025-2035,Decline (-1% or lower),2025-2035,20900,
+13-1032.00,2025-2035,Decline (-1% or lower),2025-2035,700,
+13-1041.00,2025-2035,Average (3% to 4%),2025-2035,32700,
+13-1041.01,2025-2035,Average (3% to 4%),2025-2035,32700,
+13-1041.03,2025-2035,Average (3% to 4%),2025-2035,32700,
+13-1041.04,2025-2035,Average (3% to 4%),2025-2035,32700,
+13-1041.06,2025-2035,Average (3% to 4%),2025-2035,32700,
+13-1041.07,2025-2035,Average (3% to 4%),2025-2035,32700,
+13-1041.08,2025-2035,Average (3% to 4%),2025-2035,32700,
+13-1051.00,2025-2035,Decline (-1% or lower),2025-2035,17600,
+13-1071.00,2025-2035,Faster than average (5% to 6%),2025-2035,73700,Rapid Growth
+13-1075.00,2025-2035,Slower than average (1% to 2%),2025-2035,4800,
+13-1081.00,2025-2035,Much faster than average (7% or higher),2025-2035,26600,Rapid Growth
+13-1081.01,2025-2035,Much faster than average (7% or higher),2025-2035,26600,Rapid Growth
+13-1081.02,2025-2035,Much faster than average (7% or higher),2025-2035,26600,Rapid Growth
+13-1082.00,2025-2035,Much faster than average (7% or higher),2025-2035,76500,Rapid Growth; Numerous Job Openings
+13-1111.00,2025-2035,Much faster than average (7% or higher),2025-2035,94100,Rapid Growth; Numerous Job Openings
+13-1121.00,2025-2035,Faster than average (5% to 6%),2025-2035,16800,Rapid Growth
+13-1131.00,2025-2035,Faster than average (5% to 6%),2025-2035,10000,Rapid Growth
+13-1141.00,2025-2035,Faster than average (5% to 6%),2025-2035,9000,Rapid Growth
+13-1151.00,2025-2035,Much faster than average (7% or higher),2025-2035,46000,Rapid Growth
+13-1161.00,2025-2035,Much faster than average (7% or higher),2025-2035,82000,Rapid Growth; Numerous Job Openings
+13-1161.01,2025-2035,Much faster than average (7% or higher),2025-2035,82000,Rapid Growth; Numerous Job Openings
+13-1199.04,2025-2035,Average (3% to 4%),2025-2035,98700,Numerous Job Openings
+13-1199.05,2025-2035,Average (3% to 4%),2025-2035,98700,Numerous Job Openings
+13-1199.06,2025-2035,Average (3% to 4%),2025-2035,98700,Numerous Job Openings
+13-1199.07,2025-2035,Average (3% to 4%),2025-2035,98700,Numerous Job Openings
+13-2011.00,2025-2035,Faster than average (5% to 6%),2025-2035,115300,Rapid Growth; Numerous Job Openings
+13-2022.00,2025-2035,Average (3% to 4%),2025-2035,5200,
+13-2023.00,2025-2035,Average (3% to 4%),2025-2035,5200,
+13-2031.00,2025-2035,Slower than average (1% to 2%),2025-2035,2900,
+13-2041.00,2025-2035,Decline (-1% or lower),2025-2035,3100,
+13-2051.00,2025-2035,Much faster than average (7% or higher),2025-2035,24700,Rapid Growth
+13-2052.00,2025-2035,Slower than average (1% to 2%),2025-2035,17100,
+13-2053.00,2025-2035,Decline (-1% or lower),2025-2035,6800,
+13-2054.00,2025-2035,Much faster than average (7% or higher),2025-2035,4800,Rapid Growth
+13-2061.00,2025-2035,Much faster than average (7% or higher),2025-2035,4500,Rapid Growth
+13-2071.00,2025-2035,Average (3% to 4%),2025-2035,2000,
+13-2072.00,2025-2035,Slower than average (1% to 2%),2025-2035,17100,
+13-2081.00,2025-2035,Decline (-1% or lower),2025-2035,4400,
+13-2082.00,2025-2035,Faster than average (5% to 6%),2025-2035,9400,Rapid Growth
+13-2099.04,2025-2035,Average (3% to 4%),2025-2035,9400,
+15-1211.00,2025-2035,Much faster than average (7% or higher),2025-2035,32900,Rapid Growth
+15-1212.00,2025-2035,Much faster than average (7% or higher),2025-2035,14100,Rapid Growth
+15-1231.00,2025-2035,Slower than average (1% to 2%),2025-2035,9000,
+15-1232.00,2025-2035,Decline (-1% or lower),2025-2035,39700,
+15-1241.00,2025-2035,Much faster than average (7% or higher),2025-2035,9600,Rapid Growth
+15-1241.01,2025-2035,Much faster than average (7% or higher),2025-2035,9600,Rapid Growth
+15-1242.00,2025-2035,Little or no change,2025-2035,3300,
+15-1243.00,2025-2035,Much faster than average (7% or higher),2025-2035,3900,Rapid Growth
+15-1243.01,2025-2035,Much faster than average (7% or higher),2025-2035,3900,Rapid Growth
+15-1244.00,2025-2035,Decline (-1% or lower),2025-2035,13400,
+15-1251.00,2025-2035,Decline (-1% or lower),2025-2035,4400,
+15-1252.00,2025-2035,Much faster than average (7% or higher),2025-2035,95300,Rapid Growth; Numerous Job Openings
+15-1253.00,2025-2035,Faster than average (5% to 6%),2025-2035,10700,Rapid Growth
+15-1254.00,2025-2035,Average (3% to 4%),2025-2035,5300,
+15-1255.00,2025-2035,Faster than average (5% to 6%),2025-2035,8300,Rapid Growth
+15-1255.01,2025-2035,Faster than average (5% to 6%),2025-2035,8300,Rapid Growth
+15-1299.01,2025-2035,Faster than average (5% to 6%),2025-2035,27000,Rapid Growth
+15-1299.02,2025-2035,Faster than average (5% to 6%),2025-2035,27000,Rapid Growth
+15-1299.03,2025-2035,Faster than average (5% to 6%),2025-2035,27000,Rapid Growth
+15-1299.04,2025-2035,Faster than average (5% to 6%),2025-2035,27000,Rapid Growth; New and Emerging
+15-1299.05,2025-2035,Faster than average (5% to 6%),2025-2035,27000,Rapid Growth; New and Emerging
+15-1299.06,2025-2035,Faster than average (5% to 6%),2025-2035,27000,Rapid Growth; New and Emerging
+15-1299.07,2025-2035,Faster than average (5% to 6%),2025-2035,27000,Rapid Growth; New and Emerging
+15-1299.08,2025-2035,Faster than average (5% to 6%),2025-2035,27000,Rapid Growth
+15-1299.09,2025-2035,Faster than average (5% to 6%),2025-2035,27000,Rapid Growth
+15-2011.00,2025-2035,Much faster than average (7% or higher),2025-2035,1500,Rapid Growth
+15-2051.00,2025-2035,Much faster than average (7% or higher),2025-2035,24800,Rapid Growth
+15-2051.01,2025-2035,Much faster than average (7% or higher),2025-2035,24800,Rapid Growth
+15-2051.02,2025-2035,Much faster than average (7% or higher),2025-2035,24800,Rapid Growth
+15-2099.01,2025-2035,Much faster than average (7% or higher),2025-2035,200,Rapid Growth
+17-1012.00,2025-2035,Average (3% to 4%),2025-2035,1700,
+17-1021.00,2025-2035,Much faster than average (7% or higher),2025-2035,900,Rapid Growth
+17-1022.00,2025-2035,Faster than average (5% to 6%),2025-2035,3100,Rapid Growth
+17-1022.01,2025-2035,Faster than average (5% to 6%),2025-2035,3100,Rapid Growth
+17-2011.00,2025-2035,Much faster than average (7% or higher),2025-2035,3800,Rapid Growth
+17-2021.00,2025-2035,Much faster than average (7% or higher),2025-2035,100,Rapid Growth
+17-2031.00,2025-2035,Much faster than average (7% or higher),2025-2035,1200,Rapid Growth
+17-2041.00,2025-2035,Faster than average (5% to 6%),2025-2035,1100,Rapid Growth
+17-2051.00,2025-2035,Faster than average (5% to 6%),2025-2035,22700,Rapid Growth
+17-2051.01,2025-2035,Faster than average (5% to 6%),2025-2035,22700,Rapid Growth
+17-2051.02,2025-2035,Faster than average (5% to 6%),2025-2035,22700,Rapid Growth
+17-2061.00,2025-2035,Much faster than average (7% or higher),2025-2035,4100,Rapid Growth
+17-2071.00,2025-2035,Much faster than average (7% or higher),2025-2035,11400,Rapid Growth
+17-2072.00,2025-2035,Average (3% to 4%),2025-2035,4900,
+17-2072.01,2025-2035,Average (3% to 4%),2025-2035,4900,
+17-2081.00,2025-2035,Faster than average (5% to 6%),2025-2035,2300,Rapid Growth
+17-2111.00,2025-2035,Faster than average (5% to 6%),2025-2035,1200,Rapid Growth
+17-2111.02,2025-2035,Faster than average (5% to 6%),2025-2035,1200,Rapid Growth
+17-2112.00,2025-2035,Much faster than average (7% or higher),2025-2035,23100,Rapid Growth
+17-2112.02,2025-2035,Much faster than average (7% or higher),2025-2035,23100,Rapid Growth
+17-2112.03,2025-2035,Much faster than average (7% or higher),2025-2035,23100,Rapid Growth
+17-2121.00,2025-2035,Much faster than average (7% or higher),2025-2035,500,Rapid Growth
+17-2131.00,2025-2035,Much faster than average (7% or higher),2025-2035,1300,Rapid Growth
+17-2141.00,2025-2035,Much faster than average (7% or higher),2025-2035,17800,Rapid Growth
+17-2141.01,2025-2035,Much faster than average (7% or higher),2025-2035,17800,Rapid Growth
+17-2141.02,2025-2035,Much faster than average (7% or higher),2025-2035,17800,Rapid Growth
+17-2151.00,2025-2035,Average (3% to 4%),2025-2035,300,
+17-2161.00,2025-2035,Little or no change,2025-2035,800,
+17-2171.00,2025-2035,Slower than average (1% to 2%),2025-2035,1000,
+17-2199.03,2025-2035,Average (3% to 4%),2025-2035,8800,
+17-2199.05,2025-2035,Average (3% to 4%),2025-2035,8800,
+17-2199.07,2025-2035,Average (3% to 4%),2025-2035,8800,
+17-2199.08,2025-2035,Average (3% to 4%),2025-2035,8800,
+17-2199.10,2025-2035,Average (3% to 4%),2025-2035,8800,
+17-2199.11,2025-2035,Average (3% to 4%),2025-2035,8800,
+17-3011.00,2025-2035,Faster than average (5% to 6%),2025-2035,9100,Rapid Growth
+17-3012.00,2025-2035,Decline (-1% or lower),2025-2035,1400,
+17-3013.00,2025-2035,Decline (-1% or lower),2025-2035,2900,
+17-3021.00,2025-2035,Much faster than average (7% or higher),2025-2035,1100,Rapid Growth
+17-3022.00,2025-2035,Average (3% to 4%),2025-2035,6100,
+17-3023.00,2025-2035,Slower than average (1% to 2%),2025-2035,8100,
+17-3024.00,2025-2035,Average (3% to 4%),2025-2035,1400,
+17-3024.01,2025-2035,Average (3% to 4%),2025-2035,1400,
+17-3025.00,2025-2035,Average (3% to 4%),2025-2035,1100,
+17-3026.00,2025-2035,Average (3% to 4%),2025-2035,6600,
+17-3026.01,2025-2035,Average (3% to 4%),2025-2035,6600,
+17-3027.00,2025-2035,Slower than average (1% to 2%),2025-2035,3100,
+17-3027.01,2025-2035,Slower than average (1% to 2%),2025-2035,3100,
+17-3028.00,2025-2035,Faster than average (5% to 6%),2025-2035,1500,Rapid Growth
+17-3029.08,2025-2035,Average (3% to 4%),2025-2035,5400,
+17-3031.00,2025-2035,Faster than average (5% to 6%),2025-2035,6900,Rapid Growth
+19-1012.00,2025-2035,Faster than average (5% to 6%),2025-2035,1000,Rapid Growth
+19-1022.00,2025-2035,Faster than average (5% to 6%),2025-2035,1500,Rapid Growth
+19-1023.00,2025-2035,Average (3% to 4%),2025-2035,1400,
+19-1031.00,2025-2035,Faster than average (5% to 6%),2025-2035,2100,Rapid Growth
+19-1031.02,2025-2035,Faster than average (5% to 6%),2025-2035,2100,Rapid Growth
+19-1031.03,2025-2035,Faster than average (5% to 6%),2025-2035,2100,Rapid Growth
+19-1032.00,2025-2035,Slower than average (1% to 2%),2025-2035,900,
+19-2021.00,2025-2035,Average (3% to 4%),2025-2035,800,
+19-2031.00,2025-2035,Faster than average (5% to 6%),2025-2035,5900,Rapid Growth
+19-2032.00,2025-2035,Much faster than average (7% or higher),2025-2035,600,Rapid Growth
+19-2041.00,2025-2035,Faster than average (5% to 6%),2025-2035,7300,Rapid Growth
+19-2042.00,2025-2035,Faster than average (5% to 6%),2025-2035,1800,Rapid Growth
+19-2043.00,2025-2035,Slower than average (1% to 2%),2025-2035,400,
+19-2099.01,2025-2035,Slower than average (1% to 2%),2025-2035,1400,
+19-3092.00,2025-2035,Decline (-1% or lower),2025-2035,100,
+19-3099.01,2025-2035,Little or no change,2025-2035,2700,
+19-4012.00,2025-2035,Faster than average (5% to 6%),2025-2035,2800,Rapid Growth
+19-4012.01,2025-2035,Faster than average (5% to 6%),2025-2035,2800,Rapid Growth
+19-4013.00,2025-2035,Faster than average (5% to 6%),2025-2035,3000,Rapid Growth
+19-4021.00,2025-2035,Much faster than average (7% or higher),2025-2035,9400,Rapid Growth
+19-4031.00,2025-2035,Faster than average (5% to 6%),2025-2035,7600,Rapid Growth
+19-4042.00,2025-2035,Much faster than average (7% or higher),2025-2035,5300,Rapid Growth
+19-4043.00,2025-2035,Average (3% to 4%),2025-2035,1000,
+19-4044.00,2025-2035,Decline (-1% or lower),2025-2035,400,
+19-4051.00,2025-2035,Slower than average (1% to 2%),2025-2035,900,
+19-4051.02,2025-2035,Slower than average (1% to 2%),2025-2035,900,
+19-4061.00,2025-2035,Faster than average (5% to 6%),2025-2035,4900,Rapid Growth
+19-4071.00,2025-2035,Decline (-1% or lower),2025-2035,3800,
+19-4092.00,2025-2035,Much faster than average (7% or higher),2025-2035,2800,Rapid Growth
+19-4099.01,2025-2035,Average (3% to 4%),2025-2035,11200,
+19-4099.03,2025-2035,Average (3% to 4%),2025-2035,11200,
+19-5011.00,2025-2035,Much faster than average (7% or higher),2025-2035,17100,Rapid Growth
+19-5012.00,2025-2035,Much faster than average (7% or higher),2025-2035,3800,Rapid Growth
+21-1021.00,2025-2035,Average (3% to 4%),2025-2035,33900,
+21-1091.00,2025-2035,Faster than average (5% to 6%),2025-2035,6900,Rapid Growth
+21-1092.00,2025-2035,Average (3% to 4%),2025-2035,7900,
+21-1093.00,2025-2035,Much faster than average (7% or higher),2025-2035,48900,Rapid Growth
+21-1094.00,2025-2035,Much faster than average (7% or higher),2025-2035,7000,Rapid Growth
+21-2021.00,2025-2035,Average (3% to 4%),2025-2035,13000,
+23-2011.00,2025-2035,Little or no change,2025-2035,40800,
+25-1194.00,2025-2035,Little or no change,2025-2035,8000,
+25-2011.00,2025-2035,Faster than average (5% to 6%),2025-2035,66700,Rapid Growth
+25-2012.00,2025-2035,Little or no change,2025-2035,11900,
+25-2021.00,2025-2035,Little or no change,2025-2035,87500,Numerous Job Openings
+25-2022.00,2025-2035,Little or no change,2025-2035,38800,
+25-2023.00,2025-2035,Little or no change,2025-2035,1000,
+25-2031.00,2025-2035,Little or no change,2025-2035,63500,
+25-2032.00,2025-2035,Little or no change,2025-2035,6400,
+25-2051.00,2025-2035,Slower than average (1% to 2%),2025-2035,2000,
+25-2055.00,2025-2035,Little or no change,2025-2035,16400,
+25-2056.00,2025-2035,Little or no change,2025-2035,16400,
+25-2057.00,2025-2035,Little or no change,2025-2035,6000,
+25-2058.00,2025-2035,Little or no change,2025-2035,10400,
+25-2059.01,2025-2035,Slower than average (1% to 2%),2025-2035,2300,
+25-3011.00,2025-2035,Decline (-1% or lower),2025-2035,3800,
+25-3021.00,2025-2035,Average (3% to 4%),2025-2035,50000,
+25-3031.00,2025-2035,Slower than average (1% to 2%),2025-2035,65000,
+25-3041.00,2025-2035,Little or no change,2025-2035,34200,
+25-4031.00,2025-2035,Decline (-1% or lower),2025-2035,10800,
+25-9042.00,2025-2035,Little or no change,2025-2035,176200,
+25-9043.00,2025-2035,Little or no change,2025-2035,176200,
+27-1011.00,2025-2035,Average (3% to 4%),2025-2035,12200,
+27-1012.00,2025-2035,Slower than average (1% to 2%),2025-2035,1000,
+27-1013.00,2025-2035,Decline (-1% or lower),2025-2035,2200,
+27-1014.00,2025-2035,Little or no change,2025-2035,4200,
+27-1021.00,2025-2035,Slower than average (1% to 2%),2025-2035,2800,
+27-1022.00,2025-2035,Little or no change,2025-2035,2500,
+27-1024.00,2025-2035,Decline (-1% or lower),2025-2035,16000,
+27-1025.00,2025-2035,Average (3% to 4%),2025-2035,7700,
+27-1026.00,2025-2035,Average (3% to 4%),2025-2035,17200,
+27-2012.00,2025-2035,Average (3% to 4%),2025-2035,12100,
+27-2012.03,2025-2035,Average (3% to 4%),2025-2035,12100,
+27-2012.04,2025-2035,Average (3% to 4%),2025-2035,12100,
+27-2012.05,2025-2035,Average (3% to 4%),2025-2035,12100,
+27-2022.00,2025-2035,Faster than average (5% to 6%),2025-2035,36400,Rapid Growth
+27-2031.00,2025-2035,Slower than average (1% to 2%),2025-2035,1600,
+27-2032.00,2025-2035,Average (3% to 4%),2025-2035,600,
+27-2041.00,2025-2035,Slower than average (1% to 2%),2025-2035,4200,
+27-2042.00,2025-2035,Little or no change,2025-2035,17400,
+27-3011.00,2025-2035,Decline (-1% or lower),2025-2035,2000,
+27-3023.00,2025-2035,Decline (-1% or lower),2025-2035,3400,
+27-3031.00,2025-2035,Slower than average (1% to 2%),2025-2035,23000,
+27-3041.00,2025-2035,Decline (-1% or lower),2025-2035,7900,
+27-3042.00,2025-2035,Slower than average (1% to 2%),2025-2035,3200,
+27-3043.00,2025-2035,Little or no change,2025-2035,11900,
+27-3043.05,2025-2035,Little or no change,2025-2035,11900,
+27-3091.00,2025-2035,Slower than average (1% to 2%),2025-2035,6000,
+27-3092.00,2025-2035,Little or no change,2025-2035,1800,
+27-4011.00,2025-2035,Average (3% to 4%),2025-2035,6600,
+27-4012.00,2025-2035,Decline (-1% or lower),2025-2035,1600,
+27-4014.00,2025-2035,Decline (-1% or lower),2025-2035,1000,
+27-4015.00,2025-2035,Decline (-1% or lower),2025-2035,600,
+27-4021.00,2025-2035,Decline (-1% or lower),2025-2035,10700,
+27-4031.00,2025-2035,Slower than average (1% to 2%),2025-2035,2500,
+27-4032.00,2025-2035,Average (3% to 4%),2025-2035,3100,
+29-1124.00,2025-2035,Average (3% to 4%),2025-2035,700,
+29-1125.00,2025-2035,Faster than average (5% to 6%),2025-2035,1400,Rapid Growth
+29-1126.00,2025-2035,Much faster than average (7% or higher),2025-2035,8600,Rapid Growth
+29-1128.00,2025-2035,Much faster than average (7% or higher),2025-2035,1400,Rapid Growth
+29-1129.02,2025-2035,Much faster than average (7% or higher),2025-2035,3600,Rapid Growth
+29-1141.00,2025-2035,Faster than average (5% to 6%),2025-2035,180800,Rapid Growth; Numerous Job Openings
+29-1141.01,2025-2035,Faster than average (5% to 6%),2025-2035,180800,Rapid Growth; Numerous Job Openings
+29-1141.03,2025-2035,Faster than average (5% to 6%),2025-2035,180800,Rapid Growth; Numerous Job Openings
+29-1292.00,2025-2035,Much faster than average (7% or higher),2025-2035,15000,Rapid Growth
+29-2011.00,2025-2035,Average (3% to 4%),2025-2035,20800,
+29-2011.01,2025-2035,Average (3% to 4%),2025-2035,20800,
+29-2011.04,2025-2035,Average (3% to 4%),2025-2035,20800,
+29-2012.00,2025-2035,Average (3% to 4%),2025-2035,20800,
+29-2012.01,2025-2035,Average (3% to 4%),2025-2035,20800,
+29-2031.00,2025-2035,Average (3% to 4%),2025-2035,3400,
+29-2032.00,2025-2035,Much faster than average (7% or higher),2025-2035,6000,Rapid Growth
+29-2033.00,2025-2035,Average (3% to 4%),2025-2035,800,
+29-2034.00,2025-2035,Faster than average (5% to 6%),2025-2035,13000,Rapid Growth
+29-2035.00,2025-2035,Much faster than average (7% or higher),2025-2035,2300,Rapid Growth
+29-2036.00,2025-2035,Faster than average (5% to 6%),2025-2035,200,Rapid Growth
+29-2042.00,2025-2035,Faster than average (5% to 6%),2025-2035,13800,Rapid Growth
+29-2043.00,2025-2035,Faster than average (5% to 6%),2025-2035,4300,Rapid Growth
+29-2051.00,2025-2035,Average (3% to 4%),2025-2035,4200,
+29-2052.00,2025-2035,Faster than average (5% to 6%),2025-2035,44700,Rapid Growth
+29-2053.00,2025-2035,Much faster than average (7% or higher),2025-2035,17000,Rapid Growth
+29-2055.00,2025-2035,Faster than average (5% to 6%),2025-2035,7100,Rapid Growth
+29-2056.00,2025-2035,Much faster than average (7% or higher),2025-2035,13400,Rapid Growth
+29-2057.00,2025-2035,Much faster than average (7% or higher),2025-2035,11800,Rapid Growth
+29-2061.00,2025-2035,Average (3% to 4%),2025-2035,51800,
+29-2072.00,2025-2035,Much faster than average (7% or higher),2025-2035,14000,Rapid Growth
+29-2081.00,2025-2035,Average (3% to 4%),2025-2035,5600,
+29-2092.00,2025-2035,Much faster than average (7% or higher),2025-2035,900,Rapid Growth
+29-2099.01,2025-2035,Faster than average (5% to 6%),2025-2035,12400,Rapid Growth
+29-2099.05,2025-2035,Faster than average (5% to 6%),2025-2035,12400,Rapid Growth
+29-2099.08,2025-2035,Faster than average (5% to 6%),2025-2035,12400,Rapid Growth
+29-9021.00,2025-2035,Much faster than average (7% or higher),2025-2035,3000,Rapid Growth
+29-9093.00,2025-2035,Faster than average (5% to 6%),2025-2035,1400,Rapid Growth
+31-1131.00,2025-2035,Average (3% to 4%),2025-2035,196200,Numerous Job Openings
+31-2011.00,2025-2035,Much faster than average (7% or higher),2025-2035,8100,Rapid Growth
+31-2012.00,2025-2035,Average (3% to 4%),2025-2035,600,
+31-2021.00,2025-2035,Much faster than average (7% or higher),2025-2035,18500,Rapid Growth
+31-9011.00,2025-2035,Much faster than average (7% or higher),2025-2035,20400,Rapid Growth
+31-9091.00,2025-2035,Much faster than average (7% or higher),2025-2035,53000,Rapid Growth
+31-9092.00,2025-2035,Much faster than average (7% or higher),2025-2035,109700,Rapid Growth; Numerous Job Openings
+31-9094.00,2025-2035,Decline (-1% or lower),2025-2035,6200,
+31-9097.00,2025-2035,Much faster than average (7% or higher),2025-2035,18000,Rapid Growth
+31-9099.01,2025-2035,Faster than average (5% to 6%),2025-2035,14100,Rapid Growth
+33-1011.00,2025-2035,Decline (-1% or lower),2025-2035,3700,
+33-1021.00,2025-2035,Average (3% to 4%),2025-2035,6600,
+33-2021.00,2025-2035,Average (3% to 4%),2025-2035,1600,
+33-2022.00,2025-2035,Much faster than average (7% or higher),2025-2035,400,Rapid Growth
+33-3011.00,2025-2035,Decline (-1% or lower),2025-2035,1600,
+33-3021.00,2025-2035,Little or no change,2025-2035,7800,
+33-3021.02,2025-2035,Little or no change,2025-2035,7800,
+33-3021.06,2025-2035,Little or no change,2025-2035,7800,
+33-3031.00,2025-2035,Decline (-1% or lower),2025-2035,500,
+33-3051.00,2025-2035,Average (3% to 4%),2025-2035,51500,
+33-3051.04,2025-2035,Average (3% to 4%),2025-2035,51500,
+33-3052.00,2025-2035,Average (3% to 4%),2025-2035,300,
+33-9021.00,2025-2035,Faster than average (5% to 6%),2025-2035,3200,Rapid Growth
+35-1011.00,2025-2035,Much faster than average (7% or higher),2025-2035,25200,Rapid Growth
+35-2013.00,2025-2035,Faster than average (5% to 6%),2025-2035,5000,Rapid Growth
+37-1012.00,2025-2035,Average (3% to 4%),2025-2035,23900,
+37-2011.00,2025-2035,Slower than average (1% to 2%),2025-2035,321800,Numerous Job Openings
+39-1022.00,2025-2035,Faster than average (5% to 6%),2025-2035,12000,Rapid Growth
+39-4011.00,2025-2035,Slower than average (1% to 2%),2025-2035,700,
+39-4031.00,2025-2035,Average (3% to 4%),2025-2035,3000,
+39-5011.00,2025-2035,Average (3% to 4%),2025-2035,6900,
+39-5012.00,2025-2035,Much faster than average (7% or higher),2025-2035,73400,Rapid Growth
+39-5091.00,2025-2035,Faster than average (5% to 6%),2025-2035,600,Rapid Growth
+39-5094.00,2025-2035,Much faster than average (7% or higher),2025-2035,14200,Rapid Growth
+39-7011.00,2025-2035,Faster than average (5% to 6%),2025-2035,11900,Rapid Growth
+39-9031.00,2025-2035,Much faster than average (7% or higher),2025-2035,68000,Rapid Growth
+39-9032.00,2025-2035,Average (3% to 4%),2025-2035,67000,
+39-9041.00,2025-2035,Average (3% to 4%),2025-2035,16500,
+41-1012.00,2025-2035,Slower than average (1% to 2%),2025-2035,21700,
+41-3011.00,2025-2035,Decline (-1% or lower),2025-2035,7800,
+41-3021.00,2025-2035,Average (3% to 4%),2025-2035,43100,
+41-3031.00,2025-2035,Slower than average (1% to 2%),2025-2035,35100,
+41-3041.00,2025-2035,Little or no change,2025-2035,5900,
+41-4011.00,2025-2035,Slower than average (1% to 2%),2025-2035,23600,
+41-4011.07,2025-2035,Slower than average (1% to 2%),2025-2035,23600,
+41-4012.00,2025-2035,Decline (-1% or lower),2025-2035,99800,Numerous Job Openings
+41-9021.00,2025-2035,Slower than average (1% to 2%),2025-2035,7800,
+41-9031.00,2025-2035,Average (3% to 4%),2025-2035,3800,
+43-1011.00,2025-2035,Little or no change,2025-2035,127400,Numerous Job Openings
+43-3031.00,2025-2035,Decline (-1% or lower),2025-2035,144100,Numerous Job Openings
+43-3051.00,2025-2035,Decline (-1% or lower),2025-2035,11400,
+43-4011.00,2025-2035,Decline (-1% or lower),2025-2035,3400,
+43-4061.00,2025-2035,Slower than average (1% to 2%),2025-2035,12700,
+43-4111.00,2025-2035,Decline (-1% or lower),2025-2035,13200,
+43-4131.00,2025-2035,Decline (-1% or lower),2025-2035,10500,
+43-4141.00,2025-2035,Decline (-1% or lower),2025-2035,2300,
+43-4161.00,2025-2035,Decline (-1% or lower),2025-2035,7900,
+43-6011.00,2025-2035,Little or no change,2025-2035,43300,
+43-6012.00,2025-2035,Decline (-1% or lower),2025-2035,18100,
+43-9031.00,2025-2035,Decline (-1% or lower),2025-2035,300,
+43-9081.00,2025-2035,Decline (-1% or lower),2025-2035,1100,
+43-9111.00,2025-2035,Decline (-1% or lower),2025-2035,500,
+45-1011.00,2025-2035,Average (3% to 4%),2025-2035,7200,
+47-1011.00,2025-2035,Faster than average (5% to 6%),2025-2035,67000,Rapid Growth
+47-1011.03,2025-2035,Faster than average (5% to 6%),2025-2035,67000,Rapid Growth
+47-2111.00,2025-2035,Much faster than average (7% or higher),2025-2035,72700,Rapid Growth
+47-2152.00,2025-2035,Much faster than average (7% or higher),2025-2035,42000,Rapid Growth
+47-2152.04,2025-2035,Much faster than average (7% or higher),2025-2035,42000,Rapid Growth
+47-4011.00,2025-2035,Little or no change,2025-2035,14800,
+47-4011.01,2025-2035,Little or no change,2025-2035,14800,
+47-4021.00,2025-2035,Faster than average (5% to 6%),2025-2035,1900,Rapid Growth
+49-1011.00,2025-2035,Average (3% to 4%),2025-2035,48900,
+49-2021.00,2025-2035,Slower than average (1% to 2%),2025-2035,1000,
+49-2022.00,2025-2035,Decline (-1% or lower),2025-2035,11300,
+49-2091.00,2025-2035,Much faster than average (7% or higher),2025-2035,1700,Rapid Growth
+49-2092.00,2025-2035,Average (3% to 4%),2025-2035,1400,
+49-2093.00,2025-2035,Faster than average (5% to 6%),2025-2035,500,Rapid Growth
+49-2094.00,2025-2035,Little or no change,2025-2035,4700,
+49-2095.00,2025-2035,Much faster than average (7% or higher),2025-2035,1800,Rapid Growth
+49-2096.00,2025-2035,Decline (-1% or lower),2025-2035,400,
+49-2097.00,2025-2035,Faster than average (5% to 6%),2025-2035,2200,Rapid Growth
+49-2098.00,2025-2035,Much faster than average (7% or higher),2025-2035,8500,Rapid Growth
+49-3011.00,2025-2035,Faster than average (5% to 6%),2025-2035,11400,Rapid Growth
+49-3023.00,2025-2035,Faster than average (5% to 6%),2025-2035,66200,Rapid Growth
+49-3031.00,2025-2035,Average (3% to 4%),2025-2035,24400,
+49-3041.00,2025-2035,Much faster than average (7% or higher),2025-2035,3700,Rapid Growth
+49-3042.00,2025-2035,Much faster than average (7% or higher),2025-2035,15000,Rapid Growth
+49-3051.00,2025-2035,Faster than average (5% to 6%),2025-2035,2600,Rapid Growth
+49-3052.00,2025-2035,Slower than average (1% to 2%),2025-2035,1400,
+49-9012.00,2025-2035,Average (3% to 4%),2025-2035,3600,
+49-9021.00,2025-2035,Much faster than average (7% or higher),2025-2035,40600,Rapid Growth
+49-9041.00,2025-2035,Much faster than average (7% or higher),2025-2035,44400,Rapid Growth
+49-9043.00,2025-2035,Decline (-1% or lower),2025-2035,4400,
+49-9061.00,2025-2035,Decline (-1% or lower),2025-2035,100,
+49-9062.00,2025-2035,Much faster than average (7% or higher),2025-2035,8200,Rapid Growth
+49-9063.00,2025-2035,Slower than average (1% to 2%),2025-2035,600,
+49-9064.00,2025-2035,Little or no change,2025-2035,100,
+49-9071.00,2025-2035,Average (3% to 4%),2025-2035,148700,Numerous Job Openings
+49-9081.00,2025-2035,Much faster than average (7% or higher),2025-2035,1500,Rapid Growth
+49-9092.00,2025-2035,Faster than average (5% to 6%),2025-2035,400,Rapid Growth
+49-9097.00,2025-2035,Slower than average (1% to 2%),2025-2035,800,
+51-1011.00,2025-2035,Slower than average (1% to 2%),2025-2035,61000,
+51-4041.00,2025-2035,Slower than average (1% to 2%),2025-2035,26100,
+51-4061.00,2025-2035,Decline (-1% or lower),2025-2035,200,
+51-4062.00,2025-2035,Decline (-1% or lower),2025-2035,100,
+51-4111.00,2025-2035,Decline (-1% or lower),2025-2035,4300,
+51-5111.00,2025-2035,Decline (-1% or lower),2025-2035,2100,
+51-6092.00,2025-2035,Decline (-1% or lower),2025-2035,200,
+51-7031.00,2025-2035,Decline (-1% or lower),2025-2035,100,
+51-7032.00,2025-2035,Decline (-1% or lower),2025-2035,100,
+51-8011.00,2025-2035,Decline (-1% or lower),2025-2035,400,
+51-8012.00,2025-2035,Slower than average (1% to 2%),2025-2035,700,
+51-8013.04,2025-2035,Decline (-1% or lower),2025-2035,2300,
+51-8021.00,2025-2035,Average (3% to 4%),2025-2035,3200,
+51-9071.00,2025-2035,Decline (-1% or lower),2025-2035,3700,
+51-9071.06,2025-2035,Decline (-1% or lower),2025-2035,3700,
+51-9195.05,2025-2035,Faster than average (5% to 6%),2025-2035,5100,Rapid Growth
+53-1043.00,2025-2035,Average (3% to 4%),2025-2035,54900,
+53-1044.00,2025-2035,Average (3% to 4%),2025-2035,54900,
+53-2011.00,2025-2035,Much faster than average (7% or higher),2025-2035,11200,Rapid Growth
+53-2012.00,2025-2035,Faster than average (5% to 6%),2025-2035,5200,Rapid Growth
+53-2021.00,2025-2035,Slower than average (1% to 2%),2025-2035,2100,
+53-2022.00,2025-2035,Much faster than average (7% or higher),2025-2035,1500,Rapid Growth
+53-5021.00,2025-2035,Average (3% to 4%),2025-2035,3800,
+53-5031.00,2025-2035,Average (3% to 4%),2025-2035,900,
+53-6041.00,2025-2035,Average (3% to 4%),2025-2035,900,
+53-6051.00,2025-2035,Slower than average (1% to 2%),2025-2035,2300,
+53-6051.01,2025-2035,Slower than average (1% to 2%),2025-2035,2300,
+53-7021.00,2025-2035,Average (3% to 4%),2025-2035,3500,

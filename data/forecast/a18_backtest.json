@@ -1,0 +1,42 @@
+{
+ "check": "A18",
+ "units": 500,
+ "primary": {
+  "target": "2026-06-26",
+  "mae": {
+   "mean": 16.33,
+   "persistence": 17.81,
+   "line": 21.98
+  },
+  "mean_abs_error_p80": 25.96,
+  "mean_bias": 6.22
+ },
+ "coverage": {
+  "band_from_secondary_p80": 17.9,
+  "share_inside": 0.648,
+  "calibrated": false
+ },
+ "direction": {
+  "eligible": 364,
+  "same_sign_share": 0.319
+ },
+ "direction_gate_pass": false,
+ "secondary": {
+  "target": "2026-03-24",
+  "mae": {
+   "mean": 11.07,
+   "persistence": 10.6
+  }
+ },
+ "drop_D_for_slower": 7.1,
+ "inputs": {
+  "onet31-tasks": "5c4057d74f0c6dccf3827139d804f27ca49a1ddf550c4f45c038f2c2b1731296",
+  "onet31-task-dwas": "2149eb8d5d2a8cc41a4c848785acb6916bc198ec605c86d6c1318c8f73b2472d",
+  "aei-2025-09-15": "0d04e2abc5e3b2dc86221fcd6d715035a0b05dd2d8bf0db859f745a8889ec753",
+  "aei-2026-01-15": "2ccaca4b17a2f86ee3f3d23d010b6ac3d9aacd603d86c799f30cfe3be15af166",
+  "aei-2026-03-24": "63eadf13ab566010c4617a400d58de2d7abb77e7a7dc411673d4f8e09a409a66",
+  "aei-2026-06-26": "e786812c73926f2432b1c2110ce45429a8229fc32cd7db6be30407f83a27a0da"
+ },
+ "script_sha256": "316aecd8d35ec77d918ca701995ccf43c6f88b6f4d59dff9f517c4020555e37e",
+ "run_date": "2026-10-20"
+}

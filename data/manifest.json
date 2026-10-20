@@ -290,6 +290,32 @@
       "derived_sha256": "e786812c73926f2432b1c2110ce45429a8229fc32cd7db6be30407f83a27a0da"
     },
     {
+      "source_id": "onet-online-outlook",
+      "title": "O*NET OnLine job outlook: BLS projected growth and openings, Bright Outlook",
+      "publisher": "U.S. Department of Labor, Employment and Training Administration (O*NET OnLine); projections by the U.S. Bureau of Labor Statistics",
+      "url": "https://www.onetonline.org/find/bright",
+      "release": "BLS projections 2025-2035",
+      "licence": "CC BY 4.0",
+      "access_date": "2026-10-20",
+      "original_sha256": "99b367a39b8aae495aacace96905bd8cc8bfae795d06154217e1332353a3a55d",
+      "derived_rows": 388,
+      "derived_path": "onet/outlook.csv",
+      "derived_sha256": "6fc7195ebc028a5fc80ea8ff4c1a9d88cc55d1934293ce3d316239335c7589eb"
+    },
+    {
+      "source_id": "aivancin-backtest",
+      "title": "AIVANCIN skill-outlook backtest (A18): error of the historical-average projection on the 2026-06-26 release",
+      "publisher": "AIVANCIN (team DOVUN), computed from the bundled AEI and O*NET snapshots",
+      "url": "tools/checks/a18_backtest.py",
+      "release": "2026-10-20",
+      "licence": "Derived from CC BY sources",
+      "access_date": "2026-10-20",
+      "original_sha256": "28febea60402cec902bbee18f65d7e29bef0147cd163636dc9286178d1fac4f8",
+      "derived_rows": null,
+      "derived_path": "forecast/a18_backtest.json",
+      "derived_sha256": "28febea60402cec902bbee18f65d7e29bef0147cd163636dc9286178d1fac4f8"
+    },
+    {
       "source_id": "aivancin-catalogue",
       "title": "AIVANCIN curated course catalogue",
       "publisher": "AIVANCIN (team DOVUN)",

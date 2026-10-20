@@ -108,7 +108,9 @@ input[type="number"] { max-width: 180px; }
 .inline-nums { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 12px; }
 .inline-nums label { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: var(--text); }
 .ctl .inline-nums input[type="number"] { display: inline-block; width: 84px; margin: 0; padding: 6px 10px; font-size: 15px; }
-.scen-ctl:has(input[value="faster"]:checked) { --i: 1; }
+.scen-ctl:has(input[value="moderate"]:checked) { --i: 1; }
+.scen-ctl:has(input[value="faster"]:checked) { --i: 2; }
+.order-ctl:has(input[value="outlook"]:checked) { --i: 1; }
 .rel-ctl { --n: 4; }
 .rel-ctl:has(input[data-i="1"]:checked) { --i: 1; }
 .rel-ctl:has(input[data-i="2"]:checked) { --i: 2; }
@@ -186,3 +188,30 @@ footer .foot { margin-top: 8px; }
 @media (min-width: 980px) { .md { grid-template-columns: 360px minmax(0, 1fr); } }
 .md > *, .controls > *, .d-grid > *, .facts > * { min-width: 0; }
 @media (max-width: 759px) { .tag { white-space: normal; } .rel-ctl label { padding: 0 4px; } }
+
+/* forecast: outlook badges and the Future Skills Radar */
+.rr-outlook { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.rr-outlook .tag { font-size: 12px; padding: 2px 8px; }
+.ctl select { display: block; width: 100%; max-width: 320px; margin-top: 8px; min-height: 40px; padding: 0 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--card); color: var(--text); font: inherit; font-size: 15px; }
+.radar-wrap { margin-top: 12px; }
+.radar-t { width: 100%; border-collapse: collapse; font-size: 14px; }
+.radar-t th, .radar-t td { text-align: left; vertical-align: top; padding: 10px 14px 10px 0; border-top: 1px solid var(--sep); }
+.radar-t thead th { font-size: 12px; font-weight: 600; color: var(--text2); letter-spacing: 0.02em; border-top: 0; padding-top: 0; }
+.radar-t th[scope="row"] { font-weight: 500; }
+.radar-t .act-name { display: block; font-size: 15px; line-height: 1.35; color: var(--text); }
+.radar-t .kind { display: block; margin-top: 2px; font-size: 12px; color: var(--text2); }
+.radar-t td { white-space: nowrap; font-size: 14px; }
+.radar-t td.sel { font-weight: 600; }
+.cls { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 12px; font-weight: 500; white-space: normal; background: var(--fill); color: var(--text); }
+.cls-ai { background: var(--evidence-tint); color: var(--evidence); }
+.cls-none { color: var(--text2); }
+.notes { margin: 12px 0 0; padding-left: 18px; font-size: 14px; color: var(--text2); line-height: 1.45; }
+.notes li + li { margin-top: 4px; }
+@media (max-width: 759px) {
+  .radar-t, .radar-t tbody { display: block; }
+  .radar-t thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .radar-t tr { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px 8px; padding: 12px 0; border-top: 1px solid var(--sep); }
+  .radar-t th, .radar-t td { display: block; border: 0; padding: 0; }
+  .radar-t th[scope="row"], .radar-t td:last-child { grid-column: 1 / -1; }
+  .radar-t td:not(:last-child)::before { content: attr(data-label); display: block; font-size: 11px; font-weight: 400; color: var(--text2); }
+}

@@ -77,6 +77,8 @@ class Snapshots:
     sru: dict = field(default_factory=dict, repr=False)
     evidence: object = None
     catalogue: dict = field(default_factory=dict, repr=False)
+    outlook: dict = field(default_factory=dict, repr=False)
+    backtest: dict = field(default_factory=dict, repr=False)
     rejected: dict = field(default_factory=dict)
 
     def source(self, source_id):
@@ -167,6 +169,14 @@ def load(data_dir=DEFAULT_DATA_DIR):
                 continue
             releases.append((rid, t, o))
     snaps.evidence = aei.Evidence(releases)
+    if "onet-online-outlook" in paths:
+        snaps.outlook = {r["code"]: {"period": r["growth_period"], "band": r["growth_band"],
+                                     "openings": int(r["openings"]) if r["openings"] else None,
+                                     "openings_period": r["openings_period"],
+                                     "bright": [x.strip() for x in r["bright_outlook"].split(";") if x.strip()]}
+                         for r in _rows(paths["onet-online-outlook"])}
+    if "aivancin-backtest" in paths:
+        snaps.backtest = json.loads(paths["aivancin-backtest"].read_text(encoding="utf-8"))
     if "aivancin-catalogue" in paths:
         snaps.catalogue = json.loads(paths["aivancin-catalogue"].read_text(encoding="utf-8"))
     return snaps

@@ -58,10 +58,11 @@ class Matcher:
         return sorted(self.tasks_by_code.get(code, {}).items(), key=lambda kv: int(kv[0]))
 
     def rank(self, profile, lane, current_code=None, cip_code=None, ai_share=None, pay_step=None,
-             lam=0.0, mu=0.0, limit=MAX_ROLES):
+             outlook=None, lam=0.0, mu=0.0, nu=0.0, limit=MAX_ROLES):
         """Return ranked roles and the candidate-set facts used for normalisation.
 
-        ai_share(code) -> automation share or None; pay_step(code) -> RM step or None.
+        ai_share(code) -> automation share or None; pay_step(code) -> RM step or None;
+        outlook(code) -> projected-growth band score in [-1, 1] (0 without a projection).
         """
         pool = self.candidates(exclude=current_code)
         crosswalk = None
@@ -84,8 +85,9 @@ class Matcher:
             f = o / max_o if max_o else 0.0
             a = ai_share(c) if ai_share else None
             p = (steps[c] / max_step) if (max_step and steps[c] and steps[c] > 0) else 0.0
-            s = f - (lam * a / 100 if a is not None else 0.0) + mu * p
-            rows.append({"code": c, "overlap": o, "fit": f, "ai_share": a, "pay_norm": p, "score": s})
+            b = outlook(c) if outlook else 0.0
+            s = f - (lam * a / 100 if a is not None else 0.0) + mu * p + nu * b
+            rows.append({"code": c, "overlap": o, "fit": f, "ai_share": a, "pay_norm": p, "outlook": b, "score": s})
         rows.sort(key=lambda r: (-r["score"], r["code"]))
         return {"roles": rows[:limit], "ranked": rows, "pool_size": len(pool), "max_overlap": max_o,
                 "no_overlap_listed": no_overlap_listed, "crosswalk_size": None if crosswalk is None else len(crosswalk)}

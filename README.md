@@ -42,12 +42,12 @@ You describe what you actually do, in your own words. An AI suggests the matchin
 
 > **The problem:** many Malaysian graduates work in jobs below their qualification, and before spending evenings and savings on retraining they cannot easily see which graduate-level job is closest to what they already do.  
 > **Our approach:** read the user's own description of their work, suggest the matching O\*NET work activities with a local AI model, let the user confirm each one, then match roles by activity overlap.  
-> **The result today:** a working web app, run locally from bundled files: free text in, activity suggestions with the sentence that triggered each, a guard against "I have never..." statements, confirmation, then the closest graduate-level roles by activity overlap, each with requirement labels, dated AI-usage evidence, a DOSM pay step, SDG reasons and a plan from link-checked free courses.
+> **The result today:** a working web app, run locally from bundled files: free text in, activity suggestions with the sentence that triggered each, a guard against "I have never..." statements, confirmation, then the closest graduate-level roles by activity overlap, each with requirement labels, a US job outlook, dated AI-usage evidence, a Future Skills Radar projecting how each activity shifts under three scenarios, a DOSM pay step, SDG reasons and a plan from link-checked free courses.
 
 | Snapshot | Details |
 | --- | --- |
 | **Who it's for** | A Malaysian diploma or degree holder aged 25-34 working in a semi- or low-skilled job (for example a van driver, cashier or call-centre agent), before committing to retraining |
-| **What works now** | Intake with suggestions, guard and confirmation; role matching by lane; requirement labels; AI-usage evidence across four releases with replay; scenarios; plan; SDG tags; web interface (not yet deployed) |
+| **What works now** | Intake with suggestions, guard and confirmation; role matching by lane; requirement labels; job outlook with an optional outlook order; AI-usage evidence across four releases with replay; Future Skills Radar with slower, moderate and faster scenarios; plan; SDG tags; web interface (not yet deployed) |
 | **Demo mode** | Model inference runs live on the CPU from bundled files; data are bundled, dated snapshots; personas are synthetic |
 | **Reviewed revision** | Checks below were run on 20 October 2026 (Windows 11, Python 3.13) |
 
@@ -72,6 +72,8 @@ The AI is a local sentence encoder, all-MiniLM-L6-v2 (quantized ONNX, about 23 M
 - **Works when the AI does not:** if the model, tokenizer or vectors are missing or do not match their recorded hashes, the API says AI suggestions are unavailable and keyword search keeps working.
 - **Roles that use your work:** the closest graduate-level roles (O\*NET Job Zone 3 or 4) by activity overlap, in a lane you choose (current job, other work, studies or all), with what you already do, what is still to build and labels such as "usually needs a bachelor's degree".
 - **AI-usage evidence, kept separate:** the share of Claude conversations on each role's tasks where AI does the work directly, averaged over four Anthropic Economic Index releases with intervals and a release replay. It changes the order only if you set a weight (off by default).
+- **Future Skills Radar:** for each activity you do and each gap, how much of it AI does directly in observed Claude use, now and projected to your ready date under slower, moderate and faster scenarios, with the moderate projection's error measured by backtest. A gap that crosses the threshold gets a "learn to direct and check AI output" step, so a new release or scenario changes the plan.
+- **Job outlook, kept separate:** each role shows the US Bureau of Labor Statistics projected growth for 2025-2035 (via O\*NET OnLine) and Bright Outlook flags; you can switch to an order that adds the outlook to the overlap score.
 - **A plan from verified resources only:** steps for the largest gaps from link-checked free Microsoft Learn courses, hours and weeks at your pace, and "no verified resource" where none exists.
 - **Every number has a source:** each figure links to its dated source in the page footer.
 - **Reproducible data:** every dataset and the model are bundled with their source, release date, licence and SHA-256 hashes; the same input always gives the same suggestions and ranking.
@@ -130,6 +132,7 @@ flowchart LR
 | O\*NET 31.0 and model snapshots | CACHED (bundled, hashed) | `data/manifest.json`, `python tools/build_snapshots.py` |
 | Role matching with lanes, requirement labels | WORKING | `tests/test_matching_and_report.py`, `POST /api/results` |
 | AI-usage evidence, replay, scenarios, plan, SDG reasons | WORKING (first version) | `tests/test_matching_and_report.py` |
+| Future Skills Radar and job outlook | WORKING (first version) | `tests/test_matching_and_report.py`, `python tools/checks/a18_backtest.py` |
 | Web interface | WORKING (local) | `tests/test_app_and_failures.py`; a scripted browser run of the full flow, 20 Oct 2026 |
 | Acceptance checks on fresh test sets (accuracy, AI against keyword search) | NOT RUN | |
 
@@ -141,7 +144,8 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 
 | What we checked | Observation | Reproduction and limits |
 | --- | --- | --- |
-| **Core path and recovery** | PASS, 62/62 tests | `python -m pytest`, 20 Oct 2026, Windows 11, Python 3.13; network access blocked during tests; includes missing, altered and mismatched model files, a corrupted AI-usage release and expired course link checks |
+| **Core path and recovery** | PASS, 70/70 tests | `python -m pytest`, 20 Oct 2026, Windows 11, Python 3.13; network access blocked during tests; includes missing, altered and mismatched model files, a corrupted AI-usage release and expired course link checks |
+| **Skill-outlook backtest** | Predicting the June 2026 value of 500 activities from the three earlier releases: historical average 16.3 points mean absolute error, last value 17.8, trend line 22.0. Past changes continued in only 31.9% of 364 cases | `python tools/checks/a18_backtest.py`; protocol and thresholds fixed before the run; one release only, across a format change. Hence the moderate scenario uses the average and the radar shows no rising or falling labels |
 | **Hafiz contrast** | Job title alone: 0 of the top 10 roles are computing roles; with his confirmed weekend work: at least 6 of 10 | `tests/test_matching_and_report.py`; relevance rule fixed before the earlier research probe; synthetic persona |
 | **Improvement against a baseline** | NOT RUN | A comparison with keyword search on fresh descriptions is planned |
 | **Usability with target users** | NOT RUN | Personas and test sentences are synthetic |
@@ -157,6 +161,7 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 - **Guard is a word list:** it works per sentence, so "I don't just drive, I also fix laptops" is flagged and needs the second confirmation.
 - **US occupation data:** roles, activities and requirement labels come from O\*NET (United States); Malaysian pay steps use DOSM major-group medians mapped through the ESCO crosswalk, and 81 of 940 occupations stay "skill level unmapped".
 - **Short courses:** the catalogue holds 33 free Microsoft Learn items, mostly short introductions, so many gaps show "no verified resource" and plan hours are small.
+- **Projections are estimates:** the moderate projection's error is large (80% of errors within 26 points), the faster and slower scenarios are assumptions, and job outlooks are US projections; no Malaysian per-occupation projection was found to show.
 - **AI-usage figures describe Claude usage worldwide,** not Malaysian labour demand; older releases match about 83% of their tasks to O\*NET 31.0 by text, and unmatched tasks are left out, not guessed.
 
 ### Tech Stack
@@ -183,7 +188,7 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 ```
 .
 ├── assets/icon/            # App icon
-├── data/                   # Bundled snapshots: manifest.json, onet/, aei/, dosm/, crosswalk/, catalogue/, model/, vectors/, personas.json
+├── data/                   # Bundled snapshots: manifest.json, onet/, aei/, dosm/, crosswalk/, catalogue/, forecast/, model/, vectors/, personas.json
 ├── src/
 │   ├── main.py             # Application entry point
 │   └── aivancin/           # snapshots, encoder, intake, matching, aei, report, pathway, app; static/ holds the web interface
@@ -192,6 +197,8 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 ├── tools/
 │   ├── build_snapshots.py  # Rebuilds data/ from the original sources
 │   ├── build_catalogue.py  # Rebuilds the course catalogue and its link checks
+│   ├── fetch_outlook.py    # Caches O*NET OnLine job-outlook pages for the snapshot
+│   ├── checks/a18_backtest.py  # Skill-outlook backtest behind the displayed error
 │   └── catalogue_curation.json  # Curated course-to-activity links
 ├── .env.example            # Optional HOST and PORT
 ├── .gitignore
@@ -209,7 +216,7 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 Browser ──► FastAPI app (src/main.py) ──► intake: sentence split, guard, validation
                   │                            └──► local encoder (ONNX, CPU) + bundled activity vectors
                   ├──► matching: activity overlap by lane over O*NET Job Zone 3-4 roles
-                  ├──► report: labels, AEI evidence and replay, DOSM pay step, SDG, scenarios, plan
+                  ├──► report: labels, job outlook, AEI evidence and replay, skill outlook (radar), DOSM pay step, SDG, scenarios, plan
                   └──► page and JSON, every number tagged with its source
 ```
 
@@ -250,7 +257,7 @@ pip install -r requirements-dev.txt
 python -m pytest
 ```
 
-**Expected result:** `62 passed`. Tests run offline; outbound network access is blocked.  
+**Expected result:** `70 passed`. Tests run offline; outbound network access is blocked.  
 **Rebuild the data (optional):** `python tools/build_snapshots.py` downloads the original files into `.cache/` and rebuilds `data/`; pinned files (model, AEI releases) are checked against their hashes, while live sources such as DOSM and the ESCO API can change. `python tools/build_catalogue.py` refreshes the course list and its link checks.
 
 ---
