@@ -310,3 +310,28 @@ def test_requirements_are_judged_only_from_the_intake(planner, hafiz, priya):
                     assert q["status"] == "you decide"
     longer = planner.routes(hafiz, {"weeks": 4, "willing_long": True}, today=TODAY)["routes"]
     assert all(q["status"] == "planned" for r in longer for q in r["requirements"] if q["judge"] == "degree")
+
+
+def test_routes_carry_the_onet_description_and_ai_use_by_threshold(snaps, planner, hafiz):
+    with open(snaps.data_dir / "onet" / "occupations.csv", encoding="utf-8", newline="") as f:
+        described = {r["code"]: r["description"] for r in csv.DictReader(f)}
+    prof = planner.m.lane_profile(hafiz["activities"], "all")
+    for threshold in (50, 80):
+        res = planner.routes(hafiz, {"threshold": threshold}, TODAY)
+        for r in res["routes"]:
+            d = r["description"]
+            assert d["text"] == described[r["code"]] and d["text"].startswith(d["first"][:-1]) and d["src"] == ["onet31-occupations"]
+            weights = planner.m.w[r["code"]]
+            assert [a["dwa_id"] for a in r["ai_use"]] == sorted(weights, key=lambda x: (-weights[x], x))[:routes_mod.AI_USE_ACTIVITIES]
+            for a in r["ai_use"]:
+                assert a["done"] == (a["dwa_id"] in prof)
+                if a["now"] is None:
+                    assert a["class"] == "no evidence in the bundled releases"
+                elif a["now"]["v"] >= threshold:
+                    assert a["class"] == "AI does most of it directly"
+                else:
+                    assert a["class"] in ("shared", "people mostly work with AI")
+    # Raising the threshold moves activities out of "AI does most of it directly", never into it.
+    low = {a["dwa_id"] for r in planner.routes(hafiz, {"threshold": 50}, TODAY)["routes"] for a in r["ai_use"] if a["class"].startswith("AI")}
+    high = {a["dwa_id"] for r in planner.routes(hafiz, {"threshold": 80}, TODAY)["routes"] for a in r["ai_use"] if a["class"].startswith("AI")}
+    assert high < low

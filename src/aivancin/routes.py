@@ -20,6 +20,7 @@ CAT = "aivancin-catalogue"
 ROUTES_SRC = "aivancin-routes"
 AI_FORM = ("Do it yourself first, then ask an AI assistant to do the same task and check its output against yours; "
            "write down every error you found and how you spotted it.")
+AI_USE_ACTIVITIES = 10  # the role's largest-weight activities shown under "AI use"
 LOCAL_EVIDENCE = "Malaysian opportunity evidence: not shown until reuse permission is confirmed (MyCOL, MyMahir)."
 
 
@@ -200,6 +201,18 @@ class Planner:
             forms[s] = "ai" if any(r["projected"][s]["v"] >= o["threshold"] for r in reason) else "plain"
         return forms, reason
 
+    def ai_use(self, code, prof, o):
+        """The role's largest-weight activities with how much of each AI does directly in observed Claude use,
+        classed with the plan's threshold. Usage evidence, not a trend and not a forecast of jobs."""
+        top = sorted(self.m.w.get(code, {}).items(), key=lambda kv: (-kv[1], kv[0]))[:AI_USE_ACTIVITIES]
+        out = []
+        for d, _ in top:
+            ol = self.rep.skills.outlook(d, o["release"])
+            out.append({"dwa_id": d, "name": self.snaps.onet.dwa_names[d], "done": d in prof,
+                        "now": fig(ol["now"], *ol["src"]) if ol else None, "weak": bool(ol and ol["weak"]),
+                        "class": outlook.classify(ol["now"] if ol else None, o["threshold"])})
+        return out
+
     # ---- one route -------------------------------------------------------------------------------
     def route(self, code, prof, profile, courses, ai_courses, o):
         onet = self.snaps.onet
@@ -252,15 +265,21 @@ class Planner:
         masco = self.rep.masco(code)
         step_pay, _, _ = self.rep.pay_step_fn(profile.get("title_code"))
         pay = step_pay(code)
+        description = onet.descriptions.get(code, "")
+        job_outlook = self.rep.job_outlook(code)
         return {
             "code": code, "title": onet.occupations[code], "family": dest["family"], "family_label": dest["family_label"],
+            "description": {"text": description, "first": description.split(". ")[0].rstrip(".") + "." if description else "",
+                            "src": ["onet31-occupations"]},
+            "ai_use": self.ai_use(code, prof, o),
+            "outlook_score": outlook.band_score(job_outlook.get("band")),
             "job_zone": fig(onet.job_zones.get(code), "onet31-job-zones"),
             "overlap": fig(pct(self.m.overlap(code, prof)), *ONET_SRC),
             "done_count": fig(len(done), *ONET_SRC), "total_count": fig(total, *ONET_SRC),
             "related": [{"dwa_id": d, "name": onet.dwa_names[d], "role_dwa_id": r, "role_name": onet.dwa_names[r]}
                         for d, r in self.credited(code, prof)[1]],
             "done": [{**d, "weight": fig(d["weight"], *ONET_SRC), "sdg": ["4.4"]} for d in done],
-            "requirements": reqs, "masco": masco, "job_outlook": self.rep.job_outlook(code), "local_evidence": LOCAL_EVIDENCE,
+            "requirements": reqs, "masco": masco, "job_outlook": job_outlook, "local_evidence": LOCAL_EVIDENCE,
             "pay": None if pay is None else {"step": fig(pay, "dosm-wages-occupation", "esco-onet-isco")},
             "sdg": [{"goal": "8.5", "reason": self.rep._sdg85(masco, pay), "src": ["esco-onet-isco"] +
                      (["dosm-wages-occupation"] if pay is not None else [])}],

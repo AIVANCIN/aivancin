@@ -48,6 +48,12 @@
 <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
 <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
 <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+<symbol id="i-server" viewBox="0 0 24 24"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><path d="M6 6h.01"/><path d="M6 18h.01"/></symbol>
+<symbol id="i-code" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></symbol>
+<symbol id="i-chart-column" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
+<symbol id="i-book-open" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol>
+<symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/><path d="M20 2v4"/><path d="M22 4h-4"/><circle cx="4" cy="20" r="2"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
 <symbol id="i-settings" viewBox="0 0 24 24"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></symbol>
 </svg>
 
@@ -76,7 +82,7 @@
   <div class="welcome-body">
     <p class="wordmark"><span class="brand-mark" aria-hidden="true"></span>AIVANCIN</p>
     <h1 id="h-welcome" tabindex="-1">Your next role starts with the work you already do.</h1>
-    <p class="welcome-sub">Describe what you do in your own words. See the graduate roles closest to it, and a free plan that fits your time and budget.</p>
+    <p class="welcome-sub">Describe what you do in your own words. See the graduate roles closest to it, how AI is used in each, and a free plan that fits your time and budget.</p>
     <div class="welcome-actions">
       <button type="button" class="btn btn-light" data-go="start">Get started<svg class="ico sm" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>
       <button type="button" class="link-btn on-art" data-go="example">Try an example</button>
@@ -229,12 +235,16 @@
 </section>
 
 <section class="screen" id="routes" aria-labelledby="h-routes" hidden>
-  <div class="wrap">
+  <div class="wrap narrow">
     <p class="eyebrow">Compare routes</p>
     <h1 id="h-routes" class="page-title" tabindex="-1">Routes that use your work</h1>
     <div class="lead-left" id="routes-lead" data-scope></div>
     <div id="routes-body"></div>
   </div>
+</section>
+
+<section class="screen" id="route" aria-labelledby="h-route" hidden>
+  <div class="wrap narrow" id="route-body"></div>
 </section>
 
 <section class="screen" id="plan" aria-labelledby="h-plan-stage" hidden>

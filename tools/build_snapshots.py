@@ -220,8 +220,8 @@ def derive_onet(raw):
     dwas = sorted({(r["DWA Element ID"], r["DWA Element Name"], r["IWA Element ID"], r["GWA Element Name"]) for r in rows})
     out["onet31-dwas"] = ("onet/dwas.csv", ["dwa_id", "dwa_name", "iwa_id", "gwa_name"], dwas)
     rows = read_csv(raw["onet31-occupations"])
-    out["onet31-occupations"] = ("onet/occupations.csv", ["code", "title"],
-                                 sorted((r["O*NET-SOC Code"], r["Title"]) for r in rows))
+    out["onet31-occupations"] = ("onet/occupations.csv", ["code", "title", "description"],
+                                 sorted((r["O*NET-SOC Code"], r["Title"], r["Description"]) for r in rows))
     rows = read_csv(raw["onet31-tasks"])
     out["onet31-tasks"] = ("onet/tasks.csv", ["code", "task_id", "task", "task_type"],
                            sorted(((r["O*NET-SOC Code"], r["Task ID"], r["Task"], r["Task Type"]) for r in rows),

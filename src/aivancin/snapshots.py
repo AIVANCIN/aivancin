@@ -65,6 +65,7 @@ class Onet:
     emerging: dict = field(default_factory=dict, repr=False)
     software: dict = field(default_factory=dict, repr=False)
     dwa_iwa: dict = field(default_factory=dict, repr=False)  # activity -> O*NET intermediate work activity
+    descriptions: dict = field(default_factory=dict, repr=False)  # occupation -> O*NET description
 
 
 @dataclass
@@ -124,11 +125,13 @@ def load(data_dir=DEFAULT_DATA_DIR):
     occupation_dwas = defaultdict(list)
     for r in _rows(paths["onet31-task-dwas"]):
         occupation_dwas[r["code"]].append((r["task_id"], r["dwa_id"]))
+    occupation_rows = _rows(paths["onet31-occupations"])
     onet = Onet(
         dwa_ids=[r["dwa_id"] for r in dwas],
         dwa_names={r["dwa_id"]: r["dwa_name"] for r in dwas},
         dwa_iwa={r["dwa_id"]: r["iwa_id"] for r in dwas if r.get("iwa_id")},
-        occupations={r["code"]: r["title"] for r in _rows(paths["onet31-occupations"])},
+        occupations={r["code"]: r["title"] for r in occupation_rows},
+        descriptions={r["code"]: r["description"] for r in occupation_rows if r.get("description")},
         job_zones={r["code"]: int(r["job_zone"]) for r in _rows(paths["onet31-job-zones"])},
         tasks=tasks,
         occupation_dwas=dict(occupation_dwas),

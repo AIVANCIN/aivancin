@@ -208,8 +208,6 @@ details.title-acts > summary { cursor: pointer; font: 600 16px/1.35 var(--displa
 .stage-cta .cta-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 15px; font-weight: 600; }
 .stage-cta .btn { flex: none; min-height: 44px; padding: 0 20px; font-size: 15px; }
 .stage-cta .cta-kicker { display: block; font-size: 12px; font-weight: 500; color: var(--text2); }
-/* With the three routes side by side, the chosen card already carries "Chosen: see your plan". */
-@media (min-width: 900px) { .routes-cta { display: none; } }
 
 /* Phone widths: no grid track may grow past the viewport. */
 .md { grid-template-columns: minmax(0, 1fr); }
@@ -254,33 +252,9 @@ details.title-acts > summary { cursor: pointer; font: 600 16px/1.35 var(--displa
 .long-ctl:has(input[value="yes"]:checked) { --i: 1; }
 .field .weeks-ctl, .field .long-ctl { max-width: 320px; }
 .explore-link { display: block; margin: 12px auto 0; font-size: 14px; }
-.route-grid { display: grid; gap: 16px; margin-top: 20px; grid-template-columns: minmax(0, 1fr); }
-@media (min-width: 900px) { .route-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.route-card { display: flex; flex-direction: column; gap: 4px; padding: 22px 20px; border-radius: 22px; background: var(--card); box-shadow: var(--shadow-card); }
-.route-card.chosen { box-shadow: 0 0 0 2px var(--accent), var(--shadow-card); }
-.route-card h3 { font: 700 22px/1.2 var(--display); letter-spacing: -0.02em; }
-.route-card .choose-route { margin-top: auto; align-self: flex-start; }
-.rc-sec { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--sep); }
-.rc-sec h4 { font: 600 13px/1.3 var(--display); color: var(--text2); letter-spacing: 0.01em; margin-bottom: 6px; }
-.rc-sec p { font-size: 15px; line-height: 1.45; }
 .reqs { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 14px; line-height: 1.4; }
 .reqs li .tag { margin-right: 4px; }
 .reqs li .foot { display: block; margin-top: 2px; }
-.explore-row { margin-top: 20px; }
-.plan-head { margin-top: 16px; padding: 22px 20px; border-radius: 22px; background: var(--card); box-shadow: var(--shadow-card); }
-.plan-title { font: 700 26px/1.2 var(--display); letter-spacing: -0.02em; margin: 2px 0 8px; }
-.plan-head .next { margin-top: 12px; display: flex; gap: 8px; align-items: center; font-size: 16px; }
-.plan-scen { margin-top: 16px; padding: 16px 20px; border-radius: 18px; background: var(--card); box-shadow: var(--shadow-card); }
-.plan-scen .seg-ctl { max-width: 360px; margin-top: 8px; }
-.psteps { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 12px; }
-.pstep { padding: 18px 20px; border-radius: 18px; background: var(--card); box-shadow: var(--shadow-card); }
-.pstep.done { opacity: 0.7; }
-.pstep-head { display: flex; gap: 12px; align-items: flex-start; }
-.pnum { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--fill); font-weight: 600; font-size: 14px; }
-.pstep .objective { margin-top: 8px; font-size: 15px; color: var(--text2); }
-.pstep .meta { margin-top: 4px; font-size: 13px; color: var(--text2); }
-.checkpoint { margin-top: 10px; padding: 12px 14px; border-radius: 12px; background: var(--canvas); font-size: 15px; line-height: 1.45; }
-.checkpoint.ai { background: var(--evidence-tint); }
 .changes { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
 .chg { padding: 14px 16px; border-radius: 14px; background: var(--card); box-shadow: var(--shadow-card); }
 .chg.retained { box-shadow: none; background: transparent; border: 1px solid var(--sep); }
@@ -297,31 +271,7 @@ details.title-acts > summary { cursor: pointer; font: 600 16px/1.35 var(--displa
 .link-btn { min-height: 44px; }
 .sent-actions .btn, .find .results select { min-height: 44px; }
 .mine li .rm { width: 44px; height: 44px; }
-.route-card { padding: 28px 24px; gap: 8px; }
-.route-card > .d-kicker { display: flex; align-items: center; gap: 10px; color: var(--accent); font-weight: 600; }
-.route-card > .d-kicker .ico { box-sizing: content-box; padding: 10px; border-radius: 14px; background: var(--accent-tint); }
-.route-card .choose-route { width: 100%; margin-top: 20px; }
-.route-card .rc-sec:first-of-type { padding: 16px; border: 0; border-radius: 16px; background: var(--accent-tint); }
-.route-card .bar { margin-top: 12px; }
-.route-card .rc-sec h4 { color: var(--text); }
-.plan-head { padding: 28px; }
-.plan-head .next { padding: 16px; border-radius: 14px; background: var(--accent-tint); align-items: flex-start; }
-.plan-head .next b { white-space: nowrap; }
-.plan-scen { padding: 24px; background: var(--evidence-tint); }
-.plan-scen legend { float: left; width: 100%; margin-bottom: 8px; }
-.plan-scen > .seg-ctl { clear: both; }
 .ctl .seg-ctl label { display: flex; color: var(--text); }
-.plan-scen .foot { margin-top: 12px; color: var(--text); }
-.psteps { position: relative; gap: 24px; margin-top: 32px; padding-left: 44px; }
-.psteps::before { content: ""; position: absolute; left: 15px; top: 24px; bottom: 24px; width: 2px; background: var(--sep); }
-.pstep { position: relative; padding: 24px; border-radius: 22px; }
-.pnum { position: absolute; left: -44px; top: 24px; width: 32px; height: 32px; background: var(--accent); color: var(--on-accent); box-shadow: 0 0 0 5px var(--canvas); }
-.pstep.done { opacity: 1; }
-.pstep.done .pnum { background: var(--fill); color: var(--text); }
-.pstep .checkpoint { margin-top: 16px; padding: 16px; }
-.pstep .gap-name, .chg .gap-name { font: 600 17px/1.35 var(--display); letter-spacing: -0.012em; }
-/* The link keeps a 44 px target without stretching the title's line. */
-.pstep .gap-name a { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin: -12px -10px -12px -6px; vertical-align: middle; }
 .chg { padding: 20px; }
 .chg.changed-form { background: var(--evidence-tint); }
 .chg.added { background: var(--accent-tint); }
@@ -455,13 +405,144 @@ textarea::placeholder, input::placeholder { color: var(--text2); opacity: 1; }
 .screen .eyebrow { font-size: 15px; }
 @media (max-width: 599px) { .sent-actions { gap: 6px; } .sent-actions .btn { padding: 0 12px; } }
 .rail, .role-list { top: 72px; }
+
+/* Cards on the stage screens: one surface, a short heading, then content. */
+.soft-card { margin-top: 16px; padding: 20px; border-radius: 20px; background: var(--card); box-shadow: var(--shadow-card); }
+@media (min-width: 760px) { .soft-card { padding: 24px; } }
+.soft-card > h2 { margin-bottom: 8px; font: 600 17px/1.3 var(--display); letter-spacing: -0.012em; }
+.soft-card > h2 .ico { margin-right: 8px; vertical-align: -3px; color: var(--accent); }
+.gap-note { display: block; margin-top: 2px; font-size: 13px; color: var(--text2); }
+.soft-card > p + p, .soft-card > p + .foot { margin-top: 8px; }
+.soft-card > ul:not([class]) { margin: 10px 0 0; padding-left: 20px; line-height: 1.5; }
+.soft-card .did { margin-top: 14px; }
+.chg .gap-name { font: 600 17px/1.35 var(--display); letter-spacing: -0.012em; }
+.explore-row { margin-top: 20px; text-align: center; }
+.chip.accent { background: var(--accent-tint); color: var(--accent); }
+.chip.limit { background: var(--rust-tint); color: var(--rust); }
+/* Chips that hold a sentence with figures flow as text, not as flex items. */
+.route-row .chip, .rd-head .chip { display: inline-block; line-height: 1.35; }
+.fam-tile { display: grid; place-items: center; width: 48px; height: 48px; flex: none; border-radius: 14px; background: var(--accent-tint); color: var(--accent); }
+.fam-tile .ico { width: 24px; height: 24px; stroke-width: 1.75; }
+.fam-tile.lg { width: 64px; height: 64px; border-radius: 18px; }
+.fam-tile.lg .ico { width: 30px; height: 30px; }
+
+/* compare routes: a list of summary cards, each opening its route */
+.sort-ctl { margin-top: 20px; }
+.sort-seg { max-width: 420px; }
+.sort-seg:has(input[value="outlook"]:checked) { --i: 1; }
+.sort-seg:has(input[value="entry"]:checked) { --i: 2; }
+.sort-ctl .foot { margin-top: 8px; }
+.route-list { display: grid; gap: 12px; margin: 16px 0 0; padding: 0; list-style: none; }
+.route-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 14px; align-items: start; width: 100%; padding: 18px 14px 18px 18px; border: 0; border-radius: 20px; background: var(--card); box-shadow: var(--shadow-card); color: var(--text); text-align: left; cursor: pointer; transition: box-shadow 150ms var(--ease); }
+.route-row:hover { box-shadow: var(--shadow-float); }
+.route-row.chosen { box-shadow: 0 0 0 2px var(--accent), var(--shadow-card); }
+.route-row > .ico { align-self: center; color: var(--text2); }
+.route-row .rr-body { display: block; min-width: 0; }
+.route-row .rr-title { display: block; font: 600 18px/1.3 var(--display); letter-spacing: -0.015em; }
+.rr-chosen { display: inline-flex; align-items: center; gap: 4px; margin-top: 4px; font-size: 13px; font-weight: 600; color: var(--accent); }
+/* Three lines at most on the card; the route screen shows the whole description. */
+.rr-desc { display: -webkit-box; margin-top: 4px; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; font-size: 15px; line-height: 1.4; color: var(--text2); }
+.route-row .chips { margin-top: 12px; gap: 6px; }
+.route-row .chip { padding: 5px 10px; font-size: 12px; white-space: normal; }
+.list-srcs { padding: 0 4px; }
+
+/* one route: header, tabs, panels */
+.rd-head { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; align-items: center; }
+.rd-head > p, .rd-head > .chips { grid-column: 1 / -1; }
+.rd-title { margin-top: 2px; font: 700 clamp(26px, 5vw, 34px)/1.12 var(--display); letter-spacing: -0.025em; }
+.rd-title:focus { outline: none; }
+.rd-desc { font-size: 17px; line-height: 1.47; }
+.rd-head .rr-meta { margin-top: -8px; }
+.rd-head .chips { gap: 6px; }
+.rd-tabs { position: sticky; top: 56px; z-index: 6; margin: 20px -16px 0; padding: 8px 16px; background: var(--page); }
+@media (min-width: 760px) { .rd-tabs { margin: 24px 0 0; padding: 8px 0; } }
+.tab-seg label { min-height: 40px; font-size: 14px; }
+.tab-seg:has(input[value="ai"]:checked) { --i: 1; }
+.tab-seg:has(input[value="block"]:checked) { --i: 2; }
+.rd-lead { margin-top: 16px; font-size: 16px; line-height: 1.47; color: var(--text2); }
+.rd-note { margin-top: 16px; }
+.ring-row { display: flex; gap: 16px; align-items: center; margin-top: 4px; }
+.ring-box { position: relative; flex: none; width: 72px; height: 72px; }
+.ring { display: block; width: 72px; height: 72px; }
+.ring circle { fill: none; stroke-width: 7; }
+.ring-track { stroke: var(--track); }
+.ring-fill { stroke: var(--marker); stroke-linecap: round; }
+.ring-num { position: absolute; inset: 0; display: grid; place-items: center; font: 700 16px/1 var(--display); font-variant-numeric: tabular-nums; }
+.ring-row p { font-size: 15px; line-height: 1.45; }
+.gaps li b.in-block { border: 0; background: var(--accent) var(--check) center / 12px no-repeat; }
+.ai-take { margin-top: 16px; box-shadow: none; background: var(--accent-tint); }
+.ai-take .ico { color: var(--accent); }
+.ai-group { margin-top: 16px; padding: 20px; border-radius: 20px; background: var(--card); box-shadow: var(--shadow-card); }
+.ai-group > h2 { display: flex; align-items: center; gap: 8px; font: 600 17px/1.3 var(--display); letter-spacing: -0.012em; }
+.ai-group > h2 .ico { color: var(--text2); }
+.ai-sparkles > h2 .ico { color: var(--evidence); }
+.ai-user > h2 .ico { color: var(--accent); }
+.ai-group > .foot { margin-top: 4px; }
+.ai-group ul { margin: 10px 0 0; padding: 0; list-style: none; }
+.ai-group li { display: flex; gap: 12px; align-items: baseline; justify-content: space-between; padding: 10px 0; font-size: 15px; line-height: 1.38; }
+.ai-group li + li { border-top: 1px solid var(--sep); }
+.ai-name .tag { margin-left: 4px; padding: 2px 8px; font-size: 12px; }
+.ai-val { flex: none; font-weight: 600; font-variant-numeric: tabular-nums; }
+.stat-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 14px 0 10px; }
+.stat-row p { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: 14px; background: var(--canvas); }
+.stat-row b { font: 700 22px/1.15 var(--display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.stat-row p > span { font-size: 12px; line-height: 1.3; color: var(--text2); }
+.mini-steps { margin: 14px 0 0; padding: 0; list-style: none; counter-reset: ms; }
+.mini-steps li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 2px 8px; padding: 10px 0; font-size: 15px; line-height: 1.38; counter-increment: ms; }
+.mini-steps li + li { border-top: 1px solid var(--sep); }
+.mini-steps li::before { content: counter(ms); grid-row: span 2; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--accent-tint); color: var(--accent); font-size: 12px; font-weight: 600; }
+
+/* your plan: a timeline of steps */
+.plan-head { margin-top: 16px; padding: 22px 20px; border-radius: 22px; background: var(--card); box-shadow: var(--shadow-card); }
+@media (min-width: 760px) { .plan-head { padding: 28px; } }
+.ph-top { display: flex; gap: 14px; align-items: center; }
+.plan-title { margin-top: 2px; font: 700 24px/1.2 var(--display); letter-spacing: -0.02em; }
+.plan-head .next { display: flex; gap: 8px; align-items: flex-start; margin-top: 14px; padding: 14px 16px; border-radius: 14px; background: var(--accent-tint); font-size: 16px; line-height: 1.4; }
+.plan-head .next .ico { margin-top: 3px; color: var(--accent); }
+.plan-head .next b { margin-right: 4px; }
+details.plan-scen { margin-top: 12px; padding: 0 20px; border-radius: 18px; background: var(--card); box-shadow: var(--shadow-card); }
+.plan-scen > summary, .checkpoint > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 52px; cursor: pointer; list-style: none; font-weight: 600; }
+.plan-scen > summary::-webkit-details-marker, .checkpoint > summary::-webkit-details-marker { display: none; }
+.plan-scen > summary .foot { margin-left: 6px; font-size: 14px; font-weight: 500; }
+.plan-scen > summary > .ico, .checkpoint > summary > .ico { color: var(--text2); transition: transform 250ms var(--ease); }
+.plan-scen[open] > summary > .ico, .checkpoint[open] > summary > .ico { transform: rotate(180deg); }
+.plan-scen .seg-ctl { max-width: 360px; }
+.plan-scen > .foot { margin: 12px 0 0; padding-bottom: 18px; }
+.psteps { position: relative; display: grid; gap: 16px; margin: 28px 0 0; padding: 0 0 0 40px; list-style: none; }
+.psteps::before { content: ""; position: absolute; left: 13px; top: 20px; bottom: 20px; width: 2px; background: var(--sep); }
+.pstep { position: relative; padding: 18px; border-radius: 20px; background: var(--card); box-shadow: var(--shadow-card); }
+@media (min-width: 760px) { .pstep { padding: 22px; } }
+.pnum { position: absolute; left: -40px; top: 18px; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: var(--on-accent); box-shadow: 0 0 0 4px var(--canvas); font-size: 13px; font-weight: 600; }
+.pstep.done .pnum { background: var(--fill); color: var(--text); }
+.pstep-top { display: flex; gap: 12px; align-items: baseline; justify-content: space-between; }
+.pstep .gap-name { font: 600 17px/1.35 var(--display); letter-spacing: -0.012em; }
+.p-hours { flex: none; font-size: 14px; color: var(--text2); white-space: nowrap; }
+.res-row { display: flex; gap: 12px; align-items: center; margin-top: 12px; padding: 12px 14px; border-radius: 14px; background: var(--canvas); color: var(--text); }
+.res-row:hover { text-decoration: none; background: var(--fill); }
+.res-row > .ico { color: var(--text2); }
+.res-tile { display: grid; place-items: center; width: 40px; height: 40px; flex: none; border-radius: 10px; background: var(--card); color: var(--accent); box-shadow: var(--ring); }
+.res-text { display: flex; flex: 1; flex-direction: column; gap: 2px; min-width: 0; font-size: 15px; line-height: 1.35; }
+.res-text b { font-weight: 600; }
+.res-text span { font-size: 13px; color: var(--text2); }
+.checkpoint { margin-top: 10px; padding: 0 14px; border-radius: 14px; background: var(--canvas); font-size: 15px; line-height: 1.45; }
+.checkpoint.ai { background: var(--evidence-tint); }
+.checkpoint > summary { min-height: 48px; font-weight: 500; }
+.checkpoint > summary b { font-weight: 600; }
+.checkpoint[open] { padding-bottom: 14px; }
+.checkpoint > p + p { margin-top: 8px; }
+.ai-tag { margin-left: 8px; padding: 2px 8px; background: var(--card); color: var(--evidence); font-size: 12px; }
+.pstep .check-line { margin-top: 8px; }
 @media (max-width: 599px) {
-  .route-card { padding: 24px 20px; }
-  .plan-head, .plan-scen { padding: 20px; }
-  .psteps { padding-left: 36px; }
+  .route-row { padding: 16px 10px 16px 14px; gap: 12px; }
+  .fam-tile { width: 44px; height: 44px; border-radius: 12px; }
+  .plan-head { padding: 20px; }
+  .psteps { padding-left: 34px; }
   .psteps::before { left: 11px; }
-  .pstep { padding: 20px 16px; }
-  .pnum { left: -36px; width: 24px; height: 24px; font-size: 12px; }
+  .pstep { padding: 16px; }
+  .pnum { left: -34px; width: 24px; height: 24px; font-size: 12px; }
+  .stat-row { gap: 8px; }
+  .stat-row p { padding: 10px 12px; }
+  .stat-row b { font-size: 19px; }
 }
 
 /* State changes are brief, optional, and never hide content while waiting. */
@@ -469,7 +550,7 @@ textarea::placeholder, input::placeholder { color: var(--text2); opacity: 1; }
 html[data-motion="on"] .screen:not([hidden]):not(.welcome),
 html[data-motion="on"] .sent,
 html[data-motion="on"] .mine li.is-new,
-html[data-motion="on"] .route-card,
+html[data-motion="on"] .route-row,
 html[data-motion="on"] .role-row,
 html[data-motion="on"] .pstep,
 html[data-motion="on"] .chg { animation: state-in 280ms var(--spring); }

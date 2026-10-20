@@ -88,7 +88,7 @@ function initTheme() {
    One screen at a time. Each move is a history entry, so the browser's back button and the in-app
    back button agree. The four steps drive the progress bar; the intake questions fill the first quarter. */
 const PAGES = 4;
-const STEP = { work: [1, "Your work"], reading: [1, "Your work"], review: [1, "Your work"], routes: [2, "Compare routes"],
+const STEP = { work: [1, "Your work"], reading: [1, "Your work"], review: [1, "Your work"], routes: [2, "Compare routes"], route: [2, "Compare routes"],
   results: [2, "Explore all roles"], plan: [3, "Your plan"], changed: [4, "What changed"] };
 let current = { screen: "welcome", page: 1 };
 
@@ -941,7 +941,8 @@ async function start() {
 start();
 
 /* ---------- adopted revision: compare routes, your plan, what changed (SPEC section 10) ---------- */
-const routeState = { data: null, target: null, completed: new Set(), opts: { weeks: 4, willing_long: false, scenario: "moderate", threshold: 50 }, change: null };
+const routeState = { data: null, target: null, completed: new Set(), opts: { weeks: 4, willing_long: false, scenario: "moderate", threshold: 50 }, change: null,
+  sort: "overlap", open: null, tab: "overview", openCp: new Set(), scenOpen: false };
 const STATUS_CLASS = { met: "good", missing: "limit", planned: "sdg", "you decide": "weak" };
 
 function routesRequest(extra = {}) {
@@ -980,47 +981,165 @@ function reqRow(q) {
     <span class="foot">${esc(q.scope)} · ${esc(q.why)}</span>${srcMarks(q.src)}</li>`;
 }
 
-function routeCard(r) {
-  const b = r.block;
+/* Compare routes is a short list: each route is one card that opens its detail screen, so the person
+   scans first and reads only the route they care about. The order changes only on request. */
+const FAMILY_ICON = { it_support: "server", software: "code", finance_analytics: "chart-column" };
+const SORTS = {
+  overlap: ["Most overlap", "Ordered by activity overlap, as compared."],
+  outlook: ["Job outlook", "Ordered by US projected growth, then activity overlap."],
+  entry: ["Easier entry", "Ordered by the requirements you are missing, then Job Zone, then activity overlap."],
+};
+const missingReqs = r => r.requirements.filter(q => q.status === "missing").length;
+
+function sortedRoutes(routes) {
+  const list = [...routes];
+  const byOverlap = (a, b) => b.overlap.v - a.overlap.v || (a.code < b.code ? -1 : 1);
+  if (routeState.sort === "outlook") list.sort((a, b) => b.outlook_score - a.outlook_score || byOverlap(a, b));
+  else if (routeState.sort === "entry") list.sort((a, b) => missingReqs(a) - missingReqs(b) || a.job_zone.v - b.job_zone.v || byOverlap(a, b));
+  else list.sort(byOverlap);
+  return list;
+}
+
+function familyTile(r, large) { return `<span class="fam-tile${large ? " lg" : ""}" aria-hidden="true">${icon(FAMILY_ICON[r.family] || "route")}</span>`; }
+
+function entryChip(r) {
+  const n = missingReqs(r);
+  if (n) return `<span class="chip limit">${n} requirement${n === 1 ? "" : "s"} missing</span>`;
+  const decide = r.requirements.filter(q => q.status === "you decide").length;
+  return `<span class="chip">${decide ? `${decide} for you to decide` : "Requirements met"}</span>`;
+}
+
+function routeRow(r) {
   const chosen = routeState.target === r.code;
-  const served = r.prioritized.filter(g => g.served).length;
-  return `<article class="route-card${chosen ? " chosen" : ""}" data-scope aria-labelledby="rt-${esc(r.code)}">
-    <p class="d-kicker">${icon("route")}${esc(r.family_label)}</p>
-    <h3 id="rt-${esc(r.code)}">${esc(r.title)}</h3>
-    <p class="rr-meta">O*NET ${esc(r.code)} · Job Zone ${fig(r.job_zone, "")} · ${esc(r.masco.label || "")}</p>
-    <div class="rc-sec"><h4>Your work in this role</h4>
-      <p>You do ${fig(r.done_count, "int")} of its ${fig(r.total_count, "int")} recorded activities (activity overlap ${fig(r.overlap, "pct")}).</p>
-      <div class="bar" aria-hidden="true"><span class="seg done" style="flex:${r.overlap.v}"></span><span class="seg" style="flex:${100 - r.overlap.v}"></span></div>
-      ${r.related.length ? `<p class="foot">Also counted toward this route: ${r.related.map(x => `“${esc(x.name.replace(/\.$/, ""))}”, which O*NET groups with its “${esc(x.role_name.replace(/\.$/, ""))}”`).join("; ")}. These do not change the overlap or the gaps.</p>` : ""}</div>
-    <div class="rc-sec"><h4>Requirements</h4><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul></div>
-    <div class="rc-sec"><h4>Opportunity</h4>
-      <p><span class="tag good">US outlook: ${esc(bandShort(r.job_outlook))}</span>${r.job_outlook.bright.length ? ` <span class="tag sdg">Bright Outlook</span>` : ""}${srcMarks(r.job_outlook.src)}</p>
-      <p class="foot">${esc(r.local_evidence)}</p>
-      ${r.pay ? `<p class="foot">DOSM 2025 median pay step from your current group: ${fig(r.pay.step, "step")}. Group medians, not a salary offer.</p>` : ""}</div>
-    <div class="rc-sec"><h4>First ${fig(routeState.data.weeks, "int")}-week block</h4>
-      <p><b>${fig(b.effort_hours, "")}</b> of ${fig(b.capacity_hours, "")} hours · ${fig(b.cost_rm, "rm")} · serves ${served} of ${r.prioritized.length} priority gaps</p>
-      <p class="foot">${esc(capitalise(b.status))}. Verified resources exist for ${fig(r.supported_share, "pct")} of the priority gaps.</p></div>
-    <p class="foot"><b>SDG 8.5:</b> ${esc(r.sdg[0].reason)}${srcMarks(r.sdg[0].src)}</p>
-    <button type="button" class="btn ${chosen ? "btn-primary" : "btn-gray"} choose-route" data-route="${esc(r.code)}">${chosen ? "Chosen: see your plan" : "Choose this route"}</button>
-  </article>`;
+  return `<li><button type="button" class="route-row${chosen ? " chosen" : ""}" data-open-route="${esc(r.code)}">
+    ${familyTile(r)}
+    <span class="rr-body"><span class="rr-title">${esc(r.title)}</span>
+      ${chosen ? `<span class="rr-chosen">${icon("check", "sm")}Your route</span>` : ""}
+      <span class="rr-desc">${esc(r.description.first)}${srcMarks(r.description.src)}</span>
+      <span class="chips"><span class="chip accent">You do ${fig(r.done_count, "int")} of ${fig(r.total_count, "int")} activities</span>
+        <span class="chip">US outlook: ${esc(bandShort(r.job_outlook))}${srcMarks(r.job_outlook.src)}</span>${entryChip(r)}</span></span>
+    ${icon("chevron-right")}</button></li>`;
 }
 
 function renderRoutes() {
   const d = routeState.data;
-  $("#routes-lead").innerHTML = `<p>From ${fig(d.supported_destinations, "int")} supported roles in three families, the routes where your confirmed work already counts. Each card shows overlap, requirements, outlook and a first learning block side by side, with no combined score: you choose.</p>`;
+  const sort = routeState.sort;
+  $("#routes-lead").innerHTML = `<p>Of ${fig(d.supported_destinations, "int")} supported roles, the ones where your confirmed work already counts. Open one to see the work, how AI is used in it, and your first learning block.</p>`;
   const shared = d.shared;
   const chosenRoute = d.routes.find(r => r.code === routeState.target);
   $("#routes-body").innerHTML = `
     ${d.fewer_note ? `<div class="callout">${icon("info")}<p>${esc(d.fewer_note)}</p></div>` : ""}
-    ${d.routes.length ? `<div class="route-grid">${d.routes.map(routeCard).join("")}</div>` :
+    ${d.routes.length ? `
+      ${d.routes.length > 1 ? `<fieldset class="sort-ctl"><legend class="vh">Order routes by</legend>
+        <div class="seg-ctl sort-seg" style="--n:3">${Object.entries(SORTS).map(([k, [label]]) => `<label><input type="radio" name="rsort" value="${k}" ${sort === k ? "checked" : ""}>${label}</label>`).join("")}</div>
+        <p class="foot">${SORTS[sort][1]} No combined score: you choose.</p></fieldset>` : ""}
+      <ul class="route-list" aria-label="Routes" data-scope>${sortedRoutes(d.routes).map(routeRow).join("")}<li class="list-srcs srcs-slot"></li></ul>` :
       `<div class="callout">${icon("info")}<p>None of the supported routes counts at least two of your confirmed activities yet. Explore all roles, or tick more activities.</p></div>`}
-    ${shared ? `<section class="path-card" data-scope aria-labelledby="h-shared"><h3 id="h-shared">Shared foundations</h3>
-      <p>${shared.common_steps.length ? `${shared.common_steps.length} step${shared.common_steps.length === 1 ? "" : "s"} (${fig(shared.common_hours, "")} hours) appear in every route's block and serve a priority gap of each, so they keep these options open.` : "No step is common to every route's block."}</p>
-      <ul>${shared.extra_hours.map(e => `<li>${esc(e.title)}: ${fig(e.hours, "")} hours beyond the shared steps</li>`).join("")}</ul>
+    ${shared ? `<section class="soft-card" data-scope aria-labelledby="h-shared"><h2 id="h-shared">${icon("layers", "sm")}Shared foundations</h2>
+      <p>${shared.common_steps.length ? `${shared.common_steps.length} step${shared.common_steps.length === 1 ? " appears" : "s appear"} (${fig(shared.common_hours, "")} hours) in every route's first block, so ${shared.common_steps.length === 1 ? "it keeps" : "they keep"} these options open.` : "No step is common to every route's first block."}</p>
+      ${shared.common_steps.length ? `<ul>${shared.extra_hours.map(e => `<li>${esc(e.title)}: ${fig(e.hours, "")} hours beyond the shared steps</li>`).join("")}</ul>` : ""}
       <p class="foot">These describe the compared plans, not a probability of anything.</p></section>` : ""}
     <p class="explore-row"><button type="button" class="link-btn" data-action="rank">Explore all roles, including ones without complete-route support</button></p>
-    ${chosenRoute ? `<div class="stage-cta routes-cta"><span class="cta-label"><span class="cta-kicker">Your route</span>${esc(chosenRoute.title)}</span><button type="button" class="btn btn-primary choose-route" data-route="${esc(chosenRoute.code)}">See plan</button></div>` : ""}`;
+    ${chosenRoute ? `<div class="stage-cta"><span class="cta-label"><span class="cta-kicker">Your route</span>${esc(chosenRoute.title)}</span><button type="button" class="btn btn-primary choose-route" data-route="${esc(chosenRoute.code)}">See plan</button></div>` : ""}`;
   attachSources($("#routes"));
+  if (current.screen === "route") renderRoute();
+}
+
+/* ---------- one route: overview, AI use, first block ---------- */
+const AI_GROUPS = [
+  ["AI does most of it directly", "sparkles", "AI often does the work itself", "When people use Claude for these, it mostly does the task for them."],
+  ["shared", "layers", "Shared between people and AI", "Claude does part of the work; people direct and finish it."],
+  ["people mostly work with AI", "user", "People mostly do the work", "People do these and use Claude to help, rather than handing them over."],
+  ["no evidence in the bundled releases", "circle-dashed", "No usage evidence", "No bundled release covers these activities."],
+];
+
+function ring(done, total) {
+  const share = total ? done / total : 0, c = 2 * Math.PI * 26;
+  return `<svg class="ring" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" class="ring-track"/>
+    <circle cx="32" cy="32" r="26" class="ring-fill" stroke-dasharray="${(share * c).toFixed(2)} ${c.toFixed(2)}" transform="rotate(-90 32 32)"/></svg>`;
+}
+
+function overviewPanel(r) {
+  const served = new Set(r.block.gaps_served);
+  // The header already shows the description's first sentence; the rest continues here.
+  const more = r.description.text.slice(r.description.first.length).trim();
+  return `
+    ${more ? `<section class="soft-card" data-scope aria-labelledby="h-rd-do"><h2 id="h-rd-do">More about the work</h2>
+      <p>${esc(more)}${srcMarks(r.description.src)}</p></section>` : ""}
+    <section class="soft-card" data-scope aria-labelledby="h-rd-work"><h2 id="h-rd-work">Your work in this role</h2>
+      <div class="ring-row"><span class="ring-box">${ring(r.done_count.v, r.total_count.v)}<span class="ring-num" aria-hidden="true">${esc(r.done_count.v)}/${esc(r.total_count.v)}</span></span>
+        <p>You already do ${fig(r.done_count, "int")} of its ${fig(r.total_count, "int")} recorded activities (activity overlap ${fig(r.overlap, "pct")}). Overlap is not how much of the job you can already do.</p></div>
+      <ul class="did">${groupDone(r.done)}</ul>
+      ${r.related.length ? `<p class="foot">Also counted toward this route: ${r.related.map(x => `“${esc(x.name.replace(/\.$/, ""))}”, which O*NET groups with its “${esc(x.role_name.replace(/\.$/, ""))}”`).join("; ")}. These do not change the overlap or the gaps.</p>` : ""}</section>
+    <section class="soft-card" data-scope aria-labelledby="h-rd-gaps"><h2 id="h-rd-gaps">Still to build</h2>
+      <p class="foot">The role's ${r.prioritized.length} largest activities you have not confirmed, most frequent first.</p>
+      <ul class="gaps">${r.prioritized.map(g => {
+        const note = served.has(g.dwa_id) ? "In your first block" : g.has_resource ? "" : "No verified resource yet";
+        return `<li><b class="${served.has(g.dwa_id) ? "in-block" : ""}"></b><span>${esc(g.name)}${note ? `<span class="gap-note">${note}</span>` : ""}</span></li>`;
+      }).join("")}</ul></section>
+    <section class="soft-card" data-scope aria-labelledby="h-rd-req"><h2 id="h-rd-req">Requirements</h2><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul></section>
+    <section class="soft-card" data-scope aria-labelledby="h-rd-opp"><h2 id="h-rd-opp">Opportunity</h2>
+      <p><span class="tag good">US outlook: ${esc(bandShort(r.job_outlook))}</span>${r.job_outlook.bright.length ? ` <span class="tag sdg">Bright Outlook</span>` : ""}${srcMarks(r.job_outlook.src)}</p>
+      <p class="foot">${esc(r.local_evidence)}</p>
+      ${r.pay ? `<p class="foot">DOSM 2025 median pay step from your current group: ${fig(r.pay.step, "step")}. Group medians, not a salary offer.</p>` : ""}
+      <p class="foot"><b>SDG 8.5:</b> ${esc(r.sdg[0].reason)}${srcMarks(r.sdg[0].src)}</p></section>`;
+}
+
+function aiPanel(r) {
+  const d = routeState.data;
+  const ai = r.ai_use;
+  const direct = ai.filter(a => a.class === AI_GROUPS[0][0]).length;
+  const groups = AI_GROUPS.map(([key, ico, title, sub]) => {
+    const items = ai.filter(a => a.class === key);
+    if (!items.length) return "";
+    return `<section class="ai-group ai-${ico}" data-scope aria-labelledby="h-ai-${ico}"><h2 id="h-ai-${ico}">${icon(ico, "sm")}${title}</h2><p class="foot">${sub}</p>
+      <ul>${items.map(a => `<li><span class="ai-name">${esc(a.name)}${a.done ? ` <span class="tag good">You do this</span>` : ""}${a.weak ? ` <span class="tag weak">Evidence weak</span>` : ""}</span>${a.now ? `<span class="ai-val">${fig(a.now, "pct")}</span>` : ""}</li>`).join("")}</ul></section>`;
+  }).join("");
+  return `
+    <p class="rd-lead">How much of each of this role's ${ai.length} largest activities AI does directly when people use Claude for it, across bundled releases up to ${esc(releaseLabel(d.release))}.</p>
+    ${direct ? `<div class="callout ai-take">${icon("info")}<p>AI does most of the work directly on ${direct} of these ${ai.length} activities in observed use. In your first block, a checkpoint on such an activity asks you to do it yourself, then check an AI's output against yours.</p></div>` : ""}
+    ${groups}
+    <p class="foot rd-note">Global Claude usage, not employment, risk or a trend. Grouped at the plan's threshold: ${fig(d.threshold, "pct")} and above, AI does most of it directly; below ${fig(d.forecast.lower_cut, "")}%, people mostly work with AI.</p>`;
+}
+
+function blockPanel(r) {
+  const b = r.block, d = routeState.data;
+  const served = r.prioritized.filter(g => g.served).length;
+  return `
+    <section class="soft-card" data-scope aria-labelledby="h-rd-block"><h2 id="h-rd-block">First ${fig(d.weeks, "int")}-week block</h2>
+      <div class="stat-row"><p><b>${fig(b.effort_hours, "")}</b><span>of ${fig(b.capacity_hours, "")} hours</span></p><p><b>${fig(b.cost_rm, "rm")}</b><span>of ${fig(d.budget_rm, "rm")} budget</span></p><p><b>${served}/${r.prioritized.length}</b><span>priority gaps served</span></p></div>
+      <p class="foot">${esc(capitalise(b.status))}. Verified resources exist for ${fig(r.supported_share, "pct")} of the priority gaps. A first block is a start, not a complete transition.</p>
+      <ol class="mini-steps">${b.steps.map(s => `<li><span>${esc(s.title)}</span><span class="foot">${esc(s.provider)} · ${fig({ v: Math.round((s.provider_hours.v + s.practice_hours.v) * 10) / 10, src: s.provider_hours.src }, "")} h</span></li>`).join("")}</ol></section>`;
+}
+
+function renderRoute() {
+  const d = routeState.data;
+  const r = d && d.routes.find(x => x.code === routeState.open);
+  const box = $("#route-body");
+  if (!r) { box.innerHTML = ""; return; }
+  const chosen = routeState.target === r.code;
+  const tab = routeState.tab;
+  const panel = tab === "ai" ? aiPanel(r) : tab === "block" ? blockPanel(r) : overviewPanel(r);
+  box.innerHTML = `
+    <header class="rd-head" data-scope>${familyTile(r, true)}
+      <div><p class="d-kicker">${esc(r.family_label)}</p><h1 id="h-route" class="rd-title" tabindex="-1">${esc(r.title)}</h1></div>
+      <p class="rd-desc">${esc(r.description.first)}${srcMarks(r.description.src)}</p>
+      <p class="rr-meta">O*NET ${esc(r.code)} · Job Zone ${fig(r.job_zone, "")} · ${esc(r.masco.label || "")}</p>
+      <div class="chips"><span class="chip accent">You do ${fig(r.done_count, "int")} of ${fig(r.total_count, "int")} activities</span><span class="chip">US outlook: ${esc(bandShort(r.job_outlook))}${srcMarks(r.job_outlook.src)}</span>${entryChip(r)}</div>
+    </header>
+    <fieldset class="rd-tabs"><legend class="vh">Show</legend>
+      <div class="seg-ctl tab-seg" style="--n:3">${[["overview", "Overview"], ["ai", "AI use"], ["block", "First block"]].map(([k, t]) => `<label><input type="radio" name="rtab" value="${k}" ${tab === k ? "checked" : ""}>${t}</label>`).join("")}</div></fieldset>
+    <div class="rd-panel" id="rd-panel">${panel}</div>
+    <div class="stage-cta"><span class="cta-label"><span class="cta-kicker">First block</span>${fig(r.block.effort_hours, "")} h · ${fig(r.block.cost_rm, "rm")}</span>
+      <button type="button" class="btn btn-primary choose-route" data-route="${esc(r.code)}">${chosen ? "See your plan" : "Choose this route"}</button></div>`;
+  attachSources(box);
+}
+
+function openRoute(code) {
+  routeState.open = code;
+  routeState.tab = "overview";
+  renderRoute();
+  navigate("route");
 }
 
 async function choose(code) {
@@ -1046,21 +1165,29 @@ async function refreshPlan() {
   }
 }
 
+/* A plan step reads like a timeline entry: what it builds, the resource that teaches it, and its hours.
+   The checkpoint and the evidence behind its form open on request; their open state survives updates. */
 function stepItem(s, i) {
   const ai = s.form === "ai";
   const d = routeState.data;
   const why = s.reason.filter(r => r.projected[d.scenario].v >= d.threshold.v);
-  const purpose = s.kind === "prerequisite" ? "Required first by a later step." : s.kind === "ai_practice" ? "AI practice on an activity in this plan." : s.purpose;
+  const heading = s.kind === "prerequisite" ? "Required first by a later step" : s.kind === "ai_practice" ? "AI practice on an activity in this plan"
+    : s.serves.map(g => g.name.replace(/\.$/, "")).join("; ");
   const because = ai && why.length
     ? `<p class="foot">Because ${why.map(r => `AI does “${esc(r.name.replace(/\.$/, ""))}” directly in ${fig(r.now, "pct")} of observed Claude conversations now, ${fig(r.projected[d.scenario], "pct")} projected in the ${esc(d.scenario)} scenario`).join("; ")}; threshold ${fig(d.threshold, "pct")}.</p>`
     : "";
+  const hours = { v: Math.round((s.provider_hours.v + s.practice_hours.v) * 10) / 10, src: s.provider_hours.src };
+  const price = s.cost_rm.v ? fig(s.cost_rm, "rm") : `${s.access || "Free"}${srcMarks(s.cost_rm.src)}`;
   return `<li class="pstep${s.completed ? " done" : ""}" data-scope>
-    <div class="pstep-head"><span class="pnum">${i + 1}</span>
-      <div><p class="gap-name">${esc(s.title)} <a href="${esc(s.url)}" target="_blank" rel="noopener" aria-label="Open ${esc(s.title)} at ${esc(s.provider)}">${icon("external-link", "sm")}</a></p>
-      <p class="meta">${esc(purpose)}</p></div></div>
-    ${s.objective ? `<p class="objective">Provider's objective: “${esc(s.objective)}”</p>` : ""}
-    <p class="meta">${esc(s.provider)} · ${fig(s.provider_hours, "")} h course + ${fig(s.practice_hours, "")} h practice (estimate) · ${fig(s.cost_rm, "rm")} · link checked ${esc(s.checked_on)}${s.access ? ` · ${esc(s.access)}` : ""} · SDG 4.4</p>
-    <div class="checkpoint${ai ? " ai" : ""}"><p><b>${ai ? "Checkpoint, with AI checking" : "Checkpoint"}:</b> ${esc(s.checkpoint)}</p>${because}</div>
+    <span class="pnum" aria-hidden="true">${s.completed ? icon("check", "sm") : i + 1}</span>
+    <div class="pstep-top"><h3 class="gap-name">${esc(heading)}</h3><span class="p-hours">${fig(hours, "")} h</span></div>
+    <a class="res-row" href="${esc(s.url)}" target="_blank" rel="noopener"><span class="res-tile" aria-hidden="true">${icon("book-open")}</span>
+      <span class="res-text"><b>${esc(s.title)}</b><span>${esc(s.provider)} · ${price}</span></span>${icon("external-link", "sm")}<span class="vh">(opens in a new tab)</span></a>
+    <details class="checkpoint${ai ? " ai" : ""}" data-cp="${esc(s.id)}" ${routeState.openCp.has(s.id) ? "open" : ""}>
+      <summary><span><b>Checkpoint</b>${ai ? `<span class="tag ai-tag">with AI checking</span>` : ""}</span>${icon("chevron-down", "sm")}</summary>
+      <p>${esc(s.checkpoint)}</p>${because}
+      ${s.objective ? `<p class="foot">Provider's objective: “${esc(s.objective)}”</p>` : ""}
+      <p class="foot">${fig(s.provider_hours, "")} h course + ${fig(s.practice_hours, "")} h practice (estimate) · ${fig(s.cost_rm, "rm")} · link checked ${esc(s.checked_on)} · SDG 4.4</p></details>
     <label class="check-line"><input type="checkbox" data-done="${esc(s.id)}" ${s.completed ? "checked" : ""}> I have done this step</label>
   </li>`;
 }
@@ -1071,21 +1198,25 @@ function renderPlan() {
   if (!r) { $("#plan-body").innerHTML = ""; return; }
   const b = r.block;
   const next = b.steps.find(s => !s.completed);
+  const done = b.steps.filter(s => s.completed).length;
   $("#plan-body").innerHTML = `
     <div class="plan-head" data-scope>
-      <p class="d-kicker">${esc(r.family_label)}</p><h3 class="plan-title">${esc(r.title)}</h3>
-      <p>${fig(b.effort_hours, "")} of your ${fig(b.capacity_hours, "")} hours over ${fig(d.weeks, "int")} weeks (${fig(b.provider_hours, "")} h of courses, ${fig(b.practice_hours, "")} h of practice, estimated) · ${fig(b.cost_rm, "rm")} of your ${fig(d.budget_rm, "rm")} budget.</p>
-      <p class="foot">${esc(capitalise(b.status))}. This block is a start, not a complete transition; it does not make anyone ready for the role.</p>
-      ${next ? `<p class="next">${icon("route", "sm")} <b>Start with:</b> ${esc(next.title)}</p>` : `<p class="next">${icon("check", "sm")} Every step in this block is marked done.</p>`}
+      <div class="ph-top">${familyTile(r)}<div><p class="d-kicker">${esc(r.family_label)}</p><h2 class="plan-title">${esc(r.title)}</h2></div></div>
+      <div class="stat-row"><p><b>${fig(b.effort_hours, "")}</b><span>of ${fig(b.capacity_hours, "")} hours</span></p><p><b>${fig(d.weeks, "int")}</b><span>weeks</span></p><p><b>${fig(b.cost_rm, "rm")}</b><span>of ${fig(d.budget_rm, "rm")} budget</span></p></div>
+      <p class="foot">${fig(b.provider_hours, "")} h of courses and ${fig(b.practice_hours, "")} h of practice (estimated). ${esc(capitalise(b.status))}: a start, not a complete transition; it does not make anyone ready for the role.</p>
+      ${next ? `<p class="next">${icon("route", "sm")}<span><b>Start with</b> ${esc(next.title)}</span></p>` : `<p class="next">${icon("check", "sm")}<span>Every step in this block is marked done.</span></p>`}
     </div>
-    <fieldset class="ctl plan-scen" data-scope><legend>Future scenario for the checkpoints</legend>
-      <div class="seg-ctl small scen-ctl" style="--n:3">${["slower", "moderate", "faster"].map(k => `<label><input type="radio" name="pscen" value="${k}" ${d.scenario === k ? "checked" : ""}>${k === "moderate" ? "Moderate" : capitalise(k)}</label>`).join("")}</div>
-      <p class="foot">Looking ${fig(b.horizon.months, "")} months ahead (${esc(b.horizon.basis)}). A step's checkpoint adds AI checking when AI does its activity directly in at least ${fig(d.threshold, "pct")} of observed Claude conversations by then. ${b.scenario_differs.length ? `Steps that change between scenarios: ${esc(b.scenario_differs.join("; "))}.` : "No step changes between scenarios."} Slower and faster are assumptions, not forecasts.</p></fieldset>
+    <details class="plan-scen" data-scope ${routeState.scenOpen ? "open" : ""}>
+      <summary><span>Future scenario <span class="foot">${esc(capitalise(d.scenario))}${b.scenario_differs.length ? `, changes ${b.scenario_differs.length} checkpoint${b.scenario_differs.length === 1 ? "" : "s"}` : ""}</span></span>${icon("chevron-down", "sm")}</summary>
+      <fieldset><legend class="vh">Future scenario for the checkpoints</legend>
+      <div class="seg-ctl small scen-ctl" style="--n:3">${["slower", "moderate", "faster"].map(k => `<label><input type="radio" name="pscen" value="${k}" ${d.scenario === k ? "checked" : ""}>${k === "moderate" ? "Moderate" : capitalise(k)}</label>`).join("")}</div></fieldset>
+      <p class="foot">Looking ${fig(b.horizon.months, "")} months ahead (${esc(b.horizon.basis)}). A step's checkpoint adds AI checking when AI does its activity directly in at least ${fig(d.threshold, "pct")} of observed Claude conversations by then. ${b.scenario_differs.length ? `Steps that change between scenarios: ${esc(b.scenario_differs.join("; "))}.` : "No step changes between scenarios."} Slower and faster are assumptions, not forecasts.</p></details>
+    <h2 class="vh">Steps</h2>
     <ol class="psteps">${b.steps.map(stepItem).join("")}</ol>
-    ${b.uncovered.length ? `<section class="sec-block" data-scope><h5>Priority gaps without a step in this block</h5><ul class="gaps">${b.uncovered.map(g => `<li><b></b><span>${esc(g.name)}</span><span class="w">SDG 4.4</span></li>`).join("")}</ul>
+    ${b.uncovered.length ? `<section class="soft-card" data-scope aria-labelledby="h-uncovered"><h2 id="h-uncovered">Priority gaps without a step in this block</h2><ul class="gaps">${b.uncovered.map(g => `<li><b></b><span>${esc(g.name)}</span><span class="w">SDG 4.4</span></li>`).join("")}</ul>
       <p class="foot">Either no verified resource teaches them yet, or the block's time or budget ran out.</p></section>` : ""}
-    <section class="sec-block" data-scope><h5>Beyond this block</h5><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul></section>
-    <div class="stage-cta"><span class="cta-label"><b class="num">${b.steps.filter(s => s.completed).length}</b> of ${b.steps.length} steps done</span><button type="button" class="btn btn-primary" data-action="changed">What changed</button></div>`;
+    <section class="soft-card" data-scope aria-labelledby="h-beyond"><h2 id="h-beyond">Beyond this block</h2><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul></section>
+    <div class="stage-cta"><span class="cta-label"><b class="num">${done}</b> of ${b.steps.length} steps done</span><button type="button" class="btn btn-primary" data-action="changed">What changed</button></div>`;
   attachSources($("#plan"));
 }
 
@@ -1134,11 +1265,30 @@ function routeEvents() {
   document.addEventListener("click", e => {
     const b = e.target.closest("button");
     if (!b) return;
-    if (b.dataset.action === "routes") compareRoutes();
+    if (b.dataset.openRoute) openRoute(b.dataset.openRoute);
+    else if (b.dataset.action === "routes") compareRoutes();
     else if (b.classList.contains("choose-route")) choose(b.dataset.route);
     else if (b.dataset.action === "changed") showChanged();
     else if (b.dataset.action === "rank" && !b.closest("#review")) rank();
   });
+  $("#routes").addEventListener("change", e => {
+    if (!e.target.matches('input[name="rsort"]')) return;
+    routeState.sort = e.target.value;
+    renderRoutes();
+    $(`#routes input[name="rsort"][value="${routeState.sort}"]`)?.focus();
+  });
+  // Switching tabs redraws the route and returns focus to the tab control.
+  $("#route").addEventListener("change", e => {
+    if (!e.target.matches('input[name="rtab"]')) return;
+    routeState.tab = e.target.value;
+    renderRoute();
+    $(`#route input[name="rtab"][value="${routeState.tab}"]`)?.focus();
+  });
+  $("#plan").addEventListener("toggle", e => {
+    const d = e.target;
+    if (d.dataset?.cp) { if (d.open) routeState.openCp.add(d.dataset.cp); else routeState.openCp.delete(d.dataset.cp); }
+    else if (d.classList?.contains("plan-scen")) routeState.scenOpen = d.open;
+  }, true);
   $("#plan").addEventListener("change", e => {
     if (e.target.matches("input[data-done]")) {
       const id = e.target.dataset.done;
