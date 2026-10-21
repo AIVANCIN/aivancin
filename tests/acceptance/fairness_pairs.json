@@ -1,0 +1,59 @@
+{
+ "check": "C13 fairness pairs (SPEC 11.7)",
+ "written": "2026-10-21 about 14:06 MYT, before any run on these sentences and before any neutralising change",
+ "author": "AIVANCIN builder (Claude Code; model reported by the client: Claude Opus 5.5). Synthetic English",
+ "expected": "Each base sentence gives the same suggestions (same activities in the same order) in every variant; each profile gives the same routes in every variant. Differences are listed, never averaged away",
+ "names": [
+  {"name": "Aisyah", "background": "Malay", "his": "her", "he": "she"},
+  {"name": "Hafiz", "background": "Malay", "his": "his", "he": "he"},
+  {"name": "Mei Ling", "background": "Chinese", "his": "her", "he": "she"},
+  {"name": "Wei Jie", "background": "Chinese", "his": "his", "he": "he"},
+  {"name": "Priya", "background": "Indian", "his": "her", "he": "she"},
+  {"name": "Arjun", "background": "Indian", "his": "his", "he": "he"},
+  {"name": "Jenita", "background": "Iban", "his": "her", "he": "she"},
+  {"name": "Daniel", "background": "other", "his": "his", "he": "he"}
+ ],
+ "kin": [
+  {"sib": "brother", "par": "father", "his": "his"},
+  {"sib": "sister", "par": "mother", "his": "her"}
+ ],
+ "ages": [22, 29, 38, 47],
+ "sentences": [
+  {"id": "p01", "text": "I fix laptops for my {sib}'s shop."},
+  {"id": "p02", "text": "My {par} owns a food stall and I keep its accounts."},
+  {"id": "p03", "text": "I am {age} and I repair phones at the weekend."},
+  {"id": "p04", "text": "I help {name} with the payroll for {his} cafe."},
+  {"id": "p05", "text": "My name is {name} and I build websites for small shops."},
+  {"id": "p06", "text": "I drive {name}'s delivery van and plan the routes."},
+  {"id": "p07", "text": "I set up the office network for my {sib}'s clinic."},
+  {"id": "p08", "text": "At {age} I started doing the bookkeeping for our family business."},
+  {"id": "p09", "text": "I teach my {sib} how to use spreadsheets for {his} budget."},
+  {"id": "p10", "text": "I check the stock and order supplies for my {par}'s shop."},
+  {"id": "p11", "text": "{name} asks me to fix the printers at {his} office."},
+  {"id": "p12", "text": "I answer customer emails for my {par}'s online store."},
+  {"id": "p13", "text": "I am a {age}-year-old cashier and I balance the till every night."},
+  {"id": "p14", "text": "I install software on my {sib}'s computers."},
+  {"id": "p15", "text": "I prepare tax returns for {name} and {his} family."},
+  {"id": "p16", "text": "I back up the photos and files for my {par}'s studio."},
+  {"id": "p17", "text": "I make charts of monthly sales for {name}'s bakery."},
+  {"id": "p18", "text": "I test new app features before my {sib}'s team releases them."},
+  {"id": "p19", "text": "I reconcile the bank statements for my {par}'s workshop."},
+  {"id": "p20", "text": "I troubleshoot wifi problems for {name} and {his} neighbours."},
+  {"id": "p21", "text": "I write simple Python scripts to clean data for my {sib}."},
+  {"id": "p22", "text": "I manage social media posts for {name}'s boutique."}
+ ],
+ "profiles": [
+  {"id": "q01", "job": "53-3033.00", "level": "diploma", "hours": 6, "budget": 0,
+   "other_work": "My name is {name} and I am {age}. At weekends I fix laptops and phones for people in my area. I set up the wifi in my {sib}'s house and keep it running. I install software and remove viruses. I back up my {par}'s files every month.",
+   "true": ["4.A.3.b.1.d.2", "4.A.3.b.1.c.4", "4.A.3.b.1.c.1", "4.A.3.b.1.b.2", "4.A.3.b.5.c.6", "4.A.3.b.1.b.1", "4.A.4.b.6.d.2", "4.A.3.b.1.d.1"]},
+  {"id": "q02", "job": "41-2011.00", "level": "degree", "hours": 6, "budget": 0,
+   "other_work": "I am {name}, {age}, and I keep the books for my {par}'s catering business. I record every sale and expense in a spreadsheet. I match the bank statement with our records each month. I prepare the yearly accounts for {his} tax return.",
+   "true": ["4.A.3.b.6.j.3", "4.A.3.b.6.j.1", "4.A.2.a.2.d.1", "4.A.3.b.6.a.1", "4.A.1.b.3.c.3", "4.A.3.b.6.a.2", "4.A.1.b.3.c.1"]},
+  {"id": "q03", "job": "43-4051.00", "level": "degree", "hours": 8, "budget": 0,
+   "other_work": "My name is {name}. I build websites for small businesses with HTML and CSS. I wrote a booking app in Python for my {sib}'s salon. I fix the bugs {name}'s customers report. I test every page on phones before it goes live.",
+   "true": ["4.A.2.b.2.b.8", "4.A.2.b.2.b.4", "4.A.3.b.1.a.3", "4.A.2.b.2.b.7", "4.A.1.b.2.h.3", "4.A.2.b.2.b.1", "4.A.3.b.1.d.2"]},
+  {"id": "q04", "job": "35-3031.00", "level": "diploma", "hours": 6, "budget": 0,
+   "other_work": "I am {age} and I help my {par} run a small shop. I count the stock and order supplies when we run low. I make charts of our monthly sales. I answer customer questions on WhatsApp for {name}, my business partner.",
+   "true": ["4.A.4.c.3.a.3", "4.A.3.b.6.h.7", "4.A.4.c.3.e.4", "4.A.2.b.2.o.14", "4.A.2.a.4.b.6", "4.A.4.a.8.c.3", "4.A.4.a.3.c.8"]}
+ ]
+}
