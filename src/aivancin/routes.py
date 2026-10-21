@@ -16,6 +16,7 @@ MIN_DONE = 2  # initial: a route needs at least two confirmed activities that co
 SIBLING_CREDIT = True  # a confirmed near-twin of one of the role's activities counts (table built by tools/build_routes.py)
 PER_GAP = 2  # initial: at most two entries per prioritized gap in a block (an introduction, then practice)
 LONG_SHARE = 0.5  # initial: an entry needing more than this share of the block's hours waits for the shorter ones
+GAP_ORDERS = ("default", "growing")  # SPEC 11.3: "Skills in growing jobs first" is the block option "growing"
 CAT = "aivancin-catalogue"
 ROUTES_SRC = "aivancin-routes"
 AI_FORM = ("Do it yourself first, then ask an AI assistant to do the same task and check its output against yours; "
@@ -95,11 +96,14 @@ class Planner:
         target = opts.get("target")
         if target is not None and target not in self.dests:
             errors["target"] = "Choose one of the supported destinations."
+        gap_order = opts.get("gap_order", "default")
+        if gap_order not in GAP_ORDERS:
+            errors["gap_order"] = "Choose the default order or skills in growing jobs first."
         if errors:
             raise ReportError(errors)
         return {"weeks": weeks, "willing_long": willing, "scenario": scenario, "threshold": float(threshold),
                 "pace": float(pace), "release": release, "horizon": horizon, "completed": set(completed), "target": target,
-                "capacity": weeks * profile["weekly_hours"], "budget": profile["budget_rm"]}
+                "gap_order": gap_order, "capacity": weeks * profile["weekly_hours"], "budget": profile["budget_rm"]}
 
     def credited(self, code, prof):
         """Confirmed activities that count toward the two-activity rule: the role's own, and (with SIBLING_CREDIT)
@@ -162,8 +166,15 @@ class Planner:
             return [g for g in prioritized if g["dwa_id"] in c.get("dwas", [])]
 
         supported = {g["dwa_id"] for c in courses for g in serves(c)}
-        candidates = sorted((c for c in courses if serves(c) and not c.get("ai_skill")),
-                            key=lambda c: (-max(weight[g["dwa_id"]] for g in serves(c)), c["cost_rm"], effort(c), c["id"]))
+
+        def order(c):
+            key = (-max(weight[g["dwa_id"]] for g in serves(c)), c["cost_rm"], effort(c), c["id"])
+            if o.get("gap_order") != "growing":
+                return key
+            # SPEC 11.3: entries serving a gap in growing jobs come first (the best skill-demand rank among the gaps
+            # an entry serves), then the order above; every other rule below is unchanged.
+            return (min(outlook.DEMAND_RANK[self.rep.demand.get(g["dwa_id"])["label"]] for g in serves(c)), *key)
+        candidates = sorted((c for c in courses if serves(c) and not c.get("ai_skill")), key=order)
         chosen, used, spent = {}, 0.0, 0.0
         done = [by_id[i] for i in sorted(o["completed"]) if i in by_id and serves(by_id[i])]
         per_gap = {}
@@ -276,6 +287,13 @@ class Planner:
         done, missing = self.m.done_and_missing(code, prof)
         total = len(done) + len(missing)
         b = self.block(code, missing, courses, o)
+        order_diff = None
+        if o["gap_order"] == "growing":
+            base = self.block(code, missing, courses, {**o, "gap_order": "default"})
+            now, before = [x["id"] for x in b["steps"]], [x["id"] for x in base["steps"]]
+            titles = {x["id"]: x["title"] for x in b["steps"] + base["steps"]}
+            order_diff = {"added": [titles[i] for i in now if i not in before], "removed": [titles[i] for i in before if i not in now],
+                          "reordered": now != before}
         labels = self.rep.labels(code, profile)
         months_study = b["used"] / profile["weekly_hours"] / pathway.WEEKS_PER_MONTH if profile["weekly_hours"] else 0.0
         if o["horizon"] == "plan":
@@ -359,7 +377,7 @@ class Planner:
                       "status": ("covers all prioritized gaps that have a resource" if all_supported_served else "partial"),
                       "scenario_differs": differ,
                       "scenario_extra_hours": {s: fig(round(sum(effort(c) for c in extra[s]), 1), CAT) for s in outlook.SCENARIOS},
-                      "base_hours": fig(round(b["used"], 1), CAT),
+                      "base_hours": fig(round(b["used"], 1), CAT), "gap_order": o["gap_order"], "order_diff": order_diff,
                       "horizon": {"months": fig(round(months, 1), o["input_src"], estimate=True), "basis": basis}},
         }
 

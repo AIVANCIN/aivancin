@@ -531,14 +531,15 @@ textarea::placeholder, input::placeholder { color: var(--text2); opacity: 1; }
 .plan-head .next { display: flex; gap: 8px; align-items: flex-start; margin-top: 14px; padding: 14px 16px; border-radius: 14px; background: var(--accent-tint); font-size: 16px; line-height: 1.4; }
 .plan-head .next .ico { margin-top: 3px; color: var(--accent); }
 .plan-head .next b { margin-right: 4px; }
-details.plan-scen { margin-top: 12px; padding: 0 20px; border-radius: 18px; background: var(--card); box-shadow: var(--shadow-card); }
-.plan-scen > summary, .checkpoint > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 52px; cursor: pointer; list-style: none; font-weight: 600; }
-.plan-scen > summary::-webkit-details-marker, .checkpoint > summary::-webkit-details-marker { display: none; }
-.plan-scen > summary .foot { margin-left: 6px; font-size: 14px; font-weight: 500; }
-.plan-scen > summary > .ico, .checkpoint > summary > .ico { color: var(--text2); transition: transform 250ms var(--ease); }
-.plan-scen[open] > summary > .ico, .checkpoint[open] > summary > .ico { transform: rotate(180deg); }
+details.plan-scen, details.plan-order { margin-top: 12px; padding: 0 20px; border-radius: 18px; background: var(--card); box-shadow: var(--shadow-card); }
+.plan-scen > summary, .plan-order > summary, .checkpoint > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 52px; cursor: pointer; list-style: none; font-weight: 600; }
+.plan-scen > summary::-webkit-details-marker, .plan-order > summary::-webkit-details-marker, .checkpoint > summary::-webkit-details-marker { display: none; }
+.plan-scen > summary .foot, .plan-order > summary .foot { margin-left: 6px; font-size: 14px; font-weight: 500; }
+.plan-scen > summary > .ico, .plan-order > summary > .ico, .checkpoint > summary > .ico { color: var(--text2); transition: transform 250ms var(--ease); }
+.plan-scen[open] > summary > .ico, .plan-order[open] > summary > .ico, .checkpoint[open] > summary > .ico { transform: rotate(180deg); }
 .plan-scen .seg-ctl { max-width: 360px; }
-.plan-scen > .foot { margin: 12px 0 0; padding-bottom: 18px; }
+.plan-scen > .foot, .plan-order > .foot { margin: 12px 0 0; padding-bottom: 18px; }
+.plan-order .check-line { margin-top: 4px; }
 .psteps { position: relative; display: grid; gap: 16px; margin: 28px 0 0; padding: 0 0 0 40px; list-style: none; }
 .psteps::before { content: ""; position: absolute; left: 13px; top: 20px; bottom: 20px; width: 2px; background: var(--sep); }
 .pstep { position: relative; padding: 18px; border-radius: 20px; background: var(--card); box-shadow: var(--shadow-card); }

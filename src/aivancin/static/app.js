@@ -1458,6 +1458,7 @@ function blockPanel(r) {
   return `
     <section class="soft-card" data-scope aria-labelledby="h-rd-block"><h2 id="h-rd-block">First ${fig(d.weeks, "int")}-week block</h2>
       <div class="stat-row"><p><b>${fig(b.effort_hours, "")}</b><span>of ${fig(b.capacity_hours, "")} hours</span></p><p><b>${fig(b.cost_rm, "rm")}</b><span>of ${fig(d.budget_rm, "rm")} budget</span></p><p><b>${fig({ v: served, src: GAP_SRC }, "int")}/${gapCount(r)}</b><span>priority gaps served</span></p></div>
+      ${b.gap_order === "growing" ? `<p class="foot">Steps for skills in growing jobs first (set on Plan).</p>` : ""}
       <p class="foot">${esc(capitalise(b.status))}. Verified resources exist for ${fig(r.supported_share, "pct")} of the priority gaps. A first block is a start, not a complete transition.</p>
       ${isPersonal() ? "" : `<p class="foot">${ASSUMPTION_NOTE}</p>`}
       <ol class="mini-steps">${b.steps.map(s => `<li><span>${esc(s.title)}</span><span class="foot">${esc(s.provider)} · ${fig({ v: Math.round((s.provider_hours.v + s.practice_hours.v) * 10) / 10, src: s.provider_hours.src }, "")} h</span></li>`).join("")}</ol></section>`;
@@ -1809,7 +1810,7 @@ async function refreshPlan() {
     saveProgress();
     const restore = focusDone ? $$("#plan input[data-done]").find(input => input.dataset.done === focusDone)
       : focusScenario ? $$(`input[name='${focusName}']`).find(input => input.value === focusScenario)
-      : focusName === "r-hz" ? $("#r-hz") : null;
+      : focusName === "r-hz" ? $("#r-hz") : focusName === "p-growing" ? $("#p-growing") : null;
     if (keepFocus) restore?.focus({ preventScroll: true });
   } catch (err) {
     if (seq !== planSeq) return;
@@ -1866,6 +1867,15 @@ function contributionCard(r) {
     <p class="foot">Target wording: United Nations, sdgs.un.org.${srcMarks(c.src)}</p></section>`;
 }
 
+/* SPEC 11.3: the plan names the steps the option adds or removes against the default order. */
+function orderDiffText(diff) {
+  const list = t => t.map(x => `“${esc(x)}”`).join(", ");
+  if (!diff || (!diff.added.length && !diff.removed.length)) {
+    return diff?.reordered ? "The same steps as the largest-gaps order, reordered." : "Same steps, in the same order, as the largest-gaps order.";
+  }
+  return `Against the largest-gaps order, this ${diff.added.length ? `adds ${list(diff.added)}` : ""}${diff.added.length && diff.removed.length ? " and " : ""}${diff.removed.length ? `leaves out ${list(diff.removed)}` : ""}. Steps still respect time, budget and prerequisites.`;
+}
+
 function renderPlan() {
   const d = routeState.data;
   const r = d.routes.find(x => x.code === routeState.target);
@@ -1889,6 +1899,12 @@ function renderPlan() {
       <fieldset><legend class="vh">Future scenario for the checkpoints</legend>
       <div class="seg-ctl small scen-ctl" style="--n:3">${["slower", "moderate", "faster"].map(k => `<label><input type="radio" name="pscen" value="${k}" ${d.scenario === k ? "checked" : ""}>${k === "moderate" ? "Moderate" : capitalise(k)}</label>`).join("")}</div></fieldset>
       <p class="foot">Looking ${fig(b.horizon.months, "")} months ahead (${esc(b.horizon.basis)}). A step's checkpoint adds AI checking when AI does its activity directly in at least ${fig(d.threshold, "pct")} of observed Claude conversations by then. ${b.scenario_differs.length ? `Steps that change between scenarios: ${esc(b.scenario_differs.join("; "))}.` : "No step changes between scenarios."} Slower and faster are assumptions, not forecasts.</p></details>
+    <details class="plan-order" data-scope ${routeState.orderOpen ? "open" : ""}>
+      <summary><span>Step order <span class="foot">${b.gap_order === "growing" ? "Skills in growing jobs first" : "Largest gaps first"}</span></span>${icon("chevron-down", "sm")}</summary>
+      <label class="check-line"><input type="checkbox" id="p-growing" ${b.gap_order === "growing" ? "checked" : ""}> Skills in growing jobs first</label>
+      <p class="foot">${b.gap_order === "growing" ? orderDiffText(b.order_diff)
+        : "Steps go to the route's largest gaps first. With this option, steps for skills that sit mostly in US graduate jobs projected to grow come first; time, budget and prerequisites still decide what fits."}${srcMarks(DEMAND_SRC)}</p>
+    </details>
     <h2 class="vh">Steps</h2>
     <ol class="psteps">${b.steps.map(stepItem).join("")}</ol>
     ${b.uncovered.length ? `<section class="soft-card" data-scope aria-labelledby="h-uncovered"><h2 id="h-uncovered">Priority gaps without a step in this block</h2><ul class="gaps">${b.uncovered.map(g => `<li><b></b><span>${esc(g.name)}</span><span class="w">SDG 4.4</span></li>`).join("")}</ul>
@@ -1994,6 +2010,7 @@ function routeEvents() {
   $("#plan").addEventListener("toggle", e => {
     const d = e.target;
     if (d.dataset?.cp) { if (d.open) routeState.openCp.add(d.dataset.cp); else routeState.openCp.delete(d.dataset.cp); }
+    else if (d.classList?.contains("plan-order")) routeState.orderOpen = d.open;
     else if (d.classList?.contains("plan-scen")) routeState.scenOpen = d.open;
   }, true);
   $("#plan").addEventListener("change", e => {
@@ -2003,6 +2020,9 @@ function routeEvents() {
       refreshPlan();
     } else if (e.target.matches('input[name="pscen"]')) {
       routeState.opts.scenario = e.target.value;
+      refreshPlan();
+    } else if (e.target.id === "p-growing") {
+      routeState.opts.gap_order = e.target.checked ? "growing" : "default";
       refreshPlan();
     }
   });

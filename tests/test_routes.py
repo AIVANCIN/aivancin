@@ -140,9 +140,10 @@ def test_b2_families_follow_the_work(planner, hafiz, priya):
     assert h <= {"it_support", "software"} and "finance_analytics" in p
 
 
+@pytest.mark.parametrize("order", ["default", "growing"])  # C7: B3 under both gap orders
 @pytest.mark.parametrize("weeks", [4, 8, 12])
-def test_b3_block_fits_time_and_budget_and_counts_each_entry_once(snaps, planner, hafiz, weeks):
-    res = planner.routes(hafiz, {"weeks": weeks, "scenario": "faster", "threshold": 30}, today=TODAY)
+def test_b3_block_fits_time_and_budget_and_counts_each_entry_once(snaps, planner, hafiz, weeks, order):
+    res = planner.routes(hafiz, {"weeks": weeks, "scenario": "faster", "threshold": 30, "gap_order": order}, today=TODAY)
     by_id = {c["id"]: c for c in snaps.catalogue["courses"]}
     capacity = weeks * hafiz["weekly_hours"]
     for r in res["routes"]:
@@ -209,10 +210,11 @@ def test_b3_a_long_entry_waits_for_shorter_ones(planner, capacity, expected):
     assert {x["id"] for x in b["steps"]} == expected
     assert b["served"] == {"g1", "g2", "g3"} and b["used"] <= capacity
 
-def test_b4_no_step_before_an_entry_it_requires(planner, hafiz, priya):
+@pytest.mark.parametrize("order", ["default", "growing"])  # C7: B4 under both gap orders
+def test_b4_no_step_before_an_entry_it_requires(planner, hafiz, priya, order):
     for prof in (hafiz, priya):
-        for weeks in (4, 12):
-            for r in planner.routes(prof, {"weeks": weeks}, today=TODAY)["routes"]:
+        for weeks in (4, 8, 12):
+            for r in planner.routes(prof, {"weeks": weeks, "gap_order": order}, today=TODAY)["routes"]:
                 seen = set()
                 for s in r["block"]["steps"]:
                     assert all(req in seen for req in s["requires"] if req in {x["id"] for x in r["block"]["steps"]}), s["id"]
@@ -386,3 +388,42 @@ def test_explore_lists_every_supported_role_with_nothing_counted_and_assumptions
     assert with_target["target"] == "15-1254.00" and with_target["capacity_hours"]["v"] == 48.0
     with pytest.raises(ReportError):
         planner.explore({"weeks": 5}, TODAY)
+
+
+# ---- C7: "Skills in growing jobs first" (SPEC 11.3) ------------------------------------------------
+@pytest.mark.parametrize("order,expected", [("default", {"short-g1"}), ("growing", {"short-g2"})])
+def test_c7_growing_order_puts_gaps_in_growing_jobs_first(planner, monkeypatch, order, expected):
+    """Worked by hand: 3 hours fit one 3-hour entry. By weight the heavier gap g1 goes first; with the option, g2,
+    whose activity sits mostly in growing jobs, goes before g1, whose activity sits mostly in declining jobs."""
+    labels = {"g1": "mostly in declining jobs", "g2": "mostly in growing jobs"}
+    monkeypatch.setattr(planner.rep.demand, "get", lambda d: {"label": labels[d]})
+    missing = [{"dwa_id": "g1", "weight": 4.0, "name": "g1"}, {"dwa_id": "g2", "weight": 1.0, "name": "g2"}]
+    courses = [_entry("short-g1", "g1", 2.0, 1.0), _entry("short-g2", "g2", 2.0, 1.0)]
+    b = planner.block("15-1231.00", missing, courses, {"capacity": 3, "budget": 0, "completed": set(), "gap_order": order})
+    assert {x["id"] for x in b["steps"]} == expected
+
+
+def test_c7_option_off_is_the_default_and_the_plan_names_the_difference(planner, hafiz, priya):
+    changed = 0
+    for prof in (hafiz, priya):
+        for weeks in (4, 8, 12):
+            off = planner.routes(prof, {"weeks": weeks}, today=TODAY)
+            assert planner.routes(prof, {"weeks": weeks, "gap_order": "default"}, today=TODAY) == off
+            on = planner.routes(prof, {"weeks": weeks, "gap_order": "growing"}, today=TODAY)
+            assert [r["code"] for r in on["routes"]] == [r["code"] for r in off["routes"]]
+            for a, b in zip(off["routes"], on["routes"]):
+                assert a["block"]["order_diff"] is None and a["block"]["gap_order"] == "default"
+                before = {s["title"] for s in a["block"]["steps"] if s["kind"] != "ai_practice"}
+                after = {s["title"] for s in b["block"]["steps"] if s["kind"] != "ai_practice"}
+                diff = b["block"]["order_diff"]
+                assert (set(diff["added"]), set(diff["removed"])) == (after - before, before - after)
+                assert diff["reordered"] == ([s["id"] for s in a["block"]["steps"] if s["kind"] != "ai_practice"]
+                                             != [s["id"] for s in b["block"]["steps"] if s["kind"] != "ai_practice"])
+                changed += bool(diff["added"] or diff["removed"])
+    assert changed > 0  # the option changes at least one persona block
+
+
+def test_c7_unknown_gap_order_is_refused(planner, hafiz):
+    with pytest.raises(ReportError) as err:
+        planner.routes(hafiz, {"gap_order": "fastest"}, today=TODAY)
+    assert "gap_order" in err.value.errors
