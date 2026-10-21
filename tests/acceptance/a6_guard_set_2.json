@@ -1,0 +1,36 @@
+{
+ "check": "A6 guard, fresh set 2 (SPEC 11.7, C12)",
+ "written": "2026-10-21 about 13:55 MYT, before any change to the guard and before any run on these sentences",
+ "author": "AIVANCIN builder (Claude Code; model reported by the client: Claude Opus 5.5). Synthetic English",
+ "pass_rule": "Uncaught kinds: no activity suggested for the sentence can be confirmed as done work without the deliberate second action. Controls: the sentence is not flagged (own work stays one tick away). Controls include realistic own-work sentences that start with a pronoun or a relative, so an over-broad rule shows up; none contains a cue of the original list",
+ "uncaught": [
+  {"id": "g01", "kind": "someone else", "text": "My cousin repairs computers at his shop."},
+  {"id": "g02", "kind": "someone else", "text": "My sister does the bookkeeping for our family business."},
+  {"id": "g03", "kind": "someone else", "text": "He handles the payroll and the tax filings."},
+  {"id": "g04", "kind": "someone else", "text": "She designs the websites for our clients."},
+  {"id": "g05", "kind": "someone else", "text": "They run the network for the whole office."},
+  {"id": "g06", "kind": "someone else", "text": "My uncle installs CCTV systems for shops."},
+  {"id": "g07", "kind": "someone else", "text": "My husband builds mobile apps in his free time."},
+  {"id": "g08", "kind": "someone else", "text": "My father keeps the accounts for the mosque."},
+  {"id": "g09", "kind": "plan without a cue", "text": "My dream is to become a data analyst."},
+  {"id": "g10", "kind": "plan without a cue", "text": "One day I will open my own accounting firm."},
+  {"id": "g11", "kind": "plan without a cue", "text": "Someday I'll build my own mobile game."},
+  {"id": "g12", "kind": "plan without a cue", "text": "My goal is to work in cyber security."},
+  {"id": "g13", "kind": "plan without a cue", "text": "I'm thinking of studying web development next year."},
+  {"id": "g14", "kind": "someone else", "text": "My friend fixes phones and laptops for a living."}
+ ],
+ "controls": [
+  {"id": "k01", "text": "I fix my friends' laptops at the weekend."},
+  {"id": "k02", "text": "I keep the accounts for my mother's catering business."},
+  {"id": "k03", "text": "My brother and I run a phone repair stall."},
+  {"id": "k04", "text": "They pay me to set up their home wifi."},
+  {"id": "k05", "text": "My boss asks me to check the sales figures every Friday."},
+  {"id": "k06", "text": "I help my cousin with his tax returns."},
+  {"id": "k07", "text": "Every evening I update the shop's website."},
+  {"id": "k08", "text": "My manager lets me run the stock count."},
+  {"id": "k09", "text": "He showed me how to build spreadsheets, and now I make them for the office."},
+  {"id": "k10", "text": "My father's friends ask me to repair their radios."},
+  {"id": "k11", "text": "On Saturdays I teach my neighbour's kids maths."},
+  {"id": "k12", "text": "I am thinking about ways to cut our delivery costs, so I compare courier prices every month."}
+ ]
+}
