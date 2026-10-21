@@ -602,12 +602,12 @@ function resultsBody(extraOpts = {}) {
   };
 }
 
-async function rank() {
+async function rank(select = null) {
   $("#rank-err").textContent = "";
   try {
     const res = await api("/api/results", resultsBody());
     state.results = res;
-    state.selected = res.roles[0]?.code || null;
+    state.selected = (select && res.roles.some(r => r.code === select) ? select : res.roles[0]?.code) || null;
     state.target = null;
     state.baseline = null;
     if (state.title && state.lane !== "current_job") {
@@ -1156,6 +1156,28 @@ function routeRow(r) {
     </button>${saveBtn(r)}</li>`;
 }
 
+/* No dead end (SPEC 11.7): with fewer than two routes, the closest other skilled roles from the exploration ranking,
+   labelled as having no curated first block, each opening to its detail in the exploration view. */
+function explorationSection(cards) {
+  return `<section class="explore-cards" data-scope aria-labelledby="h-explore-cards"><h2 id="h-explore-cards">Other roles close to your work</h2>
+    <p class="foot">From the full ranking of graduate-level roles by activity overlap. AIVANCIN has no curated first block for these yet; open one to see its gaps, outlook and resources.</p>
+    <ul class="route-list">${cards.map(c => `<li class="route-item"><button type="button" class="route-row explore-row-card" data-explore-role="${esc(c.code)}">
+      <span class="fam-tile neutral" aria-hidden="true">${icon("search")}</span>
+      <span class="rr-body"><span class="rr-title">${esc(c.title)}</span>
+        <span class="rr-desc">${esc(c.description.first)}${srcMarks(c.description.src)}</span>
+        <span class="chips"><span class="chip you">You do ${fig(c.done_count, "int")} of ${fig(c.total_count, "int")} activities</span>
+          <span class="chip ${bandClass(c.job_outlook)}">US outlook: ${esc(bandShort(c.job_outlook))}${srcMarks(c.job_outlook.src)}</span>
+          <span class="chip weak-chip">${esc(c.label)}</span></span></span>${icon("chevron-right")}</button></li>`).join("")}<li class="list-srcs srcs-slot"></li></ul></section>`;
+}
+
+/* Not even the exploration ranking has a graduate-level role sharing this work: say so and offer the next steps. */
+function noRoleCard() {
+  return `<section class="soft-card no-role" aria-labelledby="h-no-role"><h2 id="h-no-role">No graduate-level role shares this work yet</h2>
+    <p>The activities you confirmed are not recorded for any graduate-level role (O*NET Job Zone 3 or 4, skilled in Malaysian terms). Describe more of what you do, including side work and studies, or look at every role, semi-skilled ones included.</p>
+    <div class="describe-actions"><button type="button" class="btn btn-primary" data-go="edit">Describe more of your work</button>
+      <button type="button" class="btn btn-gray" data-action="explore-all">Explore all roles</button></div></section>`;
+}
+
 function describeCard(where = "routes") {
   const review = Boolean(state.suggest);
   return `<section class="describe-card" aria-labelledby="h-describe-${where}"><span class="fam-tile" aria-hidden="true">${icon("pencil-line")}</span>
@@ -1183,7 +1205,7 @@ function renderRoutes() {
   const shown = filter === "saved" ? savedHere : d.routes;
   $("#routes-body").innerHTML = `
     ${personal ? "" : describeCard()}
-    ${d.fewer_note ? `<div class="callout">${icon("info")}<p>${esc(d.fewer_note)}</p></div>` : ""}
+    ${d.fewer_note && d.routes.length ? `<div class="callout">${icon("info")}<p>${esc(d.fewer_note)}</p></div>` : ""}
     ${d.routes.length ? `
       ${d.routes.length > 1 ? `<fieldset class="sort-ctl"><legend class="vh">Order routes by</legend>
         <div class="seg-ctl sort-seg${personal ? "" : " two"}" style="--n:${Object.keys(sorts).length}">${Object.entries(sorts).map(([k, [label]]) => `<label><input type="radio" name="rsort" value="${k}" ${sort === k ? "checked" : ""}>${label}</label>`).join("")}</div>
@@ -1191,12 +1213,13 @@ function renderRoutes() {
       ${savedHere.length ? `<fieldset class="filter-ctl"><legend class="vh">Show</legend>
         <div class="seg-ctl filter-seg" style="--n:2"><label><input type="radio" name="rfilter" value="all" ${filter === "all" ? "checked" : ""}>All routes</label><label><input type="radio" name="rfilter" value="saved" ${filter === "saved" ? "checked" : ""}>Saved (${savedHere.length})</label></div></fieldset>` : ""}
       <ul class="route-list" aria-label="${filter === "saved" ? "Saved routes" : "Routes"}" data-scope>${sortedRoutes(shown).map(routeRow).join("")}<li class="list-srcs srcs-slot"></li></ul>` :
-      `<div class="callout">${icon("info")}<p>None of the supported routes counts at least two of your confirmed activities yet. Explore all roles, or tick more activities.</p></div>`}
+      (!personal || d.exploration?.length ? `<div class="callout">${icon("info")}<p>None of the supported routes counts at least two of your confirmed activities yet. Explore all roles, or tick more activities.</p></div>` : "")}
+    ${personal && d.routes.length < 2 ? (d.exploration?.length ? explorationSection(d.exploration) : noRoleCard()) : ""}
     ${shared ? `<section class="soft-card" data-scope aria-labelledby="h-shared"><h2 id="h-shared">${icon("layers", "sm")}Shared foundations</h2>
       <p>${shared.common_steps.length ? `${shared.common_steps.length} step${shared.common_steps.length === 1 ? " appears" : "s appear"} (${fig(shared.common_hours, "")} hours) in every route's first block, so ${shared.common_steps.length === 1 ? "it keeps" : "they keep"} these options open.` : "No step is common to every route's first block."}</p>
       ${shared.common_steps.length ? `<ul>${shared.extra_hours.map(e => `<li>${esc(e.title)}: ${fig(e.hours, "")} hours beyond the shared steps</li>`).join("")}</ul>` : ""}
       <p class="foot">These describe the compared plans, not a probability of anything.</p></section>` : ""}
-    ${personal ? `<p class="explore-row"><button type="button" class="link-btn" data-action="rank">Explore all roles, including ones without complete-route support</button></p>` : ""}
+    ${personal && (d.routes.length || d.exploration?.length) ? `<p class="explore-row"><button type="button" class="link-btn" data-action="rank">Explore all roles, including ones without complete-route support</button></p>` : ""}
     ${chosenRoute ? `<div class="stage-cta"><span class="cta-label"><span class="cta-kicker">Your route</span>${esc(chosenRoute.title)}</span><button type="button" class="btn btn-primary choose-route" data-route="${esc(chosenRoute.code)}">See plan</button></div>` : ""}`;
   attachSources($("#routes"));
   if (current.screen === "route") renderRoute();
@@ -1577,6 +1600,15 @@ function openRoute(code) {
   navigate("route");
 }
 
+/* An exploration card opens the exploration view (all lanes, as the routes use) with that role's detail open. */
+async function openExplorationRole(code) {
+  state.lane = "all";
+  const lane = $(`#lane-ctl input[value="all"]`);
+  if (lane) lane.checked = true;
+  await rank(code);
+  if (matchMedia("(max-width: 979px)").matches) $("#detail").scrollIntoView({ block: "start" });
+}
+
 async function choose(code) {
   routeState.target = code;
   // A chosen plan records the AI-usage evidence it was built on (SPEC 11.6); a new choice starts on the latest.
@@ -1805,6 +1837,8 @@ function routeEvents() {
     else if (b.dataset.action === "changed") showChanged();
     else if (b.dataset.evidence) decideEvidence(b.dataset.evidence);
     else if (b.dataset.action === "rank" && !b.closest("#review")) rank();
+    else if (b.dataset.exploreRole) openExplorationRole(b.dataset.exploreRole);
+    else if (b.dataset.action === "explore-all") { state.opts.scope = "all"; rank(); }
   });
   $("#routes").addEventListener("change", e => {
     if (e.target.matches('input[name="rfilter"]')) {

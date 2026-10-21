@@ -30,6 +30,8 @@ EXPLORE_SRC = "explore-defaults"
 
 
 RADAR_MAIN = 3  # initial: before work is described, the Radar shows each supported role's three largest activities
+EXPLORATION_CARDS = 3  # SPEC 11.7: at most three exploration cards when fewer than two routes qualify
+EXPLORATION_LABEL = "Exploration: no curated first block yet"
 
 
 def job_group(band):
@@ -412,6 +414,7 @@ class Planner:
                                "without complete-route support."),
                 "supported_destinations": fig(len(self.dests), ROUTES_SRC),
                 "decent_order": decent_order(routes),
+                "exploration": [] if explore or len(fits) >= 2 or not with_radar else self.exploration_cards(profile, set(chosen), today or dt.date.today()),
                 "forecast": self.rep._forecast_meta(o["threshold"]),
                 "radar": self.radar(routes, prof, o, explore) if with_radar else None}
 
@@ -486,6 +489,28 @@ class Planner:
                 "scenario": o["scenario"], "threshold": fig(o["threshold"], "your-input"), "release": o["release"],
                 "jobs": jobs, "trends": trends, "skills": skills, "changing": changing,
                 "sru_trend": outlook.sru_trend(self.snaps), "sure": self.rep.forecast_basis(o["pace"])}
+
+    def exploration_cards(self, profile, shown, today):
+        """No dead end (SPEC 11.7): with fewer than two qualifying routes, up to three of the closest skilled roles
+        from the exploration ranking (sections 3-7, all lanes) that have no curated first block, each opening to its
+        exploration detail. Ranked by activity overlap, like the exploration view itself."""
+        try:
+            rep = self.rep.report(profile, {"lane": "all"}, today=today)
+        except ReportError:
+            return []
+        onet = self.snaps.onet
+        out = []
+        for r in rep["roles"]:
+            if r["code"] in shown or r["code"] in self.dests:
+                continue
+            desc = onet.descriptions.get(r["code"], "")
+            out.append({"code": r["code"], "title": r["title"], "label": EXPLORATION_LABEL,
+                        "description": {"first": desc.split(". ")[0].rstrip(".") + "." if desc else "", "src": ["onet31-occupations"]},
+                        "overlap": r["overlap"], "done_count": r["done_count"], "total_count": r["total_count"],
+                        "job_outlook": r["job_outlook"], "masco": r["masco"], "rank": r["rank"]})
+            if len(out) == EXPLORATION_CARDS:
+                break
+        return out
 
     def explore(self, opts, today=None):
         """Every supported role before any work is described: nothing counts as done, requirements the profile
