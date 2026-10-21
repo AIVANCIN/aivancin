@@ -291,7 +291,7 @@ details.title-acts > summary { cursor: pointer; font: 600 16px/1.35 var(--displa
 .fact dt .tile-ico { width: 40px; height: 40px; background: var(--accent-tint); color: var(--accent); }
 .fact:has(.ev) { background: var(--evidence-tint); }
 /* Screens: one at a time. The welcome screen carries the artwork full bleed; every later screen has a quiet
-   bar with back, progress and display settings. Routes also shows the wordmark on mobile. */
+   bar with back, progress and display settings. The wordmark stays visible outside the counted question and review flow. */
 body { --page: var(--canvas); background: var(--page); }
 body[data-screen="work"], body[data-screen="reading"] { --page: var(--page-q); }
 .screen:not(.welcome):not(.q-screen):not(.reading) { padding: 20px 0 72px; }
@@ -817,7 +817,7 @@ html[data-motion="on"] .btn { transition: transform 200ms var(--spring), backgro
 @media (max-width: 420px) { .heat-t .c-fam { width: 54px; } .heat-t tbody th { font-size: 13px; } }
 
 /* Content first: compact navigation, route summaries, and local evidence disclosures. */
-.welcome > .wordmark { position: absolute; top: calc(env(safe-area-inset-top) + 30px); left: 28px; font-size: 19px; z-index: 1; color: #002869; }
+.welcome > .wordmark { position: absolute; top: calc(env(safe-area-inset-top) + 30px); left: 28px; font-size: 19px; z-index: 1; color: #FFFFFF; }
 .welcome > .wordmark .brand-mark { width: 28px; height: 28px; mask-size: 33px; -webkit-mask-size: 33px; }
 .welcome-body { padding-top: 80px; background: linear-gradient(180deg, transparent 0%, rgba(0,72,214,0.86) 20%, #0048D6 66%, #0048D6 100%); }
 .welcome h1 { margin-top: 0; }
@@ -826,9 +826,9 @@ html[data-motion="on"] .btn { transition: transform 200ms var(--spring), backgro
   .welcome-body { padding-top: 100px; background: linear-gradient(90deg, rgba(3,62,196,0.94) 0%, rgba(3,62,196,0.92) calc(100% - 300px), rgba(3,62,196,0.4) calc(100% - 140px), transparent 100%); }
 }
 @media (max-width: 979px) {
-  body[data-screen="routes"] .bar-in { grid-template-columns: 44px minmax(0, 1fr) 44px; }
-  body[data-screen="routes"] .bar-mid { grid-column: 1; grid-row: 1; }
-  body[data-screen="routes"] .topbar .brand { display: flex; grid-column: 2; grid-row: 1; justify-self: center; font-size: 15px; color: var(--accent); }
+  body[data-counted="no"] .bar-in { grid-template-columns: 44px minmax(0, 1fr) 44px; }
+  body[data-counted="no"] .bar-mid { grid-column: 1; grid-row: 1; }
+  body[data-counted="no"] .topbar .brand { display: flex; grid-column: 2; grid-row: 1; justify-self: center; font-size: 15px; color: var(--accent); }
 }
 .route-row { align-items: center; }
 .route-row .chips { margin-top: 6px; }
@@ -885,3 +885,6 @@ html[data-motion="on"] .btn { transition: transform 200ms var(--spring), backgro
 
 .welcome .settings-open { color: #002869; }
 .welcome .settings-open:focus-visible { outline-color: #002869; }
+
+/* Keep the progress flow focused at every viewport size. */
+body[data-counted="yes"] .topbar .brand { display: none; }
