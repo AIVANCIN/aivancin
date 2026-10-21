@@ -166,7 +166,7 @@ def test_registered_forecast_values(snaps):
         assert f["slower"]["6"] <= f["moderate"] <= f["faster"]["12"]
 
 
-# ---- Radar and Future (C6 partial; the rendered half is C16) ------------------------------------
+# ---- Radar and Future (C6; the rendered half is C16) --------------------------------------------
 def all_figs(obj, path=""):
     if isinstance(obj, dict):
         if "v" in obj and "src" in obj:
@@ -208,6 +208,109 @@ def test_radar_classes_agree_with_projections_and_threshold(planner, hafiz):
                 continue
             for sc, v in s["projected"].items():
                 assert s["classes"][sc] == outlook.classify(v["v"], rd["threshold"]["v"])
+
+
+USER_SRC = {"your-input", "explore-defaults"}  # the person's own entries and the stated starting assumptions
+C6_OPTS = ({}, {"scenario": "slower"}, {"scenario": "faster", "horizon": 60}, {"threshold": 30})
+
+
+def shown_numbers(obj, ctx=None, path=""):
+    """Every number in a payload with the sources it is shown with: a fig's value, or a plain number inside an
+    object that carries src (a trend, a quoted evaluation). A number with neither comes back with src None."""
+    if isinstance(obj, dict):
+        if "v" in obj and "src" in obj:
+            yield path, obj["v"], obj["src"]
+            return
+        if isinstance(obj.get("src"), list):
+            ctx = obj["src"]
+        for k, v in obj.items():
+            if k != "src":
+                yield from shown_numbers(v, ctx, f"{path}.{k}")
+    elif isinstance(obj, list):
+        for i, v in enumerate(obj):
+            yield from shown_numbers(v, ctx, f"{path}[{i}]")
+    elif isinstance(obj, (int, float)) and not isinstance(obj, bool):
+        yield path, obj, ctx
+
+
+def c6_payloads(planner, hafiz, priya):
+    for name, prof in (("hafiz", hafiz), ("priya", priya), ("explore", None)):
+        for opts in C6_OPTS:
+            res = planner.explore(opts, today=TODAY) if prof is None else planner.routes(prof, opts, today=TODAY)
+            parts = {"radar": res["radar"]}
+            for r in res["routes"]:
+                parts[f"future {r['code']}"] = {k: r[k] for k in ("future", "ai_use", "job_outlook", "masco")}
+            yield f"{name} {opts}", res, parts
+
+
+def test_c6_every_radar_and_future_figure_has_a_dated_source(planner, hafiz, priya, snaps):
+    recs = {r["source_id"]: r for r in snaps.manifest["snapshots"]}
+    dated = {s for s, r in recs.items() if r.get("release") or r.get("access_date")}
+    def all_src(obj):
+        if isinstance(obj, dict):
+            if isinstance(obj.get("src"), list):
+                yield from obj["src"]
+            for v in obj.values():
+                yield from all_src(v)
+        elif isinstance(obj, list):
+            for v in obj:
+                yield from all_src(v)
+    bad, n, cited = [], 0, set()
+    for label, _, parts in c6_payloads(planner, hafiz, priya):
+        for part, obj in parts.items():
+            for path, v, src in shown_numbers(obj):
+                n += 1
+                if not src or not set(src) <= dated | USER_SRC:
+                    bad.append((label, part, path, v, src))
+            cited |= set(all_src(obj))
+    assert n > 10000 and not bad, (len(bad), bad[:8])
+    assert cited <= dated | USER_SRC, cited - dated - USER_SRC
+    assert {"onet-online-outlook", "dosm-wages-occupation", "aivancin-backtest", "bls-eval-2014-2024",
+            "aivancin-registered-forecasts", "onet31-emerging-tasks"} <= cited
+
+
+def test_c6_classes_agree_with_projections_and_thresholds(planner, hafiz, priya, snaps):
+    """SPEC 4b and 11.1, written out again: AI-shift classes from the projected value and the threshold (lower cut
+    30%), skill-demand labels from the shown net share (cut 0.25), job groups from the BLS band."""
+    def cls(v, T):
+        return ("no evidence in the bundled releases" if v is None else "AI does most of it directly" if v >= T
+                else "people mostly work with AI" if v < 30 else "shared")
+
+    def label(net, roles):
+        return ("no projection" if not roles else "mostly in growing jobs" if net >= 0.25
+                else "mostly in declining jobs" if net <= -0.25 else "mixed")
+    rows_seen, kinds = 0, set()
+    for name, res, _ in c6_payloads(planner, hafiz, priya):
+        rd = res["radar"]
+        T = rd["threshold"]["v"]
+        for s in rd["skills"] + [a for r in res["routes"] for a in r["ai_use"]]:
+            rows_seen += 1
+            for sc in outlook.SCENARIOS:
+                want = cls(s["projected"][sc]["v"] if s["now"] else None, T)
+                assert s["classes"][sc] == want, (name, s["dwa_id"], sc)
+                kinds.add(want)
+            if s["now"]:
+                p = s["projected"]
+                assert p["slower"]["v"] <= p["moderate"]["v"] <= p["faster"]["v"], (name, s["dwa_id"])
+            d = s["demand"]
+            if not d["roles"]["v"]:
+                assert d["label"] == "no projection" and "net" not in d, (name, s["dwa_id"], d)
+                continue
+            assert d["label"] == label(d["net"]["v"], d["roles"]["v"]), (name, s["dwa_id"], d)
+            # grow and decline are shown in percent, net as a share
+            assert abs(100 * d["net"]["v"] - (d["grow"]["v"] - d["decline"]["v"])) <= 0.11, (name, s["dwa_id"], d)
+            assert d["few"] == (d["roles"]["v"] < 3)
+        for c in rd["changing"]:
+            assert all(w["projected"]["v"] >= T for w in c["where"]), (name, c["dwa_id"])
+        for j in rd["jobs"]:
+            band = (snaps.outlook.get(j["code"]) or {}).get("band") or ""
+            assert j["band"] == (band or None) or j["band"] == band
+            assert j["group"] == ("growing" if band.startswith(("Faster", "Much faster")) else
+                                  "declining" if band.startswith("Decline") else "steady"), (name, j["code"], band)
+        for r in res["routes"]:
+            assert r["job_outlook"].get("band") == (snaps.outlook.get(r["code"]) or {}).get("band"), (name, r["code"])
+            assert r["future"]["trend"]["major"] == r["masco"]["major"]
+    assert rows_seen > 1000 and {"AI does most of it directly", "shared", "people mostly work with AI"} <= kinds
 
 
 def test_radar_changing_lists_only_ai_checkpoints(planner, priya):

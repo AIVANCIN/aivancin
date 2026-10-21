@@ -236,7 +236,8 @@ class Reporter:
         proj = {s: round(self.skills.project(o["now"], s, months, pace), 1) for s in SCENARIOS}
         src = o["src"]
         return {**row, "now": fig(o["now"], *src), "weak": o["weak"],
-                "releases": [{**x, "share": fig(x["share"], f"aei-{x['release']}")} for x in o["releases"]],
+                "releases": [{**x, "share": fig(x["share"], f"aei-{x['release']}"), "src": [f"aei-{x['release']}"]}
+                             for x in o["releases"]],
                 # slower's drop is computed from the bundled releases; faster's pace is the cited report's, editable
                 "projected": {s: fig(v, *src, *(["aei-report-2511.15080", "your-input"] if s == "faster" else []))
                               for s, v in proj.items()},

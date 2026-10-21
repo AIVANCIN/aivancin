@@ -64,6 +64,13 @@ function fig(f, kind) {
   if (!f || f.v === null || f.v === undefined) return "";
   return `<span class="num" data-src="${esc(f.src.join(" "))}" title="Source: ${esc(srcTitle(f.src))}">${esc(fmtNum(f.v, kind))}</span>`;
 }
+/* Counts of the person's own activities cite their input (and O*NET's list when a job title added some);
+   counts taken from a route's sourced lists cite those lists. */
+const DEMAND_SRC = ["onet-online-outlook", "onet31-task-dwas", "onet31-tasks", "onet31-job-zones"];
+const TITLE_SRC = ["your-input", "onet31-task-dwas", "onet31-tasks"], GAP_SRC = ["aivancin-catalogue", "onet31-task-dwas", "onet31-tasks"];
+const youFig = v => fig({ v, src: ["your-input"] }, "int");
+const gapCount = r => fig({ v: r.prioritized.length, src: r.prioritized[0]?.weight.src || ["onet31-task-dwas", "onet31-tasks"] }, "int");
+const reqSrc = r => [...new Set(r.requirements.filter(q => q.status === "missing").flatMap(q => q.src || []))];
 /* Every element marked data-scope ends with a Sources button that opens the sources of the numbers inside it. */
 function attachSources(root) {
   const scopes = root.matches("[data-scope]") ? [root, ...$$("[data-scope]", root)] : $$("[data-scope]", root);
@@ -401,7 +408,7 @@ function renderReview() {
   if (state.titleActs.length) {
     const kept = state.titleActs.filter(a => !state.untickedTitle.has(a.dwa_id)).length;
     pages.push(`<div class="sent title-acts"><p class="src">${icon("briefcase-business", "sm")}From your job title</p>
-      <h2 class="rv-q">${esc(state.title.title)}: <span class="num" id="title-kept">${kept}</span> of ${state.titleActs.length} O*NET activities</h2>
+      <h2 class="rv-q">${esc(state.title.title)}: <span class="num" id="title-kept" data-src="${TITLE_SRC.join(" ")}">${kept}</span> of ${fig({ v: state.titleActs.length, src: TITLE_SRC.slice(1) }, "int")} O*NET activities</h2>
       <p class="foot">These form your current-job lane. Untick any you do not do.</p>
       <fieldset class="sugg">${state.titleActs.map(a => `<label class="opt"><input type="checkbox" data-title="${esc(a.dwa_id)}" ${state.untickedTitle.has(a.dwa_id) ? "" : "checked"}><span class="t">${esc(a.name)}</span></label>`).join("")}</fieldset></div>`);
     reviewTitlePage = pages.length;
@@ -510,7 +517,7 @@ function renderRail() {
   const c = laneCounts();
   // Job-title activities count too, so the rail shows them as one row rather than a total that does not add up.
   if (c.title) {
-    $("#mine").insertAdjacentHTML("beforeend", `<li class="title-row">${icon("briefcase-business", "sm")}<span class="mine-text">${c.title} from your job title<span class="mine-note">${esc(state.title.title)}, as O*NET lists it. <button type="button" class="link-btn" data-open-title>Review them</button></span></span></li>`);
+    $("#mine").insertAdjacentHTML("beforeend", `<li class="title-row">${icon("briefcase-business", "sm")}<span class="mine-text">${fig({ v: c.title, src: TITLE_SRC }, "int")} from your job title<span class="mine-note">${esc(state.title.title)}, as O*NET lists it. <button type="button" class="link-btn" data-open-title>Review them</button></span></span></li>`);
   }
   $("#mine-empty").hidden = items.length > 0;
   $("#count").textContent = c.all;
@@ -519,15 +526,15 @@ function renderRail() {
   $(`#lane-ctl input[value="${state.lane}"]`).checked = true;
   let note;
   if (state.lane === "studies") {
-    note = state.cip ? `Ranks the roles your field (${state.cip.title}) leads to in the NCES crosswalk by all ${c.all} of your activities.`
+    note = state.cip ? `Ranks the roles your field (${esc(state.cip.title)}) leads to in the NCES crosswalk by all ${youFig(c.all)} of your activities.`
       : "Choose your degree or diploma field in step 1 to use the studies lane.";
   } else if (state.lane === "all") {
-    note = `Uses all ${c.all} activities${c.title ? `, including ${c.title} from your job title` : ""}.`;
+    note = `Uses all ${youFig(c.all)} activities${c.title ? `, including ${fig({ v: c.title, src: TITLE_SRC }, "int")} from your job title` : ""}.`;
   } else {
     const other = c.all - c[state.lane];
-    note = `Uses your ${c[state.lane]} ${LANE_TEXT[state.lane]} activities. ${other > 0 ? `Your other ${other} stay out of this lane.` : ""}`;
+    note = `Uses your ${youFig(c[state.lane])} ${LANE_TEXT[state.lane]} activities. ${other > 0 ? `Your other ${youFig(other)} stay out of this lane.` : ""}`;
   }
-  $("#lane-note").textContent = note;
+  $("#lane-note").innerHTML = note;
   saveProgress();
 }
 
@@ -880,7 +887,7 @@ function renderDetail() {
 function techList(tools) {
   const box = t => `<label><input type="checkbox" data-tool="${esc(t.name)}" ${state.knownTools.has(t.name.toLowerCase()) ? "checked" : ""}>${esc(t.name)}${t.hot ? ` <span class="hot">hot</span>` : ""}</label>`;
   const first = tools.slice(0, 10), rest = tools.slice(10);
-  return `<div class="tech">${first.map(box).join("")}</div>${rest.length ? `<details class="more"><summary class="link-btn">Show ${rest.length} more</summary><div class="tech">${rest.map(box).join("")}</div></details>` : ""}
+  return `<div class="tech">${first.map(box).join("")}</div>${rest.length ? `<details class="more"><summary class="link-btn">Show ${fig({ v: rest.length, src: rest[0].src || ["onet31-software"] }, "int")} more</summary><div class="tech">${rest.map(box).join("")}</div></details>` : ""}
     <p class="foot">"Hot" marks O*NET Hot Technologies: tools frequently named in US employer job postings.</p>`;
 }
 
@@ -895,7 +902,7 @@ function renderPath() {
   box.innerHTML = `<section class="path-card" aria-labelledby="h-path" data-scope><p class="eyebrow">Your chosen path</p><h3 id="h-path">${esc(r.title)}: how this path contributes</h3>
     <ul>
       <li><b>SDG 8.5, decent work:</b> ${esc(r.sdg[0].reason)}${srcMarks(r.sdg[0].src)}</li>
-      <li><b>SDG 4.4, skills for employment:</b> your plan covers ${skills} gap ${skills === 1 ? "skill" : "skills"} with verified free resources.</li>
+      <li><b>SDG 4.4, skills for employment:</b> your plan covers ${fig({ v: skills, src: GAP_SRC }, "int")} gap ${skills === 1 ? "skill" : "skills"} with verified free resources.</li>
       ${b ? `<li><b>Why it matters in Malaysia:</b> in ${esc(b.date.slice(0, 7))}, ${fig(b.rate_25_34, "pct")} of employed tertiary-educated Malaysians aged 25-34 (${fig(b.persons_25_34_k, "int")} thousand people) worked in semi- or low-skilled jobs.</li>
       <li><b>SDG 5, gender equality:</b> women's skill-related underemployment is ${fig(b.rate_female, "pct")} against men's ${fig(b.rate_male, "pct")} (all ages).</li>` : ""}
     </ul></section>`;
@@ -933,7 +940,7 @@ function renderSources() {
   const recs = state.status.snapshots;
   recs.forEach((r, i) => { state.sources[r.source_id] = r; state.sourceNo[r.source_id] = i + 1; });
   $("#sources").innerHTML = recs.map((r, i) => `<li id="src-${esc(r.source_id)}"><b>${i + 1}. ${esc(r.title)}</b>. ${esc(r.publisher || "")}. ${esc(r.release || "")}${r.window_start ? `, window ${esc(r.window_start)} to ${esc(r.window_end)}` : ""}; accessed ${esc(r.access_date || "")}; ${esc(r.licence || "")}. ${/^https?:/.test(r.url || "") ? `<a href="${esc(r.url)}" rel="noopener" target="_blank">Source</a>` : esc(r.url || "")}</li>`).join("")
-    + `<li id="src-your-input"><b>you. Your input</b>: hours, budget and the weights you set.</li>`
+    + `<li id="src-your-input"><b>you. Your input</b>: the activities you confirm, hours, budget and the weights you set.</li>`
     + `<li id="src-explore-defaults"><b>default. Starting assumptions</b>: before you describe your work, first blocks use 6 hours a week and a RM0 budget, the questions' starting values.</li>`;
   if (state.status.source_status) $("#sources-watch").textContent = watchSummary();
 }
@@ -950,7 +957,7 @@ function renderHow() {
       : k.id === "a3" ? `${n(k.result[0], src)} against ${n(k.result[1], src)}` : pair(k.result[0], k.result[1]);
     const second = k.second ? `; ${k.second_what || "second set"}: ${pair(k.second[0], k.second[1])}` : "";
     const when = new Date(`${k.date}T00:00:00`).toLocaleDateString("en-GB", { day: "numeric", month: "short" });
-    return `<li><span class="tag ${cls}">${label}</span> <b>${esc(k.name)}</b><span class="foot">${esc(k.what)}: ${main}${second}${k.bar ? ` (bar ${n(k.bar, src)})` : ""} · ${esc(when)} · <code>${esc(k.command)}</code></span></li>`;
+    return `<li><span class="tag ${cls}">${label}</span> <b>${esc(k.name)}</b><span class="foot">${esc(k.what)}: ${main}${second}${k.bar ? ` (bar ${n(k.bar, src)})` : ""} · ${esc(when)} · <code>${esc(k.command)}</code>${srcMarks(src)}</span></li>`;
   }).join("") : "";
   $("#how-body").innerHTML = `
     <section class="how-step" data-scope><h3>${icon("pencil-line", "sm")}1. Describe your work</h3>
@@ -1180,7 +1187,7 @@ function saveBtn(r) {
 function entryChip(r) {
   if (!isPersonal()) return "";
   const n = missingReqs(r);
-  if (n) return `<span class="chip limit">${n} requirement${n === 1 ? "" : "s"} missing</span>`;
+  if (n) return `<span class="chip limit">${fig({ v: n, src: reqSrc(r) }, "int")} requirement${n === 1 ? "" : "s"} missing</span>`;
   const decide = r.requirements.filter(q => q.status === "you decide").length;
   return `<span class="chip">${decide ? `${decide} for you to decide` : "Requirements met"}</span>`;
 }
@@ -1305,18 +1312,18 @@ function overviewPanel(r) {
       <p class="foot">${esc(r.local_evidence)}</p>
       ${r.pay ? `<p class="foot">DOSM 2025 median pay step from your current group: ${fig(r.pay.step, "step")}. Group medians, not a salary offer.</p>` : ""}
       <p class="foot"><b>SDG 8.5:</b> ${esc(r.sdg[0].reason)}${srcMarks(r.sdg[0].src)}</p>
-      ${r.sdg[0].trend ? `<p class="foot">${esc(r.sdg[0].trend)}</p>` : ""}</section>`;
+      ${r.sdg[0].trend ? `<p class="foot">${esc(r.sdg[0].trend)}${srcMarks(r.future.trend?.src || ["dosm-wages-occupation"])}</p>` : ""}</section>`;
 }
 
 function workSections(r, served) {
   return `
     <section class="soft-card" data-scope aria-labelledby="h-rd-work"><h2 id="h-rd-work">Your work in this role</h2>
-      <div class="ring-row"><span class="ring-box">${ring(r.done_count.v, r.total_count.v)}<span class="ring-num" aria-hidden="true">${esc(r.done_count.v)}/${esc(r.total_count.v)}</span></span>
+      <div class="ring-row"><span class="ring-box">${ring(r.done_count.v, r.total_count.v)}<span class="ring-num" aria-hidden="true" data-src="${esc(r.done_count.src.join(" "))}">${esc(r.done_count.v)}/${esc(r.total_count.v)}</span></span>
         <p>You already do ${fig(r.done_count, "int")} of its ${fig(r.total_count, "int")} recorded activities (activity overlap ${fig(r.overlap, "pct")}). Overlap is not how much of the job you can already do.</p></div>
       <ul class="did">${groupDone(r.done)}</ul>
       ${r.related.length ? `<p class="foot">Also counted toward this route: ${r.related.map(x => `“${esc(x.name.replace(/\.$/, ""))}”, which O*NET groups with its “${esc(x.role_name.replace(/\.$/, ""))}”`).join("; ")}. These do not change the overlap or the gaps.</p>` : ""}</section>
     <section class="soft-card" data-scope aria-labelledby="h-rd-gaps"><h2 id="h-rd-gaps">Still to build</h2>
-      <p class="foot">The role's ${r.prioritized.length} largest activities you have not confirmed, most frequent first.</p>
+      <p class="foot">The role's ${gapCount(r)} largest activities you have not confirmed, most frequent first.</p>
       <ul class="gaps">${r.prioritized.map(g => {
         const note = served.has(g.dwa_id) ? "In your first block" : g.has_resource ? "" : "No verified resource yet";
         return `<li><b class="${served.has(g.dwa_id) ? "in-block" : ""}"></b><span>${esc(g.name)}${note ? `<span class="gap-note">${note}</span>` : ""}</span></li>`;
@@ -1379,11 +1386,11 @@ function futurePanel(r) {
       ${sure ? `<p class="foot">How sure: “${esc(sure.bls.quote)}” (BLS evaluation of its 2014-24 projections)${srcMarks(sure.bls.src)}. A projection, not a promise of a job.</p>` : ""}</section>
     <section class="soft-card" data-scope aria-labelledby="h-fu-my"><h2 id="h-fu-my">${icon("map-pin", "sm")}Malaysia, observed</h2>${trendBlock(r.future.trend)}
       <p class="foot">${esc(r.local_evidence)}</p></section>
-    <p class="rd-lead">This role's ${ai.length} largest activities. For each: the share AI does directly when people use Claude for it (up to ${esc(releaseLabel(d.release))}), where that share may be ${fig(hz.months, "")} months ahead in the ${esc(sc)} scenario, and skill demand: of the US graduate roles that record the activity, weighted by how often it appears in their tasks, the share projected to grow faster than average and the share projected to decline (BLS 2025-2035).</p>
+    <p class="rd-lead">This role's ${fig({ v: ai.length, src: ["onet31-task-dwas", "onet31-tasks"] }, "int")} largest activities. For each: the share AI does directly when people use Claude for it (up to ${esc(releaseLabel(d.release))}), where that share may be ${fig(hz.months, "")} months ahead in the ${esc(sc)} scenario, and skill demand: of the US graduate roles that record the activity, weighted by how often it appears in their tasks, the share projected to grow faster than average and the share projected to decline (BLS 2025-2035).</p>
     ${groups}
     <section class="soft-card" data-scope aria-labelledby="h-fu-em"><h2 id="h-fu-em">${icon("sparkles", "sm")}What's emerging</h2>
       ${em.tasks.length ? `<ul class="emerging">${em.tasks.map(t => `<li>${esc(t.task)} <span class="foot">(${esc(t.category)}, ${esc(t.date)})${srcMarks(t.src)}</span></li>`).join("")}</ul>` : `<p class="foot">No emerging-task record in O*NET 31.0.</p>`}
-      ${em.technologies.length ? `<details class="more"><summary class="link-btn">${em.technologies.length} in-demand technologies (US job postings)</summary>
+      ${em.technologies.length ? `<details class="more"><summary class="link-btn">${fig({ v: em.technologies.length, src: em.technologies[0].src }, "int")} in-demand technologies (US job postings)</summary>
         <p class="tech-line">${em.technologies.map(t => `${esc(t.name)}${t.hot ? " (hot)" : ""}`).join(", ")}${srcMarks(["onet31-software"])}</p></details>` : `<p class="foot">No in-demand technology listed.</p>`}</section>
     <p class="foot rd-note">AI figures are global Claude usage, not employment, risk or a trend. Grouped at the plan's threshold: ${fig(d.threshold, "pct")} and above, AI does most of it directly; below ${fig(d.forecast.lower_cut, "")}%, people mostly work with AI. The scenarios are assumptions shown on the Radar.</p>`;
 }
@@ -1393,7 +1400,7 @@ function blockPanel(r) {
   const served = r.prioritized.filter(g => g.served).length;
   return `
     <section class="soft-card" data-scope aria-labelledby="h-rd-block"><h2 id="h-rd-block">First ${fig(d.weeks, "int")}-week block</h2>
-      <div class="stat-row"><p><b>${fig(b.effort_hours, "")}</b><span>of ${fig(b.capacity_hours, "")} hours</span></p><p><b>${fig(b.cost_rm, "rm")}</b><span>of ${fig(d.budget_rm, "rm")} budget</span></p><p><b>${served}/${r.prioritized.length}</b><span>priority gaps served</span></p></div>
+      <div class="stat-row"><p><b>${fig(b.effort_hours, "")}</b><span>of ${fig(b.capacity_hours, "")} hours</span></p><p><b>${fig(b.cost_rm, "rm")}</b><span>of ${fig(d.budget_rm, "rm")} budget</span></p><p><b>${fig({ v: served, src: GAP_SRC }, "int")}/${gapCount(r)}</b><span>priority gaps served</span></p></div>
       <p class="foot">${esc(capitalise(b.status))}. Verified resources exist for ${fig(r.supported_share, "pct")} of the priority gaps. A first block is a start, not a complete transition.</p>
       ${isPersonal() ? "" : `<p class="foot">${ASSUMPTION_NOTE}</p>`}
       <ol class="mini-steps">${b.steps.map(s => `<li><span>${esc(s.title)}</span><span class="foot">${esc(s.provider)} · ${fig({ v: Math.round((s.provider_hours.v + s.practice_hours.v) * 10) / 10, src: s.provider_hours.src }, "")} h</span></li>`).join("")}</ol></section>`;
@@ -1453,6 +1460,7 @@ function radarSkills(rd) {
   const sc = rd.scenario, personal = isPersonal();
   const plotted = rd.skills.filter(s => s.now && s.demand.net);
   const left = rd.skills.length - plotted.length;
+  const chartSrc = [...new Set(rd.skills.flatMap(s => [...(s.now?.src || []), ...s.demand.src]))];
   const kinds = [...new Set(rd.skills.map(s => s.group))];
   const legend = `<ul class="rc-legend" aria-label="Legend">${kinds.length > 1 ? kinds.map(k => `<li><svg width="12" height="12" aria-hidden="true">${k === "you" ? `<circle cx="6" cy="6" r="5" class="rc-you"/>` : `<rect x="1.5" y="1.5" width="9" height="9" rx="1.5" transform="rotate(45 6 6)" class="rc-gap"/>`}</svg>${SKILL_KIND[k][1]}</li>`).join("") : ""}
     <li><svg width="16" height="12" aria-hidden="true"><line x1="0" x2="16" y1="6" y2="6" class="rc-thr"/></svg>Threshold ${fig(rd.threshold, "pct")}</li></ul>`;
@@ -1462,13 +1470,13 @@ function radarSkills(rd) {
       <td data-label="${SCEN_NAME[sc]}, ${rd.horizon.months.v} months">${s.now ? fig(s.projected[sc], "pct") : ""}</td>
       <td data-label="Time to threshold">${tttText(s.ttt[sc])}</td></tr>`).join("");
   return `<section class="soft-card" data-scope aria-labelledby="h-rs"><h2 id="h-rs">${icon("radar", "sm")}${personal ? "Your skills" : "Skills these roles use"}</h2>
-    <p class="foot">${personal ? "Activities you confirmed and your routes' largest gaps." : "Each supported role's three largest activities. Describe your work to see your own."} Across: how much of the activity sits in US graduate roles projected to grow, minus those projected to decline. Up: how much of it AI does directly in observed Claude use${sc === "moderate" ? "; the moderate scenario keeps today's value" : `, with an arrow to the ${sc} scenario ${rd.horizon.months.v} months ahead`}.</p>
+    <p class="foot">${personal ? "Activities you confirmed and your routes' largest gaps." : "Each supported role's three largest activities. Describe your work to see your own."} Across: how much of the activity sits in US graduate roles projected to grow, minus those projected to decline. Up: how much of it AI does directly in observed Claude use${sc === "moderate" ? "; the moderate scenario keeps today's value" : `, with an arrow to the ${sc} scenario ${fig(rd.horizon.months, "")} months ahead`}.</p>
     ${legend}
     <div class="rchart" id="rchart"></div>
     <p class="vh" id="rc-live" aria-live="polite"></p>
-    ${left ? `<p class="foot">${left} of ${rd.skills.length} not drawn: no AI-usage evidence in the bundled releases or no US projection. They are in the table.</p>` : ""}
+    ${left ? `<p class="foot">${fig({ v: left, src: chartSrc }, "int")} of ${fig({ v: rd.skills.length, src: chartSrc }, "int")} not drawn: no AI-usage evidence in the bundled releases or no US projection. They are in the table.</p>` : ""}
     <details class="more rc-table"><summary class="link-btn">Every value as a table</summary>
-      <div class="radar-wrap"><table class="radar-t"><thead><tr><th scope="col">Activity</th><th scope="col">Skill demand</th><th scope="col">AI now</th><th scope="col">${SCEN_NAME[sc]}, ${rd.horizon.months.v} months</th><th scope="col">Time to threshold</th></tr></thead><tbody>${rows}</tbody></table></div></details>
+      <div class="radar-wrap"><table class="radar-t"><thead><tr><th scope="col">Activity</th><th scope="col">Skill demand</th><th scope="col">AI now</th><th scope="col">${SCEN_NAME[sc]}, ${fig(rd.horizon.months, "")} months</th><th scope="col">Time to threshold</th></tr></thead><tbody>${rows}</tbody></table></div></details>
     <p class="foot">Two separate signals on two axes, never added together. Skill demand carries BLS's published projection to activities through O*NET task links; it is not an AIVANCIN employment forecast.</p></section>`;
 }
 
@@ -1542,7 +1550,7 @@ function changingItem(c) {
   const by = c.where[0];
   return `<li><p class="gap-name">${esc(c.name)}</p>
     <p class="foot">Now ${fig(c.now, "pct")}${c.weak ? " (evidence weak)" : ""}, ${fig(by.projected, "pct")} by ${fig(by.horizon_months, "")} months · threshold: ${tttText(c.ttt)}</p>
-    <p class="foot">${isPersonal() ? `Checkpoint of “${esc(steps.join("”, “"))}” in ${esc(routes.join(", "))}` : `In ${routes.length} role${routes.length === 1 ? "" : "s"}: ${esc(routes.join(", "))}`}</p></li>`;
+    <p class="foot">${isPersonal() ? `Checkpoint of “${esc(steps.join("”, “"))}” in ${esc(routes.join(", "))}` : `In ${fig({ v: routes.length, src: ["aivancin-routes"] }, "int")} role${routes.length === 1 ? "" : "s"}: ${esc(routes.join(", "))}`}</p></li>`;
 }
 
 function radarChanging(rd) {
@@ -1550,7 +1558,7 @@ function radarChanging(rd) {
   return `<section class="soft-card" data-scope aria-labelledby="h-rc"><h2 id="h-rc">${icon("sparkles", "sm")}Skills that are changing</h2>
     <p class="foot">${personal ? "Gaps in your first blocks" : "Gaps in the supported roles' first blocks"} whose checkpoint adds AI checking in the ${esc(sc)} scenario: AI is projected to do them directly in at least ${fig(rd.threshold, "pct")} of observed Claude conversations by the look-ahead.</p>
     ${rd.changing.length ? `<ul class="chg-list">${rd.changing.slice(0, CHANGING_SHOWN).map(changingItem).join("")}</ul>
-      ${rd.changing.length > CHANGING_SHOWN ? `<details class="more"><summary class="link-btn">${rd.changing.length - CHANGING_SHOWN} more</summary><ul class="chg-list">${rd.changing.slice(CHANGING_SHOWN).map(changingItem).join("")}</ul></details>` : ""}`
+      ${rd.changing.length > CHANGING_SHOWN ? `<details class="more"><summary class="link-btn">${fig({ v: rd.changing.length - CHANGING_SHOWN, src: ["aivancin-routes"] }, "int")} more</summary><ul class="chg-list">${rd.changing.slice(CHANGING_SHOWN).map(changingItem).join("")}</ul></details>` : ""}`
       : `<p>No gap reaches the threshold in this scenario by the look-ahead, so no checkpoint adds AI checking.</p>`}</section>`;
 }
 
@@ -1580,13 +1588,13 @@ function radarSure(rd) {
   return `<section class="soft-card" data-scope aria-labelledby="h-sure"><h2 id="h-sure">${icon("gauge", "sm")}How sure is this</h2>
     <dl class="sure">
       <dt>AI shift</dt>
-      ${b ? `<dd>Tested on the ${esc(releaseLabel(b.target))} release for ${fig(b.units, "int")} activities: the average across earlier releases was off by ${fig(b.mae_mean, "")} points on average, the last value by ${fig(b.mae_persistence, "")} and a trend line by ${fig(b.mae_line, "")}. 80% of errors were within ${fig(b.p80, "")} points${b.calibrated === false ? `; that band held ${fig(b.inside, "pct")} of values, so it is not calibrated` : ""}. Past changes continued only ${fig(b.direction_share, "pct")} of the time (${fig(b.direction_eligible, "int")} cases), so no rising or falling labels are shown.</dd>` : ""}
+      ${b ? `<dd>Tested on the ${esc(releaseLabel(b.target))} release for ${fig(b.units, "int")} activities: the average across earlier releases was off by ${fig(b.mae_mean, "")} points on average, the last value by ${fig(b.mae_persistence, "")} and a trend line by ${fig(b.mae_line, "")}. 80% of errors were within ${fig(b.p80, "")} points${b.calibrated === false ? `; that band held ${fig(b.inside, "pct")} of values, so it is not calibrated` : ""}. Past changes continued only ${fig(b.direction_share, "pct")} of the time (${fig(b.direction_eligible, "int")} cases), so no rising or falling labels are shown.${srcMarks(b.p80.src)}</dd>` : ""}
       <dd><ul class="bases">${["slower", "moderate", "faster"].map(k => `<li>${esc(s.bases[k].text)}${srcMarks(k === "faster" ? s.bases.faster.pace.src : k === "slower" ? s.bases.slower.drop.src : ["aivancin-backtest"])}</li>`).join("")}</ul></dd>
       <dd>Mean share over the ${fig(s.common_tasks, "int")} tasks in every bundled release: ${s.release_means.map(r => `${esc(releaseLabel(r.release))} ${fig(r.mean, "pct")}`).join(", ")}. ${s.release_means.filter(r => r.note).map(r => `${esc(releaseLabel(r.release))}: ${esc(r.note)}`).join(" ")}</dd>
       <dt>US jobs</dt>
-      <dd>“${esc(s.bls.quote)}” For detailed occupations, BLS's projections had a lower summed error than a model that keeps each occupation's share fixed (${fig(s.bls.detailed.bls, "")} against ${fig(s.bls.detailed.naive, "")}) and the better score for ${fig(s.bls.detailed.bls_better, "int")} occupations against ${fig(s.bls.detailed.naive_better, "int")} (Occupational Projections Evaluation: 2014-24).</dd>
+      <dd>“${esc(s.bls.quote)}” For detailed occupations, BLS's projections had a lower summed error than a model that keeps each occupation's share fixed (${fig(s.bls.detailed.bls, "")} against ${fig(s.bls.detailed.naive, "")}) and the better score for ${fig(s.bls.detailed.bls_better, "int")} occupations against ${fig(s.bls.detailed.naive_better, "int")} (Occupational Projections Evaluation: 2014-24).${srcMarks(s.bls.src)}</dd>
       <dt>Skill demand</dt>
-      <dd>Carries BLS's projection to activities, so it shares its uncertainty. Labels use a 25-point cut-off between growing and declining shares (an initial value); with fewer than three roles behind an activity it says so.</dd>
+      <dd>Carries BLS's projection to activities, so it shares its uncertainty. Labels use a 25-point cut-off between growing and declining shares (an initial value); with fewer than three roles behind an activity it says so.${srcMarks(DEMAND_SRC)}</dd>
       <dt>Malaysia</dt>
       <dd>Observed DOSM figures for the whole skill group, from 2016 to the latest year. Not projected.</dd>
       ${s.registered ? `<dt>Checking ourselves</dt><dd>Today's AI-shift outlook for ${fig(s.registered.count, "int")} activities was frozen on ${esc(fmtDate(s.registered.date))} (SHA-256 <code>${esc(s.registered.sha256.slice(0, 12))}</code>) and will be scored against the next AI-usage release.${srcMarks(s.registered.src)}</dd>` : ""}
@@ -1795,7 +1803,7 @@ function contributionCard(r) {
       <div><dt>SDG 4.3 · affordable learning</dt><dd>${fig(c.s43.free, "int")} of ${fig(c.s43.of, "int")} steps are free.</dd></div>
       <div><dt>SDG 8.2 · productivity through technology</dt><dd>${fig(c.s82.checkpoints, "int")} checkpoint${c.s82.checkpoints.v === 1 ? "" : "s"} add AI checking in the ${esc(routeState.data.scenario)} scenario${c.s82.practice.v ? `, plus ${fig(c.s82.practice, "int")} AI-practice step${c.s82.practice.v === 1 ? "" : "s"}` : ""}.</dd></div>
     </dl>
-    ${c.baseline ? `<p class="foot">Why it matters in Malaysia: the share of employed tertiary-educated people aged 25-34 in semi- or low-skilled jobs went from ${fig({ v: c.baseline.from.rate, src: c.baseline.src }, "pct")} (${esc(fmtQ(c.baseline.from.date))}) to ${fig({ v: c.baseline.to.rate, src: c.baseline.src }, "pct")} (${esc(fmtQ(c.baseline.to.date))}), DOSM.</p>` : ""}
+    ${c.baseline ? `<p class="foot">Why it matters in Malaysia: the share of employed tertiary-educated people aged 25-34 in semi- or low-skilled jobs went from ${fig({ v: c.baseline.from.rate, src: c.baseline.src }, "pct")} (${esc(fmtQ(c.baseline.from.date))}) to ${fig({ v: c.baseline.to.rate, src: c.baseline.src }, "pct")} (${esc(fmtQ(c.baseline.to.date))}), DOSM.${srcMarks(c.baseline.src)}</p>` : ""}
     ${c.trend ? `<p class="foot">${esc(c.trend.text)}${srcMarks(c.trend.src)}</p>` : ""}
     ${c.s5 ? `<p class="foot">SDG 5 context: women's skill-related underemployment is ${fig(c.s5.female, "pct")} against men's ${fig(c.s5.male, "pct")} (all ages, DOSM). National context only; it never changes your routes or plan.</p>` : ""}
     <p class="foot">Target wording: United Nations, sdgs.un.org.${srcMarks(c.src)}</p></section>`;
@@ -1820,7 +1828,7 @@ function renderPlan() {
       ${next ? `<p class="next">${icon("route", "sm")}<span><b>Start with</b> ${esc(next.title)}</span></p>` : `<p class="next">${icon("check", "sm")}<span>Every step in this block is marked done.</span></p>`}
     </div>
     <details class="plan-scen" data-scope ${routeState.scenOpen ? "open" : ""}>
-      <summary><span>Future scenario <span class="foot">${esc(capitalise(d.scenario))}${b.scenario_differs.length ? `, changes ${b.scenario_differs.length} checkpoint${b.scenario_differs.length === 1 ? "" : "s"}` : ""}</span></span>${icon("chevron-down", "sm")}</summary>
+      <summary><span>Future scenario <span class="foot">${esc(capitalise(d.scenario))}${b.scenario_differs.length ? `, changes ${fig({ v: b.scenario_differs.length, src: r.contribution.s82.checkpoints.src.concat(["your-input"]) }, "int")} checkpoint${b.scenario_differs.length === 1 ? "" : "s"}` : ""}</span></span>${icon("chevron-down", "sm")}</summary>
       <fieldset><legend class="vh">Future scenario for the checkpoints</legend>
       <div class="seg-ctl small scen-ctl" style="--n:3">${["slower", "moderate", "faster"].map(k => `<label><input type="radio" name="pscen" value="${k}" ${d.scenario === k ? "checked" : ""}>${k === "moderate" ? "Moderate" : capitalise(k)}</label>`).join("")}</div></fieldset>
       <p class="foot">Looking ${fig(b.horizon.months, "")} months ahead (${esc(b.horizon.basis)}). A step's checkpoint adds AI checking when AI does its activity directly in at least ${fig(d.threshold, "pct")} of observed Claude conversations by then. ${b.scenario_differs.length ? `Steps that change between scenarios: ${esc(b.scenario_differs.join("; "))}.` : "No step changes between scenarios."} Slower and faster are assumptions, not forecasts.</p></details>
@@ -1830,7 +1838,7 @@ function renderPlan() {
       <p class="foot">Either no verified resource teaches them yet, or the block's time or budget ran out.</p></section>` : ""}
     ${contributionCard(r)}
     <section class="soft-card" data-scope aria-labelledby="h-beyond"><h2 id="h-beyond">Beyond this block</h2><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul></section>
-    <div class="stage-cta"><span class="cta-label"><b>${fig({ v: done, src: ["your-input"] }, "int")}</b> of ${b.steps.length} steps done</span>${isPersonal()
+    <div class="stage-cta"><span class="cta-label"><b>${fig({ v: done, src: ["your-input"] }, "int")}</b> of ${fig({ v: b.steps.length, src: GAP_SRC }, "int")} steps done</span>${isPersonal()
       ? `<button type="button" class="btn btn-primary" data-action="changed">What changed</button>`
       : `<button type="button" class="btn btn-primary" data-go="describe">Describe your work</button>`}</div>`;
   attachSources($("#plan"));
@@ -2085,7 +2093,7 @@ function renderLearn() {
     <p class="lead-left">Every verified course AIVANCIN has for a route's largest gaps, including the ones your first block leaves out for time or budget.</p>
     ${d.routes.length > 1 ? `<div class="ctl learn-pick"><label for="learn-route">Courses for</label><select id="learn-route">${sortedRoutes(d.routes).map(x =>
       `<option value="${esc(x.code)}" ${x.code === r.code ? "selected" : ""}>${esc(x.title)}${x.code === routeState.target ? " (your route)" : ""}</option>`).join("")}</select></div>` : ""}
-    <p class="foot learn-sum">${total} course${total === 1 ? "" : "s"} for ${r.resources.length} gap${r.resources.length === 1 ? "" : "s"}; ${left} not in your first block.</p>
+    <p class="foot learn-sum">${fig({ v: total, src: GAP_SRC }, "int")} course${total === 1 ? "" : "s"} for ${fig({ v: r.resources.length, src: GAP_SRC }, "int")} gap${r.resources.length === 1 ? "" : "s"}; ${fig({ v: left, src: GAP_SRC }, "int")} not in your first block.</p>
     ${r.resources.map((g, i) => `<section class="soft-card" data-scope aria-labelledby="h-learn-${i}"><h2 id="h-learn-${i}">${esc(g.name)}</h2>
       <p class="foot">${g.served ? "Your first block covers this gap." : g.options.length ? "Not in your first block." : "No verified course teaches this yet."}</p>
       ${g.options.length ? `<ul class="res-list">${g.options.map(courseRow).join("")}</ul>` : ""}</section>`).join("")}`;
@@ -2144,8 +2152,8 @@ function renderProfile() {
   box.innerHTML = `
     ${persona ? `<div class="callout">${icon("info")}<p>You are looking at ${esc(persona.name)}'s example, a synthetic person. Choose Describe your work to use your own words.</p></div>` : ""}
     <section class="soft-card" aria-labelledby="h-prog"><h2 id="h-prog">Your progress</h2>
-      <div class="ring-row"><span class="ring-box">${ring(done, items.length)}<span class="ring-num" aria-hidden="true">${done}/${items.length}</span></span>
-        <p>${done} of ${items.length} steps done.${next ? ` Next: ${esc(next[0].toLowerCase())}.` : " Every step is done."}</p></div>
+      <div class="ring-row"><span class="ring-box">${ring(done, items.length)}<span class="ring-num" aria-hidden="true" data-src="your-input">${done}/${items.length}</span></span>
+        <p>${youFig(done)} of ${youFig(items.length)} steps done.${next ? ` Next: ${esc(next[0].toLowerCase())}.` : " Every step is done."}</p></div>
       <ul class="progress-list">${items.map(([t, ok]) => `<li class="${ok ? "ok" : ""}"><span class="pl-mark" aria-hidden="true">${ok ? icon("check", "sm") : ""}</span>${esc(t)}<span class="vh">${ok ? ", done" : ", not yet"}</span></li>`).join("")}</ul></section>
     ${pathSection()}
     ${savedSection()}
@@ -2154,13 +2162,13 @@ function renderProfile() {
         <dt>Current job${state.title ? `, ${esc(state.title.title)}` : ""}</dt><dd>${words(li.current_job)}</dd>
         <dt>Other work</dt><dd>${words(li.other_work)}</dd>
         <dt>Studies${state.cip ? `, ${esc(state.cip.title)}` : ""}</dt><dd>${words(li.studies)}</dd>
-        <dt>Time and budget</dt><dd>${li.weekly_hours ?? "?"} hours a week, ${fmtNum(li.budget_rm ?? 0, "rm")} budget, first block of ${esc(routeState.opts.weeks)} weeks</dd>
+        <dt>Time and budget</dt><dd>${li.weekly_hours == null ? "?" : youFig(li.weekly_hours)} hours a week, ${fig({ v: li.budget_rm ?? 0, src: ["your-input"] }, "rm")} budget, first block of ${youFig(routeState.opts.weeks)} weeks</dd>
       </dl>
       <button type="button" class="btn btn-gray" data-go="edit">${icon("pencil-line", "sm")}Edit answers</button>
       <p class="foot">Reading your answers again asks you to confirm your activities again.</p></section>
     <section class="soft-card" aria-labelledby="h-acts"><h2 id="h-acts">Your activities <span class="num" data-src="your-input">${c.all}</span></h2>
       ${names.length ? `<ul class="plain-rows">${names.map(n => `<li>${icon("check", "sm")}<span>${esc(n)}</span></li>`).join("")}</ul>` : ""}
-      ${c.title ? `<p class="foot">Plus ${c.title} from your job title, ${esc(state.title.title)}.</p>` : ""}
+      ${c.title ? `<p class="foot">Plus ${fig({ v: c.title, src: TITLE_SRC }, "int")} from your job title, ${esc(state.title.title)}.</p>` : ""}
       <button type="button" class="btn btn-gray" data-tab-go="review">Review activities</button></section>` : describeCard("profile")}
     <section class="soft-card" aria-labelledby="h-data"><h2 id="h-data">Your data</h2>
       <p>Your answers, activities, chosen route, ticked steps and saved routes are kept in this browser only, so you can come back later. The server keeps nothing.</p>
