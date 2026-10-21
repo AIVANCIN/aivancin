@@ -151,6 +151,12 @@ function show(screen, page = 1, focus = true) {
   let heading = $("[tabindex='-1']", document.getElementById(screen));
   if (screen === "work") {
     $$(".q-page").forEach(q => { q.hidden = Number(q.dataset.page) !== page; });
+    // The wide-screen panel's list of questions follows the same page.
+    $$(".q-steps li").forEach(li => {
+      const n = Number(li.dataset.step);
+      li.classList.toggle("done", n < page);
+      if (n === page) li.setAttribute("aria-current", "step"); else li.removeAttribute("aria-current");
+    });
     heading = $(`.q-page[data-page="${page}"] [tabindex='-1']`);
     if (!$("#read-btn").disabled) $("#read-btn").innerHTML = page < PAGES ? `Continue${icon("arrow-right", "sm")}` : "Read my work";
     $("#read-now").hidden = page >= PAGES;

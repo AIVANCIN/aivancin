@@ -971,3 +971,39 @@ body[data-counted="yes"] .topbar .brand { display: none; }
   #profile-body > .callout, #cohort-body > .callout, #cohort-body > .lead-left, #cohort-body > .status-line { display: flex; column-span: all; }
   #cohort-body > .lead-left { display: block; margin: 0 0 16px; }
 }
+
+/* Describe your work on wide screens: a brand panel with the four questions beside the form, as in a setup
+   assistant. The panel's text sits on a deep-blue scrim over the portrait artwork (white on #033EC4 is 8.4:1; upcoming steps at 72% white, 5.1:1). */
+.q-side { display: none; }
+@media (min-width: 1100px) {
+  body[data-screen="work"] { --qside: clamp(380px, 34vw, 520px); }
+  body[data-screen="work"] main, body[data-screen="work"] .topbar { padding-left: var(--qside); }
+  body[data-screen="work"] .bar-in { grid-template-columns: minmax(0, 1fr) auto; max-width: 760px; padding: 8px 28px; }
+  .q-side { position: fixed; inset: 0 auto 0 0; z-index: 35; display: flex; flex-direction: column; width: var(--qside); padding: 32px clamp(32px, 3.4vw, 56px) 40px;
+    overflow-y: auto; isolation: isolate; color: #FFFFFF; background: #033EC4; }
+  /* The artwork starts below the text so its peak shows; the scrim stays solid behind the text at any height. */
+  .q-side::after { content: ""; position: absolute; inset: 380px 0 0; z-index: -2; background: image-set(url("/art/art-portrait-780.webp") 1x, url("/art/art-portrait-1170.webp") 2x) center top / cover no-repeat; }
+  .q-side::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(3, 62, 196, 0.96) 0, rgba(3, 62, 196, 0.94) 560px, rgba(3, 62, 196, 0) 700px); }
+  .q-side .wordmark { font-size: 19px; }
+  .q-side .wordmark .brand-mark { width: 28px; height: 28px; -webkit-mask-size: 33px; mask-size: 33px; }
+  .q-side-title { margin-top: clamp(32px, 8vh, 72px); font: 700 32px/1.1 var(--display); letter-spacing: -0.028em; }
+  .q-side-sub { margin-top: 10px; max-width: 30ch; font-size: 16px; line-height: 1.45; color: rgba(255, 255, 255, 0.9); }
+  .q-steps { position: relative; display: grid; gap: 0; margin: 28px 0 0; padding: 0; list-style: none; }
+  .q-steps li { position: relative; display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 14px; padding: 0 0 22px; color: rgba(255, 255, 255, 0.72); }
+  .q-steps li:not(:last-child)::before { content: ""; position: absolute; left: 13px; top: 30px; bottom: 2px; width: 2px; border-radius: 1px; background: rgba(255, 255, 255, 0.28); }
+  .q-steps li.done:not(:last-child)::before { background: #FFFFFF; }
+  .q-steps b { display: block; font: 600 16px/1.3 var(--display); letter-spacing: -0.012em; }
+  .q-steps b + span { display: block; margin-top: 2px; font-size: 14px; line-height: 1.35; }
+  .q-dot { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.5); }
+  .q-dot .ico { width: 16px; height: 16px; stroke-width: 3; opacity: 0; }
+  .q-steps li[aria-current="step"] { color: #FFFFFF; }
+  .q-steps li[aria-current="step"] .q-dot { box-shadow: inset 0 0 0 2px #FFFFFF, 0 0 0 4px rgba(255, 255, 255, 0.22); }
+  .q-steps li[aria-current="step"] .q-dot::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: #FFFFFF; }
+  .q-steps li[aria-current="step"] .q-dot .ico { display: none; }
+  .q-steps li.done { color: rgba(255, 255, 255, 0.92); }
+  .q-steps li.done .q-dot { background: #FFFFFF; box-shadow: none; color: #033EC4; }
+  .q-steps li.done .q-dot .ico { opacity: 1; }
+  .q-side-next { margin-top: 6px; max-width: 32ch; font-size: 14px; line-height: 1.45; color: rgba(255, 255, 255, 0.85); }
+  html[data-motion="on"] .q-dot, html[data-motion="on"] .q-steps li { transition: background-color 250ms var(--ease), box-shadow 250ms var(--ease), color 250ms var(--ease); }
+  .q-screen .q-wrap { max-width: 760px; }
+}
