@@ -252,3 +252,30 @@ def test_plain_statements_reach_their_activities(snaps, ai):
     for text, dwa in cases.items():
         top = intake.suggest({"other_work": text}, encoder, index, snaps.onet)["sentences"][0]["top"]
         assert dwa in top, (text, [snaps.onet.dwa_names[d] for d in top])
+
+
+@pytest.mark.parametrize("text,kind,cue", [
+    ("My brother sells phone cases online.", "someone else", "My brother"),
+    ("My wife teaches piano to children.", "someone else", "My wife"),
+    ("She manages the warehouse stock.", "someone else", "She"),
+    ("They clean the offices at night.", "someone else", "They"),
+    ("My dream is to work in a bank.", "aspirational", "My dream is"),
+    ("My goal is to become an auditor.", "aspirational", "My goal is to"),
+    ("Someday I will study accounting.", "aspirational", "Someday"),
+    ("I'm thinking of learning Python.", "aspirational", "I'm thinking of"),
+])
+def test_guard_catches_someone_elses_work_and_plans_without_a_listed_cue(text, kind, cue):
+    """SPEC 11.7: third-person subjects at sentence start and plans phrased without the first list's cues."""
+    assert intake.guard(text) == {"kind": kind, "cue": cue}
+
+
+@pytest.mark.parametrize("text", [
+    "My sister and I run a small bakery.",          # a shared subject
+    "My uncle's shop pays me to fix its tills.",    # a possessive, and the person is paid
+    "She asks me to check her shop's accounts.",    # the person does the work (refined 21 Oct, C12)
+    "He taught me the basics, and I now repair bikes myself.",
+    "My manager lets me plan the delivery routes.",  # not a listed relative
+    "I fix my cousin's laptop when it breaks.",
+])
+def test_guard_leaves_own_work_alone(text):
+    assert intake.guard(text) is None

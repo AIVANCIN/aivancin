@@ -19,8 +19,17 @@ _NEGATION = [r"never", r"not", r"no longer", r"cannot"] + [
     rf"{stem}'?t" for stem in ("haven", "hasn", "don", "didn", "doesn", "can", "won", "isn", "wasn", "aren", "weren", "couldn")
 ]
 _ASPIRATION = [r"would like to", r"i'd like to", r"wants? to", r"hope to", r"plan to", r"planning to", r"learning to"]
+# SPEC 11.7: plans without a cue of the first list.
+_ASPIRATION += [r"my dream is", r"one day i", r"someday", r"my goal is to", r"i'm thinking of", r"i am thinking of"]
 _NEGATION_RE = re.compile(r"\b(?:" + "|".join(_NEGATION) + r")\b", re.IGNORECASE)
 _ASPIRATION_RE = re.compile(r"\b(?:" + "|".join(_ASPIRATION) + r")\b", re.IGNORECASE)
+# SPEC 11.7: someone else's work. A third-person subject at the start of the sentence followed by a verb (not "and",
+# "or", a comma or a possessive), for example "My cousin repairs computers" or "She designs the websites".
+_KIN = "cousin|brother|sister|friend|father|mother|uncle|aunt|husband|wife|son|daughter"
+_OTHER_RE = re.compile(rf"^\W*((?:my\s+(?:{_KIN})|he|she|they))(?!'s\b|\s*,|\s+(?:and|or|&)\b)\s+[a-z]", re.IGNORECASE)
+# Refined 21 Oct (C12): a sentence in which the person also acts or is asked ("They pay me to set up their wifi",
+# "He showed me how to build spreadsheets, and now I make them") describes their own work and is not flagged.
+_FIRST_PERSON_RE = re.compile(r"\b(?:i|me|myself)\b|\bi'(?:m|ve|d|ll)\b", re.IGNORECASE)
 
 # Capitalised short forms such as IOC, SIEM or KYC: the small encoder does not know most of them and matches the
 # rest of the sentence instead, so the review asks for plain words. Everyday ones it reads well are left alone.
@@ -62,6 +71,9 @@ def guard(sentence):
     m = _ASPIRATION_RE.search(norm)
     if m:
         return {"kind": "aspirational", "cue": m.group(0)}
+    m = _OTHER_RE.match(norm)
+    if m and not _FIRST_PERSON_RE.search(norm):
+        return {"kind": "someone else", "cue": m.group(1)}
     return None
 
 

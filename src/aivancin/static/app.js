@@ -353,6 +353,12 @@ function suggestionMap() {
    title's activities, then a last page with your activities, a search for anything missed and Compare
    routes. Each page is a history entry, so back returns to the previous sentence. */
 let reviewPages = 1, reviewTitlePage = 0;
+/* What a flagged sentence reads as (SPEC 2 and 11.7): the heading, and how the cue reads. */
+const GUARD_TEXT = {
+  negated: ["Not counted: you said you have not done this yet", "reads as something you have not done"],
+  aspirational: ["Not counted: this reads as a plan", "reads as a plan, not done work"],
+  "someone else": ["Not counted: this reads as someone else's work", "reads as someone else doing it"],
+};
 
 function renderReview() {
   const box = $("#sentences");
@@ -371,9 +377,9 @@ function renderReview() {
     const src = `${icon(FIELD_ICON[s.field], "sm")}From "${FIELD_LABEL[s.field]}", sentence ${n}`;
     const rows = s.top.map(d => optionRow(smap.get(d), s)).join("");
     if (s.guard) {
-      const kind = s.guard.kind === "negated" ? "reads as something you have not done" : "reads as a plan, not done work";
+      const [head, kind] = GUARD_TEXT[s.guard.kind] || GUARD_TEXT.negated;
       pages.push(`<div class="guard" data-sentence="${s.index}">
-        <h4>${icon("circle-dashed")}Not counted: you said you have not done this yet</h4>
+        <h4>${icon("circle-dashed")}${head}</h4>
         <blockquote class="words"><mark class="words">${esc(s.text)}</mark></blockquote>
         <p class="why">"${esc(s.guard.cue)}" ${kind}. Its suggestions stay out unless you confirm on purpose that you have done them.</p>
         <details><summary>Show the suggestions anyway ${icon("chevron-down", "sm")}</summary><fieldset class="sugg">${rows}</fieldset></details>
