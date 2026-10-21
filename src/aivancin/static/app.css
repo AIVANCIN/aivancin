@@ -980,7 +980,9 @@ body[data-counted="yes"] .topbar .brand { display: none; }
   body[data-screen="work"] { --qside: clamp(380px, 34vw, 520px); }
   body[data-screen="work"] main, body[data-screen="work"] .topbar { padding-left: var(--qside); }
   body[data-screen="work"] .bar-in { grid-template-columns: minmax(0, 1fr) auto; max-width: 760px; padding: 8px 28px; }
-  .q-side { position: fixed; inset: 0 auto 0 0; z-index: 35; display: flex; flex-direction: column; width: var(--qside); padding: 32px clamp(32px, 3.4vw, 56px) 40px;
+  /* The panel sits outside the screens: their entry animation moves them, and a fixed element inside a moving one moves with it. */
+  body[data-screen="work"] .q-side { display: flex; }
+  .q-side { position: fixed; inset: 0 auto 0 0; z-index: 35; flex-direction: column; width: var(--qside); padding: 32px clamp(32px, 3.4vw, 56px) 40px;
     overflow-y: auto; isolation: isolate; color: #FFFFFF; background: #033EC4; }
   /* The artwork starts below the text so its peak shows; the scrim stays solid behind the text at any height. */
   .q-side::after { content: ""; position: absolute; inset: 380px 0 0; z-index: -2; background: image-set(url("/art/art-portrait-780.webp") 1x, url("/art/art-portrait-1170.webp") 2x) center top / cover no-repeat; }
