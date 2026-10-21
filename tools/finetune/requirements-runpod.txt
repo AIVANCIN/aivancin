@@ -1,0 +1,7 @@
+# Training on the RunPod pod only; the app does not need these. Torch comes with the pod's PyTorch image.
+# Versions are the ones the CPU smoke test ran with (see tools/finetune/README.md).
+sentence-transformers
+datasets
+accelerate
+onnx
+onnxruntime

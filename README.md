@@ -75,7 +75,7 @@ The app opens on a welcome screen with the artwork, then asks four short questio
 
 Run the motion preference checks with `node --test tests/motion.test.cjs` (Node.js built-in test runner), alongside `pytest`. Artwork was resized with the already available Pillow tool; there is no additional runtime dependency. Original PNGs are retained in `assets/art`, while the page loads WebP derivatives and uses the wordmark artwork only for its social preview.
 
-The AI is a local sentence encoder, all-MiniLM-L6-v2 (quantized ONNX, about 23 MB, run on the CPU with ONNX Runtime). Each sentence the user writes is encoded and every one of the 2,087 O\*NET 31.0 detailed work activities is scored by how close the sentence is to the activity's name (70%) and to the closest of the 17,578 O\*NET task statements linked to it (30%), whose wording is nearer to how people describe their work; the five highest are suggested, each with the sentence that triggered it. The AI only suggests: nothing enters the profile until the user ticks it, and suggestions that come only from a negated or aspirational sentence need a second, deliberate confirmation. The small model does not know most short forms ("I built an IOC enricher" gets construction and grant-writing activities; written out in plain words, it gets security analysis), so a sentence with one asks the user to write it out. Everything after the confirmed profile is deterministic: roles are ranked by the weighted share of their recorded O\*NET activity links that the user confirmed, and labels, AI-usage figures, pay steps, scenarios and plans are computed from bundled, dated sources with fixed templates. No generative model runs in the product, and no training or fine-tuning has been done yet.
+The AI is a local sentence encoder, all-MiniLM-L6-v2 (quantized ONNX, about 23 MB, run on the CPU with ONNX Runtime). Each sentence the user writes is encoded and every one of the 2,087 O\*NET 31.0 detailed work activities is scored by how close the sentence is to the activity's name (70%) and to the closest of the 17,578 O\*NET task statements linked to it (30%), whose wording is nearer to how people describe their work; the five highest are suggested, each with the sentence that triggered it. The AI only suggests: nothing enters the profile until the user ticks it, and suggestions that come only from a negated or aspirational sentence need a second, deliberate confirmation. The small model does not know most short forms ("I built an IOC enricher" gets construction and grant-writing activities; written out in plain words, it gets security analysis), so a sentence with one asks the user to write it out. Everything after the confirmed profile is deterministic: roles are ranked by the weighted share of their recorded O\*NET activity links that the user confirmed, and labels, AI-usage figures, pay steps, scenarios and plans are computed from bundled, dated sources with fixed templates. No generative model runs in the product, and no training or fine-tuning has been done yet; a RunPod fine-tuning run is prepared in `tools/finetune/`, and its model ships only if it beats the current one on 60 held-out casual descriptions written before training (the current model: 39 of 60).
 
 ### Key Features
 
@@ -155,6 +155,7 @@ flowchart LR
 | AI-usage evidence, replay, scenarios, plan | WORKING (first version) | `tests/test_matching_and_report.py` |
 | SDG reasons, path contribution, Decent work order | WORKING | `tests/test_sdg.py` (C8, C9) |
 | Keep or accept new evidence | WORKING | `tests/test_keep_accept.py` (C10), `POST /api/update` |
+| Encoder fine-tuning on RunPod | PREPARED, NOT RUN: pairs, training script and a held-out gate; the GPU run is the team's | `tools/finetune/` (see its README), `tests/test_finetune_prep.py` |
 | Routes, first learning blocks, shared foundations, what changed | WORKING (first version) | `tests/test_routes.py` (B1-B6), `/api/routes`, `/api/update` |
 | Evidence-to-plan replay | WORKING | `python tools/checks/replay.py`, `tests/test_replay.py` |
 | Future Skills Radar and job outlook | WORKING (first version) | `tests/test_matching_and_report.py`, `tests/test_forecast.py`, `python tools/checks/a18_backtest.py` |
@@ -239,6 +240,7 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 │   ├── destinations_curation.json  # The 12 supported destinations
 │   ├── fetch_outlook.py    # Caches O*NET OnLine job-outlook pages for the snapshot
 │   ├── export_forecasts.py # Freezes the skill-outlook forecasts for scoring against the next release
+│   ├── finetune/           # RunPod encoder fine-tuning: pairs, training script, local gate
 │   ├── checks/a18_backtest.py  # Skill-outlook backtest behind the displayed error; --prospective scores registered forecasts
 │   ├── checks/forecast_checks.py  # C1-C5: forecast signals recomputed separately
 │   ├── checks/replay.py    # Evidence-to-plan replay: one update, 12 checks

@@ -1,0 +1,19 @@
+{
+ "source_links": 24087,
+ "statements": 17578,
+ "train_pairs": 21397,
+ "val_pairs": 1078,
+ "val_statements": 855,
+ "val_rule": "sha256(normalised statement) mod 100 < 5",
+ "inputs": {
+  "dwas.csv": "1d3cf40dd0a8bbbfb393cb135cba7ffa840611e32f728a835dd9af7520234449",
+  "tasks.csv": "5c4057d74f0c6dccf3827139d804f27ca49a1ddf550c4f45c038f2c2b1731296",
+  "task_dwas.csv": "2149eb8d5d2a8cc41a4c848785acb6916bc198ec605c86d6c1318c8f73b2472d"
+ },
+ "outputs": {
+  "pairs_train.jsonl": "1b3e83541c12e27bd0dccc8e4498449d2d61d5913fc5a8797fa1eaae3c19fba0",
+  "pairs_val.jsonl": "7bf4e128240ce7ac4c914f91e65a0e6b62740e5fe80db08c674790a38a5cb04c",
+  "dwa_names.json": "85b1469b66a5ef094978721c04f9df205a87cabd66e9527ad2fbd884170d7530"
+ },
+ "script_sha256": "da83e2c68ff62225aa77ad41c95f17bba88ac720fe72ca9c0db1122c3441574e"
+}
