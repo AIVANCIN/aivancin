@@ -384,7 +384,9 @@ function renderReview() {
   const sug = state.suggest;
   const smap = suggestionMap();
   const pages = [];
+  reviewMeta = [];
   if (!sug.available) {
+    reviewMeta.push({ kind: "note" });
     pages.push(`<div class="callout">${icon("triangle-alert")}<div><p><b>AI suggestions are unavailable.</b></p><p class="sub">You can still search the activity list and add what you do. Results will be labelled "without AI suggestions".</p></div></div>`);
   }
   reviewTitlePage = 0;
@@ -395,6 +397,7 @@ function renderReview() {
     const n = fieldSeq[s.field];
     const src = `${icon(FIELD_ICON[s.field], "sm")}From "${FIELD_LABEL[s.field]}", sentence ${n}`;
     const rows = s.top.map(d => optionRow(smap.get(d), s)).join("");
+    reviewMeta.push({ kind: s.guard ? "guard" : "sent", index: s.index, field: s.field, text: s.text, ids: s.top });
     if (s.guard) {
       const [head, kind] = GUARD_TEXT[s.guard.kind] || GUARD_TEXT.negated;
       pages.push(`<div class="guard" data-sentence="${s.index}">
@@ -419,6 +422,7 @@ function renderReview() {
   // Your own sentences first; the job title's activities come after them.
   if (state.titleActs.length) {
     const kept = state.titleActs.filter(a => !state.untickedTitle.has(a.dwa_id)).length;
+    reviewMeta.push({ kind: "title" });
     pages.push(`<div class="sent title-acts"><p class="src">${icon("briefcase-business", "sm")}From your job title</p>
       <h2 class="rv-q">${esc(state.title.title)}: <span class="num" id="title-kept" data-src="${TITLE_SRC.join(" ")}">${kept}</span> of ${fig({ v: state.titleActs.length, src: TITLE_SRC.slice(1) }, "int")} O*NET activities</h2>
       <p class="foot">These form your current-job lane. Untick any you do not do.</p>
@@ -426,6 +430,7 @@ function renderReview() {
     reviewTitlePage = pages.length;
   }
   const none = sug.available && !sents.length ? `<p class="cap">${icon("info")}No sentences to read. Add text in step 1, or search for activities below.</p>` : "";
+  reviewMeta.push({ kind: "last" });
   pages.push(`<div class="rv-last"><h2 class="rv-q">Anything we missed?</h2>
     <p class="foot">Search for an activity to add it. Your list is ${matchMedia("(min-width: 980px)").matches ? "beside this" : "below"}; when it looks right, compare routes.</p>${none}${manualSearchCard()}</div>`);
   reviewPages = pages.length;
@@ -445,7 +450,33 @@ function showReviewPage(page) {
   $$("#review .mob-cta [data-rv-next]").forEach(b => { b.hidden = last; });
   $$("#review .mob-cta [data-action=routes]").forEach(b => { b.hidden = !last; });
   $("#review .review-lead").hidden = n !== 1;
+  renderReviewNav(n);
   return n;
+}
+
+/* Wide screens: every page of the review in a list beside the card, with where each stands; any can be opened. */
+let reviewMeta = [];
+function renderReviewNav(at = Math.min(Math.max(current.page, 1), reviewPages)) {
+  const box = $("#rv-list");
+  box.innerHTML = reviewMeta.map((m, i) => {
+    let label, note, mark = "";
+    if (m.kind === "sent" || m.kind === "guard") {
+      const ticked = m.ids.some(id => state.ticked.has(id)), none = state.dismissed.has(m.index);
+      mark = ticked ? "done" : m.kind === "guard" ? "held" : none ? "none" : "";
+      label = `<mark class="words">${esc(m.text)}</mark>`;
+      note = `${FIELD_LABEL[m.field]} · ${m.kind === "guard" ? (ticked ? "held back, confirmed by you" : "held back") : none ? "none of these fit" : ticked ? "ticked" : "not ticked yet"}`;
+    } else if (m.kind === "title") {
+      mark = state.titleActs.length > state.untickedTitle.size ? "done" : "";
+      label = "From your job title"; note = esc(state.title?.title || "");
+    } else if (m.kind === "last") {
+      label = "Anything we missed?"; note = "Search to add an activity";
+    } else {
+      label = "AI suggestions unavailable"; note = "Search the activity list instead";
+    }
+    const glyph = { done: icon("check", "sm"), held: icon("circle-dashed", "sm"), none: icon("x", "sm") }[mark] || "";
+    return `<li><button type="button" class="rv-item${mark ? ` ${mark}` : ""}" data-rv-go="${i + 1}"${i + 1 === at ? ' aria-current="step"' : ""}>
+      <span class="rv-mark" aria-hidden="true">${glyph}</span><span class="rv-text"><span class="rv-label">${label}</span><span class="rv-note">${note}</span></span></button></li>`;
+  }).join("");
 }
 
 /* The small model does not know most short forms (IOC, SIEM, KYC) and matches the rest of the sentence instead. */
@@ -547,6 +578,7 @@ function renderRail() {
     note = `Uses your ${youFig(c[state.lane])} ${LANE_TEXT[state.lane]} activities. ${other > 0 ? `Your other ${youFig(other)} stay out of this lane.` : ""}`;
   }
   $("#lane-note").innerHTML = note;
+  if (current.screen === "review") renderReviewNav();
   saveProgress();
 }
 
@@ -574,6 +606,8 @@ function reviewEvents() {
     if (!b) return;
     if (b.dataset.rvNext !== undefined) {
       navigate("review", current.page + 1);
+    } else if (b.dataset.rvGo) {
+      navigate("review", Number(b.dataset.rvGo));
     } else if (b.dataset.dismiss !== undefined) {
       state.dismissed.add(Number(b.dataset.dismiss));
       renderReview();
