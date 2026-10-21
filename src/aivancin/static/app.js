@@ -16,6 +16,7 @@ const state = {
   suggest: null, ticked: new Map(), dismissed: new Set(), manual: new Map(),
   lane: "all", opts: { lambda: 0, mu: 0, nu: 0, scenario: "moderate", threshold: 50, pace: 1.444, release: null, horizon: "plan", scope: "skilled" },
   knownTools: new Set(), results: null, baseline: null, selected: null, target: null, lastIntake: null,
+  openSent: null,  // review: the sentences shown open; null opens the first one
 };
 /* Compare routes, the chosen plan and what changed (SPEC section 10). */
 const routeState = { data: null, target: null, completed: new Set(), opts: { weeks: 4, willing_long: false, scenario: "moderate", threshold: 50 }, change: null,
@@ -306,7 +307,7 @@ async function readWork(e) {
   try {
     const sug = await api("/api/suggest", body);
     state.suggest = sug;
-    state.ticked = new Map(); state.dismissed = new Set(); state.manual = new Map();
+    state.ticked = new Map(); state.dismissed = new Set(); state.manual = new Map(); state.openSent = null;
     state.lastIntake = body;
     // New answers make the compared routes stale until Compare routes runs again; the chosen route, ticked steps and saved routes stay.
     routeState.data = null; routesReached = false;
@@ -362,6 +363,7 @@ function renderReview() {
       <fieldset class="sugg">${state.titleActs.map(a => `<label class="opt"><input type="checkbox" data-title="${esc(a.dwa_id)}" ${state.untickedTitle.has(a.dwa_id) ? "" : "checked"}><span class="t">${esc(a.name)}</span></label>`).join("")}</fieldset></details>`;
   }
   const sents = sug.available ? sug.sentences : [];
+  const lastIndex = sents.filter(x => !x.guard).map(x => x.index).pop();
   const fieldSeq = { current_job: 0, other_work: 0, studies: 0 };
   for (const s of sents) {
     fieldSeq[s.field] += 1;
@@ -379,15 +381,19 @@ function renderReview() {
       continue;
     }
     const dismissed = state.dismissed.has(s.index);
-    html += `<div class="sent" data-sentence="${s.index}">
-      <p class="src">${src}</p>
-      <blockquote class="words"><mark class="words">${esc(s.text)}</mark></blockquote>
+    if (state.openSent === null) state.openSent = new Set([s.index]);
+    const last = s.index === lastIndex;
+    const next = last ? "" : `<button type="button" class="btn btn-primary next-sent" data-next="${s.index}">Next sentence</button>`;
+    html += `<details class="sent" data-sentence="${s.index}" ${state.openSent.has(s.index) ? "open" : ""}>
+      <summary><span class="sent-head"><span class="src">${src}</span><span class="sent-status" data-status="${s.index}">${sentStatus(s)}</span></span>
+        <blockquote class="words"><mark class="words">${esc(s.text)}</mark></blockquote>${icon("chevron-down", "sent-chev")}</summary>
       ${shortFormHint(s)}
-      ${dismissed ? `<p class="dismissed">You said none of the 5 suggestions fit. <button type="button" class="link-btn" data-undismiss="${s.index}">Show them again</button></p>`
+      ${dismissed ? `<p class="dismissed">You said none of the 5 suggestions fit. <button type="button" class="link-btn" data-undismiss="${s.index}">Show them again</button></p>
+      ${next ? `<div class="sent-actions">${next}</div>` : ""}`
         : `<fieldset class="sugg"><legend class="vh">Activities suggested for this sentence</legend>${rows}</fieldset>
-      <div class="sent-actions"><button type="button" class="btn btn-gray" data-dismiss="${s.index}">None of these fit</button><button type="button" class="btn btn-gray" data-find="${s.index}">${icon("search", "sm")}Find another activity</button></div>
+      <div class="sent-actions"><button type="button" class="btn btn-gray" data-dismiss="${s.index}">None of these fit</button><button type="button" class="btn btn-gray" data-find="${s.index}">${icon("search", "sm")}Find another activity</button>${next}</div>
       <div class="find" data-find-box="${s.index}" hidden></div>`}
-    </div>`;
+    </details>`;
   }
   if (sug.available && !sents.length) html += `<p class="cap">${icon("info")}No sentences to read. Add text in step 1, or search for activities below.</p>`;
   if (sug.available) html += manualSearchCard();
@@ -395,6 +401,29 @@ function renderReview() {
   const manual = $('[data-find-box="manual"]', box);
   if (manual) openFind(manual, "other_work", false);
   renderRail();
+}
+
+/* One sentence open at a time keeps the review short; each closed sentence says where it stands. */
+function sentStatus(s) {
+  if (state.dismissed.has(s.index)) return `<span class="st done">None fit</span>`;
+  const n = s.top.filter(d => state.ticked.has(d)).length;
+  return n ? `<span class="st done">${icon("check", "sm")}${n} ticked</span>` : `<span class="st">Not checked yet</span>`;
+}
+
+function updateSentStatus() {
+  const byIndex = new Map((state.suggest?.sentences || []).map(s => [s.index, s]));
+  $$("[data-status]").forEach(el => { const s = byIndex.get(Number(el.dataset.status)); if (s) el.innerHTML = sentStatus(s); });
+}
+
+function nextSentence(index) {
+  const all = $$("#sentences details.sent[data-sentence]");
+  const i = all.findIndex(d => Number(d.dataset.sentence) === index);
+  const cur = all[i], nxt = all[i + 1];
+  if (!nxt) return;
+  cur.open = false;
+  nxt.open = true;
+  nxt.scrollIntoView({ block: "start" });
+  $("summary", nxt).focus({ preventScroll: true });
 }
 
 /* The small model does not know most short forms (IOC, SIEM, KYC) and matches the rest of the sentence instead. */
@@ -496,11 +525,17 @@ function renderRail() {
     note = `Uses your ${c[state.lane]} ${LANE_TEXT[state.lane]} activities. ${other > 0 ? `Your other ${other} stay out of this lane.` : ""}`;
   }
   $("#lane-note").textContent = note;
+  updateSentStatus();
   saveProgress();
 }
 
 function reviewEvents() {
   const root = $("#review");
+  root.addEventListener("toggle", e => {
+    const d = e.target;
+    if (!d.matches?.("details.sent[data-sentence]") || !state.openSent) return;
+    if (d.open) state.openSent.add(Number(d.dataset.sentence)); else state.openSent.delete(Number(d.dataset.sentence));
+  }, true);
   root.addEventListener("change", e => {
     const t = e.target;
     if (t.matches("input[data-dwa]")) {
@@ -520,7 +555,9 @@ function reviewEvents() {
   root.addEventListener("click", e => {
     const b = e.target.closest("button");
     if (!b) return;
-    if (b.dataset.dismiss !== undefined) {
+    if (b.dataset.next !== undefined) {
+      nextSentence(Number(b.dataset.next));
+    } else if (b.dataset.dismiss !== undefined) {
       state.dismissed.add(Number(b.dataset.dismiss));
       renderReview();
       $(`[data-undismiss="${b.dataset.dismiss}"]`)?.focus();

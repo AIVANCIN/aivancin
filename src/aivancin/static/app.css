@@ -46,6 +46,21 @@ input[type="number"] { max-width: 180px; }
 .opt.dashed { box-shadow: none; }
 .sugg .opt { border: 1.5px dashed transparent; }
 .opt .also { display: block; margin-top: 2px; font-size: 13px; color: var(--text2); }
+/* Review: each sentence is a card that opens to its suggestions; closed, it shows the sentence and its status. */
+details.sent { scroll-margin-top: 72px; }
+details.sent > summary { position: relative; display: block; padding-right: 36px; cursor: pointer; list-style: none; }
+details.sent > summary::-webkit-details-marker { display: none; }
+details.sent > summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 6px; border-radius: 12px; }
+.sent-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; }
+.sent-status .st { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 999px; background: var(--fill); color: var(--text2); font-size: 12px; font-weight: 600; white-space: nowrap; }
+.sent-status .st.done { background: var(--accent-tint); color: var(--accent); }
+.sent-status .st .ico { width: 13px; height: 13px; stroke-width: 2.5; }
+.sent-chev { position: absolute; top: 0; right: 0; color: var(--text2); transition: transform 250ms var(--ease); }
+details.sent[open] .sent-chev { transform: rotate(180deg); }
+details.sent:not([open]) { padding-top: 16px; padding-bottom: 16px; }
+details.sent:not([open]) blockquote.words { display: -webkit-box; margin-bottom: 0; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; font-size: 16px; }
+details.sent + details.sent { margin-top: 10px; }
+.next-sent { margin-left: auto; }
 .short-hint { display: flex; gap: 8px; align-items: flex-start; margin: -6px 0 14px; padding: 10px 12px; border-radius: 12px; background: var(--fill); font-size: 14px; line-height: 1.4; }
 .short-hint .ico { margin-top: 2px; color: var(--text2); }
 .short-hint .link-btn { position: relative; min-height: 0; font-size: 14px; }
