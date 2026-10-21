@@ -375,10 +375,10 @@
       "release": "2026-10-21",
       "licence": "Project results",
       "access_date": "2026-10-21",
-      "original_sha256": "8b80d6ae2d8df8fcb57b86b5b74c122c8183dabae62312a45e0f7f5783242d99",
+      "original_sha256": "5874a71fce053f4376c99a189fbd4b1c23606a077d6e56fe72915a0a080206db",
       "derived_rows": null,
       "derived_path": "checks.json",
-      "derived_sha256": "8b80d6ae2d8df8fcb57b86b5b74c122c8183dabae62312a45e0f7f5783242d99"
+      "derived_sha256": "5874a71fce053f4376c99a189fbd4b1c23606a077d6e56fe72915a0a080206db"
     },
     {
       "source_id": "aivancin-source-status",
