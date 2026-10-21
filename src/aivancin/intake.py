@@ -21,8 +21,27 @@ _NEGATION = [r"never", r"not", r"no longer", r"cannot"] + [
 _ASPIRATION = [r"would like to", r"i'd like to", r"wants? to", r"hope to", r"plan to", r"planning to", r"learning to"]
 # SPEC 11.7: plans without a cue of the first list.
 _ASPIRATION += [r"my dream is", r"one day i", r"someday", r"my goal is to", r"i'm thinking of", r"i am thinking of"]
+# Added 21 Oct (A6 sets 3 and 4): a dated future ("Next month I will enrol") and a sentence that opens with "I'm going
+# to" or "I will be ...ing", alone or after an "after", "once" or "as soon as" clause. A bare "I will" or "I'll" is
+# left alone because it often describes a habit ("I will usually reconcile the cash at closing time"), and so is work
+# about a coming period ("the budget for the next year", "next month's sales").
+_ASPIRATION += [r"(?<!the )(?<!for )next (?:week|month|year|semester|term)(?!'s)"]
 _NEGATION_RE = re.compile(r"\b(?:" + "|".join(_NEGATION) + r")\b", re.IGNORECASE)
 _ASPIRATION_RE = re.compile(r"\b(?:" + "|".join(_ASPIRATION) + r")\b", re.IGNORECASE)
+_FUTURE_START_RE = re.compile(
+    r"^\W*(?:(?:after|once|as soon as)\b[^,]*,\s*)?(i'm going to|i am going to|i(?: wi|')ll be \w+ing)\b", re.IGNORECASE)
+# An attempt that did not work out ("I failed my driving test", "I gave up after a week", "was rejected"). A device
+# that failed ("When a laptop fails", "failed hard drives") is not a cue, nor is giving something up for work ("I gave
+# up my weekends to build the booking system").
+_FAILED_RE = re.compile(r"\b(?:i (?:have |had )?failed|failed my|gave up(?!\s+(?:my|our)\b)|(?:was|were|got|been) rejected)\b",
+                        re.IGNORECASE)
+# Free time: a sport, game, show or book after play, watch, read or go. "I play the keyboard at weddings", "I watch
+# the CCTV screens" and "I coach the badminton team" are left alone.
+_LEISURE_RE = re.compile(
+    r"\b(?:play(?:s|ing)?\s+(?:\w+\s+)?(?:futsal|football|soccer|badminton|tennis|basketball|volleyball|golf|chess|sports?|games?)"
+    r"|watch(?:es|ing)?\s+(?:\w+\s+)?(?:films?|movies?|dramas?|tv|television|football|anime|series|netflix)"
+    r"|read(?:s|ing)?\s+(?:\w+\s+)?(?:novels?|comics?|manga)"
+    r"|go(?:es)?\s+(?:hiking|jogging|cycling|swimming|fishing|camping|running)|go(?:es)? to the gym)\b", re.IGNORECASE)
 # SPEC 11.7: someone else's work. A third-person subject at the start of the sentence followed by a verb (not "and",
 # "or", a comma or a possessive), for example "My cousin repairs computers" or "She designs the websites".
 _KIN = "cousin|brother|sister|friend|father|mother|uncle|aunt|husband|wife|son|daughter"
@@ -71,6 +90,15 @@ def guard(sentence):
     m = _ASPIRATION_RE.search(norm)
     if m:
         return {"kind": "aspirational", "cue": m.group(0)}
+    m = _FUTURE_START_RE.match(norm)
+    if m:
+        return {"kind": "aspirational", "cue": m.group(1)}
+    m = _FAILED_RE.search(norm)
+    if m:
+        return {"kind": "did not work out", "cue": m.group(0)}
+    m = _LEISURE_RE.search(norm)
+    if m:
+        return {"kind": "free time", "cue": m.group(0)}
     m = _OTHER_RE.match(norm)
     if m and not _FIRST_PERSON_RE.search(norm):
         return {"kind": "someone else", "cue": m.group(1)}

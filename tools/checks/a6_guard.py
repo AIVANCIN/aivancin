@@ -44,7 +44,7 @@ def main():
         ok = (not any(flags) and len(accepted) == len(sug["suggestions"])) if control else not accepted
         rows.append({"id": case["id"], "kind": case["kind"], "guard": flags, "suggestions": len(sug["suggestions"]),
                      "confirmable_without_override": accepted, "pass": ok})
-    fresh = [r for r in rows if r["id"].startswith(("f", "g"))]
+    fresh = [r for r in rows if r["id"].startswith(("f", "g", "h", "j"))]
     controls = [r for r in rows if r["kind"] == "control"]
     res = {"sets": path.name, "sets_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
            "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),

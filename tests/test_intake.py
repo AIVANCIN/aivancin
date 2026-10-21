@@ -282,3 +282,41 @@ def test_guard_catches_someone_elses_work_and_plans_without_a_listed_cue(text, k
 ])
 def test_guard_leaves_own_work_alone(text):
     assert intake.guard(text) is None
+
+
+@pytest.mark.parametrize("text,kind,cue", [
+    ("Next year I will start studying graphic design.", "aspirational", "Next year"),
+    ("I'm starting a course next month.", "aspirational", "next month"),
+    ("I'm going to apply for data analyst jobs after Raya.", "aspirational", "I'm going to"),
+    ("Once I finish my diploma, I'm going to look for an IT job.", "aspirational", "I'm going to"),
+    ("I will be starting a part-time diploma in January.", "aspirational", "I will be starting"),
+    ("I failed my driving test twice, so I take the bus to work.", "did not work out", "I failed"),
+    ("I tried to learn Excel macros but I gave up after a week.", "did not work out", "gave up"),
+    ("I applied for a bank teller job and was rejected.", "did not work out", "was rejected"),
+    ("At weekends I play badminton and watch films.", "free time", "play badminton"),
+    ("In the evenings I watch Korean dramas with my sister.", "free time", "watch Korean dramas"),
+    ("I enjoy reading mystery novels before bed.", "free time", "reading mystery novels"),
+    ("I go hiking at Bukit Gasing most weekends.", "free time", "go hiking"),
+])
+def test_guard_catches_future_plans_failed_attempts_and_free_time(text, kind, cue):
+    """A6 sets 3 and 4 (21 Oct): plans phrased as a dated or "going to" future, attempts that did not work out, and
+    free time."""
+    assert intake.guard(text) == {"kind": kind, "cue": cue}
+
+
+@pytest.mark.parametrize("text", [
+    "I will usually reconcile the cash at closing time.",            # a habit, not a plan
+    "I'll answer customer messages on WhatsApp during my lunch break.",
+    "Customers know I will fix their phones the same day.",
+    "I write a monthly report on what I'm going to buy for the shop.",
+    "At the end of the year I put together the budget for the next year.",
+    "I guess next month's sales from the last few months to plan orders.",
+    "When a laptop fails, I back up the files and reinstall Windows.",
+    "I gave up my weekends to build the booking system for my father's clinic.",
+    "I play the keyboard at weddings and get paid for each event.",
+    "I watch the CCTV screens and report anything unusual.",
+    "I coach the under-12 badminton team every Saturday.",
+    "I read the supplier contracts and check the prices before we sign.",
+])
+def test_guard_leaves_own_work_with_the_same_words_alone(text):
+    assert intake.guard(text) is None

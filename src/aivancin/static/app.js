@@ -368,6 +368,8 @@ const GUARD_TEXT = {
   negated: ["Not counted: you said you have not done this yet", "reads as something you have not done"],
   aspirational: ["Not counted: this reads as a plan", "reads as a plan, not done work"],
   "someone else": ["Not counted: this reads as someone else's work", "reads as someone else doing it"],
+  "did not work out": ["Not counted: this reads as an attempt that did not work out", "reads as an attempt that did not work out"],
+  "free time": ["Not counted: this reads as free time, not work", "reads as free time, not work"],
 };
 
 function renderReview() {
@@ -964,7 +966,7 @@ function renderHow() {
   }).join("") : "";
   $("#how-body").innerHTML = `
     <section class="how-step" data-scope><h3>${icon("pencil-line", "sm")}1. Describe your work</h3>
-      <p>You write what you do in your own words. A small language model that runs on this server, all-MiniLM-L6-v2 fine-tuned on O*NET's own links between task statements and work activities, compares each sentence with the ${n(2087, ["onet31-dwas"])} work activities O*NET records and suggests the closest five. Nothing counts until you tick it. Sentences about work not done, plans, or someone else's work are held back, and names, gender and age are read neutrally.</p></section>
+      <p>You write what you do in your own words. A small language model that runs on this server, all-MiniLM-L6-v2 fine-tuned on O*NET's own links between task statements and work activities, compares each sentence with the ${n(2087, ["onet31-dwas"])} work activities O*NET records and suggests the closest five. Nothing counts until you tick it. Sentences about work not done, plans, free time, attempts that did not work out or someone else's work are held back, and names, gender and age are read neutrally.</p></section>
     <section class="how-step" data-scope><h3>${icon("radar", "sm")}2. The Radar</h3>
       <p>Four separate signals for your skills and routes: US job projections (BLS), how much of each activity sits in growing jobs, how much of it AI already does in observed Claude use under slower, moderate and faster scenarios, and Malaysia's observed trend for the skill group. They are never combined into one score.</p></section>
     <section class="how-step" data-scope><h3>${icon("route", "sm")}3. Routes</h3>
