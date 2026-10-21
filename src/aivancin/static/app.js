@@ -709,6 +709,10 @@ function renderControls() {
 }
 
 function bandShort(jo) { return jo.band ? jo.band.split(" (")[0] : "No projection"; }
+function bandClass(jo) {
+  const b = bandShort(jo);
+  return /^(Much faster|Faster)/.test(b) ? "grow" : /^Decline/.test(b) ? "limit" : "";
+}
 
 function radarBlock(r) {
   const f = state.results.forecast, sc = state.results.scenario;
@@ -768,7 +772,7 @@ function renderResults(keepFocus) {
       ? `<span class="rr-move">${r.rank < r.rank_without_weights ? "Up" : "Down"} ${Math.abs(r.rank_without_weights - r.rank)} with ${state.results.order === "outlook" ? "the outlook order and your weights" : "your weights"}</span>` : "";
     return `<li><button type="button" class="role-row" data-role="${esc(r.code)}" aria-pressed="${r.code === state.selected}">
       <span class="rank">${r.rank}</span><span><span class="rr-title">${esc(r.title)}</span><span class="rr-meta">O*NET ${esc(r.code)} · Job Zone ${fig(r.job_zone, "")}</span>
-      <span class="rr-outlook"><span class="tag good">US outlook: ${esc(bandShort(r.job_outlook))}</span>${r.job_outlook.bright.length ? ` <span class="tag sdg">Bright Outlook</span>` : ""}${srcMarks(r.job_outlook.src)}</span>
+      <span class="rr-outlook"><span class="tag ${bandClass(r.job_outlook) || "good"}">US outlook: ${esc(bandShort(r.job_outlook))}</span>${r.job_outlook.bright.length ? ` <span class="tag sdg">Bright Outlook</span>` : ""}${srcMarks(r.job_outlook.src)}</span>
       <span class="rr-bar">${overlapBar(r, false)}</span><span class="rr-foot"><span>You do <b>${fig(r.done_count, "int")}</b> of ${fig(r.total_count, "int")} activities</span>${moved}</span></span>${icon("chevron-right")}</button></li>`;
   }).join("") || `<li class="loading">No role shares an activity with this lane yet. Choose another lane or tick more activities.</li>`;
   if (res.roles.length) $("#role-list").insertAdjacentHTML("beforeend", `<li class="list-srcs srcs-slot"></li>`);
@@ -1115,12 +1119,12 @@ function sortedRoutes(routes) {
   return list;
 }
 
-function familyTile(r, large) { return `<span class="fam-tile${large ? " lg" : ""}" aria-hidden="true">${icon(ROLE_META[r.code]?.[0] || FAMILY_ICON[r.family] || "route")}</span>`; }
+function familyTile(r, large) { return `<span class="fam-tile fam-${esc(r.family)}${large ? " lg" : ""}" aria-hidden="true">${icon(ROLE_META[r.code]?.[0] || FAMILY_ICON[r.family] || "route")}</span>`; }
 
 /* Overlap once work is confirmed; before that, how many activities the role records. */
 function workChip(r) {
-  return isPersonal() ? `<span class="chip accent">You do ${fig(r.done_count, "int")} of ${fig(r.total_count, "int")} activities</span>`
-    : `<span class="chip accent">${fig(r.total_count, "int")} recorded activities</span>`;
+  return isPersonal() ? `<span class="chip you">You do ${fig(r.done_count, "int")} of ${fig(r.total_count, "int")} activities</span>`
+    : `<span class="chip">${fig(r.total_count, "int")} recorded activities</span>`;
 }
 
 /* A bookmark keeps a route in the Saved tab. It sits beside the card's button, never inside it. */
@@ -1144,7 +1148,7 @@ function routeRow(r) {
       ${chosen ? `<span class="rr-chosen">${icon("check", "sm")}Your route</span>` : ""}
       <span class="rr-desc">${esc(r.description.first)}${srcMarks(r.description.src)}</span>
       <span class="chips">${workChip(r)}
-        <span class="chip">US outlook: ${esc(bandShort(r.job_outlook))}${srcMarks(r.job_outlook.src)}</span>${entryChip(r)}</span></span>
+        <span class="chip ${bandClass(r.job_outlook)}">US outlook: ${esc(bandShort(r.job_outlook))}${srcMarks(r.job_outlook.src)}</span>${entryChip(r)}</span></span>
     </button>${saveBtn(r)}</li>`;
 }
 
@@ -1217,7 +1221,7 @@ function overviewPanel(r) {
     ${work}
     <section class="soft-card" data-scope aria-labelledby="h-rd-req"><h2 id="h-rd-req">Requirements</h2><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul></section>
     <section class="soft-card" data-scope aria-labelledby="h-rd-opp"><h2 id="h-rd-opp">Opportunity</h2>
-      <p><span class="tag good">US outlook: ${esc(bandShort(r.job_outlook))}</span>${r.job_outlook.bright.length ? ` <span class="tag sdg">Bright Outlook</span>` : ""}${srcMarks(r.job_outlook.src)}</p>
+      <p><span class="tag ${bandClass(r.job_outlook) || "good"}">US outlook: ${esc(bandShort(r.job_outlook))}</span>${r.job_outlook.bright.length ? ` <span class="tag sdg">Bright Outlook</span>` : ""}${srcMarks(r.job_outlook.src)}</p>
       <p class="foot">${esc(r.local_evidence)}</p>
       ${r.pay ? `<p class="foot">DOSM 2025 median pay step from your current group: ${fig(r.pay.step, "step")}. Group medians, not a salary offer.</p>` : ""}
       <p class="foot"><b>SDG 8.5:</b> ${esc(r.sdg[0].reason)}${srcMarks(r.sdg[0].src)}</p></section>`;
@@ -1249,7 +1253,7 @@ function aiPanel(r) {
     const items = ai.filter(a => a.class === key);
     if (!items.length) return "";
     return `<section class="ai-group ai-${ico}" data-scope aria-labelledby="h-ai-${ico}"><h2 id="h-ai-${ico}">${icon(ico, "sm")}${title}</h2><p class="foot">${sub}</p>
-      <ul>${items.map(a => `<li><span class="ai-name">${esc(a.name)}${a.done ? ` <span class="tag good">You do this</span>` : ""}${a.weak ? ` <span class="tag weak">Evidence weak</span>` : ""}</span>${a.now ? `<span class="ai-val">${fig(a.now, "pct")}</span>` : ""}</li>`).join("")}</ul></section>`;
+      <ul>${items.map(a => `<li><span class="ai-name">${esc(a.name)}${a.done ? ` <span class="tag you">You do this</span>` : ""}${a.weak ? ` <span class="tag weak">Evidence weak</span>` : ""}</span>${a.now ? `<span class="ai-val">${fig(a.now, "pct")}</span>` : ""}</li>`).join("")}</ul></section>`;
   }).join("");
   return `
     <p class="rd-lead">How much of each of this role's ${ai.length} largest activities AI does directly when people use Claude for it, across bundled releases up to ${esc(releaseLabel(d.release))}.</p>
@@ -1297,7 +1301,7 @@ function renderRoute() {
       <div><p class="d-kicker">${esc(r.family_label)}</p><h1 id="h-route" class="rd-title" tabindex="-1">${esc(r.title)}</h1></div>${saveBtn(r)}
       <p class="rd-desc">${esc(r.description.first)}${srcMarks(r.description.src)}</p>
       <p class="rr-meta">O*NET ${esc(r.code)} · Job Zone ${fig(r.job_zone, "")} · ${esc(r.masco.label || "")}</p>
-      <div class="chips">${workChip(r)}<span class="chip">US outlook: ${esc(bandShort(r.job_outlook))}${srcMarks(r.job_outlook.src)}</span>${entryChip(r)}</div>
+      <div class="chips">${workChip(r)}<span class="chip ${bandClass(r.job_outlook)}">US outlook: ${esc(bandShort(r.job_outlook))}${srcMarks(r.job_outlook.src)}</span>${entryChip(r)}</div>
     </header>
     <fieldset class="rd-tabs"><legend class="vh">Show</legend>
       <div class="seg-ctl tab-seg" style="--n:4">${[["overview", "Overview"], ["ai", "AI use"], ["block", "First block"], ["jobs", "Jobs"]].map(([k, t]) => `<label><input type="radio" name="rtab" value="${k}" ${tab === k ? "checked" : ""}>${t}</label>`).join("")}</div></fieldset>
@@ -1673,7 +1677,7 @@ function renderProfile() {
   const words = v => (v && v.trim() ? `<mark class="words">${esc(v)}</mark>` : `<span class="foot">Not answered</span>`);
   const names = activityNames();
   box.innerHTML = `
-    ${persona ? `<div class="callout">${icon("info")}<p>You are looking at ${esc(persona.name)}'s example, a synthetic person. Get started on the start page to use your own words.</p></div>` : ""}
+    ${persona ? `<div class="callout">${icon("info")}<p>You are looking at ${esc(persona.name)}'s example, a synthetic person. Choose Describe your work to use your own words.</p></div>` : ""}
     <section class="soft-card" aria-labelledby="h-prog"><h2 id="h-prog">Your progress</h2>
       <div class="ring-row"><span class="ring-box">${ring(done, items.length)}<span class="ring-num" aria-hidden="true">${done}/${items.length}</span></span>
         <p>${done} of ${items.length} steps done.${next ? ` Next: ${esc(next[0].toLowerCase())}.` : " Every step is done."}</p></div>

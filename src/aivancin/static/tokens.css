@@ -16,6 +16,9 @@
   --marker: #F6BADA; --marker-text: #1D1D1F; --marker-edge: #B0287A;
   --rust: #B54708; --rust-tint: #FBEBDD; --evidence: #0B7285; --evidence-tint: #DDF0F3;
   --danger: #D70015; --danger-tint: #FDECEC; --on-danger: #FFFFFF;
+  /* Colour roles: pink is you (your words, overlap, route, bookmarks, done steps); green is growth; a hue per role family. */
+  --you: #B0287A; --you-tint: #FDEAF3; --on-you: #FFFFFF; --grow: #1E7B34; --grow-tint: #E5F4E9;
+  --fam-sw: #6B3FD1; --fam-sw-tint: #EFEAFB;
   --glass: rgba(251, 251, 253, 0.74); --glass-solid: #FBFBFD; --glass-edge: rgba(16, 16, 24, 0.08);
   --ring: 0 0 0 1px rgba(16, 16, 24, 0.05);
   --shadow-card: 0 0 0 1px rgba(16, 16, 24, 0.04), 0 1px 2px rgba(16, 16, 24, 0.04), 0 6px 20px -8px rgba(16, 16, 24, 0.08);
@@ -33,7 +36,7 @@
     --fill: #2A2932; --fill-hover: #33323C; --track: #2E2C37; --thumb: #4A4856;
     --accent: #249FF5; --accent-pressed: #5AB6F8; --accent-tint: #10263D; --on-accent: #0E0D12;
     --marker-edge: #F6BADA;
-    --rust: #FFA86B; --rust-tint: #33231A; --evidence: #4DC7B5; --evidence-tint: #12303A; --danger: #FF6961; --danger-tint: #3A1A1C; --on-danger: #0E0D12;
+    --rust: #FFA86B; --rust-tint: #33231A; --evidence: #4DC7B5; --evidence-tint: #12303A; --danger: #FF6961; --danger-tint: #3A1A1C; --on-danger: #0E0D12; --you: #F6BADA; --you-tint: #3A1F2E; --on-you: #0E0D12; --grow: #6FD08C; --grow-tint: #16301F; --fam-sw: #B9A3FF; --fam-sw-tint: #251E3D;
     --glass: rgba(22, 21, 28, 0.72); --glass-solid: #16151C; --glass-edge: rgba(255, 255, 255, 0.08);
     --ring: 0 0 0 1px rgba(255, 255, 255, 0.06);
     --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 6px 20px -8px rgba(0, 0, 0, 0.5);
@@ -47,7 +50,7 @@
   --fill: #2A2932; --fill-hover: #33323C; --track: #2E2C37; --thumb: #4A4856;
   --accent: #249FF5; --accent-pressed: #5AB6F8; --accent-tint: #10263D; --on-accent: #0E0D12;
   --marker-edge: #F6BADA;
-  --rust: #FFA86B; --rust-tint: #33231A; --evidence: #4DC7B5; --evidence-tint: #12303A; --danger: #FF6961; --danger-tint: #3A1A1C; --on-danger: #0E0D12;
+  --rust: #FFA86B; --rust-tint: #33231A; --evidence: #4DC7B5; --evidence-tint: #12303A; --danger: #FF6961; --danger-tint: #3A1A1C; --on-danger: #0E0D12; --you: #F6BADA; --you-tint: #3A1F2E; --on-you: #0E0D12; --grow: #6FD08C; --grow-tint: #16301F; --fam-sw: #B9A3FF; --fam-sw-tint: #251E3D;
   --glass: rgba(22, 21, 28, 0.72); --glass-solid: #16151C; --glass-edge: rgba(255, 255, 255, 0.08);
   --ring: 0 0 0 1px rgba(255, 255, 255, 0.06);
   --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 6px 20px -8px rgba(0, 0, 0, 0.5);

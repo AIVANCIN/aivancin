@@ -438,6 +438,12 @@ textarea::placeholder, input::placeholder { color: var(--text2); opacity: 1; }
 .chg .gap-name { font: 600 17px/1.35 var(--display); letter-spacing: -0.012em; }
 .explore-row { margin-top: 20px; text-align: center; }
 .chip.accent { background: var(--accent-tint); color: var(--accent); }
+/* Colour roles (tokens.css): pink for you, green for growth, a hue per role family; AI evidence keeps teal. */
+.chip.you, .tag.you { background: var(--you-tint); color: var(--you); }
+.chip.grow, .tag.grow { background: var(--grow-tint); color: var(--grow); }
+.fam-tile.fam-software { background: var(--fam-sw-tint); color: var(--fam-sw); }
+.fam-tile.fam-finance_analytics { background: var(--you-tint); color: var(--you); }
+.ai-group.ai-sparkles { background: var(--evidence-tint); box-shadow: none; }
 .chip.limit { background: var(--rust-tint); color: var(--rust); }
 /* Chips that hold a sentence with figures flow as text, not as flex items. */
 .route-row .chip, .rd-head .chip { display: inline-block; line-height: 1.35; }
@@ -456,11 +462,11 @@ textarea::placeholder, input::placeholder { color: var(--text2); opacity: 1; }
 .route-item { position: relative; }
 .route-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: start; width: 100%; padding: 18px 56px 18px 18px; border: 0; border-radius: 20px; background: var(--card); box-shadow: var(--shadow-card); color: var(--text); text-align: left; cursor: pointer; transition: box-shadow 150ms var(--ease); }
 .route-row:hover { box-shadow: var(--shadow-float); }
-.route-row.chosen { box-shadow: 0 0 0 2px var(--accent), var(--shadow-card); }
+.route-row.chosen { box-shadow: 0 0 0 2px var(--you), var(--shadow-card); }
 .route-row > .ico { align-self: center; color: var(--text2); }
 .route-row .rr-body { display: block; min-width: 0; }
 .route-row .rr-title { display: block; font: 600 18px/1.3 var(--display); letter-spacing: -0.015em; }
-.rr-chosen { display: inline-flex; align-items: center; gap: 4px; margin-top: 4px; font-size: 13px; font-weight: 600; color: var(--accent); }
+.rr-chosen { display: inline-flex; align-items: center; gap: 4px; margin-top: 4px; font-size: 13px; font-weight: 600; color: var(--you); }
 /* Three lines at most on the card; the route screen shows the whole description. */
 .rr-desc { display: -webkit-box; margin-top: 4px; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; font-size: 15px; line-height: 1.4; color: var(--text2); }
 .route-row .chips { margin-top: 12px; gap: 6px; }
@@ -471,7 +477,7 @@ textarea::placeholder, input::placeholder { color: var(--text2); opacity: 1; }
 .rd-head { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 16px; align-items: center; }
 .save-btn { position: absolute; top: 8px; right: 6px; color: var(--text2); }
 .rd-head .save-btn { position: static; align-self: start; margin: -4px -8px 0 0; }
-.save-btn[aria-pressed="true"] { color: var(--accent); }
+.save-btn[aria-pressed="true"] { color: var(--you); }
 .save-btn[aria-pressed="true"] .ico { fill: currentColor; }
 .rd-head > p, .rd-head > .chips { grid-column: 1 / -1; }
 .rd-title { margin-top: 2px; font: 700 clamp(26px, 5vw, 34px)/1.12 var(--display); letter-spacing: -0.025em; }
@@ -492,7 +498,7 @@ textarea::placeholder, input::placeholder { color: var(--text2); opacity: 1; }
 .ring { display: block; width: 72px; height: 72px; }
 .ring circle { fill: none; stroke-width: 7; }
 .ring-track { stroke: var(--track); }
-.ring-fill { stroke: var(--marker); stroke-linecap: round; }
+.ring-fill { stroke: var(--you); stroke-linecap: round; }
 .ring-num { position: absolute; inset: 0; display: grid; place-items: center; font: 700 16px/1 var(--display); font-variant-numeric: tabular-nums; }
 .ring-row p { font-size: 15px; line-height: 1.45; }
 .gaps li b.in-block { border: 0; background: var(--accent) var(--check) center / 12px no-repeat; }
@@ -539,7 +545,8 @@ details.plan-scen { margin-top: 12px; padding: 0 20px; border-radius: 18px; back
 .pstep { position: relative; padding: 18px; border-radius: 20px; background: var(--card); box-shadow: var(--shadow-card); }
 @media (min-width: 760px) { .pstep { padding: 22px; } }
 .pnum { position: absolute; left: -40px; top: 18px; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: var(--on-accent); box-shadow: 0 0 0 4px var(--canvas); font-size: 13px; font-weight: 600; }
-.pstep.done .pnum { background: var(--fill); color: var(--text); }
+.pstep.done .pnum { background: var(--you); color: var(--on-you); }
+.pstep .check-line input { accent-color: var(--you); }
 .pstep-top { display: flex; gap: 12px; align-items: baseline; justify-content: space-between; }
 .pstep .gap-name { font: 600 17px/1.35 var(--display); letter-spacing: -0.012em; }
 .p-hours { flex: none; font-size: 14px; color: var(--text2); white-space: nowrap; }
@@ -633,7 +640,7 @@ body[data-tabs="on"] .stage-cta { bottom: calc(72px + env(safe-area-inset-bottom
 .plain-rows { margin: 10px 0 0; padding: 0; list-style: none; }
 .plain-rows li { display: flex; gap: 10px; align-items: center; justify-content: space-between; min-height: 44px; padding: 6px 0; font-size: 15px; line-height: 1.38; }
 .plain-rows li + li { border-top: 1px solid var(--sep); }
-.plain-rows li > .ico { flex: none; color: var(--accent); }
+.plain-rows li > .ico { flex: none; color: var(--you); }
 .plain-rows li > .ico + span { flex: 1; }
 
 /* Profile */
@@ -642,7 +649,7 @@ body[data-tabs="on"] .stage-cta { bottom: calc(72px + env(safe-area-inset-bottom
 .progress-list li + li { border-top: 1px solid var(--sep); }
 .progress-list li:not(.ok) { color: var(--text2); }
 .pl-mark { display: grid; place-items: center; width: 24px; height: 24px; flex: none; border: 2px solid var(--border); border-radius: 50%; }
-.ok .pl-mark { border: 0; background: var(--accent); color: var(--on-accent); }
+.ok .pl-mark { border: 0; background: var(--you); color: var(--on-you); }
 .ok .pl-mark .ico { width: 14px; height: 14px; stroke-width: 3; }
 .answers { margin: 4px 0 16px; }
 .answers dt { margin-top: 14px; font-size: 13px; font-weight: 600; color: var(--text2); }
