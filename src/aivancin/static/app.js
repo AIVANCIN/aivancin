@@ -935,12 +935,41 @@ function renderSources() {
   $("#sources").innerHTML = recs.map((r, i) => `<li id="src-${esc(r.source_id)}"><b>${i + 1}. ${esc(r.title)}</b>. ${esc(r.publisher || "")}. ${esc(r.release || "")}${r.window_start ? `, window ${esc(r.window_start)} to ${esc(r.window_end)}` : ""}; accessed ${esc(r.access_date || "")}; ${esc(r.licence || "")}. ${/^https?:/.test(r.url || "") ? `<a href="${esc(r.url)}" rel="noopener" target="_blank">Source</a>` : esc(r.url || "")}</li>`).join("")
     + `<li id="src-your-input"><b>you. Your input</b>: hours, budget and the weights you set.</li>`
     + `<li id="src-explore-defaults"><b>default. Starting assumptions</b>: before you describe your work, first blocks use 6 hours a week and a RM0 budget, the questions' starting values.</li>`;
+  if (state.status.source_status) $("#sources-watch").textContent = watchSummary();
+}
+
+/* How it works (SPEC 11.7): what each step does, and the measured checks with their dates. The model is named once. */
+const CHECK_STATUS = { pass: ["good", "Pass"], fail: ["limit", "Not met"], reported: ["weak", "Reported"] };
+function renderHow() {
+  const c = state.status?.checks, src = ["aivancin-checks"];
+  const n = (v, s) => fig({ v, src: s }, "int");
+  const pair = (x, of) => `${n(x, src)} of ${n(of, src)}`;
+  const checks = c ? c.checks.map(k => {
+    const [cls, label] = CHECK_STATUS[k.status] || CHECK_STATUS.reported;
+    const main = k.id === "a18" ? `${fig({ v: k.result[0], src }, "")} against ${fig({ v: k.result[1], src }, "")}`
+      : k.id === "a3" ? `${n(k.result[0], src)} against ${n(k.result[1], src)}` : pair(k.result[0], k.result[1]);
+    const second = k.second ? `; ${k.second_what || "second set"}: ${pair(k.second[0], k.second[1])}` : "";
+    const when = new Date(`${k.date}T00:00:00`).toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+    return `<li><span class="tag ${cls}">${label}</span> <b>${esc(k.name)}</b><span class="foot">${esc(k.what)}: ${main}${second}${k.bar ? ` (bar ${n(k.bar, src)})` : ""} · ${esc(when)} · <code>${esc(k.command)}</code></span></li>`;
+  }).join("") : "";
+  $("#how-body").innerHTML = `
+    <section class="how-step" data-scope><h3>${icon("pencil-line", "sm")}1. Describe your work</h3>
+      <p>You write what you do in your own words. A small language model that runs on this server, all-MiniLM-L6-v2, compares each sentence with the ${n(2087, ["onet31-dwas"])} work activities O*NET records and suggests the closest five. Nothing counts until you tick it. Sentences about work not done, plans, or someone else's work are held back, and names, gender and age are read neutrally.</p></section>
+    <section class="how-step" data-scope><h3>${icon("radar", "sm")}2. The Radar</h3>
+      <p>Four separate signals for your skills and routes: US job projections (BLS), how much of each activity sits in growing jobs, how much of it AI already does in observed Claude use under slower, moderate and faster scenarios, and Malaysia's observed trend for the skill group. They are never combined into one score.</p></section>
+    <section class="how-step" data-scope><h3>${icon("route", "sm")}3. Routes</h3>
+      <p>${state.status?.supported_destinations ? fig(state.status.supported_destinations, "int") : "The"} supported graduate roles in IT support, software, and finance and data. A route needs at least two of your confirmed activities and shows its requirements, outlook and a first learning block; when fewer than two qualify, the closest other roles are there to explore.</p></section>
+    <section class="how-step" data-scope><h3>${icon("list-checks", "sm")}4. Your plan</h3>
+      <p>A first block of free, link-checked courses that fits your weeks, hours and budget, each step with a practice checkpoint. When a scenario says AI will do most of a gap's work directly, its checkpoint adds checking an AI's output. Each step names the SDG targets it serves and why, and newer evidence never changes your plan unless you choose it.</p></section>
+    ${checks ? `<section class="how-step" data-scope><h3>${icon("gauge", "sm")}What we measured</h3>
+      <p class="foot">${esc(c.note)}</p><ul class="how-checks">${checks}</ul></section>` : ""}`;
+  attachSources($("#how-body"));
 }
 
 /* Sources open in a sheet over the current screen, so checking a figure never loses your place.
    A section's button shows only that section's sources; "Show all" and the settings entry show every
    source with the licence notes. A single cited source is highlighted and focused. Closing returns focus. */
-let sourcesOpener = null;
+let sourcesOpener = null, howOpener = null;
 function openSources(id, opener, only = null) {
   const sheet = $("#sources-sheet");
   sourcesOpener = opener;
@@ -971,6 +1000,8 @@ async function start() {
   // Only the app's own entries carry a state; an in-page anchor's entry has none and must not move screens.
   window.addEventListener("popstate", e => { if (e.state) { if (canShow(e.state.screen)) show(e.state.screen, e.state.page || 1); else show("welcome"); } });
   $("#sources-done").addEventListener("click", () => $("#sources-sheet").close());
+  $("#how-done").addEventListener("click", () => $("#how-sheet").close());
+  $("#how-sheet").addEventListener("close", () => { howOpener?.focus({ preventScroll: true }); howOpener = null; });
   $("#sources-all").addEventListener("click", () => openSources(null, sourcesOpener));
   $("#sources-sheet").addEventListener("close", () => { sourcesOpener?.focus({ preventScroll: true }); sourcesOpener = null; });
   // A click on the backdrop (the dialog element itself, outside its content) closes either sheet.
@@ -978,6 +1009,16 @@ async function start() {
   $("#back").addEventListener("click", () => history.back());
   document.addEventListener("click", async e => {
     if (e.target.closest(".settings-open")) { $("#settings").showModal(); return; }
+    const how = e.target.closest(".how-open");
+    if (how) {
+      const settings = how.closest("dialog");
+      if (settings) settings.close();
+      howOpener = settings ? $$(".settings-open").find(x => x.offsetParent) : how;
+      renderHow();
+      $("#how-sheet").showModal();
+      $("#how-sheet .sheet-body").scrollTop = 0;
+      return;
+    }
     const cite = e.target.closest('a[href^="#src-"]');
     if (cite) { e.preventDefault(); openSources(cite.getAttribute("href").slice(1), cite); return; }
     const section = e.target.closest(".src-btn");
@@ -1513,6 +1554,24 @@ function radarChanging(rd) {
       : `<p>No gap reaches the threshold in this scenario by the look-ahead, so no checkpoint adds AI checking.</p>`}</section>`;
 }
 
+/* Source watch (SPEC 11.7): the last upstream check for a bundled source, if it is one the watch covers. */
+function watchFor(id) {
+  const st = state.status?.source_status;
+  if (!st) return null;
+  const key = id.startsWith("aei-2") ? "aei" : id.startsWith("onet31-") ? "onet" : id;
+  return st.sources.find(x => x.source === key) || null;
+}
+const WATCH_NAMES = { aei: "Anthropic Economic Index releases", onet: "O*NET database", "dosm-wages-occupation": "DOSM wages by occupation",
+  "dosm-sru-age": "DOSM underemployment by age", "dosm-sru-sex": "DOSM underemployment by sex", "onet-online-outlook": "BLS projections on O*NET OnLine" };
+function watchSummary() {
+  const st = state.status.source_status, when = new Date(`${st.checked_on}T00:00:00`).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  const by = k => st.sources.filter(x => x.status === k).map(x => WATCH_NAMES[x.source] || x.source);
+  const newer = by("newer available"), unknown = by("unknown");
+  return `Checked against upstream on ${when}: ${st.sources.length - newer.length - unknown.length} of ${st.sources.length} sources current`
+    + (newer.length ? `; newer available: ${newer.join(", ")} (added only through the snapshot builder)` : "")
+    + (unknown.length ? `; could not check: ${unknown.join(", ")}` : "") + ".";
+}
+
 function radarSure(rd) {
   const s = rd.sure, b = s.backtest;
   const fmtDate = iso => new Date(`${iso}T00:00:00`).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
@@ -1532,7 +1591,8 @@ function radarSure(rd) {
       <dd>Observed DOSM figures for the whole skill group, from 2016 to the latest year. Not projected.</dd>
       ${s.registered ? `<dt>Checking ourselves</dt><dd>Today's AI-shift outlook for ${fig(s.registered.count, "int")} activities was frozen on ${esc(fmtDate(s.registered.date))} (SHA-256 <code>${esc(s.registered.sha256.slice(0, 12))}</code>) and will be scored against the next AI-usage release.${srcMarks(s.registered.src)}</dd>` : ""}
     </dl>
-    <details class="more"><summary class="link-btn">Source dates</summary><ul class="src-dates">${used.map(id => { const r = state.sources[id]; return `<li><b>${esc(r.title)}</b><span class="foot">${esc(r.release || "")}${r.access_date ? ` · accessed ${esc(r.access_date)}` : ""}</span></li>`; }).join("")}</ul></details></section>`;
+    <details class="more"><summary class="link-btn">Source dates and last check</summary><ul class="src-dates">${used.map(id => { const r = state.sources[id]; const w = watchFor(id); return `<li><b>${esc(r.title)}</b><span class="foot">${esc(r.release || "")}${r.access_date ? ` · accessed ${esc(r.access_date)}` : ""}${w ? ` · checked against upstream ${esc(fmtDate(state.status.source_status.checked_on))}: ${esc(w.status)}${w.status === "current" ? "" : ` (${esc(w.detail)})`}` : ""}</span></li>`; }).join("")}</ul>
+      ${state.status.source_status ? `<p class="foot">${esc(watchSummary())}${srcMarks(["aivancin-source-status"])}</p>` : ""}</details></section>`;
 }
 
 function renderRadar() {

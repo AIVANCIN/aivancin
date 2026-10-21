@@ -1,0 +1,16 @@
+{
+ "updated": "2026-10-21",
+ "note": "Results of the predeclared checks, as recorded in the README's Evidence section. Synthetic, agent-written test text; no real users yet.",
+ "checks": [
+  {"id": "a1", "name": "Suggestion accuracy", "what": "Everyday descriptions with a correct activity in the top five", "result": [18, 20], "second": [19, 20], "bar": 16, "status": "pass", "date": "2026-10-21", "command": "python tools/checks/a1_a3.py"},
+  {"id": "a3", "name": "Model against keyword search", "what": "Relevant roles in the top five per 50, model with your ticks against keyword (BM25) suggestions", "result": [32, 16], "bar": 10, "status": "pass", "date": "2026-10-21", "command": "python tools/checks/a1_a3.py"},
+  {"id": "a2", "name": "Complete chain", "what": "Relevant roles in the top five per 50, from fresh text to roles", "result": [32, 50], "bar": 30, "second_what": "profiles with three or more", "second": [5, 10], "second_bar": 7, "status": "fail", "date": "2026-10-21", "command": "python tools/checks/a1_a3.py"},
+  {"id": "b7", "name": "Routes for in-scope people", "what": "Fresh profiles with two relevant routes and a four-week block serving three gaps", "result": [7, 12], "bar": 10, "status": "fail", "date": "2026-10-21", "command": "python tools/checks/b7_target.py routes"},
+  {"id": "guard", "name": "Guard", "what": "Sentences about work not done, plans or someone else's work held back", "result": [14, 14], "second_what": "own-work controls left alone", "second": [12, 12], "status": "pass", "date": "2026-10-21", "command": "python tools/checks/a6_guard.py"},
+  {"id": "fairness", "name": "Names, gender and age", "what": "Work sentences giving identical suggestions in every name, gender and age variant", "result": [20, 20], "second_what": "variants", "second": [100, 100], "status": "pass", "date": "2026-10-21", "command": "python tools/checks/c13_fairness.py"},
+  {"id": "a18", "name": "AI-shift backtest", "what": "Average error predicting the June 2026 value of 500 activities, in points: historical average against the last value", "result": [16.33, 17.81], "status": "reported", "date": "2026-10-21", "command": "python tools/checks/a18_backtest.py"},
+  {"id": "forecast", "name": "Forecast signals", "what": "Skill-demand values recomputed separately from the raw files without a mismatch", "result": [1721, 1721], "status": "pass", "date": "2026-10-21", "command": "python tools/checks/forecast_checks.py"},
+  {"id": "replay", "name": "Evidence-to-plan replay", "what": "Checks passing when one evidence update changes one plan step", "result": [12, 12], "status": "pass", "date": "2026-10-21", "command": "python tools/checks/replay.py"},
+  {"id": "heldout", "name": "Held-out casual descriptions", "what": "Sentences with a correct activity in the top five, current model (the bar for any fine-tuned model)", "result": [39, 60], "status": "reported", "date": "2026-10-21", "command": "python tools/finetune/evaluate.py"}
+ ]
+}

@@ -32,6 +32,15 @@ def client():
     return TestClient(create_app(DATA))
 
 
+def test_status_carries_the_watch_checks_and_route_count(client, snaps):
+    st = client.get("/api/status").json()
+    assert st["source_status"] == snaps.source_status and st["checks"] == snaps.checks
+    admitted = [d for d in snaps.routes["destinations"] if d["admitted"]]
+    assert st["supported_destinations"] == {"v": len(admitted), "src": ["aivancin-routes"]} and len(admitted) == 17
+    ids = {r["source_id"] for r in st["snapshots"]}
+    assert {"aivancin-checks", "aivancin-source-status", "aivancin-routes"} <= ids
+
+
 def test_api_flow_for_a_persona(client):
     assert client.get("/api/status").json()["ai_suggestions"] == "available"
     hafiz = next(p for p in client.get("/api/personas").json() if p["id"] == "hafiz")

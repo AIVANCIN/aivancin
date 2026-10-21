@@ -85,6 +85,8 @@ class Snapshots:
     backtest: dict = field(default_factory=dict, repr=False)
     routes: dict = field(default_factory=dict, repr=False)
     registered: dict = field(default_factory=dict, repr=False)
+    source_status: dict = field(default_factory=dict, repr=False)
+    checks: dict = field(default_factory=dict, repr=False)
     rejected: dict = field(default_factory=dict)
 
     def source(self, source_id):
@@ -201,6 +203,10 @@ def load(data_dir=DEFAULT_DATA_DIR):
         snaps.routes = json.loads(paths["aivancin-routes"].read_text(encoding="utf-8"))
     if "aivancin-backtest" in paths:
         snaps.backtest = json.loads(paths["aivancin-backtest"].read_text(encoding="utf-8"))
+    if "aivancin-checks" in paths:
+        snaps.checks = json.loads(paths["aivancin-checks"].read_text(encoding="utf-8"))
+    if "aivancin-source-status" in paths:
+        snaps.source_status = json.loads(paths["aivancin-source-status"].read_text(encoding="utf-8"))
     if "aivancin-registered-forecasts" in paths:
         snaps.registered = json.loads(paths["aivancin-registered-forecasts"].read_text(encoding="utf-8"))
     if "aivancin-catalogue" in paths:

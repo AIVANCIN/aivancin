@@ -770,3 +770,18 @@ html[data-motion="on"] .btn { transition: transform 200ms var(--spring), backgro
 .chip.weak-chip { background: var(--fill); color: var(--text2); }
 .no-role { margin-top: 20px; }
 .no-role .describe-actions { margin-top: 14px; }
+
+/* How it works (SPEC 11.7) */
+.how-link { display: block; width: 100%; margin-top: 4px; font-size: 15px; text-align: center; }
+@media (min-width: 760px) and (min-aspect-ratio: 7/5) { .how-link { align-self: flex-start; width: auto; margin-top: 12px; text-align: left; } }
+.how-step + .how-step { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--sep); }
+.how-step h3 { display: flex; align-items: center; gap: 8px; font: 600 17px/1.3 var(--display); letter-spacing: -0.012em; }
+.how-step h3 .ico { color: var(--accent); }
+.how-step p { margin-top: 6px; font-size: 15px; line-height: 1.5; }
+.how-checks { margin: 10px 0 0; padding: 0; list-style: none; }
+.how-checks li { padding: 10px 0; font-size: 15px; line-height: 1.4; }
+.how-checks li + li { border-top: 1px solid var(--sep); }
+.how-checks .tag { padding: 2px 8px; font-size: 12px; }
+.how-checks .foot { display: block; margin-top: 4px; }
+.how-checks code { font-size: 12px; overflow-wrap: anywhere; }
+.about .set-row + .set-row { margin-top: 8px; }

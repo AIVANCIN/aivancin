@@ -71,7 +71,7 @@ In Q2 2026, 40.7% of employed tertiary-educated Malaysians aged 25-34 (751,100 p
 
 ### Solution
 
-The app opens on a welcome screen with the artwork, then asks four short questions one at a time (current job, other work, studies, time and budget). Review, routes, plan and what changed each get their own screen, with a back button and a progress bar; the browser's back button follows the same path. Get started opens the tabs (Routes, Radar, Plan, Learn, Profile) straight away: before you describe your work, Routes lists all 17 supported roles with their future, job-ad links and a first block on starting assumptions (6 hours a week, no budget), the Radar shows the main activities of those roles, and a card leads to the questions. After you confirm your activities, the same tabs show your own routes. Each tab returns to where you left it; the questions and the review have no tabs. Only the first question is needed: "Read my work now" skips the rest, keeping their starting values. The review then goes one sentence per page, like the questions, each with its five suggestions and Next; the job title's activities follow, and a last page holds your list, a search for anything missed and Compare routes. The bar counts the questions (1/4 to 4/4) and then the review's pages. Your answers and choices are kept in this browser, so the welcome screen offers to continue your plan. The interface uses KL Pro, a live Jost wordmark and responsive WebP artwork. The gear button opens Display settings: Appearance follows the device or your Light/Dark choice, and Motion defaults to Device, with Full and Reduced overrides. Both choices stay on your device when browser storage is available. `?motion=auto|force|reduce` also sets motion. Hidden tabs pause animations.
+The app opens on a welcome screen with the artwork, then asks four short questions one at a time (current job, other work, studies, time and budget). Review, routes, plan and what changed each get their own screen, with a back button and a progress bar; the browser's back button follows the same path. Get started opens the tabs (Routes, Radar, Plan, Learn, Profile) straight away: before you describe your work, Routes lists all 17 supported roles with their future, job-ad links and a first block on starting assumptions (6 hours a week, no budget), the Radar shows the main activities of those roles, and a card leads to the questions. After you confirm your activities, the same tabs show your own routes. Each tab returns to where you left it; the questions and the review have no tabs. Only the first question is needed: "Read my work now" skips the rest, keeping their starting values. The review then goes one sentence per page, like the questions, each with its five suggestions and Next; the job title's activities follow, and a last page holds your list, a search for anything missed and Compare routes. The bar counts the questions (1/4 to 4/4) and then the review's pages. Your answers and choices are kept in this browser, so the welcome screen offers to continue your plan. The interface uses KL Pro, a live Jost wordmark and responsive WebP artwork. The gear button opens Display settings: Appearance follows the device or your Light/Dark choice, and Motion defaults to Device, with Full and Reduced overrides. Both choices stay on your device when browser storage is available. Display settings and the welcome screen also open How it works. `?motion=auto|force|reduce` also sets motion. Hidden tabs pause animations.
 
 Run the motion preference checks with `node --test tests/motion.test.cjs` (Node.js built-in test runner), alongside `pytest`. Artwork was resized with the already available Pillow tool; there is no additional runtime dependency. Original PNGs are retained in `assets/art`, while the page loads WebP derivatives and uses the wordmark artwork only for its social preview.
 
@@ -96,6 +96,8 @@ The AI is a local sentence encoder, all-MiniLM-L6-v2 (quantized ONNX, about 23 M
 - **A plan from verified resources only:** steps for the largest gaps from link-checked free Microsoft Learn modules and Saylor University courses, hours and weeks at your pace, and "no verified resource" where none exists.
 - **SDG reasons you can check:** each plan step carries its SDG tags, and its checkpoint says why each applies; routes can be ordered by "Decent work (SDG 8.5)" (the DOSM 2025 median wage of the role's skill group, higher first, then overlap); Plan's "How this path contributes" counts the skill-level step and pay step, the gaps served and hours, the free steps and the checkpoints with AI checking, beside the 25-34 underemployment trend (31.3% in 2017 Q1 to 40.7% in 2026 Q2) and the SDG 5 context; Profile repeats the counts. Target wording is from sdgs.un.org.
 - **Every number has a source:** each section's Sources button opens the dated sources behind its figures, without leaving the screen; Display settings holds the full list with the licence notes.
+- **Sources checked against upstream:** `python tools/check_sources.py` compares each bundled source with its upstream version (Anthropic Economic Index release folders, the O\*NET database version, the DOSM files' latest dates, the BLS projection period on O\*NET OnLine) and records current, newer available or unknown in `data/source_status.json`; the Radar's source dates and the Sources sheet show the last check (21 Oct 2026: 6 of 6 current). It never changes the data: a newer release enters only through the snapshot builder.
+- **How it works, in the app:** a sheet from the welcome screen and Display settings explains describe, Radar, routes and plan as the app does them, and lists the measured checks below with their results, dates and commands.
 - **Reproducible data:** every dataset and the model are bundled with their source, release date, licence and SHA-256 hashes; the same input always gives the same suggestions and ranking.
 
 ## See it in action
@@ -162,6 +164,8 @@ flowchart LR
 | Encoder fine-tuning on RunPod | PREPARED, NOT RUN: pairs, training script and a held-out gate; the GPU run is the team's | `tools/finetune/` (see its README), `tests/test_finetune_prep.py` |
 | Routes, first learning blocks, shared foundations, what changed | WORKING (first version) | `tests/test_routes.py` (B1-B6), `/api/routes`, `/api/update` |
 | Evidence-to-plan replay | WORKING | `python tools/checks/replay.py`, `tests/test_replay.py` |
+| Source watch | WORKING (run by hand; the app never fetches) | `python tools/check_sources.py`, `tests/test_source_watch.py` (C14, recorded responses) |
+| How it works sheet with the measured checks | WORKING | `data/checks.json`, `GET /api/status`, `tests/test_app_and_failures.py` |
 | Future Skills Radar and job outlook | WORKING (first version) | `tests/test_matching_and_report.py`, `tests/test_forecast.py`, `python tools/checks/a18_backtest.py` |
 | Skill demand, time to threshold, Malaysian trend, registered forecasts | WORKING | `python tools/checks/forecast_checks.py` (C1-C5), `python tools/export_forecasts.py` |
 | Web interface | WORKING (local) | `tests/test_app_and_failures.py`; scripted Edge runs at 390 and 1280 px in light and dark, 21 Oct 2026 |
@@ -176,7 +180,7 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 
 | What we checked | Observation | Reproduction and limits |
 | --- | --- | --- |
-| **Core path and recovery** | PASS, 190/190 tests | `python -m pytest`, 21 Oct 2026, Windows 11, Python 3.13; network access blocked during tests; includes missing, altered and mismatched model files, a corrupted AI-usage release and expired course link checks |
+| **Core path and recovery** | PASS, 198/198 tests | `python -m pytest`, 21 Oct 2026, Windows 11, Python 3.13; network access blocked during tests; includes missing, altered and mismatched model files, a corrupted AI-usage release and expired course link checks |
 | **Forecast signals (C1-C5)** | PASS, 4 of 4 gated checks, plus one reported. Skill demand for 1,721 activities reproduces from the raw files with a separate implementation (0 mismatches); time to threshold matches the formula on 1,464 Radar values for Hafiz and Priya; the Malaysian trend reproduces for all 9 groups and pay steps still use 2025; the registered forecasts reproduce byte for byte. Reported: 103 and 176 of 1,721 demand labels change with cut-offs of 15 and 35 points instead of 25 | `python tools/checks/forecast_checks.py`, 21 Oct 2026. Skill demand inherits BLS's uncertainty; the registered forecasts have not been scored, because no later AI-usage release exists yet |
 | **Skill-outlook backtest** | Predicting the June 2026 value of 500 activities from the three earlier releases: historical average 16.3 points mean absolute error, last value 17.8, trend line 22.0. Past changes continued in only 31.9% of 364 cases | `python tools/checks/a18_backtest.py`; protocol and thresholds fixed before the run; one release only, across a format change. Hence the moderate scenario uses the average and the radar shows no rising or falling labels |
 | **Hafiz contrast** | Job title alone: 0 of the top 10 roles are computing roles; with his confirmed weekend work: at least 6 of 10 | `tests/test_matching_and_report.py`; relevance rule fixed before the earlier research probe; synthetic persona |
@@ -219,7 +223,7 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 ### Privacy, safety and reliability
 
 - **Data:** text is processed in memory for the request and not stored or logged by the server. Your answers, confirmed activities, chosen route, ticked steps and saved routes are kept in your browser's local storage so you can continue later; Clear my data in Profile removes them. There are no accounts. Demo personas are synthetic.
-- **Sharing:** none. The app makes no network requests; the model runs locally. Course and job-search links open the other site only when the user clicks them.
+- **Sharing:** none. The app makes no network requests; the model runs locally. The source watch (`tools/check_sources.py`) reads public release pages only when someone runs it. Course and job-search links open the other site only when the user clicks them.
 - **Security:** inputs are validated server-side, and the server recomputes suggestions rather than trusting the client. No secrets are needed or stored.
 - **Failure behaviour:** a missing or altered model, tokenizer or vector file switches to keyword search with a clear message; an altered dataset file stops the app at start-up rather than serving wrong data.
 
@@ -244,6 +248,7 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 │   ├── destinations_curation.json  # Supported destinations and candidates; build_routes.py applies the admission rule
 │   ├── fetch_outlook.py    # Caches O*NET OnLine job-outlook pages for the snapshot
 │   ├── export_forecasts.py # Freezes the skill-outlook forecasts for scoring against the next release
+│   ├── check_sources.py    # Source watch: each bundled source against its upstream version
 │   ├── finetune/           # RunPod encoder fine-tuning: pairs, training script, local gate
 │   ├── checks/a18_backtest.py  # Skill-outlook backtest behind the displayed error; --prospective scores registered forecasts
 │   ├── checks/forecast_checks.py  # C1-C5: forecast signals recomputed separately
@@ -308,7 +313,7 @@ pip install -r requirements-dev.txt
 python -m pytest
 ```
 
-**Expected result:** `113 passed`. Tests run offline; outbound network access is blocked.  
+**Expected result:** `198 passed`. Tests run offline; outbound network access is blocked.  
 **Rebuild the data (optional):** `python tools/build_snapshots.py` downloads the original files into `.cache/` and rebuilds `data/`; pinned files (model, AEI releases) are checked against their hashes, while live sources such as DOSM and the ESCO API can change. `python tools/build_catalogue.py` refreshes the course list and its link checks.
 
 ---

@@ -368,6 +368,32 @@
       "derived_sha256": "f1e2ecc547d1ecc1c24e126e17f9da55008c9cdc7db9a61d017e5e96affb57f4"
     },
     {
+      "source_id": "aivancin-checks",
+      "title": "AIVANCIN measured checks (README, Evidence and limitations)",
+      "publisher": "AIVANCIN (team DOVUN)",
+      "url": "README.md#evidence-and-limitations",
+      "release": "2026-10-21",
+      "licence": "Project results",
+      "access_date": "2026-10-21",
+      "original_sha256": "8b80d6ae2d8df8fcb57b86b5b74c122c8183dabae62312a45e0f7f5783242d99",
+      "derived_rows": null,
+      "derived_path": "checks.json",
+      "derived_sha256": "8b80d6ae2d8df8fcb57b86b5b74c122c8183dabae62312a45e0f7f5783242d99"
+    },
+    {
+      "source_id": "aivancin-source-status",
+      "title": "AIVANCIN source watch: each bundled source checked against its upstream version",
+      "publisher": "AIVANCIN (team DOVUN)",
+      "url": "tools/check_sources.py",
+      "release": "2026-10-21",
+      "licence": "Derived from public pages",
+      "access_date": "2026-10-21",
+      "original_sha256": "483f91d5afa08363813728d0347b3607b91fac2b7a277b2c8dc80f1acf272399",
+      "derived_rows": null,
+      "derived_path": "source_status.json",
+      "derived_sha256": "483f91d5afa08363813728d0347b3607b91fac2b7a277b2c8dc80f1acf272399"
+    },
+    {
       "source_id": "aivancin-routes",
       "title": "AIVANCIN supported destinations and their sourced requirements",
       "publisher": "AIVANCIN (team DOVUN), from O*NET 31.0 and the curated catalogue",

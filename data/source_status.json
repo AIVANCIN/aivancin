@@ -1,0 +1,54 @@
+{
+ "checked_on": "2026-10-21",
+ "script": "tools/check_sources.py",
+ "sources": [
+  {
+   "source": "aei",
+   "status": "current",
+   "bundled": "2026-06-26",
+   "upstream": "2026-06-26",
+   "detail": "latest release folder 2026-06-26",
+   "url": "https://huggingface.co/api/datasets/Anthropic/EconomicIndex/tree/main"
+  },
+  {
+   "source": "onet",
+   "status": "current",
+   "bundled": "31.0",
+   "upstream": "31.0",
+   "detail": "O*NET 31.0 is the latest database listed",
+   "url": "https://www.onetcenter.org/database.html"
+  },
+  {
+   "source": "dosm-wages-occupation",
+   "status": "current",
+   "bundled": "2025-01-01",
+   "upstream": "2025-01-01",
+   "detail": "upstream and bundled both end 2025-01-01",
+   "url": "https://storage.dosm.gov.my/labour/wages_occupation.csv"
+  },
+  {
+   "source": "dosm-sru-age",
+   "status": "current",
+   "bundled": "2026-04-01",
+   "upstream": "2026-04-01",
+   "detail": "upstream and bundled both end 2026-04-01",
+   "url": "https://storage.dosm.gov.my/labour/lfs_qtr_sru_age.csv"
+  },
+  {
+   "source": "dosm-sru-sex",
+   "status": "current",
+   "bundled": "2026-04-01",
+   "upstream": "2026-04-01",
+   "detail": "upstream and bundled both end 2026-04-01",
+   "url": "https://storage.dosm.gov.my/labour/lfs_qtr_sru_sex.csv"
+  },
+  {
+   "source": "onet-online-outlook",
+   "status": "current",
+   "bundled": "2025-2035",
+   "upstream": "2025-2035",
+   "detail": "projection period 2025-2035",
+   "url": "https://www.onetonline.org/link/summary/15-1232.00"
+  }
+ ]
+}

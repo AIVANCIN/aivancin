@@ -481,6 +481,22 @@ def main():
                       "original_sha256": sha256_file(reg), "derived_rows": None,
                       "derived_path": reg.relative_to(DATA).as_posix(), "derived_sha256": sha256_file(reg)})
 
+    checks = DATA / "checks.json"
+    if checks.exists():
+        final.append({"source_id": "aivancin-checks", "title": "AIVANCIN measured checks (README, Evidence and limitations)",
+                      "publisher": "AIVANCIN (team DOVUN)", "url": "README.md#evidence-and-limitations",
+                      "release": json.loads(checks.read_text(encoding="utf-8"))["updated"], "licence": "Project results",
+                      "access_date": json.loads(checks.read_text(encoding="utf-8"))["updated"], "original_sha256": sha256_file(checks),
+                      "derived_rows": None, "derived_path": "checks.json", "derived_sha256": sha256_file(checks)})
+
+    watch = DATA / "source_status.json"
+    if watch.exists():
+        final.append({"source_id": "aivancin-source-status", "title": "AIVANCIN source watch: each bundled source checked "
+                      "against its upstream version", "publisher": "AIVANCIN (team DOVUN)", "url": "tools/check_sources.py",
+                      "release": json.loads(watch.read_text(encoding="utf-8"))["checked_on"], "licence": "Derived from public pages",
+                      "access_date": json.loads(watch.read_text(encoding="utf-8"))["checked_on"], "original_sha256": sha256_file(watch),
+                      "derived_rows": None, "derived_path": "source_status.json", "derived_sha256": sha256_file(watch)})
+
     routes = DATA / "routes" / "destinations.json"
     if routes.exists():
         final.append({"source_id": "aivancin-routes", "title": "AIVANCIN supported destinations and their sourced requirements",

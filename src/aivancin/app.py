@@ -10,7 +10,7 @@ from fastapi.staticfiles import StaticFiles
 from . import intake, snapshots
 from .encoder import AIUnavailable, load_ai
 from .matching import Matcher
-from .report import Reporter, ReportError
+from .report import Reporter, ReportError, fig
 from .routes import Planner
 
 STATIC = Path(__file__).resolve().parent / "static"
@@ -50,6 +50,9 @@ def create_app(data_dir=snapshots.DEFAULT_DATA_DIR):
                 "ai_unavailable_reason": ai_reason,
                 "rejected_releases": snaps.rejected,
                 "releases": snaps.evidence.ids if snaps.evidence else [],
+                "source_status": snaps.source_status or None,
+                "checks": snaps.checks or None,
+                "supported_destinations": fig(len(planner.dests), "aivancin-routes") if planner.dests else None,
                 "snapshots": [{k: r.get(k) for k in ("source_id", "title", "publisher", "url", "release", "access_date",
                                                      "licence", "window_start", "window_end")}
                               for r in snaps.manifest["snapshots"]]}
