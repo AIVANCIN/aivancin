@@ -22,6 +22,11 @@ AI_FORM = ("Do it yourself first, then ask an AI assistant to do the same task a
            "write down every error you found and how you spotted it.")
 AI_USE_ACTIVITIES = 10  # the role's largest-weight activities shown under "AI use"
 LOCAL_EVIDENCE = "Malaysian opportunity evidence: not shown until reuse permission is confirmed (MyCOL, MyMahir)."
+# Explore, before the person describes their work: every supported role with nothing confirmed, and a first block
+# built on the intake form's starting values (6 hours a week, no budget). These are stated as assumptions.
+EXPLORE_PROFILE = {"title_code": None, "degree_field": "", "cip_code": None, "degree_level": None, "weekly_hours": 6.0,
+                   "budget_rm": 0.0, "without_ai_suggestions": False, "activities": []}
+EXPLORE_SRC = "explore-defaults"
 
 
 def effort(c):
@@ -95,6 +100,8 @@ class Planner:
     # ---- requirements ----------------------------------------------------------------------------
     def requirement_status(self, req, profile, o):
         if req["judge"] == "degree":
+            if profile["degree_level"] is None:
+                return "you decide", "Describe your work and studies to check this."
             if profile["degree_level"] == "degree":
                 return "met", "You hold a degree."
             if o["willing_long"]:
@@ -309,18 +316,19 @@ class Planner:
             "supported_share": fig(pct(len(b["supported"]) / len(b["prioritized"])) if b["prioritized"] else 0.0, CAT, *ONET_SRC),
             "block": {"steps": steps, "effort_hours": fig(round(provider + practice, 1), CAT),
                       "provider_hours": fig(round(provider, 1), CAT), "practice_hours": fig(round(practice, 1), CAT, estimate=True),
-                      "cost_rm": fig(round(spent, 2), CAT), "capacity_hours": fig(o["capacity"], "your-input"),
+                      "cost_rm": fig(round(spent, 2), CAT), "capacity_hours": fig(o["capacity"], o["input_src"]),
                       "gaps_served": sorted(served), "uncovered": [{"dwa_id": g["dwa_id"], "name": g["name"]} for g in uncovered],
                       "status": ("covers all prioritized gaps that have a resource" if all_supported_served else "partial"),
                       "scenario_differs": differ,
                       "scenario_extra_hours": {s: fig(round(sum(effort(c) for c in extra[s]), 1), CAT) for s in outlook.SCENARIOS},
                       "base_hours": fig(round(b["used"], 1), CAT),
-                      "horizon": {"months": fig(round(months, 1), "your-input", estimate=True), "basis": basis}},
+                      "horizon": {"months": fig(round(months, 1), o["input_src"], estimate=True), "basis": basis}},
         }
 
     # ---- compare ---------------------------------------------------------------------------------
-    def routes(self, profile, opts, today=None):
+    def routes(self, profile, opts, today=None, explore=False):
         o = self.options(opts, profile)
+        o["input_src"] = EXPLORE_SRC if explore else "your-input"
         verified = pathway.verified_courses(self.snaps.catalogue, today or dt.date.today())
         courses = [c for c in verified if c.get("checkpoint") and not c.get("ai_skill")]
         # AI-practice entries that teach AI use on a named activity (copies; the snapshot stays untouched)
@@ -338,19 +346,25 @@ class Planner:
             if ov > 0 and len(direct) + len(related) >= MIN_DONE:
                 fits.append((ov, code))
         fits.sort(key=lambda t: (-t[0], t[1]))
-        chosen = [c for _, c in fits[:MAX_ROUTES]]
+        chosen = sorted(self.dests) if explore else [c for _, c in fits[:MAX_ROUTES]]
         if o["target"] and o["target"] not in chosen:
             chosen.append(o["target"])
         routes = [self.route(c, prof, profile, courses, ai_courses, o) for c in chosen]
-        return {"routes": routes, "shared": self.shared(routes), "target": o["target"],
-                "weeks": fig(o["weeks"], "your-input"), "capacity_hours": fig(o["capacity"], "your-input"),
-                "budget_rm": fig(o["budget"], "your-input"), "scenario": o["scenario"], "release": o["release"],
+        src = o["input_src"]
+        return {"routes": routes, "shared": None if explore else self.shared(routes), "target": o["target"], "personal": not explore,
+                "weeks": fig(o["weeks"], "your-input"), "capacity_hours": fig(o["capacity"], src),
+                "budget_rm": fig(o["budget"], src), "scenario": o["scenario"], "release": o["release"],
                 "threshold": fig(o["threshold"], "your-input"), "willing_long": o["willing_long"],
-                "fewer_note": (None if len(fits) >= MAX_ROUTES else
+                "fewer_note": (None if explore or len(fits) >= MAX_ROUTES else
                                f"{len(fits)} supported route{'s' if len(fits) != 1 else ''} qualified. Explore all roles to see others, "
                                "without complete-route support."),
                 "supported_destinations": fig(len(self.dests), ROUTES_SRC),
                 "forecast": self.rep._forecast_meta(o["threshold"])}
+
+    def explore(self, opts, today=None):
+        """Every supported role before any work is described: nothing counts as done, requirements the profile
+        would settle are left to the person, and the first block uses the starting assumptions."""
+        return self.routes(EXPLORE_PROFILE, opts, today, explore=True)
 
     def shared(self, routes):
         if len(routes) < 2:

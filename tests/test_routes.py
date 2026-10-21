@@ -356,3 +356,28 @@ def test_learn_lists_every_verified_entry_per_gap_with_block_entries_first(snaps
                 left_out += sum(not f for f in flags)
     # The point of the list: alternatives the four-week block leaves out are visible.
     assert left_out > 0
+
+
+def test_explore_lists_every_supported_role_with_nothing_counted_and_assumptions_labelled(planner):
+    d = planner.explore({}, TODAY)
+    assert d["personal"] is False and d["shared"] is None and d["fewer_note"] is None
+    assert [r["code"] for r in d["routes"]] == sorted(planner.dests)
+    assert d["capacity_hours"] == {"v": 24.0, "src": ["explore-defaults"]} and d["budget_rm"]["v"] == 0
+    for r in d["routes"]:
+        assert r["done_count"]["v"] == 0 and r["overlap"]["v"] == 0 and r["done"] == [] and r["related"] == []
+        # Before any work is described, the gaps are simply the role's largest activities.
+        top = [k for k, _ in sorted(planner.m.w[r["code"]].items(), key=lambda kv: (-kv[1], kv[0]))[:routes_mod.PRIORITY_GAPS]]
+        assert [g["dwa_id"] for g in r["prioritized"]] == top
+        # Nothing about the person is assumed: degree requirements are left to them, never met or missing.
+        for q in r["requirements"]:
+            if q["judge"] == "degree":
+                assert q["status"] == "you decide"
+            assert q["status"] != "missing"
+        b = r["block"]
+        assert b["capacity_hours"]["src"] == ["explore-defaults"] and b["horizon"]["months"]["src"] == ["explore-defaults"]
+        assert b["cost_rm"]["v"] == 0 and b["effort_hours"]["v"] <= 24.0 + 1e-9
+        assert all(not s["completed"] for s in b["steps"])
+    with_target = planner.explore({"target": "15-1254.00", "weeks": 8}, TODAY)
+    assert with_target["target"] == "15-1254.00" and with_target["capacity_hours"]["v"] == 48.0
+    with pytest.raises(ReportError):
+        planner.explore({"weeks": 5}, TODAY)

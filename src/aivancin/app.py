@@ -105,6 +105,14 @@ def create_app(data_dir=snapshots.DEFAULT_DATA_DIR):
         except (intake.IntakeError, ReportError) as exc:
             return JSONResponse(status_code=422, content={"errors": exc.errors})
 
+    @app.post("/api/explore")
+    def explore(req: dict):
+        """Every supported role before the person describes their work (SPEC section 10.7)."""
+        try:
+            return planner.explore(req.get("options") or {})
+        except ReportError as exc:
+            return JSONResponse(status_code=422, content={"errors": exc.errors})
+
     @app.post("/api/update")
     def update(req: dict):
         """What changed in the chosen route's plan between two evidence bundles (SPEC section 10.6)."""

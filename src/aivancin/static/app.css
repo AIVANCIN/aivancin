@@ -556,6 +556,25 @@ details.plan-scen { margin-top: 12px; padding: 0 20px; border-radius: 18px; back
   .stat-row b { font-size: 19px; }
 }
 
+/* Explore: the card that starts describing your work. Deep blue with the artwork on the right, as on the
+   welcome screen; the text sits on the solid part (white on #0955D4 is 6.4:1). */
+.describe-card { position: relative; isolation: isolate; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; margin-top: 20px; padding: 22px 20px; overflow: hidden; border-radius: 22px; color: #FFFFFF;
+  background: linear-gradient(90deg, #0955D4 0, #0955D4 58%, rgba(9, 85, 212, 0.35) 100%), url("/art/art-640.webp") right center / cover no-repeat #0955D4; box-shadow: var(--shadow-card); }
+.describe-card .fam-tile { background: rgba(255, 255, 255, 0.16); color: #FFFFFF; }
+.describe-card h2 { font: 700 21px/1.2 var(--display); letter-spacing: -0.02em; }
+.describe-card p { margin-top: 6px; max-width: 34ch; font-size: 15px; line-height: 1.45; color: rgba(255, 255, 255, 0.92); }
+.describe-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; margin-top: 14px; }
+.describe-card .btn-primary { background: #FFFFFF; color: #0955D4; }
+.describe-card .btn-primary:hover { background: #E8F0FD; }
+.describe-card .link-btn { color: #FFFFFF; }
+.describe-card :focus-visible { outline-color: #FFFFFF; }
+@media (max-width: 599px) { .describe-card { grid-template-columns: minmax(0, 1fr); background: linear-gradient(180deg, rgba(9, 85, 212, 0.1) 0, rgba(9, 85, 212, 0.6) 20%, #0955D4 42%), url("/art/art-640.webp") 70% top / 160% auto no-repeat #0955D4; padding-top: 72px; } }
+.sort-seg.two:has(input[value="outlook"]:checked) { --i: 0; }
+.sort-seg.two:has(input[value="entry"]:checked) { --i: 1; }
+.read-now { display: block; margin: 6px auto 0; font-size: 15px; }
+.q-actions .privacy { margin-top: 6px; text-align: center; }
+@media (min-width: 760px) { .read-now { display: inline-flex; margin: 0 0 0 16px; } .q-actions .privacy { text-align: left; } }
+
 /* Section tabs: once routes exist, Routes, Plan, Learn, Saved and Profile sit one tap apart. A bar along
    the bottom edge on phones; a floating capsule on wider screens. */
 .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); padding: 4px 4px calc(4px + env(safe-area-inset-bottom)); border-top: 1px solid var(--glass-edge); background: var(--glass-solid); }

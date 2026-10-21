@@ -45,6 +45,15 @@ def test_api_flow_for_a_persona(client):
     assert profile["without_ai_suggestions"] is False
 
 
+def test_api_explore_needs_no_profile_and_validates_options(client):
+    d = client.post("/api/explore", json={}).json()
+    assert d["personal"] is False and len(d["routes"]) == d["supported_destinations"]["v"] == 12
+    r = client.post("/api/explore", json={"options": {"scenario": "sideways"}})
+    assert r.status_code == 422 and "scenario" in r.json()["errors"]
+    # The personal comparison still needs confirmed work.
+    assert client.post("/api/routes", json={"weekly_hours": 6, "budget_rm": 0, "degree_level": "diploma"}).status_code == 422
+
+
 def test_api_rejects_invalid_intake_with_field_messages(client):
     r = client.post("/api/profile", json={"weekly_hours": -1, "budget_rm": 10, "degree_level": "degree"})
     assert r.status_code == 422
