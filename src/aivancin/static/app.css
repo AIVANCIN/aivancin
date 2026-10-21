@@ -687,7 +687,7 @@ html[data-motion="on"] .btn { transition: transform 200ms var(--spring), backgro
 .fa-line.foot { font-size: 13px; }
 .tech-line { margin-top: 8px; font-size: 14px; line-height: 1.5; color: var(--text2); }
 .soft-card details.more { margin-top: 10px; }
-.soft-card details.more > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; }
+.soft-card details.more > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; column-gap: 0.28em; }
 .soft-card details.more > .foot, .soft-card details.more > p { margin-top: 4px; }
 .radar-ctl { display: grid; gap: 10px 24px; margin-top: 20px; }
 @media (min-width: 760px) { .radar-ctl { grid-template-columns: minmax(0, 300px) minmax(0, 240px); align-items: end; } .radar-ctl > .foot { grid-column: 1 / -1; } }
@@ -888,3 +888,86 @@ html[data-motion="on"] .btn { transition: transform 200ms var(--spring), backgro
 
 /* Keep the progress flow focused at every viewport size. */
 body[data-counted="yes"] .topbar .brand { display: none; }
+
+/* Wide screens (SPEC 11.4): a sidebar replaces the tab bar, as in an iPad or Mac app, and each section uses
+   the width: a route gallery, panels side by side, a pinned plan summary. Phones and tablets keep one column. */
+.side-brand, .side-route { display: none; }
+@media (min-width: 1100px) {
+  body[data-tabs="on"] { --side: 248px; }
+  .tabbar { top: 0; bottom: 0; left: 0; right: auto; z-index: 40; display: flex; flex-direction: column; gap: 2px; width: var(--side, 248px); padding: 14px 12px 20px;
+    border: 0; border-right: 1px solid var(--glass-edge); border-radius: 0; background: var(--glass-solid); box-shadow: none; transform: none; overflow-y: auto; }
+  @supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) { .tabbar { background: var(--glass-solid); -webkit-backdrop-filter: none; backdrop-filter: none; } }
+  .side-brand { display: flex; align-self: flex-start; margin: 0 0 18px; padding: 0 10px; }
+  .tabbar .tab { flex-direction: row; justify-content: flex-start; gap: 12px; flex: none; min-height: 44px; padding: 0 12px; border-radius: 10px; color: var(--text); font: 500 15px/1.2 var(--sans); letter-spacing: -0.01em; }
+  .tabbar .tab .ico { width: 20px; height: 20px; color: var(--accent); }
+  .tabbar .tab[aria-current="page"] { background: var(--accent-tint); color: var(--accent); font-weight: 600; }
+  .tabbar .tab[aria-current="page"] .ico { stroke-width: 2; }
+  @media (hover: hover) { .tabbar .tab:hover { background: var(--fill); color: var(--text); } .tabbar .tab[aria-current="page"]:hover { background: var(--accent-tint); color: var(--accent); } }
+  .side-route { display: block; margin-top: auto; padding: 16px; border-radius: 16px; background: var(--card); box-shadow: var(--shadow-card); }
+  .side-kicker { font-size: 12px; font-weight: 600; color: var(--you); letter-spacing: 0.01em; }
+  .side-title { margin: 4px 0 2px; font: 600 15px/1.3 var(--display); letter-spacing: -0.012em; }
+  .side-route .foot { margin-top: 4px; }
+  .side-bar { height: 6px; margin-top: 10px; border-radius: 99px; background: var(--track); overflow: hidden; }
+  .side-bar i { display: block; height: 100%; border-radius: 99px; background: var(--you); }
+  .side-route .link-btn { margin-top: 4px; font-size: 14px; }
+
+  /* Content sits beside the sidebar; the bar keeps back and display settings at its edges. */
+  body[data-tabs="on"] main, body[data-tabs="on"] .topbar { padding-left: var(--side); }
+  body[data-tabs="on"] .topbar .brand { display: none; }
+  body[data-tabs="on"] .bar-in { grid-template-columns: minmax(0, 1fr) auto; max-width: none; padding: 8px 28px; }
+  body[data-tabs="on"] .wrap.narrow, #cohort .wrap.narrow { max-width: 1200px; padding: 0 clamp(32px, 3.4vw, 48px); }
+  body[data-tabs="on"] .screen:not(.welcome):not(.q-screen):not(.reading) { padding: 24px 0 112px; }
+  body[data-tabs="on"] .stage-cta { bottom: 24px; }
+  body[data-tabs="on"] .lead-left { max-width: 72ch; }
+
+  /* Routes: a gallery of cards rather than a list. */
+  .route-list { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+  .route-list > .list-srcs { grid-column: 1 / -1; }
+  .route-row, .route-row.explore-row-card { grid-template-columns: minmax(0, 1fr); align-items: start; align-content: start; gap: 14px; height: 100%; min-height: 188px; padding: 20px 20px 52px; }
+  .route-row .rr-title { font-size: 19px; }
+  .explore-row-card > .ico { position: absolute; right: 20px; bottom: 18px; }
+  html[data-motion="on"] .route-row:hover { transform: translateY(-2px); }
+  html[data-motion="on"] .route-row { transition: box-shadow 200ms var(--ease), transform 200ms var(--spring); }
+  .sort-ctl, .filter-ctl { max-width: 560px; }
+
+  /* One route: a wide header, then the panel's cards in two balanced columns. */
+  .rd-head { grid-template-columns: auto minmax(0, 1fr) auto; column-gap: 20px; }
+  .rd-desc { max-width: 72ch; }
+  .rd-tabs .tab-seg { max-width: 560px; }
+  .rd-panel { margin-top: 16px; }
+  .rd-panel > :first-child { margin-top: 0; }
+  /* Future: the two job signals side by side, then each AI group's activities in two columns. */
+  .fut-top { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: start; }
+  .fut-top > .soft-card { margin-top: 0; }
+  .ai-group .fut-acts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 40px; }
+  .ai-group .fut-acts li + li { border-top: 0; }
+  .ai-group .fut-acts li:nth-child(n+3) { border-top: 1px solid var(--sep); }
+
+  /* Learn: courses in two columns. */
+  .learn-heading { max-width: 640px; }
+  .learn-courses .res-list { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .learn-courses > .evidence-panel, .learn-courses .learn-group { max-width: none; }
+}
+/* Layouts with two content columns need the room beside the sidebar that 1280 px gives. */
+@media (min-width: 1280px) {
+  .rd-panel:not(:has(.fut-top)):has(> :nth-child(3)) { columns: 2; column-gap: 20px; }
+  .rd-panel:not(:has(.fut-top)):has(> :nth-child(3)) > * { display: inline-block; width: 100%; margin: 0 0 16px; break-inside: avoid; vertical-align: top; }
+  /* Radar: the chart leads; outlook, changing skills and evidence sit in a column beside it. */
+  .radar-layout { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(320px, 1fr); gap: 24px; align-items: start; }
+  .radar-layout .radar-main .radar-ctl .ctl:last-child { display: block; }
+  .radar-aside > .evidence-panel:first-child { margin-top: 12px; border-top: 0; }
+  .radar-aside > .evidence-panel, .radar-aside > .soft-card { margin-top: 12px; }
+  .radar-aside .evidence-panel { padding: 0 20px; border-top: 0; border-radius: 20px; background: var(--card); box-shadow: var(--shadow-card); }
+  .radar-aside .evidence-panel > .soft-card { padding: 0 0 20px; }
+
+  /* Plan: the block's summary and settings stay pinned while its steps scroll. */
+  .plan-layout { display: grid; grid-template-columns: 380px minmax(0, 1fr); gap: 0 32px; align-items: start; }
+  .plan-side { position: sticky; top: 72px; }
+  .plan-main > .psteps { margin-top: 16px; }
+
+  /* Profile and Cohort: cards share the width in two columns. */
+  #profile-body, #cohort-body { columns: 2; column-gap: 20px; margin-top: 16px; }
+  #profile-body > *, #cohort-body > * { display: inline-block; width: 100%; margin: 0 0 16px; break-inside: avoid; vertical-align: top; }
+  #profile-body > .callout, #cohort-body > .callout, #cohort-body > .lead-left, #cohort-body > .status-line { display: flex; column-span: all; }
+  #cohort-body > .lead-left { display: block; margin: 0 0 16px; }
+}

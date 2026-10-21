@@ -126,6 +126,7 @@ function show(screen, page = 1, focus = true) {
   if (tabs) {
     tabLast[tab] = screen;
     $$("#tabbar .tab").forEach(b => { if (b.dataset.tab === tab) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
+    renderSideRoute();
   }
   // The counter follows what you are going through: question n of 4, then the review's pages. Elsewhere the
   // tab bar or the screen's own heading says where you are.
@@ -1442,11 +1443,11 @@ function futurePanel(r) {
   }).join("");
   const em = r.future.emerging;
   return `
-    <section class="soft-card" data-scope aria-labelledby="h-fu-jobs"><h2 id="h-fu-jobs">${icon("trending-up", "sm")}Jobs in the United States</h2>
+    <div class="fut-top"><section class="soft-card" data-scope aria-labelledby="h-fu-jobs"><h2 id="h-fu-jobs">${icon("trending-up", "sm")}Jobs in the United States</h2>
       <p>${jo.band ? `BLS projected growth ${esc(jo.period)}: <b>${esc(jo.band)}</b>${jo.openings ? `, with ${fig(jo.openings, "int")} projected openings (${esc(jo.openings_period)})` : ""}.` : "No projection published for this role."}${jo.bright.length ? ` Bright Outlook: ${esc(jo.bright.join(", "))}.` : ""}${srcMarks(jo.src)}</p>
       ${sure ? `<p class="foot">How sure: “${esc(sure.bls.quote)}” (BLS evaluation of its 2014-24 projections)${srcMarks(sure.bls.src)}. A projection, not a promise of a job.</p>` : ""}</section>
     <section class="soft-card" data-scope aria-labelledby="h-fu-my"><h2 id="h-fu-my">${icon("map-pin", "sm")}Malaysia, observed</h2>${trendBlock(r.future.trend)}
-      <p class="foot">${esc(r.local_evidence)}</p></section>
+      <p class="foot">${esc(r.local_evidence)}</p></section></div>
     <p class="rd-lead">This role's ${fig({ v: ai.length, src: ["onet31-task-dwas", "onet31-tasks"] }, "int")} largest activities. For each: the share AI does directly when people use Claude for it (up to ${esc(releaseLabel(d.release))}), where that share may be ${fig(hz.months, "")} months ahead in the ${esc(sc)} scenario, and skill demand: of the US graduate roles that record the activity, weighted by how often it appears in their tasks, the share projected to grow faster than average and the share projected to decline (BLS 2025-2035).</p>
     ${groups}
     <section class="soft-card" data-scope aria-labelledby="h-fu-em"><h2 id="h-fu-em">${icon("sparkles", "sm")}What's emerging</h2>
@@ -1676,11 +1677,14 @@ function renderRadar() {
   const rd = d.radar;
   radarApplied = { scenario: rd.scenario, horizon: routeState.opts.horizon };
   box.innerHTML = `
+    <div class="radar-layout"><div class="radar-primary">
     ${radarSkills(rd)}
     ${isPersonal() ? "" : `<p class="radar-personalise"><button type="button" class="link-btn" data-go="describe">${icon("pencil-line", "sm")}Personalise with your work</button></p>`}
+    </div><div class="radar-aside">
     <details class="evidence-panel"><summary>Job outlook &amp; Malaysia${icon("chevron-down", "sm")}</summary>${radarJobs(rd)}</details>
     ${radarChanging(rd)}
-    <details class="evidence-panel"><summary>Evidence &amp; uncertainty${icon("chevron-down", "sm")}</summary>${radarSure(rd)}</details>`;
+    <details class="evidence-panel"><summary>Evidence &amp; uncertainty${icon("chevron-down", "sm")}</summary>${radarSure(rd)}</details>
+    </div></div>`;
   drawRadarChart();
   attachSources(box);
   routeState.seen.add("radar");
@@ -1922,6 +1926,7 @@ function renderPlan() {
   $("#plan-body").innerHTML = `
     ${routeState.newer && isPersonal() ? `<div class="callout newer" role="status">${icon("history")}<div><p><b>${esc(newerText(routeState.newer))}</b></p>
       <button type="button" class="link-btn" data-action="changed">Review the change</button></div></div>` : ""}
+    <div class="plan-layout"><div class="plan-side">
     <div class="plan-head" data-scope>
       <div class="ph-top">${familyTile(r)}<div><p class="d-kicker">${esc(r.family_label)}</p><h2 class="plan-title">${esc(r.title)}</h2></div></div>
       <div class="stat-row"><p><b>${fig(b.effort_hours, "")}</b><span>of ${fig(b.capacity_hours, "")} hours</span></p><p><b>${fig(d.weeks, "int")}</b><span>weeks</span></p><p><b>${fig(b.cost_rm, "rm")}</b><span>of ${fig(d.budget_rm, "rm")} budget</span></p></div>
@@ -1943,16 +1948,19 @@ function renderPlan() {
       <p class="foot">${b.gap_order === "growing" ? orderDiffText(b.order_diff)
         : "Steps go to the route's largest gaps first. With this option, steps for skills that sit mostly in US graduate jobs projected to grow come first; time, budget and prerequisites still decide what fits."}${srcMarks(DEMAND_SRC)}</p>
     </details>
+    </div><div class="plan-main">
     <h2 class="vh">Steps</h2>
     <ol class="psteps">${b.steps.map(stepItem).join("")}</ol>
     ${b.uncovered.length ? `<section class="soft-card" data-scope aria-labelledby="h-uncovered"><h2 id="h-uncovered">Priority gaps without a step in this block</h2><ul class="gaps">${b.uncovered.map(g => `<li><b></b><span>${esc(g.name)}</span><span class="w">SDG 4.4</span></li>`).join("")}</ul>
       <p class="foot">Either no verified resource teaches them yet, or the block's time or budget ran out.</p></section>` : ""}
     ${contributionCard(r)}
     <section class="soft-card" data-scope aria-labelledby="h-beyond"><h2 id="h-beyond">Beyond this block</h2><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul></section>
+    </div></div>
     <div class="stage-cta"><span class="cta-label"><b>${fig({ v: done, src: ["your-input"] }, "int")}</b> of ${fig({ v: b.steps.length, src: GAP_SRC }, "int")} steps done</span>${isPersonal()
       ? `<button type="button" class="btn btn-primary" data-action="changed">What changed</button>`
       : `<button type="button" class="btn btn-primary" data-go="describe">Describe your work</button>`}</div>`;
   attachSources($("#plan"));
+  renderSideRoute();
 }
 
 async function showChanged() {
@@ -2163,6 +2171,22 @@ async function continueProgress() {
 }
 
 /* ---------- section tabs ---------- */
+/* Wide screens: the sidebar keeps the chosen route and its progress in view under the section list. */
+function renderSideRoute() {
+  const box = $("#side-route"), d = routeState.data;
+  const r = d?.routes.find(x => x.code === routeState.target);
+  if (!r) {
+    box.innerHTML = isPersonal() ? `<p class="side-kicker">Your route</p><p class="foot">Open a route and choose it to build your plan.</p>`
+      : `<p class="side-kicker">Exploring</p><p class="foot">Describe your work to see the routes that use it.</p><button type="button" class="link-btn" data-go="describe">Describe your work</button>`;
+    return;
+  }
+  const steps = r.block.steps, done = steps.filter(s => s.completed).length;
+  box.innerHTML = `<p class="side-kicker">Your route</p><p class="side-title">${esc(r.title)}</p>
+    <p class="foot">${fig({ v: done, src: ["your-input"] }, "int")} of ${fig({ v: steps.length, src: GAP_SRC }, "int")} steps done</p>
+    <div class="side-bar" aria-hidden="true"><i style="width:${steps.length ? Math.round((done / steps.length) * 100) : 0}%"></i></div>
+    <button type="button" class="link-btn" data-tab-go="plan">Open plan</button>`;
+}
+
 function goTab(tab) {
   const root = TAB_OF[current.screen] === tab;
   const dest = root ? tab : tabLast[tab] || tab;
