@@ -42,7 +42,8 @@ def member_routes(snaps, planner):
         req = {"title_code": m["job"], "degree_level": m["level"], "weekly_hours": m["hours"], "budget_rm": m["budget"],
                "confirmed": [{"dwa_id": d, "source": "added_by_you", "lane": "other_work"} for d in m["activities"]]}
         prof = intake.build_profile(req, snaps.onet, None, snaps.cip)
-        out.append((m["id"], m["job"], planner.routes(prof, {"weeks": 4}, TODAY, with_radar=False)["routes"]))
+        # Keyed by position, not by the file's ids, so a repeated id cannot merge two members here too.
+        out.append((len(out), m["job"], planner.routes(prof, {"weeks": 4}, TODAY, with_radar=False)["routes"]))
     return out
 
 
@@ -57,6 +58,7 @@ def test_cohort_file_reproduces_and_is_synthetic(snaps):
     built = (json.dumps(tool.build(), indent=1, ensure_ascii=False) + "\n").encode("utf-8")
     assert built == (DATA / "cohort" / "demo.json").read_bytes()
     assert snaps.cohort["synthetic"] is True and len(snaps.cohort["members"]) == 60
+    assert len({m["id"] for m in snaps.cohort["members"]}) == 60
     assert snaps.source("aivancin-cohort")["derived_rows"] == 60
 
 

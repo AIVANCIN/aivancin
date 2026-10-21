@@ -11,7 +11,7 @@
  },
  "members": [
   {
-   "id": "t01",
+   "id": "s1-t01",
    "written": "in scope",
    "job": "33-9032.00",
    "level": "diploma",
@@ -31,7 +31,7 @@
    ]
   },
   {
-   "id": "t02",
+   "id": "s1-t02",
    "written": "in scope",
    "job": "41-2011.00",
    "level": "degree",
@@ -51,7 +51,7 @@
    ]
   },
   {
-   "id": "t03",
+   "id": "s1-t03",
    "written": "in scope",
    "job": "43-5021.00",
    "level": "diploma",
@@ -70,7 +70,7 @@
    ]
   },
   {
-   "id": "t04",
+   "id": "s1-t04",
    "written": "in scope",
    "job": "43-4051.00",
    "level": "degree",
@@ -89,7 +89,7 @@
    ]
   },
   {
-   "id": "t05",
+   "id": "s1-t05",
    "written": "in scope",
    "job": "53-3054.00",
    "level": "degree",
@@ -109,7 +109,7 @@
    ]
   },
   {
-   "id": "t06",
+   "id": "s1-t06",
    "written": "in scope",
    "job": "35-3023.00",
    "level": "diploma",
@@ -128,7 +128,7 @@
    ]
   },
   {
-   "id": "t07",
+   "id": "s1-t07",
    "written": "in scope",
    "job": "51-9111.00",
    "level": "degree",
@@ -146,7 +146,7 @@
    ]
   },
   {
-   "id": "t08",
+   "id": "s1-t08",
    "written": "in scope",
    "job": "41-2031.00",
    "level": "diploma",
@@ -164,7 +164,7 @@
    ]
   },
   {
-   "id": "t09",
+   "id": "s1-t09",
    "written": "in scope",
    "job": "43-4081.00",
    "level": "degree",
@@ -182,7 +182,7 @@
    ]
   },
   {
-   "id": "t10",
+   "id": "s1-t10",
    "written": "in scope",
    "job": "43-3071.00",
    "level": "degree",
@@ -200,7 +200,7 @@
    ]
   },
   {
-   "id": "t11",
+   "id": "s1-t11",
    "written": "in scope",
    "job": "41-2011.00",
    "level": "degree",
@@ -218,7 +218,7 @@
    ]
   },
   {
-   "id": "t12",
+   "id": "s1-t12",
    "written": "in scope",
    "job": "53-7065.00",
    "level": "diploma",
@@ -238,7 +238,7 @@
    ]
   },
   {
-   "id": "o01",
+   "id": "s1-o01",
    "written": "out of scope",
    "job": "35-3031.00",
    "level": "degree",
@@ -252,7 +252,7 @@
    ]
   },
   {
-   "id": "o02",
+   "id": "s1-o02",
    "written": "out of scope",
    "job": "53-3033.00",
    "level": "diploma",
@@ -267,7 +267,7 @@
    ]
   },
   {
-   "id": "o03",
+   "id": "s1-o03",
    "written": "out of scope",
    "job": "33-9032.00",
    "level": "degree",
@@ -282,7 +282,7 @@
    ]
   },
   {
-   "id": "u01",
+   "id": "s2-u01",
    "written": "in scope",
    "job": "53-3033.00",
    "level": "diploma",
@@ -302,7 +302,7 @@
    ]
   },
   {
-   "id": "u02",
+   "id": "s2-u02",
    "written": "in scope",
    "job": "43-4051.00",
    "level": "degree",
@@ -321,7 +321,7 @@
    ]
   },
   {
-   "id": "u03",
+   "id": "s2-u03",
    "written": "in scope",
    "job": "43-5071.00",
    "level": "diploma",
@@ -340,7 +340,7 @@
    ]
   },
   {
-   "id": "u04",
+   "id": "s2-u04",
    "written": "in scope",
    "job": "41-2031.00",
    "level": "degree",
@@ -359,7 +359,7 @@
    ]
   },
   {
-   "id": "u05",
+   "id": "s2-u05",
    "written": "in scope",
    "job": "53-7062.00",
    "level": "degree",
@@ -377,7 +377,7 @@
    ]
   },
   {
-   "id": "u06",
+   "id": "s2-u06",
    "written": "in scope",
    "job": "43-9061.00",
    "level": "diploma",
@@ -395,7 +395,7 @@
    ]
   },
   {
-   "id": "u07",
+   "id": "s2-u07",
    "written": "in scope",
    "job": "35-3031.00",
    "level": "degree",
@@ -413,7 +413,7 @@
    ]
   },
   {
-   "id": "u08",
+   "id": "s2-u08",
    "written": "in scope",
    "job": "41-2011.00",
    "level": "diploma",
@@ -431,7 +431,7 @@
    ]
   },
   {
-   "id": "u09",
+   "id": "s2-u09",
    "written": "in scope",
    "job": "43-4171.00",
    "level": "degree",
@@ -449,7 +449,7 @@
    ]
   },
   {
-   "id": "u10",
+   "id": "s2-u10",
    "written": "in scope",
    "job": "53-3054.00",
    "level": "degree",
@@ -467,7 +467,7 @@
    ]
   },
   {
-   "id": "u11",
+   "id": "s2-u11",
    "written": "in scope",
    "job": "43-5071.00",
    "level": "diploma",
@@ -485,7 +485,7 @@
    ]
   },
   {
-   "id": "u12",
+   "id": "s2-u12",
    "written": "in scope",
    "job": "41-2031.00",
    "level": "degree",
@@ -503,7 +503,7 @@
    ]
   },
   {
-   "id": "v01",
+   "id": "s2-v01",
    "written": "out of scope",
    "job": "41-2031.00",
    "level": "degree",
@@ -518,7 +518,7 @@
    ]
   },
   {
-   "id": "v02",
+   "id": "s2-v02",
    "written": "out of scope",
    "job": "53-3033.00",
    "level": "diploma",
@@ -533,7 +533,7 @@
    ]
   },
   {
-   "id": "v03",
+   "id": "s2-v03",
    "written": "out of scope",
    "job": "43-4051.00",
    "level": "degree",
@@ -546,7 +546,7 @@
    ]
   },
   {
-   "id": "w01",
+   "id": "s3-w01",
    "written": "in scope",
    "job": "53-3032.00",
    "level": "diploma",
@@ -565,7 +565,7 @@
    ]
   },
   {
-   "id": "w02",
+   "id": "s3-w02",
    "written": "in scope",
    "job": "41-2031.00",
    "level": "degree",
@@ -583,7 +583,7 @@
    ]
   },
   {
-   "id": "w03",
+   "id": "s3-w03",
    "written": "in scope",
    "job": "53-7062.00",
    "level": "diploma",
@@ -601,7 +601,7 @@
    ]
   },
   {
-   "id": "w04",
+   "id": "s3-w04",
    "written": "in scope",
    "job": "43-4051.00",
    "level": "degree",
@@ -619,7 +619,7 @@
    ]
   },
   {
-   "id": "w05",
+   "id": "s3-w05",
    "written": "in scope",
    "job": "53-3054.00",
    "level": "degree",
@@ -637,7 +637,7 @@
    ]
   },
   {
-   "id": "w06",
+   "id": "s3-w06",
    "written": "in scope",
    "job": "35-2014.00",
    "level": "diploma",
@@ -655,7 +655,7 @@
    ]
   },
   {
-   "id": "w07",
+   "id": "s3-w07",
    "written": "in scope",
    "job": "43-4171.00",
    "level": "degree",
@@ -673,7 +673,7 @@
    ]
   },
   {
-   "id": "w08",
+   "id": "s3-w08",
    "written": "in scope",
    "job": "51-9198.00",
    "level": "diploma",
@@ -691,7 +691,7 @@
    ]
   },
   {
-   "id": "w09",
+   "id": "s3-w09",
    "written": "in scope",
    "job": "41-2011.00",
    "level": "degree",
@@ -709,7 +709,7 @@
    ]
   },
   {
-   "id": "w10",
+   "id": "s3-w10",
    "written": "in scope",
    "job": "53-3033.00",
    "level": "degree",
@@ -727,7 +727,7 @@
    ]
   },
   {
-   "id": "w11",
+   "id": "s3-w11",
    "written": "in scope",
    "job": "43-5071.00",
    "level": "diploma",
@@ -745,7 +745,7 @@
    ]
   },
   {
-   "id": "w12",
+   "id": "s3-w12",
    "written": "in scope",
    "job": "41-3091.00",
    "level": "degree",
@@ -763,7 +763,7 @@
    ]
   },
   {
-   "id": "x01",
+   "id": "s3-x01",
    "written": "out of scope",
    "job": "41-2011.00",
    "level": "diploma",
@@ -778,7 +778,7 @@
    ]
   },
   {
-   "id": "x02",
+   "id": "s3-x02",
    "written": "out of scope",
    "job": "43-4051.00",
    "level": "degree",
@@ -793,7 +793,7 @@
    ]
   },
   {
-   "id": "x03",
+   "id": "s3-x03",
    "written": "out of scope",
    "job": "53-3033.00",
    "level": "diploma",
@@ -808,7 +808,7 @@
    ]
   },
   {
-   "id": "v01",
+   "id": "s4-v01",
    "written": "in scope",
    "job": "33-9032.00",
    "level": "diploma",
@@ -826,7 +826,7 @@
    ]
   },
   {
-   "id": "v02",
+   "id": "s4-v02",
    "written": "in scope",
    "job": "53-7065.00",
    "level": "degree",
@@ -844,7 +844,7 @@
    ]
   },
   {
-   "id": "v03",
+   "id": "s4-v03",
    "written": "in scope",
    "job": "35-3031.00",
    "level": "diploma",
@@ -862,7 +862,7 @@
    ]
   },
   {
-   "id": "v04",
+   "id": "s4-v04",
    "written": "in scope",
    "job": "41-2011.00",
    "level": "degree",
@@ -880,7 +880,7 @@
    ]
   },
   {
-   "id": "v05",
+   "id": "s4-v05",
    "written": "in scope",
    "job": "53-3031.00",
    "level": "degree",
@@ -898,7 +898,7 @@
    ]
   },
   {
-   "id": "v06",
+   "id": "s4-v06",
    "written": "in scope",
    "job": "51-9198.00",
    "level": "diploma",
@@ -916,7 +916,7 @@
    ]
   },
   {
-   "id": "v07",
+   "id": "s4-v07",
    "written": "in scope",
    "job": "43-4051.00",
    "level": "degree",
@@ -934,7 +934,7 @@
    ]
   },
   {
-   "id": "v08",
+   "id": "s4-v08",
    "written": "in scope",
    "job": "41-2031.00",
    "level": "degree",
@@ -952,7 +952,7 @@
    ]
   },
   {
-   "id": "v09",
+   "id": "s4-v09",
    "written": "in scope",
    "job": "41-2011.00",
    "level": "degree",
@@ -970,7 +970,7 @@
    ]
   },
   {
-   "id": "v10",
+   "id": "s4-v10",
    "written": "in scope",
    "job": "43-4051.00",
    "level": "diploma",
@@ -988,7 +988,7 @@
    ]
   },
   {
-   "id": "v11",
+   "id": "s4-v11",
    "written": "in scope",
    "job": "53-3033.00",
    "level": "degree",
@@ -1006,7 +1006,7 @@
    ]
   },
   {
-   "id": "v12",
+   "id": "s4-v12",
    "written": "in scope",
    "job": "43-4171.00",
    "level": "diploma",
@@ -1024,7 +1024,7 @@
    ]
   },
   {
-   "id": "y01",
+   "id": "s4-y01",
    "written": "out of scope",
    "job": "35-2021.00",
    "level": "diploma",
@@ -1039,7 +1039,7 @@
    ]
   },
   {
-   "id": "y02",
+   "id": "s4-y02",
    "written": "out of scope",
    "job": "31-1122.00",
    "level": "degree",
@@ -1054,7 +1054,7 @@
    ]
   },
   {
-   "id": "y03",
+   "id": "s4-y03",
    "written": "out of scope",
    "job": "47-2061.00",
    "level": "diploma",

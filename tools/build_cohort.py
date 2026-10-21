@@ -17,13 +17,14 @@ BUILT_ON = "2026-10-21"
 
 def build():
     members, built_from = [], {}
-    for name in SETS:
+    for n, name in enumerate(SETS, 1):
         path = ROOT / "tests" / "acceptance" / name
         built_from[name] = hashlib.sha256(path.read_bytes()).hexdigest()
         sets = json.loads(path.read_text(encoding="utf-8"))
         for scope in ("in_scope", "out_of_scope"):
             for p in sets[scope]:
-                members.append({"id": p["id"], "written": scope.replace("_", " "), "job": p["job"], "level": p["level"],
+                # The sets reuse ids (v01-v03 are in sets 2 and 4), so each member's id names its set.
+                members.append({"id": f"s{n}-{p['id']}", "written": scope.replace("_", " "), "job": p["job"], "level": p["level"],
                                 "hours": p["hours"], "budget": p["budget"], "activities": sorted(p["true"])})
     return {"title": "Synthetic cohort: the agent-written profiles of the B7 test sets 1-4", "built_on": BUILT_ON,
             "synthetic": True, "confirmation": "Each member's labelled activities count as confirmed (added by the member, "
