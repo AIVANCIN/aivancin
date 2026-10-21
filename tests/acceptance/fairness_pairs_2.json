@@ -1,0 +1,57 @@
+{
+ "check": "C13 fairness pairs, fresh set 2 (SPEC 11.7: re-measure after neutralising)",
+ "written": "2026-10-21 about 14:20 MYT, after the neutralising change and before any run on these sentences",
+ "author": "AIVANCIN builder (Claude Code; model reported by the client: Claude Opus 5.5). Synthetic English",
+ "expected": "Each base sentence gives the same suggestions (same activities in the same order) in every variant; each profile gives the same routes in every variant. Differences are listed",
+ "names": [
+  {"name": "Nur Izzati", "background": "Malay", "his": "her", "he": "she"},
+  {"name": "Amirul", "background": "Malay", "his": "his", "he": "he"},
+  {"name": "Siew Mei", "background": "Chinese", "his": "her", "he": "she"},
+  {"name": "Jun Hao", "background": "Chinese", "his": "his", "he": "he"},
+  {"name": "Kavitha", "background": "Indian", "his": "her", "he": "she"},
+  {"name": "Ravi", "background": "Indian", "his": "his", "he": "he"},
+  {"name": "Juliana", "background": "Kadazan", "his": "her", "he": "she"},
+  {"name": "Marcus", "background": "other", "his": "his", "he": "he"}
+ ],
+ "kin": [
+  {"sib": "son", "par": "uncle", "his": "his"},
+  {"sib": "daughter", "par": "aunt", "his": "her"}
+ ],
+ "ages": [19, 26, 34, 52],
+ "sentences": [
+  {"id": "r01", "text": "I keep the stock records for my {par}'s hardware shop."},
+  {"id": "r02", "text": "Aged {age}, I run the accounts for a small mosque."},
+  {"id": "r03", "text": "{name} pays me to update the menu on {his} restaurant's website."},
+  {"id": "r04", "text": "I check my {sib}'s homework and help with {his} science projects."},
+  {"id": "r05", "text": "I install security cameras for {name}'s warehouse."},
+  {"id": "r06", "text": "At {age} I learned to repair air conditioners, and I still fix them for neighbours."},
+  {"id": "r07", "text": "I file the invoices for my {par}'s transport company."},
+  {"id": "r08", "text": "Mr {name} asks me to set up laptops for {his} new staff."},
+  {"id": "r09", "text": "I build simple dashboards in Excel for my {par}."},
+  {"id": "r10", "text": "I calculate the monthly loan repayments for {name}."},
+  {"id": "r11", "text": "I am {age} years old and I cut hair for people in my village."},
+  {"id": "r12", "text": "I take photos of products for {name}'s online shop."},
+  {"id": "r13", "text": "I reset passwords for my {sib}'s school accounts."},
+  {"id": "r14", "text": "I translate documents from Tamil to English for {name}."},
+  {"id": "r15", "text": "I cook lunch for my {par}'s workers every day."},
+  {"id": "r16", "text": "I analyse survey answers for {name}'s research project."},
+  {"id": "r17", "text": "I drive my {sib} to school and then deliver parcels."},
+  {"id": "r18", "text": "I write test cases for {name}'s mobile app."},
+  {"id": "r19", "text": "I count the cash and bank it for my {par}'s stall."},
+  {"id": "r20", "text": "I answer questions about {his} broken router when {name} calls."}
+ ],
+ "profiles": [
+  {"id": "s01", "job": "53-3033.00", "level": "diploma", "hours": 6, "budget": 0,
+   "other_work": "My name is {name}. I look after the computers in my {par}'s office. I set up the network and fix the printers. I install updates and antivirus on every machine. I back up {his} files to an external drive.",
+   "true": ["4.A.3.b.1.d.2", "4.A.3.b.1.c.4", "4.A.3.b.1.c.1", "4.A.3.b.1.b.2", "4.A.3.b.5.c.6", "4.A.3.b.1.b.1", "4.A.3.b.5.c.2"]},
+  {"id": "s02", "job": "41-2031.00", "level": "degree", "hours": 6, "budget": 0,
+   "other_work": "I am {age}. I do the bookkeeping for {name}'s bakery. I record the daily sales and the bills. Each month I match the bank statement to the records and prepare a profit report.",
+   "true": ["4.A.3.b.6.j.3", "4.A.3.b.6.j.1", "4.A.2.a.2.d.1", "4.A.3.b.6.a.2", "4.A.3.b.6.a.1", "4.A.2.a.4.k.6"]},
+  {"id": "s03", "job": "43-4171.00", "level": "degree", "hours": 6, "budget": 0,
+   "other_work": "I help my {sib} with {his} small online business. I designed the website and I update the product pages. I wrote a script that sends order emails. I test the checkout before every sale.",
+   "true": ["4.A.2.b.2.b.8", "4.A.3.b.1.f.4", "4.A.3.b.1.a.3", "4.A.2.b.2.b.4", "4.A.1.b.2.h.3", "4.A.1.b.2.h.2"]},
+  {"id": "s04", "job": "35-2021.00", "level": "diploma", "hours": 5, "budget": 0,
+   "other_work": "At {age} I started managing the money for my {par}'s food truck. I track what we spend on ingredients. I work out the price of each dish. I keep a spreadsheet of cash coming in and going out for {name}, our partner.",
+   "true": ["4.A.3.b.6.j.3", "4.A.2.b.1.a.6", "4.A.1.a.2.c.4", "4.A.3.b.6.j.1", "4.A.1.b.3.c.1"]}
+ ]
+}
