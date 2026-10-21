@@ -750,3 +750,12 @@ html[data-motion="on"] .btn { transition: transform 200ms var(--spring), backgro
 .contrib-list dt { font-size: 13px; font-weight: 600; color: var(--accent); }
 .contrib-list dd { margin: 2px 0 0; font-size: 15px; line-height: 1.45; }
 .contrib > .foot + .foot { margin-top: 6px; }
+
+/* Keep or accept new evidence (SPEC 11.6): a notice on Plan and beside Continue; the decision on What changed. */
+.callout.newer { margin-top: 16px; background: var(--evidence-tint); box-shadow: none; }
+.callout.newer > .ico { color: var(--evidence); }
+.callout.newer .link-btn { margin-top: 2px; }
+.decide { margin-top: 16px; }
+.decide-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+@media (max-width: 599px) { .decide-actions .btn { width: 100%; } }
+.continue-note { max-width: 36ch; margin-top: 14px; font-size: 15px; line-height: 1.45; color: rgba(255, 255, 255, 0.92); }

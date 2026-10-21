@@ -19,7 +19,8 @@ const state = {
 };
 /* Compare routes, the chosen plan and what changed (SPEC section 10). */
 const routeState = { data: null, target: null, completed: new Set(), opts: { weeks: 4, willing_long: false, scenario: "moderate", threshold: 50, horizon: "plan" }, change: null,
-  sort: "overlap", filter: "all", open: null, tab: "overview", openCp: new Set(), scenOpen: false, learn: null, saved: new Map(), seen: new Set() };
+  sort: "overlap", filter: "all", open: null, tab: "overview", openCp: new Set(), scenOpen: false, learn: null, saved: new Map(), seen: new Set(),
+  kept: null, newer: null };
 /* Saved progress: routes were compared before the page was reloaded, so Continue can rebuild them. */
 let routesReached = false;
 const STATUS_CLASS = { met: "good", missing: "limit", planned: "sdg", "you decide": "weak" };
@@ -1009,6 +1010,8 @@ async function start() {
     const [status, personas] = await Promise.all([api("/api/status"), api("/api/personas")]);
     state.status = status; state.personas = personas;
     renderSources();
+    // A saved plan on older AI-usage evidence: say so beside Continue (SPEC 11.6).
+    if (newerPending()) checkNewer().then(() => { if (current.screen === "welcome") updateContinue(); });
     if (status.ai_suggestions !== "available") {
       serviceWarning = "AI suggestions are unavailable. You can still search for activities and see roles.";
       setStatus("");
@@ -1574,8 +1577,48 @@ function openRoute(code) {
 
 async function choose(code) {
   routeState.target = code;
+  // A chosen plan records the AI-usage evidence it was built on (SPEC 11.6); a new choice starts on the latest.
+  routeState.opts.release = latestRelease();
+  routeState.kept = null;
+  routeState.newer = null;
   await refreshPlan();
   showStage("plan");
+}
+
+/* ---------- keep or accept new evidence (SPEC 11.6) ----------
+   When a later release is bundled than the one the plan uses, Plan and Continue say how many of the plan's steps it
+   changes (from the update comparison); What changed offers to use it or keep the plan as it is. */
+const latestRelease = () => state.status?.releases?.at(-1) || null;
+function planRelease() {
+  const ids = state.status?.releases || [];
+  return ids.includes(routeState.opts.release) ? routeState.opts.release : latestRelease();
+}
+function newerPending() {
+  const latest = latestRelease();
+  return Boolean(routesReached || (routeState.data && isPersonal())) && Boolean(routeState.target) && Boolean(state.lastIntake)
+    && planRelease() !== latest && routeState.kept !== latest;
+}
+async function checkNewer() {
+  if (!newerPending()) { routeState.newer = null; return null; }
+  const from = planRelease(), to = latestRelease();
+  try {
+    const res = await api("/api/update", routesRequest({ from_release: from, to_release: to }));
+    routeState.newer = { from, to, count: res.changed_count };
+  } catch (err) { routeState.newer = null; }
+  return routeState.newer;
+}
+function newerText(n) {
+  return `Newer AI-usage evidence (${releaseLabel(n.to)}) is available. ${n.count ? `It changes ${n.count} of your plan's steps.` : "It changes none of your plan's steps."}`;
+}
+async function decideEvidence(choice) {
+  const n = routeState.newer;
+  if (!n) return;
+  if (choice === "use") routeState.opts.release = n.to; else routeState.kept = n.to;
+  routeState.newer = null;
+  routeState.change = null;
+  saveProgress();
+  if (choice === "use") await refreshPlan();
+  navigate("plan");
 }
 
 async function refreshPlan() {
@@ -1585,6 +1628,7 @@ async function refreshPlan() {
   const focusName = active?.name || active?.id;
   try {
     routeState.data = await loadRoutes(isPersonal());
+    await checkNewer();
     const keepFocus = document.activeElement === active;
     renderRoutes();
     renderPlan();
@@ -1657,11 +1701,14 @@ function renderPlan() {
   const next = b.steps.find(s => !s.completed);
   const done = b.steps.filter(s => s.completed).length;
   $("#plan-body").innerHTML = `
+    ${routeState.newer && isPersonal() ? `<div class="callout newer" role="status">${icon("history")}<div><p><b>${esc(newerText(routeState.newer))}</b></p>
+      <button type="button" class="link-btn" data-action="changed">Review the change</button></div></div>` : ""}
     <div class="plan-head" data-scope>
       <div class="ph-top">${familyTile(r)}<div><p class="d-kicker">${esc(r.family_label)}</p><h2 class="plan-title">${esc(r.title)}</h2></div></div>
       <div class="stat-row"><p><b>${fig(b.effort_hours, "")}</b><span>of ${fig(b.capacity_hours, "")} hours</span></p><p><b>${fig(d.weeks, "int")}</b><span>weeks</span></p><p><b>${fig(b.cost_rm, "rm")}</b><span>of ${fig(d.budget_rm, "rm")} budget</span></p></div>
       <p class="foot">${fig(b.provider_hours, "")} h of courses and ${fig(b.practice_hours, "")} h of practice (estimated). ${esc(capitalise(b.status))}: a start, not a complete transition; it does not make anyone ready for the role.</p>
       ${isPersonal() ? "" : `<p class="foot">${ASSUMPTION_NOTE}</p>`}
+      <p class="foot">AI-usage evidence up to ${esc(releaseLabel(planRelease()))}.${srcMarks([`aei-${planRelease()}`])}</p>
       ${next ? `<p class="next">${icon("route", "sm")}<span><b>Start with</b> ${esc(next.title)}</span></p>` : `<p class="next">${icon("check", "sm")}<span>Every step in this block is marked done.</span></p>`}
     </div>
     <details class="plan-scen" data-scope ${routeState.scenOpen ? "open" : ""}>
@@ -1683,7 +1730,7 @@ function renderPlan() {
 
 async function showChanged() {
   const ids = state.status.releases;
-  routeState.change = routeState.change || { from: ids[0], to: ids[ids.length - 1] };
+  routeState.change = routeState.change || (routeState.newer ? { from: routeState.newer.from, to: routeState.newer.to } : { from: ids[0], to: ids[ids.length - 1] });
   try {
     const res = await api("/api/update", routesRequest({ from_release: routeState.change.from, to_release: routeState.change.to }));
     renderChanged(res);
@@ -1691,6 +1738,18 @@ async function showChanged() {
     $("#changed-body").innerHTML = `<div class="callout">${icon("triangle-alert")}<p>${esc(Object.values(err.data?.errors || {})[0] || "Could not compare.")}</p></div>`;
   }
   showStage("changed");
+}
+
+/* The decision card appears when the comparison shown is the plan's evidence against the newer release. */
+function evidenceDecision(res) {
+  const n = routeState.newer;
+  if (!n || res.from_release !== n.from || res.to_release !== n.to) {
+    return `<p class="foot">Your plan uses the AI-usage evidence up to ${esc(releaseLabel(planRelease()))}.</p>`;
+  }
+  return `<section class="soft-card decide" aria-labelledby="h-decide"><h2 id="h-decide">${icon("history", "sm")}Update your plan?</h2>
+    <p>${esc(newerText(n))} Your target and completed steps stay either way.</p>
+    <div class="decide-actions"><button type="button" class="btn btn-primary" data-evidence="use">Use the ${esc(releaseLabel(n.to))} evidence for my plan</button>
+      <button type="button" class="btn btn-gray" data-evidence="keep">Keep my plan on ${esc(releaseLabel(n.from))} evidence</button></div></section>`;
 }
 
 function renderChanged(res) {
@@ -1707,6 +1766,7 @@ function renderChanged(res) {
   }).join("; ");
   $("#changed-body").innerHTML = `
     <p class="lead-left">Same work, constraints, target, completed steps and scenario (${esc(routeState.opts.scenario)}). Only the AI-usage evidence changes, from one bundled release to another.</p>
+    ${evidenceDecision(res)}
     <div class="ctl change-ctl"><label for="c-from">Earlier evidence</label>${sel("c-from", res.from_release)}<label for="c-to">Later evidence</label>${sel("c-to", res.to_release)}</div>
     <div class="callout" data-scope>${icon("history")}<div><p><b>${esc(res.summary)}</b></p>
       <p class="foot">Effort ${fig(res.hours_before, "")} h → ${fig(res.hours_after, "")} h; cost ${fig(res.cost_before, "rm")} → ${fig(res.cost_after, "rm")}. Your completed steps and chosen target are kept.</p>
@@ -1733,6 +1793,7 @@ function routeEvents() {
     else if (b.dataset.action === "routes") compareRoutes();
     else if (b.classList.contains("choose-route")) choose(b.dataset.route);
     else if (b.dataset.action === "changed") showChanged();
+    else if (b.dataset.evidence) decideEvidence(b.dataset.evidence);
     else if (b.dataset.action === "rank" && !b.closest("#review")) rank();
   });
   $("#routes").addEventListener("change", e => {
@@ -1792,7 +1853,7 @@ function saveProgress() {
     lastIntake: state.lastIntake, suggest: state.suggest, ticked: [...state.ticked], dismissed: [...state.dismissed], manual: [...state.manual],
     lane: state.lane, knownTools: [...state.knownTools],
     routes: { reached: (Boolean(routeState.data) && isPersonal()) || routesReached, target: routeState.target, completed: [...routeState.completed], opts: routeState.opts,
-      sort: routeState.sort, saved: [...routeState.saved], seen: [...routeState.seen] },
+      sort: routeState.sort, saved: [...routeState.saved], seen: [...routeState.seen], kept: routeState.kept || null },
   };
   try { localStorage.setItem(STORE, JSON.stringify(data)); } catch (e) { /* storage unavailable or full: progress lasts for this visit only */ }
 }
@@ -1814,7 +1875,7 @@ function restoreProgress() {
     state.ticked = new Map(d.ticked); state.dismissed = new Set(d.dismissed); state.manual = new Map(d.manual);
     state.lane = d.lane || "all"; state.knownTools = new Set(d.knownTools);
     const r = d.routes || {};
-    Object.assign(routeState, { target: r.target || null, completed: new Set(r.completed), sort: r.sort || "overlap", saved: new Map(r.saved), seen: new Set(r.seen) });
+    Object.assign(routeState, { target: r.target || null, completed: new Set(r.completed), sort: r.sort || "overlap", saved: new Map(r.saved), seen: new Set(r.seen), kept: r.kept || null });
     if (r.opts) Object.assign(routeState.opts, r.opts);
     routesReached = Boolean(r.reached);
     if (state.suggest) renderReview();
@@ -1835,6 +1896,9 @@ function clearProgress() {
 function updateContinue() {
   const has = Boolean(state.lastIntake || routeState.target || routeState.saved.size);
   $("#continue-btn").hidden = !has;
+  const note = $("#continue-note");
+  note.hidden = !(has && routeState.newer);
+  note.textContent = routeState.newer ? newerText(routeState.newer) : "";
   $("#continue-label").textContent = routeState.target ? "Continue your plan" : "Continue where you left off";
   const own = Boolean(state.lastIntake) && mode === "own";
   const start = $("#start-btn");
@@ -1860,6 +1924,7 @@ async function continueProgress() {
   if (!routeState.data && !state.suggest) {
     try { routeState.data = await loadRoutes(false); } catch (e) { routeState.data = null; }
   }
+  if (routeState.data && routeState.target) await checkNewer();
   if (routeState.data) navigate(routeState.target ? "plan" : "routes");
   else navigate(state.suggest ? "review" : "work", 1);
 }

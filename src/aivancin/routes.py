@@ -540,7 +540,8 @@ class Planner:
                             "after": s1 and {"form": s1["form"], "reason": s1["reason"]}})
         moved = [c for c in changes if c["change"] != "retained"]
         return {"target": opts["target"], "title": b["title"], "from_release": frm, "to_release": to,
-                "changes": changes, "summary": (f"{len(moved)} step{'s' if len(moved) != 1 else ''} changed between the "
+                "changes": changes, "changed_count": len(moved),
+                "summary": (f"{len(moved)} step{'s' if len(moved) != 1 else ''} changed between the "
                                                 f"{frm} and {to} evidence." if moved else
                                                 f"No change: the {frm} and {to} evidence lead to the same plan for this target."),
                 "hours_before": a["block"]["effort_hours"], "hours_after": b["block"]["effort_hours"],
