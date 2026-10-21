@@ -1,0 +1,37 @@
+{
+ "check": "A6 guard, fresh set 3 (SPEC 11.7, C12 follow-up)",
+ "written": "2026-10-21 about 19:55 MYT, before any change to the guard for leisure, future-plan or failed-attempt sentences and before any run on these sentences; sets 1 and 2 and their results were known, none of their texts reused",
+ "author": "AIVANCIN builder (Claude Code; model reported by the client: Claude Opus 5.5). Synthetic English",
+ "pass_rule": "Uncaught kinds: no activity suggested for the sentence can be confirmed as done work without the deliberate second action. Controls: the sentence is not flagged (own work stays one tick away). Controls use the same words as the uncaught kinds (play, watch, will, going to, failed, tried, next, game, futsal, badminton) in sentences about the person's own work, so an over-broad rule shows up",
+ "uncaught": [
+  {"id": "h01", "kind": "leisure", "text": "On Sundays I play futsal with my old classmates."},
+  {"id": "h02", "kind": "leisure", "text": "In the evenings I watch Korean dramas with my sister."},
+  {"id": "h03", "kind": "leisure", "text": "I enjoy reading mystery novels before bed."},
+  {"id": "h04", "kind": "leisure", "text": "I go hiking at Bukit Gasing most weekends."},
+  {"id": "h05", "kind": "leisure", "text": "I play mobile games like Mobile Legends with my friends at night."},
+  {"id": "h06", "kind": "leisure", "text": "I spend my free time watching football on TV."},
+  {"id": "h07", "kind": "future plan", "text": "Next month I will enrol in an accounting course."},
+  {"id": "h08", "kind": "future plan", "text": "I'm going to apply for data analyst jobs after Raya."},
+  {"id": "h09", "kind": "future plan", "text": "After I save enough, I'll open my own bakery."},
+  {"id": "h10", "kind": "future plan", "text": "Next semester I am taking a Python class."},
+  {"id": "h11", "kind": "future plan", "text": "I will be starting a part-time diploma in January."},
+  {"id": "h12", "kind": "failed attempt", "text": "I tried to learn Excel macros but I gave up after a week."},
+  {"id": "h13", "kind": "failed attempt", "text": "I applied for a bank teller job last year and was rejected."},
+  {"id": "h14", "kind": "failed attempt", "text": "I failed my accounting paper in the first year."}
+ ],
+ "controls": [
+  {"id": "c01", "text": "I play the keyboard at weddings and get paid for each event."},
+  {"id": "c02", "text": "I watch the CCTV screens and report anything unusual at the mall where I work."},
+  {"id": "c03", "text": "I coach the under-12 badminton team at my old school every Saturday."},
+  {"id": "c04", "text": "Customers know I will fix their phones the same day."},
+  {"id": "c05", "text": "When a laptop fails, I back up the files and reinstall Windows."},
+  {"id": "c06", "text": "Every month I will check the stock and order what is running low."},
+  {"id": "c07", "text": "I tried several layouts before I built the final website for my uncle's shop."},
+  {"id": "c08", "text": "I record and edit gaming videos for my YouTube channel, which earns ad money."},
+  {"id": "c09", "text": "I test failed hard drives and recover the photos for customers."},
+  {"id": "c10", "text": "I keep score and track the results for our futsal league in a spreadsheet."},
+  {"id": "c11", "text": "Next to my day job, I do the payroll for my aunt's restaurant."},
+  {"id": "c12", "text": "I review my friends' game apps and report the bugs I find."},
+  {"id": "c13", "text": "I write a monthly report on what I'm going to buy for the shop and how much it will cost."}
+ ]
+}
