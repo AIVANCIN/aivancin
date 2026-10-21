@@ -16,7 +16,6 @@ const state = {
   suggest: null, ticked: new Map(), dismissed: new Set(), manual: new Map(),
   lane: "all", opts: { lambda: 0, mu: 0, nu: 0, scenario: "moderate", threshold: 50, pace: 1.444, release: null, horizon: "plan", scope: "skilled" },
   knownTools: new Set(), results: null, baseline: null, selected: null, target: null, lastIntake: null,
-  openSent: null,  // review: the sentences shown open; null opens the first one
 };
 /* Compare routes, the chosen plan and what changed (SPEC section 10). */
 const routeState = { data: null, target: null, completed: new Set(), opts: { weeks: 4, willing_long: false, scenario: "moderate", threshold: 50 }, change: null,
@@ -95,10 +94,8 @@ function initTheme() {
 
 /* ---------- screens ----------
    One screen at a time. Each move is a history entry, so the browser's back button and the in-app
-   back button agree. The four steps drive the progress bar; the intake questions fill the first quarter. */
+   back button agree. */
 const PAGES = 4;
-const STEP = { work: [1, "Your work"], reading: [1, "Your work"], review: [1, "Your work"], routes: [2, "Compare routes"], route: [2, "Compare routes"],
-  results: [2, "Explore all roles"], plan: [3, "Your plan"], changed: [4, "What changed"] };
 let current = { screen: "welcome", page: 1 };
 
 /* Once routes exist, five tabs reach the sections: Routes, Plan, Learn, Saved and Profile. Intake and
@@ -120,12 +117,16 @@ function show(screen, page = 1, focus = true) {
     tabLast[tab] = screen;
     $$("#tabbar .tab").forEach(b => { if (b.dataset.tab === tab) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
   }
-  if (STEP[screen]) {
-    const [n, label] = STEP[screen];
-    const fill = screen === "work" ? page / (PAGES + 1) / 4 : screen === "reading" ? 0.22 : n / 4;
-    $("#progress-fill").style.width = `${(fill * 100).toFixed(1)}%`;
-    $("#bar-count").textContent = `${n}/4`;
-    $("#bar-label").textContent = screen === "work" ? `Step 1 of 4, ${label}, question ${page} of ${PAGES}` : `Step ${n} of 4, ${label}`;
+  // The counter follows what you are going through: question n of 4, then the review's pages. Elsewhere the
+  // tab bar or the screen's own heading says where you are.
+  let count = null;
+  if (screen === "work") count = [page, PAGES, `Question ${page} of ${PAGES}`];
+  else if (screen === "review") { const n = showReviewPage(page); count = [n, reviewPages, `Checking what we read, page ${n} of ${reviewPages}`]; }
+  document.body.dataset.counted = count ? "yes" : "no";
+  if (count) {
+    $("#progress-fill").style.width = `${((count[0] / count[1]) * 100).toFixed(1)}%`;
+    $("#bar-count").textContent = `${count[0]}/${count[1]}`;
+    $("#bar-label").textContent = count[2];
   }
   // Every section draws from the current state when it appears, so a tab or the back button never shows stale figures.
   if (screen === "welcome") updateContinue();
@@ -307,7 +308,7 @@ async function readWork(e) {
   try {
     const sug = await api("/api/suggest", body);
     state.suggest = sug;
-    state.ticked = new Map(); state.dismissed = new Set(); state.manual = new Map(); state.openSent = null;
+    state.ticked = new Map(); state.dismissed = new Set(); state.manual = new Map();
     state.lastIntake = body;
     // New answers make the compared routes stale until Compare routes runs again; the chosen route, ticked steps and saved routes stay.
     routeState.data = null; routesReached = false;
@@ -347,23 +348,21 @@ function suggestionMap() {
   return m;
 }
 
+/* The review goes one sentence at a time, like the questions: a page per sentence, then one for the job
+   title's activities, then a last page with your activities, a search for anything missed and Compare
+   routes. Each page is a history entry, so back returns to the previous sentence. */
+let reviewPages = 1, reviewTitlePage = 0;
+
 function renderReview() {
   const box = $("#sentences");
   const sug = state.suggest;
   const smap = suggestionMap();
-  let html = "";
+  const pages = [];
   if (!sug.available) {
-    html += `<div class="callout">${icon("triangle-alert")}<div><p><b>AI suggestions are unavailable.</b></p><p class="sub">You can still search the activity list and add what you do. Results will be labelled "without AI suggestions".</p></div></div>`;
-    html += manualSearchCard();
+    pages.push(`<div class="callout">${icon("triangle-alert")}<div><p><b>AI suggestions are unavailable.</b></p><p class="sub">You can still search the activity list and add what you do. Results will be labelled "without AI suggestions".</p></div></div>`);
   }
-  if (state.titleActs.length) {
-    const kept = state.titleActs.filter(a => !state.untickedTitle.has(a.dwa_id)).length;
-    html += `<details class="sent title-acts"><summary>${icon("briefcase-business")}<span>From your job title, ${esc(state.title.title)}: <span class="num" id="title-kept">${kept}</span> of ${state.titleActs.length} O*NET activities</span>${icon("chevron-down")}</summary>
-      <p class="foot">These form your current-job lane. Untick any you do not do.</p>
-      <fieldset class="sugg">${state.titleActs.map(a => `<label class="opt"><input type="checkbox" data-title="${esc(a.dwa_id)}" ${state.untickedTitle.has(a.dwa_id) ? "" : "checked"}><span class="t">${esc(a.name)}</span></label>`).join("")}</fieldset></details>`;
-  }
+  reviewTitlePage = 0;
   const sents = sug.available ? sug.sentences : [];
-  const lastIndex = sents.filter(x => !x.guard).map(x => x.index).pop();
   const fieldSeq = { current_job: 0, other_work: 0, studies: 0 };
   for (const s of sents) {
     fieldSeq[s.field] += 1;
@@ -372,58 +371,55 @@ function renderReview() {
     const rows = s.top.map(d => optionRow(smap.get(d), s)).join("");
     if (s.guard) {
       const kind = s.guard.kind === "negated" ? "reads as something you have not done" : "reads as a plan, not done work";
-      html += `<div class="guard" data-sentence="${s.index}">
+      pages.push(`<div class="guard" data-sentence="${s.index}">
         <h4>${icon("circle-dashed")}Not counted: you said you have not done this yet</h4>
         <blockquote class="words"><mark class="words">${esc(s.text)}</mark></blockquote>
         <p class="why">"${esc(s.guard.cue)}" ${kind}. Its suggestions stay out unless you confirm on purpose that you have done them.</p>
         <details><summary>Show the suggestions anyway ${icon("chevron-down", "sm")}</summary><fieldset class="sugg">${rows}</fieldset></details>
-      </div>`;
+      </div>`);
       continue;
     }
     const dismissed = state.dismissed.has(s.index);
-    if (state.openSent === null) state.openSent = new Set([s.index]);
-    const last = s.index === lastIndex;
-    const next = last ? "" : `<button type="button" class="btn btn-primary next-sent" data-next="${s.index}">Next sentence</button>`;
-    html += `<details class="sent" data-sentence="${s.index}" ${state.openSent.has(s.index) ? "open" : ""}>
-      <summary><span class="sent-head"><span class="src">${src}</span><span class="sent-status" data-status="${s.index}">${sentStatus(s)}</span></span>
-        <blockquote class="words"><mark class="words">${esc(s.text)}</mark></blockquote>${icon("chevron-down", "sent-chev")}</summary>
+    pages.push(`<div class="sent" data-sentence="${s.index}">
+      <p class="src">${src}</p>
+      <blockquote class="words"><mark class="words">${esc(s.text)}</mark></blockquote>
       ${shortFormHint(s)}
-      ${dismissed ? `<p class="dismissed">You said none of the 5 suggestions fit. <button type="button" class="link-btn" data-undismiss="${s.index}">Show them again</button></p>
-      ${next ? `<div class="sent-actions">${next}</div>` : ""}`
+      ${dismissed ? `<p class="dismissed">You said none of the 5 suggestions fit. <button type="button" class="link-btn" data-undismiss="${s.index}">Show them again</button></p>`
         : `<fieldset class="sugg"><legend class="vh">Activities suggested for this sentence</legend>${rows}</fieldset>
-      <div class="sent-actions"><button type="button" class="btn btn-gray" data-dismiss="${s.index}">None of these fit</button><button type="button" class="btn btn-gray" data-find="${s.index}">${icon("search", "sm")}Find another activity</button>${next}</div>
+      <div class="sent-actions"><button type="button" class="btn btn-gray" data-dismiss="${s.index}">None of these fit</button><button type="button" class="btn btn-gray" data-find="${s.index}">${icon("search", "sm")}Find another activity</button></div>
       <div class="find" data-find-box="${s.index}" hidden></div>`}
-    </details>`;
+    </div>`);
   }
-  if (sug.available && !sents.length) html += `<p class="cap">${icon("info")}No sentences to read. Add text in step 1, or search for activities below.</p>`;
-  if (sug.available) html += manualSearchCard();
-  box.innerHTML = html;
+  // Your own sentences first; the job title's activities come after them.
+  if (state.titleActs.length) {
+    const kept = state.titleActs.filter(a => !state.untickedTitle.has(a.dwa_id)).length;
+    pages.push(`<div class="sent title-acts"><p class="src">${icon("briefcase-business", "sm")}From your job title</p>
+      <h2 class="rv-q">${esc(state.title.title)}: <span class="num" id="title-kept">${kept}</span> of ${state.titleActs.length} O*NET activities</h2>
+      <p class="foot">These form your current-job lane. Untick any you do not do.</p>
+      <fieldset class="sugg">${state.titleActs.map(a => `<label class="opt"><input type="checkbox" data-title="${esc(a.dwa_id)}" ${state.untickedTitle.has(a.dwa_id) ? "" : "checked"}><span class="t">${esc(a.name)}</span></label>`).join("")}</fieldset></div>`);
+    reviewTitlePage = pages.length;
+  }
+  const none = sug.available && !sents.length ? `<p class="cap">${icon("info")}No sentences to read. Add text in step 1, or search for activities below.</p>` : "";
+  pages.push(`<div class="rv-last"><h2 class="rv-q">Anything we missed?</h2>
+    <p class="foot">Search for an activity to add it. Your list is ${matchMedia("(min-width: 980px)").matches ? "beside this" : "below"}; when it looks right, compare routes.</p>${none}${manualSearchCard()}</div>`);
+  reviewPages = pages.length;
+  const nav = `<div class="rv-nav"><button type="button" class="btn btn-primary" data-rv-next>Next${icon("arrow-right", "sm")}</button></div>`;
+  box.innerHTML = pages.map((h, i) => `<section class="rv-page" data-rv="${i + 1}" hidden>${h}${i + 1 < pages.length ? nav : ""}</section>`).join("");
   const manual = $('[data-find-box="manual"]', box);
   if (manual) openFind(manual, "other_work", false);
   renderRail();
+  showReviewPage(current.screen === "review" ? current.page : 1);
 }
 
-/* One sentence open at a time keeps the review short; each closed sentence says where it stands. */
-function sentStatus(s) {
-  if (state.dismissed.has(s.index)) return `<span class="st done">None fit</span>`;
-  const n = s.top.filter(d => state.ticked.has(d)).length;
-  return n ? `<span class="st done">${icon("check", "sm")}${n} ticked</span>` : `<span class="st">Not checked yet</span>`;
-}
-
-function updateSentStatus() {
-  const byIndex = new Map((state.suggest?.sentences || []).map(s => [s.index, s]));
-  $$("[data-status]").forEach(el => { const s = byIndex.get(Number(el.dataset.status)); if (s) el.innerHTML = sentStatus(s); });
-}
-
-function nextSentence(index) {
-  const all = $$("#sentences details.sent[data-sentence]");
-  const i = all.findIndex(d => Number(d.dataset.sentence) === index);
-  const cur = all[i], nxt = all[i + 1];
-  if (!nxt) return;
-  cur.open = false;
-  nxt.open = true;
-  nxt.scrollIntoView({ block: "start" });
-  $("summary", nxt).focus({ preventScroll: true });
+function showReviewPage(page) {
+  const n = Math.min(Math.max(page, 1), reviewPages);
+  $$("#sentences .rv-page").forEach(p => { p.hidden = Number(p.dataset.rv) !== n; });
+  const last = n === reviewPages;
+  document.body.dataset.rvLast = last ? "yes" : "no";
+  $$("#review .mob-cta [data-rv-next]").forEach(b => { b.hidden = last; });
+  $$("#review .mob-cta [data-action=routes]").forEach(b => { b.hidden = !last; });
+  $("#review .review-lead").hidden = n !== 1;
+  return n;
 }
 
 /* The small model does not know most short forms (IOC, SIEM, KYC) and matches the rest of the sentence instead. */
@@ -525,17 +521,12 @@ function renderRail() {
     note = `Uses your ${c[state.lane]} ${LANE_TEXT[state.lane]} activities. ${other > 0 ? `Your other ${other} stay out of this lane.` : ""}`;
   }
   $("#lane-note").textContent = note;
-  updateSentStatus();
   saveProgress();
 }
 
 function reviewEvents() {
   const root = $("#review");
-  root.addEventListener("toggle", e => {
-    const d = e.target;
-    if (!d.matches?.("details.sent[data-sentence]") || !state.openSent) return;
-    if (d.open) state.openSent.add(Number(d.dataset.sentence)); else state.openSent.delete(Number(d.dataset.sentence));
-  }, true);
+
   root.addEventListener("change", e => {
     const t = e.target;
     if (t.matches("input[data-dwa]")) {
@@ -555,8 +546,8 @@ function reviewEvents() {
   root.addEventListener("click", e => {
     const b = e.target.closest("button");
     if (!b) return;
-    if (b.dataset.next !== undefined) {
-      nextSentence(Number(b.dataset.next));
+    if (b.dataset.rvNext !== undefined) {
+      navigate("review", current.page + 1);
     } else if (b.dataset.dismiss !== undefined) {
       state.dismissed.add(Number(b.dataset.dismiss));
       renderReview();
@@ -593,10 +584,7 @@ function reviewEvents() {
       ta.focus();
       ta.setSelectionRange(s.start, s.end);
     } else if (b.dataset.openTitle !== undefined) {
-      const d = $(".title-acts");
-      d.open = true;
-      d.querySelector("summary").focus({ preventScroll: true });
-      d.scrollIntoView({ block: "start" });
+      navigate("review", reviewTitlePage);
     }
   });
 }
@@ -969,6 +957,8 @@ function openSources(id, opener, only = null) {
 async function start() {
   initTheme();
   restoreProgress();
+  // Every screen starts at its top; the browser must not put back an older scroll position after back.
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
   history.replaceState({ screen: "welcome", page: 1 }, "");
   show("welcome", 1, false);
   // Only the app's own entries carry a state; an in-page anchor's entry has none and must not move screens.
