@@ -362,8 +362,8 @@ One GPU training job, no endpoint: the app never calls RunPod, and the fine-tune
 | Jad Fahmi | Team Lead & Developer | Coordinates delivery and leads implementation | [@jad-fahmi](https://github.com/jad-fahmi) |
 | Aqil Amin | Quality Assurance Tester | Tests user flows, reproduces defects and reports findings | [@fakebat2-da](https://github.com/fakebat2-da) |
 | Khairin Darwisy | Quality Assurance Tester | Tests user flows, reproduces defects and reports findings | [@KhaiWisy](https://github.com/KhaiWisy) |
-| Adam Hasif | Security Reviewer | Reviews risks and records security findings | [@Lukecyan1](https://github.com/Lukecyan1) |
-| Ammar Hakeem | Security Reviewer | Reviews risks and records security findings | GitHub account pending |
+| Adam Hasif | Documentation Website Developer | Builds and maintains the project's documentation website | [@Lukecyan1](https://github.com/Lukecyan1) |
+| Ammar Hakeem | Documentation Website Developer | Builds and maintains the project's documentation website | GitHub account pending |
 
 ## Credits, dependencies and AI disclosure
 
