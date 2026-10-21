@@ -55,7 +55,7 @@ You describe what you actually do, in your own words. An AI suggests the matchin
 | Snapshot | Details |
 | --- | --- |
 | **Who it's for** | A Malaysian diploma or degree holder aged 25-34 working in a semi- or low-skilled job (for example a van driver, cashier or call-centre agent), before committing to retraining |
-| **What works now** | Intake with suggestions, guard and confirmation; route comparison over 17 supported destinations; first learning blocks with practice checkpoints; what-changed comparison between evidence releases; role matching by lane; requirement labels; job outlook with an optional outlook order; AI-usage evidence across four releases with replay; Future Skills Radar tab with four separate signals (US job projections, skill demand, AI shift with time to threshold, Malaysia's observed trend) under slower, moderate and faster scenarios; registered forecasts for the next release to score; plan; SDG tags; web interface (not yet deployed) |
+| **What works now** | Intake with suggestions, guard and confirmation; route comparison over 17 supported destinations; first learning blocks with practice checkpoints; what-changed comparison between evidence releases; role matching by lane; requirement labels; job outlook with an optional outlook order; AI-usage evidence across four releases with replay; Future Skills Radar tab with four separate signals (US job projections, skill demand, AI shift with time to threshold, Malaysia's observed trend) under slower, moderate and faster scenarios; registered forecasts for the next release to score; plan; SDG tags; a cohort view for career centres on a synthetic cohort; web interface (not yet deployed) |
 | **Demo mode** | Model inference runs live on the CPU from bundled files; data are bundled, dated snapshots; personas are synthetic |
 | **Reviewed revision** | Checks below were run on 20 and 21 October 2026 (Windows 11, Python 3.13); each row names its date |
 
@@ -98,6 +98,7 @@ The AI is a local sentence encoder, all-MiniLM-L6-v2 (quantized ONNX, about 23 M
 - **Every number has a source:** each section's Sources button opens the dated sources behind its figures, without leaving the screen; Display settings holds the full list with the licence notes.
 - **Sources checked against upstream:** `python tools/check_sources.py` compares each bundled source with its upstream version (Anthropic Economic Index release folders, the O\*NET database version, the DOSM files' latest dates, the BLS projection period on O\*NET OnLine) and records current, newer available or unknown in `data/source_status.json`; the Radar's source dates and the Sources sheet show the last check (21 Oct 2026: 6 of 6 current). It never changes the data: a newer release enters only through the snapshot builder.
 - **How it works, in the app:** a sheet from the welcome screen and Display settings explains describe, Radar, routes and plan as the app does them, and lists the measured checks below with their results, dates and commands.
+- **A cohort view for career centres:** "For career centres" on the welcome screen counts a bundled synthetic cohort of 60 graduates (the written test profiles, no real student): how many have a route and in which family, a heatmap of the priority gaps each family's members share (a count in every cell, shaded by its share of the family), the learning steps many first blocks share (Saylor's PRDV201 Information Literacy is in 23), and what the first blocks add up to against SDG 8.5, 4.4, 4.3 and 8.2. Counts only, never a score; it takes no input and changes no one's routes.
 - **Reproducible data:** every dataset and the model are bundled with their source, release date, licence and SHA-256 hashes; the same input always gives the same suggestions and ranking.
 
 ## See it in action
@@ -160,6 +161,7 @@ flowchart LR
 | SDG reasons, path contribution, Decent work order | WORKING | `tests/test_sdg.py` (C8, C9) |
 | Keep or accept new evidence | WORKING | `tests/test_keep_accept.py` (C10), `POST /api/update` |
 | No-dead-end exploration cards | WORKING | `tests/test_no_dead_end.py` (C15) |
+| Cohort view for career centres (synthetic cohort) | WORKING | `tests/test_cohort.py` (K1-K3), `GET /api/cohort`, `python tools/build_cohort.py` |
 | Fairness: names, gender and age | WORKING | `python tools/checks/c13_fairness.py [result.json] [pairs.json]`, `tests/test_fairness.py` (C13) |
 | Encoder fine-tuning on RunPod | PREPARED, NOT RUN: pairs, training script and a held-out gate; the GPU run is the team's | `tools/finetune/` (see its README), `tests/test_finetune_prep.py` |
 | Routes, first learning blocks, shared foundations, what changed | WORKING (first version) | `tests/test_routes.py` (B1-B6), `/api/routes`, `/api/update` |
@@ -180,10 +182,11 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 
 | What we checked | Observation | Reproduction and limits |
 | --- | --- | --- |
-| **Core path and recovery** | PASS, 200/200 tests | `python -m pytest`, 21 Oct 2026, Windows 11, Python 3.13; network access blocked during tests; includes missing, altered and mismatched model files, a corrupted AI-usage release and expired course link checks |
+| **Core path and recovery** | PASS, 206/206 tests | `python -m pytest`, 21 Oct 2026, Windows 11, Python 3.13; network access blocked during tests; includes missing, altered and mismatched model files, a corrupted AI-usage release and expired course link checks |
 | **Forecast signals (C1-C5)** | PASS, 4 of 4 gated checks, plus one reported. Skill demand for 1,721 activities reproduces from the raw files with a separate implementation (0 mismatches); time to threshold matches the formula on 1,464 Radar values for Hafiz and Priya; the Malaysian trend reproduces for all 9 groups and pay steps still use 2025; the registered forecasts reproduce byte for byte. Reported: 103 and 176 of 1,721 demand labels change with cut-offs of 15 and 35 points instead of 25 | `python tools/checks/forecast_checks.py`, 21 Oct 2026. Skill demand inherits BLS's uncertainty; the registered forecasts have not been scored, because no later AI-usage release exists yet |
 | **Every number has a source (C6, C16)** | PASS. All 30,810 figures in the Radar and Future data for Hafiz, Priya and the explore view, under four settings, cite a dated source, and 1,400 rows of AI-shift classes and skill-demand labels agree with their projections and cut-offs. In Edge at 390 and 1280 px, light and dark, the whole flow (explore, Radar, the four questions, review, routes, Future, first block, plan with its SDG card, Learn, Profile, What changed keep and accept, Sources and How it works) shows no number without a source on 22 screens per run, no horizontal scroll and no console error, and a keyboard walk reaches each screen's controls with a visible focus ring | `python -m pytest tests/test_forecast.py -k c6`, 21 Oct 2026; the browser run is a scripted Edge session (Playwright). Its first run found counts and sentences without a source on ten screens (for example the review's activity counts and the route overview's Malaysian trend), fixed in 8c7b0b0. Dates, codes and the person's own entries are not counted as figures |
 | **Skill-outlook backtest** | Predicting the June 2026 value of 500 activities from the three earlier releases: historical average 16.3 points mean absolute error, last value 17.8, trend line 22.0. Past changes continued in only 31.9% of 364 cases | `python tools/checks/a18_backtest.py`; protocol and thresholds fixed before the run; one release only, across a format change. Hence the moderate scenario uses the average and the radar shows no rising or falling labels |
+| **Cohort view (K1-K4)** | PASS. A separate recomputation from each member's routes reproduces the summary (60 members, 50 with a route), every heatmap cell and shade, the by-route counts, the shared steps and the SDG totals (48 of 50 first routes lead to skilled work; 173 gaps served; 220 of 220 steps free; 129 AI-checking checkpoints); every figure cites a dated source; the endpoint takes no input and a person's routes are identical before and after it runs. In Edge at 390 and 1280 px, light and dark: reached by keyboard from the welcome screen, a count in every cell with the specified shade, no horizontal scroll, no console error, no number without a source | `python -m pytest tests/test_cohort.py`, 21 Oct 2026; the browser run is a scripted Edge session. A shifted shade cut and a wrong first route each make K1 fail. The cohort is synthetic, so it shows the mechanism, not a real cohort's needs |
 | **Hafiz contrast** | Job title alone: 0 of the top 10 roles are computing roles; with his confirmed weekend work: at least 6 of 10 | `tests/test_matching_and_report.py`; relevance rule fixed before the earlier research probe; synthetic persona |
 | **Suggestion accuracy (A1)** | PASS. Second set, written and committed before the scoring change: 19 of 20 everyday descriptions have a correct activity in the top five, as with the old scoring (bar: 16). First set: 17 of 20, 18 since the 21 Oct fairness change (16 before the scoring change; it was used to develop it) | `python tools/checks/a1_a3.py [result.json] [sets.json]`; sets in `tests/acceptance/`, written and hashed before their first run; synthetic, agent-written English |
 | **Complete chain (A2)** | FAIL, 32 of 50 top-five roles relevant (bar: 30, met; 29 before the scoring change, and these profiles guided it) but 5 of 10 profiles with three or more (bar: 7), other-work lane | Strong for electrical, motorcycle repair, laboratory, tutoring and finance work; weak for marketing, civil works, HR, statistics and agriculture. Information only: the studies lane on the same activities gave 31 of 50 and 7 of 10, partly because relevance follows the degree field |
@@ -223,7 +226,7 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 
 ### Privacy, safety and reliability
 
-- **Data:** text is processed in memory for the request and not stored or logged by the server. Your answers, confirmed activities, chosen route, ticked steps and saved routes are kept in your browser's local storage so you can continue later; Clear my data in Profile removes them. There are no accounts. Demo personas are synthetic.
+- **Data:** text is processed in memory for the request and not stored or logged by the server. Your answers, confirmed activities, chosen route, ticked steps and saved routes are kept in your browser's local storage so you can continue later; Clear my data in Profile removes them. There are no accounts. Demo personas and the cohort view's members are synthetic; the cohort view accepts no upload.
 - **Sharing:** none. The app makes no network requests; the model runs locally. The source watch (`tools/check_sources.py`) reads public release pages only when someone runs it. Course and job-search links open the other site only when the user clicks them.
 - **Security:** inputs are validated server-side, and the server recomputes suggestions rather than trusting the client. No secrets are needed or stored.
 - **Failure behaviour:** a missing or altered model, tokenizer or vector file switches to keyword search with a clear message; an altered dataset file stops the app at start-up rather than serving wrong data.
@@ -239,13 +242,14 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 ├── data/                   # Bundled snapshots: manifest.json, onet/, aei/, dosm/, crosswalk/, catalogue/, forecast/, model/, vectors/, personas.json
 ├── src/
 │   ├── main.py             # Application entry point
-│   └── aivancin/           # snapshots, encoder, intake, matching, aei, report, pathway, app; static/ holds the web interface
+│   └── aivancin/           # snapshots, encoder, intake, matching, aei, report, pathway, routes, cohort, app; static/ holds the web interface
 ├── submission/             # Required submission documents (added before the deadline)
 ├── tests/                  # Offline tests
 ├── tools/
 │   ├── build_snapshots.py  # Rebuilds data/ from the original sources
 │   ├── build_catalogue.py  # Rebuilds the course catalogue, link checks and provider objectives
 │   ├── build_routes.py     # Builds the supported destinations and applies the admission rule
+│   ├── build_cohort.py     # Builds the synthetic cohort for the cohort view from the B7 test profiles
 │   ├── destinations_curation.json  # Supported destinations and candidates; build_routes.py applies the admission rule
 │   ├── fetch_outlook.py    # Caches O*NET OnLine job-outlook pages for the snapshot
 │   ├── export_forecasts.py # Freezes the skill-outlook forecasts for scoring against the next release
@@ -314,7 +318,7 @@ pip install -r requirements-dev.txt
 python -m pytest
 ```
 
-**Expected result:** `200 passed`. Tests run offline; outbound network access is blocked.  
+**Expected result:** `206 passed`. Tests run offline; outbound network access is blocked.  
 **Rebuild the data (optional):** `python tools/build_snapshots.py` downloads the original files into `.cache/` and rebuilds `data/`; pinned files (model, AEI releases) are checked against their hashes, while live sources such as DOSM and the ESCO API can change. `python tools/build_catalogue.py` refreshes the course list and its link checks.
 
 ---

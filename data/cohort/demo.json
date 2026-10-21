@@ -1,0 +1,1072 @@
+{
+ "title": "Synthetic cohort: the agent-written profiles of the B7 test sets 1-4",
+ "built_on": "2026-10-21",
+ "synthetic": true,
+ "confirmation": "Each member's labelled activities count as confirmed (added by the member, other-work lane); the job title adds its O*NET activities as for anyone.",
+ "built_from": {
+  "b7_profiles.json": "5ee20f7b6bfca1fae41c31419711548d0ab5cba20dfe92713dfc22010cc55fe7",
+  "b7_profiles_2.json": "292f8c62eba4a5c1fb5fdfa18a650666f22e3da5f77f958adecf9e7967688966",
+  "b7_profiles_3.json": "afaeeef984c1091a85444939cd12918aa0844f16588fc6e9b4f184bf6a3f32c0",
+  "b7_profiles_4.json": "29403883a65a51ad429047823cfaf691b5ff228922d87ff71d47843e42ddb6a9"
+ },
+ "members": [
+  {
+   "id": "t01",
+   "written": "in scope",
+   "job": "33-9032.00",
+   "level": "diploma",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.3.b.1.b.1",
+    "4.A.3.b.1.c.4",
+    "4.A.3.b.1.d.1",
+    "4.A.3.b.1.d.2",
+    "4.A.3.b.1.d.3",
+    "4.A.3.b.5.c.2",
+    "4.A.3.b.6.h.6",
+    "4.A.3.b.6.i.3",
+    "4.A.4.b.6.d.2",
+    "4.A.4.b.6.d.5"
+   ]
+  },
+  {
+   "id": "t02",
+   "written": "in scope",
+   "job": "41-2011.00",
+   "level": "degree",
+   "hours": 8,
+   "budget": 100,
+   "activities": [
+    "4.A.3.b.1.b.2",
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.1.c.3",
+    "4.A.3.b.1.c.4",
+    "4.A.3.b.1.d.3",
+    "4.A.3.b.5.c.2",
+    "4.A.3.b.5.c.6",
+    "4.A.4.b.3.e.4",
+    "4.A.4.b.3.e.5",
+    "4.A.4.b.6.d.2"
+   ]
+  },
+  {
+   "id": "t03",
+   "written": "in scope",
+   "job": "43-5021.00",
+   "level": "diploma",
+   "hours": 5,
+   "budget": 0,
+   "activities": [
+    "4.A.1.a.2.j.2",
+    "4.A.1.b.2.h.2",
+    "4.A.2.b.2.o.13",
+    "4.A.3.b.1.c.4",
+    "4.A.3.b.1.d.1",
+    "4.A.3.b.2.a.5",
+    "4.A.3.b.5.c.2",
+    "4.A.3.b.6.i.3",
+    "4.A.4.b.6.d.5"
+   ]
+  },
+  {
+   "id": "t04",
+   "written": "in scope",
+   "job": "43-4051.00",
+   "level": "degree",
+   "hours": 6,
+   "budget": 50,
+   "activities": [
+    "4.A.3.b.1.b.1",
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.1.d.2",
+    "4.A.3.b.1.d.3",
+    "4.A.3.b.5.c.6",
+    "4.A.3.b.6.h.6",
+    "4.A.4.a.2.j.4",
+    "4.A.4.a.3.c.5",
+    "4.A.4.b.6.d.2"
+   ]
+  },
+  {
+   "id": "t05",
+   "written": "in scope",
+   "job": "53-3054.00",
+   "level": "degree",
+   "hours": 8,
+   "budget": 0,
+   "activities": [
+    "4.A.1.b.2.h.2",
+    "4.A.1.b.2.h.3",
+    "4.A.2.b.2.b.1",
+    "4.A.2.b.2.b.4",
+    "4.A.2.b.2.b.7",
+    "4.A.2.b.2.b.8",
+    "4.A.3.b.1.a.3",
+    "4.A.3.b.1.d.2",
+    "4.A.3.b.1.d.3",
+    "4.A.3.b.1.f.4"
+   ]
+  },
+  {
+   "id": "t06",
+   "written": "in scope",
+   "job": "35-3023.00",
+   "level": "diploma",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.1.b.2.h.3",
+    "4.A.2.b.2.b.1",
+    "4.A.2.b.2.b.4",
+    "4.A.2.b.2.b.7",
+    "4.A.3.b.1.a.3",
+    "4.A.3.b.1.f.5",
+    "4.A.3.b.2.f.15",
+    "4.A.3.b.6.h.14",
+    "4.A.3.b.6.i.5"
+   ]
+  },
+  {
+   "id": "t07",
+   "written": "in scope",
+   "job": "51-9111.00",
+   "level": "degree",
+   "hours": 5,
+   "budget": 0,
+   "activities": [
+    "4.A.2.a.2.a.6",
+    "4.A.2.a.2.a.7",
+    "4.A.2.b.2.b.1",
+    "4.A.2.b.2.b.7",
+    "4.A.3.b.1.a.3",
+    "4.A.3.b.1.d.3",
+    "4.A.3.b.6.i.5",
+    "4.A.4.b.1.a.5"
+   ]
+  },
+  {
+   "id": "t08",
+   "written": "in scope",
+   "job": "41-2031.00",
+   "level": "diploma",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.1.b.2.c.2",
+    "4.A.1.b.2.h.2",
+    "4.A.1.b.2.h.3",
+    "4.A.2.a.1.g.8",
+    "4.A.2.b.2.b.10",
+    "4.A.3.b.2.f.15",
+    "4.A.3.b.6.i.6",
+    "4.A.4.b.6.d.6"
+   ]
+  },
+  {
+   "id": "t09",
+   "written": "in scope",
+   "job": "43-4081.00",
+   "level": "degree",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.1.b.3.c.3",
+    "4.A.2.a.2.a.9",
+    "4.A.2.a.2.d.1",
+    "4.A.2.a.3.c.2",
+    "4.A.2.a.4.k.6",
+    "4.A.3.b.6.a.1",
+    "4.A.3.b.6.a.2",
+    "4.A.3.b.6.j.3"
+   ]
+  },
+  {
+   "id": "t10",
+   "written": "in scope",
+   "job": "43-3071.00",
+   "level": "degree",
+   "hours": 8,
+   "budget": 100,
+   "activities": [
+    "4.A.1.b.1.b.3",
+    "4.A.2.a.4.b.3",
+    "4.A.2.a.4.g.8",
+    "4.A.2.a.4.k.2",
+    "4.A.2.a.4.k.4",
+    "4.A.2.a.4.k.6",
+    "4.A.3.b.6.c.5",
+    "4.A.4.b.4.h.4"
+   ]
+  },
+  {
+   "id": "t11",
+   "written": "in scope",
+   "job": "41-2011.00",
+   "level": "degree",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.2.a.2.a.6",
+    "4.A.2.a.2.a.7",
+    "4.A.2.a.4.d.2",
+    "4.A.2.a.4.k.4",
+    "4.A.2.b.2.o.14",
+    "4.A.3.b.6.c.1",
+    "4.A.3.b.6.c.5",
+    "4.A.4.a.3.c.2"
+   ]
+  },
+  {
+   "id": "t12",
+   "written": "in scope",
+   "job": "53-7065.00",
+   "level": "diploma",
+   "hours": 5,
+   "budget": 0,
+   "activities": [
+    "4.A.1.a.2.c.2",
+    "4.A.1.a.2.c.4",
+    "4.A.1.b.3.c.1",
+    "4.A.2.a.2.a.9",
+    "4.A.2.a.2.d.1",
+    "4.A.3.b.6.a.1",
+    "4.A.3.b.6.a.2",
+    "4.A.3.b.6.j.3",
+    "4.A.4.b.4.h.4",
+    "4.A.4.c.1.c.6"
+   ]
+  },
+  {
+   "id": "o01",
+   "written": "out of scope",
+   "job": "35-3031.00",
+   "level": "degree",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.1.a.2.e.6",
+    "4.A.1.b.2.i.5",
+    "4.A.4.a.1.e.4",
+    "4.A.4.a.5.c.2"
+   ]
+  },
+  {
+   "id": "o02",
+   "written": "out of scope",
+   "job": "53-3033.00",
+   "level": "diploma",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.2.b.1.h.7",
+    "4.A.2.b.2.d.1",
+    "4.A.3.a.2.c.11",
+    "4.A.3.a.2.c.7",
+    "4.A.4.b.4.j.13"
+   ]
+  },
+  {
+   "id": "o03",
+   "written": "out of scope",
+   "job": "33-9032.00",
+   "level": "degree",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.2.b.2.o.1",
+    "4.A.2.b.2.o.10",
+    "4.A.3.b.4.c.3",
+    "4.A.3.b.4.d.1",
+    "4.A.3.b.4.d.4"
+   ]
+  },
+  {
+   "id": "u01",
+   "written": "in scope",
+   "job": "53-3033.00",
+   "level": "diploma",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.3.b.1.b.1",
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.1.c.2",
+    "4.A.3.b.1.d.2",
+    "4.A.3.b.1.d.3",
+    "4.A.3.b.5.c.1",
+    "4.A.3.b.5.c.2",
+    "4.A.3.b.6.h.22",
+    "4.A.3.b.6.h.24",
+    "4.A.4.b.6.d.2"
+   ]
+  },
+  {
+   "id": "u02",
+   "written": "in scope",
+   "job": "43-4051.00",
+   "level": "degree",
+   "hours": 8,
+   "budget": 50,
+   "activities": [
+    "4.A.1.b.2.h.3",
+    "4.A.3.b.1.d.2",
+    "4.A.3.b.1.d.3",
+    "4.A.3.b.5.c.2",
+    "4.A.3.b.6.h.2",
+    "4.A.3.b.6.i.1",
+    "4.A.3.b.6.i.6",
+    "4.A.4.b.3.e.4",
+    "4.A.4.b.6.d.2"
+   ]
+  },
+  {
+   "id": "u03",
+   "written": "in scope",
+   "job": "43-5071.00",
+   "level": "diploma",
+   "hours": 5,
+   "budget": 0,
+   "activities": [
+    "4.A.1.a.2.j.2",
+    "4.A.1.b.2.h.2",
+    "4.A.2.b.2.o.13",
+    "4.A.3.a.2.ah.4",
+    "4.A.3.a.2.ah.5",
+    "4.A.3.b.1.c.2",
+    "4.A.3.b.1.c.4",
+    "4.A.3.b.1.d.1",
+    "4.A.3.b.6.i.3"
+   ]
+  },
+  {
+   "id": "u04",
+   "written": "in scope",
+   "job": "41-2031.00",
+   "level": "degree",
+   "hours": 6,
+   "budget": 100,
+   "activities": [
+    "4.A.2.a.1.g.8",
+    "4.A.3.b.1.b.1",
+    "4.A.3.b.1.b.2",
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.1.c.2",
+    "4.A.3.b.5.c.6",
+    "4.A.4.b.6.d.2",
+    "4.A.4.b.6.d.3",
+    "4.A.4.c.3.e.3"
+   ]
+  },
+  {
+   "id": "u05",
+   "written": "in scope",
+   "job": "53-7062.00",
+   "level": "degree",
+   "hours": 7,
+   "budget": 0,
+   "activities": [
+    "4.A.2.b.2.b.1",
+    "4.A.2.b.2.b.10",
+    "4.A.2.b.2.b.4",
+    "4.A.2.b.2.b.7",
+    "4.A.2.b.2.f.4",
+    "4.A.3.b.1.a.3",
+    "4.A.3.b.1.d.3",
+    "4.A.4.a.2.h.7"
+   ]
+  },
+  {
+   "id": "u06",
+   "written": "in scope",
+   "job": "43-9061.00",
+   "level": "diploma",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.1.b.2.h.3",
+    "4.A.2.a.2.a.6",
+    "4.A.2.b.2.b.1",
+    "4.A.3.b.1.a.3",
+    "4.A.3.b.1.f.7",
+    "4.A.3.b.2.f.15",
+    "4.A.3.b.6.i.4",
+    "4.A.3.b.6.i.5"
+   ]
+  },
+  {
+   "id": "u07",
+   "written": "in scope",
+   "job": "35-3031.00",
+   "level": "degree",
+   "hours": 8,
+   "budget": 50,
+   "activities": [
+    "4.A.1.b.2.h.3",
+    "4.A.2.b.2.b.1",
+    "4.A.2.b.2.b.4",
+    "4.A.2.b.2.b.7",
+    "4.A.2.b.2.b.8",
+    "4.A.3.b.1.a.3",
+    "4.A.3.b.1.d.3",
+    "4.A.3.b.1.f.4"
+   ]
+  },
+  {
+   "id": "u08",
+   "written": "in scope",
+   "job": "41-2011.00",
+   "level": "diploma",
+   "hours": 5,
+   "budget": 0,
+   "activities": [
+    "4.A.1.b.2.c.2",
+    "4.A.1.b.2.c.3",
+    "4.A.1.b.2.h.2",
+    "4.A.1.b.2.h.3",
+    "4.A.3.b.2.f.15",
+    "4.A.3.b.6.i.6",
+    "4.A.3.b.6.i.7",
+    "4.A.4.a.2.c.10"
+   ]
+  },
+  {
+   "id": "u09",
+   "written": "in scope",
+   "job": "43-4171.00",
+   "level": "degree",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.1.a.1.d.4",
+    "4.A.2.a.2.a.9",
+    "4.A.2.a.2.d.1",
+    "4.A.2.a.3.c.2",
+    "4.A.3.b.6.a.1",
+    "4.A.3.b.6.a.2",
+    "4.A.3.b.6.j.1",
+    "4.A.3.b.6.j.3"
+   ]
+  },
+  {
+   "id": "u10",
+   "written": "in scope",
+   "job": "53-3054.00",
+   "level": "degree",
+   "hours": 7,
+   "budget": 100,
+   "activities": [
+    "4.A.1.a.2.c.2",
+    "4.A.2.a.1.g.1",
+    "4.A.2.a.4.k.1",
+    "4.A.3.b.6.a.2",
+    "4.A.4.a.1.d.2",
+    "4.A.4.a.3.c.2",
+    "4.A.4.b.4.h.4",
+    "4.A.4.b.6.k.3"
+   ]
+  },
+  {
+   "id": "u11",
+   "written": "in scope",
+   "job": "43-5071.00",
+   "level": "diploma",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.2.a.2.a.8",
+    "4.A.2.a.4.b.6",
+    "4.A.2.a.4.d.2",
+    "4.A.2.a.4.k.4",
+    "4.A.2.b.2.o.14",
+    "4.A.3.b.1.f.7",
+    "4.A.3.b.6.c.5",
+    "4.A.4.a.2.c.10"
+   ]
+  },
+  {
+   "id": "u12",
+   "written": "in scope",
+   "job": "41-2031.00",
+   "level": "degree",
+   "hours": 5,
+   "budget": 50,
+   "activities": [
+    "4.A.1.a.1.n.3",
+    "4.A.1.b.3.c.1",
+    "4.A.1.b.3.c.4",
+    "4.A.2.a.1.i.2",
+    "4.A.2.a.2.a.3",
+    "4.A.2.a.4.k.2",
+    "4.A.3.b.1.f.6",
+    "4.A.4.a.1.d.3"
+   ]
+  },
+  {
+   "id": "v01",
+   "written": "out of scope",
+   "job": "41-2031.00",
+   "level": "degree",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.1.b.2.c.1",
+    "4.A.3.a.2.al.5",
+    "4.A.3.a.3.i.1",
+    "4.A.3.b.6.h.18",
+    "4.A.4.c.1.e.3"
+   ]
+  },
+  {
+   "id": "v02",
+   "written": "out of scope",
+   "job": "53-3033.00",
+   "level": "diploma",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.3.a.1.l.1",
+    "4.A.4.a.5.j.3",
+    "4.A.4.a.5.j.9",
+    "4.A.4.b.1.e.1",
+    "4.A.4.b.3.e.6"
+   ]
+  },
+  {
+   "id": "v03",
+   "written": "out of scope",
+   "job": "43-4051.00",
+   "level": "degree",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.2.b.2.o.16",
+    "4.A.3.b.2.b.5",
+    "4.A.4.a.2.j.6"
+   ]
+  },
+  {
+   "id": "w01",
+   "written": "in scope",
+   "job": "53-3032.00",
+   "level": "diploma",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.1.a.2.j.3",
+    "4.A.3.b.1.b.1",
+    "4.A.3.b.1.b.2",
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.1.c.2",
+    "4.A.3.b.1.d.2",
+    "4.A.3.b.5.c.1",
+    "4.A.3.b.5.c.6",
+    "4.A.4.b.6.d.2"
+   ]
+  },
+  {
+   "id": "w02",
+   "written": "in scope",
+   "job": "41-2031.00",
+   "level": "degree",
+   "hours": 8,
+   "budget": 50,
+   "activities": [
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.1.c.2",
+    "4.A.3.b.1.d.1",
+    "4.A.3.b.1.f.6",
+    "4.A.3.b.6.h.22",
+    "4.A.4.a.1.a.5",
+    "4.A.4.b.6.b.2",
+    "4.A.4.b.6.d.5"
+   ]
+  },
+  {
+   "id": "w03",
+   "written": "in scope",
+   "job": "53-7062.00",
+   "level": "diploma",
+   "hours": 5,
+   "budget": 0,
+   "activities": [
+    "4.A.1.b.2.l.3",
+    "4.A.3.a.2.ah.4",
+    "4.A.3.a.2.ah.9",
+    "4.A.3.a.2.t.5",
+    "4.A.3.b.1.c.4",
+    "4.A.3.b.1.d.1",
+    "4.A.3.b.5.c.2",
+    "4.A.3.b.5.c.4"
+   ]
+  },
+  {
+   "id": "w04",
+   "written": "in scope",
+   "job": "43-4051.00",
+   "level": "degree",
+   "hours": 6,
+   "budget": 100,
+   "activities": [
+    "4.A.3.b.1.b.1",
+    "4.A.3.b.5.c.2",
+    "4.A.3.b.6.h.7",
+    "4.A.4.b.1.c.2",
+    "4.A.4.b.1.c.7",
+    "4.A.4.b.3.e.4",
+    "4.A.4.b.3.e.5",
+    "4.A.4.c.3.a.6"
+   ]
+  },
+  {
+   "id": "w05",
+   "written": "in scope",
+   "job": "53-3054.00",
+   "level": "degree",
+   "hours": 8,
+   "budget": 0,
+   "activities": [
+    "4.A.1.b.2.h.3",
+    "4.A.2.a.4.e.3",
+    "4.A.2.b.2.b.1",
+    "4.A.2.b.2.b.4",
+    "4.A.2.b.2.b.8",
+    "4.A.2.b.2.f.4",
+    "4.A.3.b.1.a.3",
+    "4.A.3.b.2.f.15"
+   ]
+  },
+  {
+   "id": "w06",
+   "written": "in scope",
+   "job": "35-2014.00",
+   "level": "diploma",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.2.b.2.b.1",
+    "4.A.2.b.2.b.7",
+    "4.A.3.b.1.a.3",
+    "4.A.3.b.1.d.2",
+    "4.A.3.b.1.d.3",
+    "4.A.3.b.1.f.7",
+    "4.A.3.b.2.f.16",
+    "4.A.3.b.6.i.5"
+   ]
+  },
+  {
+   "id": "w07",
+   "written": "in scope",
+   "job": "43-4171.00",
+   "level": "degree",
+   "hours": 5,
+   "budget": 50,
+   "activities": [
+    "4.A.1.b.2.h.3",
+    "4.A.2.b.2.b.4",
+    "4.A.2.b.2.b.7",
+    "4.A.2.b.2.b.8",
+    "4.A.3.b.1.a.3",
+    "4.A.3.b.1.f.1",
+    "4.A.3.b.1.f.4",
+    "4.A.4.a.2.j.6"
+   ]
+  },
+  {
+   "id": "w08",
+   "written": "in scope",
+   "job": "51-9198.00",
+   "level": "diploma",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.1.b.2.c.2",
+    "4.A.1.b.2.h.3",
+    "4.A.2.a.4.e.3",
+    "4.A.3.b.6.e.1",
+    "4.A.3.b.6.i.6",
+    "4.A.3.b.6.i.7",
+    "4.A.4.b.6.d.6",
+    "4.A.4.b.6.e.9"
+   ]
+  },
+  {
+   "id": "w09",
+   "written": "in scope",
+   "job": "41-2011.00",
+   "level": "degree",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.1.a.1.d.4",
+    "4.A.2.a.2.a.9",
+    "4.A.2.a.2.d.1",
+    "4.A.3.b.1.f.6",
+    "4.A.3.b.6.a.1",
+    "4.A.3.b.6.a.2",
+    "4.A.3.b.6.j.1",
+    "4.A.3.b.6.j.3"
+   ]
+  },
+  {
+   "id": "w10",
+   "written": "in scope",
+   "job": "53-3033.00",
+   "level": "degree",
+   "hours": 7,
+   "budget": 50,
+   "activities": [
+    "4.A.1.a.2.c.2",
+    "4.A.1.b.3.c.1",
+    "4.A.1.b.3.c.3",
+    "4.A.2.a.4.k.2",
+    "4.A.2.a.4.k.6",
+    "4.A.3.b.6.j.3",
+    "4.A.4.a.1.d.2",
+    "4.A.4.b.6.k.3"
+   ]
+  },
+  {
+   "id": "w11",
+   "written": "in scope",
+   "job": "43-5071.00",
+   "level": "diploma",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.2.a.2.a.8",
+    "4.A.2.a.4.d.2",
+    "4.A.2.a.4.g.3",
+    "4.A.2.b.2.o.14",
+    "4.A.3.b.1.f.7",
+    "4.A.3.b.6.c.5",
+    "4.A.4.a.2.c.10",
+    "4.A.4.a.3.c.2"
+   ]
+  },
+  {
+   "id": "w12",
+   "written": "in scope",
+   "job": "41-3091.00",
+   "level": "degree",
+   "hours": 5,
+   "budget": 100,
+   "activities": [
+    "4.A.1.a.1.n.3",
+    "4.A.1.b.3.c.1",
+    "4.A.1.b.3.c.4",
+    "4.A.2.a.1.i.2",
+    "4.A.2.a.2.a.3",
+    "4.A.2.a.4.k.2",
+    "4.A.3.b.6.c.6",
+    "4.A.4.b.6.k.3"
+   ]
+  },
+  {
+   "id": "x01",
+   "written": "out of scope",
+   "job": "41-2011.00",
+   "level": "diploma",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.1.a.2.e.4",
+    "4.A.4.a.5.d.2",
+    "4.A.4.a.5.d.3",
+    "4.A.4.a.5.l.5",
+    "4.A.4.a.6.b.5"
+   ]
+  },
+  {
+   "id": "x02",
+   "written": "out of scope",
+   "job": "43-4051.00",
+   "level": "degree",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.4.a.3.c.11",
+    "4.A.4.a.5.a.6",
+    "4.A.4.b.6.j.1",
+    "4.A.4.b.6.j.3",
+    "4.A.4.b.6.j.4"
+   ]
+  },
+  {
+   "id": "x03",
+   "written": "out of scope",
+   "job": "53-3033.00",
+   "level": "diploma",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.3.a.2.ag.2",
+    "4.A.3.b.4.d.1",
+    "4.A.3.b.4.d.5",
+    "4.A.3.b.6.p.3",
+    "4.A.4.a.6.b.5"
+   ]
+  },
+  {
+   "id": "v01",
+   "written": "in scope",
+   "job": "33-9032.00",
+   "level": "diploma",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.3.a.3.e.3",
+    "4.A.3.b.1.b.1",
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.1.c.2",
+    "4.A.3.b.1.c.4",
+    "4.A.3.b.1.d.2",
+    "4.A.3.b.5.c.6",
+    "4.A.4.b.6.d.2"
+   ]
+  },
+  {
+   "id": "v02",
+   "written": "in scope",
+   "job": "53-7065.00",
+   "level": "degree",
+   "hours": 8,
+   "budget": 0,
+   "activities": [
+    "4.A.1.a.2.j.2",
+    "4.A.3.b.1.b.1",
+    "4.A.3.b.1.d.1",
+    "4.A.3.b.5.c.2",
+    "4.A.3.b.5.c.6",
+    "4.A.3.b.6.l.8",
+    "4.A.4.b.3.e.4",
+    "4.A.4.b.6.d.2"
+   ]
+  },
+  {
+   "id": "v03",
+   "written": "in scope",
+   "job": "35-3031.00",
+   "level": "diploma",
+   "hours": 6,
+   "budget": 50,
+   "activities": [
+    "4.A.1.b.2.h.2",
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.1.c.2",
+    "4.A.3.b.1.d.2",
+    "4.A.3.b.5.b.3",
+    "4.A.3.b.5.c.6",
+    "4.A.3.b.6.h.13",
+    "4.A.3.b.6.h.24"
+   ]
+  },
+  {
+   "id": "v04",
+   "written": "in scope",
+   "job": "41-2011.00",
+   "level": "degree",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.1.b.2.h.2",
+    "4.A.2.a.4.b.5",
+    "4.A.2.b.2.b.4",
+    "4.A.2.b.2.b.8",
+    "4.A.3.b.1.a.3",
+    "4.A.3.b.1.f.1",
+    "4.A.3.b.1.f.4",
+    "4.A.3.b.2.a.3"
+   ]
+  },
+  {
+   "id": "v05",
+   "written": "in scope",
+   "job": "53-3031.00",
+   "level": "degree",
+   "hours": 8,
+   "budget": 0,
+   "activities": [
+    "4.A.1.b.2.h.3",
+    "4.A.2.b.2.b.1",
+    "4.A.2.b.2.b.10",
+    "4.A.2.b.2.b.4",
+    "4.A.2.b.2.b.7",
+    "4.A.2.b.2.b.8",
+    "4.A.3.b.1.a.3",
+    "4.A.3.b.1.d.2"
+   ]
+  },
+  {
+   "id": "v06",
+   "written": "in scope",
+   "job": "51-9198.00",
+   "level": "diploma",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.1.a.1.v.1",
+    "4.A.1.b.2.h.2",
+    "4.A.1.b.2.h.3",
+    "4.A.2.a.2.a.8",
+    "4.A.2.b.2.b.7",
+    "4.A.3.b.1.a.3",
+    "4.A.3.b.1.d.2",
+    "4.A.3.b.2.f.15"
+   ]
+  },
+  {
+   "id": "v07",
+   "written": "in scope",
+   "job": "43-4051.00",
+   "level": "degree",
+   "hours": 5,
+   "budget": 0,
+   "activities": [
+    "4.A.2.b.2.b.1",
+    "4.A.2.b.2.b.10",
+    "4.A.2.b.2.b.4",
+    "4.A.2.b.2.b.7",
+    "4.A.2.b.2.f.4",
+    "4.A.3.b.1.a.3",
+    "4.A.3.b.6.h.14",
+    "4.A.4.b.3.e.4"
+   ]
+  },
+  {
+   "id": "v08",
+   "written": "in scope",
+   "job": "41-2031.00",
+   "level": "degree",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.1.b.3.c.1",
+    "4.A.1.b.3.c.3",
+    "4.A.2.a.2.d.1",
+    "4.A.2.b.1.a.6",
+    "4.A.3.b.6.a.1",
+    "4.A.3.b.6.a.2",
+    "4.A.3.b.6.j.1",
+    "4.A.3.b.6.j.3"
+   ]
+  },
+  {
+   "id": "v09",
+   "written": "in scope",
+   "job": "41-2011.00",
+   "level": "degree",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.1.a.1.n.4",
+    "4.A.2.a.4.d.1",
+    "4.A.2.a.4.d.2",
+    "4.A.2.a.4.g.5",
+    "4.A.2.b.2.o.14",
+    "4.A.3.b.1.f.5",
+    "4.A.3.b.1.f.7",
+    "4.A.3.b.6.c.1"
+   ]
+  },
+  {
+   "id": "v10",
+   "written": "in scope",
+   "job": "43-4051.00",
+   "level": "diploma",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.1.a.1.n.3",
+    "4.A.1.b.3.c.4",
+    "4.A.2.a.2.a.3",
+    "4.A.2.a.3.c.2",
+    "4.A.3.b.6.h.15",
+    "4.A.4.a.1.d.3",
+    "4.A.4.a.3.c.4",
+    "4.A.4.c.3.d.1"
+   ]
+  },
+  {
+   "id": "v11",
+   "written": "in scope",
+   "job": "53-3033.00",
+   "level": "degree",
+   "hours": 7,
+   "budget": 50,
+   "activities": [
+    "4.A.1.a.2.c.5",
+    "4.A.1.a.2.h.1",
+    "4.A.2.a.4.c.3",
+    "4.A.2.a.4.k.4",
+    "4.A.2.a.4.k.6",
+    "4.A.2.b.2.h.1",
+    "4.A.3.b.6.j.3",
+    "4.A.4.a.1.d.3"
+   ]
+  },
+  {
+   "id": "v12",
+   "written": "in scope",
+   "job": "43-4171.00",
+   "level": "diploma",
+   "hours": 5,
+   "budget": 0,
+   "activities": [
+    "4.A.1.a.1.d.4",
+    "4.A.1.b.3.c.3",
+    "4.A.2.a.2.a.5",
+    "4.A.3.b.6.a.1",
+    "4.A.3.b.6.h.6",
+    "4.A.3.b.6.h.9",
+    "4.A.4.a.1.d.2",
+    "4.A.4.c.1.c.7"
+   ]
+  },
+  {
+   "id": "y01",
+   "written": "out of scope",
+   "job": "35-2021.00",
+   "level": "diploma",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.2.b.1.a.6",
+    "4.A.3.a.1.j.5",
+    "4.A.3.a.2.c.11",
+    "4.A.4.c.1.c.10",
+    "4.A.4.c.3.e.6"
+   ]
+  },
+  {
+   "id": "y02",
+   "written": "out of scope",
+   "job": "31-1122.00",
+   "level": "degree",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.2.b.5.c.2",
+    "4.A.3.a.2.c.11",
+    "4.A.4.a.5.c.6",
+    "4.A.4.a.5.i.2",
+    "4.A.4.a.5.i.9"
+   ]
+  },
+  {
+   "id": "y03",
+   "written": "out of scope",
+   "job": "47-2061.00",
+   "level": "diploma",
+   "hours": 6,
+   "budget": 0,
+   "activities": [
+    "4.A.3.a.1.f.6",
+    "4.A.3.a.2.a.1",
+    "4.A.3.a.2.ag.3",
+    "4.A.3.a.2.am.1",
+    "4.A.3.b.4.a.5"
+   ]
+  }
+ ]
+}

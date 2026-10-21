@@ -1,4 +1,5 @@
 """FastAPI service, started by src/main.py."""
+import datetime as dt
 import json
 from pathlib import Path
 
@@ -8,6 +9,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from . import intake, snapshots
+from .cohort import Cohort
 from .encoder import AIUnavailable, load_ai
 from .matching import Matcher
 from .report import Reporter, ReportError, fig
@@ -35,6 +37,8 @@ def create_app(data_dir=snapshots.DEFAULT_DATA_DIR):
     matcher = Matcher(snaps)
     reporter = Reporter(snaps, matcher)
     planner = Planner(snaps, matcher, reporter)
+    cohort = Cohort(snaps, planner)
+    cohort_cache = {}
     app = FastAPI(title="AIVANCIN")
     # Route responses carry every figure with its sources (several hundred kB of JSON); compress them.
     app.add_middleware(GZipMiddleware, minimum_size=2048)
@@ -118,6 +122,17 @@ def create_app(data_dir=snapshots.DEFAULT_DATA_DIR):
             return planner.explore(req.get("options") or {})
         except ReportError as exc:
             return JSONResponse(status_code=422, content={"errors": exc.errors})
+
+    @app.get("/api/cohort")
+    def cohort_view():
+        """The bundled synthetic cohort's routes, shared gaps, shared steps and SDG counts (SPEC 11.10). No input."""
+        today = dt.date.today()
+        if today not in cohort_cache:
+            cohort_cache.clear()
+            cohort_cache[today] = cohort.summary(today)
+        if cohort_cache[today] is None:
+            raise HTTPException(status_code=404, detail="No cohort is bundled.")
+        return cohort_cache[today]
 
     @app.post("/api/update")
     def update(req: dict):

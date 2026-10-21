@@ -506,6 +506,15 @@ def main():
                       "original_sha256": sha256_file(routes), "derived_rows": None,
                       "derived_path": "routes/destinations.json", "derived_sha256": sha256_file(routes)})
 
+    cohort = DATA / "cohort" / "demo.json"
+    if cohort.exists():
+        final.append({"source_id": "aivancin-cohort", "title": "AIVANCIN synthetic cohort for the cohort view (the agent-written "
+                      "B7 test profiles; no real person)", "publisher": "AIVANCIN (team DOVUN)", "url": "tools/build_cohort.py",
+                      "release": json.loads(cohort.read_text(encoding="utf-8"))["built_on"], "licence": "Synthetic, project data",
+                      "access_date": json.loads(cohort.read_text(encoding="utf-8"))["built_on"], "original_sha256": sha256_file(cohort),
+                      "derived_rows": len(json.loads(cohort.read_text(encoding="utf-8"))["members"]),
+                      "derived_path": "cohort/demo.json", "derived_sha256": sha256_file(cohort)})
+
     cat = DATA / "catalogue" / "courses.json"
     if cat.exists():
         final.append({"source_id": "aivancin-catalogue", "title": "AIVANCIN curated course catalogue",

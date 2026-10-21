@@ -144,6 +144,7 @@ function show(screen, page = 1, focus = true) {
   else if (screen === "plan" && routeState.data) renderPlan();
   else if (screen === "routes" && routeState.data) renderRoutes();
   else if (screen === "route" && routeState.data) renderRoute();
+  else if (screen === "cohort") renderCohort();
   let heading = $("[tabindex='-1']", document.getElementById(screen));
   if (screen === "work") {
     $$(".q-page").forEach(q => { q.hidden = Number(q.dataset.page) !== page; });
@@ -973,6 +974,61 @@ function renderHow() {
   attachSources($("#how-body"));
 }
 
+/* Cohort view (SPEC 11.10): a bundled synthetic cohort, counted for a career centre. It takes no input, and
+   nothing here changes anyone's routes. */
+let cohortData = null;
+async function renderCohort() {
+  const box = $("#cohort-body");
+  if (!cohortData) {
+    box.innerHTML = `<p class="status-line" role="status">Counting the cohort's routes…</p>`;
+    try { cohortData = await api("/api/cohort"); } catch (err) {
+      box.innerHTML = `<div class="callout">${icon("triangle-alert")}<p>The cohort view could not be loaded. Try again later.</p></div>`;
+      return;
+    }
+    if (current.screen !== "cohort") return;
+  }
+  const c = cohortData, fams = c.families, sd = c.sdg, k = c.shade_cuts;
+  const cf = v => fig({ v, src: c.src }, "int");
+  const fmtQ = iso => `${iso.slice(0, 4)} Q${Math.floor((Number(iso.slice(5, 7)) - 1) / 3) + 1}`;
+  const short = s => esc(s.replace(/\.$/, ""));
+  const legend = [["s0", "none"], ["s1", `under ${cf(k[0])}%`], ["s2", `under ${cf(k[1])}%`], ["s3", `under ${cf(k[2])}%`], ["s4", `${cf(k[2])}% or more`]];
+  box.innerHTML = `
+    <p class="lead-left">Where the routes of ${fig(c.members, "int")} graduates lead, the priority gaps they share, and what their first ${fig(c.weeks, "int")}-week blocks would cover. Counts only, never a score.</p>
+    <div class="callout">${icon("info")}<p>A synthetic cohort: the written test profiles behind AIVANCIN's route checks, each with its labelled activities confirmed. No real student is in it, and nothing is uploaded or stored.</p></div>
+    <section class="soft-card" data-scope aria-labelledby="h-co-lead"><h2 id="h-co-lead">${icon("route", "sm")}Where their routes lead</h2>
+      <div class="stat-row"><p><b>${fig(c.members, "int")}</b><span>graduates</span></p><p><b>${fig(c.with_route, "int")}</b><span>with a route</span></p><p><b>${fig(c.without_route, "int")}</b><span>without one yet</span></p></div>
+      <p class="foot">First routes: ${fams.map(f => `${esc(f.label)} ${fig(f.first, "int")}`).join(" · ")}. Members without a route would see the closest other roles to explore.</p></section>
+    <section class="soft-card" data-scope aria-labelledby="h-co-gaps"><h2 id="h-co-gaps">${icon("layers", "sm")}Priority gaps they share</h2>
+      <p class="foot">Each family's ${cf(c.rows_per_family)} most common priority gaps. A cell counts the members with a route in that family whose route lists the activity as a priority gap; the shade is their share of the family's members with a route.</p>
+      <table class="heat-t"><colgroup><col>${fams.map(() => `<col class="c-fam">`).join("")}</colgroup>
+        <thead><tr><th scope="col">Activity</th>${fams.map(f => `<th scope="col" title="${esc(f.label)}">${esc(f.short)}<span class="hd-of">of ${fig(f.members, "int")}</span></th>`).join("")}</tr></thead>
+        <tbody>${c.heatmap.map(r => `<tr><th scope="row">${short(r.name)}</th>${fams.map(f => {
+          const x = r.cells[f.id];
+          return `<td class="s${x.shade}" title="${esc(`${x.count.v} of ${f.members.v} members with a route in ${f.label} (${fmtNum(x.share.v, "pct")})`)}">${fig(x.count, "int")}</td>`;
+        }).join("")}</tr>`).join("")}</tbody></table>
+      <ul class="heat-legend" aria-label="Shade: share of the family's members">${legend.map(([s, t]) => `<li><i class="${s}" aria-hidden="true"></i><span>${t}</span></li>`).join("")}</ul>
+      <details class="more"><summary class="link-btn">By route</summary><ul class="cohort-routes">${c.by_route.map(r => `<li><b>${esc(r.title)}</b>: ${fig(r.members, "int")} member${r.members.v === 1 ? "" : "s"}
+        <span class="foot">Most common priority gaps: ${r.gaps.map(g => `${short(g.name)} (${fig(g.members, "int")})`).join("; ")}</span></li>`).join("")}</ul></details></section>
+    <section class="soft-card" data-scope aria-labelledby="h-co-found"><h2 id="h-co-found">${icon("book-open", "sm")}Steps many first blocks share</h2>
+      ${c.foundations.length ? `<p class="foot">Learning steps in at least two members' first blocks (their first route), most members first.</p>
+      <ul class="res-list">${c.foundations.map(f => `<li><a class="res-row" href="${esc(f.url)}" target="_blank" rel="noopener"><span class="res-tile" aria-hidden="true">${icon("book-open")}</span>
+        <span class="res-text"><b>${esc(f.title)}</b><span>${esc(f.provider)} · ${fig(f.hours, "")} h · in ${fig(f.members, "int")} first blocks</span></span>${icon("external-link", "sm")}<span class="vh">(opens in a new tab)</span></a>
+        ${f.gaps.length ? `<p class="foot found-gaps">Serves: ${f.gaps.map(short).join("; ")}.</p>` : ""}</li>`).join("")}</ul>`
+        : `<p class="foot">No learning step is in more than one member's first block.</p>`}</section>
+    <section class="soft-card contrib" data-scope aria-labelledby="h-co-sdg"><h2 id="h-co-sdg">${icon("layers", "sm")}What their first blocks contribute</h2>
+      <p class="foot">Over the ${fig(sd.s85.of, "int")} members' first routes.</p>
+      <dl class="contrib-list">
+        <div><dt>SDG 8.5 · decent work</dt><dd>${fig(sd.s85.members, "int")} of ${fig(sd.s85.of, "int")} first routes lead from semi- or low-skilled work to skilled work (MASCO major groups 1 to 3)${sd.s85.pay_low ? `; DOSM 2025 group-median pay steps from ${fig(sd.s85.pay_low, "step")} to ${fig(sd.s85.pay_high, "step")} a month (group medians, not salary offers)` : ""}.${srcMarks(sd.s85.members.src)}</dd></div>
+        <div><dt>SDG 4.4 · skills for employment</dt><dd>${fig(sd.s44.gaps, "int")} priority gaps served in ${fig(sd.s44.hours, "")} hours of first blocks in all.</dd></div>
+        <div><dt>SDG 4.3 · affordable learning</dt><dd>${fig(sd.s43.free, "int")} of ${fig(sd.s43.of, "int")} steps are free.</dd></div>
+        <div><dt>SDG 8.2 · productivity through technology</dt><dd>${fig(sd.s82.checkpoints, "int")} checkpoints add AI checking in the moderate scenario.</dd></div>
+      </dl>
+      ${sd.baseline ? `<p class="foot">Why it matters in Malaysia: the share of employed tertiary-educated people aged 25-34 in semi- or low-skilled jobs went from ${fig({ v: sd.baseline.from.rate, src: sd.baseline.src }, "pct")} (${esc(fmtQ(sd.baseline.from.date))}) to ${fig({ v: sd.baseline.to.rate, src: sd.baseline.src }, "pct")} (${esc(fmtQ(sd.baseline.to.date))}), DOSM.${srcMarks(sd.baseline.src)}</p>` : ""}
+      ${sd.s5 ? `<p class="foot">SDG 5 context: women's skill-related underemployment is ${fig(sd.s5.female, "pct")} against men's ${fig(sd.s5.male, "pct")} (all ages, DOSM). National context only.</p>` : ""}
+      <p class="foot">Target wording: United Nations, sdgs.un.org.${srcMarks(sd.src)}</p></section>`;
+  attachSources(box);
+}
+
 /* Sources open in a sheet over the current screen, so checking a figure never loses your place.
    A section's button shows only that section's sources; "Show all" and the settings entry show every
    source with the licence notes. A single cited source is highlighted and focused. Closing returns focus. */
@@ -1053,6 +1109,7 @@ async function start() {
     else if (go === "describe") { await setMode("own"); navigate("work", 1); }
     else if (go === "example") { await setMode("example"); navigate("work", 1); }
     else if (go === "own") { await setMode("own"); $("#h-work").focus(); }
+    else if (go === "cohort") navigate("cohort");
   });
   $("#intake").addEventListener("submit", readWork);
   $("#read-now").addEventListener("click", () => { readNow = true; $("#intake").requestSubmit(); });
