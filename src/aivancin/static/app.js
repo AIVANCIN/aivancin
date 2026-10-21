@@ -1089,6 +1089,8 @@ const ROLE_META = {
   "15-1212.00": ["shield-check", "cyber security analyst"], "15-1252.00": ["square-code", "software developer"], "15-1253.00": ["bug", "software tester"],
   "15-1254.00": ["globe", "web developer"], "15-1251.00": ["square-terminal", "programmer"], "13-2011.00": ["calculator", "accountant"],
   "13-2031.00": ["piggy-bank", "budget analyst"], "13-2041.00": ["credit-card", "credit analyst"], "15-2051.01": ["chart-line", "business intelligence analyst"],
+  "13-2051.00": ["trending-up", "financial analyst"], "13-2061.00": ["clipboard-check", "compliance officer"], "13-2072.00": ["landmark", "loan officer"],
+  "13-2082.00": ["receipt", "tax assistant"], "15-2051.00": ["database", "data scientist"],
 };
 const SORTS = {
   overlap: ["Most overlap", "Ordered by activity overlap, as compared."],
@@ -1621,14 +1623,21 @@ async function decideEvidence(choice) {
   navigate("plan");
 }
 
+/* Quick successive changes (scenario, look-ahead, a ticked step) each start a refresh; only the latest one renders,
+   so an older response arriving last can never put back a setting the person already changed. */
+let planSeq = 0;
 async function refreshPlan() {
+  const seq = ++planSeq;
   const active = document.activeElement;
   const focusDone = active?.dataset.done;
   const focusScenario = ["pscen", "rscen"].includes(active?.name) ? active.value : null;
   const focusName = active?.name || active?.id;
   try {
-    routeState.data = await loadRoutes(isPersonal());
+    const data = await loadRoutes(isPersonal());
+    if (seq !== planSeq) return;
+    routeState.data = data;
     await checkNewer();
+    if (seq !== planSeq) return;
     const keepFocus = document.activeElement === active;
     renderRoutes();
     renderPlan();
@@ -1640,6 +1649,7 @@ async function refreshPlan() {
       : focusName === "r-hz" ? $("#r-hz") : null;
     if (keepFocus) restore?.focus({ preventScroll: true });
   } catch (err) {
+    if (seq !== planSeq) return;
     $("#plan-body").innerHTML = `<div class="callout">${icon("triangle-alert")}<p>${esc(Object.values(err.data?.errors || {})[0] || "Could not build the plan.")}</p></div>`;
   }
 }

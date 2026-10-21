@@ -40,8 +40,13 @@ def priya(snaps, ai, personas):
 
 
 def test_b1_every_supported_destination_passes_admission(snaps, planner):
-    dests = snaps.routes["destinations"]
-    assert len(dests) == 12 and all(d["admitted"] for d in dests)
+    # 12 roles adopted 20 Oct plus the finance and data candidates of SPEC 11.7 (21 Oct); a candidate that fails the
+    # rule is listed with its reason and never offered as a route.
+    all_dests = snaps.routes["destinations"]
+    dests = [d for d in all_dests if d["admitted"]]
+    excluded = {d["code"]: [k for k, v in d["admission"].items() if not v] for d in all_dests if not d["admitted"]}
+    assert len(dests) == 17 and excluded == {"13-2054.00": ["resources_for_3_top_activities"]}
+    assert set(planner.dests) == {d["code"] for d in dests}
     m, rep = planner.m, planner.rep
     courses = [c for c in pathway.verified_courses(snaps.catalogue, TODAY) if c.get("checkpoint")]
     for d in dests:

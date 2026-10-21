@@ -47,7 +47,7 @@ def test_api_flow_for_a_persona(client):
 
 def test_api_explore_needs_no_profile_and_validates_options(client):
     d = client.post("/api/explore", json={}).json()
-    assert d["personal"] is False and len(d["routes"]) == d["supported_destinations"]["v"] == 12
+    assert d["personal"] is False and len(d["routes"]) == d["supported_destinations"]["v"] == 17
     r = client.post("/api/explore", json={"options": {"scenario": "sideways"}})
     assert r.status_code == 422 and "scenario" in r.json()["errors"]
     # The personal comparison still needs confirmed work.
@@ -216,7 +216,7 @@ def test_routes_and_update_endpoints(client):
     r = client.post("/api/routes", json=req)
     assert r.status_code == 200
     body = r.json()
-    assert 1 <= len(body["routes"]) <= 3 and body["supported_destinations"]["v"] == 12
+    assert 1 <= len(body["routes"]) <= 3 and body["supported_destinations"]["v"] == 17
     target = body["routes"][0]["code"]
     u = client.post("/api/update", json=hafiz_request(client, weeks=4, target=target, from_release="2025-09-15",
                                                        to_release="2026-06-26"))

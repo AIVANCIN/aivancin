@@ -1,6 +1,6 @@
 {
  "note": "Curated Microsoft Learn items and Saylor University courses. For each Microsoft Learn item the encoder proposed activities from the provider's title and summary; for each Saylor course the curator read the stated course learning outcomes. The curator kept only the links listed here (dwas), named the in-demand tools it teaches (tools, using O*NET software example names) and marked items that teach directing and checking AI output (ai_skill). Titles, URLs and durations come from the Microsoft Learn catalog API and from each Saylor course page when tools/build_catalogue.py runs. Route entries also record a coverage grade (introduces or practises), a practice checkpoint that produces an inspectable artifact and the entries they require first; Saylor states no prerequisites, so a requires link there is the curator's reading of the course sequence. families, where present, limits an entry to destination families in which its activities mean the same work (an activity such as \"Test software performance\" is unit testing for a developer but not for IT support).",
- "curated_on": "2026-10-20",
+ "curated_on": "2026-10-21",
  "items": [
   {
    "uid": "learn.wwl.build-web-pages-html-css-for-beginners",
@@ -858,6 +858,171 @@
    "ai_skill": true,
    "coverage": "introduces",
    "checkpoint": "Ask an AI assistant to draft a monthly cost summary from a synthetic ledger, then check every figure against your own totals and note each correction."
+  },
+  {
+   "uid": "saylor.bus202.u2",
+   "provider": "saylor_unit",
+   "code": "bus202",
+   "section": 8,
+   "unit": "Unit 2",
+   "dwas": [
+    "4.A.2.a.4.k.6",
+    "4.A.2.a.4.k.4",
+    "4.A.2.a.1.i.2",
+    "4.A.2.a.3.c.2"
+   ],
+   "tools": [
+    "Microsoft Excel"
+   ],
+   "families": [
+    "finance_analytics"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Compute liquidity, profitability and debt ratios for a listed company from its published statements and write five sentences on what they say about it."
+  },
+  {
+   "uid": "saylor.bus202.u3",
+   "provider": "saylor_unit",
+   "code": "bus202",
+   "section": 14,
+   "unit": "Unit 3",
+   "dwas": [
+    "4.A.1.b.3.c.4",
+    "4.A.1.b.3.c.1",
+    "4.A.2.a.4.k.3"
+   ],
+   "tools": [
+    "Microsoft Excel"
+   ],
+   "families": [
+    "finance_analytics"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Build a loan repayment table in a spreadsheet for a synthetic car loan and check the monthly payment against the unit's formula."
+  },
+  {
+   "uid": "saylor.bus202.u4",
+   "provider": "saylor_unit",
+   "code": "bus202",
+   "section": 20,
+   "unit": "Unit 4",
+   "dwas": [
+    "4.A.2.b.1.a.2",
+    "4.A.2.a.4.k.3"
+   ],
+   "families": [
+    "finance_analytics"
+   ],
+   "requires": [
+    "saylor.bus202.u3"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Value one bond and one dividend-paying share with the unit's formulas and compare each value with its market price."
+  },
+  {
+   "uid": "saylor.bus202.u5",
+   "provider": "saylor_unit",
+   "code": "bus202",
+   "section": 26,
+   "unit": "Unit 5",
+   "dwas": [
+    "4.A.2.a.4.c.3",
+    "4.A.2.a.4.k.3"
+   ],
+   "families": [
+    "finance_analytics"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Compute the expected return and spread of a two-share portfolio from synthetic yearly returns, and say how adding the second share changes the risk."
+  },
+  {
+   "uid": "saylor.bus202.u6",
+   "provider": "saylor_unit",
+   "code": "bus202",
+   "section": 33,
+   "unit": "Unit 6",
+   "dwas": [
+    "4.A.1.b.1.b.4",
+    "4.A.2.a.1.j.2",
+    "4.A.2.a.1.g.1"
+   ],
+   "tools": [
+    "Microsoft Excel"
+   ],
+   "families": [
+    "finance_analytics"
+   ],
+   "requires": [
+    "saylor.bus202.u3"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Compute the NPV, IRR and payback of two synthetic projects in a spreadsheet and recommend one in a short memo."
+  },
+  {
+   "uid": "saylor.bus202.u8",
+   "provider": "saylor_unit",
+   "code": "bus202",
+   "section": 45,
+   "unit": "Unit 8",
+   "dwas": [
+    "4.A.1.a.2.c.4"
+   ],
+   "tools": [
+    "Microsoft Excel"
+   ],
+   "families": [
+    "finance_analytics"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "Prepare a twelve-week cash forecast for a synthetic small shop and mark the weeks when it would need short-term credit."
+  },
+  {
+   "uid": "learn.wwl.fundamentals-machine-learning",
+   "dwas": [
+    "4.A.2.b.1.d.10",
+    "4.A.2.b.2.u.3"
+   ],
+   "families": [
+    "finance_analytics"
+   ],
+   "coverage": "introduces",
+   "checkpoint": "For three questions from a business you know, write which kind of model (regression, classification or clustering) would answer each and why."
+  },
+  {
+   "uid": "learn.wwl.train-evaluate-regression-models",
+   "dwas": [
+    "4.A.2.a.4.d.1",
+    "4.A.2.b.2.u.3"
+   ],
+   "tools": [
+    "Python"
+   ],
+   "families": [
+    "finance_analytics"
+   ],
+   "requires": [
+    "learn.wwl.explore-analyze-data-with-python"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Train a regression model on a public dataset in a notebook and write down its error on rows it did not see."
+  },
+  {
+   "uid": "learn.wwl.train-evaluate-cluster-models",
+   "dwas": [
+    "4.A.2.a.4.d.2",
+    "4.A.2.b.2.u.3"
+   ],
+   "tools": [
+    "Python"
+   ],
+   "families": [
+    "finance_analytics"
+   ],
+   "requires": [
+    "learn.wwl.explore-analyze-data-with-python"
+   ],
+   "coverage": "practises",
+   "checkpoint": "Group a public customer dataset into clusters in a notebook and describe each group in one sentence."
   }
  ]
 }

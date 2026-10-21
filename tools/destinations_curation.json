@@ -1,6 +1,6 @@
 {
- "note": "Supported destinations for routes (SPEC section 10.1): 12 roles in three families, adopted 20 Oct 2026. tools/build_routes.py derives each role's sourced requirements and applies the admission rule; a role that fails stays in exploration only. local_requirements holds Malaysian requirements verified on an official or professional-body page; none is recorded yet.",
- "curated_on": "2026-10-20",
+ "note": "Supported destinations for routes (SPEC section 10.1): 12 roles in three families, adopted 20 Oct 2026; six finance and data candidates added 21 Oct 2026 (SPEC 11.7), admitted only through the rule. tools/build_routes.py derives each role's sourced requirements and applies the admission rule; a role that fails stays in exploration only. local_requirements holds Malaysian requirements verified on an official or professional-body page; none is recorded yet.",
+ "curated_on": "2026-10-21",
  "families": {
   "it_support": "IT and network support and administration",
   "software": "Software development and testing",
@@ -18,6 +18,12 @@
   {"code": "13-2011.00", "family": "finance_analytics", "local_requirements": []},
   {"code": "13-2031.00", "family": "finance_analytics", "local_requirements": []},
   {"code": "13-2041.00", "family": "finance_analytics", "local_requirements": []},
-  {"code": "15-2051.01", "family": "finance_analytics", "local_requirements": []}
+  {"code": "15-2051.01", "family": "finance_analytics", "local_requirements": []},
+  {"code": "13-2051.00", "family": "finance_analytics", "local_requirements": []},
+  {"code": "13-2054.00", "family": "finance_analytics", "local_requirements": []},
+  {"code": "13-2061.00", "family": "finance_analytics", "local_requirements": []},
+  {"code": "13-2072.00", "family": "finance_analytics", "local_requirements": []},
+  {"code": "13-2082.00", "family": "finance_analytics", "local_requirements": []},
+  {"code": "15-2051.00", "family": "finance_analytics", "local_requirements": []}
  ]
 }

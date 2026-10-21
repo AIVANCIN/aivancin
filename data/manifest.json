@@ -372,26 +372,26 @@
       "title": "AIVANCIN supported destinations and their sourced requirements",
       "publisher": "AIVANCIN (team DOVUN), from O*NET 31.0 and the curated catalogue",
       "url": "tools/destinations_curation.json",
-      "release": "2026-10-20",
+      "release": "2026-10-21",
       "licence": "Derived from CC BY sources",
       "access_date": "2026-10-21",
-      "original_sha256": "c70df3ea0277d7caeed702de095a139bbdc05cf9d29a881e199d677452b15a86",
+      "original_sha256": "7e2db5ecdf7aed7a3e983a02af46466e8057c8792df6c1a1e1e3220b45b50fed",
       "derived_rows": null,
       "derived_path": "routes/destinations.json",
-      "derived_sha256": "c70df3ea0277d7caeed702de095a139bbdc05cf9d29a881e199d677452b15a86"
+      "derived_sha256": "7e2db5ecdf7aed7a3e983a02af46466e8057c8792df6c1a1e1e3220b45b50fed"
     },
     {
       "source_id": "aivancin-catalogue",
       "title": "AIVANCIN curated course catalogue",
       "publisher": "AIVANCIN (team DOVUN)",
       "url": "data/catalogue/courses.json",
-      "release": "2026-10-20",
+      "release": "2026-10-21",
       "licence": "Links to third-party pages; see each entry",
       "access_date": "2026-10-21",
-      "original_sha256": "95a807a1c216859f76439611c04f4e2fec89d56d6cfc01b36128db1f8547636d",
-      "derived_rows": 79,
+      "original_sha256": "584948164a9f3bae5276b5fc2b0f267761dd9ed3cf8187151a1a15b8806368bc",
+      "derived_rows": 88,
       "derived_path": "catalogue/courses.json",
-      "derived_sha256": "95a807a1c216859f76439611c04f4e2fec89d56d6cfc01b36128db1f8547636d"
+      "derived_sha256": "584948164a9f3bae5276b5fc2b0f267761dd9ed3cf8187151a1a15b8806368bc"
     },
     {
       "source_id": "aei-report-2511.15080",

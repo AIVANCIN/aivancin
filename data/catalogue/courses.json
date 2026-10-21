@@ -1,7 +1,7 @@
 {
- "catalogue_date": "2026-10-20",
+ "catalogue_date": "2026-10-21",
  "validity_days": 60,
- "curated_on": "2026-10-20",
+ "curated_on": "2026-10-21",
  "source": "Microsoft Learn catalog API (https://learn.microsoft.com/api/catalog/?type=modules,learningPaths&locale=en-us) and Saylor University course pages (https://learn.saylor.org/course/)",
  "courses": [
   {
@@ -30,12 +30,12 @@
     "Describe the core analytics tasks that turn raw data into a finished report."
    ],
    "provider_prerequisites": "You've seen a report or dashboard and understand what metrics represent No prior analytics or data tool experience required Introduction min Types of data analytics min Roles in data analytics min Core analytics tasks min Check your knowledge min Summary min Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions correctly to",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Explore the Analytics Process That Turns Data into Insights - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Describe each stage of the analytics process for one dataset you know, from source to report.",
@@ -70,12 +70,12 @@
     "Create compelling visuals and reports."
    ],
    "provider_prerequisites": "None Introduction min Use Power BI min Building blocks of Power BI min Tour and use the Power BI service min Knowledge check min Summary min Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions correctly to earn a pass designation on your profile. Start en-us Your Privacy Choices Theme Light Dark High contrast AI Disclaimer",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Get Started Building With Power BI - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Load a public dataset into Power BI and publish one report page.",
@@ -110,12 +110,12 @@
     "Define user experience requirements."
    ],
    "provider_prerequisites": "Experience with creating reports in Power BI. Introduction min Identify the audience min Determine report types min Define user interface requirements min Define user experience requirements min Explore designs in a Power BI report min Check your knowledge min Summary min Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Scope Report Design Requirements - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Write the requirements for a report: its audience, questions, measures and refresh frequency.",
@@ -154,12 +154,12 @@
     "Reimburse a customer."
    ],
    "provider_prerequisites": "Basic understanding of finance and accounting processes Ability to use Dynamics 365 Finance for basic processing General knowledge of basic navigation within Finance General understanding of sales order invoicing Introduction min Create free text invoices min Exercise - Create and process a free text invoice min Recurring free text invoices min Create and handle payments of customer invoices for s",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Get started with accounts receivable daily procedures in Dynamics 365 Finance - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Issue three synthetic invoices, record the payments and produce an aged receivables list.",
@@ -195,12 +195,12 @@
     "Post the bank account reconciliation."
    ],
    "provider_prerequisites": "Basic understanding of how to navigate the Dynamics 365 Business Central application and of the cash management process of a company. Introduction to and completing the reconciliation process min Post the bank account reconciliation min Import a bank statement min Reconcile bank accounts with Copilot min Undo a bank account reconciliation min Module assessment min Summary min Take the module asses",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Perform a bank reconciliation in Dynamics 365 Business Central - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Reconcile a synthetic bank statement against a cash book and explain each difference.",
@@ -234,12 +234,12 @@
     "Are you responsible for generating financial reports from Business Central? This learning path discusses creating budgets, and using financial reports, dimensions, and row and column definitions to generate the financial reports that are typically needed for most businesses."
    ],
    "provider_prerequisites": "Basic understanding of how to navigate in Dynamics 365 Business Central General knowledge of a general ledger chart of accounts and financial reports Add Achievement Code Would you like to request an achievement code? Request achievement code",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Create financial reports in Microsoft Dynamics 365 Business Central - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Produce a profit and loss statement and a balance sheet for a synthetic shop and write three observations.",
@@ -276,12 +276,12 @@
     "Deploy reports with Visual Studio."
    ],
    "provider_prerequisites": "Basic understanding of enterprise resource planning systems Basic understanding of object-oriented programming Experience using Visual Studio Introduction min Create and modify report data sources and supporting classes min Implement reporting security requirements min Publish a report min Exercise – Set authorization requirements on database tables min Module assessment min Summary min Take the m",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Explore reporting tools in finance and operations apps - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Write a one-page monthly report for a manager from your synthetic accounts, with one chart.",
@@ -317,12 +317,12 @@
     "Ledger settlements."
    ],
    "provider_prerequisites": "Basic understanding of finance and accounting processes The ability to use Finance for basic processing Knowledge of basic navigation in Finance Understand how to set up General ledger in Finance Introduction min Using balance control accounts min Process a journal entry min Work with general ledger processes min Ledger settlements min Create templates to edit journals in Microsoft Excel min Creat",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Perform general ledger daily procedures in Dynamics 365 Finance - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Prepare a month's journal entries and a trial balance for a synthetic shop in a spreadsheet.",
@@ -358,12 +358,12 @@
     "How to use the credit management feature."
    ],
    "provider_prerequisites": "Have a basic understanding of finance and accounting processes The ability to use Finance for basic processing Have a general understanding of sales order invoicing Know how to configure credit and collections in Finance Introduction min Customer account statement min Working with collections min Collections coordinator workspace min Manage customer credit and collections min Credit management min",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Process credit and collections in Dynamics 365 Finance - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Assess three synthetic customers' payment histories and recommend a credit limit for each with reasons.",
@@ -399,12 +399,12 @@
     "Implement a budget register workflow."
    ],
    "provider_prerequisites": "Basic understanding of finance and accounting processes Knowledge of Dynamics 365 Finance Knowledge of how to use Dynamics 365 Finance for processing General understanding of budgeting Introduction min Plan for basic budgeting and budget control min Budget methodologies min Basic budgeting overview min Set up basic budgeting min Create and manage budget register entries min Exercise - Create a bud",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Set up and use basic budgeting Dynamics 365 Finance - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Build a yearly budget for a synthetic business with monthly figures and a variance column.",
@@ -443,12 +443,12 @@
     "How to prepare periodic filling"
    ],
    "provider_prerequisites": "Basic understanding of finance and accounting processes The ability to use Dynamics 365 Finance for basic processing An understanding of how to set up General ledger in Finance Introduction min Withholding tax min Sales tax exemption min Conditional sales tax min Sales tax on transactions min Set up sales tax reporting codes min Exercise - Set up sales tax reporting codes and withholding tax min C",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Work with taxes in Dynamics 365 Finance - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Calculate the sales tax and withholding on a set of synthetic invoices and show the working.",
@@ -480,12 +480,12 @@
     "Learn how to use Microsoft Copilot to analyze and visualize your data."
    ],
    "provider_prerequisites": "Students should have basic functional experience with Microsoft 365 services. Introduction min Analyze data workflows in Excel with Copilot min Generate insights using the Analyst Agent min Exercise - Analyze and visualize data with Microsoft Copilot min Module assessment min Summary min Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answ",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Analyze and visualize data using Microsoft Copilot - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    }
   },
   {
@@ -522,12 +522,12 @@
     "Inspect the website using browser developer tools."
    ],
    "provider_prerequisites": "Microsoft Visual Studio Code Familiarity with one or more programming languages and a markup language such as HTML A computer that's running one of the following operating systems: Windows: Windows 10 or 11 Mac: macOS 10.15 or later Linux: Ubuntu, Debian, Red Hat, Fedora, or SUSE Introduction min Exercise - Set up the structure of your web app min Exercise - Add basic HTML to your web app min Exer",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Get started with web development using Visual Studio Code - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Add a small script to your site and record how you checked it in the browser's developer tools.",
@@ -561,12 +561,12 @@
     "Consider the human diversity factors when practicing inclusive design."
    ],
    "provider_prerequisites": "None",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Design with inclusivity in mind - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Review one app screen against inclusive design principles and propose two changes.",
@@ -603,12 +603,12 @@
     "Describe how these core components map to Azure networking."
    ],
    "provider_prerequisites": "None",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Fundamentals of computer networking - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Draw a labelled diagram of a home or small-office network (router, switch, devices, address ranges) and list the order in which you would check for a connection fault.",
@@ -645,12 +645,12 @@
     "How to use Visual Studio Code to run tests, debug tests, and record new tests."
    ],
    "provider_prerequisites": "To get started with Playwright, you should have: Visual Studio Code installed Latest version of node Latest version of npm Introduction min What is Playwright? min Exercise: Getting Started with Playwright min Exercise: Deconstruct a Playwright Test min Understand Test Specification min Exercise: Using Playwright in Visual Studio Code min Module assessment min Summary min Take the module assessmen",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Build your first end-to-end test with Playwright - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Write an end-to-end test for one page of a site and a bug report for any failure you find.",
@@ -686,12 +686,12 @@
     "Collaborate with others to identify and address accessibility issues and promote a culture of inclusion and accessibility."
    ],
    "provider_prerequisites": "None Introduction min Types of accessibility testing min Accessibility evaluation and testing tools min Interpreting accessibility testing results min Collaborate to identify and address accessibility issues min Module assessment min Summary min Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions correctly to earn a pass d",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Accessibility evaluation and testing - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Test one web page for accessibility and write three recommended changes with the problem each fixes.",
@@ -729,12 +729,12 @@
     "Module assessment min"
    ],
    "provider_prerequisites": "",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Web accessibility principles and guidelines - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "List the accessibility requirements you would write into a website specification.",
@@ -770,12 +770,12 @@
     "Record collection context, retain evidence safely, clean up Packet Monitor state, and recognize when advanced analysis is required."
    ],
    "provider_prerequisites": "Basic knowledge of Internet Protocol addresses, Transmission Control Protocol, User Datagram Protocol, Internet Control Message Protocol, and ports. Familiarity with network adapters and inbound and outbound traffic. Experience running commands in Windows PowerShell or Command Prompt. Awareness that packet captures can contain sensitive information. Introduction min Understand Packet Monitor captu",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Capture and Inspect Windows Server Network Traffic with Packet Monitor - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Capture traffic for a failing connection on a test machine and write up what the capture showed.",
@@ -809,12 +809,12 @@
     "Describe how the core features of Windows Server 2025—including modular server roles, advanced security, virtualization, storage, networking, management tools, and hybrid integration—work together to support modern workloads."
    ],
    "provider_prerequisites": "None Introduction min What is Windows Server 2025? min How Windows Server 2025 works min When to use Windows Server 2025 min Knowledge check min Summary min Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions correctly to earn a pass designation on your profile. Start en-us Your Privacy Choices Theme Light Dark High contra",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Introduction To Windows Server 2025 - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    }
   },
   {
@@ -845,12 +845,12 @@
     "Apply Copilot suggestions to extend analysis with features like PivotTables, charts, or calculated columns."
    ],
    "provider_prerequisites": "None Introduction min Understand how Copilot interprets data in Excel min Exercise – Summarize and visualize sales data with Copilot min Knowledge check min Summary min Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions correctly to earn a pass designation on your profile. Start en-us Your Privacy Choices Theme Light Dark",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Summarize Sales Data Using Copilot In Excel - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Summarise a synthetic sales sheet with formulas, then check every figure an AI assistant produced against them.",
@@ -886,12 +886,12 @@
     "Document findings to support planning and deployment decisions."
    ],
    "provider_prerequisites": "None Introduction min Assess unmanaged devices with PC Health Check min Evaluate readiness using PC Health Check min Assess managed devices with Endpoint Analytics in Microsoft Intune min Review readiness with data in endpoint analytics min Knowledge check min Summary min Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Perform A Windows 11 Device Readiness Assessment - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Assess one computer you look after (or the module's example) for Windows 11 and write an upgrade recommendation naming each requirement it meets or misses.",
@@ -928,12 +928,12 @@
     "Identify best practices for using Microsoft 365 Copilot and Copilot+ PC in finance workflows."
    ],
    "provider_prerequisites": "None Introduction min Plan the day min Analysis, modeling, and reporting min Stakeholder review min Knowledge check min Summary min Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions correctly to earn a pass designation on your profile. Start en-us Your Privacy Choices Theme Light Dark High contrast AI Disclaimer Previous",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Work Smarter With Copilot Prompts For Finance Professionals - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Ask an AI assistant to draft a monthly cost summary from a synthetic ledger, then check every figure against your own totals and note each correction.",
@@ -966,12 +966,12 @@
     "Automate routine Excel tasks to save time and reduce errors."
    ],
    "provider_prerequisites": "None Introduction min Generate formulas with Copilot Chat min Exercise - Use Copilot Chat in Excel to generate formulas min Summarize and visualize data with Copilot Chat min Exercise - Create summaries and visualizations with Copilot Chat in Excel min Knowledge check min Summary min Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer a",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Work Smarter In Excel With Copilot Chat - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    }
   },
   {
@@ -1001,12 +1001,12 @@
     "Recognize how to manage your GitHub notifications and subscriptions."
    ],
    "provider_prerequisites": "A GitHub account",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Introduction to GitHub - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    }
   },
   {
@@ -1039,12 +1039,12 @@
     "Troubleshoot GitHub Copilot."
    ],
    "provider_prerequisites": "GitHub account Basic understanding of GitHub fundamentals",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Introduction to GitHub Copilot - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    }
   },
   {
@@ -1075,12 +1075,12 @@
     "Develop automation and insights from your Project."
    ],
    "provider_prerequisites": "A GitHub account Access to an organization Introduction min Projects versus Projects Classic min How to create a project min How to organize your project min How to organize and automate your project min Insight and automation with projects min Module assessment min Summary min Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all que",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Manage your work with GitHub Projects - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Set up a project board for a small piece of work with an issue for each task and its status.",
@@ -1113,12 +1113,12 @@
     "Describe how the features of Azure Backup work to provide backup solutions for your needs."
    ],
    "provider_prerequisites": "Basic knowledge of navigating the Azure portal Basic knowledge of file and folder backup concepts Basic knowledge of Azure Files shares, Azure VMs, and Azure Managed Disks Basic knowledge of on-premises backup scenarios Introduction min What is Azure Backup? min How Azure Backup works min When to use Azure Backup min Module assessment min Summary min Take the module assessment Module Assessment Re",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Introduction to Azure Backup - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Write a backup plan for a small office: what is backed up, how often, where it is kept and how a restore is tested.",
@@ -1152,12 +1152,12 @@
     "Always validate user input in your applications."
    ],
    "provider_prerequisites": "Basic knowledge of .NET and C# at the intermediate level Basic knowledge of web development with ASP.NET at the beginner level, including controllers and Razor syntax Familiarity with software development and release cycle at the beginner level Basic concepts and terminology of cloud hosting and security tooling, including automation and release process",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Guide to Secure .NET Development with OWASP Top 10 - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Review a small web app against the OWASP Top 10 and list each risk found with its fix.",
@@ -1196,12 +1196,12 @@
     "Learn about strategies for disaster recovery and low latency operations."
    ],
    "provider_prerequisites": "Basic familiarity with computers. Basic understanding of IT infrastructure and data management. Knowledge of computer hardware and networking basics. Basic knowledge of system monitoring and maintenance.",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Describe the best practices for datacenter operations - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Write a monthly maintenance checklist for the computers and network you look after.",
@@ -1232,12 +1232,12 @@
     "Evaluate the global human-AI interactions by analyzing key factors such as data privacy, algorithmic bias, transparency, and legal liability."
    ],
    "provider_prerequisites": "Basic understanding of AI, generative AI, and reasoning engines.",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "AI fluency: Explore responsible AI - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    }
   },
   {
@@ -1267,12 +1267,12 @@
     "Make smart choices with your money to achieve goals."
    ],
    "provider_prerequisites": "Access to Microsoft Copilot and an Editor.",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Introduction to budgeting for students - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Build a 12-month budget in a spreadsheet with actual and budget columns and a variance for each month.",
@@ -1309,12 +1309,12 @@
     "Use the built-in monkeypatch fixture to safely replace functions, values, environment variables, and paths during tests."
    ],
    "provider_prerequisites": "Ability to write Python scripts Familiarity with command-line tools and executing scripts Basic familiarity with writing and running pytest tests, including test discovery and assertions Python 3.10 or later, which matches the minimum supported version for pytest 9.x, and pytest installed in a virtual environment. For Windows setup, see Set up your Python development environment on Windows . For P",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Advanced testing with pytest - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Add parametrised tests and a fixture to your test suite and keep the run output.",
@@ -1350,12 +1350,12 @@
     "Define the five stages of design thinking principles."
    ],
    "provider_prerequisites": "Must have basic knowledge of prototyping Must have a basic familiarity with product market fit Introduction min What is UX? min What is design thinking? min Module assessment min Summary min Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions correctly to earn a pass designation on your profile. Start en-us Your Privacy Ch",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Foundations of user experience and design thinking - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Sketch two screens for an app and explain how each design choice serves its users.",
@@ -1390,12 +1390,12 @@
     "Work with branches to experiment safely"
    ],
    "provider_prerequisites": "A GitHub account. Basic familiarity with using a command-line interface (CLI). A code editor, such as Visual Studio Code .",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Introduction to Git - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    }
   },
   {
@@ -1427,12 +1427,12 @@
     "Use functions, classes, and methods for testing."
    ],
    "provider_prerequisites": "Ability to write Python scripts Familiarity with command-line tools and executing scripts Python 3.13 or later and a virtual environment with Pytest installed on your computer. Follow the steps in Python 3.13.3 module. Choose the installer for your configuration: Windows, Linux, or macOS.",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Testing with Pytest - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Write tests for your program, including one that fails before a fix and passes after it.",
@@ -1464,12 +1464,12 @@
     "Learn more about Visio."
    ],
    "provider_prerequisites": "None",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Use Recommended Tools to Create a Data-Flow Diagram - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Draw a data-flow diagram of an app you know and label where data is stored and sent.",
@@ -1505,12 +1505,12 @@
     "Write HTML and CSS code to create an accessible webpage using the browser-based version of Visual Studio code."
    ],
    "provider_prerequisites": "None Add Achievement Code Would you like to request an achievement code? Request achievement code",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Build web pages with HTML and CSS for beginners - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Build a two-page site with HTML and CSS and keep its source in a repository.",
@@ -1543,12 +1543,12 @@
     "Describe authorization security techniques."
    ],
    "provider_prerequisites": "None",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Describe Authentication and Authorization in Cybersecurity - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Document how user accounts and permissions are set up on a shared computer and one change that would reduce risk.",
@@ -1583,12 +1583,12 @@
     "Describe basic mitigation strategies."
    ],
    "provider_prerequisites": "",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Describe Basic Cybersecurity Threats, Attacks, and Mitigations - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Assess one small organisation's setup against five common threats and list a mitigation for each.",
@@ -1619,12 +1619,12 @@
     "SC-900: Introduction to security, compliance, and identity concepts"
    ],
    "provider_prerequisites": "None",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Introduction to security, compliance, and identity concepts - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Write a one-page note on how identity, access and data protection apply to a small shop's computers.",
@@ -1658,12 +1658,12 @@
     "Describe how to mitigate against device-related threats."
    ],
    "provider_prerequisites": "",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Describe Device-Based Threats and Security Controls - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "List the devices in a small office, the main threat to each and the control you would apply.",
@@ -1699,12 +1699,12 @@
     "Describe project management and accounting capabilities."
    ],
    "provider_prerequisites": "None Introduction min Describe expense management capabilities min Describe fixed asset management capabilities min Describe budgeting capabilities min Describe project management and accounting capabilities min Knowledge check min Summary min Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions correctly to earn a pass des",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Describe Expense Tracking, Asset Control, and Budgeting Processes in Microsoft Dynamics 365 Finance - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Build an expense and asset register for a synthetic shop and compare it with the budget.",
@@ -1744,12 +1744,12 @@
     "Describe periodic financial processes."
    ],
    "provider_prerequisites": "None Introduction min Define fiscal and ledger calendars in Dynamics 365 Finance min Describe charts of accounts and main accounts min Describe financial dimensions and set concepts min Describe accounting structures in General ledger min Describe financial journals in Dynamics 365 Finance min Describe financial reporting capabilities in Dynamics 365 Finance min Describe cash and bank management i",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": false,
     "status": 200,
     "page_title": "Financial Management in Dynamics 365 Finance - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    }
   },
   {
@@ -1779,12 +1779,12 @@
     "Describe ways to securely connect to and communicate over a network."
    ],
    "provider_prerequisites": "",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Describe Network-Based Threats and Mitigations - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Review a home or office router's settings and record three changes that reduce network risk.",
@@ -1822,12 +1822,12 @@
     "Describe Governance, Risk, and Compliance (GRC) concepts, including data residency, data sovereignty, and data privacy."
    ],
    "provider_prerequisites": "None",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": false,
     "status": 200,
     "page_title": "Describe Security Concepts and Methodologies - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Write a one-page security policy for a small shop: passwords, updates, backups and who has admin rights.",
@@ -1863,12 +1863,12 @@
     "Configure Azure Network Watcher"
    ],
    "provider_prerequisites": "You should have experience with networking concepts, such as IP addressing, Domain Name System (DNS), and routing You should have experience with network connectivity methods, such as VPN or WAN You should have experience with the Azure portal and Azure PowerShell Introduction min Monitor your networks using Azure Monitor min Exercise: Monitor a load balancer resource using Azure monitor min Monit",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Design and Implement Network Monitoring - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Write a one-page monitoring plan: the signals you would watch on a small network, the alert threshold for each and who is told.",
@@ -1909,12 +1909,12 @@
     "Describe the concept of subscription billing."
    ],
    "provider_prerequisites": "None Introduction min Describe core accounts payable components min Describe vendor payments and settlements min Describe core accounts receivable components min Describe credit management processes min Describe credit and collection processes min Describe the concept of subscription billing min Module assessment min Summary and resources min Take the module assessment Module Assessment Results As",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Describe Accounts Payable and Accounts Receivable in Dynamics 365 Finance - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Record a month of synthetic supplier invoices and customer receipts in a spreadsheet ledger and list what is outstanding.",
@@ -1947,12 +1947,12 @@
     "How to use Python packages like NumPy, Pandas, and Matplotlib to analyze data."
    ],
    "provider_prerequisites": "Knowledge of basic mathematics Some experience programming in Python Familiarity with Jupyter notebooks",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Explore and analyze data with Python - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Load a public dataset, clean it and write three findings with the code that produced them.",
@@ -1992,12 +1992,12 @@
     "Create an interactive report with Power BI Desktop."
    ],
    "provider_prerequisites": "None",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Explore Fundamentals of Data Visualization - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Build one dashboard page from a public dataset and note what question each chart answers.",
@@ -2034,12 +2034,12 @@
     "Describe periodic financial processes."
    ],
    "provider_prerequisites": "None Introduction min Describe the chart of accounts functionality min Describe the concept of a fiscal calendar min Describe financial dimensions and dimension set concepts min Describe the accounting structure min Describe journaling concepts min Describe periodic financial processes min Module assessment min Summary and resources min Take the module assessment Module Assessment Results Assess y",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Describe the General Ledger in Dynamics 365 Finance - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Draw up a chart of accounts for a small business you know and post five sample transactions.",
@@ -2073,12 +2073,12 @@
     "Evaluate appropriate index types"
    ],
    "provider_prerequisites": "Ability to use tools for running queries against a Microsoft SQL database, either on-premises on cloud-based. Ability to write code in the SQL language, particularly the Microsoft T-SQL dialect, at a basic level. Basic understanding of structure and usage of SQL Server indexes. Basic understanding of relational database concepts. Introduction min Describe normalization min Choose appropriate data",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Explore performance-based database design - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Design the tables for a small booking system and note how you would investigate a slow query.",
@@ -2115,17 +2115,59 @@
     "Control Windows Package Manager functionality for your organization by using Group Policy and the available Group Policy Administrate templates"
    ],
    "provider_prerequisites": "Familiarity with basic computing concepts and terminology such as operating systems, networking, and data processing Ability to install and uninstall software on a Windows computer Ability to execute commands from a command line prompt Introduction min Explain the purpose of Windows Package Manager min Install and uninstall software with Windows Package Manager min Update software with Windows Pac",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Explore the Windows Package Manager tool - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Write a list of package-manager commands that installs and updates a standard set of applications, and test it on one machine.",
    "requires": [],
    "practice_hours": 0.5,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "learn.wwl.fundamentals-machine-learning",
+   "title": "Introduction to machine learning concepts",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/fundamentals-machine-learning/",
+   "kind": "module",
+   "level": [
+    "beginner"
+   ],
+   "cost_rm": 0,
+   "hours": 1.6,
+   "hours_source": "93 minutes stated by the provider's catalog",
+   "provider_last_modified": "2026-03-27",
+   "dwas": [
+    "4.A.2.b.1.d.10",
+    "4.A.2.b.2.u.3"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "families": [
+    "finance_analytics"
+   ],
+   "objectives": [
+    "Describe core concepts of machine learning",
+    "Identify different types of machine learning",
+    "Describe considerations for training and evaluating machine learning models",
+    "Describe core concepts of deep learning"
+   ],
+   "provider_prerequisites": "Before starting this module, you should have: A basic knowledge of mathematics Introduction min Machine learning models min Types of machine learning model min Regression min Binary classification min Multiclass classification min Clustering min Deep learning min Exercise - Explore machine learning scenarios min Module assessment min Summary min Take the module assessment Module Assessment Results",
+   "verified_on": "2026-10-21",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Introduction to Machine Learning Concepts - Training | Microsoft Learn",
+    "checked_on": "2026-10-21"
+   },
+   "coverage": "introduces",
+   "checkpoint": "For three questions from a business you know, write which kind of model (regression, classification or clustering) would answer each and why.",
+   "requires": [],
+   "practice_hours": 1.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
   {
@@ -2155,12 +2197,12 @@
     "Describe data visualizations."
    ],
    "provider_prerequisites": "You should be familiar with basic computing concepts and terminology. Introduction min Aggregate data min Group data min Visualize data min Exercise: Analyze data min Module assessment min Summary min Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions correctly to earn a pass designation on your profile. Start en-us Your",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Get started with data analytics - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Pick a public dataset and write the question, the analysis steps and the answer for one business question.",
@@ -2196,12 +2238,12 @@
     "Learn how to use Transact-SQL (T-SQL) to interact with relational databases by querying and modifying data. This course covers essential operations such as inserting, updating, deleting, and merging data across tables. You'll also explore how to generate automatic values and apply changes efficiently using SQL Server or Azure SQL environments."
    ],
    "provider_prerequisites": "Familiarity with working with tables of data, for example in a spreadsheet. Add Achievement Code Would you like to request an achievement code? Request achievement code",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Query and modify data with Transact-SQL - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Write and save the queries that answer five questions about a sample database.",
@@ -2235,12 +2277,12 @@
     "Learn the fundamentals of programming in Python."
    ],
    "provider_prerequisites": "",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Get Started with Python Programming: Part 1 - Fundamentals - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Write a small program that solves a task from your own work (for example totalling a day's deliveries) and keep it in a repository.",
@@ -2279,12 +2321,12 @@
     "Configure network settings."
    ],
    "provider_prerequisites": "Familiarity with Windows networking technologies and implementation Familiarity with Windows Server administration, maintenance, and troubleshooting Familiarity with Windows PowerShell and its commands to perform specific tasks",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Manage network service settings for Windows devices using PowerShell cmdlets - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Record the commands you used to view and change a test machine's network settings, with the output before and after.",
@@ -2324,12 +2366,12 @@
     "Locate problematic accounts."
    ],
    "provider_prerequisites": "Knowledge of and experience working with: Windows Server. Core networking technologies. Introduction min Configure user account rights min Configure user account rights to restrict access min Delegate permissions in Active Directory min Protect User Accounts with the Protected Users group min Describe Windows Defender Credential Guard min Block Windows NTLM authentication min Locate problematic ac",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Manage security in Active Directory - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Write the account, group and password rules you would set for a ten-person office.",
@@ -2369,12 +2411,12 @@
     "Generate and interpret device and compliance reports"
    ],
    "provider_prerequisites": "Basic familiarity with Intune reporting and Microsoft Entra ID groups Introduction min Understand the role of monitoring in endpoint management min Use Endpoint Analytics to monitor device health and performance min Use Remediations to fix common device issues min Monitor Windows Update rings and feature update deployments min View device and policy health in the Intune admin center min Generate a",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Monitor and maintain devices using Microsoft Intune - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "List the monthly health checks you would run on the devices you support and what result counts as a problem.",
@@ -2409,12 +2451,12 @@
     "Understand the fundamentals of server performance tuning"
    ],
    "provider_prerequisites": "Working knowledge of common Windows Server management tools Some experience managing typical Windows Server workloads Familiarity with basic PowerShell commands and syntax Introduction min Use Performance Monitor to identify performance problems min Use Resource Monitor to review current resource usage min Review reliability with Reliability Monitor min Implement a performance monitoring methodolo",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Monitor Windows Server performance - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Collect a performance baseline for one machine and note one finding with the counter that shows it.",
@@ -2450,12 +2492,12 @@
     "Examine what an exception is and the options for managing exceptions in your code."
    ],
    "provider_prerequisites": "An installation of Visual Studio Code that's configured for C# application development. Ability to develop C# console applications that implement business logic using iteration statements, selection statements, and custom methods. Introduction min Get started with testing, debugging, and exception handling min Examine the code debugger approach to debugging code min Examine exceptions and how exce",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Review the principles of code debugging and exception handling - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Write a debugging log for one bug: how you reproduced it, what you inspected, the fix and the test that proves it.",
@@ -2492,16 +2534,104 @@
     "Implement a greenfield application from start to finish using GitHub Spec Kit's AI-assisted workflows."
    ],
    "provider_prerequisites": "Familiarity with GitHub and GitHub Copilot. Basic understanding of software development workflows. Introduction min What is spec-driven development? min Examine spec-driven development principles and processes min Compare spec-driven development to other methodologies min Examine spec-driven development workflow phases min What is GitHub Spec Kit? min Set up GitHub Spec Kit in your environment min",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Get Started with Spec-Driven Development and GitHub Spec Kit - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Write a one-page specification for a small app: its users, requirements and acceptance checks.",
    "requires": [],
+   "practice_hours": 1.0,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "learn.wwl.train-evaluate-cluster-models",
+   "title": "Train and evaluate clustering models",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/train-evaluate-cluster-models/",
+   "kind": "module",
+   "level": [
+    "intermediate"
+   ],
+   "cost_rm": 0,
+   "hours": 0.8,
+   "hours_source": "46 minutes stated by the provider's catalog",
+   "provider_last_modified": "2025-10-15",
+   "dwas": [
+    "4.A.2.a.4.d.2",
+    "4.A.2.b.2.u.3"
+   ],
+   "tools": [
+    "Python"
+   ],
+   "ai_skill": false,
+   "families": [
+    "finance_analytics"
+   ],
+   "objectives": [
+    "When to use clustering",
+    "How to train and evaluate a clustering model using the scikit-learn framework"
+   ],
+   "provider_prerequisites": "Basic mathematical concepts Programming with Python",
+   "verified_on": "2026-10-21",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Train and evaluate clustering models - Training | Microsoft Learn",
+    "checked_on": "2026-10-21"
+   },
+   "coverage": "practises",
+   "checkpoint": "Group a public customer dataset into clusters in a notebook and describe each group in one sentence.",
+   "requires": [
+    "learn.wwl.explore-analyze-data-with-python"
+   ],
+   "practice_hours": 0.5,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "learn.wwl.train-evaluate-regression-models",
+   "title": "Train and evaluate regression models",
+   "provider": "Microsoft Learn",
+   "url": "https://learn.microsoft.com/en-us/training/modules/train-evaluate-regression-models/",
+   "kind": "module",
+   "level": [
+    "intermediate"
+   ],
+   "cost_rm": 0,
+   "hours": 1.1,
+   "hours_source": "69 minutes stated by the provider's catalog",
+   "provider_last_modified": "2025-10-15",
+   "dwas": [
+    "4.A.2.a.4.d.1",
+    "4.A.2.b.2.u.3"
+   ],
+   "tools": [
+    "Python"
+   ],
+   "ai_skill": false,
+   "families": [
+    "finance_analytics"
+   ],
+   "objectives": [
+    "When to use regression models.",
+    "How to train and evaluate regression models using the Scikit-Learn framework."
+   ],
+   "provider_prerequisites": "Basic mathematical concepts Programming with Python Familiarity with Jupyter notebooks",
+   "verified_on": "2026-10-21",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Train and evaluate regression models - Training | Microsoft Learn",
+    "checked_on": "2026-10-21"
+   },
+   "coverage": "practises",
+   "checkpoint": "Train a regression model on a public dataset in a notebook and write down its error on rows it did not see.",
+   "requires": [
+    "learn.wwl.explore-analyze-data-with-python"
+   ],
    "practice_hours": 1.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2534,12 +2664,12 @@
     "Automate remediation with scripts and remediation tools"
    ],
    "provider_prerequisites": "Familiarity with Intune administration and device enrollment concepts Introduction min Understand the troubleshooting workflow in Microsoft Intune min Troubleshoot device enrollment and compliance failures min Troubleshoot configuration profile and policy conflicts min Use logs and diagnostics to investigate device issues min Use the Intune Troubleshooting blade for user-based diagnostics min Auto",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Troubleshoot device and policy issues using Microsoft Intune - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Write a troubleshooting log for one real or practice problem: symptom, checks in order, cause, fix and how you confirmed it.",
@@ -2568,12 +2698,12 @@
     "Get more done and unleash your creativity with Microsoft Copilot."
    ],
    "provider_prerequisites": "Familiarity with Microsoft productivity applications, like Word, Excel, Outlook, and PowerPoint. Add Achievement Code Would you like to request an achievement code? Request achievement code",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Work smarter with AI - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    }
   },
   {
@@ -2601,12 +2731,12 @@
     "Use Prompt Lab to discover, save, edit, and share useful prompts."
    ],
    "provider_prerequisites": "You should be familiar with accessing and using Microsoft 365. Introduction min Write an effective prompt min Review prompting best practices min Personalize Copilot with memory and custom instructions min Discover, share, and save prompts with Prompt Lab min Module assessment min Summary min Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Write Effective Prompts to Achieve Optimal Results - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    }
   },
   {
@@ -2640,12 +2770,12 @@
     "Manage variable scope min"
    ],
    "provider_prerequisites": "",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Write Reusable Code - Training | Microsoft Learn",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Refactor your earlier program into reusable functions and note what changed and why.",
@@ -2688,12 +2818,12 @@
     "Identify fraud risk and describe the role of internal controls in an organization"
    ],
    "provider_prerequisites": "None stated by the provider",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Course: BUS103: Introduction to Financial Accounting | Saylor University",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Record a month of synthetic transactions for a small shop, produce its trial balance, income statement and balance sheet, and note one internal control you would add.",
@@ -2730,12 +2860,12 @@
     "Describe methods to anticipate, prevent and solve problems and complaints posed by customers"
    ],
    "provider_prerequisites": "None stated by the provider",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Course: BUS107: Customer Service | Saylor University",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Write replies to three synthetic customer complaints, one by email, and an escalation note for the one you cannot resolve.",
@@ -2773,17 +2903,281 @@
     "Describe the principles and tools of working capital management"
    ],
    "provider_prerequisites": "None stated by the provider",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Course: BUS202: Principles of Finance | Saylor University",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Compute five ratios from a listed company's published statements and write what they say about it.",
    "requires": [],
    "practice_hours": 16.5,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "saylor.bus202.u2",
+   "title": "BUS202 Unit 2: Financial Statements and Financial Analysis",
+   "provider": "Saylor University",
+   "url": "https://learn.saylor.org/course/bus202#section-8",
+   "kind": "course unit",
+   "level": [],
+   "cost_rm": 0,
+   "hours": 11.0,
+   "hours_source": "11 hours stated for this unit on the provider's course page",
+   "provider_last_modified": "",
+   "access": "Free; enrolling needs a free Saylor account",
+   "dwas": [
+    "4.A.2.a.4.k.6",
+    "4.A.2.a.4.k.4",
+    "4.A.2.a.1.i.2",
+    "4.A.2.a.3.c.2"
+   ],
+   "tools": [
+    "Microsoft Excel"
+   ],
+   "ai_skill": false,
+   "families": [
+    "finance_analytics"
+   ],
+   "objectives": [
+    "explain how financial managers use income statements, balance sheets, and cash flow statements to inform decision-making",
+    "calculate major financial ratios to evaluate a company's performance",
+    "discuss using pro-forma financial statements to evaluate a company's future performance",
+    "contrast a company's financial statements"
+   ],
+   "provider_prerequisites": "None stated by the provider",
+   "verified_on": "2026-10-21",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Unit 2: Financial Statements and Financial Analysis",
+    "checked_on": "2026-10-21"
+   },
+   "coverage": "practises",
+   "checkpoint": "Compute liquidity, profitability and debt ratios for a listed company from its published statements and write five sentences on what they say about it.",
+   "requires": [],
+   "practice_hours": 5.5,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "saylor.bus202.u3",
+   "title": "BUS202 Unit 3: Time Value of Money",
+   "provider": "Saylor University",
+   "url": "https://learn.saylor.org/course/bus202#section-14",
+   "kind": "course unit",
+   "level": [],
+   "cost_rm": 0,
+   "hours": 3.0,
+   "hours_source": "3 hours stated for this unit on the provider's course page",
+   "provider_last_modified": "",
+   "access": "Free; enrolling needs a free Saylor account",
+   "dwas": [
+    "4.A.1.b.3.c.4",
+    "4.A.1.b.3.c.1",
+    "4.A.2.a.4.k.3"
+   ],
+   "tools": [
+    "Microsoft Excel"
+   ],
+   "ai_skill": false,
+   "families": [
+    "finance_analytics"
+   ],
+   "objectives": [
+    "explain the time value of money",
+    "compare present and future values",
+    "explain rates of return and their use in financial decision-making",
+    "compare simple and compound interest",
+    "calculate present values, future values, and payments using non-annual compounding"
+   ],
+   "provider_prerequisites": "None stated by the provider",
+   "verified_on": "2026-10-21",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Unit 3: Time Value of Money",
+    "checked_on": "2026-10-21"
+   },
+   "coverage": "practises",
+   "checkpoint": "Build a loan repayment table in a spreadsheet for a synthetic car loan and check the monthly payment against the unit's formula.",
+   "requires": [],
+   "practice_hours": 1.5,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "saylor.bus202.u4",
+   "title": "BUS202 Unit 4: Stocks, Bonds, and Financial Markets",
+   "provider": "Saylor University",
+   "url": "https://learn.saylor.org/course/bus202#section-20",
+   "kind": "course unit",
+   "level": [],
+   "cost_rm": 0,
+   "hours": 7.0,
+   "hours_source": "7 hours stated for this unit on the provider's course page",
+   "provider_last_modified": "",
+   "access": "Free; enrolling needs a free Saylor account",
+   "dwas": [
+    "4.A.2.b.1.a.2",
+    "4.A.2.a.4.k.3"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "families": [
+    "finance_analytics"
+   ],
+   "objectives": [
+    "compare stocks and bonds",
+    "compute the value of a bond",
+    "compute the value of a share of stock",
+    "explain the role of financial intermediaries in U.S. financial markets",
+    "compare the markets investors use to trade securities"
+   ],
+   "provider_prerequisites": "None stated by the provider",
+   "verified_on": "2026-10-21",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Unit 4: Stocks, Bonds, and Financial Markets",
+    "checked_on": "2026-10-21"
+   },
+   "coverage": "practises",
+   "checkpoint": "Value one bond and one dividend-paying share with the unit's formulas and compare each value with its market price.",
+   "requires": [
+    "saylor.bus202.u3"
+   ],
+   "practice_hours": 3.5,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "saylor.bus202.u5",
+   "title": "BUS202 Unit 5: Risk, Return, and the CAPM",
+   "provider": "Saylor University",
+   "url": "https://learn.saylor.org/course/bus202#section-26",
+   "kind": "course unit",
+   "level": [],
+   "cost_rm": 0,
+   "hours": 2.0,
+   "hours_source": "2 hours stated for this unit on the provider's course page",
+   "provider_last_modified": "",
+   "access": "Free; enrolling needs a free Saylor account",
+   "dwas": [
+    "4.A.2.a.4.c.3",
+    "4.A.2.a.4.k.3"
+   ],
+   "tools": [],
+   "ai_skill": false,
+   "families": [
+    "finance_analytics"
+   ],
+   "objectives": [
+    "explain the relationship between risk and reward",
+    "compute expected values when risk issues need to be considered in finance",
+    "compare systematic and unsystematic risk",
+    "recommend investments that take advantage of diversification",
+    "define CAPM measures and their components"
+   ],
+   "provider_prerequisites": "None stated by the provider",
+   "verified_on": "2026-10-21",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Unit 5: Risk, Return, and the CAPM",
+    "checked_on": "2026-10-21"
+   },
+   "coverage": "introduces",
+   "checkpoint": "Compute the expected return and spread of a two-share portfolio from synthetic yearly returns, and say how adding the second share changes the risk.",
+   "requires": [],
+   "practice_hours": 1.0,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "saylor.bus202.u6",
+   "title": "BUS202 Unit 6: Capital Budgeting Techniques",
+   "provider": "Saylor University",
+   "url": "https://learn.saylor.org/course/bus202#section-33",
+   "kind": "course unit",
+   "level": [],
+   "cost_rm": 0,
+   "hours": 3.0,
+   "hours_source": "3 hours stated for this unit on the provider's course page",
+   "provider_last_modified": "",
+   "access": "Free; enrolling needs a free Saylor account",
+   "dwas": [
+    "4.A.1.b.1.b.4",
+    "4.A.2.a.1.j.2",
+    "4.A.2.a.1.g.1"
+   ],
+   "tools": [
+    "Microsoft Excel"
+   ],
+   "ai_skill": false,
+   "families": [
+    "finance_analytics"
+   ],
+   "objectives": [
+    "explain the purpose of capital budgeting techniques",
+    "calculate the NPV, Payback, Profitability Index, and IRR of investment options",
+    "discuss capital budgeting methods and their effectiveness in making sound investment decisions",
+    "use the cash flow analysis and other factors to make capital budgeting decisions"
+   ],
+   "provider_prerequisites": "None stated by the provider",
+   "verified_on": "2026-10-21",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Unit 6: Capital Budgeting Techniques",
+    "checked_on": "2026-10-21"
+   },
+   "coverage": "practises",
+   "checkpoint": "Compute the NPV, IRR and payback of two synthetic projects in a spreadsheet and recommend one in a short memo.",
+   "requires": [
+    "saylor.bus202.u3"
+   ],
+   "practice_hours": 1.5,
+   "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
+  },
+  {
+   "id": "saylor.bus202.u8",
+   "title": "BUS202 Unit 8: Working Capital Management",
+   "provider": "Saylor University",
+   "url": "https://learn.saylor.org/course/bus202#section-45",
+   "kind": "course unit",
+   "level": [],
+   "cost_rm": 0,
+   "hours": 3.0,
+   "hours_source": "3 hours stated for this unit on the provider's course page",
+   "provider_last_modified": "",
+   "access": "Free; enrolling needs a free Saylor account",
+   "dwas": [
+    "4.A.1.a.2.c.4"
+   ],
+   "tools": [
+    "Microsoft Excel"
+   ],
+   "ai_skill": false,
+   "families": [
+    "finance_analytics"
+   ],
+   "objectives": [
+    "state the objectives of working capital management",
+    "explain the principles of cash management",
+    "differentiate the sources of short-term financing for a firm",
+    "summarize the factors involved in setting inventory management policies"
+   ],
+   "provider_prerequisites": "None stated by the provider",
+   "verified_on": "2026-10-21",
+   "link_check": {
+    "ok": true,
+    "status": 200,
+    "page_title": "Unit 8: Working Capital Management",
+    "checked_on": "2026-10-21"
+   },
+   "coverage": "introduces",
+   "checkpoint": "Prepare a twelve-week cash forecast for a synthetic small shop and mark the weeks when it would need short-term credit.",
+   "requires": [],
+   "practice_hours": 1.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
   {
@@ -2816,12 +3210,12 @@
     "Apply legal and ethical considerations inherent in the use of business intelligence systems to specific case situations"
    ],
    "provider_prerequisites": "None stated by the provider",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Course: BUS250: Introduction to Business Intelligence and Analytics | Saylor University",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Analyse a synthetic customer dataset, report three findings with one chart each and state the limits of the data.",
@@ -2857,12 +3251,12 @@
     "Apply network techniques to create wide-area networks"
    ],
    "provider_prerequisites": "None stated by the provider",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Course: CS402: Computer Communications and Networks | Saylor University",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Plan the IP addressing and subnets for a synthetic three-department office and document the plan in a table.",
@@ -2899,12 +3293,12 @@
     "Explain editorial strategies for revising and improving documents"
    ],
    "provider_prerequisites": "None stated by the provider",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Course: PRDV002: Professional Writing | Saylor University",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Write a one-page step-by-step procedure for a task you already do (for example restoring a backup), revise it with the course's editing strategies and keep both drafts.",
@@ -2941,12 +3335,12 @@
     "Use spreadsheets for real-life applications, including budgets and invoices"
    ],
    "provider_prerequisites": "None stated by the provider",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Course: PRDV004: Spreadsheets | Saylor University",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Build a monthly budget and an invoice template for a synthetic small shop, with a formula behind every total.",
@@ -2984,12 +3378,12 @@
     "Format multiple worksheets at one time and use 3-dimensional references"
    ],
    "provider_prerequisites": "None stated by the provider",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Course: PRDV006: Spreadsheets II: Formatting and Functions | Saylor University",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Summarise a synthetic year of shop expenses by category and month with SUMIFS and a lookup, and write what the totals show.",
@@ -3028,12 +3422,12 @@
     "Arrange collaboration features to present data in various contexts"
    ],
    "provider_prerequisites": "None stated by the provider",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Course: PRDV007: Spreadsheets III: Presenting Data | Saylor University",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Turn a synthetic sales table into a filtered table and two charts, one with a trendline, and write two sentences on what they show.",
@@ -3073,12 +3467,12 @@
     "Identify frauds and scams and ways to safeguard your personal information and money"
    ],
    "provider_prerequisites": "None stated by the provider",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Course: PRDV011: Financial Literacy from a Global Perspective | Saylor University",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "introduces",
    "checkpoint": "Prepare a budget and debt summary for a synthetic household and write three pieces of advice, each tied to a figure.",
@@ -3114,12 +3508,12 @@
     "Build a presentable data visualization that tells a story"
    ],
    "provider_prerequisites": "None stated by the provider",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Course: PRDV200: Communicating with Data | Saylor University",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Build a one-page dashboard from a synthetic dataset for a manager, then list any chart that could mislead and how you fixed it.",
@@ -3155,12 +3549,12 @@
     "Use information ethically and legally, including creating proper attributions"
    ],
    "provider_prerequisites": "None stated by the provider",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Course: PRDV201: Information Literacy | Saylor University",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Write a one-page brief on a recent tool or practice in your target field from three sources, with your search terms and why you trusted each source.",
@@ -3197,12 +3591,12 @@
     "Use generative AI to generate and adapt macro and VBA scripts for automating spreadsheet operations in real-world scenarios"
    ],
    "provider_prerequisites": "None stated by the provider",
-   "verified_on": "2026-10-20",
+   "verified_on": "2026-10-21",
    "link_check": {
     "ok": true,
     "status": 200,
     "page_title": "Course: PRDV433: Enhancing Spreadsheets with Generative AI | Saylor University",
-    "checked_on": "2026-10-20"
+    "checked_on": "2026-10-21"
    },
    "coverage": "practises",
    "checkpoint": "Ask an AI assistant for the formulas that summarise a synthetic expense sheet, check each result by hand and record any it got wrong.",

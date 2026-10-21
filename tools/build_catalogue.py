@@ -96,6 +96,47 @@ def saylor_facts(code):
     return url, (f"{code.upper()}: {title.group(1).strip()}" if title else None),         (float(hours.group(1)) if hours else None), objectives, check
 
 
+_course_pages = {}
+
+
+def saylor_unit_facts(code, section, label):
+    """One unit of a Saylor course (SPEC 11.7): its title and "should take you approximately N hours" from the course
+    page's section, and its outcomes from the unit's Learning Outcomes page (else the provider's unit summary)."""
+    url = f"{SAYLOR}{code}#section-{section}"
+    try:
+        if code not in _course_pages:
+            _course_pages[code] = get(SAYLOR + code)
+        status, body = _course_pages[code]
+    except Exception as exc:
+        return url, None, None, [], {"ok": False, "status": getattr(exc, "code", None), "detail": type(exc).__name__}
+    html = body.decode("utf-8", "replace")
+    parts = re.split(r'<li id="section-(\d+)"', html)
+    block = next((parts[k + 1] for k in range(1, len(parts), 2) if parts[k] == str(section)), "")
+    title = re.search(r'aria-label="(Unit \d+:[^"]+)"', block)
+    title = title.group(1).replace("&amp;", "&").strip() if title else None
+    text = _text(block)
+    hours = re.search(r"should take you approximately ([\d.]+) hours", text)
+    free = "Free Certificate" in _text(html)
+    objectives = []
+    link = re.search(r'href="(https://learn.saylor.org/mod/page/view.php\?id=\d+)"[^>]*>(?:(?!</a>).)*Learning Outcomes', block, re.S)
+    if link:
+        try:
+            page = get(link.group(1))[1].decode("utf-8", "replace")
+            main = _text(page[page.find('role="main"'):])
+            # "Upon successful completion of this unit, you will be able to: [1] explain ...; [2] compare ..."
+            m = re.search(r"will be able to:?\s*(.*?)\s*Back to", main)
+            if m:
+                objectives = [o.strip(" ;.") for o in re.split(r"\[\d+\]", m.group(1)) if o.strip(" ;.")][:8]
+        except Exception:
+            objectives = []
+    if not objectives and title:
+        summary = text.split(title, 1)[-1].split("Completing this unit")[0].strip()
+        objectives = [summary[:400]] if summary else []
+    ok = status == 200 and bool(title) and title.lower().startswith(label.lower()) and bool(hours) and free and bool(objectives)
+    return url, title, (float(hours.group(1)) if hours else None), objectives, \
+        {"ok": ok, "status": status, "page_title": title or ""}
+
+
 def practice_hours(provider_hours):
     """Curated estimate for the practice checkpoint: half the provider's time, at least 30 minutes, in half hours."""
     return max(0.5, math.ceil(provider_hours) / 2 if provider_hours >= 1 else 0.5)
@@ -108,7 +149,7 @@ def main():
     items = {p["uid"]: p for p in catalog["modules"] + catalog["learningPaths"]}
     dwa_ids = {line.split(",", 1)[0] for line in (ROOT / "data/onet/dwas.csv").read_text(encoding="utf-8").splitlines()[1:]}
     today = dt.date.today().isoformat()
-    missing = [c["uid"] for c in curation["items"] if c.get("provider") != "saylor" and c["uid"] not in items]
+    missing = [c["uid"] for c in curation["items"] if c.get("provider") not in ("saylor", "saylor_unit") and c["uid"] not in items]
     unknown = sorted({d for c in curation["items"] for d in c.get("dwas", []) if d not in dwa_ids})
     if missing or unknown:
         sys.exit(f"curation does not match its sources: missing items {missing}, unknown activities {unknown}")
@@ -133,9 +174,25 @@ def main():
         entry.update(route_fields(c, hours or 0.0))
         return entry
 
+    def build_saylor_unit(c):
+        url, title, hours, objectives, check = saylor_unit_facts(c["code"], c["section"], c["unit"])
+        entry = {"id": c["uid"], "title": f"{c['code'].upper()} {title}" if title else f"{c['code'].upper()} {c['unit']}",
+                 "provider": "Saylor University", "url": url, "kind": "course unit", "level": [], "cost_rm": 0,
+                 "hours": hours or 0.0,
+                 "hours_source": f"{hours:g} hours stated for this unit on the provider's course page" if hours else "not stated",
+                 "provider_last_modified": "", "access": SAYLOR_ACCESS,
+                 "dwas": c.get("dwas", []), "tools": c.get("tools", []), "ai_skill": bool(c.get("ai_skill")),
+                 "families": c.get("families", []),
+                 "objectives": objectives, "provider_prerequisites": "None stated by the provider",
+                 "verified_on": today, "link_check": {**check, "checked_on": today}}
+        entry.update(route_fields(c, hours or 0.0))
+        return entry
+
     def build(c):
         if c.get("provider") == "saylor":
             return build_saylor(c)
+        if c.get("provider") == "saylor_unit":
+            return build_saylor_unit(c)
         p = items[c["uid"]]
         url = p["url"].split("?")[0]
         hours = round(p["duration_in_minutes"] / 60, 1)
