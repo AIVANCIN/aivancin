@@ -1,0 +1,37 @@
+{
+ "check": "A6 guard, fresh set 4 (SPEC 11.7, C12 follow-up)",
+ "written": "2026-10-21 about 20:00 MYT, after the leisure, future-plan and failed-attempt cues were written (set 3 guided them) and before any run on these sentences. The author knew the new cues, so this is a weaker independent check than a set written by someone else; phrasings outside the cue lists and controls the cues may wrongly flag are included on purpose",
+ "author": "AIVANCIN builder (Claude Code; model reported by the client: Claude Opus 5.5). Synthetic English",
+ "pass_rule": "As set 3. Uncaught kinds: no activity suggested for the sentence can be confirmed as done work without the deliberate second action. Controls: the sentence is not flagged",
+ "uncaught": [
+  {"id": "j01", "kind": "leisure", "text": "I like to swim at the public pool on Saturday mornings."},
+  {"id": "j02", "kind": "leisure", "text": "My weekends are for Netflix and sleeping in."},
+  {"id": "j03", "kind": "leisure", "text": "I play video games most nights."},
+  {"id": "j04", "kind": "leisure", "text": "Every evening I go jogging around the taman."},
+  {"id": "j05", "kind": "leisure", "text": "I watch anime and read manga in my spare time."},
+  {"id": "j06", "kind": "leisure", "text": "I collect stamps and old coins."},
+  {"id": "j07", "kind": "future plan", "text": "I'll be applying for a master's degree soon."},
+  {"id": "j08", "kind": "future plan", "text": "Once I finish my diploma, I'm going to look for an IT job."},
+  {"id": "j09", "kind": "future plan", "text": "In January I start a part-time accounting course."},
+  {"id": "j10", "kind": "future plan", "text": "I'm going to register a small online business."},
+  {"id": "j11", "kind": "failed attempt", "text": "I tried running a Shopee store but it lost money and I closed it."},
+  {"id": "j12", "kind": "failed attempt", "text": "I failed to get into the data science programme."},
+  {"id": "j13", "kind": "failed attempt", "text": "I sat for the ACCA paper and didn't pass."},
+  {"id": "j14", "kind": "failed attempt", "text": "The interview went badly and they turned me down."}
+ ],
+ "controls": [
+  {"id": "k01", "text": "I play guitar and sing at cafes on Friday nights for a fee."},
+  {"id": "k02", "text": "I watch over the shop when my aunt goes to the bank."},
+  {"id": "k03", "text": "I referee futsal matches at the community hall and get paid per game."},
+  {"id": "k04", "text": "I read the supplier contracts and check the prices before we sign."},
+  {"id": "k05", "text": "I'll answer customer messages on WhatsApp during my lunch break."},
+  {"id": "k06", "text": "I will usually reconcile the cash at closing time."},
+  {"id": "k07", "text": "When the printer fails, I replace the parts myself."},
+  {"id": "k08", "text": "I go to customers' houses to set up their wifi."},
+  {"id": "k09", "text": "I check which payments failed and send reminders to the customers."},
+  {"id": "k10", "text": "I organise badminton tournaments for my company's sports club."},
+  {"id": "k11", "text": "I plan next week's delivery routes for our drivers."},
+  {"id": "k12", "text": "I prepare the sales forecast for next quarter."},
+  {"id": "k13", "text": "I gave up my weekends to build the booking system for my father's clinic."}
+ ]
+}
