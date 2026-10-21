@@ -31,10 +31,12 @@ function esc(s) {
 function icon(name, cls = "") { return `<svg class="ico ${cls}" aria-hidden="true"><use href="#i-${name}"/></svg>`; }
 function debounce(fn, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
 
-async function api(path, body) {
-  const res = await fetch(path, body === undefined ? {} : {
+async function api(path, body, timeoutMs) {
+  const options = body === undefined ? {} : {
     method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
-  });
+  };
+  if (timeoutMs) options.signal = AbortSignal.timeout(timeoutMs);
+  const res = await fetch(path, options);
   const data = await res.json().catch(() => ({}));
   if (!res.ok) { const err = new Error("request failed"); err.status = res.status; err.data = data; throw err; }
   return data;
@@ -1156,7 +1158,7 @@ const isPersonal = () => routeState.data?.personal !== false;
 function exploreRequest() {
   return { options: { ...routeState.opts, completed: [...routeState.completed], ...(routeState.target ? { target: routeState.target } : {}) } };
 }
-const loadRoutes = personal => (personal ? api("/api/routes", routesRequest()) : api("/api/explore", exploreRequest()));
+const loadRoutes = personal => (personal ? api("/api/routes", routesRequest(), 15000) : api("/api/explore", exploreRequest(), 15000));
 
 async function openApp() {
   if (!routeState.data) {
@@ -1261,9 +1263,9 @@ function routeRow(r) {
     ${familyTile(r)}
     <span class="rr-body"><span class="rr-title">${esc(r.title)}</span>
       ${chosen ? `<span class="rr-chosen">${icon("check", "sm")}Your route</span>` : ""}
-      <span class="rr-desc">${esc(r.description.first)}${srcMarks(r.description.src)}</span>
-      <span class="chips">${workChip(r)}
-        <span class="chip ${bandClass(r.job_outlook)}">US outlook: ${esc(bandShort(r.job_outlook))}${srcMarks(r.job_outlook.src)}</span>${entryChip(r)}${decentChip(r)}</span></span>
+      <span class="chips">${isPersonal() ? workChip(r) : `<span class="rr-family">${esc(r.family_label)}</span>`}${entryChip(r)}</span>
+      ${sortKey() === "outlook" ? `<span class="rr-order ${bandClass(r.job_outlook)}">US outlook: ${esc(bandShort(r.job_outlook))}${srcMarks(r.job_outlook.src)}</span>` : sortKey() === "decent" ? `<span class="chips">${decentChip(r)}</span>` : ""}</span>
+    <span class="rr-open" aria-hidden="true">${icon("chevron-right", "sm")}</span>
     </button>${saveBtn(r)}</li>`;
 }
 
@@ -1291,9 +1293,9 @@ function noRoleCard() {
 
 function describeCard(where = "routes") {
   const review = Boolean(state.suggest);
-  return `<section class="describe-card" aria-labelledby="h-describe-${where}"><span class="fam-tile" aria-hidden="true">${icon("pencil-line")}</span>
+  return `<section class="describe-card" aria-labelledby="h-describe-${where}">
     <div><h2 id="h-describe-${where}">${review ? "Finish checking your activities" : "See which roles fit you"}</h2>
-      <p>${review ? "Confirm what you do, then compare the routes that use your work." : "Describe the work you do in a few sentences. You confirm every match before it counts."}</p>
+      <p>${review ? "Confirm what you do, then compare the routes that use your work." : "Find routes that use what you already do."}</p>
       <div class="describe-actions">${review ? `<button type="button" class="btn btn-primary" data-tab-go="review">Review your activities</button>`
         : `<button type="button" class="btn btn-primary" data-go="describe">Describe your work</button><button type="button" class="link-btn" data-go="example">Try an example</button>`}</div></div></section>`;
 }
@@ -1306,8 +1308,8 @@ function renderRoutes() {
   $("#routes .eyebrow").textContent = personal ? "Compare routes" : "Explore routes";
   $("#h-routes").textContent = personal ? "Routes that use your work" : "Roles you can grow into";
   $("#routes-lead").innerHTML = personal
-    ? `<p>Of ${fig(d.supported_destinations, "int")} supported roles, the ones where your confirmed work already counts. Open one to see the work, its future and your first learning block.</p>`
-    : `<p>${fig(d.supported_destinations, "int")} supported roles in IT and network support, software, and finance and analytics, each with its future and a free first learning block.</p>`;
+    ? `<p>Open a route to explore its requirements, outlook and learning plan.</p>`
+    : `<p>Explore IT, software and finance. Open a role to see the way in.</p>`;
   const shared = d.shared;
   const chosenRoute = d.routes.find(r => r.code === routeState.target);
   // Bookmarked routes: a Saved filter appears once any shown route is saved (the list itself is in Profile).
@@ -1320,7 +1322,7 @@ function renderRoutes() {
     ${d.routes.length ? `
       ${d.routes.length > 1 ? `<fieldset class="sort-ctl"><legend class="vh">Order routes by</legend>
         <div class="seg-ctl sort-seg${personal ? "" : " two"}" style="--n:${Object.keys(sorts).length}">${Object.entries(sorts).map(([k, [label]]) => `<label><input type="radio" name="rsort" value="${k}" ${sort === k ? "checked" : ""}>${label}</label>`).join("")}</div>
-        <p class="foot">${sorts[sort][1]} No combined score: you choose.</p></fieldset>` : ""}
+        <details class="sort-help"><summary>About this order</summary><p class="foot">${sorts[sort][1]} No combined score: you choose.</p></details></fieldset>` : ""}
       ${savedHere.length ? `<fieldset class="filter-ctl"><legend class="vh">Show</legend>
         <div class="seg-ctl filter-seg" style="--n:2"><label><input type="radio" name="rfilter" value="all" ${filter === "all" ? "checked" : ""}>All routes</label><label><input type="radio" name="rfilter" value="saved" ${filter === "saved" ? "checked" : ""}>Saved (${savedHere.length})</label></div></fieldset>` : ""}
       <ul class="route-list" aria-label="${filter === "saved" ? "Saved routes" : "Routes"}" data-scope>${sortedRoutes(shown).map(routeRow).join("")}<li class="list-srcs srcs-slot"></li></ul>` :
@@ -1492,7 +1494,7 @@ function radarControls(rd) {
     <fieldset class="ctl"><legend>Scenario</legend>
       <div class="seg-ctl small scen-ctl" style="--n:3">${["slower", "moderate", "faster"].map(k => `<label><input type="radio" name="rscen" value="${k}" ${rd.scenario === k ? "checked" : ""}>${SCEN_NAME[k]}</label>`).join("")}</div></fieldset>
     <div class="ctl"><label for="r-hz">Look ahead</label><select id="r-hz">${hz.map(([v, t]) => `<option value="${v}" ${String(o.horizon ?? "plan") === String(v) ? "selected" : ""}>${t}</option>`).join("")}</select></div>
-    <p class="foot">Looking ${fig(rd.horizon.months, "")} months ahead (${esc(rd.horizon.basis)}). The same scenario and look-ahead set your plan's checkpoints. Slower and faster are assumptions.</p></div>`;
+    </div>`;
 }
 
 function radarJobs(rd) {
@@ -1527,15 +1529,19 @@ function radarSkills(rd) {
       <td data-label="AI now">${s.now ? fig(s.now, "pct") : `<span class="foot">no data</span>`}</td>
       <td data-label="${SCEN_NAME[sc]}, ${rd.horizon.months.v} months">${s.now ? fig(s.projected[sc], "pct") : ""}</td>
       <td data-label="Time to threshold">${tttText(s.ttt[sc])}</td></tr>`).join("");
-  return `<section class="soft-card" data-scope aria-labelledby="h-rs"><h2 id="h-rs">${icon("radar", "sm")}${personal ? "Your skills" : "Skills these roles use"}</h2>
-    <p class="foot">${personal ? "Activities you confirmed and your routes' largest gaps." : "Each supported role's three largest activities. Describe your work to see your own."} Across: how much of the activity sits in US graduate roles projected to grow, minus those projected to decline. Up: how much of it AI does directly in observed Claude use${sc === "moderate" ? "; the moderate scenario keeps today's value" : `, with an arrow to the ${sc} scenario ${fig(rd.horizon.months, "")} months ahead`}.</p>
+  return `<section class="soft-card radar-main" data-scope aria-labelledby="h-rs"><h2 id="h-rs">${icon("radar", "sm")}${personal ? "Your skills" : "Skills these roles use"}</h2>
+    ${radarControls(rd)}
+    <p class="radar-feedback foot" id="radar-feedback" role="status">${sc === "moderate" ? "Moderate holds today's values at every horizon." : `Arrows show the ${sc} assumption ${fig(rd.horizon.months, "")} months ahead.`}</p>
+    <button type="button" class="link-btn" id="radar-retry" hidden>Retry update</button>
     ${legend}
     <div class="rchart" id="rchart"></div>
     <p class="vh" id="rc-live" aria-live="polite"></p>
     ${left ? `<p class="foot">${fig({ v: left, src: chartSrc }, "int")} of ${fig({ v: rd.skills.length, src: chartSrc }, "int")} not drawn: no AI-usage evidence in the bundled releases or no US projection. They are in the table.</p>` : ""}
     <details class="more rc-table"><summary class="link-btn">Every value as a table</summary>
       <div class="radar-wrap"><table class="radar-t"><thead><tr><th scope="col">Activity</th><th scope="col">Skill demand</th><th scope="col">AI now</th><th scope="col">${SCEN_NAME[sc]}, ${fig(rd.horizon.months, "")} months</th><th scope="col">Time to threshold</th></tr></thead><tbody>${rows}</tbody></table></div></details>
-    <p class="foot">Two separate signals on two axes, never added together. Skill demand carries BLS's published projection to activities through O*NET task links; it is not an AIVANCIN employment forecast.</p></section>`;
+    <details class="more"><summary class="link-btn">How to read this chart</summary>
+      <p class="foot">${personal ? "Your confirmed activities and your routes' largest gaps." : "The supported roles' main activities. Describe your work to personalise them."} Across: the balance of US roles projected to grow or decline, weighted by their tasks. Up: how much AI does directly in observed Claude use. Select a point for its activity and values.</p>
+      <p class="foot">Looking ${fig(rd.horizon.months, "")} months ahead (${esc(rd.horizon.basis)}). These controls also set your plan's checkpoints. Slower and faster are assumptions. Two separate signals, never added together; the job projection comes from BLS through O*NET task links.</p></details></section>`;
 }
 
 /* The chart: one dot per activity at (skill demand, AI share now), an arrow to the selected scenario's value.
@@ -1661,14 +1667,18 @@ function radarSure(rd) {
       ${state.status.source_status ? `<p class="foot">${esc(watchSummary())}${srcMarks(["aivancin-source-status"])}</p>` : ""}</details></section>`;
 }
 
+let radarApplied = null, radarRetryOptions = null;
 function renderRadar() {
   const d = routeState.data, box = $("#radar-body");
   if (!d || !d.radar) { box.innerHTML = ""; return; }
   const rd = d.radar;
+  radarApplied = { scenario: rd.scenario, horizon: routeState.opts.horizon };
   box.innerHTML = `
-    <p class="lead-left">Four signals, each with its source and date and never combined: US job projections, how much of each skill sits in growing jobs, how much of it AI already does, and Malaysia's observed trend.</p>
-    ${isPersonal() ? "" : describeCard("radar")}
-    ${radarControls(rd)}${radarJobs(rd)}${radarSkills(rd)}${radarChanging(rd)}${radarSure(rd)}`;
+    ${radarSkills(rd)}
+    ${isPersonal() ? "" : `<p class="radar-personalise"><button type="button" class="link-btn" data-go="describe">${icon("pencil-line", "sm")}Personalise with your work</button></p>`}
+    <details class="evidence-panel"><summary>Job outlook &amp; Malaysia${icon("chevron-down", "sm")}</summary>${radarJobs(rd)}</details>
+    ${radarChanging(rd)}
+    <details class="evidence-panel"><summary>Evidence &amp; uncertainty${icon("chevron-down", "sm")}</summary>${radarSure(rd)}</details>`;
   drawRadarChart();
   attachSources(box);
   routeState.seen.add("radar");
@@ -1676,6 +1686,7 @@ function renderRadar() {
 
 function radarEvents() {
   const box = $("#radar");
+  box.addEventListener("click", e => { if (e.target.closest("#radar-retry")) { Object.assign(routeState.opts, radarRetryOptions); refreshPlan(); } });
   box.addEventListener("change", e => {
     if (e.target.matches('input[name="rscen"]')) { routeState.opts.scenario = e.target.value; refreshPlan(); }
     else if (e.target.id === "r-hz") { routeState.opts.horizon = e.target.value === "plan" ? "plan" : Number(e.target.value); refreshPlan(); }
@@ -1685,6 +1696,12 @@ function radarEvents() {
     chartPts.forEach((p, i) => { const dd = (p.cx - px) ** 2 + (p.cy - py) ** 2; if (dd < dist) { dist = dd; best = i; } });
     return best;
   };
+  box.addEventListener("click", e => {
+    const svg = e.target.closest(".rc-svg");
+    if (!svg) return;
+    const r = svg.getBoundingClientRect();
+    chartTip(nearest(e.clientX - r.left, e.clientY - r.top), true);
+  });
   box.addEventListener("pointermove", e => {
     const svg = e.target.closest(".rc-svg");
     if (!svg) return;
@@ -1792,6 +1809,12 @@ async function decideEvidence(choice) {
 let planSeq = 0;
 async function refreshPlan() {
   const seq = ++planSeq;
+  const radarOpen = $$("#radar-body details").map(el => el.open);
+  const radarMessage = $("#radar-feedback");
+  if (current.screen === "radar" && radarMessage) {
+    radarMessage.textContent = "Updating chart and plan...";
+    $("#rchart").setAttribute("aria-busy", "true");
+  }
   const active = document.activeElement;
   const focusDone = active?.dataset.done;
   const focusScenario = ["pscen", "rscen"].includes(active?.name) ? active.value : null;
@@ -1807,14 +1830,25 @@ async function refreshPlan() {
     renderPlan();
     // A tab opened while the update was on its way shows the new figures too.
     ({ learn: renderLearn, radar: renderRadar, profile: renderProfile })[current.screen]?.();
+    if (current.screen === "radar") $$("#radar-body details").forEach((el, i) => { el.open = radarOpen[i] || false; });
     saveProgress();
     const restore = focusDone ? $$("#plan input[data-done]").find(input => input.dataset.done === focusDone)
       : focusScenario ? $$(`input[name='${focusName}']`).find(input => input.value === focusScenario)
-      : focusName === "r-hz" ? $("#r-hz") : focusName === "p-growing" ? $("#p-growing") : null;
+      : focusName === "radar-retry" ? $("#radar input[name=rscen]:checked") : focusName === "r-hz" ? $("#r-hz") : focusName === "p-growing" ? $("#p-growing") : null;
     if (keepFocus) restore?.focus({ preventScroll: true });
   } catch (err) {
     if (seq !== planSeq) return;
-    $("#plan-body").innerHTML = `<div class="callout">${icon("triangle-alert")}<p>${esc(Object.values(err.data?.errors || {})[0] || "Could not build the plan.")}</p></div>`;
+    if (current.screen === "radar") {
+      radarRetryOptions = { scenario: routeState.opts.scenario, horizon: routeState.opts.horizon };
+      Object.assign(routeState.opts, radarApplied);
+      $$("#radar input[name=rscen]").forEach(input => { input.checked = input.value === radarApplied.scenario; });
+      $("#r-hz").value = String(radarApplied.horizon);
+      $("#radar-feedback").textContent = "Could not update. The chart still shows the previous settings. Retry or choose another scenario.";
+      $("#radar-retry").hidden = false;
+      $("#rchart").removeAttribute("aria-busy");
+    } else {
+      $("#plan-body").innerHTML = `<div class="callout">${icon("triangle-alert")}<p>${esc(Object.values(err.data?.errors || {})[0] || "Could not build the plan.")}</p></div>`;
+    }
   }
 }
 
@@ -1889,10 +1923,12 @@ function renderPlan() {
     <div class="plan-head" data-scope>
       <div class="ph-top">${familyTile(r)}<div><p class="d-kicker">${esc(r.family_label)}</p><h2 class="plan-title">${esc(r.title)}</h2></div></div>
       <div class="stat-row"><p><b>${fig(b.effort_hours, "")}</b><span>of ${fig(b.capacity_hours, "")} hours</span></p><p><b>${fig(d.weeks, "int")}</b><span>weeks</span></p><p><b>${fig(b.cost_rm, "rm")}</b><span>of ${fig(d.budget_rm, "rm")} budget</span></p></div>
+      ${next ? `<p class="next">${icon("route", "sm")}<span><b>Start with</b> ${esc(next.title)}</span></p>` : `<p class="next">${icon("check", "sm")}<span>Every step in this block is marked done.</span></p>`}
+      <details class="more"><summary class="link-btn">Time, scope &amp; evidence</summary>
       <p class="foot">${fig(b.provider_hours, "")} h of courses and ${fig(b.practice_hours, "")} h of practice (estimated). ${esc(capitalise(b.status))}: a start, not a complete transition; it does not make anyone ready for the role.</p>
       ${isPersonal() ? "" : `<p class="foot">${ASSUMPTION_NOTE}</p>`}
       <p class="foot">AI-usage evidence up to ${esc(releaseLabel(planRelease()))}.${srcMarks([`aei-${planRelease()}`])}</p>
-      ${next ? `<p class="next">${icon("route", "sm")}<span><b>Start with</b> ${esc(next.title)}</span></p>` : `<p class="next">${icon("check", "sm")}<span>Every step in this block is marked done.</span></p>`}
+      </details>
     </div>
     <details class="plan-scen" data-scope ${routeState.scenOpen ? "open" : ""}>
       <summary><span>Future scenario <span class="foot">${esc(capitalise(d.scenario))}${b.scenario_differs.length ? `, changes ${fig({ v: b.scenario_differs.length, src: r.contribution.s82.checkpoints.src.concat(["your-input"]) }, "int")} checkpoint${b.scenario_differs.length === 1 ? "" : "s"}` : ""}</span></span>${icon("chevron-down", "sm")}</summary>
@@ -2154,9 +2190,9 @@ function learnRoute() {
 function courseRow(o) {
   const price = o.cost_rm.v ? fig(o.cost_rm, "rm") : `${esc(o.access || "Free")}${srcMarks(o.cost_rm.src)}`;
   const tags = `${o.in_block ? `<span class="tag sdg">In your first block</span>` : ""}${o.ai_practice ? `<span class="tag good">AI practice</span>` : ""}`;
-  return `<li><a class="res-row" href="${esc(o.url)}" target="_blank" rel="noopener"><span class="res-tile" aria-hidden="true">${icon(o.ai_practice ? "sparkles" : "book-open")}</span>
-    <span class="res-text"><b>${esc(o.title)}</b><span>${esc(o.provider)} · ${price} · ${fig(o.provider_hours, "")} h · link checked ${esc(o.checked_on)}</span>${tags ? `<span class="res-tags">${tags}</span>` : ""}</span>
-    ${icon("external-link", "sm")}<span class="vh">(opens in a new tab)</span></a></li>`;
+  return `<li><details class="course-item"><summary class="res-row"><span class="res-tile" aria-hidden="true">${icon(o.ai_practice ? "sparkles" : "book-open")}</span>
+    <span class="res-text"><b>${esc(o.title)}</b><span>${esc(o.provider)} · ${price} · ${fig(o.provider_hours, "")} h</span>${tags ? `<span class="res-tags">${tags}</span>` : ""}</span>
+    ${icon("chevron-down", "sm")}</summary><div class="course-detail"><p class="foot">Link checked ${esc(o.checked_on)}. ${esc(o.access || "See provider for access details.")}${srcMarks(o.cost_rm.src)}</p><a class="link-btn" href="${esc(o.url)}" target="_blank" rel="noopener">Open course ${icon("external-link", "sm")}<span class="vh">(opens in a new tab)</span></a></div></details></li>`;
 }
 
 function renderLearn() {
@@ -2166,14 +2202,22 @@ function renderLearn() {
   if (!r) { box.innerHTML = emptyState("book-open", "No route to learn for yet", "Courses appear here once a route counts your work.", "routes", "Compare routes"); return; }
   const total = r.resources.reduce((s, g) => s + g.options.length, 0);
   const left = r.resources.reduce((s, g) => s + g.options.filter(o => !o.in_block).length, 0);
+  const active = r.resources.map(g => ({ ...g, options: g.options.filter(o => o.in_block) })).filter(g => g.options.length);
+  const extra = r.resources.map(g => ({ ...g, options: g.options.filter(o => !o.in_block) })).filter(g => g.options.length);
+  const missing = r.resources.filter(g => !g.options.length);
+  const groups = items => items.map(g => `<section class="learn-group"><h3>${esc(g.name)}</h3>
+    <ul class="res-list">${g.options.map(courseRow).join("")}</ul></section>`).join("");
   box.innerHTML = `
-    <p class="lead-left">Every verified course AIVANCIN has for a route's largest gaps, including the ones your first block leaves out for time or budget.</p>
-    ${d.routes.length > 1 ? `<div class="ctl learn-pick"><label for="learn-route">Courses for</label><select id="learn-route">${sortedRoutes(d.routes).map(x =>
-      `<option value="${esc(x.code)}" ${x.code === r.code ? "selected" : ""}>${esc(x.title)}${x.code === routeState.target ? " (your route)" : ""}</option>`).join("")}</select></div>` : ""}
-    <p class="foot learn-sum">${fig({ v: total, src: GAP_SRC }, "int")} course${total === 1 ? "" : "s"} for ${fig({ v: r.resources.length, src: GAP_SRC }, "int")} gap${r.resources.length === 1 ? "" : "s"}; ${fig({ v: left, src: GAP_SRC }, "int")} not in your first block.</p>
-    ${r.resources.map((g, i) => `<section class="soft-card" data-scope aria-labelledby="h-learn-${i}"><h2 id="h-learn-${i}">${esc(g.name)}</h2>
-      <p class="foot">${g.served ? "Your first block covers this gap." : g.options.length ? "Not in your first block." : "No verified course teaches this yet."}</p>
-      ${g.options.length ? `<ul class="res-list">${g.options.map(courseRow).join("")}</ul>` : ""}</section>`).join("")}`;
+    <p class="lead-left">Build your next skill, one course at a time.</p>
+    <div class="learn-heading"><span class="learn-family">${familyTile(r)}</span><div class="ctl learn-pick"><label for="learn-route">Learning for</label>
+      <select id="learn-route">${sortedRoutes(d.routes).map(x => `<option value="${esc(x.code)}" ${x.code === r.code ? "selected" : ""}>${esc(x.title)}${x.code === routeState.target ? " (your route)" : ""}</option>`).join("")}</select></div></div>
+    <div class="learn-courses fam-${esc(r.family)}" data-scope>
+      <section class="learn-block"><div class="learn-section-head"><h2>${active.length ? "In your first block" : "Courses to explore"}</h2>${routeState.target === r.code ? `<button type="button" class="link-btn" data-tab-go="plan">View plan ${icon("arrow-right", "sm")}</button>` : ""}</div>
+      ${active.length ? groups(active) : extra.length ? groups(extra) : `<p class="foot">No verified courses are available for these gaps yet. Explore another route above.</p>`}</section>
+      ${active.length && extra.length ? `<details class="evidence-panel learn-extra"><summary>More courses for this route${icon("chevron-down", "sm")}</summary>${groups(extra)}</details>` : ""}
+      ${missing.length ? `<details class="evidence-panel learn-missing"><summary>Gaps without a course ${fig({ v: missing.length, src: GAP_SRC }, "int")}${icon("chevron-down", "sm")}</summary><p class="foot">No verified course teaches these yet.</p><ul>${missing.map(g => `<li>${esc(g.name)}</li>`).join("")}</ul></details>` : ""}
+      <p class="foot learn-sum">${fig({ v: total, src: GAP_SRC }, "int")} course${total === 1 ? "" : "s"} across ${fig({ v: r.resources.length, src: GAP_SRC }, "int")} gaps; ${fig({ v: left, src: GAP_SRC }, "int")} outside your first block.</p>
+    </div>`;
   attachSources(box);
   $("#learn-route")?.addEventListener("change", e => { routeState.learn = e.target.value; renderLearn(); $("#learn-route").focus(); });
 }

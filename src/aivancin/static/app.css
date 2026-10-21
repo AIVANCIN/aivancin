@@ -173,9 +173,9 @@ details.title-acts > summary { cursor: pointer; font: 600 16px/1.35 var(--displa
 .path-card ul { margin: 14px 0 0; padding-left: 20px; line-height: 1.5; }
 .path-card li + li { margin-top: 8px; }
 .srcs { margin-top: 10px; }
-/* A compact pill with a 44 px hit area, so sources stay one tap away without a line of footnote numbers. */
-.src-btn { position: relative; display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 0 10px 0 8px; border: 0; border-radius: 999px; background: var(--fill); color: var(--text2); font: 500 12px/1 var(--sans); letter-spacing: 0; cursor: pointer; transition: background-color 150ms var(--ease); }
-.src-btn::after { content: ""; position: absolute; inset: -8px -4px; }
+/* A quiet source link with a full 44 px touch target. */
+.src-btn { position: relative; display: inline-flex; align-items: center; gap: 5px; min-height: 44px; padding: 0 4px; border: 0; border-radius: 8px; background: transparent; color: var(--text2); font: 500 12px/1 var(--sans); letter-spacing: 0; cursor: pointer; transition: background-color 150ms var(--ease); }
+.src-btn::after { content: none; }
 .src-btn:hover { background: var(--fill-hover); color: var(--text); }
 .src-btn .ico { width: 14px; height: 14px; }
 .num[title] { text-decoration: underline dotted var(--border); text-underline-offset: 3px; text-decoration-thickness: 1px; }
@@ -245,10 +245,11 @@ details.title-acts > summary { cursor: pointer; font: 600 16px/1.35 var(--displa
 @media (max-width: 759px) {
   .radar-t, .radar-t tbody { display: block; }
   .radar-t thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-  .radar-t tr { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px 8px; padding: 12px 0; border-top: 1px solid var(--sep); }
-  .radar-t th, .radar-t td { display: block; border: 0; padding: 0; }
+  .radar-t tr { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 16px 0; border-top: 1px solid var(--sep); }
+  .radar-t th, .radar-t td { display: block; border: 0; padding: 0; white-space: normal; overflow-wrap: anywhere; }
+  .radar-t td[data-label] { display: block; }
   .radar-t th[scope="row"], .radar-t td:last-child { grid-column: 1 / -1; }
-  .radar-t td:not(:last-child)::before { content: attr(data-label); display: block; font-size: 11px; font-weight: 400; color: var(--text2); }
+  .radar-t td[data-label]::before { content: attr(data-label); display: block; font-size: 11px; font-weight: 400; color: var(--text2); }
 }
 
 .check-line { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 14px; font-weight: 500; color: var(--text); cursor: pointer; min-height: 32px; }
@@ -290,7 +291,7 @@ details.title-acts > summary { cursor: pointer; font: 600 16px/1.35 var(--displa
 .fact dt .tile-ico { width: 40px; height: 40px; background: var(--accent-tint); color: var(--accent); }
 .fact:has(.ev) { background: var(--evidence-tint); }
 /* Screens: one at a time. The welcome screen carries the artwork full bleed; every later screen has a quiet
-   bar with back, progress and display settings. The wordmark sits in the bar only on wide screens. */
+   bar with back, progress and display settings. Routes also shows the wordmark on mobile. */
 body { --page: var(--canvas); background: var(--page); }
 body[data-screen="work"], body[data-screen="reading"] { --page: var(--page-q); }
 .screen:not(.welcome):not(.q-screen):not(.reading) { padding: 20px 0 72px; }
@@ -326,8 +327,7 @@ body[data-screen="work"], body[data-screen="reading"] { --page: var(--page-q); }
 .welcome .settings-open { position: absolute; top: calc(env(safe-area-inset-top) + 12px); right: 12px; color: #FFFFFF; background: rgba(255, 255, 255, 0.16); }
 .welcome .settings-open:hover { background: rgba(255, 255, 255, 0.26); }
 .welcome .settings-open:focus-visible, .welcome .btn:focus-visible, .welcome .link-btn:focus-visible { outline-color: #FFFFFF; }
-/* The text block carries its own scrim, so white text never sits on the light parts of the artwork
-   whatever the screen's shape (white on the 92% layer over pure white is 5.6:1). */
+/* The text block carries a scrim; the content-first rules below extend its fade to reveal the artwork. */
 .welcome-body { width: 100%; padding: 128px clamp(24px, 6vw, 64px) calc(28px + env(safe-area-inset-bottom)); background: linear-gradient(180deg, rgba(0, 72, 214, 0) 0, rgba(0, 72, 214, 0.92) 112px, #0048D6 100%); }
 .welcome-body > * { max-width: 600px; }
 .wordmark { display: flex; align-items: center; gap: 10px; font: 600 15px/1 "Jost", var(--display); letter-spacing: 0.1em; }
@@ -580,17 +580,18 @@ details.plan-scen, details.plan-order { margin-top: 12px; padding: 0 20px; borde
 
 /* Explore: the card that starts describing your work. Deep blue with the artwork on the right, as on the
    welcome screen; the text sits on the solid part (white on #0955D4 is 6.4:1). */
-.describe-card { position: relative; isolation: isolate; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; margin-top: 20px; padding: 22px 20px; overflow: hidden; border-radius: 22px; color: #FFFFFF;
-  background: linear-gradient(90deg, #0955D4 0, #0955D4 58%, rgba(9, 85, 212, 0.35) 100%), url("/art/art-640.webp") right center / cover no-repeat #0955D4; box-shadow: var(--shadow-card); }
-.describe-card .fam-tile { background: rgba(255, 255, 255, 0.16); color: #FFFFFF; }
-.describe-card h2 { font: 700 21px/1.2 var(--display); letter-spacing: -0.02em; }
-.describe-card p { margin-top: 6px; max-width: 34ch; font-size: 15px; line-height: 1.45; color: rgba(255, 255, 255, 0.92); }
+.describe-card { position: relative; isolation: isolate; margin-top: 16px; padding: 20px; overflow: hidden; border-radius: 20px; color: #FFFFFF;
+  background: #0955D4; box-shadow: var(--shadow-card); }
+.describe-card::before { content: ""; position: absolute; z-index: -1; inset: 0 0 0 52%; background: url("/art/art-640.webp") 70% center / cover no-repeat; }
+.describe-card::after { content: ""; position: absolute; z-index: -1; inset: 0; background: linear-gradient(90deg, #0955D4 0%, #0955D4 52%, rgba(9,85,212,0.16) 85%, transparent 100%); }
+.describe-card h2 { max-width: 75%; font: 700 21px/1.2 var(--display); letter-spacing: -0.02em; }
+.describe-card p { margin-top: 6px; max-width: 68%; font-size: 15px; line-height: 1.4; color: #FFFFFF; }
 .describe-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; margin-top: 14px; }
+.describe-card .describe-actions { gap: 4px 12px; }
 .describe-card .btn-primary { background: #FFFFFF; color: #0955D4; }
 .describe-card .btn-primary:hover { background: #E8F0FD; }
-.describe-card .link-btn { color: #FFFFFF; }
+.describe-card .link-btn { color: #FFFFFF; background: #0955D4; border-radius: 10px; padding-inline: 8px; }
 .describe-card :focus-visible { outline-color: #FFFFFF; }
-@media (max-width: 599px) { .describe-card { grid-template-columns: minmax(0, 1fr); background: linear-gradient(180deg, rgba(9, 85, 212, 0.1) 0, rgba(9, 85, 212, 0.6) 20%, #0955D4 42%), url("/art/art-640.webp") 70% top / 160% auto no-repeat #0955D4; padding-top: 72px; } }
 .sort-seg.two:has(input[value="outlook"]:checked) { --i: 0; }
 .sort-seg.two:has(input[value="entry"]:checked) { --i: 1; }
 .sort-seg.two:has(input[value="decent"]:checked) { --i: 2; }
@@ -814,3 +815,73 @@ html[data-motion="on"] .btn { transition: transform 200ms var(--spring), backgro
 .found-gaps { margin: 6px 14px 0; }
 .heat-t .hd-of { display: block; font-weight: 500; }
 @media (max-width: 420px) { .heat-t .c-fam { width: 54px; } .heat-t tbody th { font-size: 13px; } }
+
+/* Content first: compact navigation, route summaries, and local evidence disclosures. */
+.welcome > .wordmark { position: absolute; top: calc(env(safe-area-inset-top) + 30px); left: 28px; font-size: 19px; z-index: 1; color: #002869; }
+.welcome > .wordmark .brand-mark { width: 28px; height: 28px; mask-size: 33px; -webkit-mask-size: 33px; }
+.welcome-body { padding-top: 80px; background: linear-gradient(180deg, transparent 0%, rgba(0,72,214,0.86) 20%, #0048D6 66%, #0048D6 100%); }
+.welcome h1 { margin-top: 0; }
+@media (min-width: 760px) and (min-aspect-ratio: 7/5) {
+  .welcome > .wordmark { left: clamp(32px, 7vw, 112px); top: 32px; color: #FFFFFF; }
+  .welcome-body { padding-top: 100px; background: linear-gradient(90deg, rgba(3,62,196,0.94) 0%, rgba(3,62,196,0.92) calc(100% - 300px), rgba(3,62,196,0.4) calc(100% - 140px), transparent 100%); }
+}
+@media (max-width: 979px) {
+  body[data-screen="routes"] .bar-in { grid-template-columns: 44px minmax(0, 1fr) 44px; }
+  body[data-screen="routes"] .bar-mid { grid-column: 1; grid-row: 1; }
+  body[data-screen="routes"] .topbar .brand { display: flex; grid-column: 2; grid-row: 1; justify-self: center; font-size: 15px; color: var(--accent); }
+}
+.route-row { align-items: center; }
+.route-row .chips { margin-top: 6px; }
+.route-row .chip { padding: 3px 8px; }
+.rr-family { font-size: 13px; color: var(--text2); }
+.rr-order { display: block; margin-top: 6px; font-size: 13px; color: var(--text2); }
+.rr-open { position: absolute; right: 20px; bottom: 18px; color: var(--text2); }
+.sort-help { font-size: 13px; color: var(--text2); }
+.sort-help > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; }
+.sort-help > summary::after { content: "+"; margin-left: 8px; }
+.sort-help[open] > summary::after { content: "−"; }
+.evidence-panel { margin-top: 16px; border-top: 1px solid var(--sep); }
+.evidence-panel > summary { display: flex; align-items: center; gap: 10px; min-height: 56px; padding-block: 10px; cursor: pointer; list-style: none; font-weight: 600; font-size: 16px; }
+.evidence-panel > summary::-webkit-details-marker { display: none; }
+.evidence-panel > summary > .ico { margin-left: auto; flex: none; color: var(--text2); }
+.evidence-panel[open] > summary > .ico { transform: rotate(180deg); }
+.evidence-panel > .soft-card { margin-top: 0; box-shadow: none; }
+.radar-main { margin-top: 12px; padding: 16px; }
+.radar-main > h2 { font-size: 15px; color: var(--text2); }
+.radar-main .radar-ctl { margin-top: 12px; gap: 10px 16px; grid-template-columns: minmax(0, 1fr); }
+.radar-main .radar-ctl .ctl select { max-width: none; }
+.radar-main .radar-ctl .seg-ctl { max-width: none; }
+.radar-main .radar-ctl .ctl:last-child { display: flex; align-items: center; gap: 12px; }
+.radar-main .radar-ctl .ctl:last-child label { white-space: nowrap; margin: 0; }
+.radar-feedback { min-height: 38px; margin-top: 10px; }
+.radar-personalise { margin-top: 8px; }
+.radar-main .rc-legend { margin-top: 4px; gap: 6px 12px; font-size: 12px; }
+.rchart[aria-busy="true"] { opacity: 0.55; }
+@media (min-width: 760px) { .radar-main { padding: 24px; } .radar-main .radar-ctl { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); } }
+.learn-heading { display: flex; align-items: center; gap: 12px; margin: 18px 0 24px; }
+.learn-heading .learn-pick { margin: 0; flex: 1; min-width: 0; }
+.learn-heading select { width: 100%; max-width: 100%; }
+.learn-courses { --course-ink: var(--accent); --course-tint: var(--accent-tint); }
+.learn-courses.fam-software { --course-ink: var(--fam-sw); --course-tint: var(--fam-sw-tint); }
+.learn-courses.fam-finance_analytics { --course-ink: var(--you); --course-tint: var(--you-tint); }
+.learn-section-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; }
+.learn-section-head h2 { font: 600 20px/1.3 var(--display); }
+.learn-group { margin-top: 18px; }
+.learn-group h3 { color: var(--text2); font: 500 14px/1.4 var(--sans); }
+.learn-courses .res-list { margin-top: 8px; }
+.learn-courses .course-item { background: var(--card); border-radius: 18px; border: 1px solid var(--sep); overflow: hidden; }
+.learn-courses .res-row { background: transparent; padding: 16px; align-items: flex-start; }
+.learn-courses .res-row:hover { background: var(--course-tint); }
+.learn-courses .res-tile { color: var(--course-ink); background: var(--course-tint); box-shadow: none; }
+.learn-courses .res-tags .tag.sdg { color: var(--you); background: var(--you-tint); }
+.course-item > summary { cursor: pointer; list-style: none; }
+.course-item > summary::-webkit-details-marker { display: none; }
+.course-item[open] > summary > .ico { transform: rotate(180deg); }
+.course-detail { padding: 0 16px 12px 68px; }
+.course-detail .link-btn { margin-top: 4px; }
+.learn-missing { color: var(--text2); }
+.learn-missing ul { padding-left: 20px; font-size: 14px; line-height: 1.5; }
+.learn-missing li + li { margin-top: 8px; }
+
+.welcome .settings-open { color: #002869; }
+.welcome .settings-open:focus-visible { outline-color: #002869; }
