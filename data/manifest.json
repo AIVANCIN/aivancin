@@ -191,9 +191,9 @@
       "licence": "CC BY 4.0",
       "access_date": "2026-10-20",
       "original_sha256": "615220aad522475f4cc3897a158171ba93a209842802e97fd639d1b067cf9f17",
-      "derived_rows": 30,
+      "derived_rows": 480,
       "derived_path": "dosm/wages_occupation.csv",
-      "derived_sha256": "7fe3c855e9d73086a0efcb6e9595cb823410745a9f42ba7ba25de850db6590e4"
+      "derived_sha256": "e50232177ab863ec6a6865a088c7c0e15c26cc9107a02f8d5a73c7df23a70477"
     },
     {
       "source_id": "dosm-sru-age",
@@ -204,9 +204,9 @@
       "licence": "CC BY 4.0",
       "access_date": "2026-10-20",
       "original_sha256": "37baf89c9283d0ba51dd0bd444310d56a1d45999ad6b8abffa09a19cb1748905",
-      "derived_rows": 10,
+      "derived_rows": 380,
       "derived_path": "dosm/sru_age.csv",
-      "derived_sha256": "4f79ed56f309f5ef7c7726d51f9c2cd9c1a1c144d10e3785203ba0e3fb5e00f6"
+      "derived_sha256": "6881bf91af5a01c0bd63e704eca82b37cb007ffce6040c3906b3f56481bd2d25"
     },
     {
       "source_id": "dosm-sru-sex",
@@ -217,9 +217,9 @@
       "licence": "CC BY 4.0",
       "access_date": "2026-10-20",
       "original_sha256": "6c0340af348a29f0983b3382106e878371158af4ba387b858785dd97aefe7154",
-      "derived_rows": 6,
+      "derived_rows": 228,
       "derived_path": "dosm/sru_sex.csv",
-      "derived_sha256": "0cab4a9b669f86a8c6336e30157d37cc86be9143c3b99e07fdafce3b919909be"
+      "derived_sha256": "0a6abc2139c8a5478599b3ca1d88e920187edb36b379d7f753f99e6e6c5f6a01"
     },
     {
       "source_id": "nces-cip-soc",
@@ -339,20 +339,33 @@
       "original_sha256": "99b367a39b8aae495aacace96905bd8cc8bfae795d06154217e1332353a3a55d",
       "derived_rows": 388,
       "derived_path": "onet/outlook.csv",
-      "derived_sha256": "6fc7195ebc028a5fc80ea8ff4c1a9d88cc55d1934293ce3d316239335c7589eb"
+      "derived_sha256": "6b4d90879427906ec0c68a23edab77ef1c924aa82d5e201100cab688c525121c"
     },
     {
       "source_id": "aivancin-backtest",
       "title": "AIVANCIN skill-outlook backtest (A18): error of the historical-average projection on the 2026-06-26 release",
       "publisher": "AIVANCIN (team DOVUN), computed from the bundled AEI and O*NET snapshots",
       "url": "tools/checks/a18_backtest.py",
-      "release": "2026-10-20",
+      "release": "2026-10-21",
       "licence": "Derived from CC BY sources",
       "access_date": "2026-10-21",
-      "original_sha256": "28febea60402cec902bbee18f65d7e29bef0147cd163636dc9286178d1fac4f8",
+      "original_sha256": "b94b239992c4228ea1496e41c54aa7b2ef128e2d8353b27ba5c333bc04b6e3bb",
       "derived_rows": null,
       "derived_path": "forecast/a18_backtest.json",
-      "derived_sha256": "28febea60402cec902bbee18f65d7e29bef0147cd163636dc9286178d1fac4f8"
+      "derived_sha256": "b94b239992c4228ea1496e41c54aa7b2ef128e2d8353b27ba5c333bc04b6e3bb"
+    },
+    {
+      "source_id": "aivancin-registered-forecasts",
+      "title": "AIVANCIN registered skill-outlook forecasts, frozen for scoring against the next AI-usage release",
+      "publisher": "AIVANCIN (team DOVUN), computed from the bundled AEI and O*NET snapshots",
+      "url": "tools/export_forecasts.py",
+      "release": "2026-10-21",
+      "licence": "Derived from CC BY sources",
+      "access_date": "2026-10-21",
+      "original_sha256": "f1e2ecc547d1ecc1c24e126e17f9da55008c9cdc7db9a61d017e5e96affb57f4",
+      "derived_rows": null,
+      "derived_path": "forecast/registered-2026-10-21.json",
+      "derived_sha256": "f1e2ecc547d1ecc1c24e126e17f9da55008c9cdc7db9a61d017e5e96affb57f4"
     },
     {
       "source_id": "aivancin-routes",
@@ -388,6 +401,16 @@
       "release": "2025-11-19",
       "licence": "cited figure",
       "access_date": "2026-10-20",
+      "kind": "reference"
+    },
+    {
+      "source_id": "bls-eval-2014-2024",
+      "title": "Occupational Projections Evaluation: 2014-24 (direction of change correct 86 percent of the time; detailed occupations against a constant-share model)",
+      "publisher": "U.S. Bureau of Labor Statistics",
+      "url": "https://www.bls.gov/emp/evaluations/2014-2024-occupational.htm",
+      "release": "2026-04-10",
+      "licence": "cited figure (U.S. federal government work)",
+      "access_date": "2026-10-21",
       "kind": "reference"
     }
   ]

@@ -29,6 +29,18 @@ EXPLORE_PROFILE = {"title_code": None, "degree_field": "", "cip_code": None, "de
 EXPLORE_SRC = "explore-defaults"
 
 
+RADAR_MAIN = 3  # initial: before work is described, the Radar shows each supported role's three largest activities
+
+
+def job_group(band):
+    name = outlook.band_name(band)
+    if name in outlook.GROW_BANDS:
+        return "growing"
+    if name in outlook.DECLINE_BANDS:
+        return "declining"
+    return "steady" if name else "no projection"
+
+
 def effort(c):
     return c["hours"] + c.get("practice_hours", 0.0)
 
@@ -208,17 +220,27 @@ class Planner:
             forms[s] = "ai" if any(r["projected"][s]["v"] >= o["threshold"] for r in reason) else "plain"
         return forms, reason
 
-    def ai_use(self, code, prof, o):
+    def ai_use(self, code, prof, o, months):
         """The role's largest-weight activities with how much of each AI does directly in observed Claude use,
-        classed with the plan's threshold. Usage evidence, not a trend and not a forecast of jobs."""
+        classed with the plan's threshold, plus each activity's skill demand (F2) and AI shift (F3) at the route's
+        horizon. Usage evidence and published projections, never one combined score."""
         top = sorted(self.m.w.get(code, {}).items(), key=lambda kv: (-kv[1], kv[0]))[:AI_USE_ACTIVITIES]
         out = []
         for d, _ in top:
             ol = self.rep.skills.outlook(d, o["release"])
-            out.append({"dwa_id": d, "name": self.snaps.onet.dwa_names[d], "done": d in prof,
-                        "now": fig(ol["now"], *ol["src"]) if ol else None, "weak": bool(ol and ol["weak"]),
+            row = self.rep.skill_row(d, self.snaps.onet.dwa_names[d], o["release"], months, o["threshold"], o["pace"],
+                                     "you do this" if d in prof else "still to build")
+            out.append({**row, "done": d in prof, "weak": bool(ol and ol["weak"]),
                         "class": outlook.classify(ol["now"] if ol else None, o["threshold"])})
         return out
+
+    def future(self, code, masco):
+        """The route's Future tab beyond its activities: the Malaysian group trend (F4, observed) and O*NET's
+        emerging tasks and in-demand technologies."""
+        onet = self.snaps.onet
+        return {"trend": outlook.group_trend(self.snaps, masco.get("major")),
+                "emerging": {"tasks": [{**t, "src": ["onet31-emerging-tasks"]} for t in onet.emerging.get(code, [])],
+                             "technologies": [{**t, "src": ["onet31-software"]} for t in onet.software.get(code, [])]}}
 
     def resources(self, family, prioritized, courses, ai_courses, block_ids, served):
         """Every verified entry for each prioritized gap, including the ones the first block leaves out (time,
@@ -297,7 +319,8 @@ class Planner:
             "code": code, "title": onet.occupations[code], "family": dest["family"], "family_label": dest["family_label"],
             "description": {"text": description, "first": description.split(". ")[0].rstrip(".") + "." if description else "",
                             "src": ["onet31-occupations"]},
-            "ai_use": self.ai_use(code, prof, o),
+            "ai_use": self.ai_use(code, prof, o, months),
+            "future": self.future(code, masco),
             "outlook_score": outlook.band_score(job_outlook.get("band")),
             "job_zone": fig(onet.job_zones.get(code), "onet31-job-zones"),
             "overlap": fig(pct(self.m.overlap(code, prof)), *ONET_SRC),
@@ -326,7 +349,7 @@ class Planner:
         }
 
     # ---- compare ---------------------------------------------------------------------------------
-    def routes(self, profile, opts, today=None, explore=False):
+    def routes(self, profile, opts, today=None, explore=False, with_radar=True):
         o = self.options(opts, profile)
         o["input_src"] = EXPLORE_SRC if explore else "your-input"
         verified = pathway.verified_courses(self.snaps.catalogue, today or dt.date.today())
@@ -359,7 +382,80 @@ class Planner:
                                f"{len(fits)} supported route{'s' if len(fits) != 1 else ''} qualified. Explore all roles to see others, "
                                "without complete-route support."),
                 "supported_destinations": fig(len(self.dests), ROUTES_SRC),
-                "forecast": self.rep._forecast_meta(o["threshold"])}
+                "forecast": self.rep._forecast_meta(o["threshold"]),
+                "radar": self.radar(routes, prof, o, explore) if with_radar else None}
+
+    # ---- Future Skills Radar (SPEC 11.4) ---------------------------------------------------------------
+    def radar(self, routes, prof, o, explore):
+        """The Radar tab: jobs (F1 with F4 per family), the person's skills (F2 against F3), the gaps whose
+        checkpoint adds AI checking, and how sure each signal is. Signals stay separate; nothing is combined."""
+        onet = self.snaps.onet
+        target = next((r for r in routes if r["code"] == o["target"]), None)
+        if o["horizon"] != "plan":
+            months, basis, hz = o["horizon"], "your choice", fig(o["horizon"], "your-input", estimate=True)
+        elif target:
+            hz = target["block"]["horizon"]["months"]
+            months, basis = hz["v"], "your plan's estimated planning horizon"
+        else:
+            months, basis = outlook.MIN_HORIZON_MONTHS, "minimum look-ahead (assumption)"
+            hz = fig(months, "your-input", estimate=True)
+        picked = {}
+        if explore:
+            for r in routes:
+                top = sorted(self.m.w[r["code"]].items(), key=lambda kv: (-kv[1], kv[0]))[:RADAR_MAIN]
+                for d, _ in top:
+                    picked.setdefault(d, {"kind": "main", "routes": []})["routes"].append(r["code"])
+        else:
+            for d in sorted(prof):
+                picked[d] = {"kind": "you", "routes": [r["code"] for r in routes if d in self.m.w[r["code"]]]}
+            for r in routes:
+                for g in r["prioritized"]:
+                    if g["dwa_id"] not in prof:
+                        picked.setdefault(g["dwa_id"], {"kind": "gap", "routes": []})["routes"].append(r["code"])
+        kind_text = {"you": "you do this", "gap": "still to build", "main": "main activity"}
+        skills = []
+        for d, p in picked.items():
+            row = self.rep.skill_row(d, onet.dwa_names[d], o["release"], months, o["threshold"], o["pace"], kind_text[p["kind"]])
+            skills.append({**row, "group": p["kind"], "routes": p["routes"]})
+
+        jobs = []
+        for r in routes:
+            jo = r["job_outlook"]
+            jobs.append({"code": r["code"], "title": r["title"], "family": r["family"], "family_label": r["family_label"],
+                         "group": job_group(jo.get("band")), "band": jo.get("band"), "period": jo.get("period"),
+                         "openings": jo.get("openings"), "openings_period": jo.get("openings_period"),
+                         "bright": jo.get("bright", []), "src": jo["src"]})
+        trends, seen = [], set()
+        for r in routes:
+            major = r["masco"].get("major")
+            if (r["family"], major) in seen or not major:
+                continue
+            seen.add((r["family"], major))
+            t = outlook.group_trend(self.snaps, major)
+            if t:
+                trends.append({"family": r["family"], "family_label": r["family_label"], **t})
+
+        # Gaps whose block checkpoint adds AI checking in the selected scenario, once per activity with every route
+        # and step it appears in (each route's own planning horizon decided it).
+        changing = {}
+        for r in routes:
+            for s in r["block"]["steps"]:
+                if s["form"] != "ai":
+                    continue
+                for g in s["reason"]:
+                    if g["projected"][o["scenario"]]["v"] < o["threshold"]:
+                        continue
+                    c = changing.setdefault(g["dwa_id"], {
+                        "dwa_id": g["dwa_id"], "name": g["name"], "now": g["now"], "weak": g["weak"], "where": [],
+                        "ttt": self.rep.ttt(g["now"]["v"], g["now"]["src"], o["threshold"], o["pace"])[o["scenario"]]})
+                    c["where"].append({"route": r["code"], "route_title": r["title"], "step": s["title"],
+                                       "projected": g["projected"][o["scenario"]],
+                                       "horizon_months": r["block"]["horizon"]["months"]})
+        changing = sorted(changing.values(), key=lambda c: (-c["now"]["v"], c["dwa_id"]))
+        return {"horizon": {"months": hz, "basis": basis},
+                "scenario": o["scenario"], "threshold": fig(o["threshold"], "your-input"), "release": o["release"],
+                "jobs": jobs, "trends": trends, "skills": skills, "changing": changing,
+                "sru_trend": outlook.sru_trend(self.snaps), "sure": self.rep.forecast_basis(o["pace"])}
 
     def explore(self, opts, today=None):
         """Every supported role before any work is described: nothing counts as done, requirements the profile
@@ -391,8 +487,8 @@ class Planner:
         frm, to = opts.get("from_release", ids[-2] if len(ids) > 1 else ids[-1]), opts.get("to_release", ids[-1])
         if frm not in ids or to not in ids:
             raise ReportError({"release": "Choose two of the bundled releases."})
-        before = self.routes(profile, {**opts, "release": frm}, today)
-        after = self.routes(profile, {**opts, "release": to}, today)
+        before = self.routes(profile, {**opts, "release": frm}, today, with_radar=False)
+        after = self.routes(profile, {**opts, "release": to}, today, with_radar=False)
         a = next(r for r in before["routes"] if r["code"] == opts["target"])
         b = next(r for r in after["routes"] if r["code"] == opts["target"])
         old = {s["id"]: s for s in a["block"]["steps"]}

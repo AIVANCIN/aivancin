@@ -18,8 +18,8 @@ const state = {
   knownTools: new Set(), results: null, baseline: null, selected: null, target: null, lastIntake: null,
 };
 /* Compare routes, the chosen plan and what changed (SPEC section 10). */
-const routeState = { data: null, target: null, completed: new Set(), opts: { weeks: 4, willing_long: false, scenario: "moderate", threshold: 50 }, change: null,
-  sort: "overlap", open: null, tab: "overview", openCp: new Set(), scenOpen: false, learn: null, saved: new Map(), seen: new Set() };
+const routeState = { data: null, target: null, completed: new Set(), opts: { weeks: 4, willing_long: false, scenario: "moderate", threshold: 50, horizon: "plan" }, change: null,
+  sort: "overlap", filter: "all", open: null, tab: "overview", openCp: new Set(), scenOpen: false, learn: null, saved: new Map(), seen: new Set() };
 /* Saved progress: routes were compared before the page was reloaded, so Continue can rebuild them. */
 let routesReached = false;
 const STATUS_CLASS = { met: "good", missing: "limit", planned: "sdg", "you decide": "weak" };
@@ -98,10 +98,10 @@ function initTheme() {
 const PAGES = 4;
 let current = { screen: "welcome", page: 1 };
 
-/* Once routes exist, five tabs reach the sections: Routes, Plan, Learn, Saved and Profile. Intake and
+/* Once routes exist, five tabs reach the sections: Routes, Radar, Plan, Learn and Profile. Intake and
    review stay one full screen per step without tabs. Each tab returns to where it was left; choosing the
    tab you are already in goes back to its first screen. */
-const TAB_OF = { routes: "routes", route: "routes", results: "routes", plan: "plan", changed: "plan", learn: "learn", saved: "saved", profile: "profile" };
+const TAB_OF = { routes: "routes", route: "routes", results: "routes", radar: "radar", plan: "plan", changed: "plan", learn: "learn", profile: "profile" };
 const tabLast = {};
 
 function show(screen, page = 1, focus = true) {
@@ -131,7 +131,7 @@ function show(screen, page = 1, focus = true) {
   // Every section draws from the current state when it appears, so a tab or the back button never shows stale figures.
   if (screen === "welcome") updateContinue();
   else if (screen === "learn") renderLearn();
-  else if (screen === "saved") renderSaved();
+  else if (screen === "radar") renderRadar();
   else if (screen === "profile") renderProfile();
   else if (screen === "plan" && routeState.data) renderPlan();
   else if (screen === "routes" && routeState.data) renderRoutes();
@@ -150,7 +150,7 @@ function show(screen, page = 1, focus = true) {
 
 /* After a reload or Clear my data, a history entry can point at a screen whose data is gone. */
 function canShow(screen) {
-  if (["routes", "route", "plan", "changed", "learn", "saved", "profile"].includes(screen)) return Boolean(routeState.data) && (screen !== "route" || Boolean(routeState.open));
+  if (["routes", "route", "radar", "plan", "changed", "learn", "profile"].includes(screen)) return Boolean(routeState.data) && (screen !== "route" || Boolean(routeState.open));
   if (screen === "review") return Boolean(state.suggest);
   if (screen === "results") return Boolean(state.results);
   return screen !== "reading";
@@ -1117,7 +1117,7 @@ function workChip(r) {
     : `<span class="chip">${fig(r.total_count, "int")} recorded activities</span>`;
 }
 
-/* A bookmark keeps a route in the Saved tab. It sits beside the card's button, never inside it. */
+/* A bookmark keeps a route in Saved routes (Profile) and the Routes Saved filter. It sits beside the card's button, never inside it. */
 function saveBtn(r) {
   return `<button type="button" class="icon-btn save-btn" data-save="${esc(r.code)}" aria-pressed="${routeState.saved.has(r.code)}" aria-label="Save ${esc(r.title)}">${icon("bookmark")}</button>`;
 }
@@ -1163,6 +1163,10 @@ function renderRoutes() {
     : `<p>${fig(d.supported_destinations, "int")} supported roles in IT and network support, software, and finance and analytics, each with how AI is used in it and a free first learning block.</p>`;
   const shared = d.shared;
   const chosenRoute = d.routes.find(r => r.code === routeState.target);
+  // Bookmarked routes: a Saved filter appears once any shown route is saved (the list itself is in Profile).
+  const savedHere = d.routes.filter(r => routeState.saved.has(r.code));
+  const filter = savedHere.length ? routeState.filter : "all";
+  const shown = filter === "saved" ? savedHere : d.routes;
   $("#routes-body").innerHTML = `
     ${personal ? "" : describeCard()}
     ${d.fewer_note ? `<div class="callout">${icon("info")}<p>${esc(d.fewer_note)}</p></div>` : ""}
@@ -1170,7 +1174,9 @@ function renderRoutes() {
       ${d.routes.length > 1 ? `<fieldset class="sort-ctl"><legend class="vh">Order routes by</legend>
         <div class="seg-ctl sort-seg${personal ? "" : " two"}" style="--n:${Object.keys(sorts).length}">${Object.entries(sorts).map(([k, [label]]) => `<label><input type="radio" name="rsort" value="${k}" ${sort === k ? "checked" : ""}>${label}</label>`).join("")}</div>
         <p class="foot">${sorts[sort][1]} No combined score: you choose.</p></fieldset>` : ""}
-      <ul class="route-list" aria-label="Routes" data-scope>${sortedRoutes(d.routes).map(routeRow).join("")}<li class="list-srcs srcs-slot"></li></ul>` :
+      ${savedHere.length ? `<fieldset class="filter-ctl"><legend class="vh">Show</legend>
+        <div class="seg-ctl filter-seg" style="--n:2"><label><input type="radio" name="rfilter" value="all" ${filter === "all" ? "checked" : ""}>All routes</label><label><input type="radio" name="rfilter" value="saved" ${filter === "saved" ? "checked" : ""}>Saved (${savedHere.length})</label></div></fieldset>` : ""}
+      <ul class="route-list" aria-label="${filter === "saved" ? "Saved routes" : "Routes"}" data-scope>${sortedRoutes(shown).map(routeRow).join("")}<li class="list-srcs srcs-slot"></li></ul>` :
       `<div class="callout">${icon("info")}<p>None of the supported routes counts at least two of your confirmed activities yet. Explore all roles, or tick more activities.</p></div>`}
     ${shared ? `<section class="soft-card" data-scope aria-labelledby="h-shared"><h2 id="h-shared">${icon("layers", "sm")}Shared foundations</h2>
       <p>${shared.common_steps.length ? `${shared.common_steps.length} step${shared.common_steps.length === 1 ? " appears" : "s appear"} (${fig(shared.common_hours, "")} hours) in every route's first block, so ${shared.common_steps.length === 1 ? "it keeps" : "they keep"} these options open.` : "No step is common to every route's first block."}</p>
@@ -1235,21 +1241,66 @@ function workSections(r, served) {
 /* Before work is described, first blocks rest on the questions' starting values; say so where the figures are. */
 const ASSUMPTION_NOTE = "Built on starting assumptions: 6 hours a week and no budget. Describe your work to fit it to you.";
 
-function aiPanel(r) {
-  const d = routeState.data;
+/* ---------- forecast signals (SPEC 11.1): shared pieces of the route's Future tab and the Radar ---------- */
+const SCEN_NAME = { slower: "Slower", moderate: "Moderate", faster: "Faster" };
+const DEMAND_CLASS = { "mostly in growing jobs": "grow", "mostly in declining jobs": "limit", "no projection": "weak", mixed: "" };
+
+function demandChip(dm) {
+  return `<span class="tag ${DEMAND_CLASS[dm.label] ?? ""}">${esc(capitalise(dm.label))}</span>`;
+}
+function demandText(dm) {
+  if (!dm.grow) return `No US projection for the graduate roles that record it.${srcMarks(dm.src)}`;
+  return `Of the ${fig(dm.roles, "int")} US graduate roles that record it, weighted by how often it appears in their tasks, ${fig(dm.grow, "pct")} are projected to grow faster than average and ${fig(dm.decline, "pct")} to decline (BLS 2025-2035)${dm.few ? `, based on ${fig(dm.roles, "int")} roles` : ""}.`;
+}
+/* One line per activity; the full wording is said once above the list. */
+function demandShort(dm) {
+  if (!dm.grow) return `${demandChip(dm)}${srcMarks(dm.src)}`;
+  return `${demandChip(dm)} ${fig(dm.grow, "pct")} growing · ${fig(dm.decline, "pct")} declining · ${fig(dm.roles, "int")} role${dm.roles.v === 1 ? "" : "s"}`;
+}
+function tttText(t) {
+  return t.months && t.months.v > 0 ? `about ${fig(t.months, "int")} months (estimate)` : esc(t.text);
+}
+function trendBlock(t, families) {
+  if (!t) return `<p class="foot">No DOSM group trend for this role's skill level.</p>`;
+  return `<p>${esc(t.text)}${srcMarks(t.src)}</p>${families ? `<p class="foot">${esc(families)}</p>` : ""}
+    <details class="more"><summary class="link-btn">About these figures</summary>
+      <p class="foot">Employees are wage recipients who are Malaysian citizens, in thousands; wages are monthly medians. ${esc(t.window_note)} ${t.notes.map(esc).join(" ")} Observed only: AIVANCIN does not project Malaysian employment.</p></details>`;
+}
+function releaseLine(x) {
+  return (x.releases || []).map(v => `${esc(releaseLabel(v.release))} ${fig(v.share, "pct")}`).join(" · ");
+}
+
+/* The route's Future tab: US jobs (F1), Malaysia observed (F4), and the role's largest activities with skill
+   demand (F2) and the AI shift (F3), then what O*NET lists as emerging. Each signal stays separate. */
+function futurePanel(r) {
+  const d = routeState.data, sc = d.scenario;
+  const jo = r.job_outlook, hz = r.block.horizon, sure = d.radar?.sure;
   const ai = r.ai_use;
-  const direct = ai.filter(a => a.class === AI_GROUPS[0][0]).length;
+  const row = a => `<li class="fut-act">
+      <div class="fa-top"><span class="ai-name">${esc(a.name)}${a.done ? ` <span class="tag you">You do this</span>` : ""}${a.weak ? ` <span class="tag weak">Evidence weak</span>` : ""}</span>${a.now ? `<span class="ai-val">${fig(a.now, "pct")}</span>` : ""}</div>
+      <p class="fa-line">${demandShort(a.demand)}</p>
+      ${a.now ? `<p class="fa-line">${esc(SCEN_NAME[sc])}, ${fig(hz.months, "")} months: ${fig(a.projected[sc], "pct")} · threshold: ${tttText(a.ttt[sc])}</p>
+        <p class="fa-line foot">By release: ${releaseLine(a)}</p>` : ""}</li>`;
   const groups = AI_GROUPS.map(([key, ico, title, sub]) => {
     const items = ai.filter(a => a.class === key);
     if (!items.length) return "";
     return `<section class="ai-group ai-${ico}" data-scope aria-labelledby="h-ai-${ico}"><h2 id="h-ai-${ico}">${icon(ico, "sm")}${title}</h2><p class="foot">${sub}</p>
-      <ul>${items.map(a => `<li><span class="ai-name">${esc(a.name)}${a.done ? ` <span class="tag you">You do this</span>` : ""}${a.weak ? ` <span class="tag weak">Evidence weak</span>` : ""}</span>${a.now ? `<span class="ai-val">${fig(a.now, "pct")}</span>` : ""}</li>`).join("")}</ul></section>`;
+      <ul class="fut-acts">${items.map(row).join("")}</ul></section>`;
   }).join("");
+  const em = r.future.emerging;
   return `
-    <p class="rd-lead">How much of each of this role's ${ai.length} largest activities AI does directly when people use Claude for it, across bundled releases up to ${esc(releaseLabel(d.release))}.</p>
-    ${direct ? `<div class="callout ai-take">${icon("info")}<p>AI does most of the work directly on ${direct} of these ${ai.length} activities in observed use. In your first block, a checkpoint on such an activity asks you to do it yourself, then check an AI's output against yours.</p></div>` : ""}
+    <section class="soft-card" data-scope aria-labelledby="h-fu-jobs"><h2 id="h-fu-jobs">${icon("trending-up", "sm")}Jobs in the United States</h2>
+      <p>${jo.band ? `BLS projected growth ${esc(jo.period)}: <b>${esc(jo.band)}</b>${jo.openings ? `, with ${fig(jo.openings, "int")} projected openings (${esc(jo.openings_period)})` : ""}.` : "No projection published for this role."}${jo.bright.length ? ` Bright Outlook: ${esc(jo.bright.join(", "))}.` : ""}${srcMarks(jo.src)}</p>
+      ${sure ? `<p class="foot">How sure: “${esc(sure.bls.quote)}” (BLS evaluation of its 2014-24 projections)${srcMarks(sure.bls.src)}. A projection, not a promise of a job.</p>` : ""}</section>
+    <section class="soft-card" data-scope aria-labelledby="h-fu-my"><h2 id="h-fu-my">${icon("map-pin", "sm")}Malaysia, observed</h2>${trendBlock(r.future.trend)}
+      <p class="foot">${esc(r.local_evidence)}</p></section>
+    <p class="rd-lead">This role's ${ai.length} largest activities. For each: the share AI does directly when people use Claude for it (up to ${esc(releaseLabel(d.release))}), where that share may be ${fig(hz.months, "")} months ahead in the ${esc(sc)} scenario, and skill demand: of the US graduate roles that record the activity, weighted by how often it appears in their tasks, the share projected to grow faster than average and the share projected to decline (BLS 2025-2035).</p>
     ${groups}
-    <p class="foot rd-note">Global Claude usage, not employment, risk or a trend. Grouped at the plan's threshold: ${fig(d.threshold, "pct")} and above, AI does most of it directly; below ${fig(d.forecast.lower_cut, "")}%, people mostly work with AI.</p>`;
+    <section class="soft-card" data-scope aria-labelledby="h-fu-em"><h2 id="h-fu-em">${icon("sparkles", "sm")}What's emerging</h2>
+      ${em.tasks.length ? `<ul class="emerging">${em.tasks.map(t => `<li>${esc(t.task)} <span class="foot">(${esc(t.category)}, ${esc(t.date)})${srcMarks(t.src)}</span></li>`).join("")}</ul>` : `<p class="foot">No emerging-task record in O*NET 31.0.</p>`}
+      ${em.technologies.length ? `<details class="more"><summary class="link-btn">${em.technologies.length} in-demand technologies (US job postings)</summary>
+        <p class="tech-line">${em.technologies.map(t => `${esc(t.name)}${t.hot ? " (hot)" : ""}`).join(", ")}${srcMarks(["onet31-software"])}</p></details>` : `<p class="foot">No in-demand technology listed.</p>`}</section>
+    <p class="foot rd-note">AI figures are global Claude usage, not employment, risk or a trend. Grouped at the plan's threshold: ${fig(d.threshold, "pct")} and above, AI does most of it directly; below ${fig(d.forecast.lower_cut, "")}%, people mostly work with AI. The scenarios are assumptions shown on the Radar.</p>`;
 }
 
 function blockPanel(r) {
@@ -1278,6 +1329,209 @@ function jobsPanel(r) {
     <p class="foot">${esc(r.title)} is the American O*NET title. Ads in Malaysia often use other titles, so try related words too.</p></section>`;
 }
 
+/* ---------- Radar tab (SPEC 11.4): jobs, your skills, skills that are changing, how sure ---------- */
+const JOB_GROUPS = [["growing", "grow", "Projected to grow faster than average"], ["steady", "good", "Average growth, slower, or little change"],
+  ["declining", "limit", "Projected to decline"], ["no projection", "weak", "No projection"]];
+const SKILL_KIND = { you: ["you", "You do this"], gap: ["gap", "Still to build"], main: ["gap", "Main activity"] };
+
+function radarControls(rd) {
+  const target = routeState.data.routes.find(r => r.code === routeState.target);
+  const o = routeState.opts;
+  const hz = [["plan", target ? "Your plan's horizon" : "Default (1 year)"], [12, "1 year"], [24, "2 years"], [36, "3 years"], [60, "5 years"]];
+  return `<div class="radar-ctl" role="group" aria-label="Scenario and look-ahead">
+    <fieldset class="ctl"><legend>Scenario</legend>
+      <div class="seg-ctl small scen-ctl" style="--n:3">${["slower", "moderate", "faster"].map(k => `<label><input type="radio" name="rscen" value="${k}" ${rd.scenario === k ? "checked" : ""}>${SCEN_NAME[k]}</label>`).join("")}</div></fieldset>
+    <div class="ctl"><label for="r-hz">Look ahead</label><select id="r-hz">${hz.map(([v, t]) => `<option value="${v}" ${String(o.horizon ?? "plan") === String(v) ? "selected" : ""}>${t}</option>`).join("")}</select></div>
+    <p class="foot">Looking ${fig(rd.horizon.months, "")} months ahead (${esc(rd.horizon.basis)}). The same scenario and look-ahead set your plan's checkpoints. Slower and faster are assumptions.</p></div>`;
+}
+
+function radarJobs(rd) {
+  const personal = isPersonal();
+  const groups = JOB_GROUPS.map(([key, cls, title]) => {
+    const jobs = rd.jobs.filter(j => j.group === key);
+    if (!jobs.length) return "";
+    return `<h3 class="rj-h"><span class="tag ${cls}">${esc(title)}</span></h3><ul class="rj-list">${jobs.map(j => `<li><span class="rj-t">${esc(j.title)}</span>
+      <span class="foot">${j.band ? `${esc(j.band.split(" (")[1]?.replace(")", "") || j.band)} growth` : "No projection"}${j.openings ? ` · ${fig(j.openings, "int")} openings` : ""}${srcMarks(j.src)}</span></li>`).join("")}</ul>`;
+  }).join("");
+  // One Malaysian line per skill level, naming the families whose routes sit in it.
+  const byMajor = new Map();
+  rd.trends.forEach(t => { if (!byMajor.has(t.major)) byMajor.set(t.major, { ...t, families: [] }); byMajor.get(t.major).families.push(t.family_label); });
+  const period = rd.jobs.find(j => j.period)?.period || "2025-2035";
+  return `<section class="soft-card" data-scope aria-labelledby="h-rj"><h2 id="h-rj">${icon("trending-up", "sm")}Jobs</h2>
+    <p class="foot">${personal ? "Your routes" : "The supported roles"}: US projected growth and openings, ${esc(period)} (BLS, via O*NET OnLine). United States figures, kept apart from Malaysian ones.</p>
+    ${groups}
+    <h3 class="rj-sub">${icon("map-pin", "sm")}In Malaysia, observed</h3>
+    ${[...byMajor.values()].map(t => trendBlock(t, t.families.join(" · "))).join("")}</section>`;
+}
+
+function radarSkills(rd) {
+  const sc = rd.scenario, personal = isPersonal();
+  const plotted = rd.skills.filter(s => s.now && s.demand.net);
+  const left = rd.skills.length - plotted.length;
+  const kinds = [...new Set(rd.skills.map(s => s.group))];
+  const legend = `<ul class="rc-legend" aria-label="Legend">${kinds.length > 1 ? kinds.map(k => `<li><svg width="12" height="12" aria-hidden="true">${k === "you" ? `<circle cx="6" cy="6" r="5" class="rc-you"/>` : `<rect x="1.5" y="1.5" width="9" height="9" rx="1.5" transform="rotate(45 6 6)" class="rc-gap"/>`}</svg>${SKILL_KIND[k][1]}</li>`).join("") : ""}
+    <li><svg width="16" height="12" aria-hidden="true"><line x1="0" x2="16" y1="6" y2="6" class="rc-thr"/></svg>Threshold ${fig(rd.threshold, "pct")}</li></ul>`;
+  const rows = rd.skills.map(s => `<tr><th scope="row"><span class="act-name">${esc(s.name)}</span><span class="kind">${SKILL_KIND[s.group][1]}${s.weak ? " · evidence weak" : ""}</span></th>
+      <td data-label="Skill demand">${s.demand.net ? `${fig(s.demand.grow, "pct")} growing, ${fig(s.demand.decline, "pct")} declining` : `<span class="foot">no projection</span>${srcMarks(s.demand.src)}`}</td>
+      <td data-label="AI now">${s.now ? fig(s.now, "pct") : `<span class="foot">no data</span>`}</td>
+      <td data-label="${SCEN_NAME[sc]}, ${rd.horizon.months.v} months">${s.now ? fig(s.projected[sc], "pct") : ""}</td>
+      <td data-label="Time to threshold">${tttText(s.ttt[sc])}</td></tr>`).join("");
+  return `<section class="soft-card" data-scope aria-labelledby="h-rs"><h2 id="h-rs">${icon("radar", "sm")}${personal ? "Your skills" : "Skills these roles use"}</h2>
+    <p class="foot">${personal ? "Activities you confirmed and your routes' largest gaps." : "Each supported role's three largest activities. Describe your work to see your own."} Across: how much of the activity sits in US graduate roles projected to grow, minus those projected to decline. Up: how much of it AI does directly in observed Claude use${sc === "moderate" ? "; the moderate scenario keeps today's value" : `, with an arrow to the ${sc} scenario ${rd.horizon.months.v} months ahead`}.</p>
+    ${legend}
+    <div class="rchart" id="rchart"></div>
+    <p class="vh" id="rc-live" aria-live="polite"></p>
+    ${left ? `<p class="foot">${left} of ${rd.skills.length} not drawn: no AI-usage evidence in the bundled releases or no US projection. They are in the table.</p>` : ""}
+    <details class="more rc-table"><summary class="link-btn">Every value as a table</summary>
+      <div class="radar-wrap"><table class="radar-t"><thead><tr><th scope="col">Activity</th><th scope="col">Skill demand</th><th scope="col">AI now</th><th scope="col">${SCEN_NAME[sc]}, ${rd.horizon.months.v} months</th><th scope="col">Time to threshold</th></tr></thead><tbody>${rows}</tbody></table></div></details>
+    <p class="foot">Two separate signals on two axes, never added together. Skill demand carries BLS's published projection to activities through O*NET task links; it is not an AIVANCIN employment forecast.</p></section>`;
+}
+
+/* The chart: one dot per activity at (skill demand, AI share now), an arrow to the selected scenario's value.
+   Drawn at the container's own width so the text keeps its size; pointer and arrow keys read the nearest point. */
+let chartPts = [], chartFocus = -1;
+function drawRadarChart() {
+  const box = $("#rchart");
+  if (!box || !routeState.data?.radar) return;
+  const rd = routeState.data.radar, sc = rd.scenario, thr = rd.threshold.v;
+  const W = Math.max(280, Math.round(box.clientWidth || 600)), H = Math.round(Math.min(400, Math.max(280, W * 0.66)));
+  const m = { l: 44, r: 14, t: 26, b: 46 };
+  const x = v => m.l + ((v + 1) / 2) * (W - m.l - m.r);
+  const y = v => m.t + (1 - v / 100) * (H - m.t - m.b);
+  chartPts = rd.skills.filter(s => s.now && s.demand.net).map(s => ({ s, cx: x(s.demand.net.v), cy: y(s.now.v), py: y(s.projected[sc].v) }))
+    .sort((a, b) => a.cx - b.cx || a.cy - b.cy);
+  const yt = [0, 25, 50, 75, 100].filter(v => v !== thr);
+  const xt = [[-1, "−100"], [-0.5, "−50"], [0, "0"], [0.5, "+50"], [1, "+100"]];
+  const marks = chartPts.map((p, i) => {
+    const cls = p.s.group === "you" ? "rc-you" : "rc-gap";
+    const moved = Math.abs(p.py - p.cy) >= 3;
+    const dir = p.py < p.cy ? -1 : 1;
+    const arrow = moved ? `<line x1="${p.cx}" y1="${p.cy}" x2="${p.cx}" y2="${p.py - dir * 4}" class="rc-arrow ${cls}-s"/><path d="M${p.cx - 4} ${p.py - dir * 5} L${p.cx} ${p.py} L${p.cx + 4} ${p.py - dir * 5}" class="rc-head ${cls}-s"/>` : "";
+    const dot = p.s.group === "you" ? `<circle cx="${p.cx}" cy="${p.cy}" r="5" class="rc-dot ${cls}"/>`
+      : `<rect x="${p.cx - 4.5}" y="${p.cy - 4.5}" width="9" height="9" rx="1.5" transform="rotate(45 ${p.cx} ${p.cy})" class="rc-dot ${cls}"/>`;
+    return `<g class="rc-pt" data-i="${i}">${arrow}${dot}</g>`;
+  }).join("");
+  box.innerHTML = `<svg class="rc-svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" tabindex="0" aria-labelledby="rc-t rc-d">
+      <title id="rc-t">${chartPts.length} activities by skill demand and AI share</title>
+      <desc id="rc-d">Use the left and right arrow keys to read each activity. Every value is also in the table below the chart.</desc>
+      <text x="${m.l}" y="12" class="rc-axis-t">AI does it directly, % of Claude conversations</text>
+      ${yt.map(v => `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" class="rc-grid"/><text x="${m.l - 8}" y="${y(v) + 4}" class="rc-tick" text-anchor="end">${v}</text>`).join("")}
+      <line x1="${x(0)}" x2="${x(0)}" y1="${m.t}" y2="${H - m.b}" class="rc-zero"/>
+      <line x1="${m.l}" x2="${W - m.r}" y1="${y(thr)}" y2="${y(thr)}" class="rc-thr"/><text x="${m.l - 8}" y="${y(thr) + 4}" class="rc-tick rc-thr-t" text-anchor="end">${thr}</text>
+      ${xt.map(([v, t]) => `<text x="${x(v)}" y="${H - m.b + 18}" class="rc-tick" text-anchor="${v === -1 ? "start" : v === 1 ? "end" : "middle"}">${t}</text>`).join("")}
+      <text x="${m.l}" y="${H - 8}" class="rc-axis-t">← Declining jobs</text><text x="${W - m.r}" y="${H - 8}" class="rc-axis-t" text-anchor="end">Growing jobs →</text>
+      ${marks}<circle class="rc-focus" r="10" hidden/></svg><div class="rc-tip" hidden></div>`;
+  $(".rc-svg", box).addEventListener("pointerleave", () => chartTip(-1));
+  chartFocus = -1;
+}
+
+function chartTip(i, pointer) {
+  const box = $("#rchart"), tip = $(".rc-tip", box), ring = $(".rc-focus", box);
+  if (!box || i < 0 || !chartPts[i]) { if (tip) tip.hidden = true; if (ring) ring.setAttribute("hidden", ""); return; }
+  const rd = routeState.data.radar, sc = rd.scenario, p = chartPts[i], s = p.s;
+  const t = s.ttt[sc];
+  const lines = [
+    [s.name, "rt-name"],
+    [`${SKILL_KIND[s.group][1]}${s.weak ? " · evidence weak" : ""}`, "rt-kind"],
+    [`AI does it directly: ${s.now.v.toFixed(1)}% now, ${s.projected[sc].v.toFixed(1)}% ${sc} in ${rd.horizon.months.v} months`, ""],
+    [`Skill demand: ${s.demand.grow.v.toFixed(1)}% growing, ${s.demand.decline.v.toFixed(1)}% declining (${s.demand.roles.v} role${s.demand.roles.v === 1 ? "" : "s"})`, ""],
+    [`Threshold ${rd.threshold.v}%: ${t.months && t.months.v > 0 ? `about ${t.months.v} months (estimate)` : t.text}`, ""],
+  ];
+  tip.replaceChildren(...lines.map(([text, cls]) => { const el = document.createElement("p"); el.textContent = text; if (cls) el.className = cls; return el; }));
+  tip.hidden = false;
+  const W = box.clientWidth, tw = Math.min(260, W - 16);
+  tip.style.width = `${tw}px`;
+  const left = Math.max(8, Math.min(W - tw - 8, p.cx - tw / 2));
+  const above = p.cy > 150;
+  tip.style.left = `${left}px`;
+  tip.style.top = above ? "" : `${p.cy + 16}px`;
+  tip.style.bottom = above ? `${box.clientHeight - p.cy + 16}px` : "";
+  ring.setAttribute("cx", p.cx); ring.setAttribute("cy", p.cy); ring.removeAttribute("hidden");
+  if (!pointer) $("#rc-live").textContent = lines.map(l => l[0].replace(/\.$/, "")).join(". ") + ".";
+}
+
+const CHANGING_SHOWN = 5;
+function changingItem(c) {
+  const routes = [...new Set(c.where.map(w => w.route_title))];
+  const steps = [...new Set(c.where.map(w => w.step))];
+  const by = c.where[0];
+  return `<li><p class="gap-name">${esc(c.name)}</p>
+    <p class="foot">Now ${fig(c.now, "pct")}${c.weak ? " (evidence weak)" : ""}, ${fig(by.projected, "pct")} by ${fig(by.horizon_months, "")} months · threshold: ${tttText(c.ttt)}</p>
+    <p class="foot">${isPersonal() ? `Checkpoint of “${esc(steps.join("”, “"))}” in ${esc(routes.join(", "))}` : `In ${routes.length} role${routes.length === 1 ? "" : "s"}: ${esc(routes.join(", "))}`}</p></li>`;
+}
+
+function radarChanging(rd) {
+  const sc = rd.scenario, personal = isPersonal();
+  return `<section class="soft-card" data-scope aria-labelledby="h-rc"><h2 id="h-rc">${icon("sparkles", "sm")}Skills that are changing</h2>
+    <p class="foot">${personal ? "Gaps in your first blocks" : "Gaps in the supported roles' first blocks"} whose checkpoint adds AI checking in the ${esc(sc)} scenario: AI is projected to do them directly in at least ${fig(rd.threshold, "pct")} of observed Claude conversations by the look-ahead.</p>
+    ${rd.changing.length ? `<ul class="chg-list">${rd.changing.slice(0, CHANGING_SHOWN).map(changingItem).join("")}</ul>
+      ${rd.changing.length > CHANGING_SHOWN ? `<details class="more"><summary class="link-btn">${rd.changing.length - CHANGING_SHOWN} more</summary><ul class="chg-list">${rd.changing.slice(CHANGING_SHOWN).map(changingItem).join("")}</ul></details>` : ""}`
+      : `<p>No gap reaches the threshold in this scenario by the look-ahead, so no checkpoint adds AI checking.</p>`}</section>`;
+}
+
+function radarSure(rd) {
+  const s = rd.sure, b = s.backtest;
+  const fmtDate = iso => new Date(`${iso}T00:00:00`).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  const used = ["aei-2025-09-15", "aei-2026-01-15", "aei-2026-03-24", "aei-2026-06-26", "onet-online-outlook", "onet31-task-dwas", "dosm-wages-occupation", "aivancin-backtest", "aivancin-registered-forecasts", "bls-eval-2014-2024", "aei-report-2511.15080"]
+    .filter(id => state.sources[id]);
+  return `<section class="soft-card" data-scope aria-labelledby="h-sure"><h2 id="h-sure">${icon("gauge", "sm")}How sure is this</h2>
+    <dl class="sure">
+      <dt>AI shift</dt>
+      ${b ? `<dd>Tested on the ${esc(releaseLabel(b.target))} release for ${fig(b.units, "int")} activities: the average across earlier releases was off by ${fig(b.mae_mean, "")} points on average, the last value by ${fig(b.mae_persistence, "")} and a trend line by ${fig(b.mae_line, "")}. 80% of errors were within ${fig(b.p80, "")} points${b.calibrated === false ? `; that band held ${fig(b.inside, "pct")} of values, so it is not calibrated` : ""}. Past changes continued only ${fig(b.direction_share, "pct")} of the time (${fig(b.direction_eligible, "int")} cases), so no rising or falling labels are shown.</dd>` : ""}
+      <dd><ul class="bases">${["slower", "moderate", "faster"].map(k => `<li>${esc(s.bases[k].text)}${srcMarks(k === "faster" ? s.bases.faster.pace.src : k === "slower" ? s.bases.slower.drop.src : ["aivancin-backtest"])}</li>`).join("")}</ul></dd>
+      <dd>Mean share over the ${fig(s.common_tasks, "int")} tasks in every bundled release: ${s.release_means.map(r => `${esc(releaseLabel(r.release))} ${fig(r.mean, "pct")}`).join(", ")}. ${s.release_means.filter(r => r.note).map(r => `${esc(releaseLabel(r.release))}: ${esc(r.note)}`).join(" ")}</dd>
+      <dt>US jobs</dt>
+      <dd>“${esc(s.bls.quote)}” For detailed occupations, BLS's projections had a lower summed error than a model that keeps each occupation's share fixed (${fig(s.bls.detailed.bls, "")} against ${fig(s.bls.detailed.naive, "")}) and the better score for ${fig(s.bls.detailed.bls_better, "int")} occupations against ${fig(s.bls.detailed.naive_better, "int")} (Occupational Projections Evaluation: 2014-24).</dd>
+      <dt>Skill demand</dt>
+      <dd>Carries BLS's projection to activities, so it shares its uncertainty. Labels use a 25-point cut-off between growing and declining shares (an initial value); with fewer than three roles behind an activity it says so.</dd>
+      <dt>Malaysia</dt>
+      <dd>Observed DOSM figures for the whole skill group, from 2016 to the latest year. Not projected.</dd>
+      ${s.registered ? `<dt>Checking ourselves</dt><dd>Today's AI-shift outlook for ${fig(s.registered.count, "int")} activities was frozen on ${esc(fmtDate(s.registered.date))} (SHA-256 <code>${esc(s.registered.sha256.slice(0, 12))}</code>) and will be scored against the next AI-usage release.${srcMarks(s.registered.src)}</dd>` : ""}
+    </dl>
+    <details class="more"><summary class="link-btn">Source dates</summary><ul class="src-dates">${used.map(id => { const r = state.sources[id]; return `<li><b>${esc(r.title)}</b><span class="foot">${esc(r.release || "")}${r.access_date ? ` · accessed ${esc(r.access_date)}` : ""}</span></li>`; }).join("")}</ul></details></section>`;
+}
+
+function renderRadar() {
+  const d = routeState.data, box = $("#radar-body");
+  if (!d || !d.radar) { box.innerHTML = ""; return; }
+  const rd = d.radar;
+  box.innerHTML = `
+    <p class="lead-left">Four signals, each with its source and date and never combined: US job projections, how much of each skill sits in growing jobs, how much of it AI already does, and Malaysia's observed trend.</p>
+    ${isPersonal() ? "" : describeCard("radar")}
+    ${radarControls(rd)}${radarJobs(rd)}${radarSkills(rd)}${radarChanging(rd)}${radarSure(rd)}`;
+  drawRadarChart();
+  attachSources(box);
+  routeState.seen.add("radar");
+}
+
+function radarEvents() {
+  const box = $("#radar");
+  box.addEventListener("change", e => {
+    if (e.target.matches('input[name="rscen"]')) { routeState.opts.scenario = e.target.value; refreshPlan(); }
+    else if (e.target.id === "r-hz") { routeState.opts.horizon = e.target.value === "plan" ? "plan" : Number(e.target.value); refreshPlan(); }
+  });
+  const nearest = (px, py) => {
+    let best = -1, dist = 28 * 28;
+    chartPts.forEach((p, i) => { const dd = (p.cx - px) ** 2 + (p.cy - py) ** 2; if (dd < dist) { dist = dd; best = i; } });
+    return best;
+  };
+  box.addEventListener("pointermove", e => {
+    const svg = e.target.closest(".rc-svg");
+    if (!svg) return;
+    const r = svg.getBoundingClientRect();
+    chartTip(nearest(e.clientX - r.left, e.clientY - r.top), true);
+  });
+  box.addEventListener("keydown", e => {
+    if (!e.target.matches(".rc-svg") || !chartPts.length) return;
+    const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+    if (step) { e.preventDefault(); chartFocus = (chartFocus + step + chartPts.length) % chartPts.length; chartTip(chartFocus); }
+    else if (e.key === "Home" || e.key === "End") { e.preventDefault(); chartFocus = e.key === "Home" ? 0 : chartPts.length - 1; chartTip(chartFocus); }
+    else if (e.key === "Escape") chartTip(-1);
+  });
+  box.addEventListener("focusout", e => { if (e.target.matches(".rc-svg")) chartTip(-1); });
+  window.addEventListener("resize", debounce(() => { if (current.screen === "radar") drawRadarChart(); }, 150));
+}
+
 function renderRoute() {
   const d = routeState.data;
   const r = d && d.routes.find(x => x.code === routeState.open);
@@ -1285,7 +1539,7 @@ function renderRoute() {
   if (!r) { box.innerHTML = ""; return; }
   const chosen = routeState.target === r.code;
   const tab = routeState.tab;
-  const panel = tab === "ai" ? aiPanel(r) : tab === "block" ? blockPanel(r) : tab === "jobs" ? jobsPanel(r) : overviewPanel(r);
+  const panel = tab === "future" ? futurePanel(r) : tab === "block" ? blockPanel(r) : tab === "jobs" ? jobsPanel(r) : overviewPanel(r);
   box.innerHTML = `
     <header class="rd-head" data-scope>${familyTile(r, true)}
       <div><p class="d-kicker">${esc(r.family_label)}</p><h1 id="h-route" class="rd-title" tabindex="-1">${esc(r.title)}</h1></div>${saveBtn(r)}
@@ -1294,7 +1548,7 @@ function renderRoute() {
       <div class="chips">${workChip(r)}<span class="chip ${bandClass(r.job_outlook)}">US outlook: ${esc(bandShort(r.job_outlook))}${srcMarks(r.job_outlook.src)}</span>${entryChip(r)}</div>
     </header>
     <fieldset class="rd-tabs"><legend class="vh">Show</legend>
-      <div class="seg-ctl tab-seg" style="--n:4">${[["overview", "Overview"], ["ai", "AI use"], ["block", "First block"], ["jobs", "Jobs"]].map(([k, t]) => `<label><input type="radio" name="rtab" value="${k}" ${tab === k ? "checked" : ""}>${t}</label>`).join("")}</div></fieldset>
+      <div class="seg-ctl tab-seg" style="--n:4">${[["overview", "Overview"], ["future", "Future"], ["block", "First block"], ["jobs", "Job ads"]].map(([k, t]) => `<label><input type="radio" name="rtab" value="${k}" ${tab === k ? "checked" : ""}>${t}</label>`).join("")}</div></fieldset>
     <div class="rd-panel" id="rd-panel">${panel}</div>
     <div class="stage-cta"><span class="cta-label"><span class="cta-kicker">First block</span>${fig(r.block.effort_hours, "")} h · ${fig(r.block.cost_rm, "rm")}</span>
       <button type="button" class="btn btn-primary choose-route" data-route="${esc(r.code)}">${chosen ? "See your plan" : "Choose this route"}</button></div>`;
@@ -1317,17 +1571,19 @@ async function choose(code) {
 async function refreshPlan() {
   const active = document.activeElement;
   const focusDone = active?.dataset.done;
-  const focusScenario = active?.name === "pscen" ? active.value : null;
+  const focusScenario = ["pscen", "rscen"].includes(active?.name) ? active.value : null;
+  const focusName = active?.name || active?.id;
   try {
     routeState.data = await loadRoutes(isPersonal());
     const keepFocus = document.activeElement === active;
     renderRoutes();
     renderPlan();
     // A tab opened while the update was on its way shows the new figures too.
-    ({ learn: renderLearn, saved: renderSaved, profile: renderProfile })[current.screen]?.();
+    ({ learn: renderLearn, radar: renderRadar, profile: renderProfile })[current.screen]?.();
     saveProgress();
     const restore = focusDone ? $$("#plan input[data-done]").find(input => input.dataset.done === focusDone)
-      : focusScenario ? $$("#plan input[name='pscen']").find(input => input.value === focusScenario) : null;
+      : focusScenario ? $$(`input[name='${focusName}']`).find(input => input.value === focusScenario)
+      : focusName === "r-hz" ? $("#r-hz") : null;
     if (keepFocus) restore?.focus({ preventScroll: true });
   } catch (err) {
     $("#plan-body").innerHTML = `<div class="callout">${icon("triangle-alert")}<p>${esc(Object.values(err.data?.errors || {})[0] || "Could not build the plan.")}</p></div>`;
@@ -1439,7 +1695,7 @@ function routeEvents() {
     if (!b) return;
     if (b.dataset.openRoute) openRoute(b.dataset.openRoute);
     else if (b.dataset.save) toggleSaved(b.dataset.save);
-    else if (b.dataset.unsave) { routeState.saved.delete(b.dataset.unsave); saveProgress(); renderSaved(); $("#h-saved").focus(); }
+    else if (b.dataset.unsave) { routeState.saved.delete(b.dataset.unsave); saveProgress(); renderProfile(); renderRoutes(); $("#h-saved-routes")?.focus(); }
     else if (b.dataset.tabGo) navigate(b.dataset.tabGo);
     else if (b.dataset.action === "routes") compareRoutes();
     else if (b.classList.contains("choose-route")) choose(b.dataset.route);
@@ -1447,6 +1703,12 @@ function routeEvents() {
     else if (b.dataset.action === "rank" && !b.closest("#review")) rank();
   });
   $("#routes").addEventListener("change", e => {
+    if (e.target.matches('input[name="rfilter"]')) {
+      routeState.filter = e.target.value;
+      renderRoutes();
+      $(`#routes input[name="rfilter"][value="${routeState.filter}"]`)?.focus();
+      return;
+    }
     if (!e.target.matches('input[name="rsort"]')) return;
     routeState.sort = e.target.value;
     renderRoutes();
@@ -1456,7 +1718,7 @@ function routeEvents() {
   $("#route").addEventListener("change", e => {
     if (!e.target.matches('input[name="rtab"]')) return;
     routeState.tab = e.target.value;
-    if (routeState.tab === "ai") { routeState.seen.add("ai"); saveProgress(); }
+    if (routeState.tab === "future") { routeState.seen.add("future"); saveProgress(); }
     renderRoute();
     $(`#route input[name="rtab"][value="${routeState.tab}"]`)?.focus();
   });
@@ -1580,9 +1842,9 @@ function toggleSaved(code) {
   const r = routeState.data?.routes.find(x => x.code === code);
   if (routeState.saved.has(code)) routeState.saved.delete(code); else if (r) routeState.saved.set(code, r.title);
   saveProgress();
-  if (current.screen === "saved") { renderSaved(); $("#h-saved").focus(); return; }
+  if (current.screen === "profile") { renderProfile(); $("#h-saved-routes")?.focus(); return; }
   if (current.screen === "route") renderRoute(); else renderRoutes();
-  $(`#${current.screen} [data-save="${CSS.escape(code)}"]`)?.focus();
+  ($(`#${current.screen} [data-save="${CSS.escape(code)}"]`) || $("#routes input[name='rfilter']:checked") || $("#h-routes"))?.focus();
 }
 
 function emptyState(ico, title, text, tab, label) {
@@ -1623,21 +1885,16 @@ function renderLearn() {
   $("#learn-route")?.addEventListener("change", e => { routeState.learn = e.target.value; renderLearn(); $("#learn-route").focus(); });
 }
 
-/* ---------- Saved: bookmarked routes ---------- */
-function renderSaved() {
-  const d = routeState.data, box = $("#saved-body");
-  if (!routeState.saved.size) {
-    box.innerHTML = emptyState("bookmark", "No saved routes yet", "Use the bookmark on a route to keep it here.", "routes", "Compare routes");
-    return;
-  }
-  const live = d ? sortedRoutes(d.routes).filter(r => routeState.saved.has(r.code)) : [];
-  const gone = [...routeState.saved].filter(([code]) => !live.some(r => r.code === code));
-  box.innerHTML = `<p class="lead-left">Routes you bookmarked, saved in this browser. Open one to compare its work, AI use and first block.</p>
-    ${live.length ? `<ul class="route-list" aria-label="Saved routes" data-scope>${live.map(routeRow).join("")}<li class="list-srcs srcs-slot"></li></ul>` : ""}
-    ${gone.length ? `<section class="soft-card" aria-labelledby="h-gone"><h2 id="h-gone">No longer among your routes</h2>
-      <p class="foot">With the activities you confirmed now, these do not count enough of your work.</p>
-      <ul class="plain-rows">${gone.map(([code, title]) => `<li><span>${esc(title)}</span><button type="button" class="link-btn" data-unsave="${esc(code)}">Remove</button></li>`).join("")}</ul></section>` : ""}`;
-  attachSources(box);
+/* ---------- Saved routes, shown in Profile: bookmarks with Remove ---------- */
+function savedSection() {
+  if (!routeState.saved.size) return "";
+  const d = routeState.data;
+  const live = new Set(d ? d.routes.map(r => r.code) : []);
+  const rows = [...routeState.saved].map(([code, title]) => `<li>${live.has(code)
+    ? `<button type="button" class="link-btn saved-open" data-open-route="${esc(code)}">${esc(title)}</button>` : `<span>${esc(title)}<span class="gap-note">No longer among your routes: with the activities you confirmed now, it does not count enough of your work.</span></span>`}
+    <button type="button" class="link-btn" data-unsave="${esc(code)}" aria-label="Remove ${esc(title)} from saved routes">Remove</button></li>`).join("");
+  return `<section class="soft-card" aria-labelledby="h-saved-routes"><h2 id="h-saved-routes" tabindex="-1">${icon("bookmark", "sm")}Saved routes <span class="num">${routeState.saved.size}</span></h2>
+    <ul class="plain-rows saved-rows">${rows}</ul><p class="foot">Saved in this browser. Routes also has a Saved filter.</p></section>`;
 }
 
 /* ---------- Profile: answers, activities, progress and the saved data ---------- */
@@ -1655,7 +1912,7 @@ function renderProfile() {
     ["Describe your work", Boolean(state.lastIntake)],
     ["Confirm your activities", c.all > 0],
     ["Compare routes", Boolean(routeState.data) && isPersonal()],
-    ["See how AI is used in a role", routeState.seen.has("ai")],
+    ["Look at how your skills and roles are changing", ["ai", "future", "radar"].some(k => routeState.seen.has(k))],
     ["Choose a route", Boolean(target)],
     ["Start learning", steps.some(s => s.completed)],
     ["Finish your first block", steps.length > 0 && steps.every(s => s.completed)],
@@ -1672,6 +1929,7 @@ function renderProfile() {
       <div class="ring-row"><span class="ring-box">${ring(done, items.length)}<span class="ring-num" aria-hidden="true">${done}/${items.length}</span></span>
         <p>${done} of ${items.length} steps done.${next ? ` Next: ${esc(next[0].toLowerCase())}.` : " Every step is done."}</p></div>
       <ul class="progress-list">${items.map(([t, ok]) => `<li class="${ok ? "ok" : ""}"><span class="pl-mark" aria-hidden="true">${ok ? icon("check", "sm") : ""}</span>${esc(t)}<span class="vh">${ok ? ", done" : ", not yet"}</span></li>`).join("")}</ul></section>
+    ${savedSection()}
     ${state.lastIntake ? `<section class="soft-card" aria-labelledby="h-answers"><h2 id="h-answers">Your answers</h2>
       <dl class="answers">
         <dt>Current job${state.title ? `, ${esc(state.title.title)}` : ""}</dt><dd>${words(li.current_job)}</dd>
@@ -1703,5 +1961,6 @@ function sectionEvents() {
 }
 
 routeEvents();
+radarEvents();
 sectionEvents();
 start();

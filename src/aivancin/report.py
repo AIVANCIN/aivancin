@@ -15,6 +15,8 @@ ROLE_WEAK_COVERAGE = 0.25  # initial: role evidence is weak when non-weak task e
 SCENARIOS = outlook.SCENARIOS
 OUTLOOK_SRC = "onet-online-outlook"
 BACKTEST_SRC = "aivancin-backtest"
+BLS_EVAL_SRC = "bls-eval-2014-2024"  # wording checked on bls.gov, 21 Oct 2026
+REGISTERED_SRC = "aivancin-registered-forecasts"
 
 
 class ReportError(ValueError):
@@ -41,6 +43,7 @@ class Reporter:
             self.task_weights.setdefault(code, []).append((tid, 0.5 if t["type"] == "Supplemental" else 1.0))
         self._ai_cache = {}
         self.skills = outlook.SkillOutlook(snaps)
+        self.demand = outlook.DemandOutlook(snaps, matcher)
 
     # ---- AI-usage evidence -------------------------------------------------------------------------
     def role_ai(self, code, release):
@@ -219,9 +222,10 @@ class Reporter:
 
     def skill_row(self, dwa_id, name, release, months, threshold, pace, kind):
         o = self.skills.outlook(dwa_id, release)
-        row = {"dwa_id": dwa_id, "name": name, "kind": kind}
+        row = {"dwa_id": dwa_id, "name": name, "kind": kind, "demand": self.demand_fig(dwa_id)}
         if o is None:
-            return {**row, "now": None, "classes": {s: outlook.classify(None, threshold) for s in SCENARIOS}}
+            return {**row, "now": None, "classes": {s: outlook.classify(None, threshold) for s in SCENARIOS},
+                    "ttt": self.ttt(None, [], threshold, pace)}
         proj = {s: round(self.skills.project(o["now"], s, months, pace), 1) for s in SCENARIOS}
         src = o["src"]
         return {**row, "now": fig(o["now"], *src), "weak": o["weak"],
@@ -229,7 +233,27 @@ class Reporter:
                 # slower's drop is computed from the bundled releases; faster's pace is the cited report's, editable
                 "projected": {s: fig(v, *src, *(["aei-report-2511.15080", "your-input"] if s == "faster" else []))
                               for s, v in proj.items()},
-                "classes": {s: outlook.classify(v, threshold) for s, v in proj.items()}}
+                "classes": {s: outlook.classify(v, threshold) for s, v in proj.items()},
+                "ttt": self.ttt(o["now"], src, threshold, pace)}
+
+    def ttt(self, now, src, threshold, pace):
+        """Time to threshold per scenario (SPEC 11.1), an estimate under each stated scenario."""
+        out = {}
+        for s in SCENARIOS:
+            months, text = outlook.time_to_threshold(now, threshold, s, pace, self.skills.drop)
+            extra = ["aei-report-2511.15080", "your-input"] if s == "faster" else ["your-input"]
+            out[s] = {"months": None if months is None else fig(months, *src, *extra, estimate=True), "text": text}
+        return out
+
+    def demand_fig(self, dwa_id):
+        """F2 with every number as a sourced figure."""
+        d = self.demand.get(dwa_id)
+        src = d["src"]
+        if not d["roles"]:
+            return {"label": d["label"], "roles": fig(0, *src), "src": src}
+        return {"label": d["label"], "grow": fig(pct(d["grow"]), *src), "decline": fig(pct(d["decline"]), *src),
+                "net": fig(d["net"], *src), "roles": fig(d["roles"], *src), "few": d["few"],
+                "openings": fig(d["openings"], *src), "openings_period": d["openings_period"], "src": src}
 
     def _forecast_meta(self, threshold):
         bt = self.snaps.backtest or {}
@@ -241,6 +265,47 @@ class Reporter:
                 "slower_drop": fig(self.skills.drop, *[f"aei-{r}" for r in self.snaps.evidence.ids]),
                 "lower_cut": fig(outlook.LOWER_CUT, "your-input"), "threshold": fig(threshold, "your-input"),
                 "degree_months": fig(outlook.DEGREE_TOPUP_MONTHS, "your-input")}
+
+    def forecast_basis(self, pace):
+        """How sure each signal is (SPEC 11.4): the backtest, BLS's own evaluation, the registered forecast,
+        the scenario bases and the release means, each with its source and date."""
+        bt = self.snaps.backtest or {}
+        p = bt.get("primary", {})
+        ev = self.snaps.evidence
+        rel_src = [f"aei-{r}" for r in ev.ids]
+        reg = self.snaps.registered or {}
+        reg_rec = next((r for r in self.snaps.manifest["snapshots"] if r["source_id"] == "aivancin-registered-forecasts"), None)
+        drop = self.skills.drop
+        n = self.skills.common_tasks
+        return {
+            "backtest": p and {"units": fig(bt.get("units"), BACKTEST_SRC), "target": p.get("target"),
+                               "mae_mean": fig(p["mae"]["mean"], BACKTEST_SRC), "mae_persistence": fig(p["mae"]["persistence"], BACKTEST_SRC),
+                               "mae_line": fig(p["mae"]["line"], BACKTEST_SRC), "p80": fig(p["mean_abs_error_p80"], BACKTEST_SRC),
+                               "calibrated": bt.get("coverage", {}).get("calibrated"),
+                               "inside": fig(pct(bt.get("coverage", {}).get("share_inside", 0)), BACKTEST_SRC),
+                               "direction_share": fig(pct(bt.get("direction", {}).get("same_sign_share") or 0), BACKTEST_SRC),
+                               "direction_eligible": fig(bt.get("direction", {}).get("eligible"), BACKTEST_SRC),
+                               "direction_labels": bool(bt.get("direction_gate_pass")), "run_date": bt.get("run_date")},
+            "bls": {"quote": "BLS correctly projected whether an occupational group would grow or decline 86 percent of the time.",
+                    "detailed": {"bls": fig(19.6, BLS_EVAL_SRC), "naive": fig(21.1, BLS_EVAL_SRC),
+                                 "bls_better": fig(475, BLS_EVAL_SRC), "naive_better": fig(345, BLS_EVAL_SRC)},
+                    "src": [BLS_EVAL_SRC]},
+            "registered": reg and {"date": reg["registered_on"], "count": fig(reg["count"], REGISTERED_SRC),
+                                   "latest_release": reg["latest_release"],
+                                   "sha256": reg_rec["derived_sha256"] if reg_rec else None, "src": [REGISTERED_SRC]},
+            "bases": {"slower": {"drop": fig(drop, *rel_src), "tasks": fig(n, *rel_src),
+                                 "text": f"Slower (assumption): the now value minus {drop:g} points, the largest fall between "
+                                         f"consecutive bundled releases in the mean share of the {n} tasks present in all of them."},
+                      "moderate": {"text": "Moderate: the activity's own average across the bundled releases holds. In the "
+                                           "backtest it was closer than the last value or a trend line."},
+                      "faster": {"pace": fig(pace, "aei-report-2511.15080", "your-input"),
+                                 "text": f"Faster (assumption): the now value grows {pace:g} times every eight months, the "
+                                         "fastest recorded aggregate pace (directive use 27% to 39% in eight months), "
+                                         "capped at 100%."}},
+            "release_means": [{"release": rid, "mean": fig(round(m, 1), f"aei-{rid}", "onet31-tasks"),
+                               "note": aei.COMPARABILITY.get(rid)} for rid, m in self.skills.means],
+            "common_tasks": fig(n, *rel_src),
+        }
 
     def _role(self, r, rank, base_pos, prof, profile, opts, release, scenario, threshold, pace, pay_step,
               known_tools, courses, horizon):

@@ -19,6 +19,7 @@ BASE = "https://www.onetonline.org/link/summary/"
 BRIGHT_URL = "https://www.onetonline.org/find/bright/All_Bright_Outlook_Occupations.csv?b=0&fmt=csv"
 UA = "Mozilla/5.0 (aivancin-snapshot-builder)"
 GROWTH = re.compile(r"Projected growth \((\d{4}-\d{4})\) (.{0,80}?) Projected job openings \((\d{4}-\d{4})\) ([0-9,]+)")
+EMPLOYMENT = re.compile(r"Employment \((\d{4})\) ([0-9,]+) employees")
 
 
 def candidate_codes(data=ROOT / "data"):
@@ -51,10 +52,20 @@ def fetch_page(code):
             time.sleep(5 * (attempt + 1))
 
 
+def _text(path):
+    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", path.read_text(encoding="utf-8", errors="replace")))
+
+
 def parse_page(path):
     """(period, band, openings_period, openings) or None when the page has no projection."""
-    text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", path.read_text(encoding="utf-8", errors="replace")))
-    m = GROWTH.search(text)
+    m = GROWTH.search(_text(path))
+    return m.groups() if m else None
+
+
+def parse_employment(path):
+    """(year, employment) from the page, or None. O*NET OnLine shows BLS's figures for the projection unit an
+    occupation belongs to, so occupations sharing one BLS unit show identical employment, band and openings."""
+    m = EMPLOYMENT.search(_text(path))
     return m.groups() if m else None
 
 

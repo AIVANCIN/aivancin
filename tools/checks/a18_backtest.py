@@ -3,6 +3,10 @@
 python tools/checks/a18_backtest.py [result.json]
 The protocol and thresholds were fixed before the first run; this script only executes them. The app
 shows the measured error from data/forecast/a18_backtest.json (rebuild the manifest after rerunning).
+
+python tools/checks/a18_backtest.py --prospective <registered.json> <release.csv> [result.json]
+Scores registered forecasts (tools/export_forecasts.py) against a later release in the derived format the snapshot
+builder writes (level, key, share, classified, automation). Reported, not a gate (SPEC 11.2).
 """
 import datetime as dt
 import hashlib
@@ -13,7 +17,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
-from aivancin import snapshots  # noqa: E402
+from aivancin import aei, snapshots  # noqa: E402
 from aivancin.outlook import SkillOutlook, window_mid  # noqa: E402
 
 T1, T2, T3, T4 = "2025-09-15", "2026-01-15", "2026-03-24", "2026-06-26"
@@ -94,5 +98,47 @@ def main():
         Path(sys.argv[1]).write_text(text + "\n", encoding="utf-8")
 
 
+def activity_values(so, tasks):
+    """The release value of every activity (SPEC 4b) in one release's task table."""
+    out = {}
+    for dwa, groups in so.groups.items():
+        shares = [next((tasks[t]["share"] for t in ids if t in tasks), None) for ids in groups]
+        shares = [s for s in shares if s is not None]
+        if shares:
+            out[dwa] = sum(shares) / len(shares)
+    return out
+
+
+def prospective(registered_path, release_path, snaps=None):
+    reg = json.loads(Path(registered_path).read_text(encoding="utf-8"))
+    snaps = snaps or snapshots.load()
+    so = SkillOutlook(snaps)
+    tasks, _ = aei.load_release(release_path)
+    actual = activity_values(so, tasks)
+    units = [(d, f, actual[d]) for d, f in reg["activities"].items() if d in actual and f["persistence"] is not None]
+    t = reg["threshold"]
+    reached = {}
+    for s in ("slower", "moderate", "faster"):
+        for m in reg["horizons_months"]:
+            above = [(d, a) for d, f, a in units
+                     if (f["moderate"] if s == "moderate" else f[s][str(m)]) >= t]
+            reached[f"{s}_{m}"] = {"projected_at_or_above": len(above), "reached": sum(a >= t for _, a in above)}
+    return {"check": "registered forecast, prospective", "registered_on": reg["registered_on"],
+            "registered_sha256": hashlib.sha256(Path(registered_path).read_bytes()).hexdigest(),
+            "release_file": Path(release_path).name, "release_sha256": snapshots.sha256_file(release_path),
+            "units": len(units), "registered": reg["count"],
+            "mae": {"moderate": mae([a - f["moderate"] for _, f, a in units]),
+                    "persistence": mae([a - f["persistence"] for _, f, a in units])},
+            "inside_band": round(sum(f["band"][0] <= a <= f["band"][1] for _, f, a in units) / len(units), 3) if units else None,
+            "threshold": t, "threshold_reached": reached, "gate": "none (reported)"}
+
+
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) > 1 and sys.argv[1] == "--prospective":
+        out = prospective(sys.argv[2], sys.argv[3])
+        text = json.dumps(out, indent=1)
+        print(text)
+        if len(sys.argv) > 4:
+            Path(sys.argv[4]).write_text(text + "\n", encoding="utf-8")
+    else:
+        main()

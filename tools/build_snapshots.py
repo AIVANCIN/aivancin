@@ -34,7 +34,7 @@ from aivancin.aei import adapt_release, RELEASES  # noqa: E402
 from aivancin import snapshots  # noqa: E402
 from aivancin.encoder import Encoder, statements_sha256, task_statements  # noqa: E402
 from aivancin.outlook import band_score  # noqa: E402
-from fetch_outlook import CACHE as OUTLOOK_CACHE, candidate_codes, parse_page  # noqa: E402
+from fetch_outlook import CACHE as OUTLOOK_CACHE, candidate_codes, parse_employment, parse_page  # noqa: E402
 from aivancin.snapshots import sha256_file  # noqa: E402
 
 CACHE = ROOT / ".cache"
@@ -258,17 +258,17 @@ def derive_onet(raw):
 
 
 def derive_dosm(raw):
+    """Every edition is kept (SPEC 11.1, F4): the app reads the latest year for pay and the series for the
+    observed group trend."""
     out = {}
     rows = read_csv(raw["dosm-wages-occupation"])
-    latest = max(r["date"] for r in rows)
     out["dosm-wages-occupation"] = ("dosm/wages_occupation.csv", ["date", "sex", "group", "recipients_k", "median_rm", "mean_rm"],
                                     sorted((r["date"], r["sex"], r["occupation"], r["recipients"], r["wages_median"], r["wages_mean"])
-                                           for r in rows if r["date"] == latest))
+                                           for r in rows))
     for sid, col in (("dosm-sru-age", "age"), ("dosm-sru-sex", "sex")):
         rows = read_csv(raw[sid])
-        latest = max(r["date"] for r in rows)
         out[sid] = (f"dosm/{sid.removeprefix('dosm-').replace('-', '_')}.csv", ["date", "variable", col, "value"],
-                    sorted((r["date"], r["variable"], r[col], r["sru"]) for r in rows if r["date"] == latest))
+                    sorted((r["date"], r["variable"], r[col], r["sru"]) for r in rows))
     return out
 
 
@@ -383,7 +383,9 @@ def derive_outlook():
         parsed = parse_page(pages[code])
         period, band, open_period, openings = parsed if parsed else ("", "", "", "")
         band_score(band)  # an unknown band label fails the build
-        rows.append((code, period, band, open_period, openings.replace(",", ""), bright.get(code, "")))
+        emp_year, emp = parse_employment(pages[code]) or ("", "")
+        rows.append((code, period, band, open_period, openings.replace(",", ""), bright.get(code, ""), emp_year,
+                     emp.replace(",", "")))
     digest.update(bytes.fromhex(sha256_file(bright_path)))
     accessed = max(dt.date.fromtimestamp(p.stat().st_mtime) for p in [*pages.values(), bright_path]).isoformat()
     rec = {"source_id": "onet-online-outlook", "title": "O*NET OnLine job outlook: BLS projected growth and openings, "
@@ -391,7 +393,8 @@ def derive_outlook():
            "projections by the U.S. Bureau of Labor Statistics", "url": "https://www.onetonline.org/find/bright",
            "release": "BLS projections 2025-2035", "licence": "CC BY 4.0", "access_date": accessed,
            "original_sha256": digest.hexdigest()}
-    return rec, ("onet/outlook.csv", ["code", "growth_period", "growth_band", "openings_period", "openings", "bright_outlook"], rows)
+    return rec, ("onet/outlook.csv", ["code", "growth_period", "growth_band", "openings_period", "openings", "bright_outlook",
+                                      "employment_year", "employment"], rows)
 
 
 def main():
@@ -467,6 +470,17 @@ def main():
                       "original_sha256": sha256_file(bt), "derived_rows": None,
                       "derived_path": "forecast/a18_backtest.json", "derived_sha256": sha256_file(bt)})
 
+    registered = sorted((DATA / "forecast").glob("registered-*.json"))
+    if registered:
+        reg = registered[-1]
+        final.append({"source_id": "aivancin-registered-forecasts", "title": "AIVANCIN registered skill-outlook forecasts, "
+                      "frozen for scoring against the next AI-usage release", "publisher": "AIVANCIN (team DOVUN), computed "
+                      "from the bundled AEI and O*NET snapshots", "url": "tools/export_forecasts.py",
+                      "release": json.loads(reg.read_text(encoding="utf-8"))["registered_on"],
+                      "licence": "Derived from CC BY sources", "access_date": dt.date.today().isoformat(),
+                      "original_sha256": sha256_file(reg), "derived_rows": None,
+                      "derived_path": reg.relative_to(DATA).as_posix(), "derived_sha256": sha256_file(reg)})
+
     routes = DATA / "routes" / "destinations.json"
     if routes.exists():
         final.append({"source_id": "aivancin-routes", "title": "AIVANCIN supported destinations and their sourced requirements",
@@ -491,6 +505,11 @@ def main():
                   "and enterprise AI adoption (directive use 27% to 39% in eight months)",
                   "publisher": "Anthropic (arXiv 2511.15080)", "url": "https://arxiv.org/abs/2511.15080",
                   "release": "2025-11-19", "licence": "cited figure", "access_date": "2026-10-20", "kind": "reference"})
+    final.append({"source_id": "bls-eval-2014-2024", "title": "Occupational Projections Evaluation: 2014-24 (direction "
+                  "of change correct 86 percent of the time; detailed occupations against a constant-share model)",
+                  "publisher": "U.S. Bureau of Labor Statistics", "url": "https://www.bls.gov/emp/evaluations/2014-2024-occupational.htm",
+                  "release": "2026-04-10", "licence": "cited figure (U.S. federal government work)", "access_date": "2026-10-21",
+                  "kind": "reference"})
 
     # Precomputed, L2-normalised DWA name vectors, tied to the model that made them.
     dwa_path = DATA / derived["onet31-dwas"][0]

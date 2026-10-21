@@ -76,12 +76,15 @@ class Snapshots:
     isco: dict = field(default_factory=dict, repr=False)
     cip: dict = field(default_factory=dict, repr=False)
     wages: dict = field(default_factory=dict, repr=False)
+    wage_series: dict = field(default_factory=dict, repr=False)  # (group, sex) -> annual editions in date order
     sru: dict = field(default_factory=dict, repr=False)
+    sru_series: dict = field(default_factory=dict, repr=False)  # kind -> (variable, category) -> [(date, value)]
     evidence: object = None
     catalogue: dict = field(default_factory=dict, repr=False)
     outlook: dict = field(default_factory=dict, repr=False)
     backtest: dict = field(default_factory=dict, repr=False)
     routes: dict = field(default_factory=dict, repr=False)
+    registered: dict = field(default_factory=dict, repr=False)
     rejected: dict = field(default_factory=dict)
 
     def source(self, source_id):
@@ -157,12 +160,23 @@ def load(data_dir=DEFAULT_DATA_DIR):
     for r in _rows(paths["nces-cip-soc"]):
         cip.setdefault(r["cip"], {"cip": r["cip"], "title": r["cip_title"], "soc": set()})["soc"].add(r["soc"])
     snaps.cip = cip
-    wages = {}
-    for r in _rows(paths["dosm-wages-occupation"]):
-        wages[(r["group"], r["sex"])] = {"median": int(float(r["median_rm"])), "date": r["date"]}
+    # The DOSM files keep every edition; pay steps and the baseline use the latest, the trend uses the series.
+    wages, series = {}, defaultdict(list)
+    for r in sorted(_rows(paths["dosm-wages-occupation"]), key=lambda r: r["date"]):
+        rec = {"median": int(float(r["median_rm"])), "date": r["date"], "recipients_k": float(r["recipients_k"])}
+        wages[(r["group"], r["sex"])] = rec
+        series[(r["group"], r["sex"])].append(rec)
     snaps.wages = wages
-    snaps.sru = {"age": {(r["variable"], r["age"]): (float(r["value"]), r["date"]) for r in _rows(paths["dosm-sru-age"])},
-                 "sex": {(r["variable"], r["sex"]): (float(r["value"]), r["date"]) for r in _rows(paths["dosm-sru-sex"])}}
+    snaps.wage_series = dict(series)
+    sru, sru_series = {}, {}
+    for kind in ("age", "sex"):
+        rows = sorted(_rows(paths[f"dosm-sru-{kind}"]), key=lambda r: r["date"])
+        sru[kind] = {(r["variable"], r[kind]): (float(r["value"]), r["date"]) for r in rows}
+        grouped = defaultdict(list)
+        for r in rows:
+            grouped[(r["variable"], r[kind])].append((r["date"], float(r["value"])))
+        sru_series[kind] = dict(grouped)
+    snaps.sru, snaps.sru_series = sru, sru_series
 
     releases = []
     for rid in aei.RELEASE_IDS:
@@ -179,12 +193,16 @@ def load(data_dir=DEFAULT_DATA_DIR):
         snaps.outlook = {r["code"]: {"period": r["growth_period"], "band": r["growth_band"],
                                      "openings": int(r["openings"]) if r["openings"] else None,
                                      "openings_period": r["openings_period"],
-                                     "bright": [x.strip() for x in r["bright_outlook"].split(";") if x.strip()]}
+                                     "bright": [x.strip() for x in r["bright_outlook"].split(";") if x.strip()],
+                                     "employment": int(r["employment"]) if r.get("employment") else None,
+                                     "employment_year": r.get("employment_year") or None}
                          for r in _rows(paths["onet-online-outlook"])}
     if "aivancin-routes" in paths:
         snaps.routes = json.loads(paths["aivancin-routes"].read_text(encoding="utf-8"))
     if "aivancin-backtest" in paths:
         snaps.backtest = json.loads(paths["aivancin-backtest"].read_text(encoding="utf-8"))
+    if "aivancin-registered-forecasts" in paths:
+        snaps.registered = json.loads(paths["aivancin-registered-forecasts"].read_text(encoding="utf-8"))
     if "aivancin-catalogue" in paths:
         snaps.catalogue = json.loads(paths["aivancin-catalogue"].read_text(encoding="utf-8"))
     return snaps

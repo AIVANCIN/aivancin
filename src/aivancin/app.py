@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
@@ -35,6 +36,8 @@ def create_app(data_dir=snapshots.DEFAULT_DATA_DIR):
     reporter = Reporter(snaps, matcher)
     planner = Planner(snaps, matcher, reporter)
     app = FastAPI(title="AIVANCIN")
+    # Route responses carry every figure with its sources (several hundred kB of JSON); compress them.
+    app.add_middleware(GZipMiddleware, minimum_size=2048)
 
     def suggestions_for(texts):
         if encoder is None:
