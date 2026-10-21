@@ -1,7 +1,9 @@
-# Training on the RunPod pod only; the app does not need these. Torch comes with the pod's PyTorch image.
-# Versions are the ones the CPU smoke test ran with (see tools/finetune/README.md).
-sentence-transformers
-datasets
-accelerate
-onnx
-onnxruntime
+# Training on the RunPod pod only; the app does not need these. Torch comes with the pod's PyTorch image
+# (the CPU smoke test ran with torch 2.14.1); pip may update it if these versions need a newer one.
+# Versions are the ones the CPU smoke test ran with on 21 Oct 2026 (tools/finetune/README.md).
+sentence-transformers==6.1.0
+transformers==5.20.2
+datasets==5.1.0
+accelerate==1.15.0
+onnx==1.23.2
+onnxruntime==1.31.0

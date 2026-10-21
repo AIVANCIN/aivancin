@@ -7,7 +7,8 @@ activity score (0.7 name, 0.3 closest linked task statement) with vectors recomp
 run. --control is the pod's re-export of the base model through the same export code, so an export effect shows
 apart from training. --k7 is the folder holding the S2-K7 regression inputs (profiles_k6.json, narratives_k7.json;
 kept outside the repo); the chain must not fall below the shipped model's. The A1 sets are reported as information.
-Gate: candidate held-out hits > shipped hits, and the S2-K7 chain not lower. Without --k7 the gate is incomplete.
+Gate: candidate held-out hits above both the shipped model's and the control's (the export alone can move the score),
+and the S2-K7 chain not lower than the shipped model's. Without --k7 the gate is incomplete.
 """
 import argparse
 import datetime as dt
@@ -112,7 +113,9 @@ def main(argv=None):
         res["a1"][name] = a1(ai, onet)
         if a.k7:
             res["k7"][name] = k7_chain(ai, snaps, a.k7)
-    better = res["heldout"]["candidate"]["hits"] > res["heldout"]["shipped"]["hits"]
+    # The export alone moved the held-out score by one in the CPU smoke test (base re-export 40/60, shipped 39/60), so a
+    # candidate must also beat the base model put through the same export: the gain has to come from training.
+    better = res["heldout"]["candidate"]["hits"] > res["heldout"]["shipped"]["hits"] and         (not a.control or res["heldout"]["candidate"]["hits"] > res["heldout"]["control"]["hits"])
     if a.k7:
         kept = res["k7"]["candidate"]["relevant_top5"] >= res["k7"]["shipped"]["relevant_top5"]
         res["gate"] = {"heldout_better": better, "k7_not_lower": kept, "ship": better and kept}

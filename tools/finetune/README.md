@@ -33,9 +33,10 @@ The held-out sentences never go to the pod.
    python tools/finetune/evaluate.py --candidate <unzipped>/tuned --control <unzipped>/base --k7 <folder with profiles_k6.json and narratives_k7.json> --out gate.json
    ```
 
-   `"ship": true` means the tuned model may replace `data/model/model.onnx`; the snapshot builder then recomputes the activity and task vectors for it, and the manifest records the new model's hash and the run.
+   `"ship": true` (held-out score above both the shipped model and the base re-export, and the S2-K7 chain not lower) means the tuned model may replace `data/model/model.onnx`; the snapshot builder then recomputes the activity and task vectors for it, and the manifest records the new model's hash and the run.
 
 ## Checks before any GPU time
 
 - `tests/test_finetune_prep.py`: the pairs reproduce from the bundled files and match `pairs_manifest.json`; the validation split is by statement; no held-out sentence is in the bundle.
 - `evaluate.py` with the shipped model as the candidate reproduces the shipped results exactly (held-out 39 of 60, A1 sets 18 and 19 of 20, S2-K7 chain 31 of 50, after the 21 Oct fairness change) and does not ship it. The shipped model's 39 of 60 is the bar a fine-tuned model must beat.
+- CPU smoke test (21 Oct 2026, scratch environment with the pinned libraries, `python train.py --out out --limit 256 --epochs 1 --batch 32` from the bundle): training, both exports, `run.json` and the download zip worked in 76 seconds; both exported models load in the app's encoder. The base model's re-export scored 40 of 60 on the held-out set against the shipped model's 39, so the export alone can move the score by one: the gate therefore also requires the tuned model to beat that control. The smoke run's 8 training steps say nothing about the model's quality (its tuned model scored 39 of 60).
