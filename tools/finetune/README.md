@@ -38,4 +38,4 @@ The held-out sentences never go to the pod.
 ## Checks before any GPU time
 
 - `tests/test_finetune_prep.py`: the pairs reproduce from the bundled files and match `pairs_manifest.json`; the validation split is by statement; no held-out sentence is in the bundle.
-- `evaluate.py` with the shipped model as the candidate reproduces the shipped results exactly (held-out 39 of 60, A1 sets 17 and 19 of 20, S2-K7 chain 31 of 50) and does not ship it. The shipped model's 39 of 60 is the bar a fine-tuned model must beat.
+- `evaluate.py` with the shipped model as the candidate reproduces the shipped results exactly (held-out 39 of 60, A1 sets 18 and 19 of 20, S2-K7 chain 31 of 50, after the 21 Oct fairness change) and does not ship it. The shipped model's 39 of 60 is the bar a fine-tuned model must beat.

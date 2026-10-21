@@ -91,6 +91,57 @@ def short_forms(sentence):
     return found
 
 
+# Fairness (SPEC 11.7, C13): names, gendered words and stated ages changed suggestions for the same work, so the
+# encoder reads a neutral copy of each sentence; the person always sees their own words. Gendered words become
+# neutral ones, a stated age becomes a fixed one, and a capitalised word the O*NET text never uses (a personal name,
+# in practice) becomes one fixed name.
+_KIN_WORDS = ("brother sister father mother dad mum mom son daughter husband wife uncle aunt auntie nephew niece "
+              "grandfather grandmother grandpa grandma cousin").split()
+_NEUTRAL = {"he": "they", "she": "they", "him": "them", "her": "their", "his": "their", "hers": "theirs",
+            "himself": "themself", "herself": "themself", "boyfriend": "partner", "girlfriend": "partner",
+            "mr": "", "mrs": "", "ms": "", "miss": "", "encik": "", "puan": "", "cik": "",
+            # every relative reads as "family" ("my uncle's shop" and "my aunt's shop" are the same work)
+            **{w: "family" for w in _KIN_WORDS}, **{w + "s": "family" for w in _KIN_WORDS}}
+_GENDERED_RE = re.compile(r"\b(" + "|".join(sorted(_NEUTRAL, key=len, reverse=True)) + r")\b\.?", re.IGNORECASE)
+_AGE_RE = re.compile(r"\b(i am|i'm|aged|at|age)\s+\d{1,2}\b|\b\d{1,2}(-|\s)years?(-|\s)old\b", re.IGNORECASE)
+_WORD_RE = re.compile(r"\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b")
+_COMMON = set("""a an the and or of to in on at for with by from as is are be am was were i my me we our you your they
+their it its this that these those every each all some any one two after before during when while if but so then also
+just only about over under into out up down here there now today tomorrow yesterday weekend weekends monday tuesday
+wednesday thursday friday saturday sunday mondays tuesdays wednesdays thursdays fridays saturdays sundays january
+february march april may june july august september october november december morning mornings evening evenings night
+nights last next first once twice sometimes usually often name bachelor bachelors master masters diploma degree
+certificate foundation university college polytechnic institute academy school form spm stpm""".split())
+# Malaysian places and everyday platforms are not names; keep their meaning for the encoder.
+_COMMON |= set("""malaysia malaysian kuala lumpur selangor penang pulau pinang johor bahru melaka malacca perak ipoh kedah perlis
+kelantan terengganu pahang negeri sembilan sabah sarawak kuching kota kinabalu putrajaya cyberjaya klang shah alam petaling
+jaya subang singapore shopee lazada grab foodpanda tiktok instagram facebook whatsapp telegram canva youtube google
+gmail zoom""".split())
+_VOCAB = {}
+
+
+def _vocabulary(onet):
+    key = id(onet)
+    if key not in _VOCAB:
+        words = set(_COMMON)
+        for text in list(onet.dwa_names.values()) + list(onet.occupations.values()) + [t["task"] for t in onet.tasks.values()]:
+            words.update(w.lower() for w in re.findall(r"[A-Za-z]+", text))
+        for tools in onet.software.values():
+            for t in tools:
+                words.update(w.lower() for w in re.findall(r"[A-Za-z]+", t["name"]))
+        _VOCAB[key] = words
+    return _VOCAB[key]
+
+
+def neutral_text(sentence, onet):
+    """The copy of a sentence the encoder reads: names, gendered words and stated ages made neutral."""
+    vocab = _vocabulary(onet)
+    out = _AGE_RE.sub(lambda m: (m.group(1) + " 30") if m.group(1) else "30-year-old", sentence)
+    out = _WORD_RE.sub(lambda m: m.group(0) if all(w.lower() in vocab for w in m.group(0).split()) else "Sam", out)
+    out = _GENDERED_RE.sub(lambda m: _NEUTRAL[m.group(1).lower()], out)
+    return re.sub(r"\s{2,}", " ", out).strip()
+
+
 def suggest(texts, encoder, index, onet, k=TOP_K):
     """Top-k activities per sentence by the activity index's score (encoder.ActivityIndex), merged so each activity
     appears once."""
@@ -102,7 +153,7 @@ def suggest(texts, encoder, index, onet, k=TOP_K):
     merged = {}
     for s in sentences:
         # One sentence per call keeps each sentence's scores independent of the rest of the input.
-        q = encoder.encode([s["text"]])[0]
+        q = encoder.encode([neutral_text(s["text"], onet)])[0]
         sims = index.scores(q)
         order = np.argsort(-sims, kind="stable")[:k]
         s["top"] = []
