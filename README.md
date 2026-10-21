@@ -67,7 +67,7 @@ In Q2 2026, 40.7% of employed tertiary-educated Malaysians aged 25-34 (751,100 p
 
 **What it does not solve here.** Turning casual descriptions of side work into checkable, confirmed activity evidence, and ranking roles reproducibly from that evidence.
 
-**Challenge alignment.** Domain One asks for skills intake, an AI-trend signal layer, future-role matching, a reskilling pathway, SDG mapping and handling of uncertainty. Each has a first working version here; on fresh synthetic test sets, suggestion accuracy and the advantage over keyword search pass, while the complete chain misses its bar (see Evidence). The SDG link is target 8.5 (productive employment and decent work for young people) through the skill-level step of each role, with target 4.4 (relevant skills) on each skill.
+**Challenge alignment.** Domain One asks for skills intake, an AI-trend signal layer, future-role matching, a reskilling pathway, SDG mapping and handling of uncertainty. Each has a first working version here; on fresh synthetic test sets, suggestion accuracy and the advantage over keyword search pass, while the complete chain misses its bar (see Evidence). The SDG link is target 8.5 (productive employment and decent work for young people) through the skill-level step of each role, with a reasoned tag on every plan step: 4.4 (relevant skills) always, 4.3 (affordable learning) when the step is free and 8.2 (productivity through technological upgrading) when it practises directing and checking AI output. A "Decent work (SDG 8.5)" route order and a "How this path contributes" card make the link visible; SDG 5 appears only as national context.
 
 ### Solution
 
@@ -92,6 +92,7 @@ The AI is a local sentence encoder, all-MiniLM-L6-v2 (quantized ONNX, about 23 M
 - **Forecasts that can be checked later:** today's AI-shift outlook for 1,081 activities is frozen in a hashed file (`data/forecast/registered-2026-10-21.json`), with a script that scores it against the next Anthropic Economic Index release.
 - **Job outlook, kept separate:** each role shows the US Bureau of Labor Statistics projected growth for 2025-2035 (via O\*NET OnLine) and Bright Outlook flags; routes can be ordered by outlook, and in the exploration view you can switch to an order that adds the outlook to the overlap score.
 - **A plan from verified resources only:** steps for the largest gaps from link-checked free Microsoft Learn modules and Saylor University courses, hours and weeks at your pace, and "no verified resource" where none exists.
+- **SDG reasons you can check:** each plan step carries its SDG tags, and its checkpoint says why each applies; routes can be ordered by "Decent work (SDG 8.5)" (the DOSM 2025 median wage of the role's skill group, higher first, then overlap); Plan's "How this path contributes" counts the skill-level step and pay step, the gaps served and hours, the free steps and the checkpoints with AI checking, beside the 25-34 underemployment trend (31.3% in 2017 Q1 to 40.7% in 2026 Q2) and the SDG 5 context; Profile repeats the counts. Target wording is from sdgs.un.org.
 - **Every number has a source:** each section's Sources button opens the dated sources behind its figures, without leaving the screen; Display settings holds the full list with the licence notes.
 - **Reproducible data:** every dataset and the model are bundled with their source, release date, licence and SHA-256 hashes; the same input always gives the same suggestions and ranking.
 
@@ -151,7 +152,8 @@ flowchart LR
 | AI-unavailable fallback | WORKING (API) | `tests/test_app_and_failures.py` |
 | O\*NET 31.0 and model snapshots | CACHED (bundled, hashed) | `data/manifest.json`, `python tools/build_snapshots.py` |
 | Role matching with lanes, requirement labels | WORKING | `tests/test_matching_and_report.py`, `POST /api/results` |
-| AI-usage evidence, replay, scenarios, plan, SDG reasons | WORKING (first version) | `tests/test_matching_and_report.py` |
+| AI-usage evidence, replay, scenarios, plan | WORKING (first version) | `tests/test_matching_and_report.py` |
+| SDG reasons, path contribution, Decent work order | WORKING | `tests/test_sdg.py` (C8, C9) |
 | Routes, first learning blocks, shared foundations, what changed | WORKING (first version) | `tests/test_routes.py` (B1-B6), `/api/routes`, `/api/update` |
 | Evidence-to-plan replay | WORKING | `python tools/checks/replay.py`, `tests/test_replay.py` |
 | Future Skills Radar and job outlook | WORKING (first version) | `tests/test_matching_and_report.py`, `tests/test_forecast.py`, `python tools/checks/a18_backtest.py` |
@@ -168,7 +170,7 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 
 | What we checked | Observation | Reproduction and limits |
 | --- | --- | --- |
-| **Core path and recovery** | PASS, 157/157 tests | `python -m pytest`, 21 Oct 2026, Windows 11, Python 3.13; network access blocked during tests; includes missing, altered and mismatched model files, a corrupted AI-usage release and expired course link checks |
+| **Core path and recovery** | PASS, 163/163 tests | `python -m pytest`, 21 Oct 2026, Windows 11, Python 3.13; network access blocked during tests; includes missing, altered and mismatched model files, a corrupted AI-usage release and expired course link checks |
 | **Forecast signals (C1-C5)** | PASS, 4 of 4 gated checks, plus one reported. Skill demand for 1,721 activities reproduces from the raw files with a separate implementation (0 mismatches); time to threshold matches the formula on 1,464 Radar values for Hafiz and Priya; the Malaysian trend reproduces for all 9 groups and pay steps still use 2025; the registered forecasts reproduce byte for byte. Reported: 103 and 176 of 1,721 demand labels change with cut-offs of 15 and 35 points instead of 25 | `python tools/checks/forecast_checks.py`, 21 Oct 2026. Skill demand inherits BLS's uncertainty; the registered forecasts have not been scored, because no later AI-usage release exists yet |
 | **Skill-outlook backtest** | Predicting the June 2026 value of 500 activities from the three earlier releases: historical average 16.3 points mean absolute error, last value 17.8, trend line 22.0. Past changes continued in only 31.9% of 364 cases | `python tools/checks/a18_backtest.py`; protocol and thresholds fixed before the run; one release only, across a format change. Hence the moderate scenario uses the average and the radar shows no rising or falling labels |
 | **Hafiz contrast** | Job title alone: 0 of the top 10 roles are computing roles; with his confirmed weekend work: at least 6 of 10 | `tests/test_matching_and_report.py`; relevance rule fixed before the earlier research probe; synthetic persona |
@@ -322,9 +324,11 @@ Not used yet. The planned GPU workload is fine-tuning the sentence encoder on O\
 
 ## Future Improvements
 
-- [ ] Role matching by activity overlap, with lanes (current job, other work, studies) and requirement labels.
-- [ ] AI-usage evidence from the Anthropic Economic Index, scenarios, the reskilling pathway and SDG mapping.
-- [ ] The web interface and the Replit deployment.
+- [ ] The Replit deployment and its memory, start-up and latency measurements.
+- [ ] A fine-tuned encoder trained on RunPod, shipped only if it beats the base model on held-out casual descriptions.
+- [ ] Malaysian entry requirements and MyCOL or MyMahir evidence, once their reuse permission is confirmed.
+- [ ] Malay descriptions, after their own checked test set passes.
+- [ ] Testing with real underemployed graduates.
 
 ## Team
 

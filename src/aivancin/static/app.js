@@ -1091,10 +1091,12 @@ const SORTS = {
   overlap: ["Most overlap", "Ordered by activity overlap, as compared."],
   outlook: ["Job outlook", "Ordered by US projected growth, then activity overlap."],
   entry: ["Easier entry", "Ordered by the requirements you are missing, then Job Zone, then activity overlap."],
+  decent: ["Decent work", "Decent work (SDG 8.5): ordered by the DOSM 2025 median monthly wage of the role's skill group in Malaysia, higher first, then activity overlap. Group medians, not salary offers."],
 };
 const EXPLORE_SORTS = {
   outlook: ["Job outlook", "Ordered by US projected growth."],
   entry: ["Easier entry", "Ordered by O*NET Job Zone, the preparation a role usually needs."],
+  decent: ["Decent work", "Decent work (SDG 8.5): ordered by the DOSM 2025 median monthly wage of the role's skill group in Malaysia, higher first. Group medians, not salary offers."],
 };
 const sortKey = () => (!isPersonal() && routeState.sort === "overlap" ? "outlook" : routeState.sort);
 const missingReqs = r => r.requirements.filter(q => q.status === "missing").length;
@@ -1105,6 +1107,7 @@ function sortedRoutes(routes) {
   const key = sortKey();
   if (key === "outlook") list.sort((a, b) => b.outlook_score - a.outlook_score || byOverlap(a, b));
   else if (key === "entry") list.sort((a, b) => missingReqs(a) - missingReqs(b) || a.job_zone.v - b.job_zone.v || byOverlap(a, b));
+  else if (key === "decent") { const at = routeState.data.decent_order; list.sort((a, b) => at.indexOf(a.code) - at.indexOf(b.code)); }
   else list.sort(byOverlap);
   return list;
 }
@@ -1130,6 +1133,12 @@ function entryChip(r) {
   return `<span class="chip">${decide ? `${decide} for you to decide` : "Requirements met"}</span>`;
 }
 
+/* With the Decent work order, each card shows what the order uses: the group median, and the step when known. */
+function decentChip(r) {
+  if (sortKey() !== "decent" || !r.median) return "";
+  return `<span class="chip">Group median ${fig(r.median, "rm")}${r.pay ? `, step ${fig(r.pay.step, "step")}` : ""}</span>`;
+}
+
 function routeRow(r) {
   const chosen = routeState.target === r.code;
   return `<li class="route-item"><button type="button" class="route-row${chosen ? " chosen" : ""}" data-open-route="${esc(r.code)}">
@@ -1138,7 +1147,7 @@ function routeRow(r) {
       ${chosen ? `<span class="rr-chosen">${icon("check", "sm")}Your route</span>` : ""}
       <span class="rr-desc">${esc(r.description.first)}${srcMarks(r.description.src)}</span>
       <span class="chips">${workChip(r)}
-        <span class="chip ${bandClass(r.job_outlook)}">US outlook: ${esc(bandShort(r.job_outlook))}${srcMarks(r.job_outlook.src)}</span>${entryChip(r)}</span></span>
+        <span class="chip ${bandClass(r.job_outlook)}">US outlook: ${esc(bandShort(r.job_outlook))}${srcMarks(r.job_outlook.src)}</span>${entryChip(r)}${decentChip(r)}</span></span>
     </button>${saveBtn(r)}</li>`;
 }
 
@@ -1159,8 +1168,8 @@ function renderRoutes() {
   $("#routes .eyebrow").textContent = personal ? "Compare routes" : "Explore routes";
   $("#h-routes").textContent = personal ? "Routes that use your work" : "Roles you can grow into";
   $("#routes-lead").innerHTML = personal
-    ? `<p>Of ${fig(d.supported_destinations, "int")} supported roles, the ones where your confirmed work already counts. Open one to see the work, how AI is used in it, and your first learning block.</p>`
-    : `<p>${fig(d.supported_destinations, "int")} supported roles in IT and network support, software, and finance and analytics, each with how AI is used in it and a free first learning block.</p>`;
+    ? `<p>Of ${fig(d.supported_destinations, "int")} supported roles, the ones where your confirmed work already counts. Open one to see the work, its future and your first learning block.</p>`
+    : `<p>${fig(d.supported_destinations, "int")} supported roles in IT and network support, software, and finance and analytics, each with its future and a free first learning block.</p>`;
   const shared = d.shared;
   const chosenRoute = d.routes.find(r => r.code === routeState.target);
   // Bookmarked routes: a Saved filter appears once any shown route is saved (the list itself is in Profile).
@@ -1188,7 +1197,7 @@ function renderRoutes() {
   if (current.screen === "route") renderRoute();
 }
 
-/* ---------- one route: overview, AI use, first block ---------- */
+/* ---------- one route: overview, future, first block, job ads ---------- */
 const AI_GROUPS = [
   ["AI does most of it directly", "sparkles", "AI often does the work itself", "When people use Claude for these, it mostly does the task for them."],
   ["shared", "layers", "Shared between people and AI", "Claude does part of the work; people direct and finish it."],
@@ -1220,7 +1229,8 @@ function overviewPanel(r) {
       <p><span class="tag ${bandClass(r.job_outlook) || "good"}">US outlook: ${esc(bandShort(r.job_outlook))}</span>${r.job_outlook.bright.length ? ` <span class="tag sdg">Bright Outlook</span>` : ""}${srcMarks(r.job_outlook.src)}</p>
       <p class="foot">${esc(r.local_evidence)}</p>
       ${r.pay ? `<p class="foot">DOSM 2025 median pay step from your current group: ${fig(r.pay.step, "step")}. Group medians, not a salary offer.</p>` : ""}
-      <p class="foot"><b>SDG 8.5:</b> ${esc(r.sdg[0].reason)}${srcMarks(r.sdg[0].src)}</p></section>`;
+      <p class="foot"><b>SDG 8.5:</b> ${esc(r.sdg[0].reason)}${srcMarks(r.sdg[0].src)}</p>
+      ${r.sdg[0].trend ? `<p class="foot">${esc(r.sdg[0].trend)}</p>` : ""}</section>`;
 }
 
 function workSections(r, served) {
@@ -1608,13 +1618,35 @@ function stepItem(s, i) {
     <div class="pstep-top"><h3 class="gap-name">${esc(heading)}</h3><span class="p-hours">${fig(hours, "")} h</span></div>
     <a class="res-row" href="${esc(s.url)}" target="_blank" rel="noopener"><span class="res-tile" aria-hidden="true">${icon("book-open")}</span>
       <span class="res-text"><b>${esc(s.title)}</b><span>${esc(s.provider)} · ${price}</span></span>${icon("external-link", "sm")}<span class="vh">(opens in a new tab)</span></a>
+    <p class="sdg-row">${s.sdg.map(t => `<span class="tag sdg" title="${esc(t.reason)}">SDG ${esc(t.goal)}</span>`).join("")}</p>
     <details class="checkpoint${ai ? " ai" : ""}" data-cp="${esc(s.id)}" ${routeState.openCp.has(s.id) ? "open" : ""}>
       <summary><span><b>Checkpoint</b>${ai ? `<span class="tag ai-tag">with AI checking</span>` : ""}</span>${icon("chevron-down", "sm")}</summary>
       <p>${esc(s.checkpoint)}</p>${because}
       ${s.objective ? `<p class="foot">Provider's objective: “${esc(s.objective)}”</p>` : ""}
-      <p class="foot">${fig(s.provider_hours, "")} h course + ${fig(s.practice_hours, "")} h practice (estimate) · ${fig(s.cost_rm, "rm")} · link checked ${esc(s.checked_on)} · SDG 4.4</p></details>
+      <p class="foot">${fig(s.provider_hours, "")} h course + ${fig(s.practice_hours, "")} h practice (estimate) · ${fig(s.cost_rm, "rm")} · link checked ${esc(s.checked_on)}</p>
+      <ul class="sdg-why">${s.sdg.map(t => `<li><b>SDG ${esc(t.goal)}</b> ${esc(t.reason)}${srcMarks(t.src)}</li>`).join("")}</ul></details>
     <label class="check-line"><input type="checkbox" data-done="${esc(s.id)}" ${s.completed ? "checked" : ""}> I have done this step</label>
   </li>`;
+}
+
+/* How the chosen path contributes to the SDG targets: counts from the block and the skill-level step, with the
+   national baseline and the SDG 5 context beside them. Nothing here is a score or a promise. */
+function contributionCard(r) {
+  const c = r.contribution, fmtQ = iso => `${iso.slice(0, 4)} Q${Math.floor((Number(iso.slice(5, 7)) - 1) / 3) + 1}`;
+  const s85 = c.s85.from
+    ? `From ${esc(c.s85.from.label)} to ${esc(c.s85.to.label || "an unmapped skill level")}${c.s85.step ? `; DOSM 2025 median pay step ${fig(c.s85.step, "step")} a month (group medians, not a salary offer)` : ""}.`
+    : `Toward ${esc(c.s85.to.label || "an unmapped skill level")}. Choose your current job title to see the step from your group.`;
+  return `<section class="soft-card contrib" data-scope aria-labelledby="h-contrib"><h2 id="h-contrib">${icon("layers", "sm")}How this path contributes</h2>
+    <dl class="contrib-list">
+      <div><dt>SDG 8.5 · decent work</dt><dd>${s85}${srcMarks(r.sdg[0].src)}</dd></div>
+      <div><dt>SDG 4.4 · skills for employment</dt><dd>This block serves ${fig(c.s44.gaps, "int")} of the route's priority gaps in ${fig(c.s44.hours, "")} hours.</dd></div>
+      <div><dt>SDG 4.3 · affordable learning</dt><dd>${fig(c.s43.free, "int")} of ${fig(c.s43.of, "int")} steps are free.</dd></div>
+      <div><dt>SDG 8.2 · productivity through technology</dt><dd>${fig(c.s82.checkpoints, "int")} checkpoint${c.s82.checkpoints.v === 1 ? "" : "s"} add AI checking in the ${esc(routeState.data.scenario)} scenario${c.s82.practice.v ? `, plus ${fig(c.s82.practice, "int")} AI-practice step${c.s82.practice.v === 1 ? "" : "s"}` : ""}.</dd></div>
+    </dl>
+    ${c.baseline ? `<p class="foot">Why it matters in Malaysia: the share of employed tertiary-educated people aged 25-34 in semi- or low-skilled jobs went from ${fig({ v: c.baseline.from.rate, src: c.baseline.src }, "pct")} (${esc(fmtQ(c.baseline.from.date))}) to ${fig({ v: c.baseline.to.rate, src: c.baseline.src }, "pct")} (${esc(fmtQ(c.baseline.to.date))}), DOSM.</p>` : ""}
+    ${c.trend ? `<p class="foot">${esc(c.trend.text)}${srcMarks(c.trend.src)}</p>` : ""}
+    ${c.s5 ? `<p class="foot">SDG 5 context: women's skill-related underemployment is ${fig(c.s5.female, "pct")} against men's ${fig(c.s5.male, "pct")} (all ages, DOSM). National context only; it never changes your routes or plan.</p>` : ""}
+    <p class="foot">Target wording: United Nations, sdgs.un.org.${srcMarks(c.src)}</p></section>`;
 }
 
 function renderPlan() {
@@ -1641,8 +1673,9 @@ function renderPlan() {
     <ol class="psteps">${b.steps.map(stepItem).join("")}</ol>
     ${b.uncovered.length ? `<section class="soft-card" data-scope aria-labelledby="h-uncovered"><h2 id="h-uncovered">Priority gaps without a step in this block</h2><ul class="gaps">${b.uncovered.map(g => `<li><b></b><span>${esc(g.name)}</span><span class="w">SDG 4.4</span></li>`).join("")}</ul>
       <p class="foot">Either no verified resource teaches them yet, or the block's time or budget ran out.</p></section>` : ""}
+    ${contributionCard(r)}
     <section class="soft-card" data-scope aria-labelledby="h-beyond"><h2 id="h-beyond">Beyond this block</h2><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul></section>
-    <div class="stage-cta"><span class="cta-label"><b class="num">${done}</b> of ${b.steps.length} steps done</span>${isPersonal()
+    <div class="stage-cta"><span class="cta-label"><b>${fig({ v: done, src: ["your-input"] }, "int")}</b> of ${b.steps.length} steps done</span>${isPersonal()
       ? `<button type="button" class="btn btn-primary" data-action="changed">What changed</button>`
       : `<button type="button" class="btn btn-primary" data-go="describe">Describe your work</button>`}</div>`;
   attachSources($("#plan"));
@@ -1885,6 +1918,16 @@ function renderLearn() {
   $("#learn-route")?.addEventListener("change", e => { routeState.learn = e.target.value; renderLearn(); $("#learn-route").focus(); });
 }
 
+/* The chosen route's SDG counts, as on Plan. */
+function pathSection() {
+  const r = routeState.data?.routes.find(x => x.code === routeState.target);
+  if (!r) return "";
+  const c = r.contribution;
+  return `<section class="soft-card" data-scope aria-labelledby="h-path-sdg"><h2 id="h-path-sdg">${icon("layers", "sm")}Your path and the SDGs</h2>
+    <p>${esc(r.title)}: ${c.s85.step ? `pay step ${fig(c.s85.step, "step")} a month (SDG 8.5), ` : ""}${fig(c.s44.gaps, "int")} priority gaps served (SDG 4.4), ${fig(c.s43.free, "int")} of ${fig(c.s43.of, "int")} steps free (SDG 4.3), ${fig(c.s82.checkpoints, "int")} checkpoints with AI checking (SDG 8.2).</p>
+    <button type="button" class="link-btn" data-tab-go="plan">See how this path contributes</button></section>`;
+}
+
 /* ---------- Saved routes, shown in Profile: bookmarks with Remove ---------- */
 function savedSection() {
   if (!routeState.saved.size) return "";
@@ -1893,7 +1936,7 @@ function savedSection() {
   const rows = [...routeState.saved].map(([code, title]) => `<li>${live.has(code)
     ? `<button type="button" class="link-btn saved-open" data-open-route="${esc(code)}">${esc(title)}</button>` : `<span>${esc(title)}<span class="gap-note">No longer among your routes: with the activities you confirmed now, it does not count enough of your work.</span></span>`}
     <button type="button" class="link-btn" data-unsave="${esc(code)}" aria-label="Remove ${esc(title)} from saved routes">Remove</button></li>`).join("");
-  return `<section class="soft-card" aria-labelledby="h-saved-routes"><h2 id="h-saved-routes" tabindex="-1">${icon("bookmark", "sm")}Saved routes <span class="num">${routeState.saved.size}</span></h2>
+  return `<section class="soft-card" aria-labelledby="h-saved-routes"><h2 id="h-saved-routes" tabindex="-1">${icon("bookmark", "sm")}Saved routes <span class="num" data-src="your-input">${routeState.saved.size}</span></h2>
     <ul class="plain-rows saved-rows">${rows}</ul><p class="foot">Saved in this browser. Routes also has a Saved filter.</p></section>`;
 }
 
@@ -1929,6 +1972,7 @@ function renderProfile() {
       <div class="ring-row"><span class="ring-box">${ring(done, items.length)}<span class="ring-num" aria-hidden="true">${done}/${items.length}</span></span>
         <p>${done} of ${items.length} steps done.${next ? ` Next: ${esc(next[0].toLowerCase())}.` : " Every step is done."}</p></div>
       <ul class="progress-list">${items.map(([t, ok]) => `<li class="${ok ? "ok" : ""}"><span class="pl-mark" aria-hidden="true">${ok ? icon("check", "sm") : ""}</span>${esc(t)}<span class="vh">${ok ? ", done" : ", not yet"}</span></li>`).join("")}</ul></section>
+    ${pathSection()}
     ${savedSection()}
     ${state.lastIntake ? `<section class="soft-card" aria-labelledby="h-answers"><h2 id="h-answers">Your answers</h2>
       <dl class="answers">
@@ -1939,7 +1983,7 @@ function renderProfile() {
       </dl>
       <button type="button" class="btn btn-gray" data-go="edit">${icon("pencil-line", "sm")}Edit answers</button>
       <p class="foot">Reading your answers again asks you to confirm your activities again.</p></section>
-    <section class="soft-card" aria-labelledby="h-acts"><h2 id="h-acts">Your activities <span class="num">${c.all}</span></h2>
+    <section class="soft-card" aria-labelledby="h-acts"><h2 id="h-acts">Your activities <span class="num" data-src="your-input">${c.all}</span></h2>
       ${names.length ? `<ul class="plain-rows">${names.map(n => `<li>${icon("check", "sm")}<span>${esc(n)}</span></li>`).join("")}</ul>` : ""}
       ${c.title ? `<p class="foot">Plus ${c.title} from your job title, ${esc(state.title.title)}.</p>` : ""}
       <button type="button" class="btn btn-gray" data-tab-go="review">Review activities</button></section>` : describeCard("profile")}

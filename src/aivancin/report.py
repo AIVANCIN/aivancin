@@ -91,6 +91,13 @@ class Reporter:
         return {"major": major, "group": MASCO_GROUPS[major][1], "skill": skill_level(major), "mapping": m["mapping"],
                 "label": f"MASCO major group {major}, {MASCO_GROUPS[major][1]} ({skill_level(major)})"}
 
+    def masco_major(self, major):
+        """The masco() record for a major group code (the person's current group), or None."""
+        if not major or major not in MASCO_GROUPS:
+            return None
+        return {"major": major, "group": MASCO_GROUPS[major][1], "skill": skill_level(major),
+                "label": f"MASCO major group {major}, {MASCO_GROUPS[major][1]} ({skill_level(major)})"}
+
     def median(self, major):
         if not major or major not in MASCO_GROUPS:
             return None

@@ -451,6 +451,8 @@ textarea::placeholder, input::placeholder { color: var(--text2); opacity: 1; }
 .sort-seg { max-width: 420px; }
 .sort-seg:has(input[value="outlook"]:checked) { --i: 1; }
 .sort-seg:has(input[value="entry"]:checked) { --i: 2; }
+.sort-seg:has(input[value="decent"]:checked) { --i: 3; }
+.sort-seg { max-width: 520px; }
 .sort-ctl .foot { margin-top: 8px; }
 .filter-ctl { margin-top: 12px; }
 .filter-seg { max-width: 280px; }
@@ -590,6 +592,7 @@ details.plan-scen { margin-top: 12px; padding: 0 20px; border-radius: 18px; back
 @media (max-width: 599px) { .describe-card { grid-template-columns: minmax(0, 1fr); background: linear-gradient(180deg, rgba(9, 85, 212, 0.1) 0, rgba(9, 85, 212, 0.6) 20%, #0955D4 42%), url("/art/art-640.webp") 70% top / 160% auto no-repeat #0955D4; padding-top: 72px; } }
 .sort-seg.two:has(input[value="outlook"]:checked) { --i: 0; }
 .sort-seg.two:has(input[value="entry"]:checked) { --i: 1; }
+.sort-seg.two:has(input[value="decent"]:checked) { --i: 2; }
 .read-now { display: block; margin: 6px auto 0; font-size: 15px; }
 .q-actions .privacy { margin-top: 6px; text-align: center; }
 @media (min-width: 760px) { .read-now { display: inline-flex; margin: 0 0 0 16px; } .q-actions .privacy { text-align: left; } }
@@ -736,3 +739,14 @@ html[data-motion="on"] .btn { transition: transform 200ms var(--spring), backgro
 .src-dates li + li { border-top: 1px solid var(--sep); }
 .saved-rows .saved-open { min-height: 44px; text-align: left; font-size: 15px; }
 @media (forced-colors: active) { .rc-you, .rc-gap { fill: CanvasText; } .rc-you-s, .rc-gap-s { stroke: CanvasText; } }
+
+/* SDG reasons (SPEC 11.5): tags on each step, the reasons inside its checkpoint; the path's contribution on Plan. */
+.sdg-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.sdg-row .tag { padding: 2px 8px; font-size: 12px; }
+.sdg-why { margin: 10px 0 0; padding: 0; list-style: none; font-size: 14px; line-height: 1.45; color: var(--text2); }
+.sdg-why li + li { margin-top: 4px; }
+.sdg-why b { margin-right: 4px; color: var(--accent); font-weight: 600; }
+.contrib-list { display: grid; gap: 12px; margin: 10px 0 12px; }
+.contrib-list dt { font-size: 13px; font-weight: 600; color: var(--accent); }
+.contrib-list dd { margin: 2px 0 0; font-size: 15px; line-height: 1.45; }
+.contrib > .foot + .foot { margin-top: 6px; }

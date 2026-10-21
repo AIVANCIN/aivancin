@@ -6,8 +6,8 @@ Nothing here judges proficiency or readiness; requirements the app cannot judge 
 """
 import datetime as dt
 
-from . import aei, outlook, pathway
-from .report import ONET_SRC, ReportError, fig, pct
+from . import aei, outlook, pathway, sdg
+from .report import ONET_SRC, PAY_SRC, ReportError, fig, pct
 
 WEEKS = (4, 8, 12)
 PRIORITY_GAPS = 8
@@ -43,6 +43,13 @@ def job_group(band):
 
 def effort(c):
     return c["hours"] + c.get("practice_hours", 0.0)
+
+
+def decent_order(routes):
+    """Decent work (SDG 8.5) order: the target group's latest DOSM median (higher first; none last), then activity
+    overlap, then code. Group medians, not salary offers."""
+    return [r["code"] for r in sorted(routes, key=lambda r: (r["median"] is None, -(r["median"] or {"v": 0})["v"],
+                                                              -r["overlap"]["v"], r["code"]))]
 
 
 def fits_family(c, family):
@@ -197,7 +204,7 @@ class Planner:
                 "provider_hours": fig(c["hours"], CAT), "practice_hours": fig(c.get("practice_hours", 0.0), CAT, estimate=True),
                 "cost_rm": fig(c["cost_rm"], CAT), "checked_on": c["link_check"]["checked_on"],
                 "requires": c.get("requires", []), "checkpoint": checkpoint, "form": form, "reason": reason,
-                "completed": c["id"] in completed, "access": c.get("access", ""), "sdg": ["4.4"]}
+                "completed": c["id"] in completed, "access": c.get("access", "")}
 
     def _forms(self, step_gaps, months, o):
         """Checkpoint form per scenario for a step's gaps, with the figures that decided it."""
@@ -299,6 +306,8 @@ class Planner:
                 spent += ai["cost_rm"]
                 added.append(self._step(ai, b["serves"], o["completed"], "ai", [], kind="ai_practice"))
         steps += added
+        for s in steps:
+            s["sdg"] = sdg.step_tags(s, CAT)
         open_steps = [s for s in steps if not s["completed"]]
         provider = sum(s["provider_hours"]["v"] for s in open_steps)
         practice = sum(s["practice_hours"]["v"] for s in open_steps)
@@ -310,8 +319,10 @@ class Planner:
             status, why = self.requirement_status(r, profile, o)
             reqs.append({**r, "status": status, "why": why})
         masco = self.rep.masco(code)
-        step_pay, _, _ = self.rep.pay_step_fn(profile.get("title_code"))
+        step_pay, cur_major, _ = self.rep.pay_step_fn(profile.get("title_code"))
         pay = step_pay(code)
+        median = self.rep.median(masco.get("major"))
+        trend = outlook.group_trend(self.snaps, masco.get("major"))
         description = onet.descriptions.get(code, "")
         job_outlook = self.rep.job_outlook(code)
         learn = self.resources(dest["family"], b["prioritized"], courses, ai_courses, {s["id"] for s in steps}, served)
@@ -330,8 +341,10 @@ class Planner:
             "done": [{**d, "weight": fig(d["weight"], *ONET_SRC), "sdg": ["4.4"]} for d in done],
             "requirements": reqs, "masco": masco, "job_outlook": job_outlook, "local_evidence": LOCAL_EVIDENCE,
             "pay": None if pay is None else {"step": fig(pay, "dosm-wages-occupation", "esco-onet-isco")},
-            "sdg": [{"goal": "8.5", "reason": self.rep._sdg85(masco, pay), "src": ["esco-onet-isco"] +
-                     (["dosm-wages-occupation"] if pay is not None else [])}],
+            "median": None if median is None else fig(median, *PAY_SRC),
+            "sdg": [{"goal": "8.5", "reason": self.rep._sdg85(masco, pay), "trend": trend and trend["text"],
+                     "src": [sdg.SRC, "esco-onet-isco"] + (["dosm-wages-occupation"] if pay is not None or trend else [])}],
+            "contribution": self.contribution(steps, served, masco, cur_major, pay, trend, provider + practice),
             "prioritized": [{"dwa_id": g["dwa_id"], "name": g["name"], "weight": fig(g["weight"], *ONET_SRC),
                              "served": g["dwa_id"] in served, "has_resource": g["dwa_id"] in b["supported"], "sdg": ["4.4"]}
                             for g in b["prioritized"]],
@@ -347,6 +360,22 @@ class Planner:
                       "base_hours": fig(round(b["used"], 1), CAT),
                       "horizon": {"months": fig(round(months, 1), o["input_src"], estimate=True), "basis": basis}},
         }
+
+    def contribution(self, steps, served, masco, cur_major, pay, trend, hours):
+        """How this path contributes (SPEC 11.5): counts from the block and the skill-level step, with the national
+        baseline and SDG 5 context alongside. Nothing here is a score."""
+        cur = self.rep.masco_major(cur_major)
+        n_ai = sum(1 for s in steps if s["form"] == "ai" and s["kind"] != "ai_practice")
+        n_practice = sum(1 for s in steps if s["kind"] == "ai_practice")
+        base = self.rep._baseline() or {}
+        return {"s85": {"from": cur, "to": masco, "step": None if pay is None else fig(pay, *PAY_SRC)},
+                "s44": {"gaps": fig(len(served), *ONET_SRC, CAT), "hours": fig(round(hours, 1), CAT)},
+                "s43": {"free": fig(sum(1 for s in steps if s["cost_rm"]["v"] == 0), CAT), "of": fig(len(steps), CAT)},
+                "s82": {"checkpoints": fig(n_ai, CAT, *[f"aei-{r}" for r in self.snaps.evidence.ids]),
+                        "practice": fig(n_practice, CAT)},
+                "trend": trend, "baseline": outlook.sru_trend(self.snaps),
+                "s5": base and {"female": base["rate_female"], "male": base["rate_male"], "date": base["date"]},
+                "src": [sdg.SRC]}
 
     # ---- compare ---------------------------------------------------------------------------------
     def routes(self, profile, opts, today=None, explore=False, with_radar=True):
@@ -382,6 +411,7 @@ class Planner:
                                f"{len(fits)} supported route{'s' if len(fits) != 1 else ''} qualified. Explore all roles to see others, "
                                "without complete-route support."),
                 "supported_destinations": fig(len(self.dests), ROUTES_SRC),
+                "decent_order": decent_order(routes),
                 "forecast": self.rep._forecast_meta(o["threshold"]),
                 "radar": self.radar(routes, prof, o, explore) if with_radar else None}
 

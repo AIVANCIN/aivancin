@@ -505,6 +505,10 @@ def main():
                   "and enterprise AI adoption (directive use 27% to 39% in eight months)",
                   "publisher": "Anthropic (arXiv 2511.15080)", "url": "https://arxiv.org/abs/2511.15080",
                   "release": "2025-11-19", "licence": "cited figure", "access_date": "2026-10-20", "kind": "reference"})
+    final.append({"source_id": "un-sdg-targets", "title": "UN Sustainable Development Goals: targets 4.3, 4.4, 8.2 and 8.5, "
+                  "and Goal 5", "publisher": "United Nations, Department of Economic and Social Affairs",
+                  "url": "https://sdgs.un.org/goals", "release": "2030 Agenda (A/RES/70/1)", "licence": "cited text",
+                  "access_date": "2026-10-21", "kind": "reference"})
     final.append({"source_id": "bls-eval-2014-2024", "title": "Occupational Projections Evaluation: 2014-24 (direction "
                   "of change correct 86 percent of the time; detailed occupations against a constant-share model)",
                   "publisher": "U.S. Bureau of Labor Statistics", "url": "https://www.bls.gov/emp/evaluations/2014-2024-occupational.htm",
