@@ -31,12 +31,23 @@ def out_of_scope(snaps, ai):
             yield p["id"], b7.confirmed_profile(p, encoder, vectors, snaps)[1]
 
 
+# Recorded C15 failure (21 Oct 2026, Jad's decision when shipping the fine-tuned encoder, SPEC 11.8): the tuned model
+# also suggests y01's true "Purchase products or services", so the home baker reaches two counted activities
+# (MIN_DONE) for two finance routes and sees no cards. Kept visible here: a change in either direction fails.
+KNOWN_C15_FAILURES = {"y01"}
+
+
 def test_c15_out_of_scope_profiles_get_exploration_cards(snaps, ai, planner):
-    seen = 0
+    seen, failed = 0, set()
     for pid, prof in out_of_scope(snaps, ai):
+        seen += 1
         res = planner.routes(prof, {"weeks": 4}, today=TODAY)
         cards = res["exploration"]
-        assert len(res["routes"]) < 2 and 1 <= len(cards) <= EXPLORATION_CARDS, pid
+        if len(res["routes"]) >= 2:
+            failed.add(pid)
+            assert cards == [], pid
+            continue
+        assert 1 <= len(cards) <= EXPLORATION_CARDS, pid
         listed = [r["code"] for r in planner.rep.report(prof, {"lane": "all"}, today=TODAY)["roles"]]
         shown = {r["code"] for r in res["routes"]}
         for c in cards:
@@ -47,8 +58,8 @@ def test_c15_out_of_scope_profiles_get_exploration_cards(snaps, ai, planner):
             assert c["overlap"]["src"] and c["done_count"]["src"]
         # Cards follow the exploration order.
         assert [c["code"] for c in cards] == [x for x in listed if x not in planner.dests and x not in shown][:EXPLORATION_CARDS]
-        seen += 1
     assert seen == 6
+    assert failed == KNOWN_C15_FAILURES
 
 
 def test_no_cards_with_two_or_more_routes_or_while_exploring(snaps, ai, personas, planner):

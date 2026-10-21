@@ -397,6 +397,30 @@ def derive_outlook():
                                       "employment_year", "employment"], rows)
 
 
+FINE_TUNED_TITLE = {"minilm-onnx": "all-MiniLM-L6-v2 fine-tuned on O*NET 31.0 task-to-activity links (ONNX, quantized)",
+                    "minilm-tokenizer": "all-MiniLM-L6-v2 tokenizer (exported with the fine-tuned model)"}
+
+
+def fine_tune(model_dir):
+    """The fine-tuned model record (tools/finetune, SPEC 11.8), or None to ship the pinned base model.
+
+    A fine-tuned model cannot be downloaded again, so its files stay in data/model; they are kept only while their
+    hashes match model/finetune.json, which must name the pinned base. Anything else fails the build.
+    """
+    path = model_dir / "finetune.json"
+    if not path.exists():
+        return None
+    rec = json.loads(path.read_text(encoding="utf-8"))
+    if rec["base"]["revision"] != MODEL_REVISION:
+        raise RuntimeError(f"model/finetune.json: base revision {rec['base']['revision']} is not the pinned {MODEL_REVISION}")
+    for name, key in (("model.onnx", "model_sha256"), ("tokenizer.json", "tokenizer_sha256")):
+        f = model_dir / name
+        if not f.exists() or sha256_file(f) != rec[key]:
+            raise RuntimeError(f"model/{name} does not match model/finetune.json; restore it, or remove the record "
+                               "to ship the pinned base model")
+    return rec
+
+
 def main():
     old = {}
     if (DATA / "manifest.json").exists():
@@ -424,8 +448,10 @@ def main():
 
     model_dir = DATA / "model"
     model_dir.mkdir(parents=True, exist_ok=True)
-    shutil.copyfile(raw["minilm-onnx"], model_dir / "model.onnx")
-    shutil.copyfile(raw["minilm-tokenizer"], model_dir / "tokenizer.json")
+    tuned = fine_tune(model_dir)
+    if tuned is None:
+        shutil.copyfile(raw["minilm-onnx"], model_dir / "model.onnx")
+        shutil.copyfile(raw["minilm-tokenizer"], model_dir / "tokenizer.json")
 
     final = []
     for s in SOURCES:
@@ -445,6 +471,10 @@ def main():
         else:
             rel = "model/model.onnx" if sid == "minilm-onnx" else "model/tokenizer.json"
             rec["derived_rows"] = None
+            if tuned is not None:
+                rec["title"] = FINE_TUNED_TITLE[sid]
+                rec["fine_tune"] = "model/finetune.json"
+                rec["fine_tune_sha256"] = sha256_file(model_dir / "finetune.json")
         rec["derived_path"] = rel
         rec["derived_sha256"] = sha256_file(DATA / rel)
         final.append(rec)

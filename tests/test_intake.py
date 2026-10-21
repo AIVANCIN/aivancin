@@ -104,8 +104,11 @@ def test_each_activity_is_shown_once_with_all_its_sentences(snaps, ai, personas)
     result = intake.suggest(personas["hafiz"], enc, vec, snaps.onet)
     ids = [s["dwa_id"] for s in result["suggestions"]]
     assert len(ids) == len(set(ids))
-    code = next(s for s in result["suggestions"] if s["dwa_id"] == "4.A.3.b.1.a.3")  # Write computer programming code
-    assert sorted(t["sentence"] for t in code["triggers"]) == [7, 8]
+    # Each activity lists exactly the sentences that suggested it; Hafiz has activities suggested by several.
+    for s in result["suggestions"]:
+        assert sorted(t["sentence"] for t in s["triggers"]) == [
+            i for i, x in enumerate(result["sentences"]) if s["dwa_id"] in x["top"]]
+    assert any(len(s["triggers"]) >= 2 for s in result["suggestions"])
     scores = [s["best_score"] for s in result["suggestions"]]
     assert scores == sorted(scores, reverse=True)
 

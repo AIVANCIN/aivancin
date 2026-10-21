@@ -158,7 +158,7 @@
     },
     {
       "source_id": "minilm-onnx",
-      "title": "all-MiniLM-L6-v2 ONNX (quantized, AVX2)",
+      "title": "all-MiniLM-L6-v2 fine-tuned on O*NET 31.0 task-to-activity links (ONNX, quantized)",
       "publisher": "sentence-transformers (Hugging Face)",
       "url": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/onnx/model_quint8_avx2.onnx",
       "release": "revision 1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
@@ -166,12 +166,14 @@
       "access_date": "2026-10-20",
       "original_sha256": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21",
       "derived_rows": null,
+      "fine_tune": "model/finetune.json",
+      "fine_tune_sha256": "134a331b1353d1ad6154fe6cb39e65cbb48a097219fca2bd93d1f21b3d971a56",
       "derived_path": "model/model.onnx",
-      "derived_sha256": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21"
+      "derived_sha256": "2b0c08fad6908b23ad0fdbba87d6f1287faec0ddbea6725e2f37b10cb901ec50"
     },
     {
       "source_id": "minilm-tokenizer",
-      "title": "all-MiniLM-L6-v2 tokenizer",
+      "title": "all-MiniLM-L6-v2 tokenizer (exported with the fine-tuned model)",
       "publisher": "sentence-transformers (Hugging Face)",
       "url": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/1110a243fdf4706b3f48f1d95db1a4f5529b4d41/tokenizer.json",
       "release": "revision 1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
@@ -179,8 +181,10 @@
       "access_date": "2026-10-20",
       "original_sha256": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037",
       "derived_rows": null,
+      "fine_tune": "model/finetune.json",
+      "fine_tune_sha256": "134a331b1353d1ad6154fe6cb39e65cbb48a097219fca2bd93d1f21b3d971a56",
       "derived_path": "model/tokenizer.json",
-      "derived_sha256": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037"
+      "derived_sha256": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66"
     },
     {
       "source_id": "dosm-wages-occupation",
@@ -375,10 +379,10 @@
       "release": "2026-10-21",
       "licence": "Project results",
       "access_date": "2026-10-21",
-      "original_sha256": "5874a71fce053f4376c99a189fbd4b1c23606a077d6e56fe72915a0a080206db",
+      "original_sha256": "d038403ccd9d1c8c6493f6457d198ec7d7dbb481a6687d6416967ae6f1dc0df4",
       "derived_rows": null,
       "derived_path": "checks.json",
-      "derived_sha256": "5874a71fce053f4376c99a189fbd4b1c23606a077d6e56fe72915a0a080206db"
+      "derived_sha256": "d038403ccd9d1c8c6493f6457d198ec7d7dbb481a6687d6416967ae6f1dc0df4"
     },
     {
       "source_id": "aivancin-source-status",
@@ -401,10 +405,10 @@
       "release": "2026-10-21",
       "licence": "Derived from CC BY sources",
       "access_date": "2026-10-21",
-      "original_sha256": "7e2db5ecdf7aed7a3e983a02af46466e8057c8792df6c1a1e1e3220b45b50fed",
+      "original_sha256": "b550fbbc59cb64e8707659416481c41b0038c2e69227c9d59bc227e624ae9d46",
       "derived_rows": null,
       "derived_path": "routes/destinations.json",
-      "derived_sha256": "7e2db5ecdf7aed7a3e983a02af46466e8057c8792df6c1a1e1e3220b45b50fed"
+      "derived_sha256": "b550fbbc59cb64e8707659416481c41b0038c2e69227c9d59bc227e624ae9d46"
     },
     {
       "source_id": "aivancin-cohort",

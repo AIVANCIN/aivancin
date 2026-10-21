@@ -1,0 +1,86 @@
+{
+ "started_utc": "2026-10-21T10:46:51+00:00",
+ "pod_id": null,
+ "gpu": "NVIDIA GeForce RTX 4090",
+ "gpu_count": 1,
+ "cuda": "12.8",
+ "python": "3.11.11",
+ "torch": "2.8.0.dev20250319+cu128",
+ "sentence_transformers": "6.1.0",
+ "transformers": "5.20.2",
+ "base": "sentence-transformers/all-MiniLM-L6-v2",
+ "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+ "params": {
+  "epochs": 1.0,
+  "batch": 128,
+  "lr": 2e-05,
+  "warmup": 0.1,
+  "seed": 42,
+  "limit": null
+ },
+ "data": {
+  "pairs_train.jsonl": "1b3e83541c12e27bd0dccc8e4498449d2d61d5913fc5a8797fa1eaae3c19fba0",
+  "pairs_val.jsonl": "7bf4e128240ce7ac4c914f91e65a0e6b62740e5fe80db08c674790a38a5cb04c",
+  "dwa_names.json": "85b1469b66a5ef094978721c04f9df205a87cabd66e9527ad2fbd884170d7530"
+ },
+ "train_pairs": 21397,
+ "val_pairs": 1078,
+ "val_base": {
+  "statements": 855,
+  "hits": 440,
+  "recall_at_5": 0.5146
+ },
+ "train_seconds": 15.6,
+ "train_loss": 1.51565,
+ "loss_log": [
+  {
+   "loss": 1.8337110900878906,
+   "learning_rate": 1.9072847682119207e-05,
+   "step": 25
+  },
+  {
+   "loss": 1.5766181945800781,
+   "learning_rate": 1.576158940397351e-05,
+   "step": 50
+  },
+  {
+   "loss": 1.5140557861328126,
+   "learning_rate": 1.2450331125827815e-05,
+   "step": 75
+  },
+  {
+   "loss": 1.4502706909179688,
+   "learning_rate": 9.13907284768212e-06,
+   "step": 100
+  },
+  {
+   "loss": 1.4138800048828124,
+   "learning_rate": 5.827814569536424e-06,
+   "step": 125
+  },
+  {
+   "loss": 1.434002685546875,
+   "learning_rate": 2.516556291390729e-06,
+   "step": 150
+  }
+ ],
+ "val_tuned": {
+  "statements": 855,
+  "hits": 525,
+  "recall_at_5": 0.614
+ },
+ "export": {
+  "base": {
+   "model.onnx": "ce536baae4666dfae17bb420d8bc978ce6e5308edd049580d2eab0b203674d4a",
+   "model_fp32.onnx": "7d445eaca8bd80d8d85c6510088c897ed43980cc337357ecb634f66de6706472",
+   "tokenizer.json": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66"
+  },
+  "tuned": {
+   "model.onnx": "2b0c08fad6908b23ad0fdbba87d6f1287faec0ddbea6725e2f37b10cb901ec50",
+   "model_fp32.onnx": "3da738e39f22d9c4a74ea85dc1249336025d69e4c7b602ed6e066934da400bae",
+   "tokenizer.json": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66"
+  }
+ },
+ "finished_utc": "2026-10-21T10:47:17+00:00",
+ "runtime_seconds": 25.5
+}

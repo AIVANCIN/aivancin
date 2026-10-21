@@ -1,0 +1,131 @@
+{
+ "run_date": "2026-10-21",
+ "heldout_sha256": "42d9250934d848f09e6305c4f207907e3406df6cd958593ad8c2ab47acf8e710",
+ "script_sha256": "be49c0053894a2c78532359f2c408e70deb36d08cfda411b61ed796f8dc5235d",
+ "models": {
+  "shipped": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21",
+  "candidate": "2b0c08fad6908b23ad0fdbba87d6f1287faec0ddbea6725e2f37b10cb901ec50",
+  "control": "ce536baae4666dfae17bb420d8bc978ce6e5308edd049580d2eab0b203674d4a"
+ },
+ "heldout": {
+  "shipped": {
+   "hits": 39,
+   "of": 60,
+   "missed": [
+    "h03",
+    "h05",
+    "h08",
+    "h09",
+    "h10",
+    "h12",
+    "h13",
+    "h19",
+    "h22",
+    "h26",
+    "h27",
+    "h29",
+    "h31",
+    "h33",
+    "h35",
+    "h37",
+    "h41",
+    "h52",
+    "h54",
+    "h55",
+    "h60"
+   ]
+  },
+  "control": {
+   "hits": 40,
+   "of": 60,
+   "missed": [
+    "h03",
+    "h05",
+    "h08",
+    "h09",
+    "h10",
+    "h12",
+    "h13",
+    "h19",
+    "h26",
+    "h27",
+    "h29",
+    "h31",
+    "h33",
+    "h35",
+    "h37",
+    "h41",
+    "h52",
+    "h54",
+    "h55",
+    "h60"
+   ]
+  },
+  "candidate": {
+   "hits": 45,
+   "of": 60,
+   "missed": [
+    "h03",
+    "h09",
+    "h10",
+    "h12",
+    "h19",
+    "h25",
+    "h27",
+    "h29",
+    "h35",
+    "h37",
+    "h41",
+    "h52",
+    "h54",
+    "h55",
+    "h60"
+   ]
+  }
+ },
+ "a1": {
+  "shipped": {
+   "a1_a3_sets.json": 18,
+   "a1_set_2.json": 19
+  },
+  "control": {
+   "a1_a3_sets.json": 18,
+   "a1_set_2.json": 19
+  },
+  "candidate": {
+   "a1_a3_sets.json": 20,
+   "a1_set_2.json": 19
+  }
+ },
+ "k7": {
+  "shipped": {
+   "relevant_top5": 31,
+   "profiles_3plus": 6,
+   "inputs": {
+    "profiles_k6.json": "cf71b5aa9280934e33a3e7a0a46e0b2fcef9ee13250e6ea72f93c35b6ba54f5b",
+    "narratives_k7.json": "4d71830591638c7c78a817b12d1de81131b22cc02c9ae16282b9963cc9c7b85f"
+   }
+  },
+  "control": {
+   "relevant_top5": 30,
+   "profiles_3plus": 6,
+   "inputs": {
+    "profiles_k6.json": "cf71b5aa9280934e33a3e7a0a46e0b2fcef9ee13250e6ea72f93c35b6ba54f5b",
+    "narratives_k7.json": "4d71830591638c7c78a817b12d1de81131b22cc02c9ae16282b9963cc9c7b85f"
+   }
+  },
+  "candidate": {
+   "relevant_top5": 32,
+   "profiles_3plus": 6,
+   "inputs": {
+    "profiles_k6.json": "cf71b5aa9280934e33a3e7a0a46e0b2fcef9ee13250e6ea72f93c35b6ba54f5b",
+    "narratives_k7.json": "4d71830591638c7c78a817b12d1de81131b22cc02c9ae16282b9963cc9c7b85f"
+   }
+  }
+ },
+ "gate": {
+  "heldout_better": true,
+  "k7_not_lower": true,
+  "ship": true
+ }
+}

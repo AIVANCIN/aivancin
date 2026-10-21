@@ -1,0 +1,40 @@
+{
+  "note": "The shipped encoder is all-MiniLM-L6-v2 fine-tuned on RunPod with tools/finetune/train.py, shipped because it passed the gate fixed before training (SPEC 8, 11.8). tools/build_snapshots.py keeps these files only while their hashes match this record.",
+  "base": {
+    "model": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "previous_shipped_model_sha256": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21"
+  },
+  "model_sha256": "2b0c08fad6908b23ad0fdbba87d6f1287faec0ddbea6725e2f37b10cb901ec50",
+  "tokenizer_sha256": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+  "training": {
+    "data": "O*NET 31.0 task-to-activity links: 21,397 training and 1,078 validation pairs (tools/finetune/pairs_manifest.json)",
+    "pairs_train_sha256": "1b3e83541c12e27bd0dccc8e4498449d2d61d5913fc5a8797fa1eaae3c19fba0",
+    "pairs_val_sha256": "7bf4e128240ce7ac4c914f91e65a0e6b62740e5fe80db08c674790a38a5cb04c",
+    "dwa_names_sha256": "85b1469b66a5ef094978721c04f9df205a87cabd66e9527ad2fbd884170d7530",
+    "params": {"epochs": 1, "batch": 128, "lr": 2e-05, "warmup": 0.1, "seed": 42},
+    "train_loss": 1.51565,
+    "validation_recall_at_5": {"base": 0.5146, "tuned": 0.614, "statements": 855},
+    "run_record": "tools/finetune/run_20261021T1047Z.json"
+  },
+  "runpod": {
+    "pod_id": "82gxhhkg2yedbz",
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "cloud": "Secure Cloud (US), on demand",
+    "image": "runpod/pytorch:2.8.0-py3.11-cuda12.8.1-cudnn-devel-ubuntu22.04",
+    "training_started_utc": "2026-10-21T10:46:51+00:00",
+    "training_runtime_seconds": 25.5,
+    "pod_started_utc": "2026-10-21T10:41:41+00:00",
+    "pod_stopped_utc": "2026-10-21T11:09:55+00:00",
+    "cost_usd": 0.42,
+    "archive_sha256": "113c1c46ac0aa2193b85dc2f301163a88a66f3e2174169be7bf02f86be99f2b2"
+  },
+  "gate": {
+    "date": "2026-10-21",
+    "heldout_sha256": "42d9250934d848f09e6305c4f207907e3406df6cd958593ad8c2ab47acf8e710",
+    "heldout_top5": {"previous": 39, "base_reexport": 40, "tuned": 45, "of": 60},
+    "s2_k7_relevant_top5": {"previous": 31, "base_reexport": 30, "tuned": 32, "of": 50},
+    "ship": true,
+    "record": "tools/finetune/gate_20261021T1047Z.json"
+  }
+}
