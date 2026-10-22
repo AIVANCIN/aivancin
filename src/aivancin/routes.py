@@ -23,7 +23,12 @@ ROUTES_SRC = "aivancin-routes"
 AI_FORM = ("Do it yourself first, then ask an AI assistant to do the same task and check its output against yours; "
            "write down every error you found and how you spotted it.")
 AI_USE_ACTIVITIES = 10  # the role's largest-weight activities shown under "AI use"
-LOCAL_EVIDENCE = "Malaysian opportunity evidence: not shown until reuse permission is confirmed (MyCOL, MyMahir)."
+# What each country's data does on a route (22 Oct): Malaysian figures set the problem and the pay context; US data
+# gives the role's detail and outlook; nothing here predicts Malaysian vacancies.
+LOCAL_EVIDENCE = ("Malaysian data (DOSM) shows the local problem and the pay context for this role's skill group. The "
+                  "role's activities, requirements and outlook come from US data (O*NET, BLS). AIVANCIN does not predict "
+                  "Malaysian vacancies. Next step: check this role against Malaysian occupation-level evidence, such as "
+                  "MyCOL, once its reuse is permitted.")
 # Explore, before the person describes their work: every supported role with nothing confirmed, and a first block
 # built on the intake form's starting values (6 hours a week, no budget). These are stated as assumptions.
 EXPLORE_PROFILE = {"title_code": None, "degree_field": "", "cip_code": None, "degree_level": None, "weekly_hours": 6.0,
