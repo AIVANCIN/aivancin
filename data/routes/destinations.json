@@ -1,6 +1,6 @@
 {
- "built_on": "2026-10-21",
- "curated_on": "2026-10-21",
+ "built_on": "2026-10-22",
+ "curated_on": "2026-10-22",
  "families": {
   "it_support": "IT and network support and administration",
   "software": "Software development and testing",
@@ -91,6 +91,7 @@
     "resources_for_3_top_activities": true
    },
    "admitted": true,
+   "block_limits": [],
    "siblings": {
     "4.A.1.a.1.b.7": [
      "4.A.1.a.1.b.1",
@@ -320,6 +321,7 @@
     "resources_for_3_top_activities": true
    },
    "admitted": true,
+   "block_limits": [],
    "siblings": {
     "4.A.1.a.1.t.4": [
      "4.A.1.a.1.t.1",
@@ -498,6 +500,7 @@
     "resources_for_3_top_activities": true
    },
    "admitted": true,
+   "block_limits": [],
    "siblings": {
     "4.A.1.a.1.n.5": [
      "4.A.1.a.1.n.2",
@@ -741,6 +744,7 @@
     "resources_for_3_top_activities": true
    },
    "admitted": true,
+   "block_limits": [],
    "siblings": {
     "4.A.1.b.2.h.2": [
      "4.A.1.b.2.h.1",
@@ -901,6 +905,7 @@
     "resources_for_3_top_activities": true
    },
    "admitted": true,
+   "block_limits": [],
    "siblings": {
     "4.A.1.a.2.j.3": [
      "4.A.1.a.2.j.2"
@@ -1089,6 +1094,7 @@
     "resources_for_3_top_activities": true
    },
    "admitted": true,
+   "block_limits": [],
    "siblings": {
     "4.A.1.a.1.b.7": [
      "4.A.1.a.1.b.1",
@@ -1320,6 +1326,7 @@
     "resources_for_3_top_activities": true
    },
    "admitted": true,
+   "block_limits": [],
    "siblings": {
     "4.A.1.a.1.t.4": [
      "4.A.1.a.1.t.1",
@@ -1542,6 +1549,7 @@
     "resources_for_3_top_activities": true
    },
    "admitted": true,
+   "block_limits": [],
    "siblings": {
     "4.A.1.b.2.h.2": [
      "4.A.1.b.2.h.1"
@@ -1732,6 +1740,7 @@
     "resources_for_3_top_activities": true
    },
    "admitted": true,
+   "block_limits": [],
    "siblings": {
     "4.A.1.a.1.c.1": [
      "4.A.1.a.1.c.2",
@@ -1962,6 +1971,9 @@
     "resources_for_3_top_activities": true
    },
    "admitted": true,
+   "block_limits": [
+    "Comparing a budget with actual spending and explaining the variances is taught in Saylor BUS105, Units 7 and 8; the whole course is 53 hours, so a short block may leave it for later (see Learn)."
+   ],
    "siblings": {
     "4.A.1.a.1.d.4": [
      "4.A.1.a.1.d.1",
@@ -2098,6 +2110,7 @@
     "resources_for_3_top_activities": true
    },
    "admitted": true,
+   "block_limits": [],
    "siblings": {
     "4.A.2.a.3.c.2": [
      "4.A.2.a.3.c.1",
@@ -2244,6 +2257,7 @@
     "resources_for_3_top_activities": true
    },
    "admitted": true,
+   "block_limits": [],
    "siblings": {
     "4.A.1.a.1.n.5": [
      "4.A.1.a.1.n.2",
@@ -2396,6 +2410,7 @@
     "resources_for_3_top_activities": true
    },
    "admitted": true,
+   "block_limits": [],
    "siblings": {
     "4.A.1.b.1.b.4": [
      "4.A.1.b.1.b.1",
@@ -2626,6 +2641,7 @@
     "resources_for_3_top_activities": false
    },
    "admitted": false,
+   "block_limits": [],
    "siblings": {
     "4.A.1.a.1.f.1": [
      "4.A.1.a.1.f.2",
@@ -2870,6 +2886,7 @@
     "resources_for_3_top_activities": true
    },
    "admitted": true,
+   "block_limits": [],
    "siblings": {
     "4.A.1.a.2.b.20": [
      "4.A.1.a.2.b.1",
@@ -3090,6 +3107,7 @@
     "resources_for_3_top_activities": true
    },
    "admitted": true,
+   "block_limits": [],
    "siblings": {
     "4.A.1.a.1.d.4": [
      "4.A.1.a.1.d.1",
@@ -3337,6 +3355,9 @@
     "resources_for_3_top_activities": true
    },
    "admitted": true,
+   "block_limits": [
+    "No verified free course here teaches preparing personal or business income tax returns, Malaysian (LHDN) or otherwise. The tax steps cover sales and withholding tax as a business records them."
+   ],
    "siblings": {
     "4.A.1.a.1.w.3": [
      "4.A.1.a.1.w.1",
@@ -3479,6 +3500,7 @@
     "resources_for_3_top_activities": true
    },
    "admitted": true,
+   "block_limits": [],
    "siblings": {
     "4.A.2.a.4.g.12": [
      "4.A.2.a.4.g.1",

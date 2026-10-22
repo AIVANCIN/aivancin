@@ -88,8 +88,8 @@ def hafiz_profile(snaps, ai, personas):
 
 
 def test_report_default_order_is_the_overlap_order_and_repeats_exactly(reporter, hafiz_profile):
-    a = reporter.report(hafiz_profile, {"lane": "other_work"}, today=dt.date(2026, 10, 21))
-    b = reporter.report(hafiz_profile, {"lane": "other_work"}, today=dt.date(2026, 10, 21))
+    a = reporter.report(hafiz_profile, {"lane": "other_work"}, today=dt.date(2026, 10, 22))
+    b = reporter.report(hafiz_profile, {"lane": "other_work"}, today=dt.date(2026, 10, 22))
     assert json.dumps(a, sort_keys=True) == json.dumps(b, sort_keys=True)  # A8
     overlaps = [r["overlap"]["v"] for r in a["roles"]]
     assert overlaps == sorted(overlaps, reverse=True)  # A11: lambda 0 keeps the overlap order
@@ -166,7 +166,7 @@ def test_plan_shows_only_verified_entries_within_budget(reporter, hafiz_profile,
     by_id = {c["id"]: c for c in snaps.catalogue["courses"]}
     for scenario in ("moderate", "faster"):
         rep = reporter.report(hafiz_profile, {"lane": "other_work", "scenario": scenario, "threshold": 30},
-                              today=dt.date(2026, 10, 21))
+                              today=dt.date(2026, 10, 22))
         for role in rep["roles"]:
             unique = {}
             for step in role["plan"]["steps"] + role["plan"]["ai_steps"]:
@@ -183,7 +183,7 @@ def test_plan_totals_count_every_unique_course_once(reporter, hafiz_profile, sna
     """Review finding: AI-practice hours were left out of totals. Totals now cover every unique course once."""
     by_id = {c["id"]: c for c in snaps.catalogue["courses"]}
     rep = reporter.report(hafiz_profile, {"lane": "other_work", "scenario": "faster", "threshold": 30},
-                          today=dt.date(2026, 10, 21))
+                          today=dt.date(2026, 10, 22))
     assert any(r["plan"]["ai_steps"] for r in rep["roles"])
     for role in rep["roles"]:
         ids = {s["course"]["id"] for s in role["plan"]["steps"] + role["plan"]["ai_steps"] if s["course"]}
@@ -198,7 +198,7 @@ def test_ai_steps_match_the_activity_or_say_general(reporter, hafiz_profile, sna
     """Review finding: one unrelated AI course was attached to every crossing activity."""
     by_id = {c["id"]: c for c in snaps.catalogue["courses"]}
     rep = reporter.report(hafiz_profile, {"lane": "other_work", "scenario": "faster", "threshold": 30},
-                          today=dt.date(2026, 10, 21))
+                          today=dt.date(2026, 10, 22))
     seen = 0
     for role in rep["roles"]:
         for s in role["plan"]["ai_steps"]:
@@ -242,7 +242,7 @@ def test_expired_link_checks_show_no_verified_resource(reporter, hafiz_profile):
 
 def test_failed_link_check_is_never_shown_as_verified(snaps):
     failed = [c for c in snaps.catalogue["courses"] if not c["link_check"]["ok"]]
-    shown = {c["id"] for c in pathway.verified_courses(snaps.catalogue, dt.date(2026, 10, 21))}
+    shown = {c["id"] for c in pathway.verified_courses(snaps.catalogue, dt.date(2026, 10, 22))}
     assert failed and not shown & {c["id"] for c in failed}
 
 

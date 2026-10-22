@@ -1572,6 +1572,7 @@ function blockPanel(r) {
       <div class="stat-row"><p><b>${fig(b.effort_hours, "")}</b><span>of ${fig(b.capacity_hours, "")} hours</span></p><p><b>${fig(b.cost_rm, "rm")}</b><span>of ${fig(d.budget_rm, "rm")} budget</span></p><p><b>${fig({ v: served, src: GAP_SRC }, "int")}/${gapCount(r)}</b><span>priority gaps served</span></p></div>
       ${b.gap_order === "growing" ? `<p class="foot">Steps for skills with more growth than decline first (set on Plan).</p>` : ""}
       <p class="foot">${esc(capitalise(b.status))}. Verified resources exist for ${fig(r.supported_share, "pct")} of the priority gaps. A first block is a start, not a complete transition.</p>
+      ${blockLimits(r)}
       ${isPersonal() ? "" : `<p class="foot">${ASSUMPTION_NOTE}</p>`}
       <ol class="mini-steps">${b.steps.map(s => `<li><span>${esc(s.title)}</span><span class="foot">${esc(s.provider)} · ${fig({ v: Math.round((s.provider_hours.v + s.practice_hours.v) * 10) / 10, src: s.provider_hours.src }, "")} h</span></li>`).join("")}</ol></section>`;
 }
@@ -1981,12 +1982,14 @@ function stepItem(s, i) {
     ? `<p class="foot">Because ${why.map(r => `AI does “${esc(r.name.replace(/\.$/, ""))}” directly in ${fig(r.now, "pct")} of observed Claude conversations now, ${fig(r.projected[d.scenario], "pct")} projected in the ${esc(d.scenario)} scenario`).join("; ")}; threshold ${fig(d.threshold, "pct")}.</p>`
     : "";
   const hours = { v: Math.round((s.provider_hours.v + s.practice_hours.v) * 10) / 10, src: s.provider_hours.src };
-  const price = s.cost_rm.v ? fig(s.cost_rm, "rm") : `${s.access || "Free"}${srcMarks(s.cost_rm.src)}`;
+  const price = s.cost_rm.v ? fig(s.cost_rm, "rm") : `${s.practice_product ? "Free to read" : s.access || "Free"}${srcMarks(s.cost_rm.src)}`;
+  const needs = (s.requires || []).map(id => d.routes.flatMap(x => x.block.steps).find(x => x.id === id)?.title).filter(Boolean);
   return `<li class="pstep${s.completed ? " done" : ""}" data-scope>
     <span class="pnum" aria-hidden="true">${s.completed ? icon("check", "sm") : i + 1}</span>
     <div class="pstep-top"><h3 class="gap-name">${esc(heading)}</h3><span class="p-hours">${fig(hours, "")} h</span></div>
     <a class="res-row" href="${esc(s.url)}" target="_blank" rel="noopener"><span class="res-tile" aria-hidden="true">${icon("book-open")}</span>
       <span class="res-text"><b>${esc(s.title)}</b><span>${esc(s.provider)} · ${price}</span></span>${icon("external-link", "sm")}<span class="vh">(opens in a new tab)</span></a>
+    ${stepAccess(s, needs)}
     <p class="sdg-row">${s.sdg.map(t => `<span class="tag sdg" title="${esc(t.reason)}">SDG ${esc(t.goal)}</span>`).join("")}</p>
     <details class="checkpoint${ai ? " ai" : ""}" data-cp="${esc(s.id)}" ${routeState.openCp.has(s.id) ? "open" : ""}>
       <summary><span><b>Checkpoint</b>${ai ? `<span class="tag ai-tag">with AI checking</span>` : ""}</span>${icon("chevron-down", "sm")}</summary>
@@ -1996,6 +1999,22 @@ function stepItem(s, i) {
       <ul class="sdg-why">${s.sdg.map(t => `<li><b>SDG ${esc(t.goal)}</b> ${esc(t.reason)}${srcMarks(t.src)}</li>`).join("")}</ul></details>
     <label class="check-line"><input type="checkbox" data-done="${esc(s.id)}" ${s.completed ? "checked" : ""}> I have done this step</label>
   </li>`;
+}
+
+/* What a step expects and needs, beside it: the units of a long course that matter, a step it builds on, a paid
+   product its own exercises use (the checkpoint never does), and what the provider expects you to know. */
+function stepAccess(s, needs = []) {
+  const lines = [];
+  if (s.focus) lines.push(`Focus on ${esc(s.focus)}.`);
+  if (needs.length) lines.push(`Do ${needs.map(t => `“${esc(t)}”`).join(" and ")} first.`);
+  if (s.practice_product) lines.push(s.provider_exercise ? `Its exercises need ${esc(s.practice_product)}; your checkpoint does not.` : `Its walkthroughs use ${esc(s.practice_product)}; your checkpoint does not.`);
+  if (s.expects) lines.push(`The provider expects: ${esc(s.expects)}`);
+  return lines.length ? `<ul class="step-access">${lines.map(l => `<li>${l}</li>`).join("")}</ul>` : "";
+}
+
+/* What the route's verified resources do not teach, so a short block is not mistaken for complete preparation. */
+function blockLimits(r) {
+  return (r.block_limits || []).map(l => `<p class="callout limit-note">${icon("info", "sm")}<span>${esc(l.text)}${srcMarks(l.src)}</span></p>`).join("");
 }
 
 /* How the chosen path contributes to the SDG targets: counts from the block and the skill-level step, with the
@@ -2062,6 +2081,7 @@ function renderPlan() {
     </div><div class="plan-main">
     <h2 class="vh">Steps</h2>
     <ol class="psteps">${b.steps.map(stepItem).join("")}</ol>
+    ${blockLimits(r)}
     ${b.uncovered.length ? `<section class="soft-card" data-scope aria-labelledby="h-uncovered"><h2 id="h-uncovered">Priority gaps without a step in this block</h2><ul class="gaps">${b.uncovered.map(g => `<li><b></b><span>${esc(g.name)}</span><span class="w">SDG 4.4</span></li>`).join("")}</ul>
       <p class="foot">Either no verified resource teaches them yet, or the block's time or budget ran out.</p></section>` : ""}
     ${contributionCard(r)}
@@ -2334,11 +2354,12 @@ function learnRoute() {
 }
 
 function courseRow(o) {
-  const price = o.cost_rm.v ? fig(o.cost_rm, "rm") : `${esc(o.access || "Free")}${srcMarks(o.cost_rm.src)}`;
+  const price = o.cost_rm.v ? fig(o.cost_rm, "rm") : `${o.practice_product ? "Free to read" : esc(o.access || "Free")}${srcMarks(o.cost_rm.src)}`;
+  const needs = (o.requires || []).map(id => learnRoute()?.resources.flatMap(g => g.options).find(x => x.id === id)?.title || id);
   const tags = `${o.in_block ? `<span class="tag sdg">In your first block</span>` : ""}${o.ai_practice ? `<span class="tag good">AI practice</span>` : ""}`;
   return `<li><details class="course-item"><summary class="res-row"><span class="res-tile" aria-hidden="true">${icon(o.ai_practice ? "sparkles" : "book-open")}</span>
     <span class="res-text"><b>${esc(o.title)}</b><span>${esc(o.provider)} · ${price} · ${fig(o.provider_hours, "")} h</span>${tags ? `<span class="res-tags">${tags}</span>` : ""}</span>
-    ${icon("chevron-down", "sm")}</summary><div class="course-detail"><p class="foot">Link checked ${esc(o.checked_on)}. ${esc(o.access || "See provider for access details.")}${srcMarks(o.cost_rm.src)}</p><a class="link-btn" href="${esc(o.url)}" target="_blank" rel="noopener">Open course ${icon("external-link", "sm")}<span class="vh">(opens in a new tab)</span></a></div></details></li>`;
+    ${icon("chevron-down", "sm")}</summary><div class="course-detail">${stepAccess(o, needs)}<p class="foot">Link checked ${esc(o.checked_on)}. ${esc(o.access || "See provider for access details.")}${srcMarks(o.cost_rm.src)}</p><a class="link-btn" href="${esc(o.url)}" target="_blank" rel="noopener">Open course ${icon("external-link", "sm")}<span class="vh">(opens in a new tab)</span></a></div></details></li>`;
 }
 
 function renderLearn() {

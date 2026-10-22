@@ -5,6 +5,7 @@ sequence of verified, curated entries that fits the person's planning weeks, wee
 Nothing here judges proficiency or readiness; requirements the app cannot judge are left to the person.
 """
 import datetime as dt
+import re
 
 from . import aei, outlook, pathway, sdg
 from .report import ONET_SRC, PAY_SRC, ReportError, fig, pct
@@ -70,6 +71,21 @@ def merged_requirements(reqs):
             degree["evidence"].append({"text": r["text"], "src": r["src"], "url": r.get("url")})
             degree["src"] = list(dict.fromkeys(degree["src"] + r["src"]))
     return out
+
+
+_PREREQ_END = re.compile(r"\s(?:Introduction|Add Achievement|Exercise|Module assessment|Knowledge check)\b.*$")
+
+
+def expects(c):
+    """What the provider says a learner should know first, without the unit list that follows it on the page."""
+    text = _PREREQ_END.sub("", c.get("provider_prerequisites") or "").strip().rstrip(";").strip()
+    return "" if text.lower() in ("", "none", "none stated by the provider") else text
+
+
+def access_fields(c):
+    """Access, what the provider expects first, and the units of a long course that serve the route."""
+    return {"access": c.get("access", ""), "expects": expects(c), "practice_product": c.get("practice_product"),
+            "provider_exercise": bool(c.get("provider_exercise")), "focus": c.get("focus")}
 
 
 def fits_family(c, family):
@@ -234,7 +250,7 @@ class Planner:
                 "provider_hours": fig(c["hours"], CAT), "practice_hours": fig(c.get("practice_hours", 0.0), CAT, estimate=True),
                 "cost_rm": fig(c["cost_rm"], CAT), "checked_on": c["link_check"]["checked_on"],
                 "requires": c.get("requires", []), "checkpoint": checkpoint, "form": form, "reason": reason,
-                "completed": c["id"] in completed, "access": c.get("access", "")}
+                "completed": c["id"] in completed, **access_fields(c)}
 
     def _forms(self, step_gaps, months, o):
         """Checkpoint form per scenario for a step's gaps, with the figures that decided it."""
@@ -289,7 +305,7 @@ class Planner:
             opts.sort(key=lambda c: (c["id"] not in block_ids, c["cost_rm"], effort(c), c["id"]))
             out.append({"dwa_id": g["dwa_id"], "name": g["name"], "served": g["dwa_id"] in served,
                         "options": [{"id": c["id"], "title": c["title"], "provider": c["provider"], "url": c["url"],
-                                     "access": c.get("access", ""), "coverage": c.get("coverage"),
+                                     **access_fields(c), "requires": c.get("requires", []), "coverage": c.get("coverage"),
                                      "ai_practice": bool(c.get("ai_skill")), "in_block": c["id"] in block_ids,
                                      "provider_hours": fig(c["hours"], CAT),
                                      "practice_hours": fig(c.get("practice_hours", 0.0), CAT, estimate=True),
@@ -377,6 +393,7 @@ class Planner:
                         for d, r in self.credited(code, prof)[1]],
             "done": [{**d, "weight": fig(d["weight"], *ONET_SRC), "sdg": ["4.4"]} for d in done],
             "requirements": reqs, "masco": masco, "job_outlook": job_outlook, "local_evidence": LOCAL_EVIDENCE,
+            "block_limits": [{"text": t, "src": [ROUTES_SRC, CAT]} for t in dest.get("block_limits", [])],
             "pay": None if pay is None else {"step": fig(pay, "dosm-wages-occupation", "esco-onet-isco")},
             "median": None if median is None else fig(median, *PAY_SRC),
             "sdg": [{"goal": "8.5", "reason": self.rep._sdg85(masco, pay), "trend": trend and trend["text"],

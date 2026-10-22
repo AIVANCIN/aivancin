@@ -1051,3 +1051,9 @@ body[data-counted="yes"] .topbar .brand { display: none; }
 }
 /* The lane switch beside the review is narrower than on phones' full width; its four labels need the smaller size there too. */
 @media (min-width: 980px) { .lane-ctl label { font-size: 12px; padding: 0 2px; } }
+/* What a step expects and needs (prerequisites, licensed exercises, the units that matter) */
+.step-access { margin: 10px 0 0; padding: 0 0 0 18px; display: grid; gap: 4px; font-size: 13px; line-height: 1.4; color: var(--text2); }
+.course-detail .step-access { margin: 0 0 8px; }
+.callout.limit-note { margin-top: 12px; padding: 12px 14px; font-size: 14px; line-height: 1.4; align-items: flex-start; box-shadow: none; background: var(--fill, var(--bg)); }
+.callout.limit-note > .ico { margin-top: 1px; }
+.callout.limit-note > span { flex: 1 1 0; min-width: 0; }

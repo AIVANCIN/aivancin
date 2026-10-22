@@ -19,7 +19,7 @@ from .conftest import DATA
 from .test_forecast import USER_SRC, shown_numbers
 
 ROOT = Path(__file__).resolve().parents[1]
-TODAY = dt.date(2026, 10, 21)
+TODAY = dt.date(2026, 10, 22)
 CUTS = (25, 50, 75)  # SPEC 11.10, initial
 
 

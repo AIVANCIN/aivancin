@@ -23,7 +23,7 @@ from aivancin.report import Reporter, ReportError  # noqa: E402
 from aivancin.routes import Planner  # noqa: E402
 
 PAIRS = ROOT / "tests" / "acceptance" / "fairness_pairs.json"
-TODAY = dt.date(2026, 10, 21)
+TODAY = dt.date(2026, 10, 22)
 
 
 def variants(template, pairs):

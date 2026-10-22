@@ -11,7 +11,7 @@ from aivancin.report import Reporter, ReportError
 from aivancin import routes as routes_mod
 from aivancin.routes import MAX_ROUTES, MIN_DONE, PER_GAP, Planner, effort, fits_family
 
-TODAY = dt.date(2026, 10, 21)
+TODAY = dt.date(2026, 10, 22)
 HAFIZ_SIDE_WORK = ["4.A.3.b.1.d.1", "4.A.3.b.1.d.3", "4.A.3.b.1.c.1", "4.A.3.b.1.b.2", "4.A.3.b.1.f.4", "4.A.2.b.2.b.8"]
 PRIYA_SIDE_WORK = ["4.A.4.c.1.c.6", "4.A.3.b.6.a.1", "4.A.4.c.3.d.1", "4.A.2.a.3.c.2", "4.A.3.b.6.j.3"]
 

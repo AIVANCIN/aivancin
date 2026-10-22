@@ -75,7 +75,7 @@ def main():
     snaps = snapshots.load()
     encoder, vectors = load_ai(snaps)
     rep = Reporter(snaps, Matcher(snaps))
-    today = dt.date(2026, 10, 21)
+    today = dt.date(2026, 10, 22)
     judge = pre_candidates if mode == "pre" else route_candidates
     rows = []
     for group in ("in_scope", "out_of_scope"):

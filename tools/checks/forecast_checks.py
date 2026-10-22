@@ -22,7 +22,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 sys.path.insert(0, str(ROOT / "tools" / "checks"))
 
 DATA = ROOT / "data"
-TODAY = dt.date(2026, 10, 21)
+TODAY = dt.date(2026, 10, 22)
 HAFIZ = ["4.A.3.b.1.d.1", "4.A.3.b.1.d.3", "4.A.3.b.1.c.1", "4.A.3.b.1.b.2", "4.A.3.b.1.f.4", "4.A.2.b.2.b.8"]
 PRIYA = ["4.A.4.c.1.c.6", "4.A.3.b.6.a.1", "4.A.4.c.3.d.1", "4.A.2.a.3.c.2", "4.A.3.b.6.j.3"]
 GROW = ("Faster than average", "Much faster than average")

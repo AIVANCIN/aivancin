@@ -9,7 +9,7 @@ from aivancin.matching import Matcher
 from aivancin.report import Reporter
 from aivancin.routes import MIN_DONE, Planner, merged_requirements
 
-TODAY = dt.date(2026, 10, 21)
+TODAY = dt.date(2026, 10, 22)
 TEXT = {"current_job": "I drive a van for a courier company.",
         "other_work": "I fix my friends' laptops at the weekend. I also fix laptops for my neighbours.",
         "studies": "", "weekly_hours": 6, "budget_rm": 0, "degree_level": "diploma"}

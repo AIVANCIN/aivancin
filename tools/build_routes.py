@@ -97,6 +97,7 @@ def main():
         out.append({"code": code, "title": onet.occupations[code], "family": d["family"], "family_label": cur["families"][d["family"]],
                     "job_zone": jz, "masco": masco, "requirements": reqs, "top_activities": top,
                     "top_activities_with_resources": covered, "admission": checks, "admitted": all(checks.values()),
+                    "block_limits": d.get("block_limits", []),
                     "siblings": sibling_table(code, weights, onet, index.names, pos)})
     result = {"built_on": dt.date.today().isoformat(), "curated_on": cur["curated_on"], "families": cur["families"],
               "sibling_rule": {"same": "O*NET intermediate work activity", "min_name_similarity": SIBLING_MIN_SIMILARITY,

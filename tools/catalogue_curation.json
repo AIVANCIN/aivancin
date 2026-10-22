@@ -1,6 +1,6 @@
 {
- "note": "Curated Microsoft Learn items and Saylor University courses. For each Microsoft Learn item the encoder proposed activities from the provider's title and summary; for each Saylor course the curator read the stated course learning outcomes. The curator kept only the links listed here (dwas), named the in-demand tools it teaches (tools, using O*NET software example names) and marked items that teach directing and checking AI output (ai_skill). Titles, URLs and durations come from the Microsoft Learn catalog API and from each Saylor course page when tools/build_catalogue.py runs. Route entries also record a coverage grade (introduces or practises), a practice checkpoint that produces an inspectable artifact and the entries they require first; Saylor states no prerequisites, so a requires link there is the curator's reading of the course sequence. families, where present, limits an entry to destination families in which its activities mean the same work (an activity such as \"Test software performance\" is unit testing for a developer but not for IT support).",
- "curated_on": "2026-10-21",
+ "note": "Curated Microsoft Learn items and Saylor University courses. For each Microsoft Learn item the encoder proposed activities from the provider's title and summary; for each Saylor course the curator read the stated course learning outcomes. The curator kept only the links listed here (dwas), named the in-demand tools it teaches (tools, using O*NET software example names) and marked items that teach directing and checking AI output (ai_skill). Titles, URLs and durations come from the Microsoft Learn catalog API and from each Saylor course page when tools/build_catalogue.py runs. Route entries also record a coverage grade (introduces or practises), a practice checkpoint that produces an inspectable artifact and the entries they require first; Saylor states no prerequisites, so a requires link there is the curator's reading of the course sequence. families, where present, limits an entry to destination families in which its activities mean the same work (an activity such as \"Test software performance\" is unit testing for a developer but not for IT support). practice_access names a paid product the provider's own exercises need; the app then says the reading is free and the checkpoint works without it. focus names the units of a long course that serve the route.",
+ "curated_on": "2026-10-22",
  "items": [
   {
    "uid": "learn.wwl.build-web-pages-html-css-for-beginners",
@@ -82,6 +82,9 @@
    "checkpoint": "Write tests for your program, including one that fails before a fix and passes after it.",
    "families": [
     "software"
+   ],
+   "requires": [
+    "learn.wwl.get-started-with-python-fundamentals"
    ]
   },
   {
@@ -131,7 +134,8 @@
    "checkpoint": "List the monthly health checks you would run on the devices you support and what result counts as a problem.",
    "families": [
     "it_support"
-   ]
+   ],
+   "practice_access": "Microsoft Intune"
   },
   {
    "uid": "learn.wwl.describe-concepts-of-security-compliance-identity",
@@ -204,7 +208,8 @@
     "4.A.4.c.3.d.1"
    ],
    "coverage": "introduces",
-   "checkpoint": "Record a month of synthetic supplier invoices and customer receipts in a spreadsheet ledger and list what is outstanding."
+   "checkpoint": "Record a month of synthetic supplier invoices and customer receipts in a spreadsheet ledger and list what is outstanding.",
+   "practice_access": "Dynamics 365"
   },
   {
    "uid": "learn.wwl.describe-general-ledger-cash-bank-management",
@@ -222,7 +227,8 @@
     "4.A.2.a.2.a.9"
    ],
    "coverage": "practises",
-   "checkpoint": "Reconcile a synthetic bank statement against a cash book and explain each difference."
+   "checkpoint": "Reconcile a synthetic bank statement against a cash book and explain each difference.",
+   "practice_access": "Dynamics 365"
   },
   {
    "uid": "learn-dynamics.create-financial-reports-dynamics-365-business-central",
@@ -233,7 +239,8 @@
     "4.A.2.a.4.k.6"
    ],
    "coverage": "practises",
-   "checkpoint": "Produce a profit and loss statement and a balance sheet for a synthetic shop and write three observations."
+   "checkpoint": "Produce a profit and loss statement and a balance sheet for a synthetic shop and write three observations.",
+   "practice_access": "Dynamics 365"
   },
   {
    "uid": "learn-dynamics.work-taxes-finance",
@@ -245,13 +252,15 @@
     "Tax software"
    ],
    "coverage": "introduces",
-   "checkpoint": "Calculate the sales tax and withholding on a set of synthetic invoices and show the working."
+   "checkpoint": "Calculate the sales tax and withholding on a set of synthetic invoices and show the working.",
+   "practice_access": "Dynamics 365",
+   "requires": [
+    "learn-dynamics.set-up-taxes-finance"
+   ]
   },
   {
    "uid": "learn.wwl.describe-expense-management-fixed-asset-management",
    "dwas": [
-    "4.A.2.a.4.k.5",
-    "4.A.2.a.4.k.1",
     "4.A.1.a.2.c.2"
    ],
    "coverage": "introduces",
@@ -264,7 +273,8 @@
     "4.A.4.b.4.h.4"
    ],
    "coverage": "practises",
-   "checkpoint": "Build a yearly budget for a synthetic business with monthly figures and a variance column."
+   "checkpoint": "Build a yearly budget for a synthetic business with monthly figures and a variance column.",
+   "practice_access": "Dynamics 365"
   },
   {
    "uid": "learn-dynamics.accounts-receivable-daily-procedures-in-dynamics-365-finance-ops",
@@ -275,7 +285,8 @@
     "4.A.4.c.3.d.1"
    ],
    "coverage": "practises",
-   "checkpoint": "Issue three synthetic invoices, record the payments and produce an aged receivables list."
+   "checkpoint": "Issue three synthetic invoices, record the payments and produce an aged receivables list.",
+   "practice_access": "Dynamics 365"
   },
   {
    "uid": "learn.dpu.summarize-sales-data",
@@ -288,7 +299,8 @@
    ],
    "ai_skill": true,
    "coverage": "introduces",
-   "checkpoint": "Summarise a synthetic sales sheet with formulas, then check every figure an AI assistant produced against them."
+   "checkpoint": "Summarise a synthetic sales sheet with formulas, then check every figure an AI assistant produced against them.",
+   "practice_access": "Microsoft 365 Copilot in Excel"
   },
   {
    "uid": "learn.dpu.work-smarter-excel",
@@ -419,7 +431,8 @@
    "checkpoint": "Write a troubleshooting log for one real or practice problem: symptom, checks in order, cause, fix and how you confirmed it.",
    "families": [
     "it_support"
-   ]
+   ],
+   "practice_access": "Microsoft Intune"
   },
   {
    "uid": "learn.wwl.describe-security-concepts-methodologies",
@@ -597,7 +610,8 @@
     "4.A.2.a.3.c.2"
    ],
    "coverage": "introduces",
-   "checkpoint": "Draw up a chart of accounts for a small business you know and post five sample transactions."
+   "checkpoint": "Draw up a chart of accounts for a small business you know and post five sample transactions.",
+   "practice_access": "Dynamics 365"
   },
   {
    "uid": "learn-dynamics.general-ledger-daily-procedures-in-dynamics-365-finance-ops",
@@ -609,25 +623,21 @@
    "requires": [
     "learn.wwl.explore-general-ledger-dynamics-365"
    ],
-   "checkpoint": "Prepare a month's journal entries and a trial balance for a synthetic shop in a spreadsheet."
+   "checkpoint": "Prepare a month's journal entries and a trial balance for a synthetic shop in a spreadsheet.",
+   "practice_access": "Dynamics 365"
   },
   {
    "uid": "learn.philanthropies.intro-to-budgeting-for-students",
    "dwas": [
-    "4.A.3.b.6.a.2",
-    "4.A.2.a.4.k.1"
+    "4.A.3.b.6.a.2"
    ],
    "coverage": "introduces",
    "checkpoint": "Build a 12-month budget in a spreadsheet with actual and budget columns and a variance for each month."
   },
   {
    "uid": "learn-dynamics.explore-reporting-tools-dynamics-365-finance-operations",
-   "dwas": [
-    "4.A.4.a.2.c.10",
-    "4.A.2.a.4.k.4"
-   ],
-   "coverage": "introduces",
-   "checkpoint": "Write a one-page monthly report for a manager from your synthetic accounts, with one chart."
+   "dwas": [],
+   "practice_access": "Dynamics 365"
   },
   {
    "uid": "learn-dynamics.process-credit-collections-in-dynamics-365-finance-ops",
@@ -636,7 +646,8 @@
     "4.A.2.a.1.i.2"
    ],
    "coverage": "practises",
-   "checkpoint": "Assess three synthetic customers' payment histories and recommend a credit limit for each with reasons."
+   "checkpoint": "Assess three synthetic customers' payment histories and recommend a credit limit for each with reasons.",
+   "practice_access": "Dynamics 365"
   },
   {
    "uid": "learn.wwl.get-started-data-analytics",
@@ -686,8 +697,7 @@
    "provider": "saylor",
    "code": "prdv006",
    "dwas": [
-    "4.A.2.a.4.g.1",
-    "4.A.2.a.4.k.1"
+    "4.A.2.a.4.g.1"
    ],
    "tools": [
     "Microsoft Excel",
@@ -857,7 +867,8 @@
    ],
    "ai_skill": true,
    "coverage": "introduces",
-   "checkpoint": "Ask an AI assistant to draft a monthly cost summary from a synthetic ledger, then check every figure against your own totals and note each correction."
+   "checkpoint": "Ask an AI assistant to draft a monthly cost summary from a synthetic ledger, then check every figure against your own totals and note each correction.",
+   "practice_access": "Microsoft 365 Copilot"
   },
   {
    "uid": "saylor.bus202.u2",
@@ -1023,6 +1034,32 @@
    ],
    "coverage": "practises",
    "checkpoint": "Group a public customer dataset into clusters in a notebook and describe each group in one sentence."
+  },
+  {
+   "uid": "saylor.bus105",
+   "provider": "saylor",
+   "code": "bus105",
+   "dwas": [
+    "4.A.2.a.4.k.1",
+    "4.A.4.b.4.h.4",
+    "4.A.3.b.6.a.2",
+    "4.A.2.a.4.k.5"
+   ],
+   "coverage": "practises",
+   "families": [
+    "finance_analytics"
+   ],
+   "focus": "Units 7 (Budgets) and 8 (Variance Analysis)",
+   "checkpoint": "Build a monthly budget for a synthetic shop, enter a month of actual spending beside it, calculate each line's variance in RM and as a percentage, and write one sentence explaining every variance over 10%."
+  },
+  {
+   "uid": "learn-dynamics.set-up-taxes-finance",
+   "dwas": [
+    "4.A.1.b.3.c.3"
+   ],
+   "coverage": "introduces",
+   "practice_access": "Dynamics 365",
+   "checkpoint": "In a spreadsheet, make a tax-code table (code, rate, tax authority, settlement period) and use it to calculate the tax on ten synthetic invoices, with the working for each."
   }
  ]
 }

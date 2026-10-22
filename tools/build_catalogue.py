@@ -37,6 +37,19 @@ def _text(fragment):
     return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", fragment)).strip()
 
 
+def has_exercise(html):
+    """Whether the module page lists an exercise unit (Microsoft Learn names them "Exercise - ...")."""
+    return bool(re.search(r">\s*Exercise\b", html))
+
+
+def access_text(product, exercise):
+    """What the person needs for an entry whose provider practice uses a paid product (curated practice_access)."""
+    if exercise:
+        return (f"Free to read. The provider's exercises need {product} (paid, or a trial that may need a work "
+                f"account); the checkpoint here works in a free spreadsheet or on paper instead.")
+    return f"Free to read; its walkthroughs use {product}, which you do not need for the checkpoint here."
+
+
 def page_facts(html):
     """The provider's stated learning objectives and prerequisites, from the module or path page."""
     objectives, prereq = [], ""
@@ -47,8 +60,9 @@ def page_facts(html):
     m = re.search(r"Prerequisites\s*</h2>(.*?)(?:<h2|Get started with Azure|$)", html, re.S) or \
         re.search(r"Prerequisites(.*?)(?:<h2|Get started with Azure|$)", html, re.S)
     if m:
-        prereq = _text(m.group(1))
-        prereq = re.split(r"\s(?:Introduction|Exercise|Module assessment|Knowledge check)\s+min", prereq)[0][:400].strip()
+        # List items end with a semicolon so "processes" and "The ability" do not run together.
+        prereq = _text(re.sub(r"</li>", "; </li>", m.group(1)))
+        prereq = re.split(r"\s(?:Introduction|Exercise|Module assessment|Knowledge check)\s+min", prereq)[0][:400].strip().rstrip(";")
     return objectives, prereq
 
 
@@ -56,13 +70,13 @@ def link_check(url, title):
     try:
         status, body = get(url)
     except Exception as exc:
-        return {"ok": False, "status": getattr(exc, "code", None), "detail": type(exc).__name__}, "", ""
+        return {"ok": False, "status": getattr(exc, "code", None), "detail": type(exc).__name__}, "", "", False
     html = body.decode("utf-8", "replace")
     page_title = re.search(r"<title>([^<]*)", html)
     page_title = page_title.group(1) if page_title else ""
     ok = status == 200 and "not found" not in page_title.lower() and title.lower()[:30] in page_title.lower()
     objectives, prereq = page_facts(html)
-    return {"ok": ok, "status": status, "page_title": page_title.strip()}, objectives, prereq
+    return {"ok": ok, "status": status, "page_title": page_title.strip()}, objectives, prereq, has_exercise(html)
 
 
 def saylor_facts(code):
@@ -158,6 +172,7 @@ def main():
         if not c.get("checkpoint"):
             return {}
         return {"coverage": c["coverage"], "checkpoint": c["checkpoint"], "requires": c.get("requires", []),
+                **({"focus": c["focus"]} if c.get("focus") else {}),
                 "practice_hours": practice_hours(hours),
                 "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"}
 
@@ -196,7 +211,7 @@ def main():
         p = items[c["uid"]]
         url = p["url"].split("?")[0]
         hours = round(p["duration_in_minutes"] / 60, 1)
-        check, objectives, prereq = link_check(url, p["title"])
+        check, objectives, prereq, exercise = link_check(url, p["title"])
         entry = {"id": c["uid"], "title": p["title"], "provider": "Microsoft Learn", "url": url,
                  "kind": "learning path" if p["type"] == "learningPath" else "module",
                  "level": p.get("levels", []), "cost_rm": 0, "hours": hours,
@@ -205,6 +220,9 @@ def main():
                  "dwas": c.get("dwas", []), "tools": c.get("tools", []), "ai_skill": bool(c.get("ai_skill")),
                  "families": c.get("families", []),
                  "objectives": objectives or [p.get("summary", "")], "provider_prerequisites": prereq,
+                 "provider_exercise": exercise,
+                 **({"access": access_text(c["practice_access"], exercise), "practice_product": c["practice_access"]}
+                    if c.get("practice_access") else {}),
                  "verified_on": today, "link_check": {**check, "checked_on": today}}
         entry.update(route_fields(c, hours))
         return entry
