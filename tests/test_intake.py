@@ -396,3 +396,22 @@ def test_bookkeeping_suggests_financial_records_and_the_person_keeps_their_words
         assert s["text"] == text
         assert "4.A.3.b.6.j.3" in s["top"]  # Maintain financial or account records.
         assert "4.A.3.a.1.c.18" not in s["top"]  # Perform housekeeping duties.
+
+
+@pytest.mark.parametrize("text, core", [
+    ("I set up a booking website for my aunt's beauty salon.", "I set up a booking website."),
+    ("I fix laptops for my friends and set up their wifi.", "I fix laptops and set up their wifi."),
+    ("I keep the books for a small clinic, every month.", "I keep the books, every month."),
+    # left alone: no beneficiary, or too little would remain
+    ("I check the logs every week for anything unusual.", "I check the logs every week for anything unusual."),
+    ("I cook for the family.", "I cook for the family."),
+])
+def test_who_the_work_is_for_is_read_apart(text, core):
+    assert intake.without_beneficiary(text) == core
+
+
+def test_a_beneficiary_no_longer_hides_the_work(snaps, ai):
+    # SPEC 11.12: the salon outweighed the website; the sentence is also read without "for my aunt's beauty salon"
+    encoder, vectors = ai
+    res = intake.suggest({"other_work": "I set up a booking website for my aunt's beauty salon."}, encoder, vectors, snaps.onet)
+    assert "4.A.2.b.2.b.8" in res["sentences"][0]["top"]  # Design websites or web applications.

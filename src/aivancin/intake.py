@@ -273,6 +273,20 @@ def work_terms(sentence):
     return out
 
 
+# Who the work is for ("for my friend's laundry shop", "for two small clinics") tells the encoder little about the work
+# and, in a long sentence, outweighs it (SPEC 11.12, 22 Oct): the laundry shop gets laundry activities, not the app.
+# Each sentence is also read without that phrase and the two scores are averaged; the person sees their own words.
+_BENEFICIARY_RE = re.compile(r"\s+for\s+(?:my|our|his|her|their|your|a|an|the|two|three|some|other|several|small|local)\b"
+                             r"[^,.;:]*?(?=\s*(?:[,.;:]|\s+(?:and|so|to|when|before|after|by|with|using|in|on)\b|$))",
+                             re.IGNORECASE)
+
+
+def without_beneficiary(text):
+    """The text without its "for my/our/a ..." phrases, or the text itself when fewer than three words would remain."""
+    core = _BENEFICIARY_RE.sub("", text).strip()
+    return core if len(re.findall(r"[A-Za-z]+", core)) >= 3 else text
+
+
 def neutral_text(sentence, onet):
     """The copy of a sentence the encoder reads: self-introductions removed; misread work terms in O*NET's words;
     names, gendered words and stated ages made neutral."""
@@ -299,8 +313,11 @@ def suggest(texts, encoder, index, onet, k=TOP_K):
             s["top"] = []
             continue
         # One sentence per call keeps each sentence's scores independent of the rest of the input.
-        q = encoder.encode([neutral_text(s["text"], onet)])[0]
-        sims = index.scores(q)
+        text = neutral_text(s["text"], onet)
+        sims = index.scores(encoder.encode([text])[0])
+        core = without_beneficiary(text)
+        if core != text:
+            sims = 0.5 * sims + 0.5 * index.scores(encoder.encode([core])[0])
         order = np.argsort(-sims, kind="stable")[:k]
         s["top"] = []
         for rank, i in enumerate(order, 1):
