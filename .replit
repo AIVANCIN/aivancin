@@ -5,3 +5,11 @@ modules = ["python-3.12", "nodejs-20", "web"]
 [nix]
 channel = "stable-25_05"
 packages = ["cargo", "libiconv", "oneDNN", "openssl", "pkg-config", "re2", "rustc"]
+
+[[ports]]
+localPort = 8000
+externalPort = 80
+
+[deployment]
+deploymentTarget = "cloudrun"
+run = "python src/main.py"
