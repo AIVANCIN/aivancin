@@ -13,7 +13,9 @@ const FIELD_PAGE = { current_job: [1, "#f-current"], other_work: [2, "#f-other"]
 const state = {
   status: null, personas: [], sources: {}, sourceNo: {},
   title: null, titleActs: [], untickedTitle: new Set(), cip: null,
-  suggest: null, ticked: new Map(), dismissed: new Set(), manual: new Map(),
+  // ticked: activity -> { override, from: the sentences it was ticked on }; dismissed: sentence -> the activities
+  // "None of these fit" took out of it, so "Show them again" can put them back.
+  suggest: null, ticked: new Map(), dismissed: new Map(), manual: new Map(),
   lane: "all", opts: { lambda: 0, mu: 0, nu: 0, scenario: "moderate", threshold: 50, pace: 1.444, release: null, horizon: "plan", scope: "skilled" },
   knownTools: new Set(), results: null, baseline: null, selected: null, target: null, lastIntake: null,
 };
@@ -326,7 +328,7 @@ async function readWork(e) {
   try {
     const sug = await api("/api/suggest", body);
     state.suggest = sug;
-    state.ticked = new Map(); state.dismissed = new Set(); state.manual = new Map();
+    state.ticked = new Map(); state.dismissed = new Map(); state.manual = new Map();
     state.lastIntake = body;
     // New answers make the compared routes stale until Compare routes runs again; the chosen route, ticked steps and saved routes stay.
     routeState.data = null; routesReached = false;
@@ -365,6 +367,23 @@ function suggestionMap() {
   (state.suggest?.suggestions || []).forEach(s => m.set(s.dwa_id, s));
   return m;
 }
+
+/* A suggestion counts once it is ticked on at least one sentence. Rejecting a sentence ("None of these fit") takes
+   back only that sentence's ticks: an activity also ticked on another sentence stays. */
+const tickedOn = (id, idx) => Boolean(state.ticked.get(id)?.from.includes(idx));
+function tickOn(id, idx, override = false) {
+  const t = state.ticked.get(id) || { override: false, from: [] };
+  if (!t.from.includes(idx)) t.from.push(idx);
+  t.override = t.override || override;
+  state.ticked.set(id, t);
+}
+function untickOn(id, idx) {
+  const t = state.ticked.get(id);
+  if (!t) return;
+  t.from = t.from.filter(x => x !== idx);
+  if (!t.from.length) state.ticked.delete(id);
+}
+function sentenceField(idx) { return state.suggest?.sentences.find(x => x.index === idx)?.field; }
 
 /* The review goes one sentence at a time, like the questions: a page per sentence, then one for the job
    title's activities, then a last page with your activities, a search for anything missed and Compare
@@ -461,7 +480,7 @@ function renderReviewNav(at = Math.min(Math.max(current.page, 1), reviewPages)) 
   box.innerHTML = reviewMeta.map((m, i) => {
     let label, note, mark = "";
     if (m.kind === "sent" || m.kind === "guard") {
-      const ticked = m.ids.some(id => state.ticked.has(id)), none = state.dismissed.has(m.index);
+      const ticked = m.ids.some(id => tickedOn(id, m.index)), none = state.dismissed.has(m.index);
       mark = ticked ? "done" : m.kind === "guard" ? "held" : none ? "none" : "";
       label = `<mark class="words">${esc(m.text)}</mark>`;
       note = `${FIELD_LABEL[m.field]} · ${m.kind === "guard" ? (ticked ? "held back, confirmed by you" : "held back") : none ? "none of these fit" : ticked ? "ticked" : "not ticked yet"}`;
@@ -493,14 +512,29 @@ function optionRow(entry, sentence) {
   if (!entry) return "";
   const id = entry.dwa_id;
   const others = entry.triggers.filter(t => t.sentence !== sentence.index).map(t => t.sentence);
-  const also = others.length ? `<span class="also">Also suggested for ${others.length === 1 ? "another sentence" : `${others.length} other sentences`}</span>` : "";
-  const ticked = state.ticked.has(id);
-  if (entry.needs_override && sentence.guard) {
+  const elsewhere = (state.ticked.get(id)?.from || []).some(x => x !== sentence.index);
+  const also = elsewhere ? `<span class="also">Ticked for another sentence</span>`
+    : others.length ? `<span class="also">Also suggested for ${others.length === 1 ? "another sentence" : `${others.length} other sentences`}</span>` : "";
+  const ticked = tickedOn(id, sentence.index);
+  // On a held-back sentence every suggestion needs the deliberate second action, even one ticked elsewhere.
+  if (sentence.guard) {
     return `<div class="opt" data-row="${esc(id)}"><span class="t">${esc(entry.name)}${also}
       <span class="also">${ticked ? "Counted as done work because you confirmed it." : ""}</span></span>
-      <button type="button" class="btn btn-gray confirm-guard" data-override="${esc(id)}" aria-pressed="${ticked}">${ticked ? "Remove" : "I have done this"}</button></div>`;
+      <button type="button" class="btn btn-gray confirm-guard" data-override="${esc(id)}" data-sent="${sentence.index}" aria-pressed="${ticked}">${ticked ? "Remove" : "I have done this"}</button></div>`;
   }
-  return `<label class="opt"><input type="checkbox" data-dwa="${esc(id)}" ${ticked ? "checked" : ""}><span class="t">${esc(entry.name)}${also}</span></label>`;
+  return `<label class="opt"><input type="checkbox" data-dwa="${esc(id)}" data-sent="${sentence.index}" ${ticked ? "checked" : ""}><span class="t">${esc(entry.name)}${also}</span></label>`;
+}
+
+/* After a tick, the same activity's rows on other sentences update their "Ticked for another sentence" note;
+   the row just ticked keeps its focus. */
+function refreshRows(id, except) {
+  const entry = suggestionMap().get(id);
+  $$(`#sentences [data-dwa="${CSS.escape(id)}"], #sentences [data-override="${CSS.escape(id)}"]`).forEach(el => {
+    const idx = Number(el.dataset.sent), sent = state.suggest.sentences.find(x => x.index === idx);
+    if (idx === except || !sent) return;
+    const row = el.closest(".opt");
+    if (row) row.outerHTML = optionRow(entry, sent);
+  });
 }
 
 function manualSearchCard() {
@@ -536,12 +570,12 @@ function openFind(boxEl, defaultLane, focus = true) {
 }
 
 function laneCounts() {
-  const smap = suggestionMap();
   const c = { current_job: 0, other_work: 0, studies: 0 };
   const all = new Set();
-  for (const id of state.ticked.keys()) {
+  for (const [id, t] of state.ticked) {
     all.add(id);
-    (smap.get(id)?.lanes || []).forEach(l => { c[l] += 1; });
+    // the lanes of the sentences it was ticked on, as the server counts them
+    new Set(t.from.map(sentenceField).filter(Boolean)).forEach(l => { c[l] += 1; });
   }
   for (const [id, m] of state.manual) { all.add(id); c[m.lane] += 1; }
   const titleKept = state.titleActs.filter(a => !state.untickedTitle.has(a.dwa_id));
@@ -588,9 +622,9 @@ function reviewEvents() {
   root.addEventListener("change", e => {
     const t = e.target;
     if (t.matches("input[data-dwa]")) {
-      const id = t.dataset.dwa;
-      if (t.checked) state.ticked.set(id, { override: false }); else state.ticked.delete(id);
-      $$(`input[data-dwa="${CSS.escape(id)}"]`).forEach(i => { i.checked = t.checked; });
+      const id = t.dataset.dwa, idx = Number(t.dataset.sent);
+      if (t.checked) tickOn(id, idx); else untickOn(id, idx);
+      refreshRows(id, idx);
       renderRail();
     } else if (t.matches("input[data-title]")) {
       if (t.checked) state.untickedTitle.delete(t.dataset.title); else state.untickedTitle.add(t.dataset.title);
@@ -609,11 +643,18 @@ function reviewEvents() {
     } else if (b.dataset.rvGo) {
       navigate("review", Number(b.dataset.rvGo));
     } else if (b.dataset.dismiss !== undefined) {
-      state.dismissed.add(Number(b.dataset.dismiss));
+      // A rejected sentence keeps none of its ticks; they come back with "Show them again".
+      const idx = Number(b.dataset.dismiss);
+      const sent = state.suggest.sentences.find(x => x.index === idx);
+      const taken = (sent?.top || []).filter(id => tickedOn(id, idx));
+      taken.forEach(id => untickOn(id, idx));
+      state.dismissed.set(idx, taken);
       renderReview();
       $(`[data-undismiss="${b.dataset.dismiss}"]`)?.focus();
     } else if (b.dataset.undismiss !== undefined) {
-      state.dismissed.delete(Number(b.dataset.undismiss));
+      const idx = Number(b.dataset.undismiss);
+      (state.dismissed.get(idx) || []).forEach(id => tickOn(id, idx));
+      state.dismissed.delete(idx);
       renderReview();
       $(`[data-dismiss="${b.dataset.undismiss}"]`)?.focus();
     } else if (b.dataset.find !== undefined) {
@@ -625,8 +666,8 @@ function reviewEvents() {
       b.textContent = "Added"; b.disabled = true;
       renderRail();
     } else if (b.dataset.override) {
-      const id = b.dataset.override;
-      if (state.ticked.has(id)) state.ticked.delete(id); else state.ticked.set(id, { override: true });
+      const id = b.dataset.override, idx = Number(b.dataset.sent);
+      if (tickedOn(id, idx)) untickOn(id, idx); else tickOn(id, idx, true);
       renderReview();
       $(`[data-override="${CSS.escape(id)}"]`)?.focus();
       $$(`[data-override="${CSS.escape(id)}"]`).forEach(x => x.closest("details")?.setAttribute("open", ""));
@@ -652,7 +693,7 @@ function reviewEvents() {
 /* ---------- stage 3: results ---------- */
 function resultsBody(extraOpts = {}) {
   const smap = suggestionMap();
-  const confirmed = [...state.ticked].map(([id, t]) => ({ dwa_id: id, source: "suggested", ...(t.override ? { guard_override: true } : {}) }))
+  const confirmed = [...state.ticked].map(([id, t]) => ({ dwa_id: id, source: "suggested", sentences: t.from, ...(t.override ? { guard_override: true } : {}) }))
     .filter(c => smap.has(c.dwa_id))
     .concat([...state.manual].map(([id, m]) => ({ dwa_id: id, source: "added_by_you", lane: m.lane })));
   return {
@@ -835,8 +876,7 @@ function renderResults(keepFocus) {
 function sentenceFor(dwaId) {
   const s = suggestionMap().get(dwaId);
   if (state.ticked.has(dwaId) && s) {
-    const t = s.triggers.find(x => !x.guarded) || s.triggers[0];
-    const sent = state.suggest.sentences.find(x => x.index === t.sentence);
+    const sent = state.suggest.sentences.find(x => x.index === state.ticked.get(dwaId).from[0]);
     if (sent) return `<p class="from"><mark class="words">${esc(sent.text)}</mark></p>`;
   }
   if (state.manual.has(dwaId)) return `<p class="from-sys">Added by you (${esc(FIELD_LABEL[state.manual.get(dwaId).lane].toLowerCase())})</p>`;
@@ -1230,10 +1270,15 @@ async function compareRoutes() {
   }
 }
 
+/* One row per requirement. A degree that O*NET states twice (Job Zone and the education survey) is one requirement
+   with both pieces of evidence under it. */
 function reqRow(q) {
-  return `<li><span class="tag ${STATUS_CLASS[q.status] || "weak"}">${esc(capitalise(q.status))}</span> <span>${esc(q.text)}</span>
-    <span class="foot">${esc(q.scope)} · ${esc(q.why)}</span>${srcMarks(q.src)}</li>`;
+  const ev = q.evidence || [];
+  return `<li><span class="tag ${STATUS_CLASS[q.status] || "weak"}">${esc(REQ_STATUS[q.status] || capitalise(q.status))}</span> <span>${esc(q.text)}</span>
+    <span class="foot">${esc(q.scope)} · ${esc(q.why)}</span>${ev.length > 1 ? `<ul class="req-ev">${ev.map(e => `<li class="foot">${esc(e.text)}${srcMarks(e.src)}</li>`).join("")}</ul>`
+      : ev.length === 1 && ev[0].text !== q.text ? `<span class="foot">${esc(ev[0].text)}</span>${srcMarks(q.src)}` : srcMarks(q.src)}</li>`;
 }
+const REQ_STATUS = { planned: "Planned, not yet met" };
 
 /* Compare routes is a short list: each route is one card that opens its detail screen, so the person
    scans first and reads only the route they care about. The order changes only on request. */
@@ -1286,11 +1331,14 @@ function saveBtn(r) {
   return `<button type="button" class="icon-btn save-btn" data-save="${esc(r.code)}" aria-pressed="${routeState.saved.has(r.code)}" aria-label="Save ${esc(r.title)}">${icon("bookmark")}</button>`;
 }
 
+/* A planned qualification is still unfinished, so it never reads as met. */
 function entryChip(r) {
   if (!isPersonal()) return "";
   const n = missingReqs(r);
-  if (n) return `<span class="chip limit">${fig({ v: n, src: reqSrc(r) }, "int")} requirement${n === 1 ? "" : "s"} missing</span>`;
+  const planned = r.requirements.filter(q => q.status === "planned").length;
   const decide = r.requirements.filter(q => q.status === "you decide").length;
+  if (n) return `<span class="chip limit">${fig({ v: n, src: reqSrc(r) }, "int")} requirement${n === 1 ? "" : "s"} missing</span>`;
+  if (planned) return `<span class="chip">Qualification planned${decide ? ` · ${decide} for you to decide` : ""}</span>`;
   return `<span class="chip">${decide ? `${decide} for you to decide` : "Requirements met"}</span>`;
 }
 
@@ -1324,6 +1372,20 @@ function explorationSection(cards) {
         <span class="chips"><span class="chip you">You do ${fig(c.done_count, "int")} of ${fig(c.total_count, "int")} activities</span>
           <span class="chip ${bandClass(c.job_outlook)}">US outlook: ${esc(bandShort(c.job_outlook))}${srcMarks(c.job_outlook.src)}</span>
           <span class="chip weak-chip">${esc(c.label)}</span></span></span>${icon("chevron-right")}</button></li>`).join("")}<li class="list-srcs srcs-slot"></li></ul></section>`;
+}
+
+/* Limited evidence: supported roles that record some of the confirmed work but count fewer activities than a route
+   needs. Each opens its full route detail to explore; it cannot be chosen until more work is confirmed. */
+function nearSection(list, need) {
+  return `<section class="explore-cards" data-scope aria-labelledby="h-near"><h2 id="h-near">Close to your work, not yet a route</h2>
+    <p class="foot">These supported roles record some of what you confirmed. A route needs ${fig(need, "int")} of your activities to count for the role; confirm more of your work to see whether one qualifies.</p>
+    <ul class="route-list">${list.map(r => `<li class="route-item"><button type="button" class="route-row" data-open-route="${esc(r.code)}">
+      ${familyTile(r)}
+      <span class="rr-body"><span class="rr-title">${esc(r.title)}</span>
+        <span class="chips"><span class="chip you">${fig(r.near.counted, "int")} of ${fig(need, "int")} activities counted</span>${entryChip(r)}</span>
+        <span class="rr-desc">${esc(r.done.map(x => x.name.replace(/\.$/, "")).join("; "))}${srcMarks(r.done_count.src)}</span></span>
+      <span class="rr-open" aria-hidden="true">${icon("chevron-right", "sm")}</span></button></li>`).join("")}<li class="list-srcs srcs-slot"></li></ul>
+    <div class="describe-actions"><button type="button" class="btn btn-gray" data-go="edit">Describe more of your work</button></div></section>`;
 }
 
 /* Not even the exploration ranking has a graduate-level role sharing this work: say so and offer the next steps. */
@@ -1369,8 +1431,11 @@ function renderRoutes() {
       ${savedHere.length ? `<fieldset class="filter-ctl"><legend class="vh">Show</legend>
         <div class="seg-ctl filter-seg" style="--n:2"><label><input type="radio" name="rfilter" value="all" ${filter === "all" ? "checked" : ""}>All routes</label><label><input type="radio" name="rfilter" value="saved" ${filter === "saved" ? "checked" : ""}>Saved (${savedHere.length})</label></div></fieldset>` : ""}
       <ul class="route-list" aria-label="${filter === "saved" ? "Saved routes" : "Routes"}" data-scope>${sortedRoutes(shown).map(routeRow).join("")}<li class="list-srcs srcs-slot"></li></ul>` :
-      (!personal || d.exploration?.length ? `<div class="callout">${icon("info")}<p>None of the supported routes counts at least two of your confirmed activities yet. Explore all roles, or tick more activities.</p></div>` : "")}
-    ${personal && d.routes.length < 2 ? (d.exploration?.length ? explorationSection(d.exploration) : noRoleCard()) : ""}
+      (!personal || d.exploration?.length || d.near_routes?.length ? `<div class="callout">${icon("info")}<p>${d.near_routes?.length
+        ? `Your confirmed work overlaps ${d.near_routes.length === 1 ? "a supported role" : `${d.near_routes.length} supported roles`}, but none counts ${fig(d.min_done, "int")} of your activities yet, so there is no route. Confirm more of your work, or explore the roles below.`
+        : "None of the supported routes counts at least two of your confirmed activities yet. Explore all roles, or tick more activities."}</p></div>` : "")}
+    ${personal && d.routes.length < 2 && d.near_routes?.length ? nearSection(d.near_routes, d.min_done) : ""}
+    ${personal && d.routes.length < 2 ? (d.exploration?.length ? explorationSection(d.exploration) : d.near_routes?.length ? "" : noRoleCard()) : ""}
     ${shared ? `<section class="soft-card" data-scope aria-labelledby="h-shared"><h2 id="h-shared">${icon("layers", "sm")}Shared foundations</h2>
       <p>${shared.common_steps.length ? `${shared.common_steps.length} step${shared.common_steps.length === 1 ? " appears" : "s appear"} (${fig(shared.common_hours, "")} hours) in every route's first block, so ${shared.common_steps.length === 1 ? "it keeps" : "they keep"} these options open.` : "No step is common to every route's first block."}</p>
       ${shared.common_steps.length ? `<ul>${shared.extra_hours.map(e => `<li>${esc(e.title)}: ${fig(e.hours, "")} hours beyond the shared steps</li>`).join("")}</ul>` : ""}
@@ -1767,7 +1832,7 @@ function radarEvents() {
 
 function renderRoute() {
   const d = routeState.data;
-  const r = d && d.routes.find(x => x.code === routeState.open);
+  const r = d && (d.routes.find(x => x.code === routeState.open) || (d.near_routes || []).find(x => x.code === routeState.open));
   const box = $("#route-body");
   if (!r) { box.innerHTML = ""; return; }
   const chosen = routeState.target === r.code;
@@ -1783,8 +1848,10 @@ function renderRoute() {
     <fieldset class="rd-tabs"><legend class="vh">Show</legend>
       <div class="seg-ctl tab-seg" style="--n:4">${[["overview", "Overview"], ["future", "Future"], ["block", "First block"], ["jobs", "Job ads"]].map(([k, t]) => `<label><input type="radio" name="rtab" value="${k}" ${tab === k ? "checked" : ""}>${t}</label>`).join("")}</div></fieldset>
     <div class="rd-panel" id="rd-panel">${panel}</div>
-    <div class="stage-cta"><span class="cta-label"><span class="cta-kicker">First block</span>${fig(r.block.effort_hours, "")} h · ${fig(r.block.cost_rm, "rm")}</span>
-      <button type="button" class="btn btn-primary choose-route" data-route="${esc(r.code)}">${chosen ? "See your plan" : "Choose this route"}</button></div>`;
+    ${r.near ? `<div class="stage-cta"><span class="cta-label"><span class="cta-kicker">Not yet a route</span>${fig(r.near.counted, "int")} of ${fig(r.near.needed, "int")} activities counted</span>
+      <button type="button" class="btn btn-primary" data-go="edit">Describe more of your work</button></div>`
+      : `<div class="stage-cta"><span class="cta-label"><span class="cta-kicker">First block</span>${fig(r.block.effort_hours, "")} h · ${fig(r.block.cost_rm, "rm")}</span>
+      <button type="button" class="btn btn-primary choose-route" data-route="${esc(r.code)}">${chosen ? "See your plan" : "Choose this route"}</button></div>`}`;
   attachSources(box);
 }
 
@@ -2153,7 +2220,16 @@ function restoreProgress() {
     examplePersona = mode === "example" ? d.persona : null;
     $(".examples").hidden = mode !== "example";
     state.lastIntake = d.lastIntake; state.suggest = d.suggest;
-    state.ticked = new Map(d.ticked); state.dismissed = new Set(d.dismissed); state.manual = new Map(d.manual);
+    state.ticked = new Map(d.ticked); state.manual = new Map(d.manual);
+    // Records saved before ticks were kept per sentence: a tick counted on every sentence that suggested it, and a
+    // rejected sentence was a bare index. A rejected sentence now keeps none of its ticks.
+    state.dismissed = new Map((d.dismissed || []).map(x => (Array.isArray(x) ? x : [x, []])));
+    const before = suggestionMap();
+    for (const [id, t] of [...state.ticked]) {
+      if (!Array.isArray(t.from)) t.from = (before.get(id)?.triggers || []).filter(x => t.override || !x.guarded).map(x => x.sentence);
+      t.from = t.from.filter(x => !state.dismissed.has(x));
+      if (!t.from.length) state.ticked.delete(id);
+    }
     state.lane = d.lane || "all"; state.knownTools = new Set(d.knownTools);
     const r = d.routes || {};
     Object.assign(routeState, { target: r.target || null, completed: new Set(r.completed), sort: r.sort || "overlap", saved: new Map(r.saved), seen: new Set(r.seen), kept: r.kept || null });

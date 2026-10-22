@@ -33,6 +33,7 @@ EXPLORE_SRC = "explore-defaults"
 RADAR_MAIN = 3  # initial: before work is described, the Radar shows each supported role's three largest activities
 EXPLORATION_CARDS = 3  # SPEC 11.7: at most three exploration cards when fewer than two routes qualify
 EXPLORATION_LABEL = "Exploration: no curated first block yet"
+NEAR_ROUTES = 3  # at most three supported roles shown as close to the work when fewer than two routes qualify
 
 
 def job_group(band):
@@ -53,6 +54,22 @@ def decent_order(routes):
     overlap, then code. Group medians, not salary offers."""
     return [r["code"] for r in sorted(routes, key=lambda r: (r["median"] is None, -(r["median"] or {"v": 0})["v"],
                                                               -r["overlap"]["v"], r["code"]))]
+
+
+def merged_requirements(reqs):
+    """One requirement per qualification: O*NET's Job Zone and its education survey can both say "a bachelor's degree",
+    which is one expectation with two sources, so they become one requirement that keeps both pieces of evidence."""
+    out, degree = [], None
+    for r in reqs:
+        if r["judge"] != "degree":
+            out.append({**r, "evidence": [{"text": r["text"], "src": r["src"], "url": r.get("url")}]})
+        elif degree is None:
+            degree = {**r, "id": "degree", "text": "A bachelor's degree", "evidence": [], "src": []}
+            out.append(degree)
+        if r["judge"] == "degree":
+            degree["evidence"].append({"text": r["text"], "src": r["src"], "url": r.get("url")})
+            degree["src"] = list(dict.fromkeys(degree["src"] + r["src"]))
+    return out
 
 
 def fits_family(c, family):
@@ -335,7 +352,7 @@ class Planner:
         uncovered = [g for g in b["prioritized"] if g["dwa_id"] not in served]
         all_supported_served = b["supported"] <= served
         reqs = []
-        for r in dest["requirements"]:
+        for r in merged_requirements(dest["requirements"]):
             status, why = self.requirement_status(r, profile, o)
             reqs.append({**r, "status": status, "why": why})
         masco = self.rep.masco(code)
@@ -409,7 +426,7 @@ class Planner:
                                                              "output it gives against your own answer."}
                       for c in verified if c.get("ai_skill") and c.get("dwas")]
         prof = self.m.lane_profile(profile["activities"], "all")
-        fits = []
+        fits, near = [], []
         for code in sorted(self.dests):
             if code == profile.get("title_code"):
                 continue
@@ -417,13 +434,27 @@ class Planner:
             ov = self.m.overlap(code, prof)
             if ov > 0 and len(direct) + len(related) >= MIN_DONE:
                 fits.append((ov, code))
+            elif direct:
+                near.append((-(len(direct) + len(related)), -ov, code))
         fits.sort(key=lambda t: (-t[0], t[1]))
         chosen = sorted(self.dests) if explore else [c for _, c in fits[:MAX_ROUTES]]
         if o["target"] and o["target"] not in chosen:
             chosen.append(o["target"])
         routes = [self.route(c, prof, profile, courses, ai_courses, o) for c in chosen]
+        # Limited evidence (fewer than two routes): supported roles that record some of the confirmed work but count
+        # fewer than two activities, shown as roles to explore with what is missing. They never become routes here.
+        near_routes = []
+        if not explore and len(fits) < 2:
+            for _, _, code in sorted(near)[:NEAR_ROUTES]:
+                if code in chosen:
+                    continue
+                r = self.route(code, prof, profile, courses, ai_courses, o)
+                direct, related = self.credited(code, prof)
+                r["near"] = {"counted": fig(len(direct) + len(related), *ONET_SRC), "needed": fig(MIN_DONE, ROUTES_SRC)}
+                near_routes.append(r)
         src = o["input_src"]
-        return {"routes": routes, "shared": None if explore else self.shared(routes), "target": o["target"], "personal": not explore,
+        return {"routes": routes, "near_routes": near_routes, "min_done": fig(MIN_DONE, ROUTES_SRC),
+                "shared": None if explore else self.shared(routes), "target": o["target"], "personal": not explore,
                 "weeks": fig(o["weeks"], "your-input"), "capacity_hours": fig(o["capacity"], src),
                 "budget_rm": fig(o["budget"], src), "scenario": o["scenario"], "release": o["release"],
                 "threshold": fig(o["threshold"], "your-input"), "willing_long": o["willing_long"],

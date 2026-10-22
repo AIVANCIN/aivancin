@@ -289,6 +289,7 @@ def build_profile(req, onet, suggestion_result, cip=None):
                 add(a["dwa_id"], "title", ["current_job"])
 
     by_id = {s["dwa_id"]: s for s in (suggestion_result or {}).get("suggestions", [])}
+    fields = {s["index"]: s["field"] for s in (suggestion_result or {}).get("sentences", [])}
     for i, c in enumerate(req.get("confirmed") or []):
         dwa_id, source = c.get("dwa_id"), c.get("source")
         key = f"confirmed[{i}]"
@@ -300,6 +301,19 @@ def build_profile(req, onet, suggestion_result, cip=None):
                 errors[key] = "AI suggestions are unavailable; add activities by search instead."
             elif s is None:
                 errors[key] = "This activity was not suggested for the text you entered."
+            elif c.get("sentences") is not None:
+                # Ticked on named sentences: only those count, so a sentence the person rejected ("None of these
+                # fit") cannot keep an activity in, and the lanes are those sentences' fields.
+                picked = c["sentences"]
+                by_sentence = {t["sentence"]: t for t in s["triggers"]}
+                if not isinstance(picked, list) or not picked or not all(
+                        isinstance(x, int) and not isinstance(x, bool) and x in by_sentence for x in picked):
+                    errors[key] = "This activity was not suggested for the sentence you ticked it on."
+                elif all(by_sentence[x]["guarded"] for x in picked) and c.get("guard_override") is not True:
+                    errors[key] = "You said you have not done this yet. Confirm it again if you have done it."
+                else:
+                    add(dwa_id, "suggested", [fields[x] for x in picked],
+                        override=all(by_sentence[x]["guarded"] for x in picked))
             elif s["needs_override"] and c.get("guard_override") is not True:
                 errors[key] = "You said you have not done this yet. Confirm it again if you have done it."
             else:

@@ -265,6 +265,8 @@ details.title-acts > summary { cursor: pointer; font: 600 16px/1.35 var(--displa
 .reqs { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 14px; line-height: 1.4; }
 .reqs li .tag { margin-right: 4px; }
 .reqs li .foot { display: block; margin-top: 2px; }
+.reqs .req-ev { margin: 4px 0 0; padding-left: 16px; list-style: disc; display: grid; gap: 2px; }
+.reqs .req-ev li .foot, .reqs .req-ev li.foot { display: list-item; margin: 0; }
 .changes { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
 .chg { padding: 14px 16px; border-radius: 14px; background: var(--card); box-shadow: var(--shadow-card); }
 .chg.retained { box-shadow: none; background: transparent; border: 1px solid var(--sep); }
