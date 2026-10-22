@@ -485,7 +485,7 @@ textarea::placeholder, input::placeholder { color: var(--text2); opacity: 1; }
 .rd-head .chips { gap: 6px; }
 .rd-tabs { position: sticky; top: 56px; z-index: 6; margin: 20px -16px 0; padding: 8px 16px; background: var(--page); }
 @media (min-width: 760px) { .rd-tabs { margin: 24px 0 0; padding: 8px 0; } }
-.tab-seg label { min-height: 40px; font-size: 0.875rem; }
+.tab-seg label { min-height: 44px; font-size: 0.875rem; }
 .tab-seg:has(input[value="future"]:checked) { --i: 1; }
 .tab-seg:has(input[value="block"]:checked) { --i: 2; }
 .tab-seg:has(input[value="jobs"]:checked) { --i: 3; }
@@ -1152,6 +1152,80 @@ html[data-text-size="3"] :is(.stage-cta, .mob-cta), html[data-text-size="4"] :is
 .req-more > summary { display: inline-flex; align-items: center; min-height: 32px; color: var(--accent); font-weight: 500; cursor: pointer; }
 .req-more .req-ev { margin-top: 0; }
 .req-note { margin-top: 12px; }
+
+/* Aqil's hierarchy refinement: quiet groups, explicit actions and dated figures. */
+#back { display: inline-flex; align-items: center; gap: 4px; width: auto; min-width: 44px; padding-inline: 8px; border-radius: 10px; font-size: 0.875rem; }
+#back .ico { flex: none; }
+body[data-counted="yes"] #back-label { display: none; }
+.btn-tinted { background: var(--accent-tint); color: var(--accent); font-weight: 600; }
+.btn-tinted:hover { background: var(--fill); }
+.side-route .btn-tinted { width: 100%; justify-content: space-between; margin-top: 12px; padding-inline: 12px; }
+#h-rd-work, #h-rd-req, #h-rd-opp, #h-prog, #h-acts { display: flex; align-items: center; gap: 10px; }
+#h-rd-req > .ico, #h-rd-opp > .ico, #h-acts > .ico { color: var(--accent); flex: none; }
+#h-prog > .ico { color: var(--you); flex: none; }
+#h-acts > .num { margin-left: auto; color: var(--text2); font-weight: 400; }
+#route .did > li { padding: 14px 16px; border-radius: 14px; background: var(--you-tint); }
+#route .did .from { font-weight: 600; }
+#route .did .act { margin-top: 8px; }
+.counted-more { padding: 8px 12px; border-radius: 12px; background: var(--fill); }
+.counted-more > p { margin-top: 8px; }
+.reqs > .req-item { padding: 12px; border-radius: 12px; background: var(--fill); }
+.reqs > .req-missing { background: var(--rust-tint); box-shadow: inset 3px 0 var(--rust); }
+.reqs > .req-missing .tag { padding-left: 0; }
+.reqs > .req-item .tag { white-space: normal; }
+.reqs > .req-item .tag .ico { flex: none; }
+.req-item .req-more > summary { min-height: 44px; }
+.opportunity-metrics, .trend-metrics { display: grid; gap: 16px; margin-top: 14px; }
+.opportunity-metrics > div, .trend-metrics > div { min-width: 0; }
+.opportunity-metrics dt, .trend-metrics dt { display: flex; align-items: center; gap: 8px; color: var(--text2); font-size: 0.8125rem; line-height: 1.4; }
+.opportunity-metrics dd, .trend-metrics dd { margin: 6px 0 0; }
+.metric-value { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; overflow-wrap: anywhere; }
+.metric-unit { font-size: 0.875rem; font-weight: 400; letter-spacing: 0; color: var(--text2); }
+.trend-scope { margin-top: 12px; font-size: 0.9375rem; line-height: 1.4; }
+.trend-metrics { grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); }
+.trend-metrics > div { padding: 14px; border-radius: 14px; background: var(--fill); }
+.trend-metrics dt { color: var(--text); }
+.trend-metrics dt .ico { color: var(--evidence); flex: none; }
+.trend-period { margin-top: 12px; }
+.outlook-period { margin-top: 12px; }
+.outlook-headline { margin-top: 8px; font-size: 1.5rem; line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; }
+.outlook-openings { margin-top: 10px; }
+.direct-share { height: 8px; margin: 8px 0 10px; border-radius: 99px; overflow: hidden; background: var(--track); }
+.direct-share > span { display: block; height: 100%; border-radius: inherit; background: var(--evidence); }
+.profile-main, .profile-aside { min-width: 0; }
+.profile-main > .soft-card:first-child, .profile-aside > .soft-card:first-child { margin-top: 0; }
+.profile-next { justify-content: flex-start; text-align: left; line-height: 1.4; }
+.progress-list { position: relative; }
+.progress-list li { position: relative; display: block; }
+.progress-list li + li { border: 0; }
+.progress-list li:not(:last-child)::before { content: ""; position: absolute; left: 11px; top: 24px; bottom: -24px; width: 2px; background: var(--sep); }
+.progress-list li.ok:not(:last-child)::before { background: var(--you); }
+.progress-list button { position: relative; display: flex; align-items: center; gap: 12px; width: 100%; min-height: 48px; padding: 8px 0; border: 0; border-radius: 8px; background: none; color: var(--text); text-align: left; font: inherit; font-size: 0.9375rem; line-height: 1.35; cursor: pointer; }
+.progress-list button > span:nth-child(2) { flex: 1; padding-block: 4px; }
+.progress-list button > .ico { color: var(--text2); flex: none; }
+.progress-list .pl-mark { background: var(--card); }
+.progress-list .ok .pl-mark { background: var(--you); }
+.progress-list button:hover { background: var(--fill); }
+.title-activities { margin-top: 8px; }
+.title-activities > summary { text-align: left; }
+#profile-body .btn-tinted { margin-top: 12px; }
+@media (min-width: 1100px) {
+  body[data-tabs="on"] .screen#route { padding-top: 12px; }
+  .rd-head { gap: 12px 16px; }
+  .rd-tabs { margin-top: 16px; }
+}
+@media (min-width: 1280px) {
+  #profile-body { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 20px; columns: auto; }
+  #profile-body > .callout { grid-column: 1 / -1; margin: 0; }
+  #profile-body > .profile-main, #profile-body > .profile-aside { display: block; margin: 0; }
+}
+@media (max-width: 1279px) { .profile-aside { margin-top: 16px; } }
+@media (max-width: 979px) {
+  body[data-counted="no"] .bar-in { grid-template-columns: minmax(44px, 1fr) auto 44px; }
+  #back { max-width: 100%; }
+  #back-label { font-size: 0.8125rem; line-height: 1.2; }
+  html[data-text-size="3"] #back-label, html[data-text-size="4"] #back-label { display: none; }
+}
 
 /* Route: the codes and the rest of the description wait behind About this role. */
 .rd-about { margin-top: 16px; }

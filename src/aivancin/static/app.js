@@ -47,6 +47,7 @@ async function api(path, body, timeoutMs) {
 /* ---------- numbers with provenance ---------- */
 function fmtNum(v, kind) {
   if (v === null || v === undefined) return "";
+  if (kind === "signed-pct") return `${v >= 0 ? "+" : ""}${Number(v).toFixed(1)}%`;
   if (kind === "pct") return `${Number(v).toFixed(1)}%`;
   if (kind === "rm") return `${v < 0 ? "-" : ""}RM${Math.abs(Math.round(v)).toLocaleString("en-MY")}`;
   if (kind === "step") return `${v >= 0 ? "+" : "-"}RM${Math.abs(Math.round(v)).toLocaleString("en-MY")}`;
@@ -119,6 +120,11 @@ const tabLast = {};
 
 function show(screen, page = 1, focus = true) {
   current = { screen, page };
+  const backNames = { welcome: "start", routes: "routes", route: "role", radar: "Radar", plan: "plan",
+    changed: "What changed", learn: "Learn", profile: "Profile", work: "your work", review: "review", results: "all roles", cohort: "cohort" };
+  const backText = history.state?.back ? `Back to ${backNames[history.state.back] || "previous screen"}` : "Back";
+  $("#back-label").textContent = backText;
+  $("#back").setAttribute("aria-label", backText);
   $$(".screen").forEach(s => { s.hidden = s.id !== screen; });
   document.body.dataset.screen = screen;
   $("#bar").hidden = screen === "welcome";
@@ -178,7 +184,7 @@ function canShow(screen) {
 }
 
 function navigate(screen, page = 1) {
-  if (current.screen !== screen || current.page !== page) history.pushState({ screen, page }, "");
+  if (current.screen !== screen || current.page !== page) history.pushState({ screen, page, back: current.screen }, "");
   show(screen, page);
 }
 const showStage = navigate;
@@ -1346,7 +1352,8 @@ async function compareRoutes() {
 function reqRow(q) {
   const ev = (q.evidence || []).filter(e => e.text !== q.text);
   const generic = q.why === REQ_UNJUDGED;
-  return `<li><p><span class="tag ${STATUS_CLASS[q.status] || "weak"}">${esc(REQ_STATUS[q.status] || capitalise(q.status))}</span> ${esc(q.text)}${srcMarks(q.src)}</p>
+  const statusIcon = { missing: "triangle-alert", planned: "clock", met: "check", "you decide": "circle-dashed" }[q.status] || "info";
+  return `<li class="req-item req-${esc(q.status.replaceAll(" ", "-"))}"><p><span class="tag ${STATUS_CLASS[q.status] || "weak"}">${icon(statusIcon, "sm")}${esc(REQ_STATUS[q.status] || capitalise(q.status))}</span> ${esc(q.text)}${srcMarks(q.src)}</p>
     ${generic ? "" : `<p class="foot">${esc(q.why)}</p>`}
     ${ev.length ? `<details class="req-more"><summary>Evidence</summary><ul class="req-ev">${ev.map(e => `<li class="foot">${esc(e.text)}${srcMarks(e.src || q.src)}</li>`).join("")}</ul></details>` : ""}</li>`;
 }
@@ -1583,10 +1590,11 @@ function overviewPanel(r) {
       <p class="foot">See how many of these you already do.</p></section>`;
   return `
     ${work}
-    <section class="soft-card" data-scope aria-labelledby="h-rd-req"><h2 id="h-rd-req">Requirements</h2><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul>${reqNote(r.requirements)}</section>
-    <section class="soft-card" data-scope aria-labelledby="h-rd-opp"><h2 id="h-rd-opp">Opportunity</h2>
-      <p><span class="tag ${bandClass(r.job_outlook) || "good"}">US outlook: ${esc(bandShort(r.job_outlook))}</span>${r.job_outlook.bright.length ? ` <span class="tag sdg">Bright Outlook</span>` : ""}${srcMarks(r.job_outlook.src)}</p>
-      ${r.pay ? `<p class="foot">DOSM 2025 median pay step from your current group: ${fig(r.pay.step, "step")}. Group medians, not a salary offer.</p>` : ""}
+    <section class="soft-card" data-scope aria-labelledby="h-rd-req"><h2 id="h-rd-req">${icon("graduation-cap", "sm")}Requirements</h2><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul>${reqNote(r.requirements)}</section>
+    <section class="soft-card" data-scope aria-labelledby="h-rd-opp"><h2 id="h-rd-opp">${icon("chart-column", "sm")}Opportunity</h2>
+      <dl class="opportunity-metrics"><div><dt>US job outlook</dt><dd><span class="tag ${bandClass(r.job_outlook) || "good"}">${esc(bandShort(r.job_outlook))}</span>${srcMarks(r.job_outlook.src)}</dd><dd class="foot">${esc(r.job_outlook.period || "No projection period")}</dd></div>
+      ${r.pay ? `<div><dt>Malaysia: group pay difference</dt><dd class="metric-value">${fig(r.pay.step, "step")}<span class="metric-unit"> / month</span></dd><dd class="foot">DOSM 2025, from your current skill group. Group medians, not a salary offer.</dd></div>` : ""}</dl>
+      ${r.job_outlook.bright.length ? `<p><span class="tag sdg">Bright Outlook</span>${srcMarks(r.job_outlook.src)}</p>` : ""}
       <p class="foot"><b>SDG 8.5:</b> ${esc(r.sdg[0].reason)}${srcMarks(r.sdg[0].src)}</p>
       <details class="more"><summary class="link-btn">Malaysia, observed</summary>
         ${r.sdg[0].trend ? `<p class="foot">${esc(r.sdg[0].trend)}${srcMarks(r.future.trend?.src || ["dosm-wages-occupation"])}</p>` : ""}
@@ -1603,8 +1611,9 @@ function workSections(r, served) {
         <p>You already do ${fig(r.done_count, "int")} of its ${fig(r.total_count, "int")} recorded activities. Overlap (${fig(r.overlap, "pct")}) is not how much of the job you can do.</p></div>
       ${r.support?.limited ? `<p class="callout limit-note">${icon("info", "sm")}<span>Limited support: this route counts ${fig(r.support.counted, "int")} of your activities (${fig(r.support.exact, "int")} exact, ${fig(r.support.related, "int")} related), the minimum is ${fig(r.support.needed, "int")}. Confirm more of your work to test it.</span></p>` : ""}
       <ul class="did">${groupDone(r.done)}</ul>
-      ${r.related.length ? `<p class="foot">Also counted: ${r.related.map(x => `“${esc(x.name.replace(/\.$/, ""))}”, which O*NET groups with “${esc(x.role_name.replace(/\.$/, ""))}”`).join("; ")}. Not part of the overlap or the gaps.</p>` : ""}
-      ${r.counted_once?.length ? `<p class="foot">Counted once: ${r.counted_once.map(x => `“${esc(x.name.replace(/\.$/, ""))}” and “${esc(x.role_name.replace(/\.$/, ""))}” stand for the same activity in this role`).join("; ")}. O*NET groups them, and each of the role's activities counts once toward a route.</p>` : ""}</section>
+      ${r.related.length || r.counted_once?.length ? `<details class="more counted-more"><summary class="link-btn">Related activities and counting</summary>
+        ${r.related.length ? `<p class="foot">Also counted: ${r.related.map(x => `“${esc(x.name.replace(/\.$/, ""))}”, which O*NET groups with “${esc(x.role_name.replace(/\.$/, ""))}”`).join("; ")}. Not part of the overlap or the gaps.</p>` : ""}
+        ${r.counted_once?.length ? `<p class="foot">Counted once: ${r.counted_once.map(x => `“${esc(x.name.replace(/\.$/, ""))}” and “${esc(x.role_name.replace(/\.$/, ""))}” stand for the same activity in this role`).join("; ")}. O*NET groups them, and each of the role's activities counts once toward a route.</p>` : ""}${srcMarks(["onet31-task-dwas", "onet31-tasks"])}</details>` : ""}</section>
     <section class="soft-card" data-scope aria-labelledby="h-rd-gaps"><h2 id="h-rd-gaps">Still to build</h2>
       <p class="foot">The role's ${gapCount(r)} largest activities you have not confirmed, most frequent first.</p>
       <ul class="gaps">${r.prioritized.map(g => {
@@ -1640,9 +1649,16 @@ function tttText(t) {
 }
 function trendBlock(t, families, local) {
   if (!t) return `<p class="foot">No DOSM group trend for this role's skill level.</p>${local ? `<p class="foot">${esc(local)}</p>` : ""}`;
-  return `<p>${esc(t.text)}${srcMarks(t.src)}</p>${families ? `<p class="foot">${esc(families)}</p>` : ""}
+  const n = (v, kind) => fig({ v, src: t.src }, kind);
+  const e = t.employees_k, m = t.median_rm;
+  return `<p class="trend-scope"><b>${esc(t.group)}</b> in Malaysia. Group level, not this occupation.${srcMarks(t.src)}</p>
+    <dl class="trend-metrics"><div><dt>${icon("briefcase-business", "sm")}Employees</dt><dd class="metric-value">${n(e.to, "int")}<span class="metric-unit"> thousand</span></dd>
+      <dd class="foot">From ${n(e.from, "int")} thousand <span class="trend-change">(${n(e.pct, "signed-pct")})</span></dd></div>
+    <div><dt>${icon("wallet", "sm")}Median monthly wage</dt><dd class="metric-value">${n(m.to, "rm")}</dd><dd class="foot">From ${n(m.from, "rm")}</dd></div></dl>
+    <p class="foot trend-period">Observed ${esc(t.start)}-${esc(t.end)} (DOSM).${srcMarks(t.src)}</p>
+    ${families ? `<p class="foot">${esc(families)}</p>` : ""}
     <details class="more"><summary class="link-btn">About these figures</summary>
-      <p class="foot">Employees are wage recipients who are Malaysian citizens, in thousands; wages are monthly medians. ${esc(t.window_note)} ${t.notes.map(esc).join(" ")} Observed only: AIVANCIN does not project Malaysian employment.</p>
+      <p class="foot">Employees are wage recipients who are Malaysian citizens, in thousands; wages are monthly medians. ${esc(t.window_note)} ${t.notes.map(esc).join(" ")} Observed only: AIVANCIN does not project Malaysian employment.${srcMarks(t.src)}</p>
       ${local ? `<p class="foot">${esc(local)}</p>` : ""}</details>`;
 }
 function releaseLine(x) {
@@ -1659,7 +1675,7 @@ function futurePanel(r) {
   const row = a => `<li class="fut-act">
       <div class="fa-top"><span class="ai-name">${esc(a.name)}${a.done ? ` <span class="tag you">You do this</span>` : ""}${a.weak ? ` <span class="tag weak">Evidence weak</span>` : ""}</span>${a.now ? `<span class="ai-val">${fig(a.now, "pct")}</span>` : ""}</div>
       <p class="fa-line fa-label">${demandChip(a.demand)}${srcMarks(a.demand.src)}</p>
-      <div class="fa-figs"><p class="fa-line">${demandShort(a.demand)}</p>
+      <div class="fa-figs">${a.now ? `<div class="direct-share" aria-hidden="true"><span style="width:${Math.max(0, Math.min(100, a.now.v))}%"></span></div>` : ""}<p class="fa-line">${demandShort(a.demand)}</p>
       ${a.now ? `<p class="fa-line">${esc(SCEN_NAME[sc])}, ${fig(hz.months, "")} months: ${fig(a.projected[sc], "pct")} · threshold: ${tttText(a.ttt[sc])}</p>
         <p class="fa-line foot">By release: ${releaseLine(a)}</p>` : ""}</div></li>`;
   const groups = AI_GROUPS.map(([key, ico, title, sub]) => {
@@ -1671,7 +1687,10 @@ function futurePanel(r) {
   const em = r.future.emerging;
   return `
     <div class="fut-top"><section class="soft-card" data-scope aria-labelledby="h-fu-jobs"><h2 id="h-fu-jobs">${icon("trending-up", "sm")}Jobs in the United States</h2>
-      <p>${jo.band ? `BLS projected growth ${esc(jo.period)}: <b>${esc(jo.band)}</b>${jo.openings ? `, with ${fig(jo.openings, "int")} projected openings (${esc(jo.openings_period)})` : ""}.` : "No projection published for this role."}${jo.bright.length ? ` Bright Outlook: ${esc(jo.bright.join(", "))}.` : ""}${srcMarks(jo.src)}</p>
+      <p class="outlook-period foot">BLS projection ${esc(jo.period || "period unavailable")}${srcMarks(jo.src)}</p>
+      <p class="outlook-headline">${jo.band ? esc(jo.band) : "No projection published for this role."}${srcMarks(jo.src)}</p>
+      ${jo.openings ? `<p class="outlook-openings">${fig(jo.openings, "int")} projected openings (${esc(jo.openings_period)}).</p>` : ""}
+      ${jo.bright.length ? `<p class="foot">Bright Outlook: ${esc(jo.bright.join(", "))}.${srcMarks(jo.src)}</p>` : ""}
       <p class="foot">A projection, not a promise of a job.</p>
       ${sure ? `<details class="more"><summary class="link-btn">How sure is this</summary><p class="foot">“${esc(sure.bls.quote)}” (BLS evaluation of its 2014-24 projections)${srcMarks(sure.bls.src)}.</p></details>` : ""}</section>
     <section class="soft-card" data-scope aria-labelledby="h-fu-my"><h2 id="h-fu-my">${icon("map-pin", "sm")}Malaysia, observed</h2>${trendBlock(r.future.trend, null, r.local_evidence)}</section></div>
@@ -2585,7 +2604,7 @@ function renderSideRoute() {
   box.innerHTML = `<p class="side-kicker">Your route</p><p class="side-title">${esc(r.title)}</p>
     <p class="foot">${fig({ v: done, src: ["your-input"] }, "int")} of ${fig({ v: steps.length, src: GAP_SRC }, "int")} steps done</p>
     <div class="side-bar" aria-hidden="true"><i style="width:${steps.length ? Math.round((done / steps.length) * 100) : 0}%"></i></div>
-    <button type="button" class="link-btn" data-tab-go="plan">Open plan</button>`;
+    <button type="button" class="btn btn-tinted" data-tab-go="plan">Open plan${icon("arrow-right", "sm")}</button>`;
 }
 
 function goTab(tab) {
@@ -2685,13 +2704,13 @@ function renderProfile() {
   const target = routeState.data?.routes.find(r => r.code === routeState.target);
   const steps = target ? target.block.steps : [];
   const items = [
-    ["Describe your work", Boolean(state.lastIntake)],
-    ["Confirm your activities", c.all > 0],
-    ["Compare routes", Boolean(routeState.data) && isPersonal()],
-    ["Look at how your skills and roles are changing", ["ai", "future", "radar"].some(k => routeState.seen.has(k))],
-    ["Choose a route", Boolean(target)],
-    ["Start learning", steps.some(s => s.completed)],
-    ["Finish your first block", steps.length > 0 && steps.every(s => s.completed)],
+    ["Describe your work", Boolean(state.lastIntake), state.lastIntake ? 'data-go="edit"' : 'data-go="describe"'],
+    ["Confirm your activities", c.all > 0, state.suggest ? 'data-tab-go="review"' : 'data-go="describe"'],
+    ["Compare routes", Boolean(routeState.data) && isPersonal(), 'data-tab-go="routes"'],
+    ["Look at how your skills and roles are changing", ["ai", "future", "radar"].some(k => routeState.seen.has(k)), 'data-tab-go="radar"'],
+    ["Choose a route", Boolean(target), 'data-tab-go="routes"'],
+    ["Start learning", steps.some(s => s.completed), `data-tab-go="${target ? "plan" : "routes"}"`],
+    ["Finish your first block", steps.length > 0 && steps.every(s => s.completed), `data-tab-go="${target ? "plan" : "routes"}"`],
   ];
   const done = items.filter(x => x[1]).length;
   const next = items.find(x => !x[1]);
@@ -2699,12 +2718,15 @@ function renderProfile() {
   const persona = mode === "example" ? state.personas.find(p => p.id === examplePersona) : null;
   const words = v => (v && v.trim() ? `<mark class="words">${esc(v)}</mark>` : `<span class="foot">Not answered</span>`);
   const names = activityNames();
+  const named = new Set([...state.ticked.keys(), ...state.manual.keys()]);
+  const titleOnly = state.titleActs.filter(a => !state.untickedTitle.has(a.dwa_id) && !named.has(a.dwa_id));
   box.innerHTML = `
     ${persona ? `<div class="callout">${icon("info")}<p>${esc(persona.name)}'s example, a synthetic person. Describe your work to use your own words.</p></div>` : ""}
-    <section class="soft-card" aria-labelledby="h-prog"><h2 id="h-prog">Your progress</h2>
+    <div class="profile-main">
+    <section class="soft-card" aria-labelledby="h-prog"><h2 id="h-prog">${icon("list-checks", "sm")}Your progress</h2>
       <div class="ring-row"><span class="ring-box">${ring(done, items.length)}<span class="ring-num" aria-hidden="true" data-src="your-input">${done}/${items.length}</span></span>
-        <p>${youFig(done)} of ${youFig(items.length)} steps done.${next ? ` Next: ${esc(next[0].toLowerCase())}.` : " Every step is done."}</p></div>
-      <ul class="progress-list">${items.map(([t, ok]) => `<li class="${ok ? "ok" : ""}"><span class="pl-mark" aria-hidden="true">${ok ? icon("check", "sm") : ""}</span>${esc(t)}<span class="vh">${ok ? ", done" : ", not yet"}</span></li>`).join("")}</ul></section>
+        <div><p>${youFig(done)} of ${youFig(items.length)} app milestones done.</p>${next ? `<button type="button" class="link-btn profile-next" ${next[2]}>Next: ${esc(next[0].toLowerCase())}${icon("arrow-right", "sm")}</button>` : `<p class="foot">Every app milestone is done.</p>`}</div></div>
+      <ul class="progress-list">${items.map(([t, ok, action]) => `<li class="${ok ? "ok" : ""}"><button type="button" ${action}><span class="pl-mark" aria-hidden="true">${ok ? icon("check", "sm") : ""}</span><span>${esc(t)}<span class="vh">${ok ? ", done" : ", not yet"}</span></span>${icon("chevron-right", "sm")}</button></li>`).join("")}</ul></section>
     ${pathSection()}
     ${savedSection()}
     ${state.lastIntake ? `<section class="soft-card" aria-labelledby="h-answers"><h2 id="h-answers">Your answers</h2>
@@ -2716,14 +2738,15 @@ function renderProfile() {
         <dt>Time and budget</dt><dd>${li.weekly_hours == null ? "?" : youFig(li.weekly_hours)} hours a week, ${fig({ v: li.budget_rm ?? 0, src: ["your-input"] }, "rm")} budget, first block of ${youFig(routeState.opts.weeks)} weeks</dd>
       </dl>
       <button type="button" class="btn btn-gray" data-go="edit">${icon("pencil-line", "sm")}Edit answers</button>
-      <p class="foot">Reading your answers again asks you to confirm your activities again.</p></section>
-    <section class="soft-card" aria-labelledby="h-acts"><h2 id="h-acts">Your activities <span class="num" data-src="your-input">${c.all}</span></h2>
+      <p class="foot">Reading your answers again asks you to confirm your activities again.</p></section>` : ""}
+    </div><div class="profile-aside">
+    ${state.lastIntake ? `<section class="soft-card" aria-labelledby="h-acts"><h2 id="h-acts">${icon("clipboard-check", "sm")}Your activities <span class="num" data-src="your-input">${c.all}</span></h2>
       ${names.length ? `<ul class="plain-rows">${names.map(n => `<li>${icon("check", "sm")}<span>${esc(n)}</span></li>`).join("")}</ul>` : ""}
-      ${c.title ? `<p class="foot">Plus ${fig({ v: c.title, src: TITLE_SRC }, "int")} from your job title, ${esc(state.title.title)}.</p>` : ""}
-      <button type="button" class="btn btn-gray" data-tab-go="review">Review activities</button></section>` : describeCard("profile")}
+      ${titleOnly.length ? `<details class="more title-activities"><summary class="link-btn">${fig({ v: titleOnly.length, src: TITLE_SRC }, "int")} more from your job title, ${esc(state.title.title)}</summary><p class="foot">Included from the O*NET job-title list. Review activities to keep or remove them.</p><ul class="plain-rows">${titleOnly.map(a => `<li>${icon("briefcase-business", "sm")}<span>${esc(a.name)}</span></li>`).join("")}</ul></details>` : ""}
+      <button type="button" class="btn btn-tinted" data-tab-go="review">Review activities${icon("arrow-right", "sm")}</button></section>` : describeCard("profile")}
     <section class="soft-card" aria-labelledby="h-data"><h2 id="h-data">Your data</h2>
       <p class="foot">Your answers, activities, route and progress are kept in this browser only. The server keeps nothing.</p>
-      <button type="button" class="btn btn-gray btn-danger-text" id="clear-open">${icon("trash-2", "sm")}Clear my data</button></section>`;
+      <button type="button" class="btn btn-gray btn-danger-text" id="clear-open">${icon("trash-2", "sm")}Clear my data</button></section></div>`;
 }
 
 function sectionEvents() {
