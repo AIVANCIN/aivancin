@@ -11,6 +11,7 @@
 <meta name="theme-color" content="#0955D4">
 <link rel="apple-touch-icon" href="/icon/icon-rounded.svg">
 <script src="/static/motion.js"></script>
+<script src="/static/display.js"></script>
 <link rel="icon" href="/icon/icon-rounded.svg" type="image/svg+xml">
 <link rel="preload" href="/fonts/kl-pro/KLPro-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/jost/Jost-SemiBold-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -93,7 +94,7 @@
       <div class="progress" aria-hidden="true"><span class="progress-fill" id="progress-fill"></span></div>
       <p class="bar-step"><span aria-hidden="true" id="bar-count">1/4</span><span class="vh" id="bar-label">Step 1 of 4, Your work</span></p>
     </div>
-    <button type="button" class="icon-btn settings-open" aria-label="Display settings" aria-haspopup="dialog"><svg class="ico" aria-hidden="true"><use href="#i-settings"/></svg></button>
+    <button type="button" class="icon-btn settings-open" aria-label="Display and accessibility settings" aria-haspopup="dialog"><svg class="ico" aria-hidden="true"><use href="#i-settings"/></svg></button>
   </div>
 </header>
 
@@ -103,7 +104,7 @@
     <source media="(max-width: 759px), (orientation: portrait)" srcset="/art/art-portrait-390.webp 390w, /art/art-portrait-780.webp 780w, /art/art-portrait-1170.webp 1170w" sizes="100vw" width="1170" height="2079">
     <img src="/art/art-1680.webp" srcset="/art/art-640.webp 640w, /art/art-1120.webp 1120w, /art/art-1680.webp 1680w, /art/art-2560.webp 2560w" sizes="100vw" width="2560" height="1440" alt="" fetchpriority="high">
   </picture>
-  <button type="button" class="icon-btn on-art settings-open" aria-label="Display settings" aria-haspopup="dialog"><svg class="ico" aria-hidden="true"><use href="#i-settings"/></svg></button>
+  <button type="button" class="icon-btn on-art settings-open" aria-label="Display and accessibility settings" aria-haspopup="dialog"><svg class="ico" aria-hidden="true"><use href="#i-settings"/></svg></button>
   <p class="wordmark"><span class="brand-mark" aria-hidden="true"></span>AIVANCIN</p>
   <div class="welcome-body">
     <h1 id="h-welcome" tabindex="-1">Your next role starts with the work you already do.</h1>
@@ -216,7 +217,7 @@
     <div class="q-actions">
       <button class="btn btn-primary btn-block" type="submit" id="read-btn">Continue</button>
       <button class="link-btn read-now" type="button" id="read-now">Read my work now</button>
-      <p class="foot privacy" id="read-note">Read on this server for this request only; the server keeps nothing. Your answers stay in this browser until you clear them in Profile.</p>
+      <p class="foot privacy" id="read-note">Read on this server and not kept there. Your answers stay in this browser until you clear them.</p>
     </div>
   </form>
   </div>
@@ -244,7 +245,7 @@
   <div class="wrap">
     <p class="eyebrow">Your work</p>
     <h1 id="h-review" class="page-title" tabindex="-1">Check what we read</h1>
-    <p class="lead-left review-lead">A small model on this server matched each sentence to work activities. Tick the ones that are true for you; nothing counts until you do.</p>
+    <p class="lead-left review-lead">A small model matched each sentence to work activities. Tick the ones that are true for you; nothing counts until you do.</p>
     <div class="review">
       <nav class="rv-list-wrap" aria-labelledby="h-rv-list"><h2 class="rv-list-h" id="h-rv-list">What we read</h2><ol class="rv-list" id="rv-list"></ol></nav>
       <div id="sentences"></div>
@@ -316,7 +317,8 @@
     <h1 id="h-results" class="page-title" tabindex="-1">Closest roles to explore</h1>
     <div class="lead-left" id="results-lead" data-scope></div>
     <div id="change" class="change" aria-live="polite"></div>
-    <div class="controls" id="controls"></div>
+    <details class="evidence-panel rank-settings"><summary>Ranking settings<svg class="ico sm" aria-hidden="true"><use href="#i-chevron-down"/></svg></summary>
+      <div class="controls" id="controls"></div></details>
     <div class="md">
       <ol class="role-list" id="role-list" aria-label="Closest roles" data-scope></ol>
       <div id="detail"></div>
@@ -376,7 +378,7 @@
 <dialog class="sheet" id="clear-sheet" aria-labelledby="h-clear">
   <form method="dialog">
     <div class="sheet-head"><h2 id="h-clear">Clear your data?</h2></div>
-    <p>This removes your answers, confirmed activities, chosen route, ticked steps and saved routes from this browser. Display settings stay.</p>
+    <p>This removes your answers, confirmed activities, chosen route, ticked steps and saved routes from this browser. Display and accessibility settings stay.</p>
     <div class="sheet-actions">
       <button class="btn btn-danger btn-block" value="clear" type="submit">Clear my data</button>
       <button class="btn btn-gray btn-block" value="cancel" type="submit" autofocus>Cancel</button>
@@ -386,7 +388,7 @@
 
 <dialog class="sheet" id="settings" aria-labelledby="h-settings">
   <form method="dialog">
-    <div class="sheet-head"><h2 id="h-settings">Display</h2><button class="link-btn" value="done">Done</button></div>
+    <div class="sheet-head"><h2 id="h-settings">Display &amp; accessibility</h2><button class="link-btn" value="done">Done</button></div>
     <fieldset class="set-group">
       <legend>Appearance</legend>
       <div class="seg-ctl theme">
@@ -395,6 +397,14 @@
         <label><input type="radio" name="theme" value="dark">Dark</label>
       </div>
     </fieldset>
+    <div class="set-group" data-display-setting>
+      <label class="set-label" for="text-size">Text size <span class="set-val" id="text-size-val">Default</span></label>
+      <div class="text-size"><span class="ts-a" aria-hidden="true">A</span><input type="range" id="text-size" min="0" max="4" step="1" value="0"><span class="ts-a lg" aria-hidden="true">A</span></div>
+      <div class="set-list">
+        <label class="set-switch"><span>Bold text</span><input type="checkbox" role="switch" id="bold-text"></label>
+        <label class="set-switch"><span>Increase contrast<span class="foot">Darker text, clearer edges, solid bars and underlined links</span></span><input type="checkbox" role="switch" id="more-contrast"></label>
+      </div>
+    </div>
     <fieldset class="set-group" hidden data-motion-setting>
       <legend>Motion</legend>
       <div class="seg-ctl motion-setting">
@@ -403,7 +413,7 @@
         <label><input type="radio" name="motion" value="reduce">Reduced</label>
       </div>
     </fieldset>
-    <p class="foot">Auto and Device follow your system settings. Saved in this browser only.</p>
+    <p class="foot">Auto and Device follow your system settings; so does Increase contrast until you change it. Saved in this browser only.</p>
     <div class="set-group about">
       <button type="button" class="set-row how-open" aria-haspopup="dialog"><span><b>How it works</b><span class="foot">What AIVANCIN does at each step, and what we measured</span></span><svg class="ico" aria-hidden="true"><use href="#i-chevron-right"/></svg></button>
       <button type="button" class="set-row sources-open" aria-haspopup="dialog"><span><b>Sources and licences</b><span class="foot">O*NET 31.0 (USDOL/ETA, CC BY 4.0), Anthropic Economic Index, DOSM and more</span></span><svg class="ico" aria-hidden="true"><use href="#i-chevron-right"/></svg></button>

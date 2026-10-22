@@ -67,3 +67,41 @@
   --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230E0D12' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
   color-scheme: dark;
 }
+
+/* Bold text (Display & accessibility): the same family one or two weights heavier, so every weight the interface
+   sets moves up together and the hierarchy holds. */
+@font-face { font-family: "KL Pro Bold Text"; src: url("/fonts/kl-pro/KLPro-Semibold.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "KL Pro Bold Text"; src: url("/fonts/kl-pro/KLPro-Semibold.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "KL Pro Bold Text"; src: url("/fonts/kl-pro/KLPro-Bold.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "KL Pro Bold Text"; src: url("/fonts/kl-pro/KLPro-Bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+:root[data-bold="on"] {
+  --sans: "KL Pro Bold Text", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --display: "KL Pro Bold Text", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+}
+
+/* Increase contrast (Display & accessibility, or the device's prefers-contrast until the person chooses): darker
+   secondary text and separators, visible card edges and solid bars. Light: secondary text #3A3A40 is 10.5:1 on
+   #F5F5F7, accent #0747AE 8.3:1 on white. Dark: secondary text #E2DFE8 is 14:1 on #0E0D12. */
+:root[data-contrast="more"] {
+  --text2: #3A3A40; --sep: #A3A3AB; --border: #48484F; --fill: #E2E2E7; --fill-hover: #D5D5DB; --track: #C9C9CF;
+  --accent: #0747AE; --accent-pressed: #053A8F; --you: #8E1F62; --marker-edge: #8E1F62; --grow: #145C27; --rust: #8A3605;
+  --evidence: #075261; --danger: #B00012; --fam-sw: #5229B5; --viz-grid: #C9C9CF; --viz-axis: #8E8E96;
+  --glass: var(--glass-solid); --ring: 0 0 0 1px #8E8E96;
+  --shadow-card: 0 0 0 1px #8E8E96; --shadow-float: 0 0 0 1px #6E6E76, 0 12px 32px -12px rgba(16, 16, 24, 0.25);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"])[data-contrast="more"] {
+    --text2: #E2DFE8; --sep: #5A5766; --border: #C9C5D2; --fill: #34333D; --fill-hover: #3E3D48; --track: #4A4856;
+    --accent: #5AB6F8; --accent-pressed: #8CCBFA; --you: #FAD3E8; --marker-edge: #FAD3E8; --grow: #8FE0A8; --rust: #FFC092;
+    --evidence: #7FDCCD; --danger: #FF8A84; --fam-sw: #CDBDFF; --viz-grid: #4A4856; --viz-axis: #8B8698;
+    --glass: var(--glass-solid); --ring: 0 0 0 1px #6E6A7A;
+    --shadow-card: 0 0 0 1px #6E6A7A; --shadow-float: 0 0 0 1px #8B8698, 0 16px 40px -12px rgba(0, 0, 0, 0.7);
+  }
+}
+:root[data-theme="dark"][data-contrast="more"] {
+  --text2: #E2DFE8; --sep: #5A5766; --border: #C9C5D2; --fill: #34333D; --fill-hover: #3E3D48; --track: #4A4856;
+  --accent: #5AB6F8; --accent-pressed: #8CCBFA; --you: #FAD3E8; --marker-edge: #FAD3E8; --grow: #8FE0A8; --rust: #FFC092;
+  --evidence: #7FDCCD; --danger: #FF8A84; --fam-sw: #CDBDFF; --viz-grid: #4A4856; --viz-axis: #8B8698;
+  --glass: var(--glass-solid); --ring: 0 0 0 1px #6E6A7A;
+  --shadow-card: 0 0 0 1px #6E6A7A; --shadow-float: 0 0 0 1px #8B8698, 0 16px 40px -12px rgba(0, 0, 0, 0.7);
+}
