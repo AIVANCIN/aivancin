@@ -10,7 +10,7 @@ You describe what you actually do, in your own words. An AI suggests the matchin
 
 <sub>Built for SDC Hackathon 2026 · Team DOVUN · Domain One: The Aiversecity Future-Ready Workforce Domain</sub>
 
-**[Run locally](#how-to-run)** · Live demo and demo video: not yet available
+**[Live demo](https://aivancin--jadfahmi.replit.app)** · [Pitch deck](submission/AIVANCIN_Pitch_Deck.pdf) · [Run locally](#how-to-run)
 
 </div>
 
@@ -36,11 +36,11 @@ You describe what you actually do, in your own words. An AI suggests the matchin
 | Resource | Link |
 | --- | --- |
 | GitHub Repository | https://github.com/AIVANCIN/aivancin |
-| Replit Project | Not yet available |
-| Live Demo | Not yet available |
+| Replit Project | Deployed from the team leader's Replit account; proof in [submission/Replit Proof of Use.pdf](submission/Replit%20Proof%20of%20Use.pdf) |
+| Live Demo | https://aivancin--jadfahmi.replit.app |
 | RunPod Endpoint | None: RunPod ran one training pod, not an endpoint (see How We Use RunPod) |
-| Slide Deck | Not yet available |
-| Demo Video | Not yet available |
+| Slide Deck | [submission/AIVANCIN_Pitch_Deck.pdf](submission/AIVANCIN_Pitch_Deck.pdf) |
+| Demo Video | Added here when it is published on YouTube |
 
 </div>
 
@@ -50,14 +50,14 @@ You describe what you actually do, in your own words. An AI suggests the matchin
 
 > **The problem:** many Malaysian graduates work in jobs below their qualification, and before spending evenings and savings on retraining they cannot easily see which graduate-level job is closest to what they already do.  
 > **Our approach:** read the user's own description of their work, suggest the matching O\*NET work activities with a local AI model, let the user confirm each one, then match roles by activity overlap.  
-> **The result today:** a working web app, run locally from bundled files: free text in, activity suggestions with the sentence that triggered each, a guard against "I have never..." statements and confirmation; then up to three supported career routes as summary cards, each opening to the work, its future (US job projections, Malaysia's observed trend, and how its activities are shifting) and its first block, a chosen route's first learning block that fits your weeks, hours and budget, a Future Skills Radar tab for your skills and routes, and what changes when the AI-usage evidence changes. An exploration view still lists the closest graduate-level roles by activity overlap, each with requirement labels, a US job outlook, dated AI-usage evidence, a Future Skills Radar projecting how each activity shifts under three scenarios, a DOSM pay step, SDG reasons and a plan from link-checked free courses.
+> **The result today:** a working web app, live on Replit and runnable locally from the same bundled files: free text in, activity suggestions with the sentence that triggered each, a guard against "I have never..." statements and confirmation; then up to three supported career routes as summary cards, each opening to the work, its future (US job projections, Malaysia's observed trend, and how its activities are shifting) and its first block, a chosen route's first learning block that fits your weeks, hours and budget, a Future Skills Radar tab for your skills and routes, and what changes when the AI-usage evidence changes. An exploration view still lists the closest graduate-level roles by activity overlap, each with requirement labels, a US job outlook, dated AI-usage evidence, a Future Skills Radar projecting how each activity shifts under three scenarios, a DOSM pay step, SDG reasons and a plan from link-checked free courses.
 
 | Snapshot | Details |
 | --- | --- |
 | **Who it's for** | A Malaysian diploma or degree holder aged 25-34 working in a semi- or low-skilled job (for example a van driver, cashier or call-centre agent), before committing to retraining |
-| **What works now** | Intake with suggestions, guard and confirmation; route comparison over 17 supported destinations; first learning blocks with practice checkpoints; what-changed comparison between evidence releases; role matching by lane; requirement labels; job outlook with an optional outlook order; AI-usage evidence across four releases with replay; Future Skills Radar tab with four separate signals (US job projections, skill demand, AI shift with time to threshold, Malaysia's observed trend) under slower, moderate and faster scenarios; registered forecasts for the next release to score; plan; SDG tags; a cohort view for career centres on a synthetic cohort; web interface (not yet deployed) |
+| **What works now** | Intake with suggestions, guard and confirmation; route comparison over 17 supported destinations; first learning blocks with practice checkpoints; what-changed comparison between evidence releases; role matching by lane; requirement labels; job outlook with an optional outlook order; AI-usage evidence across four releases with replay; Future Skills Radar tab with four separate signals (US job projections, skill demand, AI shift with time to threshold, Malaysia's observed trend) under slower, moderate and faster scenarios; registered forecasts for the next release to score; plan; SDG tags; a cohort view for career centres on a synthetic cohort; web interface, live at https://aivancin--jadfahmi.replit.app |
 | **Demo mode** | Model inference runs live on the CPU from bundled files; data are bundled, dated snapshots; personas are synthetic |
-| **Reviewed revision** | Checks below were run on 20 and 21 October 2026 (Windows 11, Python 3.13); each row names its date |
+| **Reviewed revision** | Checks below were run on 20 to 22 October 2026 (Windows 11, Python 3.13); each row names its date |
 
 ### Problem
 
@@ -103,13 +103,13 @@ The AI is a local sentence encoder, all-MiniLM-L6-v2 fine-tuned on O\*NET's own 
 
 ## See it in action
 
-A demo video is not yet available. The same walkthrough runs locally ([start it first](#how-to-run)) at `http://127.0.0.1:8000/`:
+Open the live prototype at **https://aivancin--jadfahmi.replit.app** (no account or key needed), or run the same build locally ([start it first](#how-to-run)) at `http://127.0.0.1:8000/`. The pitch video follows this walkthrough; its deck is [submission/AIVANCIN_Pitch_Deck.pdf](submission/AIVANCIN_Pitch_Deck.pdf).
 
 1. **Start:** on the welcome screen press "Try an example" (Hafiz, a synthetic persona: computing diploma, van driver; Priya is one tap away), then Continue through the four questions and "Read my work". "Get started" opens the 17 supported roles to explore first, with "Describe your work" leading to the same questions empty.
 2. **Watch:** each of his 9 sentences appears with its five suggested activities, all unticked; "On weekends I fix my friends' laptops and set up their home wifi" includes "Resolve computer network problems".
-3. **Decide:** tick what is true for his weekend work (network and software problems, installing software, backups, the shop website), then press "Compare routes".
-4. **Compare and choose:** three routes appear (Web Developers, Computer Network Support Specialists, Network and Computer Systems Administrators), as cards with overlap, outlook and missing requirements, plus the shared foundations common to all three. Open one for its work, future and first block, then choose it to see the ordered block; open a checkpoint to read it, and switch the scenario to see which checkpoints add AI checking.
-5. **What changed:** compare the plan under the August 2025 and May 2026 evidence. In the moderate scenario two web-development steps (web accessibility, and getting started with web development) change their checkpoint form, with the figures that caused it. "Or explore all roles" shows the full ranked list, where all six closest roles change against his job title alone.
+3. **Decide:** tick what is true: "Resolve computer network problems", "Install computer software", "Create electronic data backup to prevent loss of information" and "Update website content" from his weekend work, and "Write computer programming code" from his studies; then press "Compare routes".
+4. **Compare and choose:** three routes appear (Computer Network Support Specialists, Web Developers, Computer Programmers), as cards with the work behind each, the requirements still open and the priority gaps the first block reaches, plus the shared foundations. Open Web Developers for its work, future and first block, then choose it to see the ordered block (13.5 of 32 hours, RM0); open a checkpoint to read it, and switch the scenario to see which checkpoints add AI checking.
+5. **What changed:** compare the plan under the August 2025 and May 2026 evidence. One step, "Web accessibility principles and guidelines", changes from a checkpoint with AI checking to a plain one, because "Develop specifications or procedures for website development or maintenance" moves from 52.8% to 46.7%; it is marked weak evidence and holds only in the slower and moderate scenarios. "Or explore all roles" shows the full ranked list, where all six closest roles change against his job title alone.
 
 **Replay an evidence update:** `python tools/checks/replay.py` keeps Hafiz, his limits (5 hours a week for 4 weeks, RM0, no new degree), his target (Network and Computer Systems Administrators) and a completed step fixed, and swaps only the AI-usage evidence from the January 2026 to the March 2026 release. One step, "Fundamentals of computer networking", gains AI checking, because "Provide technical support for computer network issues" moves from 38.1% to 50.4% (threshold 50%); the other six steps, the hours and the cost stay. The command prints both plans and runs 12 checks, including a separate recomputation of every figure and checkpoint from the raw files and an unrelated evidence change that must leave the plan alone. It is a demonstration of traceability, not of a trend: the January value rests on one task statement and 26 conversations, which the "What changed" view shows.
 
@@ -171,7 +171,7 @@ flowchart LR
 | How it works sheet with the measured checks | WORKING | `data/checks.json`, `GET /api/status`, `tests/test_app_and_failures.py` |
 | Future Skills Radar and job outlook | WORKING (first version) | `tests/test_matching_and_report.py`, `tests/test_forecast.py`, `python tools/checks/a18_backtest.py` |
 | Skill demand, time to threshold, Malaysian trend, registered forecasts | WORKING | `python tools/checks/forecast_checks.py` (C1-C5), `python tools/export_forecasts.py` |
-| Web interface | WORKING (local) | `tests/test_app_and_failures.py`; scripted Edge runs at 390 and 1280 px in light and dark, 21 Oct 2026 |
+| Web interface | WORKING (local and live on Replit) | `tests/test_app_and_failures.py`; scripted Edge runs at 390 and 1280 px in light and dark, 21 and 22 Oct 2026; the Replit deployment serves byte-identical `app.js` and `app.css`, 22 Oct 2026 |
 | Acceptance checks A1-A3 on fresh test sets | RUN: A1 and A3 pass, A2 fails | `python tools/checks/a1_a3.py`; see Evidence |
 | Acceptance checks A4, A6, A7 | RUN: A4 and A7 pass, A6 fails | `tools/checks/`; see Evidence |
 
@@ -226,7 +226,7 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 | Backend | Python 3.13, FastAPI 0.150, Uvicorn 0.54 | Intake, matching, evidence and plan API |
 | Database | None; bundled CSV, JSON and NumPy files | O\*NET, AEI, DOSM, crosswalk and catalogue extracts, activity vectors, manifest |
 | AI / Compute | all-MiniLM-L6-v2, fine-tuned once on a RunPod GPU (RTX 4090), run as quantized ONNX on the CPU with ONNX Runtime 1.31 and Tokenizers 0.23 | Sentence encoding for activity suggestions |
-| Hosting / Dev | Replit (not yet deployed) | Planned deployment |
+| Hosting / Dev | Replit Deployments (Cloud Run target, Python 3.12 module) | Live prototype at https://aivancin--jadfahmi.replit.app |
 
 ### Privacy, safety and reliability
 
@@ -247,7 +247,7 @@ The app behaves as specified on the bundled data and synthetic personas; whether
 ├── src/
 │   ├── main.py             # Application entry point
 │   └── aivancin/           # snapshots, encoder, intake, matching, aei, report, pathway, routes, cohort, app; static/ holds the web interface
-├── submission/             # Required submission documents (added before the deadline)
+├── submission/             # Proposal, Technical & Tools Declaration, Replit and RunPod proof, pitch deck
 ├── tests/                  # Offline tests
 ├── tools/
 │   ├── build_snapshots.py  # Rebuilds data/ from the original sources
@@ -293,16 +293,16 @@ Running the encoder locally on precomputed vectors keeps the demo offline, free 
 
 ### Option 1: Run on Replit (Recommended)
 
-1. Import this repository via **Create Repl → Import from GitHub**.
+1. Open the live deployment at https://aivancin--jadfahmi.replit.app, or import this repository via **Create Repl → Import from GitHub**.
 2. No secrets are needed.
-3. Click **Run**. Replit uses `.replit` to start `python src/main.py`.
+3. Click **Run**. Replit uses `.replit` to start `python src/main.py` on its Python 3.12 module.
 
-Not yet verified on Replit.
+Verified 22 October 2026: the published deployment answers `/api/status` with AI suggestions available and the four bundled releases, and serves `app.js` and `app.css` byte-identical to this branch.
 
 ### Option 2: Run Locally
 
-**Prerequisites:** Python 3.13 (other recent versions untested). No accounts, keys or paid services.  
-**Verified on:** a fresh clone, Windows 11, Python 3.13, 20 October 2026.
+**Prerequisites:** Python 3.13 (the Replit deployment runs 3.12; other versions untested). No accounts, keys or paid services.  
+**Verified on:** a fresh clone, Windows 11, Python 3.13, 22 October 2026 (install, start, `/api/status` and `/api/suggest`).
 
 ```bash
 git clone https://github.com/AIVANCIN/aivancin.git
@@ -329,7 +329,11 @@ python -m pytest
 
 ## How We Use Replit *(Required)*
 
-Not used yet. The app is prepared for Replit: `.replit` starts `python src/main.py`, which binds to all interfaces on Replit, and everything it needs is bundled, so a deployment needs no secrets or external services. The deployment URL and proof of use will be added here.
+Replit hosts the live prototype judges use: **https://aivancin--jadfahmi.replit.app**, published from the team leader's Replit account.
+
+- **How it was set up:** the repository was imported into Replit, and Replit Agent configured the run settings (`.replit`: the Python 3.12 module, port 8000 served on 80, a Cloud Run deployment target running `python src/main.py`) and published the app; its commits ("Configure Replit environment settings", "Published your App") are in this repository's history.
+- **What runs there:** the same code and bundled data as this branch, including the fine-tuned encoder on the CPU. The app needs no secrets, database or external service, and it makes no outbound calls.
+- **Proof:** [submission/Replit Proof of Use.pdf](submission/Replit%20Proof%20of%20Use.pdf), also Appendix C of the Technical & Tools Declaration.
 
 ## How We Use RunPod *(Required)*
 
@@ -337,6 +341,7 @@ One GPU training job, no endpoint: the app never calls RunPod, and the fine-tune
 
 - **What ran:** on 21 Oct 2026 we fine-tuned the sentence encoder on an on-demand pod from the team's RunPod credit: pod `82gxhhkg2yedbz`, NVIDIA GeForce RTX 4090, Secure Cloud, image `runpod/pytorch:2.8.0-py3.11-cuda12.8.1-cudnn-devel-ubuntu22.04`. `tools/finetune/train.py` trained on 21,397 pairs built from O\*NET's 24,087 task-to-activity links (one epoch, contrastive loss, settings fixed before the run) in 15.6 seconds, 25.5 seconds with both model exports. The pod ran for about 28 minutes including setup and download and cost US$0.42.
 - **How it was judged:** locally on the CPU with the app's own scoring, against a gate written before training: 45 of 60 held-out casual descriptions with a correct activity in the top five, against 39 for the original model and 40 for the base model put through the same export; the earlier complete-chain regression not lower (32 of 50 against 31). The held-out sentences never went to the pod.
+- **Proof:** [submission/RunPod Proof of Use.pdf](submission/RunPod%20Proof%20of%20Use.pdf) (pod ID, GPU type, runtime and cost from the team's RunPod dashboard), also Appendix B of the Technical & Tools Declaration.
 - **What changed:** the tuned model replaced `data/model/model.onnx`; the activity and task-statement vectors and the route sibling tables were recomputed for it. The record (pod, GPU, runtime, cost, training data and model hashes, gate results) is `data/model/finetune.json`, with `tools/finetune/run_20261021T1047Z.json` and `tools/finetune/gate_20261021T1047Z.json`; the snapshot builder refuses model files that do not match it.
 
 ---
@@ -349,7 +354,7 @@ One GPU training job, no endpoint: the app never calls RunPod, and the fine-tune
 
 ## Future Improvements
 
-- [ ] The Replit deployment and its memory, start-up and latency measurements.
+- [ ] Memory, start-up and latency measurements on the Replit deployment.
 - [ ] A second fine-tuning round with casual paraphrases, judged on a new held-out set written before it.
 - [ ] Malaysian entry requirements and MyCOL or MyMahir evidence, once their reuse permission is confirmed.
 - [ ] Malay descriptions, after their own checked test set passes.
@@ -367,38 +372,43 @@ One GPU training job, no endpoint: the app never calls RunPod, and the fine-tune
 
 ## Credits, dependencies and AI disclosure
 
-The product code, tests and synthetic personas were written during the event. The app icon was designed by the team. Development used an AI coding assistant (Claude Code with Claude Opus 5.5); the team directs the work and reviews the output. The product's own AI is the local all-MiniLM-L6-v2 encoder described above.
+The product code, tests and synthetic personas were written during the event. The app icon was designed by Jad Fahmi; the welcome artwork was generated with ChatGPT image generation (OpenAI GPT image). Development used AI assistants: Claude Code (Claude Opus 5.5 and Sonnet 5.5) for most code, tests, documentation, the submission documents and the demo video assembly; Codex (OpenAI GPT-6 family) for project-selection research, early interface work and first drafts of the proposal and deck; Antigravity (Google Gemini) for documentation-website work and a design review; and Replit Agent for the Replit run settings and publishing. The team directs the work and reviews the output; every change passes the offline tests and scripted browser checks before it is committed. The product's own AI is the local all-MiniLM-L6-v2 encoder described above. All of these are listed in the Technical & Tools Declaration ([submission/SDC2026_DOVUN_TechDeclaration.pdf](submission/SDC2026_DOVUN_TechDeclaration.pdf)).
 
 | Resource | Origin and rights | How it was actually used | Declaration / approval |
 | --- | --- | --- | --- |
-| README structure | Official SDC sample README, merged with a pre-event team template (presentation inspired by Givlah) | Section structure only | To be declared in the Technical & Tools Declaration |
-| O\*NET 31.0 Database | USDOL/ETA, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), files dated 25 Aug 2026 | Work activities, occupations, tasks, task-to-activity links, job zones | To be declared |
-| all-MiniLM-L6-v2 | sentence-transformers, [Apache 2.0](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2), revision `1110a243` | Local sentence encoder, fine-tuned by the team on O\*NET 31.0 task-to-activity links (Apache 2.0 permits modification) | To be declared |
-| FastAPI, Uvicorn, ONNX Runtime, Tokenizers, NumPy | Open-source: MIT (FastAPI, ONNX Runtime), BSD-3-Clause (Uvicorn, NumPy, which also bundles 0BSD, MIT, Zlib and CC0 parts), Apache 2.0 (Tokenizers) | API server, model runtime, tokenization, vector search | To be declared |
-| pytest, HTTPX | Open-source: MIT (pytest), BSD-3-Clause (HTTPX) | Tests only | To be declared |
-| PyTorch, Sentence Transformers, Transformers, Datasets, Accelerate, ONNX | Open-source: BSD-3-Clause (PyTorch), Apache 2.0 (the others) | Fine-tuning and export on the RunPod pod only (`tools/finetune/requirements-runpod.txt`); not app dependencies | To be declared |
-| RunPod | RunPod, team account on the event's US$25 credit | One GPU training pod (see How We Use RunPod) | To be declared |
-| Anthropic Economic Index, four releases (Sep 2025 to Jun 2026) | Anthropic, CC BY (as recorded in `data/manifest.json`) | Share of Claude conversations on each task where AI does the work directly: evidence, replay and skill outlook | To be declared |
-| OpenDOSM wages and skill-related underemployment | Department of Statistics Malaysia, CC BY 4.0 | Pay steps by MASCO major group; the problem baseline | To be declared |
-| ESCO O\*NET-ISCO crosswalk and ESCO API | European Commission, reuse with attribution under Commission Decision 2011/833/EU | Mapping occupations to ISCO and MASCO major groups | To be declared |
-| NCES CIP-SOC crosswalk | U.S. NCES and BLS, public domain | Field of study to occupations (studies lane) | To be declared |
-| O\*NET OnLine job outlook | USDOL/ETA with BLS 2025-2035 projections, CC BY 4.0 | US projected-growth bands and Bright Outlook flags | To be declared |
-| Microsoft Learn and Saylor University course pages | Microsoft; Saylor University, run by the Constitution Foundation (Saylor-authored content CC BY 3.0, final exams excluded) | Linked, not copied: title, stated duration and stated objectives of each catalogue entry | To be declared |
-| KL Pro typeface | Created for Dovun before the event (October 2026); all rights reserved, separate licence in `assets/fonts/kl-pro/LICENSE.txt`, not covered by Apache 2.0 | Interface typeface; the four web font files, unmodified | To be declared as pre-existing material |
-| Jost | Owen Earl and the Jost Project Authors, [SIL Open Font License 1.1](assets/fonts/jost/OFL.txt) | Wordmark only: SemiBold (600) instance, cut to Basic Latin | To be declared |
-| Claude Code (Claude Opus 5.5) | Anthropic | Development assistance, reviewed by the team | To be declared |
+| README structure | Official SDC sample README, merged with a pre-event team template (presentation inspired by Givlah) | Section structure only | Declared as pre-existing material in the proposal |
+| O\*NET 31.0 Database | USDOL/ETA, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), files dated 25 Aug 2026 | Work activities, occupations, tasks, task-to-activity links, job zones | Declared in the Technical & Tools Declaration |
+| all-MiniLM-L6-v2 | sentence-transformers, [Apache 2.0](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2), revision `1110a243` | Local sentence encoder, fine-tuned by the team on O\*NET 31.0 task-to-activity links (Apache 2.0 permits modification) | Declared in the Technical & Tools Declaration |
+| FastAPI, Uvicorn, ONNX Runtime, Tokenizers, NumPy | Open-source: MIT (FastAPI, ONNX Runtime), BSD-3-Clause (Uvicorn, NumPy, which also bundles 0BSD, MIT, Zlib and CC0 parts), Apache 2.0 (Tokenizers) | API server, model runtime, tokenization, vector search | Declared in the Technical & Tools Declaration |
+| pytest, HTTPX | Open-source: MIT (pytest), BSD-3-Clause (HTTPX) | Tests only | Declared in the Technical & Tools Declaration |
+| PyTorch, Sentence Transformers, Transformers, Datasets, Accelerate, ONNX | Open-source: BSD-3-Clause (PyTorch), Apache 2.0 (the others) | Fine-tuning and export on the RunPod pod only (`tools/finetune/requirements-runpod.txt`); not app dependencies | Declared in the Technical & Tools Declaration |
+| RunPod | RunPod, team account on the event's US$25 credit | One GPU training pod (see How We Use RunPod) | Declared in the Technical & Tools Declaration |
+| Anthropic Economic Index, four releases (Sep 2025 to Jun 2026) | Anthropic, CC BY (as recorded in `data/manifest.json`) | Share of Claude conversations on each task where AI does the work directly: evidence, replay and skill outlook | Declared in the Technical & Tools Declaration |
+| OpenDOSM wages and skill-related underemployment | Department of Statistics Malaysia, CC BY 4.0 | Pay steps by MASCO major group; the problem baseline | Declared in the Technical & Tools Declaration |
+| ESCO O\*NET-ISCO crosswalk and ESCO API | European Commission, reuse with attribution under Commission Decision 2011/833/EU | Mapping occupations to ISCO and MASCO major groups | Declared in the Technical & Tools Declaration |
+| NCES CIP-SOC crosswalk | U.S. NCES and BLS, public domain | Field of study to occupations (studies lane) | Declared in the Technical & Tools Declaration |
+| O\*NET OnLine job outlook | USDOL/ETA with BLS 2025-2035 projections, CC BY 4.0 | US projected-growth bands and Bright Outlook flags | Declared in the Technical & Tools Declaration |
+| Microsoft Learn and Saylor University course pages | Microsoft; Saylor University, run by the Constitution Foundation (Saylor-authored content CC BY 3.0, final exams excluded) | Linked, not copied: title, stated duration and stated objectives of each catalogue entry | Declared in the Technical & Tools Declaration |
+| KL Pro typeface | Created for Dovun before the event (October 2026); all rights reserved, separate licence in `assets/fonts/kl-pro/LICENSE.txt`, not covered by Apache 2.0 | Interface typeface; the four web font files, unmodified | Declared as pre-existing material in the proposal |
+| Jost | Owen Earl and the Jost Project Authors, [SIL Open Font License 1.1](assets/fonts/jost/OFL.txt) | Wordmark only: SemiBold (600) instance, cut to Basic Latin | Declared in the Technical & Tools Declaration |
+| Replit | Replit, team leader's account | Hosting the live prototype (see How We Use Replit) | Declared in the Technical & Tools Declaration |
+| Claude Code (Claude Opus 5.5, Sonnet 5.5) | Anthropic | Development assistance (major), reviewed by the team | Declared in the Technical & Tools Declaration |
+| Codex (GPT-6 family) | OpenAI | Selection research, early interface work, first proposal and deck drafts (moderate) | Declared in the Technical & Tools Declaration |
+| Antigravity (Gemini) | Google | Documentation-website work and a design review (minor) | Declared in the Technical & Tools Declaration |
+| Replit Agent | Replit | Replit run settings and publishing (minor) | Declared in the Technical & Tools Declaration |
+| ChatGPT image generation (GPT image) | OpenAI | Welcome artwork in `assets/art/` (minor) | Declared in the Technical & Tools Declaration |
 
 This product includes information from the O\*NET 31.0 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O\*NET® is a trademark of USDOL/ETA. AIVANCIN has modified all or some of this information (column selection and sorting, and task-to-activity pairs used to fine-tune the encoder). USDOL/ETA has not approved, endorsed, or tested these modifications. Every snapshot's source URL, release, access date, licence and SHA-256 hashes are in `data/manifest.json`.
 
 ## Submission Checklist
 
 - [x] Team name, domain (Domain 1) and SDG track filled in
-- [ ] Slide deck link added
+- [x] Slide deck link added
 - [ ] Demo video link added
-- [ ] Replit used, with proof of use in `submission/`
-- [ ] RunPod used, with proof of use in `submission/` (or non-use explained)
-- [ ] Submission template (PRD PDF) completed in `submission/`
-- [ ] "How to Run" steps verified from a clean checkout
+- [x] Replit used, with proof of use in `submission/`
+- [x] RunPod used, with proof of use in `submission/` (or non-use explained)
+- [x] Submission template (PRD PDF) and Technical & Tools Declaration completed in `submission/` (the signed copies are uploaded to sdchack.my)
+- [x] "How to Run" steps verified from a clean checkout
 - [x] No API keys or secrets committed to the repository
 - [ ] Repository public and committee accounts added as collaborators before the deadline
 
