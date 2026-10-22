@@ -1,0 +1,351 @@
+{
+ "check": "B7 Phase 2 target (SPEC section 10.8), fresh set 7 for the 22 Oct beneficiary-phrase change to the encoder's copy (SPEC 11.12)",
+ "written": "2026-10-22 about 17:50 MYT, after the candidate (phrases such as 'for my cousin's firm' given less weight in the encoder's copy) was chosen on the development sets (held-out, A1, work terms, B7 sets 1-5) and after set 6 was spent; before any run on these texts. The author knew the candidate. None of the earlier sets' texts reused",
+ "author": "AIVANCIN builder (Claude Code; model reported by the client: Claude Opus 5.5). Synthetic, agent-written English",
+ "labelling_rule": "True activities chosen by meaning from keyword searches of the O*NET 31.0 activity names; no model or BM25 scores consulted",
+ "confirmation": "Strict simulated confirmation: a suggested activity is ticked only if it is in the profile's true set; guard-flagged suggestions are never ticked; other-work lane",
+ "pass_rule": "In scope: at least two relevant routes, each with at least one sourced requirement and a first four-week block serving at least three prioritized gaps within 4 x weekly hours and the budget. Out of scope: fewer than two supported routes (no qualifying route counts). Each out-of-scope person also does a little business admin (buying, pricing, payments, records). Measured once on the code before the change (b798161) and once on the candidate; per-person results and confirmed true activities are reported, not only the total",
+ "families": {
+  "it_support": [
+   "15-1231",
+   "15-1232",
+   "15-1241",
+   "15-1244",
+   "15-1212",
+   "15-1211",
+   "15-1299.01"
+  ],
+  "software": [
+   "15-1251",
+   "15-1252",
+   "15-1253",
+   "15-1254",
+   "15-1255",
+   "15-1211"
+  ],
+  "finance_analytics": [
+   "13-2011",
+   "13-2031",
+   "13-2041",
+   "13-2051",
+   "13-2052",
+   "13-2054",
+   "13-2061",
+   "13-2072",
+   "13-2082",
+   "13-2099.01",
+   "15-2041",
+   "15-2051",
+   "13-1161",
+   "13-1111"
+  ]
+ },
+ "in_scope": [
+  {
+   "id": "b01",
+   "name": "Faizal",
+   "family": "it_support",
+   "field": "Diploma, computer networking",
+   "level": "diploma",
+   "job": "33-9032.00",
+   "hours": 6,
+   "budget": 0,
+   "other_work": "At night I look after the CCTV and the access-card system for the building where I work. When a camera goes offline I check the cables and restart the recorder. During the day I help my brother's printing shop keep its five computers running and install the software the designers need.",
+   "true": [
+    "4.A.3.b.5.c.6",
+    "4.A.3.b.1.d.2",
+    "4.A.3.b.1.d.1",
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.5.c.1"
+   ]
+  },
+  {
+   "id": "b02",
+   "name": "Grace",
+   "family": "it_support",
+   "field": "Degree, information technology",
+   "level": "degree",
+   "job": "43-9061.00",
+   "hours": 8,
+   "budget": 50,
+   "other_work": "I am the person everyone at my office calls when the internet is down. I check the router and the switches, find which cable or setting is wrong and fix it. I also create email accounts for new staff and set up their laptops. Last month I moved all our shared files to OneDrive and showed everyone how to use it.",
+   "true": [
+    "4.A.3.b.1.d.1",
+    "4.A.3.b.5.c.2",
+    "4.A.4.b.6.d.5",
+    "4.A.3.b.1.c.1",
+    "4.A.4.b.3.e.4",
+    "4.A.4.b.6.d.2"
+   ]
+  },
+  {
+   "id": "b03",
+   "name": "Lokman",
+   "family": "it_support",
+   "field": "Diploma, computer systems",
+   "level": "diploma",
+   "job": "35-3031.00",
+   "hours": 5,
+   "budget": 0,
+   "other_work": "I sell second-hand laptops online. Before I sell one I test the battery and the hard disk, replace parts that are failing, and install a fresh copy of Windows with the drivers. I answer buyers' questions on WhatsApp when they cannot connect to their wifi.",
+   "true": [
+    "4.A.1.b.2.h.1",
+    "4.A.3.b.1.c.1",
+    "4.A.3.b.1.c.2",
+    "4.A.3.b.5.c.1",
+    "4.A.4.b.6.d.5",
+    "4.A.4.a.6.b.5"
+   ]
+  },
+  {
+   "id": "b04",
+   "name": "Kavin",
+   "family": "it_support",
+   "field": "Degree, computer science",
+   "level": "degree",
+   "job": "53-3054.00",
+   "hours": 6,
+   "budget": 100,
+   "other_work": "I manage the network and security for my cousin's small accounting firm. I set up the firewall rules, keep the antivirus up to date and check the logs every week for anything unusual. I also make sure the backups to the cloud finish every night.",
+   "true": [
+    "4.A.3.b.1.b.1",
+    "4.A.1.a.2.j.1",
+    "4.A.3.b.5.c.2",
+    "4.A.3.b.1.c.4",
+    "4.A.3.b.1.b.2",
+    "4.A.2.a.4.l.2"
+   ]
+  },
+  {
+   "id": "c01",
+   "name": "Hakim",
+   "family": "software",
+   "field": "Degree, software engineering",
+   "level": "degree",
+   "job": "41-2011.00",
+   "hours": 8,
+   "budget": 0,
+   "other_work": "I write small games in Unity in my spare time and publish them on itch.io. I plan each game's levels, code the player controls in C# and fix the bugs players report. I keep my projects in Git and write a short changelog for every update.",
+   "true": [
+    "4.A.3.b.1.a.3",
+    "4.A.2.b.2.b.1",
+    "4.A.2.b.2.b.10",
+    "4.A.3.b.1.d.3",
+    "4.A.3.b.6.i.5",
+    "4.A.2.b.2.b.7"
+   ]
+  },
+  {
+   "id": "c02",
+   "name": "Suresh",
+   "family": "software",
+   "field": "Diploma, information technology",
+   "level": "diploma",
+   "job": "53-7065.00",
+   "hours": 6,
+   "budget": 0,
+   "other_work": "I help a small NGO keep its WordPress website working. I update the plugins, fix pages that break after updates, and add new pages when they run a campaign. I also built them a simple donation form that sends the details to a spreadsheet.",
+   "true": [
+    "4.A.3.b.1.f.4",
+    "4.A.3.b.1.d.3",
+    "4.A.2.b.2.b.8",
+    "4.A.2.b.2.b.4",
+    "4.A.3.b.5.c.6"
+   ]
+  },
+  {
+   "id": "c03",
+   "name": "Farhana",
+   "family": "software",
+   "field": "Degree, computer science",
+   "level": "degree",
+   "job": "43-4051.00",
+   "hours": 5,
+   "budget": 50,
+   "other_work": "I test mobile apps for a crowd-testing platform. I follow the test cases, try to break the app in other ways, and write bug reports with screenshots and the steps to reproduce them. Sometimes I write simple automated tests in Python with Selenium.",
+   "true": [
+    "4.A.1.b.2.h.3",
+    "4.A.3.b.6.i.6",
+    "4.A.3.b.2.f.15",
+    "4.A.3.b.1.a.3",
+    "4.A.3.b.6.i.7"
+   ]
+  },
+  {
+   "id": "c04",
+   "name": "Jason",
+   "family": "software",
+   "field": "Degree, information technology",
+   "level": "degree",
+   "job": "35-2014.00",
+   "hours": 6,
+   "budget": 0,
+   "other_work": "I built a booking system for my uncle's homestay with Laravel and MySQL. Guests pick their dates on the website and the system checks which rooms are free. I designed the database tables and wrote the code that sends a confirmation email.",
+   "true": [
+    "4.A.2.b.2.b.4",
+    "4.A.2.b.2.f.4",
+    "4.A.3.b.1.a.3",
+    "4.A.2.b.2.b.8",
+    "4.A.2.b.2.f.1",
+    "4.A.2.b.2.b.10"
+   ]
+  },
+  {
+   "id": "d01",
+   "name": "Nurul",
+   "family": "finance_analytics",
+   "field": "Degree, accounting",
+   "level": "degree",
+   "job": "41-2031.00",
+   "hours": 6,
+   "budget": 0,
+   "other_work": "Every month I prepare the accounts for three small shops in my taman. I enter their sales and purchase receipts into a spreadsheet, match the totals against their bank statements and prepare a profit and loss statement. In April I help them fill in their income tax forms.",
+   "true": [
+    "4.A.3.b.6.j.3",
+    "4.A.2.a.2.d.1",
+    "4.A.3.b.6.a.1",
+    "4.A.3.b.6.a.2",
+    "4.A.1.b.3.c.3",
+    "4.A.3.b.1.f.6",
+    "4.A.3.b.6.j.2",
+    "4.A.2.a.2.a.5"
+   ]
+  },
+  {
+   "id": "d02",
+   "name": "Ravi",
+   "family": "finance_analytics",
+   "field": "Degree, economics",
+   "level": "degree",
+   "job": "53-3033.00",
+   "hours": 7,
+   "budget": 0,
+   "other_work": "I run the numbers for my family's durian orchard. I track the cost of fertiliser, labour and transport against what we earn each season, and I worked out which buyers give us the best price. I made a chart showing profit by season so my father can decide whether to expand.",
+   "true": [
+    "4.A.2.a.4.k.4",
+    "4.A.1.b.3.c.1",
+    "4.A.2.a.4.k.2",
+    "4.A.2.b.2.o.14",
+    "4.A.4.b.6.k.3",
+    "4.A.2.a.4.k.7",
+    "4.A.1.a.2.c.1"
+   ]
+  },
+  {
+   "id": "d03",
+   "name": "Chong",
+   "family": "finance_analytics",
+   "field": "Diploma, accounting",
+   "level": "diploma",
+   "job": "43-4171.00",
+   "hours": 5,
+   "budget": 0,
+   "other_work": "I handle accounts receivable for a small printing company two evenings a week. I issue invoices, record the payments that come in and send reminders to customers who are late. At month end I prepare an aging report for the owner.",
+   "true": [
+    "4.A.4.c.1.c.6",
+    "4.A.3.b.6.h.15",
+    "4.A.4.c.3.d.3",
+    "4.A.3.b.6.a.2",
+    "4.A.3.b.6.j.3",
+    "4.A.4.a.2.c.10",
+    "4.A.4.a.3.c.4"
+   ]
+  },
+  {
+   "id": "d04",
+   "name": "Amalina",
+   "family": "finance_analytics",
+   "field": "Degree, finance",
+   "level": "degree",
+   "job": "51-9198.00",
+   "hours": 6,
+   "budget": 50,
+   "other_work": "I review loan applications for a credit cooperative as a volunteer. I check each member's payslips and bank statements, work out how much they can afford to repay and write a short recommendation for the committee. I also keep the register of outstanding loans up to date.",
+   "true": [
+    "4.A.2.a.1.i.2",
+    "4.A.2.a.2.a.3",
+    "4.A.1.b.3.c.4",
+    "4.A.2.a.3.c.2",
+    "4.A.4.b.6.k.3",
+    "4.A.3.b.6.j.3",
+    "4.A.1.a.1.d.4"
+   ]
+  }
+ ],
+ "out_of_scope": [
+  {
+   "id": "h01",
+   "name": "Rosnah",
+   "family": "none",
+   "field": "Diploma, hospitality",
+   "level": "diploma",
+   "job": "35-3031.00",
+   "hours": 6,
+   "budget": 0,
+   "other_work": "I run a small nasi lemak stall on weekends. I cook the rice and sambal early in the morning, serve customers and handle the cash. I buy ingredients from the pasar every Friday and note down what I spend.",
+   "true": [
+    "4.A.3.a.2.c.7",
+    "4.A.3.a.2.c.11",
+    "4.A.3.a.1.o.2",
+    "4.A.4.c.3.d.3",
+    "4.A.4.c.3.e.3",
+    "4.A.3.b.6.j.3"
+   ]
+  },
+  {
+   "id": "h02",
+   "name": "Iman",
+   "family": "none",
+   "field": "Degree, graphic design",
+   "level": "degree",
+   "job": "41-2011.00",
+   "hours": 5,
+   "budget": 0,
+   "other_work": "I design logos and wedding cards for clients I find on Instagram. I meet each client to understand what they want, sketch two or three ideas and refine the one they choose. I send an invoice when the final files are delivered.",
+   "true": [
+    "4.A.2.b.2.t.5",
+    "4.A.2.b.2.o.12",
+    "4.A.4.a.2.j.5",
+    "4.A.4.a.2.h.4",
+    "4.A.4.c.1.c.6"
+   ]
+  },
+  {
+   "id": "h03",
+   "name": "Zainal",
+   "family": "none",
+   "field": "Diploma, electrical engineering",
+   "level": "diploma",
+   "job": "53-7062.00",
+   "hours": 6,
+   "budget": 0,
+   "other_work": "I do home wiring jobs with my uncle. I install ceiling fans and power points, test circuits for faults and replace broken switches. I quote the price to the customer before we start and collect the payment.",
+   "true": [
+    "4.A.3.a.2.t.1",
+    "4.A.1.b.2.l.9",
+    "4.A.3.b.5.b.4",
+    "4.A.1.b.3.b.7",
+    "4.A.4.c.3.d.3"
+   ]
+  },
+  {
+   "id": "h04",
+   "name": "Aminah",
+   "family": "none",
+   "field": "Degree, Islamic studies",
+   "level": "degree",
+   "job": "39-9011.00",
+   "hours": 5,
+   "budget": 0,
+   "other_work": "I teach Quran and Jawi classes to children at our surau. I plan each week's lessons, check every child's reading and talk to parents about their progress. I keep the attendance list and collect the small monthly fee.",
+   "true": [
+    "4.A.4.b.3.b.2",
+    "4.A.3.b.6.l.1",
+    "4.A.1.a.2.f.3",
+    "4.A.4.b.6.g.8",
+    "4.A.3.b.6.h.12",
+    "4.A.4.c.3.d.1"
+   ]
+  }
+ ]
+}
