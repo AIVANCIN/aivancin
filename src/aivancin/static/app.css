@@ -1256,18 +1256,24 @@ body[data-counted="yes"] #back-label { display: none; }
 .chg-kept .tag { padding: 2px 8px; font-size: 0.75rem; white-space: normal; }
 .chg-kept h2 .num { margin-left: 6px; color: var(--text2); font-weight: 500; }
 
-/* Inline disclosures ("How sure is this", "About this order"): one quiet link size with a chevron that turns. */
-details.more > summary, .sort-help > summary { display: block; width: fit-content; min-height: 44px; padding: 11px 0; font-size: 0.9375rem; font-weight: 500; line-height: 1.4;
-  color: var(--accent); cursor: pointer; list-style: none; }
-.sort-help > summary { font-size: 0.8125rem; color: var(--text2); }
-details.more > summary::-webkit-details-marker, .sort-help > summary::-webkit-details-marker { display: none; }
-details.more > summary::after, .sort-help > summary::after { content: ""; display: inline-block; width: 12px; height: 12px; margin-left: 6px; vertical-align: -1px; background: currentColor;
+/* Inline disclosures ("How sure is this", "About this order", "Evidence"): distinct disclosure pill so expandable details never look like navigation links or primary actions. */
+details.more > summary, .sort-help > summary, .req-more > summary { display: inline-flex; align-items: center; gap: 6px; width: fit-content; min-height: 38px; padding: 6px 12px; border-radius: 10px;
+  background: var(--fill); color: var(--text); font-size: 0.875rem; font-weight: 500; line-height: 1.35; text-decoration: none; cursor: pointer; list-style: none; transition: background-color 150ms var(--ease), color 150ms var(--ease); }
+details.more > summary:hover, .sort-help > summary:hover, .req-more > summary:hover { background: var(--fill-hover); text-decoration: none; }
+details.more[open] > summary, .sort-help[open] > summary, .req-more[open] > summary { background: var(--accent-tint); color: var(--accent); }
+.sort-help { margin-top: 8px; }
+.sort-help > summary { min-height: 34px; padding: 5px 10px; font-size: 0.8125rem; color: var(--text2); }
+details.more > summary::-webkit-details-marker, .sort-help > summary::-webkit-details-marker, .req-more > summary::-webkit-details-marker { display: none; }
+details.more > summary::after, .sort-help > summary::after, .req-more > summary::after { content: ""; flex: none; display: inline-block; width: 12px; height: 12px; margin-left: 2px; background: currentColor;
   -webkit-mask: var(--chev) center / contain no-repeat; mask: var(--chev) center / contain no-repeat; transition: transform 200ms var(--ease); }
-details.more[open] > summary::after, .sort-help[open] > summary::after { transform: rotate(180deg); }
+details.more[open] > summary::after, .sort-help[open] > summary::after, .req-more[open] > summary::after { transform: rotate(180deg); }
 :root { --chev: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); }
-.step-expects > summary { min-height: 36px; padding: 7px 0; font-size: 0.875rem; }
+.step-expects > summary { min-height: 36px; padding: 5px 10px; font-size: 0.8125rem; }
+.counted-more { margin-top: 12px; padding: 8px 12px; border-radius: 12px; background: var(--fill); }
+.counted-more > summary { width: 100%; justify-content: space-between; min-height: 36px; padding: 4px 2px; background: none; }
+.counted-more[open] > summary { background: none; }
 .answers-more { margin-top: 0; }
-.answers-more + .answers { margin-top: 0; }
+.answers-more + .answers { margin-top: 8px; }
 .answers-more + .answers dt { margin-top: 4px; }
 /* A bookmark sits at the top of a route card and the chevron at its foot; short cards keep room for both. */
 .route-row { min-height: 92px; }
@@ -1276,4 +1282,134 @@ details.more[open] > summary::after, .sort-help[open] > summary::after { transfo
 .learn-block.in-block .course-item { box-shadow: inset 3px 0 0 var(--you); }
 /* Explore all roles: the ranking settings open on request, above the list. */
 .rank-settings { margin-top: 20px; }
-.rank-settings > .controls { margin-top: 0; }
+.rank-settings > .controls { margin-top: 0; padding-bottom: 18px; }
+
+/* Unified icon tiles (36 px rounded tile, 20 px icon), activity rows, card hierarchy and action buttons. */
+.act-tile, .sec-ico, .fact dt .tile-ico, .res-tile, .learn-courses .res-tile {
+  display: inline-grid; place-items: center; width: 36px; height: 36px; flex: none; border-radius: 10px;
+  background: var(--accent-tint); color: var(--accent); box-shadow: none;
+}
+:is(.act-tile, .sec-ico, .fact dt .tile-ico, .res-tile, .learn-courses .res-tile) .ico {
+  width: 20px; height: 20px; margin: 0 !important; stroke-width: 1.75; color: inherit !important; vertical-align: middle;
+}
+html[data-bold="on"] :is(.act-tile, .sec-ico, .fact dt .tile-ico, .res-tile, .learn-courses .res-tile) .ico { stroke-width: 2; }
+.act-tile.you, .sec-ico.you { background: var(--you-tint); color: var(--you); }
+.act-tile.ev, .sec-ico.ev, .fact dt .tile-ico.ev { background: var(--evidence-tint); color: var(--evidence); }
+.act-tile.rust, .sec-ico.rust { background: var(--rust-tint); color: var(--rust); }
+.learn-courses .res-tile { background: var(--course-tint); color: var(--course-ink); }
+@supports (corner-shape: bevel) {
+  :is(.act-tile, .sec-ico, .tile-ico, .res-tile, .fam-tile, .soft-card, .ai-group, .route-row, .pstep, .plan-head, .evidence-panel, .learn-group, .sheet) { corner-shape: squircle; }
+}
+
+/* Card headings: one clear heading per card; secondary dates, providers and explanations stay in --text2. */
+.soft-card > h2, .ai-group > h2, .explore-cards > h2, .learn-section-head h2 {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font: 600 1.1875rem/1.28 var(--display); letter-spacing: -0.016em;
+}
+.evidence-panel > .soft-card > h2 { position: absolute; width: 1px; height: 1px; margin: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.radar-main > h2 { margin-bottom: 6px; font-size: 1.0625rem; color: var(--text); }
+@media (max-width: 759px) {
+  .radar-main { margin-top: 8px; padding: 12px 14px; }
+  .radar-main > h2 { margin-bottom: 4px; font-size: 1rem; }
+  .radar-main .radar-ctl { margin-top: 8px; gap: 6px 12px; }
+  .radar-feedback { min-height: 22px; margin-top: 6px; }
+}
+
+/* Activity rows: 12 px gaps, 12-16 px padding, wrapping labels, separate confirmation ticks and subtle separators. */
+.did > li, #route .did > li { padding: 14px 16px; border-radius: 16px; background: var(--you-tint); box-shadow: none; }
+.did .from, #route .did .from { margin-bottom: 4px; font-size: 0.875rem; font-weight: 600; color: var(--text); }
+.did .from-sys { margin-bottom: 4px; font-size: 0.8125rem; font-weight: 600; color: var(--you); }
+.did .act, #route .did .act {
+  display: flex; align-items: center; gap: 12px; margin-top: 0; padding: 12px 0;
+  font-size: 0.9375rem; font-weight: 600; line-height: 1.4; color: var(--text);
+}
+.did .act:first-of-type, #route .did .act:first-of-type { padding-top: 8px; }
+.did .act:last-of-type, #route .did .act:last-of-type { padding-bottom: 2px; }
+.did .act + .act, #route .did .act + .act { border-top: 1px solid var(--sep); }
+.did .act .act-tile.you, #route .did .act .act-tile.you { background: var(--card); color: var(--you); }
+.did .act .act-name { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.act-tick { display: inline-grid; place-items: center; width: 24px; height: 24px; flex: none; margin-left: auto; border-radius: 50%; background: var(--you-tint); color: var(--you); }
+.did .act .act-tick, #route .did .act .act-tick { background: var(--card); color: var(--you); }
+.act-tick .ico { width: 15px; height: 15px; margin: 0 !important; stroke-width: 2.25; color: inherit !important; }
+
+.gaps { margin: 8px 0 0; }
+.gaps li { display: flex; align-items: center; gap: 12px; padding: 12px 0; font-size: 0.9375rem; line-height: 1.4; }
+.gaps li + li { border-top: 1px solid var(--sep); }
+.gaps li .act-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.gaps li .act-name { font-weight: 500; color: var(--text); overflow-wrap: anywhere; }
+.gaps li b { width: 20px; height: 20px; flex: none; margin: 0 0 0 auto; border-radius: 50%; border: 1.5px dashed var(--border); }
+.gaps li b.in-block { border: 0; background: var(--accent) var(--check) center / 12px no-repeat; }
+
+.plain-rows li { display: flex; align-items: center; justify-content: flex-start; gap: 12px; min-height: 48px; padding: 12px 0; font-size: 0.9375rem; line-height: 1.4; }
+.plain-rows li .act-name { flex: 1; min-width: 0; font-weight: 500; overflow-wrap: anywhere; }
+.plain-rows li .act-status { flex: none; margin-left: auto; }
+#profile [aria-labelledby="h-acts"] > .plain-rows > li { padding: 12px 14px; border-radius: 14px; background: var(--you-tint); border-top: 0; }
+#profile [aria-labelledby="h-acts"] > .plain-rows > li + li { margin-top: 8px; }
+#profile [aria-labelledby="h-acts"] > .plain-rows > li .act-tile.you { background: var(--card); color: var(--you); }
+#profile [aria-labelledby="h-acts"] > .plain-rows > li .act-tick { background: var(--card); color: var(--you); }
+.saved-rows li { justify-content: space-between; }
+
+.mine li { display: flex; align-items: center; gap: 12px; padding: 12px 0; font-size: 0.9375rem; line-height: 1.4; border-top: 1px solid var(--sep); }
+.mine li .mine-text { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.mine li .ico { margin-top: 0; }
+
+.ai-group .fut-acts > li.fut-act { display: block; padding: 12px 0; }
+.fa-top { display: flex; align-items: center; gap: 12px; justify-content: space-between; }
+.fa-top .ai-name { flex: 1; min-width: 0; font-weight: 500; line-height: 1.4; overflow-wrap: anywhere; }
+.fut-act .fa-label, .fut-act .fa-figs { padding-left: 48px; }
+.fut-act.is-you { padding: 12px 14px !important; margin-block: 4px; border-radius: 14px; background: var(--you-tint); border-top: 0 !important; }
+.fut-act.is-you + .fut-act { border-top: 0; }
+.fut-act.is-you .act-tile.you { background: var(--card); color: var(--you); }
+
+.chg-list > li.chg-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; }
+.chg-item .chg-body { flex: 1; min-width: 0; }
+
+/* Route cards, Opportunity, Plan and Learn hierarchy and consistent actions. */
+.rr-chosen { padding: 2px 9px; border-radius: 999px; background: var(--you-tint); color: var(--you); font-size: 0.75rem; }
+.rr-support { gap: 6px; margin-top: 10px; padding: 10px 12px; border-radius: 12px; background: var(--canvas); }
+.rr-support > span + span { padding-top: 6px; border-top: 1px solid var(--sep); }
+[aria-labelledby="h-rd-work"] .ring-row, [aria-labelledby="h-prog"] .ring-row { padding: 12px 14px; border-radius: 14px; background: var(--you-tint); }
+.opportunity-metrics { grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); gap: 12px; }
+.opportunity-metrics > div { padding: 14px; border-radius: 14px; background: var(--canvas); }
+
+.start-card { background: var(--card); box-shadow: var(--shadow-card); }
+.start-kicker { display: inline-flex; align-items: center; gap: 5px; margin-bottom: 8px; padding: 4px 10px; border-radius: 999px; background: var(--accent-tint); color: var(--accent); font-size: 0.75rem; font-weight: 600; }
+.start-kicker .ico { width: 14px; height: 14px; }
+.start-card > h2 { font-size: 1.25rem; }
+.start-list { padding: 14px 16px; border-radius: 14px; background: var(--canvas); }
+.start-list > div + div { padding-top: 10px; border-top: 1px solid var(--sep); }
+.start-open { margin-top: 14px; }
+
+.pstep { box-shadow: var(--shadow-card); }
+.pstep.done { background: var(--you-tint); }
+.pstep.done .act-tile { background: var(--card); color: var(--you); }
+.pstep.done .res-row, .pstep.done .checkpoint { background: var(--card); }
+.pstep-top { display: flex; align-items: center; gap: 12px; justify-content: space-between; }
+.pstep-top .gap-name { flex: 1; min-width: 0; font: 600 1.0625rem/1.35 var(--display); letter-spacing: -0.012em; }
+.p-hours { padding: 4px 10px; border-radius: 999px; background: var(--fill); font-size: 0.8125rem; font-weight: 600; }
+
+.learn-section-head { margin-bottom: 12px; }
+.learn-section-head > h2 { margin-bottom: 0; }
+.learn-group { margin-top: 16px; padding: 16px 18px; border-radius: 18px; background: var(--card); box-shadow: var(--shadow-card); }
+.learn-group > h3.learn-act-head { display: flex; align-items: center; gap: 12px; margin: 0; padding-bottom: 12px; border-bottom: 1px solid var(--sep); color: var(--text); font: 600 1.0625rem/1.35 var(--display); letter-spacing: -0.012em; }
+.learn-act-head .act-name { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.learn-courses .learn-group > .res-list { display: block; margin-top: 0; }
+.learn-courses .res-list > li + li { border-top: 1px solid var(--sep); }
+.learn-courses .course-item { border: 0; border-radius: 0; background: none; box-shadow: none !important; overflow: visible; }
+.learn-courses .res-row { margin-top: 0; padding: 14px 4px; border-radius: 12px; background: transparent; align-items: center; }
+.learn-courses .res-row:hover { background: var(--course-tint); }
+.learn-courses .res-text b { font-size: 1rem; font-weight: 600; color: var(--text); }
+.course-detail { padding: 4px 4px 14px 48px; }
+.course-detail .course-open { margin-top: 10px; }
+.learn-missing > ul.gaps { padding-left: 0; }
+.learn-missing > ul.gaps li + li { margin-top: 0; }
+
+.profile-next { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; min-height: 40px; padding: 6px 14px; border-radius: 999px; background: var(--accent-tint); color: var(--accent); font-weight: 600; text-decoration: none; }
+.profile-next:hover { background: var(--fill); text-decoration: none; }
+#profile-body .btn-tinted { width: 100%; justify-content: center; margin-top: 14px; }
+
+.evidence-panel { margin-top: 16px; padding: 0 20px; border: 0; border-radius: 20px; background: var(--card); box-shadow: var(--shadow-card); }
+.evidence-panel[open] { padding-bottom: 18px; }
+.evidence-panel > summary { justify-content: space-between; font: 600 1.0625rem/1.3 var(--display); letter-spacing: -0.012em; }
+.evidence-panel > summary .ep-title { display: inline-flex; align-items: center; gap: 12px; min-width: 0; }
+.evidence-panel > .soft-card { padding: 4px 0 0; background: none; box-shadow: none; }
+:root[data-contrast="more"] :is(details.more > summary, .sort-help > summary, .req-more > summary) { box-shadow: inset 0 0 0 1px var(--border); }

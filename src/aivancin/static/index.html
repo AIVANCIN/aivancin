@@ -81,6 +81,9 @@
 <symbol id="i-landmark" viewBox="0 0 24 24"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></symbol>
 <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/></symbol>
 <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></symbol>
+<symbol id="i-laptop" viewBox="0 0 24 24"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"/></symbol>
+<symbol id="i-truck" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
 </svg>
 
 <a class="skip" href="#main">Skip to content</a>
@@ -250,7 +253,7 @@
       <nav class="rv-list-wrap" aria-labelledby="h-rv-list"><h2 class="rv-list-h" id="h-rv-list">What we read</h2><ol class="rv-list" id="rv-list"></ol></nav>
       <div id="sentences"></div>
       <aside class="rail" aria-labelledby="h-mine">
-        <div class="rail-head"><h2 id="h-mine">Your activities</h2><span class="count num" id="count" data-src="your-input" aria-live="polite">0</span></div>
+        <div class="rail-head"><h2 id="h-mine"><span class="sec-ico you" aria-hidden="true"><svg class="ico sm" aria-hidden="true"><use href="#i-clipboard-check"/></svg></span>Your activities</h2><span class="count num" id="count" data-src="your-input" aria-live="polite">0</span></div>
         <ul class="mine" id="mine"></ul>
         <p class="foot empty-mine" id="mine-empty">Nothing confirmed yet. Tick suggestions to build your list.</p>
         <fieldset class="lanes">
@@ -317,7 +320,7 @@
     <h1 id="h-results" class="page-title" tabindex="-1">Closest roles to explore</h1>
     <div class="lead-left" id="results-lead" data-scope></div>
     <div id="change" class="change" aria-live="polite"></div>
-    <details class="evidence-panel rank-settings"><summary>Ranking settings<svg class="ico sm" aria-hidden="true"><use href="#i-chevron-down"/></svg></summary>
+    <details class="evidence-panel rank-settings"><summary><span class="ep-title"><span class="sec-ico" aria-hidden="true"><svg class="ico sm" aria-hidden="true"><use href="#i-sliders-horizontal"/></svg></span>Ranking settings</span><svg class="ico sm" aria-hidden="true"><use href="#i-chevron-down"/></svg></summary>
       <div class="controls" id="controls"></div></details>
     <div class="md">
       <ol class="role-list" id="role-list" aria-label="Closest roles" data-scope></ol>

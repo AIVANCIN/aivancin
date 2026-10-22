@@ -31,6 +31,17 @@ function esc(s) {
   return String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
 function icon(name, cls = "") { return `<svg class="ico ${cls}" aria-hidden="true"><use href="#i-${name}"/></svg>`; }
+function activityIconName(name) {
+  const s = String(name || "").toLowerCase();
+  if (/\b(train|training|teach|teaching|instruct|instruction|coach|coaching|orient|supervise|supervising|personnel|staff|customer|customers|client|clients|people|team|teams|interview|collaborate|advise|advising|assist|assisting)\b/.test(s)) return "users";
+  if (/\b(vehicle|vehicles|transport|transportation|drive|driving|deliver|delivery|shipment|shipments|freight|cargo|van|truck|motor)\b/.test(s)) return "truck";
+  if (/\b(record|records|recording|document|documents|documentation|documenting|report|reports|reporting|file|files|filing|ledger|ledgers|log|logs|inventory|statement|statements|form|forms|correspondence|policy|policies|specification|specifications|schedule|schedules)\b/.test(s)) return "file-text";
+  if (/\b(network|networks|networking|lan|wan|router|switch|telecommunication|telecommunications|connectivity|wireless)\b/.test(s)) return "network";
+  if (/\b(install|installation|installing|software|computer|computers|application|applications|hardware|workstation|database|databases|web|website|websites|program|programs|programming|code|coding|script|scripts|test|testing|debug|debugging|configure|configuring|troubleshoot|troubleshooting|server|servers|system|systems)\b/.test(s)) return "laptop";
+  if (/\b(user|users|communicate|liaise|consult|present|coordinate|direct|guide|help|support|manage)\b/.test(s)) return "users";
+  return "file-text";
+}
+function actTile(name, cls = "") { return `<span class="act-tile${cls ? ` ${cls}` : ""}" aria-hidden="true">${icon(activityIconName(name))}</span>`; }
 function debounce(fn, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
 
 async function api(path, body, timeoutMs) {
@@ -658,7 +669,7 @@ function renderRail() {
   const smap = suggestionMap();
   const items = [...state.ticked.keys()].map(id => ({ id, name: smap.get(id)?.name || id, note: "suggested, ticked by you", icon: "check" }))
     .concat([...state.manual].map(([id, m]) => ({ id, name: m.name, note: `added by you, ${FIELD_LABEL[m.lane].toLowerCase()}`, icon: "pencil-line" })));
-  $("#mine").innerHTML = items.map(it => `<li class="${previous.has(it.id) ? "" : "is-new"}">${icon(it.icon, "sm")}<span class="mine-text">${esc(it.name)}<span class="mine-note">${esc(it.note)}</span></span>
+  $("#mine").innerHTML = items.map(it => `<li class="${previous.has(it.id) ? "" : "is-new"}">${actTile(it.name, "you")}<span class="mine-text">${esc(it.name)}<span class="mine-note">${esc(it.note)}</span></span><span class="act-tick" aria-hidden="true">${icon(it.icon, "sm")}</span>
     <button type="button" class="rm" data-remove="${esc(it.id)}" aria-label="Remove ${esc(it.name)}">${icon("x", "sm")}</button></li>`).join("");
   const c = laneCounts();
   // Job-title activities count too, so the rail shows them as one row rather than a total that does not add up.
@@ -963,7 +974,7 @@ function groupDone(done) {
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(d);
   }
-  return [...groups].map(([from, acts]) => `<li>${from}${acts.map(d => `<p class="act">${icon("check", "sm")}${esc(d.name)}</p>`).join("")}</li>`).join("");
+  return [...groups].map(([from, acts]) => `<li>${from}${acts.map(d => `<div class="act">${actTile(d.name, "you")}<span class="act-name">${esc(d.name)}</span><span class="act-tick" aria-hidden="true">${icon("check", "sm")}</span></div>`).join("")}</li>`).join("");
 }
 
 function labelTag(l) {
@@ -1013,8 +1024,8 @@ function renderDetail() {
     <div class="legend"><span><i class="done"></i>You do this</span><span><i></i>Still to build</span><span>Wider segments are activities that appear in more of the role's tasks.</span></div></div>
     <div class="d-grid">
       <div><h5>You already do</h5><p class="foot">Grouped by where it came from.</p><ul class="did">${groupDone(r.done)}</ul></div>
-      <div><h5>Still to build</h5><p class="foot">Most frequent in the role's tasks first.</p><ul class="gaps">${gaps.map(g => `<li><b></b><span>${esc(g.name)}</span></li>`).join("")}</ul>
-        ${r.missing.length > gaps.length ? `<details class="more"><summary class="link-btn">${r.missing.length - gaps.length} more in the full gap table</summary><ul class="gaps">${r.missing.slice(8).map(g => `<li><b></b><span>${esc(g.name)}</span></li>`).join("")}</ul></details>` : ""}
+      <div><h5>Still to build</h5><p class="foot">Most frequent in the role's tasks first.</p><ul class="gaps">${gaps.map(g => `<li>${actTile(g.name)}<span class="act-body"><span class="act-name">${esc(g.name)}</span></span><b aria-hidden="true"></b></li>`).join("")}</ul>
+        ${r.missing.length > gaps.length ? `<details class="more"><summary class="link-btn">${r.missing.length - gaps.length} more in the full gap table</summary><ul class="gaps">${r.missing.slice(8).map(g => `<li>${actTile(g.name)}<span class="act-body"><span class="act-name">${esc(g.name)}</span></span><b aria-hidden="true"></b></li>`).join("")}</ul></details>` : ""}
         ${r.tool_gaps.length ? `<p class="foot" style="margin-top:12px">Plus ${r.tool_gaps.length} in-demand tools you have not marked as known (below).</p>` : ""}</div>
     </div>
     <dl class="facts">
@@ -1155,10 +1166,10 @@ async function renderCohort() {
   box.innerHTML = `
     <p class="lead-left">Where the routes of ${fig(c.members, "int")} graduates lead, the priority gaps they share, and what their first ${fig(c.weeks, "int")}-week blocks would cover. Counts only, never a score.</p>
     <div class="callout">${icon("info")}<p>A synthetic cohort: the written test profiles behind AIVANCIN's route checks, each with its labelled activities confirmed. No real student is in it, and nothing is uploaded or stored.</p></div>
-    <section class="soft-card" data-scope aria-labelledby="h-co-lead"><h2 id="h-co-lead">${icon("route", "sm")}Where their routes lead</h2>
+    <section class="soft-card" data-scope aria-labelledby="h-co-lead"><h2 id="h-co-lead"><span class="sec-ico" aria-hidden="true">${icon("route", "sm")}</span>Where their routes lead</h2>
       <div class="stat-row"><p><b>${fig(c.members, "int")}</b><span>graduates</span></p><p><b>${fig(c.with_route, "int")}</b><span>with a route</span></p><p><b>${fig(c.without_route, "int")}</b><span>without one yet</span></p></div>
       <p class="foot">First routes: ${fams.map(f => `${esc(f.label)} ${fig(f.first, "int")}`).join(" · ")}. Members without a route would see the closest other roles to explore.</p></section>
-    <section class="soft-card" data-scope aria-labelledby="h-co-gaps"><h2 id="h-co-gaps">${icon("layers", "sm")}Priority gaps they share</h2>
+    <section class="soft-card" data-scope aria-labelledby="h-co-gaps"><h2 id="h-co-gaps"><span class="sec-ico" aria-hidden="true">${icon("layers", "sm")}</span>Priority gaps they share</h2>
       <p class="foot">Each family's ${cf(c.rows_per_family)} most common priority gaps. A cell counts the members with a route in that family whose route lists the activity as a priority gap; the shade is their share of the family's members with a route.</p>
       <table class="heat-t"><colgroup><col>${fams.map(() => `<col class="c-fam">`).join("")}</colgroup>
         <thead><tr><th scope="col">Activity</th>${fams.map(f => `<th scope="col" title="${esc(f.label)}">${esc(f.short)}<span class="hd-of">of ${fig(f.members, "int")}</span></th>`).join("")}</tr></thead>
@@ -1169,13 +1180,13 @@ async function renderCohort() {
       <ul class="heat-legend" aria-label="Shade: share of the family's members">${legend.map(([s, t]) => `<li><i class="${s}" aria-hidden="true"></i><span>${t}</span></li>`).join("")}</ul>
       <details class="more"><summary class="link-btn">By route</summary><ul class="cohort-routes">${c.by_route.map(r => `<li><b>${esc(r.title)}</b>: ${fig(r.members, "int")} member${r.members.v === 1 ? "" : "s"}
         <span class="foot">Most common priority gaps: ${r.gaps.map(g => `${short(g.name)} (${fig(g.members, "int")})`).join("; ")}</span></li>`).join("")}</ul></details></section>
-    <section class="soft-card" data-scope aria-labelledby="h-co-found"><h2 id="h-co-found">${icon("book-open", "sm")}Steps many first blocks share</h2>
+    <section class="soft-card" data-scope aria-labelledby="h-co-found"><h2 id="h-co-found"><span class="sec-ico" aria-hidden="true">${icon("book-open", "sm")}</span>Steps many first blocks share</h2>
       ${c.foundations.length ? `<p class="foot">Learning steps in at least two members' first blocks (their first route), most members first.</p>
       <ul class="res-list">${c.foundations.map(f => `<li><a class="res-row" href="${esc(f.url)}" target="_blank" rel="noopener"><span class="res-tile" aria-hidden="true">${icon("book-open")}</span>
         <span class="res-text"><b>${esc(f.title)}</b><span>${esc(f.provider)} · ${fig(f.hours, "")} h · in ${fig(f.members, "int")} first blocks</span></span>${icon("external-link", "sm")}<span class="vh">(opens in a new tab)</span></a>
         ${f.gaps.length ? `<p class="foot found-gaps">Serves: ${f.gaps.map(short).join("; ")}.</p>` : ""}</li>`).join("")}</ul>`
         : `<p class="foot">No learning step is in more than one member's first block.</p>`}</section>
-    <section class="soft-card contrib" data-scope aria-labelledby="h-co-sdg"><h2 id="h-co-sdg">${icon("layers", "sm")}What their first blocks contribute</h2>
+    <section class="soft-card contrib" data-scope aria-labelledby="h-co-sdg"><h2 id="h-co-sdg"><span class="sec-ico" aria-hidden="true">${icon("chart-column", "sm")}</span>What their first blocks contribute</h2>
       <p class="foot">Over the ${fig(sd.s85.of, "int")} members' first routes.</p>
       <dl class="contrib-list">
         <div><dt>SDG 8.5 · decent work</dt><dd>${fig(sd.s85.members, "int")} of ${fig(sd.s85.of, "int")} first routes lead from semi- or low-skilled work to skilled work (MASCO major groups 1 to 3)${sd.s85.pay_low ? `; DOSM 2025 group-median pay steps from ${fig(sd.s85.pay_low, "step")} to ${fig(sd.s85.pay_high, "step")} a month (group medians, not salary offers)` : ""}.${srcMarks(sd.s85.members.src)}</dd></div>
@@ -1471,7 +1482,7 @@ function routeRow(r) {
 /* No dead end (SPEC 11.7): with fewer than two routes, the closest other skilled roles from the exploration ranking,
    labelled as having no curated first block, each opening to its detail in the exploration view. */
 function explorationSection(cards) {
-  return `<section class="explore-cards" data-scope aria-labelledby="h-explore-cards"><h2 id="h-explore-cards">Other roles close to your work</h2>
+  return `<section class="explore-cards" data-scope aria-labelledby="h-explore-cards"><h2 id="h-explore-cards"><span class="sec-ico" aria-hidden="true">${icon("search", "sm")}</span>Other roles close to your work</h2>
     <p class="foot">From the full ranking of graduate-level roles by activity overlap. AIVANCIN has no curated first block for these yet; open one to see its gaps, outlook and resources.</p>
     <ul class="route-list">${cards.map(c => `<li class="route-item"><button type="button" class="route-row explore-row-card" data-explore-role="${esc(c.code)}">
       <span class="fam-tile neutral" aria-hidden="true">${icon("search")}</span>
@@ -1493,7 +1504,7 @@ function nearMissing(r) {
     ${gap ? `<span><b>Still needed:</b> one more of the role's activities, such as “${esc(gap.name.replace(/\.$/, ""))}”${srcMarks(gap.weight.src)}</span>` : ""}</span>`;
 }
 function nearSection(list, need) {
-  return `<section class="explore-cards" data-scope aria-labelledby="h-near"><h2 id="h-near">Close to your work, not yet a route</h2>
+  return `<section class="explore-cards" data-scope aria-labelledby="h-near"><h2 id="h-near"><span class="sec-ico you" aria-hidden="true">${icon("route", "sm")}</span>Close to your work, not yet a route</h2>
     <p class="foot">These supported roles record some of what you confirmed. A route needs ${fig(need, "int")} of the role's activities, each backed by a different activity you confirmed; confirm more of your work to see whether one qualifies.</p>
     <ul class="route-list">${list.map(r => `<li class="route-item"><button type="button" class="route-row" data-open-route="${esc(r.code)}">
       ${familyTile(r)}
@@ -1507,7 +1518,7 @@ function nearSection(list, need) {
 
 /* Not even the exploration ranking has a graduate-level role sharing this work: say so and offer the next steps. */
 function noRoleCard() {
-  return `<section class="soft-card no-role" aria-labelledby="h-no-role"><h2 id="h-no-role">No graduate-level role shares this work yet</h2>
+  return `<section class="soft-card no-role" aria-labelledby="h-no-role"><h2 id="h-no-role"><span class="sec-ico" aria-hidden="true">${icon("info", "sm")}</span>No graduate-level role shares this work yet</h2>
     <p>The activities you confirmed are not recorded for any graduate-level role (O*NET Job Zone 3 or 4, skilled in Malaysian terms). Describe more of what you do, including side work and studies, or look at every role, semi-skilled ones included.</p>
     <div class="describe-actions"><button type="button" class="btn btn-primary" data-go="edit">Describe more of your work</button>
       <button type="button" class="btn btn-gray" data-action="explore-all">Explore all roles</button></div></section>`;
@@ -1552,15 +1563,15 @@ function renderRoutes() {
       (!personal || d.exploration?.length || d.near_routes?.length ? `<div class="callout">${icon("info")}<p>${d.near_routes?.length
         ? `Your confirmed work overlaps ${d.near_routes.length === 1 ? "a supported role" : `${fig({ v: d.near_routes.length, src: ["aivancin-routes", "onet31-task-dwas"] }, "int")} supported roles`}, but none counts ${fig(d.min_done, "int")} of your activities yet, so there is no route. Confirm more of your work, or explore the roles below.`
         : "None of the supported routes counts at least two of your confirmed activities yet. Explore all roles, or tick more activities."}</p></div>` : "")}
-    ${personal && d.routes.length < 2 && followCandidate() ? `<section class="soft-card follow-card" aria-labelledby="h-follow"><h2 id="h-follow">Did we miss some of your work?</h2>${followBox(followCandidate(), "routes")}</section>` : ""}
+    ${personal && d.routes.length < 2 && followCandidate() ? `<section class="soft-card follow-card" aria-labelledby="h-follow"><h2 id="h-follow"><span class="sec-ico you" aria-hidden="true">${icon("pencil-line", "sm")}</span>Did we miss some of your work?</h2>${followBox(followCandidate(), "routes")}</section>` : ""}
     ${personal && d.routes.length < 2 && d.near_routes?.length ? nearSection(d.near_routes, d.min_done) : ""}
     ${personal && d.routes.length < 2 ? (d.exploration?.length ? explorationSection(d.exploration) : d.near_routes?.length ? "" : noRoleCard()) : ""}
-    ${shared ? `<section class="soft-card" data-scope aria-labelledby="h-shared"><h2 id="h-shared">${icon("layers", "sm")}Shared foundations</h2>
+    ${shared ? `<section class="soft-card" data-scope aria-labelledby="h-shared"><h2 id="h-shared"><span class="sec-ico" aria-hidden="true">${icon("layers", "sm")}</span>Shared foundations</h2>
       <p>${shared.common_steps.length ? `${fig(shared.common_count, "")} step${shared.common_steps.length === 1 ? " appears" : "s appear"} (${fig(shared.common_hours, "")} hours) in every route's first block, so ${shared.common_steps.length === 1 ? "it keeps" : "they keep"} these options open.` : "No step is common to every route's first block."}</p>
       ${shared.common_steps.length ? `<ul>${shared.extra_hours.map(e => `<li>${esc(e.title)}: ${fig(e.hours, "")} hours beyond the shared steps</li>`).join("")}</ul>` : ""}
       <p class="foot">These describe the compared plans, not a probability of anything.</p></section>` : ""}
     ${personal && (d.routes.length || d.exploration?.length) ? `<p class="explore-row"><button type="button" class="link-btn" data-action="rank">Explore all roles, including ones without complete-route support</button></p>` : ""}
-    ${chosenRoute ? `<div class="stage-cta"><span class="cta-label"><span class="cta-kicker">Your route</span>${esc(chosenRoute.title)}</span><button type="button" class="btn btn-primary choose-route" data-route="${esc(chosenRoute.code)}">See plan</button></div>` : ""}`;
+    ${chosenRoute ? `<div class="stage-cta"><span class="cta-label"><span class="cta-kicker">Your route</span>${esc(chosenRoute.title)}</span><button type="button" class="btn btn-primary choose-route" data-route="${esc(chosenRoute.code)}">Open plan${icon("arrow-right", "sm")}</button></div>` : ""}`;
   attachSources($("#routes"));
   if (current.screen === "route") renderRoute();
 }
@@ -1583,15 +1594,15 @@ function overviewPanel(r) {
   const served = new Set(r.block.gaps_served);
   // The header shows the first sentence; the rest of the description and the role's codes wait behind About this role.
   const more = r.description.text.slice(r.description.first.length).trim();
-  const work = isPersonal() ? workSections(r, served) : `<section class="soft-card" data-scope aria-labelledby="h-rd-acts"><h2 id="h-rd-acts">Main activities</h2>
+  const work = isPersonal() ? workSections(r, served) : `<section class="soft-card" data-scope aria-labelledby="h-rd-acts"><h2 id="h-rd-acts"><span class="sec-ico" aria-hidden="true">${icon("list-checks", "sm")}</span>Main activities</h2>
       <p class="foot">The ${r.prioritized.length} largest of the ${fig(r.total_count, "int")} activities O*NET records for this role.</p>
-      <ul class="gaps">${r.prioritized.map(g => `<li><b class="${served.has(g.dwa_id) ? "in-block" : ""}"></b><span>${esc(g.name)}${served.has(g.dwa_id) ? `<span class="gap-note">In the first block</span>` : ""}</span></li>`).join("")}</ul>
+      <ul class="gaps">${r.prioritized.map(g => `<li>${actTile(g.name)}<span class="act-body"><span class="act-name">${esc(g.name)}</span>${served.has(g.dwa_id) ? `<span class="gap-note">In the first block</span>` : ""}</span><b class="${served.has(g.dwa_id) ? "in-block" : ""}" aria-hidden="true"></b></li>`).join("")}</ul>
       <button type="button" class="btn btn-gray" data-go="describe">${icon("pencil-line", "sm")}Describe your work</button>
       <p class="foot">See how many of these you already do.</p></section>`;
   return `
     ${work}
-    <section class="soft-card" data-scope aria-labelledby="h-rd-req"><h2 id="h-rd-req">${icon("graduation-cap", "sm")}Requirements</h2><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul>${reqNote(r.requirements)}</section>
-    <section class="soft-card" data-scope aria-labelledby="h-rd-opp"><h2 id="h-rd-opp">${icon("chart-column", "sm")}Opportunity</h2>
+    <section class="soft-card" data-scope aria-labelledby="h-rd-req"><h2 id="h-rd-req"><span class="sec-ico" aria-hidden="true">${icon("graduation-cap", "sm")}</span>Requirements</h2><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul>${reqNote(r.requirements)}</section>
+    <section class="soft-card" data-scope aria-labelledby="h-rd-opp"><h2 id="h-rd-opp"><span class="sec-ico" aria-hidden="true">${icon("chart-column", "sm")}</span>Opportunity</h2>
       <dl class="opportunity-metrics"><div><dt>US job outlook</dt><dd><span class="tag ${bandClass(r.job_outlook) || "good"}">${esc(bandShort(r.job_outlook))}</span>${srcMarks(r.job_outlook.src)}</dd><dd class="foot">${esc(r.job_outlook.period || "No projection period")}</dd></div>
       ${r.pay ? `<div><dt>Malaysia: group pay difference</dt><dd class="metric-value">${fig(r.pay.step, "step")}<span class="metric-unit"> / month</span></dd><dd class="foot">DOSM 2025, from your current skill group. Group medians, not a salary offer.</dd></div>` : ""}</dl>
       ${r.job_outlook.bright.length ? `<p><span class="tag sdg">Bright Outlook</span>${srcMarks(r.job_outlook.src)}</p>` : ""}
@@ -1599,14 +1610,14 @@ function overviewPanel(r) {
       <details class="more"><summary class="link-btn">Malaysia, observed</summary>
         ${r.sdg[0].trend ? `<p class="foot">${esc(r.sdg[0].trend)}${srcMarks(r.future.trend?.src || ["dosm-wages-occupation"])}</p>` : ""}
         <p class="foot">${esc(r.local_evidence)}</p></details></section>
-    <details class="evidence-panel rd-about" data-scope><summary>About this role${icon("chevron-down", "sm")}</summary>
+    <details class="evidence-panel rd-about" data-scope><summary><span class="ep-title"><span class="sec-ico" aria-hidden="true">${icon("info", "sm")}</span>About this role</span>${icon("chevron-down", "sm")}</summary>
       ${more ? `<p>${esc(more)}${srcMarks(r.description.src)}</p>` : ""}
       <p class="foot">O*NET ${esc(r.code)} · Job Zone ${fig(r.job_zone, "")} · ${esc(r.masco.label || "")}</p></details>`;
 }
 
 function workSections(r, served) {
   return `
-    <section class="soft-card" data-scope aria-labelledby="h-rd-work"><h2 id="h-rd-work">Your work in this role</h2>
+    <section class="soft-card" data-scope aria-labelledby="h-rd-work"><h2 id="h-rd-work"><span class="sec-ico you" aria-hidden="true">${icon("check", "sm")}</span>Your work in this role</h2>
       <div class="ring-row"><span class="ring-box">${ring(r.done_count.v, r.total_count.v)}<span class="ring-num" aria-hidden="true" data-src="${esc(r.done_count.src.join(" "))}">${esc(r.done_count.v)}/${esc(r.total_count.v)}</span></span>
         <p>You already do ${fig(r.done_count, "int")} of its ${fig(r.total_count, "int")} recorded activities. Overlap (${fig(r.overlap, "pct")}) is not how much of the job you can do.</p></div>
       ${r.support?.limited ? `<p class="callout limit-note">${icon("info", "sm")}<span>Limited support: this route counts ${fig(r.support.counted, "int")} of your activities (${fig(r.support.exact, "int")} exact, ${fig(r.support.related, "int")} related), the minimum is ${fig(r.support.needed, "int")}. Confirm more of your work to test it.</span></p>` : ""}
@@ -1614,11 +1625,11 @@ function workSections(r, served) {
       ${r.related.length || r.counted_once?.length ? `<details class="more counted-more"><summary class="link-btn">Related activities and counting</summary>
         ${r.related.length ? `<p class="foot">Also counted: ${r.related.map(x => `“${esc(x.name.replace(/\.$/, ""))}”, which O*NET groups with “${esc(x.role_name.replace(/\.$/, ""))}”`).join("; ")}. Not part of the overlap or the gaps.</p>` : ""}
         ${r.counted_once?.length ? `<p class="foot">Counted once: ${r.counted_once.map(x => `“${esc(x.name.replace(/\.$/, ""))}” and “${esc(x.role_name.replace(/\.$/, ""))}” stand for the same activity in this role`).join("; ")}. O*NET groups them, and each of the role's activities counts once toward a route.</p>` : ""}${srcMarks(["onet31-task-dwas", "onet31-tasks"])}</details>` : ""}</section>
-    <section class="soft-card" data-scope aria-labelledby="h-rd-gaps"><h2 id="h-rd-gaps">Still to build</h2>
+    <section class="soft-card" data-scope aria-labelledby="h-rd-gaps"><h2 id="h-rd-gaps"><span class="sec-ico" aria-hidden="true">${icon("wrench", "sm")}</span>Still to build</h2>
       <p class="foot">The role's ${gapCount(r)} largest activities you have not confirmed, most frequent first.</p>
       <ul class="gaps">${r.prioritized.map(g => {
         const note = served.has(g.dwa_id) ? "In your first block" : g.has_resource ? "" : "No verified resource yet";
-        return `<li><b class="${served.has(g.dwa_id) ? "in-block" : ""}"></b><span>${esc(g.name)}${note ? `<span class="gap-note">${note}</span>` : ""}</span></li>`;
+        return `<li>${actTile(g.name)}<span class="act-body"><span class="act-name">${esc(g.name)}</span>${note ? `<span class="gap-note">${note}</span>` : ""}</span><b class="${served.has(g.dwa_id) ? "in-block" : ""}" aria-hidden="true"></b></li>`;
       }).join("")}</ul></section>`;
 }
 
@@ -1672,8 +1683,8 @@ function futurePanel(r) {
   const jo = r.job_outlook, hz = r.block.horizon, sure = d.radar?.sure;
   const ai = r.ai_use;
   // Each activity shows its AI share and skill-demand label; the figures behind them show for every row at once.
-  const row = a => `<li class="fut-act">
-      <div class="fa-top"><span class="ai-name">${esc(a.name)}${a.done ? ` <span class="tag you">You do this</span>` : ""}${a.weak ? ` <span class="tag weak">Evidence weak</span>` : ""}</span>${a.now ? `<span class="ai-val">${fig(a.now, "pct")}</span>` : ""}</div>
+  const row = a => `<li class="fut-act${a.done ? " is-you" : ""}">
+      <div class="fa-top">${actTile(a.name, a.done ? "you" : "")}<span class="ai-name">${esc(a.name)}${a.done ? ` <span class="tag you">${icon("check", "sm")}You do this</span>` : ""}${a.weak ? ` <span class="tag weak">Evidence weak</span>` : ""}</span>${a.now ? `<span class="ai-val">${fig(a.now, "pct")}</span>` : ""}</div>
       <p class="fa-line fa-label">${demandChip(a.demand)}${srcMarks(a.demand.src)}</p>
       <div class="fa-figs">${a.now ? `<div class="direct-share" aria-hidden="true"><span style="width:${Math.max(0, Math.min(100, a.now.v))}%"></span></div>` : ""}<p class="fa-line">${demandShort(a.demand)}</p>
       ${a.now ? `<p class="fa-line">${esc(SCEN_NAME[sc])}, ${fig(hz.months, "")} months: ${fig(a.projected[sc], "pct")} · threshold: ${tttText(a.ttt[sc])}</p>
@@ -1681,25 +1692,25 @@ function futurePanel(r) {
   const groups = AI_GROUPS.map(([key, ico, title, sub]) => {
     const items = ai.filter(a => a.class === key);
     if (!items.length) return "";
-    return `<section class="ai-group ai-${ico}" data-scope aria-labelledby="h-ai-${ico}"><h2 id="h-ai-${ico}">${icon(ico, "sm")}${title}</h2><p class="foot">${sub}</p>
+    return `<section class="ai-group ai-${ico}" data-scope aria-labelledby="h-ai-${ico}"><h2 id="h-ai-${ico}"><span class="sec-ico${ico === "sparkles" ? " ev" : ""}" aria-hidden="true">${icon(ico, "sm")}</span>${title}</h2><p class="foot">${sub}</p>
       <ul class="fut-acts">${items.map(row).join("")}</ul></section>`;
   }).join("");
   const em = r.future.emerging;
   return `
-    <div class="fut-top"><section class="soft-card" data-scope aria-labelledby="h-fu-jobs"><h2 id="h-fu-jobs">${icon("trending-up", "sm")}Jobs in the United States</h2>
+    <div class="fut-top"><section class="soft-card" data-scope aria-labelledby="h-fu-jobs"><h2 id="h-fu-jobs"><span class="sec-ico" aria-hidden="true">${icon("trending-up", "sm")}</span>Jobs in the United States</h2>
       <p class="outlook-period foot">BLS projection ${esc(jo.period || "period unavailable")}${srcMarks(jo.src)}</p>
       <p class="outlook-headline">${jo.band ? esc(jo.band) : "No projection published for this role."}${srcMarks(jo.src)}</p>
       ${jo.openings ? `<p class="outlook-openings">${fig(jo.openings, "int")} projected openings (${esc(jo.openings_period)}).</p>` : ""}
       ${jo.bright.length ? `<p class="foot">Bright Outlook: ${esc(jo.bright.join(", "))}.${srcMarks(jo.src)}</p>` : ""}
       <p class="foot">A projection, not a promise of a job.</p>
       ${sure ? `<details class="more"><summary class="link-btn">How sure is this</summary><p class="foot">“${esc(sure.bls.quote)}” (BLS evaluation of its 2014-24 projections)${srcMarks(sure.bls.src)}.</p></details>` : ""}</section>
-    <section class="soft-card" data-scope aria-labelledby="h-fu-my"><h2 id="h-fu-my">${icon("map-pin", "sm")}Malaysia, observed</h2>${trendBlock(r.future.trend, null, r.local_evidence)}</section></div>
+    <section class="soft-card" data-scope aria-labelledby="h-fu-my"><h2 id="h-fu-my"><span class="sec-ico" aria-hidden="true">${icon("map-pin", "sm")}</span>Malaysia, observed</h2>${trendBlock(r.future.trend, null, r.local_evidence)}</section></div>
     <div class="fut-head"><p class="rd-lead">This role's ${fig({ v: ai.length, src: ["onet31-task-dwas", "onet31-tasks"] }, "int")} largest activities, by how much AI does them directly when people use Claude (up to ${esc(releaseLabel(d.release))}).${srcMarks([`aei-${d.release}`])}</p>
       <label class="check-line fig-toggle"><input type="checkbox" role="switch" id="fut-figs" ${routeState.figs ? "checked" : ""}> Show figures</label></div>
     <details class="more fut-how"><summary class="link-btn">How to read these</summary>
       <p class="foot">For each activity: the share AI does directly when people use Claude for it, where that share may be ${fig(hz.months, "")} months ahead in the ${esc(sc)} scenario, and skill demand: of the ${demandPool()} that record the activity, weighted by how often it appears in their tasks, the share projected to grow faster than average and the share projected to decline (BLS 2025-2035).</p></details>
     ${groups}
-    <section class="soft-card" data-scope aria-labelledby="h-fu-em"><h2 id="h-fu-em">${icon("sparkles", "sm")}What's emerging</h2>
+    <section class="soft-card" data-scope aria-labelledby="h-fu-em"><h2 id="h-fu-em"><span class="sec-ico ev" aria-hidden="true">${icon("sparkles", "sm")}</span>What's emerging</h2>
       ${em.tasks.length ? `<ul class="emerging">${em.tasks.map(t => `<li>${esc(t.task)} <span class="foot">(${esc(t.category)}, ${esc(t.date)})${srcMarks(t.src)}</span></li>`).join("")}</ul>` : `<p class="foot">No emerging-task record in O*NET 31.0.</p>`}
       ${em.technologies.length ? `<details class="more"><summary class="link-btn">${fig({ v: em.technologies.length, src: em.technologies[0].src }, "int")} in-demand technologies (US job postings)</summary>
         <p class="tech-line">${em.technologies.map(t => `${esc(t.name)}${t.hot ? " (hot)" : ""}`).join(", ")}${srcMarks(["onet31-software"])}</p></details>` : `<p class="foot">No in-demand technology listed.</p>`}</section>
@@ -1710,7 +1721,7 @@ function blockPanel(r) {
   const b = r.block, d = routeState.data;
   const served = r.prioritized.filter(g => g.served).length;
   return `
-    <section class="soft-card" data-scope aria-labelledby="h-rd-block"><h2 id="h-rd-block">First ${fig(d.weeks, "int")}-week block</h2>
+    <section class="soft-card" data-scope aria-labelledby="h-rd-block"><h2 id="h-rd-block"><span class="sec-ico" aria-hidden="true">${icon("list-checks", "sm")}</span><span>First ${fig(d.weeks, "int")}-week block</span></h2>
       <div class="stat-row"><p><b>${fig(b.effort_hours, "")}</b><span>of ${fig(b.capacity_hours, "")} hours</span></p><p><b>${fig(b.cost_rm, "rm")}</b><span>of ${fig(d.budget_rm, "rm")} budget</span></p><p><b>${fig({ v: served, src: GAP_SRC }, "int")}/${gapCount(r)}</b><span>priority gaps served</span></p></div>
       ${b.gap_order === "growing" ? `<p class="foot">Steps for skills with more growth than decline first (set on Plan).</p>` : ""}
       <p class="foot">${esc(capitalise(b.status))}. Verified resources exist for ${fig(r.supported_share, "pct")} of the priority gaps. A first block is a start, not a complete transition.</p>
@@ -1727,7 +1738,7 @@ const JOB_SITES = [
 
 function jobsPanel(r) {
   const term = ROLE_META[r.code]?.[1] || r.title;
-  return `<section class="soft-card" aria-labelledby="h-rd-jobs"><h2 id="h-rd-jobs">Search job ads</h2>
+  return `<section class="soft-card" aria-labelledby="h-rd-jobs"><h2 id="h-rd-jobs"><span class="sec-ico" aria-hidden="true">${icon("search", "sm")}</span>Search job ads</h2>
     <p>AIVANCIN does not list or check jobs. These open a search for “${esc(term)}” on another site.</p>
     <ul class="res-list">${JOB_SITES.map(([name, url]) => `<li><a class="res-row" href="${esc(url(term))}" target="_blank" rel="noopener"><span class="res-tile" aria-hidden="true">${icon("search")}</span>
       <span class="res-text"><b>${esc(name)}</b><span>Jobs matching “${esc(term)}”</span></span>${icon("external-link", "sm")}<span class="vh">(opens in a new tab)</span></a></li>`).join("")}</ul>
@@ -1762,7 +1773,7 @@ function radarJobs(rd) {
   const byMajor = new Map();
   rd.trends.forEach(t => { if (!byMajor.has(t.major)) byMajor.set(t.major, { ...t, families: [] }); byMajor.get(t.major).families.push(t.family_label); });
   const period = rd.jobs.find(j => j.period)?.period || "2025-2035";
-  return `<section class="soft-card" data-scope aria-labelledby="h-rj"><h2 id="h-rj">${icon("trending-up", "sm")}Jobs</h2>
+  return `<section class="soft-card" data-scope aria-labelledby="h-rj"><h2 id="h-rj"><span class="sec-ico" aria-hidden="true">${icon("trending-up", "sm")}</span>Jobs</h2>
     <p class="foot">${personal ? "Your routes" : "The supported roles"}: US projected growth and openings, ${esc(period)} (BLS, via O*NET OnLine). United States figures, kept apart from Malaysian ones.</p>
     ${groups}
     <h3 class="rj-sub">${icon("map-pin", "sm")}In Malaysia, observed</h3>
@@ -1782,7 +1793,7 @@ function radarSkills(rd) {
       <td data-label="AI now">${s.now ? fig(s.now, "pct") : `<span class="foot">no data</span>`}</td>
       <td data-label="${SCEN_NAME[sc]}, ${rd.horizon.months.v} months">${s.now ? fig(s.projected[sc], "pct") : ""}</td>
       <td data-label="Time to threshold">${tttText(s.ttt[sc])}</td></tr>`).join("");
-  return `<section class="soft-card radar-main" data-scope aria-labelledby="h-rs"><h2 id="h-rs">${icon("radar", "sm")}${personal ? "Your skills" : "Skills these roles use"}</h2>
+  return `<section class="soft-card radar-main" data-scope aria-labelledby="h-rs"><h2 id="h-rs"><span class="sec-ico${personal ? " you" : ""}" aria-hidden="true">${icon("radar", "sm")}</span>${personal ? "Your skills" : "Skills these roles use"}</h2>
     ${radarControls(rd)}
     <p class="radar-feedback foot" id="radar-feedback" role="status">${sc === "moderate" ? "Moderate holds today's values at every horizon." : `Arrows show the ${sc} assumption ${fig(rd.horizon.months, "")} months ahead.`}</p>
     <button type="button" class="link-btn" id="radar-retry" hidden>Retry update</button>
@@ -1865,14 +1876,14 @@ function changingItem(c) {
   const routes = [...new Set(c.where.map(w => w.route_title))];
   const steps = [...new Set(c.where.map(w => w.step))];
   const by = c.where[0];
-  return `<li><p class="gap-name">${esc(c.name)}</p>
+  return `<li class="chg-item">${actTile(c.name, "ev")}<div class="chg-body"><p class="gap-name">${esc(c.name)}</p>
     <p class="foot">Now ${fig(c.now, "pct")}${c.weak ? " (evidence weak)" : ""}, ${fig(by.projected, "pct")} by ${fig(by.horizon_months, "")} months · threshold: ${tttText(c.ttt)}</p>
-    <p class="foot">${isPersonal() ? `Checkpoint of “${esc(steps.join("”, “"))}” in ${esc(routes.join(", "))}` : `In ${fig({ v: routes.length, src: ["aivancin-routes"] }, "int")} role${routes.length === 1 ? "" : "s"}: ${esc(routes.join(", "))}`}</p></li>`;
+    <p class="foot">${isPersonal() ? `Checkpoint of “${esc(steps.join("”, “"))}” in ${esc(routes.join(", "))}` : `In ${fig({ v: routes.length, src: ["aivancin-routes"] }, "int")} role${routes.length === 1 ? "" : "s"}: ${esc(routes.join(", "))}`}</p></div></li>`;
 }
 
 function radarChanging(rd) {
   const sc = rd.scenario, personal = isPersonal();
-  return `<section class="soft-card" data-scope aria-labelledby="h-rc"><h2 id="h-rc">${icon("sparkles", "sm")}Skills that are changing</h2>
+  return `<section class="soft-card" data-scope aria-labelledby="h-rc"><h2 id="h-rc"><span class="sec-ico ev" aria-hidden="true">${icon("sparkles", "sm")}</span>Skills that are changing</h2>
     <p class="foot">${personal ? "Gaps in your first blocks" : "Gaps in the supported roles' first blocks"} that AI is projected to do directly in at least ${fig(rd.threshold, "pct")} of observed Claude conversations by the look-ahead (${esc(sc)}), so their checkpoint adds AI checking.</p>
     ${rd.changing.length ? `<ul class="chg-list">${rd.changing.slice(0, CHANGING_SHOWN).map(changingItem).join("")}</ul>
       ${rd.changing.length > CHANGING_SHOWN ? `<details class="more"><summary class="link-btn">${fig({ v: rd.changing.length - CHANGING_SHOWN, src: ["aivancin-routes"] }, "int")} more</summary><ul class="chg-list">${rd.changing.slice(CHANGING_SHOWN).map(changingItem).join("")}</ul></details>` : ""}`
@@ -1902,7 +1913,7 @@ function radarSure(rd) {
   const fmtDate = iso => new Date(`${iso}T00:00:00`).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
   const used = ["aei-2025-09-15", "aei-2026-01-15", "aei-2026-03-24", "aei-2026-06-26", "onet-online-outlook", "onet31-task-dwas", "dosm-wages-occupation", "aivancin-backtest", "aivancin-registered-forecasts", "bls-eval-2014-2024", "aei-report-2511.15080"]
     .filter(id => state.sources[id]);
-  return `<section class="soft-card" data-scope aria-labelledby="h-sure"><h2 id="h-sure">${icon("gauge", "sm")}How sure is this</h2>
+  return `<section class="soft-card" data-scope aria-labelledby="h-sure"><h2 id="h-sure"><span class="sec-ico ev" aria-hidden="true">${icon("gauge", "sm")}</span>How sure is this</h2>
     <dl class="sure">
       <dt>AI shift</dt>
       ${b ? `<dd>Tested on the ${esc(releaseLabel(b.target))} release for ${fig(b.units, "int")} activities: the average across earlier releases was off by ${fig(b.mae_mean, "")} points on average, the last value by ${fig(b.mae_persistence, "")} and a trend line by ${fig(b.mae_line, "")}. 80% of those errors were within ${fig(b.p80, "")} points.</dd>
@@ -1933,9 +1944,9 @@ function renderRadar() {
     ${radarSkills(rd)}
     ${isPersonal() ? "" : `<p class="radar-personalise"><button type="button" class="link-btn" data-go="describe">${icon("pencil-line", "sm")}Personalise with your work</button></p>`}
     </div><div class="radar-aside">
-    <details class="evidence-panel"><summary>Job outlook &amp; Malaysia${icon("chevron-down", "sm")}</summary>${radarJobs(rd)}</details>
+    <details class="evidence-panel"><summary><span class="ep-title"><span class="sec-ico" aria-hidden="true">${icon("trending-up", "sm")}</span>Job outlook &amp; Malaysia</span>${icon("chevron-down", "sm")}</summary>${radarJobs(rd)}</details>
     ${radarChanging(rd)}
-    <details class="evidence-panel"><summary>Evidence &amp; uncertainty${icon("chevron-down", "sm")}</summary>${radarSure(rd)}</details>
+    <details class="evidence-panel"><summary><span class="ep-title"><span class="sec-ico ev" aria-hidden="true">${icon("gauge", "sm")}</span>Evidence &amp; uncertainty</span>${icon("chevron-down", "sm")}</summary>${radarSure(rd)}</details>
     </div></div>`;
   drawRadarChart();
   attachSources(box);
@@ -1997,7 +2008,7 @@ function renderRoute() {
     ${r.near ? `<div class="stage-cta"><span class="cta-label"><span class="cta-kicker">Not yet a route</span>${fig(r.near.counted, "int")} of ${fig(r.near.needed, "int")} activities counted</span>
       <button type="button" class="btn btn-primary" data-go="edit">Describe more of your work</button></div>`
       : `<div class="stage-cta"><span class="cta-label"><span class="cta-kicker">First block</span>${fig(r.block.effort_hours, "")} h · ${fig(r.block.cost_rm, "rm")}</span>
-      <button type="button" class="btn btn-primary choose-route" data-route="${esc(r.code)}">${chosen ? "See your plan" : "Choose this route"}</button></div>`}`;
+      <button type="button" class="btn btn-primary choose-route" data-route="${esc(r.code)}">${chosen ? `Open plan${icon("arrow-right", "sm")}` : "Choose this route"}</button></div>`}`;
   attachSources(box);
 }
 
@@ -2127,7 +2138,7 @@ function stepItem(s, i) {
   const needs = s.requires_titles || [];
   return `<li class="pstep${s.completed ? " done" : ""}" data-scope>
     <span class="pnum" aria-hidden="true">${s.completed ? icon("check", "sm") : i + 1}</span>
-    <div class="pstep-top"><h3 class="gap-name">${esc(heading)}</h3><span class="p-hours">${fig(hours, "")} h</span></div>
+    <div class="pstep-top">${actTile(heading)}<h3 class="gap-name">${esc(heading)}</h3><span class="p-hours">${fig(hours, "")} h</span></div>
     <a class="res-row" href="${esc(s.url)}" target="_blank" rel="noopener"><span class="res-tile" aria-hidden="true">${icon("book-open")}</span>
       <span class="res-text"><b>${esc(s.title)}</b><span>${esc(s.provider)} · ${price}</span></span>${icon("external-link", "sm")}<span class="vh">(opens in a new tab)</span></a>
     ${stepAccess(s, needs, true)}
@@ -2158,7 +2169,7 @@ function firstTaskText(s) {
   return `Open ${name} and work through it.`;
 }
 function startCard(b, s) {
-  if (!s) return `<section class="soft-card start-card" aria-labelledby="h-start"><p class="d-kicker">Start here</p><h2 id="h-start">Every step in this block is marked done</h2>
+  if (!s) return `<section class="soft-card start-card" aria-labelledby="h-start"><p class="d-kicker start-kicker">${icon("check", "sm")}Start here</p><h2 id="h-start">Every step in this block is marked done</h2>
     <p class="foot">Your checkpoints are your record. Marking a step done does not verify a skill.</p></section>`;
   const total = { v: Math.round((s.provider_hours.v + s.practice_hours.v) * 10) / 10, src: s.provider_hours.src };
   const before = [];
@@ -2174,7 +2185,7 @@ function startCard(b, s) {
     : "";
   const cost = s.cost_rm.v ? `${fig(s.cost_rm, "rm")}` : `${s.provider === "Saylor University" ? esc(s.access) : "Free"}${srcMarks(s.cost_rm.src)}`;
   return `<section class="soft-card start-card" data-scope aria-labelledby="h-start">
-    <p class="d-kicker">Start here</p>
+    <p class="d-kicker start-kicker">${icon("arrow-right", "sm")}Start here</p>
     <h2 id="h-start">${esc(s.title)}</h2>
     <p class="foot">${esc(s.provider)} · ${cost}</p>
     <dl class="start-list">
@@ -2185,7 +2196,7 @@ function startCard(b, s) {
       <div><dt>You'll have</dt><dd>${esc(s.output)}${s.form === "ai" ? " Then ask an AI assistant to do the same task and write down every error it made." : ""}</dd></div>
     </dl>
     <p class="foot">Keep what you make: it is your record for this step. Marking it done is your own mark, not a skill check.</p>
-    <a class="btn btn-gray start-open" href="${esc(s.first_task.url)}" target="_blank" rel="noopener">${icon("external-link", "sm")}Open the first task<span class="vh"> (opens in a new tab)</span></a>
+    <a class="btn btn-primary start-open" href="${esc(s.first_task.url)}" target="_blank" rel="noopener">${icon("external-link", "sm")}Open the first task<span class="vh"> (opens in a new tab)</span></a>
     <div class="srcs-slot"></div></section>`;
 }
 
@@ -2227,7 +2238,7 @@ function scenarioCard(r, d) {
   const joinIn = x => SCENS.filter(k => (practice[k]?.joins || []).some(y => y.id === x.id));
   const moreTime = [...new Map(SCENS.flatMap(k => (practice[k]?.needs_time || []).map(x => [x.id, x]))).values()];
   return `<section class="soft-card scen-card" data-scope aria-labelledby="h-scen-card">
-    <h2 id="h-scen-card">If AI moves faster or slower</h2>
+    <h2 id="h-scen-card"><span class="sec-ico ev" aria-hidden="true">${icon("sparkles", "sm")}</span>If AI moves faster or slower</h2>
     <p>Your courses stay the same in every scenario. What changes is which checkpoints add checking an AI's work${joined.length ? ", and whether AI-practice steps join" : ""}.</p>
     <ul class="scen-grid" aria-label="Checkpoints that add AI checking, per scenario">${SCENS.map((k, i) => `<li class="${d.scenario === k ? "on" : ""}"><b>${n(counts[i])} of ${n(steps.length)}</b><span>${capitalise(k)}${d.scenario === k ? ", shown" : ""}</span>${(practice[k]?.joins || []).length ? `<span>+ ${n(practice[k].joins.length)} AI practice</span>` : ""}</li>`).join("")}</ul>
     <p class="foot">Checkpoints that add AI checking, per scenario.</p>
@@ -2270,7 +2281,7 @@ function contributionCard(r) {
   const s85 = c.s85.from
     ? `From ${esc(c.s85.from.label)} to ${esc(c.s85.to.label || "an unmapped skill level")}${c.s85.step ? `; DOSM 2025 median pay step ${fig(c.s85.step, "step")} a month (group medians, not a salary offer)` : ""}.`
     : `Toward ${esc(c.s85.to.label || "an unmapped skill level")}. Choose your current job title to see the step from your group.`;
-  return `<section class="soft-card contrib" data-scope aria-labelledby="h-contrib"><h2 id="h-contrib">${icon("layers", "sm")}How this path contributes</h2>
+  return `<section class="soft-card contrib" data-scope aria-labelledby="h-contrib"><h2 id="h-contrib"><span class="sec-ico" aria-hidden="true">${icon("layers", "sm")}</span>How this path contributes</h2>
     <dl class="contrib-list">
       <div><dt>SDG 8.5 · decent work</dt><dd>${s85}${srcMarks(r.sdg[0].src)}</dd></div>
       <div><dt>SDG 4.4 · skills for employment</dt><dd>This block serves ${fig(c.s44.gaps, "int")} of the route's priority gaps in ${fig(c.s44.hours, "")} hours.</dd></div>
@@ -2331,10 +2342,10 @@ function renderPlan() {
     <h2 class="vh">Steps</h2>
     <ol class="psteps">${b.steps.map(stepItem).join("")}</ol>
     ${blockLimits(r)}
-    ${b.uncovered.length ? `<section class="soft-card" data-scope aria-labelledby="h-uncovered"><h2 id="h-uncovered">Priority gaps without a step in this block</h2><ul class="gaps">${b.uncovered.map(g => `<li><b></b><span>${esc(g.name)}</span></li>`).join("")}</ul>
+    ${b.uncovered.length ? `<section class="soft-card" data-scope aria-labelledby="h-uncovered"><h2 id="h-uncovered"><span class="sec-ico rust" aria-hidden="true">${icon("circle-dashed", "sm")}</span>Priority gaps without a step in this block</h2><ul class="gaps">${b.uncovered.map(g => `<li>${actTile(g.name)}<span class="act-body"><span class="act-name">${esc(g.name)}</span></span><b aria-hidden="true"></b></li>`).join("")}</ul>
       <p class="foot">Either no verified resource teaches them yet, or the block's time or budget ran out.</p></section>` : ""}
     ${contributionCard(r)}
-    <section class="soft-card" data-scope aria-labelledby="h-beyond"><h2 id="h-beyond">Beyond this block</h2><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul>${reqNote(r.requirements)}</section>
+    <section class="soft-card" data-scope aria-labelledby="h-beyond"><h2 id="h-beyond"><span class="sec-ico" aria-hidden="true">${icon("graduation-cap", "sm")}</span>Beyond this block</h2><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul>${reqNote(r.requirements)}</section>
     </div></div>
     <div class="stage-cta"><span class="cta-label"><b>${fig({ v: done, src: ["your-input"] }, "int")}</b> of ${fig({ v: b.steps.length, src: GAP_SRC }, "int")} steps done</span>${isPersonal()
       ? `<button type="button" class="btn btn-primary" data-action="changed">What changed</button>`
@@ -2383,7 +2394,7 @@ function evidenceDecision(res) {
   if (!n || res.from_release !== n.from || res.to_release !== n.to) {
     return `<p class="foot">Your plan uses the AI-usage evidence up to ${esc(releaseLabel(planRelease()))}.</p>`;
   }
-  return `<section class="soft-card decide" aria-labelledby="h-decide"><h2 id="h-decide">${icon("history", "sm")}Update your plan?</h2>
+  return `<section class="soft-card decide" aria-labelledby="h-decide"><h2 id="h-decide"><span class="sec-ico ev" aria-hidden="true">${icon("history", "sm")}</span>Update your plan?</h2>
     <p>${esc(newerText(n))} Your target and completed steps stay either way.</p>
     <div class="decide-actions"><button type="button" class="btn btn-primary" data-evidence="use">Use the ${esc(releaseLabel(n.to))} evidence for my plan</button>
       <button type="button" class="btn btn-gray" data-evidence="keep">Keep my plan on ${esc(releaseLabel(n.from))} evidence</button></div></section>`;
@@ -2418,7 +2429,7 @@ function renderChanged(res) {
       <p class="chg-basis">${basisTags(c)}</p>
       ${c.change === "changed form" ? `<p class="foot">${reasonText(c)}.</p><details class="more"><summary class="link-btn">Figures by release</summary>${perRelease(c)}</details>` : ""}
     </li>`).join("")}</ol>` : ""}
-    ${kept.length ? `<section class="soft-card chg-kept" data-scope aria-labelledby="h-kept"><h2 id="h-kept">Kept <span class="num" data-src="aivancin-catalogue">${kept.length}</span></h2>
+    ${kept.length ? `<section class="soft-card chg-kept" data-scope aria-labelledby="h-kept"><h2 id="h-kept"><span class="sec-ico you" aria-hidden="true">${icon("check", "sm")}</span><span>Kept <span class="num" data-src="aivancin-catalogue">${kept.length}</span></span></h2>
       <ul class="plain-rows">${kept.map(c => `<li><span><span data-src="aivancin-catalogue">${esc(c.title)}</span>${doneTag(c)}</span>${basisTags(c)}</li>`).join("")}</ul></section>` : ""}`;
   attachSources($("#changed"));
   const go = () => { routeState.change = { from: $("#c-from").value, to: $("#c-to").value }; showChanged(); };
@@ -2640,7 +2651,7 @@ function courseRow(o) {
   const tags = o.ai_practice ? `<span class="tag good">AI practice</span>` : "";
   return `<li><details class="course-item"><summary class="res-row"><span class="res-tile" aria-hidden="true">${icon(o.ai_practice ? "sparkles" : "book-open")}</span>
     <span class="res-text"><b>${esc(o.title)}</b><span>${esc(o.provider)} · ${price} · ${fig(o.provider_hours, "")} h</span>${tags ? `<span class="res-tags">${tags}</span>` : ""}</span>
-    ${icon("chevron-down", "sm")}</summary><div class="course-detail">${stepAccess(o, needs)}<p class="foot">Link checked ${esc(o.checked_on)}. ${esc(o.access || "See provider for access details.")}${srcMarks(o.cost_rm.src)}</p><a class="link-btn" href="${esc(o.url)}" target="_blank" rel="noopener">Open course ${icon("external-link", "sm")}<span class="vh">(opens in a new tab)</span></a></div></details></li>`;
+    ${icon("chevron-down", "sm")}</summary><div class="course-detail">${stepAccess(o, needs)}<p class="foot">Link checked ${esc(o.checked_on)}. ${esc(o.access || "See provider for access details.")}${srcMarks(o.cost_rm.src)}</p><a class="btn btn-tinted course-open" href="${esc(o.url)}" target="_blank" rel="noopener">Open course ${icon("external-link", "sm")}<span class="vh">(opens in a new tab)</span></a></div></details></li>`;
 }
 
 function renderLearn() {
@@ -2653,17 +2664,17 @@ function renderLearn() {
   const active = r.resources.map(g => ({ ...g, options: g.options.filter(o => o.in_block) })).filter(g => g.options.length);
   const extra = r.resources.map(g => ({ ...g, options: g.options.filter(o => !o.in_block) })).filter(g => g.options.length);
   const missing = r.resources.filter(g => !g.options.length);
-  const groups = items => items.map(g => `<section class="learn-group"><h3>${esc(g.name)}</h3>
+  const groups = items => items.map(g => `<section class="learn-group"><h3 class="learn-act-head">${actTile(g.name)}<span class="act-name">${esc(g.name)}</span></h3>
     <ul class="res-list">${g.options.map(courseRow).join("")}</ul></section>`).join("");
   box.innerHTML = `
     <p class="lead-left">Build your next skill, one course at a time.</p>
     <div class="learn-heading"><span class="learn-family">${familyTile(r)}</span><div class="ctl learn-pick"><label for="learn-route">Learning for</label>
       <select id="learn-route">${sortedRoutes(d.routes).map(x => `<option value="${esc(x.code)}" ${x.code === r.code ? "selected" : ""}>${esc(x.title)}${x.code === routeState.target ? " (your route)" : ""}</option>`).join("")}</select></div></div>
     <div class="learn-courses fam-${esc(r.family)}" data-scope>
-      <section class="learn-block${active.length ? " in-block" : ""}"><div class="learn-section-head"><h2>${active.length ? "In your first block" : "Courses to explore"}</h2>${routeState.target === r.code ? `<button type="button" class="link-btn" data-tab-go="plan">View plan ${icon("arrow-right", "sm")}</button>` : ""}</div>
+      <section class="learn-block${active.length ? " in-block" : ""}"><div class="learn-section-head"><h2><span class="sec-ico${active.length ? " you" : ""}" aria-hidden="true">${icon(active.length ? "list-checks" : "book-open", "sm")}</span>${active.length ? "In your first block" : "Courses to explore"}</h2>${routeState.target === r.code ? `<button type="button" class="btn btn-tinted" data-tab-go="plan">Open plan${icon("arrow-right", "sm")}</button>` : ""}</div>
       ${active.length ? groups(active) : extra.length ? groups(extra) : `<p class="foot">No verified courses are available for these gaps yet. Explore another route above.</p>`}</section>
-      ${active.length && extra.length ? `<details class="evidence-panel learn-extra"><summary>More courses for this route${icon("chevron-down", "sm")}</summary>${groups(extra)}</details>` : ""}
-      ${missing.length ? `<details class="evidence-panel learn-missing"><summary>Gaps without a course ${fig({ v: missing.length, src: GAP_SRC }, "int")}${icon("chevron-down", "sm")}</summary><p class="foot">No verified course teaches these yet.</p><ul>${missing.map(g => `<li>${esc(g.name)}</li>`).join("")}</ul></details>` : ""}
+      ${active.length && extra.length ? `<details class="evidence-panel learn-extra"><summary><span class="ep-title"><span class="sec-ico" aria-hidden="true">${icon("book-open", "sm")}</span>More courses for this route</span>${icon("chevron-down", "sm")}</summary>${groups(extra)}</details>` : ""}
+      ${missing.length ? `<details class="evidence-panel learn-missing"><summary><span class="ep-title"><span class="sec-ico rust" aria-hidden="true">${icon("circle-dashed", "sm")}</span><span>Gaps without a course ${fig({ v: missing.length, src: GAP_SRC }, "int")}</span></span>${icon("chevron-down", "sm")}</summary><p class="foot">No verified course teaches these yet.</p><ul class="gaps">${missing.map(g => `<li>${actTile(g.name)}<span class="act-body"><span class="act-name">${esc(g.name)}</span></span><b aria-hidden="true"></b></li>`).join("")}</ul></details>` : ""}
       <p class="foot learn-sum">${fig({ v: total, src: GAP_SRC }, "int")} course${total === 1 ? "" : "s"} across ${fig({ v: r.resources.length, src: GAP_SRC }, "int")} gaps; ${fig({ v: left, src: GAP_SRC }, "int")} outside your first block.</p>
     </div>`;
   attachSources(box);
@@ -2675,9 +2686,9 @@ function pathSection() {
   const r = routeState.data?.routes.find(x => x.code === routeState.target);
   if (!r) return "";
   const c = r.contribution;
-  return `<section class="soft-card" data-scope aria-labelledby="h-path-sdg"><h2 id="h-path-sdg">${icon("layers", "sm")}Your path and the SDGs</h2>
+  return `<section class="soft-card" data-scope aria-labelledby="h-path-sdg"><h2 id="h-path-sdg"><span class="sec-ico you" aria-hidden="true">${icon("layers", "sm")}</span>Your path and the SDGs</h2>
     <p>${esc(r.title)}: ${c.s85.step ? `pay step ${fig(c.s85.step, "step")} a month (SDG 8.5), ` : ""}${fig(c.s44.gaps, "int")} priority gaps served (SDG 4.4), ${fig(c.s43.free, "int")} of ${fig(c.s43.of, "int")} steps free (SDG 4.3), ${fig(c.s82.checkpoints, "int")} checkpoints with AI checking (SDG 8.2).</p>
-    <button type="button" class="link-btn" data-tab-go="plan">See how this path contributes</button></section>`;
+    <button type="button" class="btn btn-gray" data-tab-go="plan">Open plan${icon("arrow-right", "sm")}</button></section>`;
 }
 
 /* ---------- Saved routes, shown in Profile: bookmarks with Remove ---------- */
@@ -2688,7 +2699,7 @@ function savedSection() {
   const rows = [...routeState.saved].map(([code, title]) => `<li>${live.has(code)
     ? `<button type="button" class="link-btn saved-open" data-open-route="${esc(code)}">${esc(title)}</button>` : `<span>${esc(title)}<span class="gap-note">No longer among your routes: with the activities you confirmed now, it does not count enough of your work.</span></span>`}
     <button type="button" class="link-btn" data-unsave="${esc(code)}" aria-label="Remove ${esc(title)} from saved routes">Remove</button></li>`).join("");
-  return `<section class="soft-card" aria-labelledby="h-saved-routes"><h2 id="h-saved-routes" tabindex="-1">${icon("bookmark", "sm")}Saved routes <span class="num" data-src="your-input">${routeState.saved.size}</span></h2>
+  return `<section class="soft-card" aria-labelledby="h-saved-routes"><h2 id="h-saved-routes" tabindex="-1"><span class="sec-ico you" aria-hidden="true">${icon("bookmark", "sm")}</span><span>Saved routes <span class="num" data-src="your-input">${routeState.saved.size}</span></span></h2>
     <ul class="plain-rows saved-rows">${rows}</ul><p class="foot">Saved in this browser. Routes also has a Saved filter.</p></section>`;
 }
 
@@ -2723,13 +2734,13 @@ function renderProfile() {
   box.innerHTML = `
     ${persona ? `<div class="callout">${icon("info")}<p>${esc(persona.name)}'s example, a synthetic person. Describe your work to use your own words.</p></div>` : ""}
     <div class="profile-main">
-    <section class="soft-card" aria-labelledby="h-prog"><h2 id="h-prog">${icon("list-checks", "sm")}Your progress</h2>
+    <section class="soft-card" aria-labelledby="h-prog"><h2 id="h-prog"><span class="sec-ico you" aria-hidden="true">${icon("list-checks", "sm")}</span>Your progress</h2>
       <div class="ring-row"><span class="ring-box">${ring(done, items.length)}<span class="ring-num" aria-hidden="true" data-src="your-input">${done}/${items.length}</span></span>
         <div><p>${youFig(done)} of ${youFig(items.length)} app milestones done.</p>${next ? `<button type="button" class="link-btn profile-next" ${next[2]}>Next: ${esc(next[0].toLowerCase())}${icon("arrow-right", "sm")}</button>` : `<p class="foot">Every app milestone is done.</p>`}</div></div>
       <ul class="progress-list">${items.map(([t, ok, action]) => `<li class="${ok ? "ok" : ""}"><button type="button" ${action}><span class="pl-mark" aria-hidden="true">${ok ? icon("check", "sm") : ""}</span><span>${esc(t)}<span class="vh">${ok ? ", done" : ", not yet"}</span></span>${icon("chevron-right", "sm")}</button></li>`).join("")}</ul></section>
     ${pathSection()}
     ${savedSection()}
-    ${state.lastIntake ? `<section class="soft-card" aria-labelledby="h-answers"><h2 id="h-answers">Your answers</h2>
+    ${state.lastIntake ? `<section class="soft-card" aria-labelledby="h-answers"><h2 id="h-answers"><span class="sec-ico you" aria-hidden="true">${icon("pencil-line", "sm")}</span>Your answers</h2>
       <details class="more answers-more"><summary class="link-btn">Show what you wrote</summary><dl class="answers">
         <dt>Current job${state.title ? `, ${esc(state.title.title)}` : ""}</dt><dd>${words(li.current_job)}</dd>
         <dt>Other work</dt><dd>${words(li.other_work)}</dd>
@@ -2740,11 +2751,11 @@ function renderProfile() {
       <button type="button" class="btn btn-gray" data-go="edit">${icon("pencil-line", "sm")}Edit answers</button>
       <p class="foot">Reading your answers again asks you to confirm your activities again.</p></section>` : ""}
     </div><div class="profile-aside">
-    ${state.lastIntake ? `<section class="soft-card" aria-labelledby="h-acts"><h2 id="h-acts">${icon("clipboard-check", "sm")}Your activities <span class="num" data-src="your-input">${c.all}</span></h2>
-      ${names.length ? `<ul class="plain-rows">${names.map(n => `<li>${icon("check", "sm")}<span>${esc(n)}</span></li>`).join("")}</ul>` : ""}
-      ${titleOnly.length ? `<details class="more title-activities"><summary class="link-btn">${fig({ v: titleOnly.length, src: TITLE_SRC }, "int")} more from your job title, ${esc(state.title.title)}</summary><p class="foot">Included from the O*NET job-title list. Review activities to keep or remove them.</p><ul class="plain-rows">${titleOnly.map(a => `<li>${icon("briefcase-business", "sm")}<span>${esc(a.name)}</span></li>`).join("")}</ul></details>` : ""}
+    ${state.lastIntake ? `<section class="soft-card" aria-labelledby="h-acts"><h2 id="h-acts"><span class="sec-ico you" aria-hidden="true">${icon("clipboard-check", "sm")}</span>Your activities <span class="num" data-src="your-input">${c.all}</span></h2>
+      ${names.length ? `<ul class="plain-rows">${names.map(n => `<li>${actTile(n, "you")}<span class="act-name">${esc(n)}</span><span class="act-tick" aria-hidden="true">${icon("check", "sm")}</span></li>`).join("")}</ul>` : ""}
+      ${titleOnly.length ? `<details class="more title-activities"><summary class="link-btn">${fig({ v: titleOnly.length, src: TITLE_SRC }, "int")} more from your job title, ${esc(state.title.title)}</summary><p class="foot">Included from the O*NET job-title list. Review activities to keep or remove them.</p><ul class="plain-rows">${titleOnly.map(a => `<li>${actTile(a.name)}<span class="act-name">${esc(a.name)}</span><span class="act-status foot">Job title</span></li>`).join("")}</ul></details>` : ""}
       <button type="button" class="btn btn-tinted" data-tab-go="review">Review activities${icon("arrow-right", "sm")}</button></section>` : describeCard("profile")}
-    <section class="soft-card" aria-labelledby="h-data"><h2 id="h-data">Your data</h2>
+    <section class="soft-card" aria-labelledby="h-data"><h2 id="h-data"><span class="sec-ico" aria-hidden="true">${icon("shield-check", "sm")}</span>Your data</h2>
       <p class="foot">Your answers, activities, route and progress are kept in this browser only. The server keeps nothing.</p>
       <button type="button" class="btn btn-gray btn-danger-text" id="clear-open">${icon("trash-2", "sm")}Clear my data</button></section></div>`;
 }
