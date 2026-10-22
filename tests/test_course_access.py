@@ -91,11 +91,24 @@ def test_budget_route_offers_variance_teaching_and_drops_loose_mappings(snaps, p
     analyse = next(g for g in budget["resources"] if g["dwa_id"] == "4.A.2.a.4.k.1")
     assert "saylor.bus105" in [o["id"] for o in analyse["options"]]
     assert budget["block_limits"] and "BUS105" in budget["block_limits"][0]["text"]
-    # with enough time the variance course joins the block
-    long = planner.routes(_profile(snaps, ["4.A.3.b.6.a.1", "4.A.2.a.3.c.2"], 10.0), {"target": "13-2031.00", "weeks": 12}, TODAY)
+    # with enough time the variance course joins the block (12 h a week since 22 Oct: the bank reconciliation module
+    # now serves "Verify accuracy of financial information" first, so 120 hours leave 2.2 too few for BUS105)
+    long = planner.routes(_profile(snaps, ["4.A.3.b.6.a.1", "4.A.2.a.3.c.2"], 12.0), {"target": "13-2031.00", "weeks": 12}, TODAY)
     assert "saylor.bus105" in [s["id"] for s in next(r for r in long["routes"] if r["code"] == "13-2031.00")["block"]["steps"]]
 
 
 def test_every_verified_entry_still_passes_its_link_check(snaps):
     shown = pathway.verified_courses(snaps.catalogue, TODAY)
     assert {"saylor.bus105", "learn-dynamics.set-up-taxes-finance"} <= {c["id"] for c in shown}
+
+
+def test_short_entries_serve_the_near_twin_finance_gaps(snaps, planner):
+    """22 Oct: bank reconciliation also teaches "Verify accuracy of financial information" and Information Literacy
+    "Update professional knowledge", the twins of activities they already served; finance blocks use them."""
+    c = _courses(snaps)
+    assert "4.A.2.a.2.a.5" in c["learn-dynamics.bank-reconciliation-dynamics-365-business-central"]["dwas"]
+    assert "4.A.2.b.3.a.21" in c["saylor.prdv201"]["dwas"]
+    out = planner.routes(_profile(snaps, ["4.A.3.b.6.a.1", "4.A.2.a.3.c.2"]), {"target": "13-2011.00"}, TODAY)
+    acc = next(r for r in out["routes"] if r["code"] == "13-2011.00")
+    verify = next(g for g in acc["resources"] if g["dwa_id"] == "4.A.2.a.2.a.5")
+    assert verify["served"] and verify["options"][0]["id"] == "learn-dynamics.bank-reconciliation-dynamics-365-business-central"
