@@ -24,10 +24,10 @@ def test_neutral_copy_only_feeds_the_encoder(snaps, ai):
     sug = intake.suggest({"other_work": text}, encoder, vectors, snaps.onet)
     assert [s["text"] for s in sug["sentences"]] == ["My name is Kavitha and at 34 I keep the books for my uncle's shop.",
                                                      "Her son fixes phones."]
-    assert intake.neutral_text(sug["sentences"][0]["text"], snaps.onet) == \
-        "My name is Sam and at 30 I keep the books for my family's shop."
-    # The guard reads the person's words, not the neutral copy ("Her son" is not one of its listed subjects).
-    assert sug["sentences"][1]["guard"] is None
+    # 22 Oct: the self-introduction is no longer read at all (a name such as "May" is also a word).
+    assert intake.neutral_text(sug["sentences"][0]["text"], snaps.onet) == "at 30 I keep the books for my family's shop."
+    # The guard reads the person's words, not the neutral copy; since 22 Oct "Her son" is a person subject too.
+    assert sug["sentences"][1]["guard"] == {"kind": "someone else", "cue": "Her son"}
     assert intake.guard("My son fixes phones.") == {"kind": "someone else", "cue": "My son"}
 
 

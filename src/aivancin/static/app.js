@@ -396,6 +396,7 @@ const GUARD_TEXT = {
   "someone else": ["Not counted: this reads as someone else's work", "reads as someone else doing it"],
   "did not work out": ["Not counted: this reads as an attempt that did not work out", "reads as an attempt that did not work out"],
   "free time": ["Not counted: this reads as free time, not work", "reads as free time, not work"],
+  "unclear who": ["Who did this work?", "could mean someone else did it"],
 };
 
 function renderReview() {
@@ -413,6 +414,8 @@ function renderReview() {
   const fieldSeq = { current_job: 0, other_work: 0, studies: 0 };
   for (const s of sents) {
     fieldSeq[s.field] += 1;
+    // A sentence that only introduces the person ("Hi, I am May.") has nothing to confirm.
+    if (s.intro) continue;
     const n = fieldSeq[s.field];
     const src = `${icon(FIELD_ICON[s.field], "sm")}From "${FIELD_LABEL[s.field]}", sentence ${n}`;
     const rows = s.top.map(d => optionRow(smap.get(d), s)).join("");
@@ -422,8 +425,9 @@ function renderReview() {
       pages.push(`<div class="guard" data-sentence="${s.index}">
         <h4>${icon("circle-dashed")}${head}</h4>
         <blockquote class="words"><mark class="words">${esc(s.text)}</mark></blockquote>
-        <p class="why">"${esc(s.guard.cue)}" ${kind}. Its suggestions stay out unless you confirm on purpose that you have done them.</p>
-        <details><summary>Show the suggestions anyway ${icon("chevron-down", "sm")}</summary><fieldset class="sugg">${rows}</fieldset></details>
+        <p class="why">${s.guard.kind === "unclear who" ? `“${esc(s.guard.cue)}” ${kind}. If you did some of this work yourself, open the suggestions and confirm only what you did.`
+          : `"${esc(s.guard.cue)}" ${kind}. Its suggestions stay out unless you confirm on purpose that you have done them.`}</p>
+        <details><summary>${s.guard.kind === "unclear who" ? "Show the suggestions" : "Show the suggestions anyway"} ${icon("chevron-down", "sm")}</summary><fieldset class="sugg">${rows}</fieldset></details>
       </div>`);
       continue;
     }

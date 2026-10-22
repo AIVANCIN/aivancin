@@ -42,13 +42,80 @@ _LEISURE_RE = re.compile(
     r"|watch(?:es|ing)?\s+(?:\w+\s+)?(?:films?|movies?|dramas?|tv|television|football|anime|series|netflix)"
     r"|read(?:s|ing)?\s+(?:\w+\s+)?(?:novels?|comics?|manga)"
     r"|go(?:es)?\s+(?:hiking|jogging|cycling|swimming|fishing|camping|running)|go(?:es)? to the gym)\b", re.IGNORECASE)
-# SPEC 11.7: someone else's work. A third-person subject at the start of the sentence followed by a verb (not "and",
-# "or", a comma or a possessive), for example "My cousin repairs computers" or "She designs the websites".
+# SPEC 11.7: someone else's work, for example "My cousin repairs computers" or "She designs the websites": a person
+# subject at the start of the sentence followed by a verb (not "and", "or", a comma or a possessive). A sentence in
+# which the person also acts or is asked ("They pay me to set up their wifi", "He showed me how to build spreadsheets,
+# and now I make them") describes their own work (C12); since 22 Oct "acts" means a first-person subject doing
+# something, not any "I" or "me" (see ownership below).
 _KIN = "cousin|brother|sister|friend|father|mother|uncle|aunt|husband|wife|son|daughter"
-_OTHER_RE = re.compile(rf"^\W*((?:my\s+(?:{_KIN})|he|she|they))(?!'s\b|\s*,|\s+(?:and|or|&)\b)\s+[a-z]", re.IGNORECASE)
-# Refined 21 Oct (C12): a sentence in which the person also acts or is asked ("They pay me to set up their wifi",
-# "He showed me how to build spreadsheets, and now I make them") describes their own work and is not flagged.
-_FIRST_PERSON_RE = re.compile(r"\b(?:i|me|myself)\b|\bi'(?:m|ve|d|ll)\b", re.IGNORECASE)
+
+# Ownership (22 Oct): who does the work. "I repair laptops for my friends" is the person's work; "My friend repairs
+# laptops for me", "I watch him install software", "I get my car serviced" and "I pay someone to file my taxes" are
+# not. A sentence counts as the person's own work when it has a first-person subject doing something ("I install",
+# "we repair", "they pay me to set up"); watching, being shown or taught, having something done and paying someone
+# to do it are taken out first, and so is work done "for me" or "for us" by someone else.
+_PERSON = (_KIN + "|friends?|neighbou?rs?|boss|manager|supervisor|colleagues?|co-?workers?|partner|technician|mechanic"
+           "|teacher|lecturer|mentor|someone|somebody")
+_FP_AGENT_RE = re.compile(
+    r"\b(?:i|we)\b(?:'(?:m|ve|ll|d)|\s+(?:am|are|was|were|have|had))?"
+    r"(?:\s+(?:also|then|now|still|always|often|sometimes|usually|just|mostly|really|regularly|personally|already|both|"
+    r"all|actually|myself|ourselves|mainly|normally|even|currently))*\s+([a-z]+)", re.IGNORECASE)
+_NON_AGENT = {"watch", "watched", "watches", "watching", "observe", "observed", "learn", "learned", "learnt", "learning"}
+# "They pay me to set up their wifi", "My boss asks me to check the stock": the person is asked or paid to do it.
+_ME_TO_RE = re.compile(r"(?<!teach )(?<!teaches )(?<!taught )(?<!show )(?<!shows )(?<!showed )\bme\s+to\s+[a-z]+",
+                       re.IGNORECASE)
+_NOT_DOING = [
+    # watching or seeing a person do it ("I watch him install software"); watching screens or numbers is work
+    re.compile(r"\b(?:i|we)\s+(?:\w+ly\s+|just\s+|often\s+|sometimes\s+)?(?:watch|watched|see|saw|observe|observed)\s+"
+               rf"(?:him|her|them|(?:my|our|the|a|an)\s+(?:\w+\s+)?(?:{_PERSON}|nurse|staff|\w+(?:er|or|ist|ian)))\b(?:\s+\w+)?",
+               re.IGNORECASE),
+    re.compile(r"\b(?:i|we)\s+(?:just\s+)?(?:watch|watched|observe|observed)\W*$", re.IGNORECASE),
+    # being shown or taught
+    re.compile(r"\b(?:teach(?:es)?|taught|show(?:s|ed)?)\s+(?:me|us)\b(?:\s+how)?(?:\s+to)?(?:\s+\w+)?", re.IGNORECASE),
+    re.compile(r"\b(?:i|we)\s+(?:learn|learned|learnt)\s+(?:from|by watching)\b[\w\s']*", re.IGNORECASE),
+    # having it done or paying someone to do it
+    re.compile(r"\b(?:i|we)\s+(?:get|got|have|had)\s+(?:my|our|the|it|them)\b[\w\s']{0,30}?\b(?:serviced|repaired|fixed|done|"
+               r"installed|checked|cleaned|filed|prepared|made|built|set up|designed|cut|painted)\b", re.IGNORECASE),
+    re.compile(r"\b(?:i|we)\s+(?:pay|paid|hire|hired)\s+(?:someone|somebody|people|others|him|her|them|(?:a|an)\s+\w+)\s+to\b",
+               re.IGNORECASE),
+    # work done for the person
+    re.compile(r"\bfor\s+(?:me|us)\b", re.IGNORECASE),
+]
+_PERSON_START_RE = re.compile(
+    rf"^\W*((?:(?:my|our|a|an|the|his|her|their)\s+(?:\w+\s+)?(?:{_PERSON})|he|she|they|someone|somebody))"
+    r"(?!'s\b|\s*,|\s+(?:and|or|&)\b)\s+[a-z]", re.IGNORECASE)
+_HELPED_RE = re.compile(r"\b(?:help(?:s|ed)?|works?|worked)\s+(?:me|us)\b|\bwith\s+(?:me|us)\b", re.IGNORECASE)
+
+
+_LET_ME_RE = re.compile(r"\b(?:let|lets|allow|allows|allowed|trust|trusts|make|makes)\s+(?:me|us)\s+[a-z]+", re.IGNORECASE)
+
+
+def _own_agent(text):
+    """Whether the text has the person (or a "we" that includes them) doing something."""
+    if _ME_TO_RE.search(text) or _LET_ME_RE.search(text):
+        return True
+    return any(m.group(1).lower() not in _NON_AGENT for m in _FP_AGENT_RE.finditer(text))
+
+
+def ownership(sentence):
+    """None for the person's own work; else {kind, cue}: "someone else" or, when the person may have done part of it,
+    "unclear who" (the review asks)."""
+    norm = sentence.replace("’", "'").replace("‘", "'")
+    rest, cue = norm, None
+    for rx in _NOT_DOING:
+        m = rx.search(rest)
+        if m:
+            cue = cue or m.group(0).strip()
+            rest = rx.sub(" ", rest)
+    if _own_agent(rest):
+        return None
+    start = _PERSON_START_RE.match(norm)
+    if start and _HELPED_RE.search(norm):
+        return {"kind": "unclear who", "cue": _HELPED_RE.search(norm).group(0)}
+    if cue or start:
+        return {"kind": "someone else", "cue": cue or start.group(1)}
+    return None
+
 
 # Capitalised short forms such as IOC, SIEM or KYC: the small encoder does not know most of them and matches the
 # rest of the sentence instead, so the review asks for plain words. Everyday ones it reads well are left alone.
@@ -99,10 +166,7 @@ def guard(sentence):
     m = _LEISURE_RE.search(norm)
     if m:
         return {"kind": "free time", "cue": m.group(0)}
-    m = _OTHER_RE.match(norm)
-    if m and not _FIRST_PERSON_RE.search(norm):
-        return {"kind": "someone else", "cue": m.group(1)}
-    return None
+    return ownership(norm)
 
 
 def short_forms(sentence):
@@ -161,10 +225,30 @@ def _vocabulary(onet):
     return _VOCAB[key]
 
 
+# Self-introductions say who the person is, not what they do, and a name that is also a word ("May", "Will", "Grace")
+# would otherwise reach the encoder: "My name is May and I keep the books" is read as "I keep the books".
+_NAME = r"[A-Z][\w'-]*(?:\s+[A-Z][\w'-]*){0,2}"
+_INTRO_RES = [
+    re.compile(r"^\W*(?i:hi|hello|hey|salam|assalamualaikum)\b[,!.]?\s*"),
+    re.compile(rf"(?i:\b(?:my name is|my name's|i am called|i'm called|people call me|call me))\s+{_NAME}\s*(?:[,.;:!]\s*|\s+(?i:and)\s+|$)"),
+    re.compile(rf"^\W*(?i:i am|i'm)\s+{_NAME}\s*(?:[,;:]\s*(?:(?i:and)\s+)?|\s+(?i:and)\s+|[.!]?\s*$)"),
+    re.compile(rf"^\W*{_NAME}\s+(?i:here)\b[,.;:!]?\s*"),
+]
+
+
+def strip_intro(sentence):
+    """The sentence without a self-introduction; empty when the sentence only introduces the person."""
+    out = sentence
+    for rx in _INTRO_RES:
+        out = rx.sub("", out, count=1)
+    return out.strip()
+
+
 def neutral_text(sentence, onet):
-    """The copy of a sentence the encoder reads: names, gendered words and stated ages made neutral."""
+    """The copy of a sentence the encoder reads: self-introductions removed; names, gendered words and stated ages
+    made neutral."""
     vocab = _vocabulary(onet)
-    out = _AGE_RE.sub(lambda m: (m.group(1) + " 30") if m.group(1) else "30-year-old", sentence)
+    out = _AGE_RE.sub(lambda m: (m.group(1) + " 30") if m.group(1) else "30-year-old", strip_intro(sentence))
     out = _WORD_RE.sub(lambda m: m.group(0) if all(w.lower() in vocab for w in m.group(0).split()) else "Sam", out)
     out = _GENDERED_RE.sub(lambda m: _NEUTRAL[m.group(1).lower()], out)
     return re.sub(r"\s{2,}", " ", out).strip()
@@ -180,6 +264,11 @@ def suggest(texts, encoder, index, onet, k=TOP_K):
                               "text": body, "guard": guard(body), "short_forms": short_forms(body)})
     merged = {}
     for s in sentences:
+        # A sentence that only introduces the person ("Hi, I am May.") describes no work and gets no suggestions.
+        s["intro"] = len(re.findall(r"[A-Za-z]{2,}", strip_intro(s["text"]))) < 2
+        if s["intro"]:
+            s["top"] = []
+            continue
         # One sentence per call keeps each sentence's scores independent of the rest of the input.
         q = encoder.encode([neutral_text(s["text"], onet)])[0]
         sims = index.scores(q)

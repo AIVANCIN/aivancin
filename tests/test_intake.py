@@ -320,3 +320,49 @@ def test_guard_catches_future_plans_failed_attempts_and_free_time(text, kind, cu
 ])
 def test_guard_leaves_own_work_with_the_same_words_alone(text):
     assert intake.guard(text) is None
+
+
+# ---- ownership and self-introductions (22 Oct) ----------------------------------------------------------------------
+@pytest.mark.parametrize("text", [
+    "My friend repairs laptops for me.", "I watch him install software.", "I get my car serviced at a workshop.",
+    "I pay someone to file my taxes.", "Our neighbour designs posters for me.", "My father teaches me to repair engines.",
+    "My wife handles the online orders and I watch.", "I see my manager prepare the weekly sales report."])
+def test_work_someone_else_does_is_not_counted(text):
+    assert intake.guard(text)["kind"] == "someone else"
+
+
+@pytest.mark.parametrize("text", [
+    "I repair laptops for my friends.", "I install software while he checks the settings.", "He and I fix bikes on Saturdays.",
+    "My boss checks the bank reconciliation that I prepare.", "My manager lets me run the stock count.",
+    "They pay me to set up their home wifi.", "I watch the CCTV screens during the night shift.",
+    "I look at the numbers to spot which stall is losing money.", "I help my brother with the accounts.",
+    "I pay the suppliers every Friday."])
+def test_own_work_with_similar_words_is_counted(text):
+    assert intake.guard(text) is None
+
+
+def test_help_from_someone_else_asks_who_did_the_work():
+    assert intake.guard("My brother helps me with the accounts.")["kind"] == "unclear who"
+
+
+@pytest.mark.parametrize("text, kept", [
+    ("My name is May and I keep the books for our family shop.", "I keep the books for our family shop."),
+    ("Hello, my name is Nurul Ain, I drive a van.", "I drive a van."),
+    ("I'm Will, and I fix laptops for my neighbours.", "I fix laptops for my neighbours."),
+    ("Bill here, I install software.", "I install software."),
+    ("Hi, I am Grace.", ""),
+    ("I'm IT support for my church.", "I'm IT support for my church."),
+    ("I am responsible for the stock.", "I am responsible for the stock.")])
+def test_self_introductions_are_not_read(text, kept):
+    assert intake.strip_intro(text) == kept
+
+
+def test_a_name_that_is_also_a_word_does_not_change_suggestions(snaps, ai):
+    encoder, vectors = ai
+    tops = {}
+    for name in ("Siti", "May", "Will", "Grace", "Wei Ling"):
+        res = intake.suggest({"other_work": f"Hi, I am {name}. My name is {name} and I keep the books for our shop."},
+                             encoder, vectors, snaps.onet)
+        assert res["sentences"][0]["intro"] is True and res["sentences"][0]["top"] == []
+        tops[name] = [s["top"] for s in res["sentences"]]
+    assert len({str(v) for v in tops.values()}) == 1
