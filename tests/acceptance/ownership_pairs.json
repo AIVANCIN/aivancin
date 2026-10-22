@@ -1,0 +1,31 @@
+{
+ "written": "2026-10-22, before any change to the guard or the encoder's input for this set. Pairs with similar wording but different meanings: who does the work. The first four pairs are the examples in Jad's assignment (22 Oct); the rest were written by the builder for this set. expected: own (no guard), not_own (any guard that keeps it out unless confirmed: someone else's work or unclear who), unclear (a clarifying question, not a verdict). The names part varies only a self-introduction; suggestions for the work must not change.",
+ "pairs": [
+  {"id": "p01", "source": "assignment", "a": ["My friend repairs laptops for me.", "not_own"], "b": ["I repair laptops for my friends.", "own"]},
+  {"id": "p02", "source": "assignment", "a": ["I watch him install software.", "not_own"], "b": ["I install software while he checks the settings.", "own"]},
+  {"id": "p03", "source": "builder", "a": ["My cousin fixes my phone when it breaks.", "not_own"], "b": ["I fix my cousin's phone when it breaks.", "own"]},
+  {"id": "p04", "source": "builder", "a": ["I watched my uncle balance the shop accounts.", "not_own"], "b": ["I balance the shop accounts while my uncle serves customers.", "own"]},
+  {"id": "p05", "source": "builder", "a": ["My sister does the bookkeeping for our stall.", "not_own"], "b": ["I do the bookkeeping for my sister's stall.", "own"]},
+  {"id": "p06", "source": "builder", "a": ["I see my manager prepare the weekly sales report.", "not_own"], "b": ["I prepare the weekly sales report for my manager.", "own"]},
+  {"id": "p07", "source": "builder", "a": ["Our neighbour designs posters for me.", "not_own"], "b": ["I design posters for our neighbour.", "own"]},
+  {"id": "p08", "source": "builder", "a": ["A technician set up the shop's network for us.", "not_own"], "b": ["I set up the shop's network with a technician's help.", "own"]},
+  {"id": "p09", "source": "builder", "a": ["My boss shows me how he reconciles the bank statement.", "not_own"], "b": ["My boss checks the bank reconciliation that I prepare.", "own"]},
+  {"id": "p10", "source": "builder", "a": ["I observe the senior nurse recording patient notes.", "not_own"], "b": ["I record patient notes while the senior nurse observes.", "own"]},
+  {"id": "p11", "source": "builder", "a": ["I get my car serviced at a workshop.", "not_own"], "b": ["I service cars at a workshop.", "own"]},
+  {"id": "p12", "source": "builder", "a": ["I pay someone to file my taxes.", "not_own"], "b": ["I file taxes for my relatives.", "own"]},
+  {"id": "p13", "source": "builder", "a": ["My brother helps me with the accounts.", "unclear"], "b": ["I help my brother with the accounts.", "own"]},
+  {"id": "p14", "source": "builder", "a": ["He fixes bikes on Saturdays.", "not_own"], "b": ["He and I fix bikes on Saturdays.", "own"]},
+  {"id": "p15", "source": "builder", "a": ["My father teaches me to repair engines.", "not_own"], "b": ["I repair engines with my father.", "own"]},
+  {"id": "p16", "source": "builder", "a": ["My wife handles the online orders and I watch.", "not_own"], "b": ["I handle the online orders and my wife packs them.", "own"]}
+ ],
+ "names": {
+  "templates": [
+   "My name is {N} and I keep the books for our family shop.",
+   "I'm {N}, and I fix laptops for my neighbours.",
+   "Hi, I am {N}. I manage the stock records for a pharmacy.",
+   "{N} here, I install software and set up wifi for friends.",
+   "Hello, my name is {N}, I drive a van and I update my uncle's shop website."
+  ],
+  "names": ["Siti", "May", "Grace", "Hope", "Joy", "Will", "Mark", "Rose", "Faith", "Summer", "Iris", "Kumar", "Wei Ling", "Nurul Ain", "Bill"]
+ }
+}
