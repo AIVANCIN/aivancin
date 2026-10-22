@@ -242,6 +242,7 @@ def test_b5_shared_foundations_reproduce_from_the_blocks(planner, hafiz):
     first = next(iter(blocks.values()))
     hours = round(sum(first[i]["provider_hours"]["v"] + first[i]["practice_hours"]["v"] for i in common), 1)
     assert shared["common_hours"]["v"] == hours
+    assert shared["common_count"]["v"] == len(common) and shared["common_count"]["src"]
     for e in shared["extra_hours"]:
         r = next(x for x in res["routes"] if x["code"] == e["code"])
         assert e["hours"]["v"] == round(r["block"]["effort_hours"]["v"] - hours, 1)

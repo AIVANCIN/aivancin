@@ -610,7 +610,7 @@ class Planner:
 
         common_hours = round(sum(eff(first[i]) for i in common if not first[i]["completed"]), 1)
         return {"common_steps": sorted(common), "shared_steps": sorted(any_two),
-                "common_hours": fig(common_hours, CAT),
+                "common_count": fig(len(common), CAT), "common_hours": fig(common_hours, CAT),
                 "extra_hours": [{"code": r["code"], "title": r["title"],
                                  "hours": fig(round(r["block"]["effort_hours"]["v"] - common_hours, 1), CAT)} for r in routes]}
 
