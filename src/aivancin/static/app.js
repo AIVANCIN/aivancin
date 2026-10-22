@@ -1352,13 +1352,32 @@ function decentChip(r) {
   return `<span class="chip">Group median ${fig(r.median, "rm")}${r.pay ? `, step ${fig(r.pay.step, "step")}` : ""}</span>`;
 }
 
+/* What stands behind a route, beside the choice: the confirmed activities the role records (exact) and near-twins
+   counted toward the two-activity rule (related), the entry requirements still open, and how much of the priority
+   gaps the first block reaches. Thin support is labelled; the route stays listed. */
+const REQ_SHORT = q => (q.judge === "degree" ? "degree" : q.kind === "experience" ? "related experience" : q.kind);
+function routeSupport(r) {
+  const sp = r.support;
+  const names = r.done.map(x => x.name.replace(/\.$/, ""));
+  const shown = names.slice(0, 2).map(n => `“${esc(n)}”`).join(", ");
+  const more = names.length > 2 ? ` and ${fig({ v: names.length - 2, src: sp.exact.src }, "int")} more` : "";
+  const open = r.requirements.filter(q => q.status !== "met");
+  const served = r.prioritized.filter(g => g.served).length;
+  return `<span class="rr-support">
+    <span><b>Your work:</b> ${fig(sp.exact, "int")} exact${sp.related.v ? ` + ${fig(sp.related, "int")} related` : ""}${shown ? `: ${shown}${more}` : ""}</span>
+    <span><b>Entry:</b> ${open.length ? open.map(q => `${esc(REQ_SHORT(q))} ${esc(q.status === "you decide" ? "for you to decide" : q.status)}`).join(", ") : "requirements met"}</span>
+    <span><b>First block:</b> ${fig({ v: served, src: GAP_SRC }, "int")} of ${gapCount(r)} priority gaps</span></span>`;
+}
+const limitedChip = r => (r.support?.limited ? `<span class="chip weak-chip">Limited support: ${fig(r.support.counted, "int")} activities</span>` : "");
+
 function routeRow(r) {
   const chosen = routeState.target === r.code;
   return `<li class="route-item"><button type="button" class="route-row${chosen ? " chosen" : ""}" data-open-route="${esc(r.code)}">
     ${familyTile(r)}
     <span class="rr-body"><span class="rr-title">${esc(r.title)}</span>
       ${chosen ? `<span class="rr-chosen">${icon("check", "sm")}Your route</span>` : ""}
-      <span class="chips">${isPersonal() ? workChip(r) : `<span class="rr-family">${esc(r.family_label)}</span>`}${entryChip(r)}</span>
+      <span class="chips">${isPersonal() ? workChip(r) : `<span class="rr-family">${esc(r.family_label)}</span>`}${isPersonal() ? limitedChip(r) : entryChip(r)}</span>
+      ${isPersonal() && r.support ? routeSupport(r) : ""}
       ${sortKey() === "outlook" ? `<span class="rr-order ${bandClass(r.job_outlook)}">US outlook: ${esc(bandShort(r.job_outlook))}${srcMarks(r.job_outlook.src)}</span>` : sortKey() === "decent" ? `<span class="chips">${decentChip(r)}</span>` : ""}</span>
     <span class="rr-open" aria-hidden="true">${icon("chevron-right", "sm")}</span>
     </button>${saveBtn(r)}</li>`;
@@ -1434,7 +1453,8 @@ function renderRoutes() {
         <details class="sort-help"><summary>About this order</summary><p class="foot">${sorts[sort][1]} No combined score: you choose.</p></details></fieldset>` : ""}
       ${savedHere.length ? `<fieldset class="filter-ctl"><legend class="vh">Show</legend>
         <div class="seg-ctl filter-seg" style="--n:2"><label><input type="radio" name="rfilter" value="all" ${filter === "all" ? "checked" : ""}>All routes</label><label><input type="radio" name="rfilter" value="saved" ${filter === "saved" ? "checked" : ""}>Saved (${savedHere.length})</label></div></fieldset>` : ""}
-      <ul class="route-list" aria-label="${filter === "saved" ? "Saved routes" : "Routes"}" data-scope>${sortedRoutes(shown).map(routeRow).join("")}<li class="list-srcs srcs-slot"></li></ul>` :
+      <ul class="route-list" aria-label="${filter === "saved" ? "Saved routes" : "Routes"}" data-scope>${sortedRoutes(shown).map(routeRow).join("")}<li class="list-srcs srcs-slot"></li></ul>
+      ${personal && shown.some(r => r.support?.limited) ? `<p class="foot limited-note">Limited support means the route rests on the minimum of ${fig(d.min_done, "int")} confirmed activities, or partly on related ones. It stays a route. Confirm more of your work, or <button type="button" class="link-btn inline-link" data-action="rank">compare all roles by overlap</button>.</p>` : ""}` :
       (!personal || d.exploration?.length || d.near_routes?.length ? `<div class="callout">${icon("info")}<p>${d.near_routes?.length
         ? `Your confirmed work overlaps ${d.near_routes.length === 1 ? "a supported role" : `${d.near_routes.length} supported roles`}, but none counts ${fig(d.min_done, "int")} of your activities yet, so there is no route. Confirm more of your work, or explore the roles below.`
         : "None of the supported routes counts at least two of your confirmed activities yet. Explore all roles, or tick more activities."}</p></div>` : "")}
@@ -1491,6 +1511,7 @@ function workSections(r, served) {
     <section class="soft-card" data-scope aria-labelledby="h-rd-work"><h2 id="h-rd-work">Your work in this role</h2>
       <div class="ring-row"><span class="ring-box">${ring(r.done_count.v, r.total_count.v)}<span class="ring-num" aria-hidden="true" data-src="${esc(r.done_count.src.join(" "))}">${esc(r.done_count.v)}/${esc(r.total_count.v)}</span></span>
         <p>You already do ${fig(r.done_count, "int")} of its ${fig(r.total_count, "int")} recorded activities (activity overlap ${fig(r.overlap, "pct")}). Overlap is not how much of the job you can already do.</p></div>
+      ${r.support?.limited ? `<p class="callout limit-note">${icon("info", "sm")}<span>Limited support: this route counts ${fig(r.support.counted, "int")} of your activities (${fig(r.support.exact, "int")} exact, ${fig(r.support.related, "int")} related), the minimum is ${fig(r.support.needed, "int")}. Confirm more of your work to test it.</span></p>` : ""}
       <ul class="did">${groupDone(r.done)}</ul>
       ${r.related.length ? `<p class="foot">Also counted toward this route: ${r.related.map(x => `“${esc(x.name.replace(/\.$/, ""))}”, which O*NET groups with its “${esc(x.role_name.replace(/\.$/, ""))}”`).join("; ")}. These do not change the overlap or the gaps.</p>` : ""}</section>
     <section class="soft-card" data-scope aria-labelledby="h-rd-gaps"><h2 id="h-rd-gaps">Still to build</h2>
@@ -2111,6 +2132,28 @@ async function showChanged() {
 }
 
 /* The decision card appears when the comparison shown is the plan's evidence against the newer release. */
+/* Which changes rest on weak evidence or on the slower or faster assumption, and which steps stay useful in every
+   scenario: the person weighs these before keeping or accepting the newer evidence. */
+const SCEN_WORD = { slower: "slower", moderate: "moderate", faster: "faster" };
+function basisTags(c) {
+  const ev = c.change === "retained" ? "" : c.weak
+    ? `<span class="tag weak">Evidence weak</span>`
+    : `<span class="tag good">Measured evidence</span>`;
+  const others = Object.keys(SCEN_WORD).filter(x => !c.scenarios.includes(x));
+  const sc = c.every_scenario ? `<span class="tag">Same in every scenario</span>`
+    : c.change === "retained" ? `<span class="tag">Checkpoint differs in the ${esc(others.map(x => SCEN_WORD[x]).join(" and "))} scenario${others.length === 1 ? "" : "s"}</span>`
+    : `<span class="tag limit">Only in the ${esc(c.scenarios.map(x => SCEN_WORD[x]).join(" and "))} scenario${c.scenarios.length === 1 ? "" : "s"}${c.scenarios.includes("moderate") ? "" : " (an assumption)"}</span>`;
+  return `${ev}${sc}`;
+}
+function changeSummary(res) {
+  const moved = res.changed_count.v ?? res.changed_count;
+  if (!moved) return res.steady_count ? `<p class="foot">${fig({ v: res.steady_count, src: ["aivancin-catalogue"] }, "int")} of your steps take the same form in every scenario.</p>` : "";
+  const parts = [];
+  if (res.weak_count) parts.push(`${fig({ v: res.weak_count, src: [`aei-${res.to_release}`, "onet31-task-dwas"] }, "int")} rest${res.weak_count === 1 ? "s" : ""} on weak evidence (a thin sample or a single release)`);
+  if (res.assumption_count) parts.push(`${fig({ v: res.assumption_count, src: ["your-input"] }, "int")} hold${res.assumption_count === 1 ? "s" : ""} only in some scenarios`);
+  return `<p class="foot chg-lead">${parts.length ? `Of the changes, ${parts.join(" and ")}. ` : "Every change rests on measured evidence and holds in every scenario. "}${res.steady_count ? `${fig({ v: res.steady_count, src: ["aivancin-catalogue"] }, "int")} kept step${res.steady_count === 1 ? "" : "s"} stay useful in every scenario.` : ""} Keeping your plan or using the newer evidence both keep your completed steps.</p>`;
+}
+
 function evidenceDecision(res) {
   const n = routeState.newer;
   if (!n || res.from_release !== n.from || res.to_release !== n.to) {
@@ -2141,9 +2184,11 @@ function renderChanged(res) {
     <div class="callout" data-scope>${icon("history")}<div><p><b>${esc(res.summary)}</b></p>
       <p class="foot">Effort ${fig(res.hours_before, "")} h → ${fig(res.hours_after, "")} h; cost ${fig(res.cost_before, "rm")} → ${fig(res.cost_after, "rm")}. Your completed steps and chosen target are kept.</p>
       ${res.comparability_note ? `<p class="foot">${esc(res.comparability_note)}</p>` : ""}</div></div>
+    ${changeSummary(res)}
     <ol class="changes">${res.changes.map(c => `<li class="chg ${c.change.replace(" ", "-")}" data-scope>
       <p class="gap-name">${esc(c.title)}${c.completed ? ` <span class="tag good">done</span>` : ""}</p>
       <p class="meta"><b>${esc(capitalise(c.change))}</b>${c.before && c.after && c.change !== "retained" ? `: checkpoint ${formText(c.before.form)} → ${formText(c.after.form)}` : ""}</p>
+      <p class="chg-basis">${basisTags(c)}</p>
       ${c.change === "changed form" ? `<p class="foot">${reasonText(c)}.</p>${perRelease(c)}` : ""}
     </li>`).join("")}</ol>`;
   attachSources($("#changed"));

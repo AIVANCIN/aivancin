@@ -391,6 +391,7 @@ class Planner:
             "done_count": fig(len(done), *ONET_SRC), "total_count": fig(total, *ONET_SRC),
             "related": [{"dwa_id": d, "name": onet.dwa_names[d], "role_dwa_id": r, "role_name": onet.dwa_names[r]}
                         for d, r in self.credited(code, prof)[1]],
+            "support": self.support(code, prof),
             "done": [{**d, "weight": fig(d["weight"], *ONET_SRC), "sdg": ["4.4"]} for d in done],
             "requirements": reqs, "masco": masco, "job_outlook": job_outlook, "local_evidence": LOCAL_EVIDENCE,
             "block_limits": [{"text": t, "src": [ROUTES_SRC, CAT]} for t in dest.get("block_limits", [])],
@@ -414,6 +415,16 @@ class Planner:
                       "base_hours": fig(round(b["used"], 1), CAT), "gap_order": o["gap_order"], "order_diff": order_diff,
                       "horizon": {"months": fig(round(months, 1), o["input_src"], estimate=True), "basis": basis}},
         }
+
+    def support(self, code, prof):
+        """How much confirmed work stands behind a route: activities the role records (exact), near-twins counted
+        toward the two-activity rule (related), and whether the route rests on the minimum (limited). The rule is
+        unchanged; this only makes thin support visible."""
+        direct, related = self.credited(code, prof)
+        counted = len(direct) + len(related)
+        return {"exact": fig(len(direct), *ONET_SRC), "related": fig(len(related), *ONET_SRC, ROUTES_SRC),
+                "counted": fig(counted, *ONET_SRC, ROUTES_SRC), "needed": fig(MIN_DONE, ROUTES_SRC),
+                "limited": bool(prof) and (counted <= MIN_DONE or len(direct) < MIN_DONE)}
 
     def contribution(self, steps, served, masco, cur_major, pay, trend, hours):
         """How this path contributes (SPEC 11.5): counts from the block and the skill-level step, with the national
@@ -601,6 +612,22 @@ class Planner:
                                  "hours": fig(round(r["block"]["effort_hours"]["v"] - common_hours, 1), CAT)} for r in routes]}
 
     # ---- what changed ----------------------------------------------------------------------------
+    @staticmethod
+    def _change_basis(step, scenario, other=None):
+        """What a step in the comparison rests on: whether the AI-usage figures behind its form, before or after, are
+        weak (section 4: one release, a thin pooled count or no counts; a change measured against a weak figure is as
+        weak as that figure), and the scenarios in which it takes this form. A step with the same form in every
+        scenario does not depend on the slower or faster assumption; an AI-practice step is added only where a gap
+        crosses the threshold in the selected scenario."""
+        reason = step["reason"] + (other["reason"] if other else [])
+        forms = step.get("forms") or {}
+        if step["kind"] == "ai_practice":
+            same = [scenario]
+        else:
+            same = [s for s in outlook.SCENARIOS if forms.get(s, step["form"]) == step["form"]]
+        return {"weak": any(r["weak"] for r in reason), "weak_rows": sorted({r["name"] for r in reason if r["weak"]}),
+                "scenarios": same, "every_scenario": len(same) == len(outlook.SCENARIOS)}
+
     def compare(self, profile, opts, today=None):
         if not opts.get("target"):
             raise ReportError({"target": "Choose a target route first."})
@@ -628,10 +655,13 @@ class Planner:
             ref = s1 or s0
             changes.append({"id": sid, "title": ref["title"], "change": kind, "completed": ref["completed"],
                             "before": s0 and {"form": s0["form"], "reason": s0["reason"]},
-                            "after": s1 and {"form": s1["form"], "reason": s1["reason"]}})
+                            "after": s1 and {"form": s1["form"], "reason": s1["reason"]},
+                            **self._change_basis(ref, opts.get("scenario", "moderate"), s0 if s1 else None)})
         moved = [c for c in changes if c["change"] != "retained"]
         return {"target": opts["target"], "title": b["title"], "from_release": frm, "to_release": to,
                 "changes": changes, "changed_count": len(moved),
+                "weak_count": sum(c["weak"] for c in moved), "assumption_count": sum(not c["every_scenario"] for c in moved),
+                "steady_count": sum(c["every_scenario"] for c in changes if c["change"] == "retained"),
                 "summary": (f"{len(moved)} step{'s' if len(moved) != 1 else ''} changed between the "
                                                 f"{frm} and {to} evidence." if moved else
                                                 f"No change: the {frm} and {to} evidence lead to the same plan for this target."),
