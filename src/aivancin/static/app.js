@@ -436,7 +436,7 @@ function renderReview() {
       <p class="src">${src}</p>
       <blockquote class="words"><mark class="words">${esc(s.text)}</mark></blockquote>
       ${shortFormHint(s)}
-      ${dismissed ? `<p class="dismissed">You said none of the 5 suggestions fit. <button type="button" class="link-btn" data-undismiss="${s.index}">Show them again</button></p>${followBox(s)}`
+      ${dismissed ? `<p class="dismissed">You said none of the ${fig({ v: s.top.length, src: ["minilm-onnx", "onet31-dwas"] }, "int")} suggestions fit. <button type="button" class="link-btn" data-undismiss="${s.index}">Show them again</button></p>${followBox(s)}`
         : `<fieldset class="sugg"><legend class="vh">Activities suggested for this sentence</legend>${rows}</fieldset>
       <div class="sent-actions"><button type="button" class="btn btn-gray" data-dismiss="${s.index}">None of these fit</button><button type="button" class="btn btn-gray" data-find="${s.index}">${icon("search", "sm")}Find another activity</button></div>
       <div class="find" data-find-box="${s.index}" hidden></div>`}
@@ -1517,7 +1517,7 @@ function renderRoutes() {
       <ul class="route-list" aria-label="${filter === "saved" ? "Saved routes" : "Routes"}" data-scope>${sortedRoutes(shown).map(routeRow).join("")}<li class="list-srcs srcs-slot"></li></ul>
       ${personal && shown.some(r => r.support?.limited) ? `<p class="foot limited-note">Limited support means the route rests on the minimum of ${fig(d.min_done, "int")} confirmed activities, or partly on related ones. It stays a route. Confirm more of your work, or <button type="button" class="link-btn inline-link" data-action="rank">compare all roles by overlap</button>.</p>` : ""}` :
       (!personal || d.exploration?.length || d.near_routes?.length ? `<div class="callout">${icon("info")}<p>${d.near_routes?.length
-        ? `Your confirmed work overlaps ${d.near_routes.length === 1 ? "a supported role" : `${d.near_routes.length} supported roles`}, but none counts ${fig(d.min_done, "int")} of your activities yet, so there is no route. Confirm more of your work, or explore the roles below.`
+        ? `Your confirmed work overlaps ${d.near_routes.length === 1 ? "a supported role" : `${fig({ v: d.near_routes.length, src: ["aivancin-routes", "onet31-task-dwas"] }, "int")} supported roles`}, but none counts ${fig(d.min_done, "int")} of your activities yet, so there is no route. Confirm more of your work, or explore the roles below.`
         : "None of the supported routes counts at least two of your confirmed activities yet. Explore all roles, or tick more activities."}</p></div>` : "")}
     ${personal && d.routes.length < 2 && followCandidate() ? `<section class="soft-card follow-card" aria-labelledby="h-follow"><h2 id="h-follow">Did we miss some of your work?</h2>${followBox(followCandidate(), "routes")}</section>` : ""}
     ${personal && d.routes.length < 2 && d.near_routes?.length ? nearSection(d.near_routes, d.min_done) : ""}
@@ -1591,14 +1591,15 @@ const ASSUMPTION_NOTE = "Built on starting assumptions: 6 hours a week and no bu
 const SCEN_NAME = { slower: "Slower", moderate: "Moderate", faster: "Faster" };
 const DEMAND_CLASS = { "more growth than decline": "grow", "more decline than growth": "limit", "no projection": "weak", mixed: "" };
 /* The skill-demand pool: Job Zone 3 and 4 roles, which include vocationally prepared work, so not "graduate jobs". */
-const DEMAND_POOL = "US roles that usually need vocational training or a degree (O*NET Job Zones 3 and 4, managers excluded)";
+const ZONE_SRC = ["onet31-job-zones", "onet31-job-zone-reference"];
+const demandPool = () => `US roles that usually need vocational training or a degree (O*NET Job Zones ${fig({ v: 3, src: ZONE_SRC }, "int")} and ${fig({ v: 4, src: ZONE_SRC }, "int")}, managers excluded)`;
 
 function demandChip(dm) {
   return `<span class="tag ${DEMAND_CLASS[dm.label] ?? ""}">${esc(capitalise(dm.label))}</span>`;
 }
 function demandText(dm) {
   if (!dm.grow) return `No US projection for the roles that record it.${srcMarks(dm.src)}`;
-  return `Of the ${fig(dm.roles, "int")} ${DEMAND_POOL} that record it, weighted by how often it appears in their tasks, ${fig(dm.grow, "pct")} are projected to grow faster than average and ${fig(dm.decline, "pct")} to decline (BLS 2025-2035)${dm.few ? `, based on ${fig(dm.roles, "int")} roles` : ""}.`;
+  return `Of the ${fig(dm.roles, "int")} ${demandPool()} that record it, weighted by how often it appears in their tasks, ${fig(dm.grow, "pct")} are projected to grow faster than average and ${fig(dm.decline, "pct")} to decline (BLS 2025-2035)${dm.few ? `, based on ${fig(dm.roles, "int")} roles` : ""}.`;
 }
 /* One line per activity; the full wording is said once above the list. */
 function demandShort(dm) {
@@ -1642,7 +1643,7 @@ function futurePanel(r) {
       ${sure ? `<p class="foot">How sure: “${esc(sure.bls.quote)}” (BLS evaluation of its 2014-24 projections)${srcMarks(sure.bls.src)}. A projection, not a promise of a job.</p>` : ""}</section>
     <section class="soft-card" data-scope aria-labelledby="h-fu-my"><h2 id="h-fu-my">${icon("map-pin", "sm")}Malaysia, observed</h2>${trendBlock(r.future.trend)}
       <p class="foot">${esc(r.local_evidence)}</p></section></div>
-    <p class="rd-lead">This role's ${fig({ v: ai.length, src: ["onet31-task-dwas", "onet31-tasks"] }, "int")} largest activities. For each: the share AI does directly when people use Claude for it (up to ${esc(releaseLabel(d.release))}), where that share may be ${fig(hz.months, "")} months ahead in the ${esc(sc)} scenario, and skill demand: of the ${DEMAND_POOL} that record the activity, weighted by how often it appears in their tasks, the share projected to grow faster than average and the share projected to decline (BLS 2025-2035).</p>
+    <p class="rd-lead">This role's ${fig({ v: ai.length, src: ["onet31-task-dwas", "onet31-tasks"] }, "int")} largest activities. For each: the share AI does directly when people use Claude for it (up to ${esc(releaseLabel(d.release))}), where that share may be ${fig(hz.months, "")} months ahead in the ${esc(sc)} scenario, and skill demand: of the ${demandPool()} that record the activity, weighted by how often it appears in their tasks, the share projected to grow faster than average and the share projected to decline (BLS 2025-2035).</p>
     ${groups}
     <section class="soft-card" data-scope aria-labelledby="h-fu-em"><h2 id="h-fu-em">${icon("sparkles", "sm")}What's emerging</h2>
       ${em.tasks.length ? `<ul class="emerging">${em.tasks.map(t => `<li>${esc(t.task)} <span class="foot">(${esc(t.category)}, ${esc(t.date)})${srcMarks(t.src)}</span></li>`).join("")}</ul>` : `<p class="foot">No emerging-task record in O*NET 31.0.</p>`}
@@ -1738,7 +1739,7 @@ function radarSkills(rd) {
     <details class="more rc-table"><summary class="link-btn">Every value as a table</summary>
       <div class="radar-wrap"><table class="radar-t"><thead><tr><th scope="col">Activity</th><th scope="col">Skill demand</th><th scope="col">AI now</th><th scope="col">${SCEN_NAME[sc]}, ${fig(rd.horizon.months, "")} months</th><th scope="col">Time to threshold</th></tr></thead><tbody>${rows}</tbody></table></div></details>
     <details class="more"><summary class="link-btn">How to read this chart</summary>
-      <p class="foot">${personal ? "Your confirmed activities and your routes' largest gaps." : "The supported roles' main activities. Describe your work to personalise them."} Across: the balance of ${DEMAND_POOL} projected to grow or decline, weighted by their tasks. Up: how much AI does directly in observed Claude use. Select a point for its activity and values.</p>
+      <p class="foot">${personal ? "Your confirmed activities and your routes' largest gaps." : "The supported roles' main activities. Describe your work to personalise them."} Across: the balance of ${demandPool()} projected to grow or decline, weighted by their tasks. Up: how much AI does directly in observed Claude use. Select a point for its activity and values.</p>
       <p class="foot">Looking ${fig(rd.horizon.months, "")} months ahead (${esc(rd.horizon.basis)}). These controls also set your plan's checkpoints. Slower and faster are assumptions. Two separate signals, never added together; the job projection comes from BLS through O*NET task links.</p></details></section>`;
 }
 
@@ -1858,7 +1859,7 @@ function radarSure(rd) {
       <dt>US jobs</dt>
       <dd>“${esc(s.bls.quote)}” For detailed occupations, BLS's projections had a lower summed error than a model that keeps each occupation's share fixed (${fig(s.bls.detailed.bls, "")} against ${fig(s.bls.detailed.naive, "")}) and the better score for ${fig(s.bls.detailed.bls_better, "int")} occupations against ${fig(s.bls.detailed.naive_better, "int")} (Occupational Projections Evaluation: 2014-24).${srcMarks(s.bls.src)}</dd>
       <dt>Skill demand</dt>
-      <dd>Carries BLS's projection to activities, so it shares its uncertainty. Labels compare the two shares: "more growth than decline" when the growing share leads by 25 points or more (an initial value), "more decline than growth" for the reverse, otherwise "mixed". A label says which side is larger, not that most of the activity sits in growing jobs. The pool is ${DEMAND_POOL}, so it includes vocationally prepared work. With fewer than three roles behind an activity it says so.${srcMarks(DEMAND_SRC)}</dd>
+      <dd>Carries BLS's projection to activities, so it shares its uncertainty. Labels compare the two shares: "more growth than decline" when the growing share leads by ${fig({ v: 25, src: DEMAND_SRC }, "int")} points or more (an initial value), "more decline than growth" for the reverse, otherwise "mixed". A label says which side is larger, not that most of the activity sits in growing jobs. The pool is ${demandPool()}, so it includes vocationally prepared work. With fewer than three roles behind an activity it says so.${srcMarks(DEMAND_SRC)}</dd>
       <dt>Malaysia</dt>
       <dd>Observed DOSM figures for the whole skill group, from 2016 to the latest year. Not projected.</dd>
       ${s.registered ? `<dt>Checking ourselves</dt><dd>Today's AI-shift outlook for ${fig(s.registered.count, "int")} activities was frozen on ${esc(fmtDate(s.registered.date))} (SHA-256 <code>${esc(s.registered.sha256.slice(0, 12))}</code>) and will be scored against the next AI-usage release.${srcMarks(s.registered.src)}</dd>` : ""}
@@ -2070,7 +2071,7 @@ function stepItem(s, i) {
     : "";
   const hours = { v: Math.round((s.provider_hours.v + s.practice_hours.v) * 10) / 10, src: s.provider_hours.src };
   const price = s.cost_rm.v ? fig(s.cost_rm, "rm") : `${s.practice_product ? "Free to read" : s.access || "Free"}${srcMarks(s.cost_rm.src)}`;
-  const needs = (s.requires || []).map(id => d.routes.flatMap(x => x.block.steps).find(x => x.id === id)?.title).filter(Boolean);
+  const needs = s.requires_titles || [];
   return `<li class="pstep${s.completed ? " done" : ""}" data-scope>
     <span class="pnum" aria-hidden="true">${s.completed ? icon("check", "sm") : i + 1}</span>
     <div class="pstep-top"><h3 class="gap-name">${esc(heading)}</h3><span class="p-hours">${fig(hours, "")} h</span></div>
@@ -2092,7 +2093,7 @@ function stepItem(s, i) {
    product its own exercises use (the checkpoint never does), and what the provider expects you to know. */
 function stepAccess(s, needs = []) {
   const lines = [];
-  if (s.focus) lines.push(`Focus on ${esc(s.focus)}.`);
+  if (s.focus) lines.push(`Focus on <span data-src="aivancin-catalogue">${esc(s.focus)}</span>.`);
   if (needs.length) lines.push(`Do ${needs.map(t => `“${esc(t)}”`).join(" and ")} first.`);
   if (s.practice_product) lines.push(s.provider_exercise ? `Its exercises need ${esc(s.practice_product)}; your checkpoint does not.` : `Its walkthroughs use ${esc(s.practice_product)}; your checkpoint does not.`);
   if (s.expects) lines.push(`The provider expects: ${esc(s.expects)}`);
@@ -2243,12 +2244,12 @@ function renderChanged(res) {
     <p class="lead-left">Same work, constraints, target, completed steps and scenario (${esc(routeState.opts.scenario)}). Only the AI-usage evidence changes, from one bundled release to another.</p>
     ${evidenceDecision(res)}
     <div class="ctl change-ctl"><label for="c-from">Earlier evidence</label>${sel("c-from", res.from_release)}<label for="c-to">Later evidence</label>${sel("c-to", res.to_release)}</div>
-    <div class="callout" data-scope>${icon("history")}<div><p><b>${esc(res.summary)}</b></p>
+    <div class="callout" data-scope>${icon("history")}<div><p><b>${res.changed_count ? `${fig({ v: res.changed_count, src: [`aei-${res.from_release}`, `aei-${res.to_release}`, "aivancin-catalogue"] }, "int")} step${res.changed_count === 1 ? "" : "s"} changed between the ${esc(res.from_release)} and ${esc(res.to_release)} evidence.` : esc(res.summary)}</b></p>
       <p class="foot">Effort ${fig(res.hours_before, "")} h → ${fig(res.hours_after, "")} h; cost ${fig(res.cost_before, "rm")} → ${fig(res.cost_after, "rm")}. Your completed steps and chosen target are kept.</p>
       ${res.comparability_note ? `<p class="foot">${esc(res.comparability_note)}</p>` : ""}</div></div>
     ${changeSummary(res)}
     <ol class="changes">${res.changes.map(c => `<li class="chg ${c.change.replace(" ", "-")}" data-scope>
-      <p class="gap-name">${esc(c.title)}${c.completed ? ` <span class="tag good">done</span>` : ""}</p>
+      <p class="gap-name"><span data-src="aivancin-catalogue">${esc(c.title)}</span>${c.completed ? ` <span class="tag good">done</span>` : ""}</p>
       <p class="meta"><b>${esc(capitalise(c.change))}</b>${c.before && c.after && c.change !== "retained" ? `: checkpoint ${formText(c.before.form)} → ${formText(c.after.form)}` : ""}</p>
       <p class="chg-basis">${basisTags(c)}</p>
       ${c.change === "changed form" ? `<p class="foot">${reasonText(c)}.</p>${perRelease(c)}` : ""}
@@ -2467,7 +2468,7 @@ function learnRoute() {
 
 function courseRow(o) {
   const price = o.cost_rm.v ? fig(o.cost_rm, "rm") : `${o.practice_product ? "Free to read" : esc(o.access || "Free")}${srcMarks(o.cost_rm.src)}`;
-  const needs = (o.requires || []).map(id => learnRoute()?.resources.flatMap(g => g.options).find(x => x.id === id)?.title || id);
+  const needs = o.requires_titles || [];
   const tags = `${o.in_block ? `<span class="tag sdg">In your first block</span>` : ""}${o.ai_practice ? `<span class="tag good">AI practice</span>` : ""}`;
   return `<li><details class="course-item"><summary class="res-row"><span class="res-tile" aria-hidden="true">${icon(o.ai_practice ? "sparkles" : "book-open")}</span>
     <span class="res-text"><b>${esc(o.title)}</b><span>${esc(o.provider)} · ${price} · ${fig(o.provider_hours, "")} h</span>${tags ? `<span class="res-tags">${tags}</span>` : ""}</span>

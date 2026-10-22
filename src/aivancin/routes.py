@@ -82,10 +82,12 @@ def expects(c):
     return "" if text.lower() in ("", "none", "none stated by the provider") else text
 
 
-def access_fields(c):
-    """Access, what the provider expects first, and the units of a long course that serve the route."""
+def access_fields(c, titles=None):
+    """Access, what the provider expects first, the entries to do first (by title) and the units of a long course
+    that serve the route."""
     return {"access": c.get("access", ""), "expects": expects(c), "practice_product": c.get("practice_product"),
-            "provider_exercise": bool(c.get("provider_exercise")), "focus": c.get("focus")}
+            "provider_exercise": bool(c.get("provider_exercise")), "focus": c.get("focus"),
+            "requires_titles": [titles[r] for r in c.get("requires", []) if titles and r in titles]}
 
 
 def fits_family(c, family):
@@ -97,6 +99,7 @@ class Planner:
     def __init__(self, snaps, matcher, reporter):
         self.snaps, self.m, self.rep = snaps, matcher, reporter
         self.dests = {d["code"]: d for d in (snaps.routes or {}).get("destinations", []) if d["admitted"]}
+        self.titles = {c["id"]: c["title"] for c in (snaps.catalogue or {}).get("courses", [])}
 
     # ---- options ---------------------------------------------------------------------------------
     def options(self, opts, profile):
@@ -250,7 +253,7 @@ class Planner:
                 "provider_hours": fig(c["hours"], CAT), "practice_hours": fig(c.get("practice_hours", 0.0), CAT, estimate=True),
                 "cost_rm": fig(c["cost_rm"], CAT), "checked_on": c["link_check"]["checked_on"],
                 "requires": c.get("requires", []), "checkpoint": checkpoint, "form": form, "reason": reason,
-                "completed": c["id"] in completed, **access_fields(c)}
+                "completed": c["id"] in completed, **access_fields(c, self.titles)}
 
     def _forms(self, step_gaps, months, o):
         """Checkpoint form per scenario for a step's gaps, with the figures that decided it."""
@@ -305,7 +308,7 @@ class Planner:
             opts.sort(key=lambda c: (c["id"] not in block_ids, c["cost_rm"], effort(c), c["id"]))
             out.append({"dwa_id": g["dwa_id"], "name": g["name"], "served": g["dwa_id"] in served,
                         "options": [{"id": c["id"], "title": c["title"], "provider": c["provider"], "url": c["url"],
-                                     **access_fields(c), "requires": c.get("requires", []), "coverage": c.get("coverage"),
+                                     **access_fields(c, self.titles), "requires": c.get("requires", []), "coverage": c.get("coverage"),
                                      "ai_practice": bool(c.get("ai_skill")), "in_block": c["id"] in block_ids,
                                      "provider_hours": fig(c["hours"], CAT),
                                      "practice_hours": fig(c.get("practice_hours", 0.0), CAT, estimate=True),
