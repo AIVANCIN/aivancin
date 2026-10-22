@@ -2122,6 +2122,52 @@ function stepItem(s, i) {
   </li>`;
 }
 
+/* Start here (22 Oct): what the person can do in their next session, from the first open step: the exact unit to
+   open, what it builds on, the software and access it needs, the time against their week, and what they will have
+   made. Every figure is the provider's or the plan's own; finishing it is the person's mark, not a skill check. */
+function firstTaskText(s) {
+  const t = s.first_task;
+  const cat = v => fig({ v, src: ["aivancin-catalogue"] }, "int");
+  const name = `<a href="${esc(t.url)}" target="_blank" rel="noopener">“${esc(t.title)}”<span class="vh"> (opens in a new tab)</span></a>`;
+  const mins = t.minutes ? ` (${fig(t.minutes, "")} min)` : "";
+  if (t.kind === "exercise") return `Do its ${cat(t.exercises)} exercise${t.exercises === 1 ? "" : "s"} in order, starting with ${name}${mins}${t.exercises > 1 ? `; together ${fig(t.exercise_minutes, "")} min` : ""}.`;
+  if (t.kind === "lesson") return `Read ${name}${mins}, the first of its ${cat(t.parts)} lessons, then do the checkpoint below.`;
+  if (t.kind === "module") return `Start with its first module, ${name}${mins}, of ${cat(t.parts)}.`;
+  if (t.kind === "focus") return `Go straight to <span data-src="aivancin-catalogue">${esc(t.title)}</span> in the course.`;
+  return `Open ${name} and work through it.`;
+}
+function startCard(b, s) {
+  if (!s) return `<section class="soft-card start-card" aria-labelledby="h-start"><p class="d-kicker">Start here</p><h2 id="h-start">Every step in this block is marked done</h2>
+    <p class="foot">Your checkpoints are your record. Marking a step done does not verify a skill.</p></section>`;
+  const total = { v: Math.round((s.provider_hours.v + s.practice_hours.v) * 10) / 10, src: s.provider_hours.src };
+  const before = [];
+  if (s.requires_titles?.length) before.push(`It builds on ${s.requires_titles.map(t => `“${esc(t)}”`).join(" and ")}, earlier in this plan.`);
+  // The provider's own list can run to a paragraph; a long one opens on request, as on the steps below.
+  const expects = (s.expects || "").replace(/\s+;/g, ";").replace(/;\s*$/, "");
+  if (!s.requires_titles?.length) before.push("Nothing earlier in this plan.");
+  before.push(!expects ? "The provider lists nothing to know first."
+    : expects.length <= 140 ? `The course expects: ${esc(expects)}.`
+    : `<details class="more step-expects"><summary class="link-btn">What the course expects</summary><p class="foot">${esc(expects)}.</p></details>`);
+  const access = s.practice_product
+    ? ` ${s.provider_exercise ? `The course's own exercises use ${esc(s.practice_product)} (paid); you do not need it here.` : `Its walkthroughs use ${esc(s.practice_product)} (paid); you do not need it here.`}`
+    : "";
+  const cost = s.cost_rm.v ? `${fig(s.cost_rm, "rm")}` : `${s.provider === "Saylor University" ? esc(s.access) : "Free"}${srcMarks(s.cost_rm.src)}`;
+  return `<section class="soft-card start-card" data-scope aria-labelledby="h-start">
+    <p class="d-kicker">Start here</p>
+    <h2 id="h-start">${esc(s.title)}</h2>
+    <p class="foot">${esc(s.provider)} · ${cost}</p>
+    <dl class="start-list">
+      <div><dt>First task</dt><dd>${firstTaskText(s)}</dd></div>
+      <div><dt>Before you start</dt><dd>${before.join(" ")}</dd></div>
+      <div><dt>You need</dt><dd><span data-src="aivancin-catalogue">${esc((s.setup || "Nothing beyond the course page").replace(/([^.])$/, "$1."))}</span>${access}</dd></div>
+      <div><dt>Time</dt><dd>${fig(s.provider_hours, "")} h course + ${fig(s.practice_hours, "")} h practice (estimate) = ${fig(total, "")} h, of your ${fig(b.weekly_hours, "")} hours a week.</dd></div>
+      <div><dt>You'll have</dt><dd>${esc(s.output)}${s.form === "ai" ? " Then ask an AI assistant to do the same task and write down every error it made." : ""}</dd></div>
+    </dl>
+    <p class="foot">Keep what you make: it is your record for this step. Marking it done is your own mark, not a skill check.</p>
+    <a class="btn btn-gray start-open" href="${esc(s.first_task.url)}" target="_blank" rel="noopener">${icon("external-link", "sm")}Open the first task<span class="vh"> (opens in a new tab)</span></a>
+    <div class="srcs-slot"></div></section>`;
+}
+
 /* What a step expects and needs, beside it: the units of a long course that matter, a step it builds on, a paid
    product its own exercises use (the checkpoint never does), and what the provider expects you to know. */
 function stepAccess(s, needs = [], short = false) {
@@ -2186,7 +2232,6 @@ function renderPlan() {
     <div class="plan-head" data-scope>
       <div class="ph-top">${familyTile(r)}<div><p class="d-kicker">${esc(r.family_label)}</p><h2 class="plan-title">${esc(r.title)}</h2></div></div>
       <div class="stat-row"><p><b>${fig(b.effort_hours, "")}</b><span>of ${fig(b.capacity_hours, "")} hours</span></p><p><b>${fig(d.weeks, "int")}</b><span>weeks</span></p><p><b>${fig(b.cost_rm, "rm")}</b><span>of ${fig(d.budget_rm, "rm")} budget</span></p></div>
-      ${next ? `<p class="next">${icon("route", "sm")}<span><b>Start with</b> ${esc(next.title)}</span></p>` : `<p class="next">${icon("check", "sm")}<span>Every step in this block is marked done.</span></p>`}
       <details class="more"><summary class="link-btn">Time, scope &amp; evidence</summary>
       <p class="foot">${fig(b.provider_hours, "")} h of courses and ${fig(b.practice_hours, "")} h of practice (estimated). ${esc(capitalise(b.status))}: a start, not a complete transition; it does not make anyone ready for the role.</p>
       ${isPersonal() ? "" : `<p class="foot">${ASSUMPTION_NOTE}</p>`}
@@ -2205,6 +2250,7 @@ function renderPlan() {
         : "Steps go to the route's largest gaps first. With this option, steps for skills labelled “more growth than decline” (more of the activity in US roles projected to grow than to decline) come first; time, budget and prerequisites still decide what fits."}${srcMarks(DEMAND_SRC)}</p>
     </details>
     </div><div class="plan-main">
+    ${startCard(b, next)}
     <h2 class="vh">Steps</h2>
     <ol class="psteps">${b.steps.map(stepItem).join("")}</ol>
     ${blockLimits(r)}

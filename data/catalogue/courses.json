@@ -31,6 +31,44 @@
    ],
    "provider_prerequisites": "You've seen a report or dashboard and understand what metrics represent; No prior analytics or data tool experience required; Introduction min ; Types of data analytics min ; Roles in data analytics min ; Core analytics tasks min ; Check your knowledge min ; Summary min ; Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/data-analytics-microsoft/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Types of data analytics",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/data-analytics-microsoft/2-data-analysis",
+     "kind": "unit"
+    },
+    {
+     "title": "Roles in data analytics",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/data-analytics-microsoft/3-roles",
+     "kind": "unit"
+    },
+    {
+     "title": "Core analytics tasks",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/data-analytics-microsoft/4-tasks",
+     "kind": "unit"
+    },
+    {
+     "title": "Check your knowledge",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/data-analytics-microsoft/5-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/data-analytics-microsoft/6-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -41,6 +79,7 @@
    "coverage": "introduces",
    "checkpoint": "Describe each stage of the analytics process for one dataset you know, from source to report.",
    "requires": [],
+   "setup": "A text document or paper",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -72,6 +111,44 @@
    ],
    "provider_prerequisites": "None Introduction min ; Use Power BI min ; Building blocks of Power BI min ; Tour and use the Power BI service min ; Knowledge check min ; Summary min ; Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions correctly to earn a pass designation on your profile. ; Start en-us Your Privacy Choices Theme Light ; Dark ; High cont",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/get-started-with-power-bi/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Use Power BI",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/get-started-with-power-bi/2-using-power-bi",
+     "kind": "unit"
+    },
+    {
+     "title": "Building blocks of Power BI",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/get-started-with-power-bi/3-building-blocks-of-power-bi",
+     "kind": "unit"
+    },
+    {
+     "title": "Tour and use the Power BI service",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/get-started-with-power-bi/4-exercise-touring-and-using-power-bi",
+     "kind": "unit"
+    },
+    {
+     "title": "Knowledge check",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/get-started-with-power-bi/6-get-started-with-power-bi-quiz",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/get-started-with-power-bi/5-summary-cleanup",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -82,6 +159,7 @@
    "coverage": "introduces",
    "checkpoint": "Load a public dataset into Power BI and publish one report page.",
    "requires": [],
+   "setup": "Power BI Desktop (free, Windows only) and a public dataset; publishing the page needs a Power BI sign-in, which asks for a work or school email",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -113,6 +191,56 @@
    ],
    "provider_prerequisites": "Experience with creating reports in Power BI. Introduction min ; Identify the audience min ; Determine report types min ; Define user interface requirements min ; Define user experience requirements min ; Explore designs in a Power BI report min ; Check your knowledge min ; Summary min ; Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answ",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/power-bi-effective-requirements/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Identify the audience",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/power-bi-effective-requirements/2-identify",
+     "kind": "unit"
+    },
+    {
+     "title": "Determine report types",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/power-bi-effective-requirements/3-determine",
+     "kind": "unit"
+    },
+    {
+     "title": "Define user interface requirements",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/power-bi-effective-requirements/4-define-interface",
+     "kind": "unit"
+    },
+    {
+     "title": "Define user experience requirements",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/power-bi-effective-requirements/5-define-experience",
+     "kind": "unit"
+    },
+    {
+     "title": "Explore designs in a Power BI report",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/power-bi-effective-requirements/6-explore-designs",
+     "kind": "unit"
+    },
+    {
+     "title": "Check your knowledge",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/power-bi-effective-requirements/7-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/power-bi-effective-requirements/8-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -123,6 +251,7 @@
    "coverage": "introduces",
    "checkpoint": "Write the requirements for a report: its audience, questions, measures and refresh frequency.",
    "requires": [],
+   "setup": "A text document or paper",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -158,6 +287,74 @@
    ],
    "provider_prerequisites": "Basic understanding of finance and accounting processes; Ability to use Dynamics 365 Finance for basic processing; General knowledge of basic navigation within Finance; General understanding of sales order invoicing; Introduction min ; Create free text invoices min ; Exercise - Create and process a free text invoice min ; Recurring free text invoices min ; Create and handle payments of customer in",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/accounts-receivable-daily-procedures-dyn365-finance/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Create free text invoices",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/accounts-receivable-daily-procedures-dyn365-finance/2-free-text-inv",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Create and process a free text invoice",
+     "minutes": 21,
+     "url": "https://learn.microsoft.com/en-us/training/modules/accounts-receivable-daily-procedures-dyn365-finance/6-exercise-1",
+     "kind": "unit"
+    },
+    {
+     "title": "Recurring free text invoices",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/accounts-receivable-daily-procedures-dyn365-finance/3-pay-free-text-inv",
+     "kind": "unit"
+    },
+    {
+     "title": "Create and handle payments of customer invoices for sales orders",
+     "minutes": 12,
+     "url": "https://learn.microsoft.com/en-us/training/modules/accounts-receivable-daily-procedures-dyn365-finance/4-pay-cust-invoice",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Work with invoices from sales orders",
+     "minutes": 11,
+     "url": "https://learn.microsoft.com/en-us/training/modules/accounts-receivable-daily-procedures-dyn365-finance/7-exercise-2",
+     "kind": "unit"
+    },
+    {
+     "title": "Settle transactions and undo settlements",
+     "minutes": 13,
+     "url": "https://learn.microsoft.com/en-us/training/modules/accounts-receivable-daily-procedures-dyn365-finance/5-settle-undo",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Process an invoice and settle it against a payment",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/accounts-receivable-daily-procedures-dyn365-finance/8-exercise-3",
+     "kind": "unit"
+    },
+    {
+     "title": "Reimburse a customer",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/accounts-receivable-daily-procedures-dyn365-finance/reimburse-customer",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/accounts-receivable-daily-procedures-dyn365-finance/9-quiz",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/accounts-receivable-daily-procedures-dyn365-finance/10-summary",
+     "kind": "unit"
+    }
+   ],
    "access": "Free to read. The provider's exercises need Dynamics 365 (paid, or a trial that may need a work account); the checkpoint here works in a free spreadsheet or on paper instead.",
    "practice_product": "Dynamics 365",
    "verified_on": "2026-10-22",
@@ -170,6 +367,7 @@
    "coverage": "practises",
    "checkpoint": "Issue three synthetic invoices, record the payments and produce an aged receivables list.",
    "requires": [],
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 1.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -203,6 +401,50 @@
    ],
    "provider_prerequisites": "Basic understanding of how to navigate the Dynamics 365 Business Central application and of the cash management process of a company. Introduction to and completing the reconciliation process min ; Post the bank account reconciliation min ; Import a bank statement min ; Reconcile bank accounts with Copilot min ; Undo a bank account reconciliation min ; Module assessment min ; Summary min ; Take th",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction to and completing the reconciliation process",
+     "minutes": 16,
+     "url": "https://learn.microsoft.com/en-us/training/modules/bank-reconciliation-dynamics-365-business-central/1-manually",
+     "kind": "unit"
+    },
+    {
+     "title": "Post the bank account reconciliation",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/bank-reconciliation-dynamics-365-business-central/2-post",
+     "kind": "unit"
+    },
+    {
+     "title": "Import a bank statement",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/bank-reconciliation-dynamics-365-business-central/3-import",
+     "kind": "unit"
+    },
+    {
+     "title": "Reconcile bank accounts with Copilot",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/bank-reconciliation-dynamics-365-business-central/reconcile",
+     "kind": "unit"
+    },
+    {
+     "title": "Undo a bank account reconciliation",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/bank-reconciliation-dynamics-365-business-central/3a-undo",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/bank-reconciliation-dynamics-365-business-central/4-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/bank-reconciliation-dynamics-365-business-central/5-summary",
+     "kind": "unit"
+    }
+   ],
    "access": "Free to read; its walkthroughs use Dynamics 365, which you do not need for the checkpoint here.",
    "practice_product": "Dynamics 365",
    "verified_on": "2026-10-22",
@@ -215,6 +457,7 @@
    "coverage": "practises",
    "checkpoint": "Reconcile a synthetic bank statement against a cash book and explain each difference.",
    "requires": [],
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -245,6 +488,32 @@
    ],
    "provider_prerequisites": "Basic understanding of how to navigate in Dynamics 365 Business Central; General knowledge of a general ledger chart of accounts and financial reports; Add Achievement Code Would you like to request an achievement code? Request achievement code",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Create budgets in Dynamics 365 Business Central",
+     "minutes": 50,
+     "url": "https://learn.microsoft.com/en-us/training/modules/budgets-exchange-rates-dynamics-365-business-central/",
+     "kind": "module"
+    },
+    {
+     "title": "Configure financial reports in Dynamics 365 Business Central",
+     "minutes": 51,
+     "url": "https://learn.microsoft.com/en-us/training/modules/configure-financial-reports-dynamics-365-business-central/",
+     "kind": "module"
+    },
+    {
+     "title": "Use dimensions in your financial reports in Dynamics 365 Business Central",
+     "minutes": 31,
+     "url": "https://learn.microsoft.com/en-us/training/modules/dimensions-financial-reports-dynamics-365-business-central/",
+     "kind": "module"
+    },
+    {
+     "title": "Forecast your cash flow in Dynamics 365 Business Central",
+     "minutes": 44,
+     "url": "https://learn.microsoft.com/en-us/training/modules/forecast-cash-flow-dynamics-365-business-central/",
+     "kind": "module"
+    }
+   ],
    "access": "Free to read; its walkthroughs use Dynamics 365, which you do not need for the checkpoint here.",
    "practice_product": "Dynamics 365",
    "verified_on": "2026-10-22",
@@ -257,6 +526,7 @@
    "coverage": "practises",
    "checkpoint": "Produce a profit and loss statement and a balance sheet for a synthetic shop and write three observations.",
    "requires": [],
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 1.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -287,6 +557,50 @@
    ],
    "provider_prerequisites": "Basic understanding of enterprise resource planning systems; Basic understanding of object-oriented programming; Experience using Visual Studio; Introduction min ; Create and modify report data sources and supporting classes min ; Implement reporting security requirements min ; Publish a report min ; Exercise – Set authorization requirements on database tables min ; Module assessment min ; Summary",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-reporting-tools-finance-operations/01-overview",
+     "kind": "unit"
+    },
+    {
+     "title": "Create and modify report data sources and supporting classes",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-reporting-tools-finance-operations/02-data-sources",
+     "kind": "unit"
+    },
+    {
+     "title": "Implement reporting security requirements",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-reporting-tools-finance-operations/03-security-reqs",
+     "kind": "unit"
+    },
+    {
+     "title": "Publish a report",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-reporting-tools-finance-operations/04-publish-report",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise – Set authorization requirements on database tables",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-reporting-tools-finance-operations/05-lab",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-reporting-tools-finance-operations/06-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-reporting-tools-finance-operations/07-summary",
+     "kind": "unit"
+    }
+   ],
    "access": "Free to read. The provider's exercises need Dynamics 365 (paid, or a trial that may need a work account); the checkpoint here works in a free spreadsheet or on paper instead.",
    "practice_product": "Dynamics 365",
    "verified_on": "2026-10-22",
@@ -326,6 +640,74 @@
    ],
    "provider_prerequisites": "Basic understanding of finance and accounting processes; The ability to use Finance for basic processing; Knowledge of basic navigation in Finance; Understand how to set up General ledger in Finance; Introduction min ; Using balance control accounts min ; Process a journal entry min ; Work with general ledger processes min ; Ledger settlements min ; Create templates to edit journals in Microsoft E",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/general-ledger-daily-procedures-dyn365-finance/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Using balance control accounts",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/general-ledger-daily-procedures-dyn365-finance/2-balance-control-accounts",
+     "kind": "unit"
+    },
+    {
+     "title": "Process a journal entry",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/general-ledger-daily-procedures-dyn365-finance/3-process-journal-entry",
+     "kind": "unit"
+    },
+    {
+     "title": "Work with general ledger processes",
+     "minutes": 12,
+     "url": "https://learn.microsoft.com/en-us/training/modules/general-ledger-daily-procedures-dyn365-finance/4-gl-processes",
+     "kind": "unit"
+    },
+    {
+     "title": "Ledger settlements",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/general-ledger-daily-procedures-dyn365-finance/5-ledger-settlements",
+     "kind": "unit"
+    },
+    {
+     "title": "Create templates to edit journals in Microsoft Excel",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/general-ledger-daily-procedures-dyn365-finance/create-templates",
+     "kind": "unit"
+    },
+    {
+     "title": "Create voucher templates",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/general-ledger-daily-procedures-dyn365-finance/6-voucher-templates",
+     "kind": "unit"
+    },
+    {
+     "title": "Set up journal controls",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/general-ledger-daily-procedures-dyn365-finance/7-journal-controls",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Create and use a voucher template",
+     "minutes": 21,
+     "url": "https://learn.microsoft.com/en-us/training/modules/general-ledger-daily-procedures-dyn365-finance/8-exercise",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/general-ledger-daily-procedures-dyn365-finance/9-quiz",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/general-ledger-daily-procedures-dyn365-finance/10-summary",
+     "kind": "unit"
+    }
+   ],
    "access": "Free to read. The provider's exercises need Dynamics 365 (paid, or a trial that may need a work account); the checkpoint here works in a free spreadsheet or on paper instead.",
    "practice_product": "Dynamics 365",
    "verified_on": "2026-10-22",
@@ -340,6 +722,7 @@
    "requires": [
     "learn.wwl.explore-general-ledger-dynamics-365"
    ],
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 1.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -370,6 +753,62 @@
    ],
    "provider_prerequisites": "Have a basic understanding of finance and accounting processes; The ability to use Finance for basic processing; Have a general understanding of sales order invoicing; Know how to configure credit and collections in Finance; Introduction min ; Customer account statement min ; Working with collections min ; Collections coordinator workspace min ; Manage customer credit and collections min ; Credit",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/process-credit-collections-dyn365-finance/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Customer account statement",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/process-credit-collections-dyn365-finance/2-cust-acc-statement",
+     "kind": "unit"
+    },
+    {
+     "title": "Working with collections",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/process-credit-collections-dyn365-finance/3-collections",
+     "kind": "unit"
+    },
+    {
+     "title": "Collections coordinator workspace",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/process-credit-collections-dyn365-finance/collections-coordinator-workspace",
+     "kind": "unit"
+    },
+    {
+     "title": "Manage customer credit and collections",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/process-credit-collections-dyn365-finance/4-credit-collections",
+     "kind": "unit"
+    },
+    {
+     "title": "Credit management",
+     "minutes": 20,
+     "url": "https://learn.microsoft.com/en-us/training/modules/process-credit-collections-dyn365-finance/4-2-credit-management",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Work with credit and collections",
+     "minutes": 40,
+     "url": "https://learn.microsoft.com/en-us/training/modules/process-credit-collections-dyn365-finance/5-exercise-1",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/process-credit-collections-dyn365-finance/8-quiz",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/process-credit-collections-dyn365-finance/9-summary",
+     "kind": "unit"
+    }
+   ],
    "access": "Free to read. The provider's exercises need Dynamics 365 (paid, or a trial that may need a work account); the checkpoint here works in a free spreadsheet or on paper instead.",
    "practice_product": "Dynamics 365",
    "verified_on": "2026-10-22",
@@ -382,6 +821,7 @@
    "coverage": "practises",
    "checkpoint": "Assess three synthetic customers' payment histories and recommend a credit limit for each with reasons.",
    "requires": [],
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 1.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -413,6 +853,74 @@
    ],
    "provider_prerequisites": "Basic understanding of finance and accounting processes; The ability to use Finance for basic processing; An understanding of how to set up the general ledger in Finance; Introduction min ; Configure ledger posting groups min ; Configure sales tax authorities min ; Exercise - Set up sales tax authorities min ; Configure sales tax settlement periods min ; Exercise - Set up sales tax settlement peri",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/set-up-taxes-finance/introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Configure ledger posting groups",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/set-up-taxes-finance/configure-ledger-posting-groups",
+     "kind": "unit"
+    },
+    {
+     "title": "Configure sales tax authorities",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/set-up-taxes-finance/configure-sales-tax-authorities",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Set up sales tax authorities",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/set-up-taxes-finance/exercise-set-up-sales-tax-authorities",
+     "kind": "unit"
+    },
+    {
+     "title": "Configure sales tax settlement periods",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/set-up-taxes-finance/configure-sales-tax-settlemen-periods",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Set up sales tax settlement periods",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/set-up-taxes-finance/exercise-set-up-sales-tax-settlement-periods",
+     "kind": "unit"
+    },
+    {
+     "title": "Create sales tax codes",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/set-up-taxes-finance/create-sales-tax-codes",
+     "kind": "unit"
+    },
+    {
+     "title": "Configure sales tax groups and item sales tax groups",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/set-up-taxes-finance/configure-sales-tax-groups-item-tax-groups",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Set up sales tax codes and sales tax groups",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/set-up-taxes-finance/exercise-set-up-sales-tax-codes-groups",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/set-up-taxes-finance/check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/set-up-taxes-finance/summary",
+     "kind": "unit"
+    }
+   ],
    "access": "Free to read. The provider's exercises need Dynamics 365 (paid, or a trial that may need a work account); the checkpoint here works in a free spreadsheet or on paper instead.",
    "practice_product": "Dynamics 365",
    "verified_on": "2026-10-22",
@@ -425,6 +933,7 @@
    "coverage": "introduces",
    "checkpoint": "In a spreadsheet, make a tax-code table (code, rate, tax authority, settlement period) and use it to calculate the tax on ten synthetic invoices, with the working for each.",
    "requires": [],
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 1.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -457,6 +966,86 @@
    ],
    "provider_prerequisites": "Basic understanding of finance and accounting processes; Knowledge of Dynamics 365 Finance; Knowledge of how to use Dynamics 365 Finance for processing; General understanding of budgeting; Introduction min ; Plan for basic budgeting and budget control min ; Budget methodologies min ; Basic budgeting overview min ; Set up basic budgeting min ; Create and manage budget register entries min ; Exercis",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/setup-use-basic-budgeting-finance/introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Plan for basic budgeting and budget control",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/setup-use-basic-budgeting-finance/plan-basic-budgeting-control",
+     "kind": "unit"
+    },
+    {
+     "title": "Budget methodologies",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/setup-use-basic-budgeting-finance/methodologies",
+     "kind": "unit"
+    },
+    {
+     "title": "Basic budgeting overview",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/setup-use-basic-budgeting-finance/basic-budgeting-overview",
+     "kind": "unit"
+    },
+    {
+     "title": "Set up basic budgeting",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/setup-use-basic-budgeting-finance/set-up-basic-budgeting",
+     "kind": "unit"
+    },
+    {
+     "title": "Create and manage budget register entries",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/setup-use-basic-budgeting-finance/create-manage-budget-register-entries",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Create a budget register entry",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/setup-use-basic-budgeting-finance/exercise-create-budget-register-entry",
+     "kind": "unit"
+    },
+    {
+     "title": "Implement a budget register workflow",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/setup-use-basic-budgeting-finance/implement-workflow",
+     "kind": "unit"
+    },
+    {
+     "title": "Use workspace and inquiry pages to track budget vs. actuals",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/setup-use-basic-budgeting-finance/use-workspace-inquiry-pages",
+     "kind": "unit"
+    },
+    {
+     "title": "Use inquiries and reports for budget analysis",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/setup-use-basic-budgeting-finance/use-inquiries-reports",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Set up basic budgeting components",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/setup-use-basic-budgeting-finance/exercise-set-up-components",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/setup-use-basic-budgeting-finance/check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/setup-use-basic-budgeting-finance/summary",
+     "kind": "unit"
+    }
+   ],
    "access": "Free to read. The provider's exercises need Dynamics 365 (paid, or a trial that may need a work account); the checkpoint here works in a free spreadsheet or on paper instead.",
    "practice_product": "Dynamics 365",
    "verified_on": "2026-10-22",
@@ -469,6 +1058,7 @@
    "coverage": "practises",
    "checkpoint": "Build a yearly budget for a synthetic business with monthly figures and a variance column.",
    "requires": [],
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 1.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -504,6 +1094,74 @@
    ],
    "provider_prerequisites": "Basic understanding of finance and accounting processes; The ability to use Dynamics 365 Finance for basic processing; An understanding of how to set up General ledger in Finance; Introduction min ; Withholding tax min ; Sales tax exemption min ; Conditional sales tax min ; Sales tax on transactions min ; Set up sales tax reporting codes min ; Exercise - Set up sales tax reporting codes and withho",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-taxes-finance/introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Withholding tax",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-taxes-finance/withholding-tax",
+     "kind": "unit"
+    },
+    {
+     "title": "Sales tax exemption",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-taxes-finance/sales-tax-exemption",
+     "kind": "unit"
+    },
+    {
+     "title": "Conditional sales tax",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-taxes-finance/conditional-sales-tax",
+     "kind": "unit"
+    },
+    {
+     "title": "Sales tax on transactions",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-taxes-finance/sales-tax-transactions",
+     "kind": "unit"
+    },
+    {
+     "title": "Set up sales tax reporting codes",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-taxes-finance/set-up-codes",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Set up sales tax reporting codes and withholding tax",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-taxes-finance/exercise",
+     "kind": "unit"
+    },
+    {
+     "title": "Calculate and adjust sales tax",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-taxes-finance/calculate-adjust-tax",
+     "kind": "unit"
+    },
+    {
+     "title": "Prepare periodic filing",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-taxes-finance/prepare-periodic-filing",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-taxes-finance/check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-taxes-finance/summary",
+     "kind": "unit"
+    }
+   ],
    "access": "Free to read. The provider's exercises need Dynamics 365 (paid, or a trial that may need a work account); the checkpoint here works in a free spreadsheet or on paper instead.",
    "practice_product": "Dynamics 365",
    "verified_on": "2026-10-22",
@@ -518,6 +1176,7 @@
    "requires": [
     "learn-dynamics.set-up-taxes-finance"
    ],
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -546,6 +1205,44 @@
    ],
    "provider_prerequisites": "Students should have basic functional experience with Microsoft 365 services.; Introduction min ; Analyze data workflows in Excel with Copilot min ; Generate insights using the Analyst Agent min ; Exercise - Analyze and visualize data with Microsoft Copilot min ; Module assessment min ; Summary min ; Take the module assessment Module Assessment Results Assess your understanding of this module. Sig",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/analyze-visualize-data-copilot/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Analyze data workflows in Excel  with Copilot",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/analyze-visualize-data-copilot/2-analyze-data-workflows-excel",
+     "kind": "unit"
+    },
+    {
+     "title": "Generate insights using the Analyst Agent",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/analyze-visualize-data-copilot/3-generate-insights-analyst-agent",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Analyze and visualize data with Microsoft Copilot",
+     "minutes": 20,
+     "url": "https://learn.microsoft.com/en-us/training/modules/analyze-visualize-data-copilot/3a-exercise-analyze-visualize-data",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/analyze-visualize-data-copilot/4-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/analyze-visualize-data-copilot/5-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -589,6 +1286,50 @@
    ],
    "provider_prerequisites": "Microsoft Visual Studio Code ; Familiarity with one or more programming languages and a markup language such as HTML; A computer that's running one of the following operating systems: Windows: Windows 10 or 11; Mac: macOS 10.15 or later; Linux: Ubuntu, Debian, Red Hat, Fedora, or SUSE; ; Introduction min ; Exercise - Set up the structure of your web app min ; Exercise - Add basic HTML to your web",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/get-started-with-web-development/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Set up the structure of your web app",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/get-started-with-web-development/2-project-structure",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Add basic HTML to your web app",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/get-started-with-web-development/3-html-basics",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Style your HTML with CSS",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/get-started-with-web-development/4-css-basics",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Add interactivity with JavaScript",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/get-started-with-web-development/5-javascript-basics",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/get-started-with-web-development/6-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/get-started-with-web-development/7-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -599,6 +1340,7 @@
    "coverage": "introduces",
    "checkpoint": "Add a small script to your site and record how you checked it in the browser's developer tools.",
    "requires": [],
+   "setup": "Visual Studio Code (free) and a web browser on Windows 10 or 11, macOS or Linux",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -629,6 +1371,44 @@
    ],
    "provider_prerequisites": "None",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/inclusive-design-principles/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Understand inclusive product design",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/inclusive-design-principles/2-inclusive-product-design",
+     "kind": "unit"
+    },
+    {
+     "title": "Explain inclusive design principles",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/inclusive-design-principles/3-inclusive-design-principles",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe human diversity factors",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/inclusive-design-principles/4-human-diversity-factors",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/inclusive-design-principles/5-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/inclusive-design-principles/6-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -639,6 +1419,7 @@
    "coverage": "introduces",
    "checkpoint": "Review one app screen against inclusive design principles and propose two changes.",
    "requires": [],
+   "setup": "An app you use and a text document",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -672,6 +1453,44 @@
    ],
    "provider_prerequisites": "None",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/network-fundamentals/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Network types and topologies to use when you design a network",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/network-fundamentals/2-network-types-topologies",
+     "kind": "unit"
+    },
+    {
+     "title": "Types of network devices to use when you build a network",
+     "minutes": 11,
+     "url": "https://learn.microsoft.com/en-us/training/modules/network-fundamentals/3-network-infrastructure",
+     "kind": "unit"
+    },
+    {
+     "title": "Network protocols to use when you implement a network",
+     "minutes": 13,
+     "url": "https://learn.microsoft.com/en-us/training/modules/network-fundamentals/4-network-protocols",
+     "kind": "unit"
+    },
+    {
+     "title": "IP address standards and services",
+     "minutes": 13,
+     "url": "https://learn.microsoft.com/en-us/training/modules/network-fundamentals/5-ip-tcp-basics",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/network-fundamentals/6-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -682,6 +1501,7 @@
    "coverage": "introduces",
    "checkpoint": "Draw a labelled diagram of a home or small-office network (router, switch, devices, address ranges) and list the order in which you would check for a connection fault.",
    "requires": [],
+   "setup": "Paper or a free diagram tool",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -715,6 +1535,56 @@
    ],
    "provider_prerequisites": "To get started with Playwright, you should have: Visual Studio Code installed; Latest version of node ; Latest version of npm ; Introduction min ; What is Playwright? min ; Exercise: Getting Started with Playwright min ; Exercise: Deconstruct a Playwright Test min ; Understand Test Specification min ; Exercise: Using Playwright in Visual Studio Code min ; Module assessment min ; Summary min ; Take",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/build-with-playwright/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "What is Playwright?",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/build-with-playwright/2-introduction-to-playwright",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise: Getting Started with Playwright",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/build-with-playwright/3-set-up-playwright",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise: Deconstruct a Playwright Test",
+     "minutes": 18,
+     "url": "https://learn.microsoft.com/en-us/training/modules/build-with-playwright/4-understand-test-configuration",
+     "kind": "unit"
+    },
+    {
+     "title": "Understand Test Specification",
+     "minutes": 9,
+     "url": "https://learn.microsoft.com/en-us/training/modules/build-with-playwright/5-understand-test-specification",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise: Using Playwright in Visual Studio Code",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/build-with-playwright/6-get-started-using-vs-code",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/build-with-playwright/7-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/build-with-playwright/8-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -725,6 +1595,7 @@
    "coverage": "practises",
    "checkpoint": "Write an end-to-end test for one page of a site and a bug report for any failure you find.",
    "requires": [],
+   "setup": "Visual Studio Code, Node.js and npm (all free), as the provider states",
    "practice_hours": 1.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -757,6 +1628,50 @@
    ],
    "provider_prerequisites": "None Introduction min ; Types of accessibility testing min ; Accessibility evaluation and testing tools min ; Interpreting accessibility testing results min ; Collaborate to identify and address accessibility issues min ; Module assessment min ; Summary min ; Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions correctly to",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/accessibility-evaluation-and-testing/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Types of accessibility testing",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/accessibility-evaluation-and-testing/2-types-of-accessibility-testing",
+     "kind": "unit"
+    },
+    {
+     "title": "Accessibility evaluation and testing tools",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/accessibility-evaluation-and-testing/3-accessibility-evaluation-testing-tools",
+     "kind": "unit"
+    },
+    {
+     "title": "Interpreting accessibility testing results",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/accessibility-evaluation-and-testing/4-interpreting-accessibility-testing-results",
+     "kind": "unit"
+    },
+    {
+     "title": "Collaborate to identify and address accessibility issues",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/accessibility-evaluation-and-testing/5-collaborate-to-identify-address-accessibility-issues",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/accessibility-evaluation-and-testing/6-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/accessibility-evaluation-and-testing/7-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -767,6 +1682,7 @@
    "coverage": "introduces",
    "checkpoint": "Test one web page for accessibility and write three recommended changes with the problem each fixes.",
    "requires": [],
+   "setup": "A web browser and a free checker such as Accessibility Insights for Web",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -801,6 +1717,38 @@
    ],
    "provider_prerequisites": "",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/web-accessibility-principles-guidelines/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Web accessibility standards and principles",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/web-accessibility-principles-guidelines/2-web-accessibility-standards-and-principles",
+     "kind": "unit"
+    },
+    {
+     "title": "Principles of accessibility and levels of conformance",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/web-accessibility-principles-guidelines/3-principles-of-accessibility-and-levels-of-conformance",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/web-accessibility-principles-guidelines/4-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/web-accessibility-principles-guidelines/5-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -811,6 +1759,7 @@
    "coverage": "introduces",
    "checkpoint": "List the accessibility requirements you would write into a website specification.",
    "requires": [],
+   "setup": "A text document or paper",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -843,6 +1792,56 @@
    ],
    "provider_prerequisites": "Basic knowledge of Internet Protocol addresses, Transmission Control Protocol, User Datagram Protocol, Internet Control Message Protocol, and ports.; Familiarity with network adapters and inbound and outbound traffic.; Experience running commands in Windows PowerShell or Command Prompt.; Awareness that packet captures can contain sensitive information.; Introduction min ; Understand Packet Monitor",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/understand-windows-packet-monitor/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Understand Packet Monitor capture",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/understand-windows-packet-monitor/2-understand-packet-monitor-capture",
+     "kind": "unit"
+    },
+    {
+     "title": "Prepare and discover network components",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/understand-windows-packet-monitor/3-prepare-discover-network-components",
+     "kind": "unit"
+    },
+    {
+     "title": "Create useful packet filters",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/understand-windows-packet-monitor/4-create-useful-packet-filters",
+     "kind": "unit"
+    },
+    {
+     "title": "Choose collection options",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/understand-windows-packet-monitor/5-choose-collection-options",
+     "kind": "unit"
+    },
+    {
+     "title": "Convert and inspect capture output",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/understand-windows-packet-monitor/6-convert-inspect-capture-output",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/understand-windows-packet-monitor/7-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/understand-windows-packet-monitor/8-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -855,6 +1854,7 @@
    "requires": [
     "learn.azure.network-fundamentals"
    ],
+   "setup": "A Windows 10 or 11 test machine you are allowed to change (Packet Monitor comes with Windows)",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -883,6 +1883,44 @@
    ],
    "provider_prerequisites": "None; Introduction min ; What is Windows Server 2025? min ; How Windows Server 2025 works min ; When to use Windows Server 2025 min ; Knowledge check min ; Summary min ; Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions correctly to earn a pass designation on your profile. ; Start en-us Your Privacy Choices Theme Light ",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-windows-server-2025/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "What is Windows Server 2025?",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-windows-server-2025/2-what-is-windows-server-2025",
+     "kind": "unit"
+    },
+    {
+     "title": "How Windows Server 2025 works",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-windows-server-2025/3-how-windows-server-2025-works",
+     "kind": "unit"
+    },
+    {
+     "title": "When to use Windows Server 2025",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-windows-server-2025/4-when-to-use-windows-server-2025",
+     "kind": "unit"
+    },
+    {
+     "title": "Knowledge check",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-windows-server-2025/5-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-windows-server-2025/6-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -920,6 +1958,38 @@
    ],
    "provider_prerequisites": "None; Introduction min ; Understand how Copilot interprets data in Excel min ; Exercise – Summarize and visualize sales data with Copilot min ; Knowledge check min ; Summary min ; Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions correctly to earn a pass designation on your profile. ; Start en-us Your Privacy Choices The",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/summarize-sales-data/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Understand how Copilot interprets data in Excel",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/summarize-sales-data/2-understand-how-copilot-interprets-data-in-excel",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise – Summarize and visualize sales data with Copilot",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/summarize-sales-data/3-exercise-summarize-visualize-sales-data",
+     "kind": "unit"
+    },
+    {
+     "title": "Knowledge check",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/summarize-sales-data/4-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/summarize-sales-data/5-summary",
+     "kind": "unit"
+    }
+   ],
    "access": "Free to read. The provider's exercises need Microsoft 365 Copilot in Excel (paid, or a trial that may need a work account); the checkpoint here works in a free spreadsheet or on paper instead.",
    "practice_product": "Microsoft 365 Copilot in Excel",
    "verified_on": "2026-10-22",
@@ -932,6 +2002,7 @@
    "coverage": "introduces",
    "checkpoint": "Summarise a synthetic sales sheet with formulas, then check every figure an AI assistant produced against them.",
    "requires": [],
+   "setup": "A free AI assistant and a spreadsheet",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -964,6 +2035,50 @@
    ],
    "provider_prerequisites": "None; Introduction min ; Assess unmanaged devices with PC Health Check min ; Evaluate readiness using PC Health Check min ; Assess managed devices with Endpoint Analytics in Microsoft Intune min ; Review readiness with data in endpoint analytics min ; Knowledge check min ; Summary min ; Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answe",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/windows-11-readiness-assessment/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Assess unmanaged devices with PC Health Check",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/windows-11-readiness-assessment/2-assess-unmanaged-devices-pc-health-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Evaluate readiness using PC Health Check",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/windows-11-readiness-assessment/3-evaluate-readiness-using-pc-health-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Assess managed devices with Endpoint Analytics in Microsoft Intune",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/windows-11-readiness-assessment/4-assess-managed-devices-endpoint-analytics-intune",
+     "kind": "unit"
+    },
+    {
+     "title": "Review readiness with data in endpoint analytics",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/windows-11-readiness-assessment/5-review-readiness-data-endpoint-analytics",
+     "kind": "unit"
+    },
+    {
+     "title": "Knowledge check",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/windows-11-readiness-assessment/6-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/windows-11-readiness-assessment/7-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -974,6 +2089,7 @@
    "coverage": "introduces",
    "checkpoint": "Assess one computer you look after (or the module's example) for Windows 11 and write an upgrade recommendation naming each requirement it meets or misses.",
    "requires": [],
+   "setup": "The computer you assess and Microsoft's free PC Health Check app",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -1007,6 +2123,44 @@
    ],
    "provider_prerequisites": "None; Introduction min ; Plan the day min ; Analysis, modeling, and reporting min ; Stakeholder review min ; Knowledge check min ; Summary min ; Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions correctly to earn a pass designation on your profile. ; Start en-us Your Privacy Choices Theme Light ; Dark ; High contrast ; ",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-smarter-copilot-finance/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Plan the day",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-smarter-copilot-finance/2-plan-the-day",
+     "kind": "unit"
+    },
+    {
+     "title": "Analysis, modeling, and reporting",
+     "minutes": 9,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-smarter-copilot-finance/3-analysis-modeling-and-reporting",
+     "kind": "unit"
+    },
+    {
+     "title": "Stakeholder review",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-smarter-copilot-finance/4-stakeholder-review",
+     "kind": "unit"
+    },
+    {
+     "title": "Knowledge check",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-smarter-copilot-finance/5-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-smarter-copilot-finance/6-summary",
+     "kind": "unit"
+    }
+   ],
    "access": "Free to read; its walkthroughs use Microsoft 365 Copilot, which you do not need for the checkpoint here.",
    "practice_product": "Microsoft 365 Copilot",
    "verified_on": "2026-10-22",
@@ -1019,6 +2173,7 @@
    "coverage": "introduces",
    "checkpoint": "Ask an AI assistant to draft a monthly cost summary from a synthetic ledger, then check every figure against your own totals and note each correction.",
    "requires": [],
+   "setup": "A free AI assistant and a spreadsheet",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -1048,6 +2203,50 @@
    ],
    "provider_prerequisites": "None; Introduction min ; Generate formulas with Copilot Chat min ; Exercise - Use Copilot Chat in Excel to generate formulas min ; Summarize and visualize data with Copilot Chat min ; Exercise - Create summaries and visualizations with Copilot Chat in Excel min ; Knowledge check min ; Summary min ; Take the module assessment Module Assessment Results Assess your understanding of this module. Sign",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-smarter-excel/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Generate formulas with Copilot Chat",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-smarter-excel/2-formulas",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Use Copilot Chat in Excel to generate formulas",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-smarter-excel/3-exercise-generate-formulas",
+     "kind": "unit"
+    },
+    {
+     "title": "Summarize and visualize data with Copilot Chat",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-smarter-excel/4-data",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Create summaries and visualizations with Copilot Chat in Excel",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-smarter-excel/5-exercise-visualize-data",
+     "kind": "unit"
+    },
+    {
+     "title": "Knowledge check",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-smarter-excel/6-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-smarter-excel/7-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1084,6 +2283,56 @@
    ],
    "provider_prerequisites": "A GitHub account",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-github/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "What is GitHub?",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-github/2-what-is-github",
+     "kind": "unit"
+    },
+    {
+     "title": "Components of the GitHub flow",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-github/3-components-of-github-flow",
+     "kind": "unit"
+    },
+    {
+     "title": "GitHub is a collaborative platform",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-github/4-collaborative-platform",
+     "kind": "unit"
+    },
+    {
+     "title": "GitHub platform management",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-github/5-platform-management",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - A guided tour of GitHub",
+     "minutes": 58,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-github/6-guided-tour-of-github",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-github/7-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-github/8-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1123,6 +2372,50 @@
    ],
    "provider_prerequisites": "GitHub account; Basic understanding of GitHub fundamentals",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-github-copilot/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "GitHub Copilot, your AI pair programmer",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-github-copilot/2-github-copilot-your-ai-pair-programmer",
+     "kind": "unit"
+    },
+    {
+     "title": "Interact with Copilot",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-github-copilot/3-interacting-with-copilot",
+     "kind": "unit"
+    },
+    {
+     "title": "Set up, configure, and troubleshoot GitHub Copilot",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-github-copilot/4-setup-configure-troubleshoot",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Develop with AI-powered code suggestions by using GitHub Copilot and VS Code",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-github-copilot/5-exercise",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-github-copilot/6-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-github-copilot/7-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1160,6 +2453,56 @@
    ],
    "provider_prerequisites": "A GitHub account; Access to an organization; Introduction min ; Projects versus Projects Classic min ; How to create a project min ; How to organize your project min ; How to organize and automate your project min ; Insight and automation with projects min ; Module assessment min ; Summary min ; Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-work-github-projects/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Projects versus Projects Classic",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-work-github-projects/2-project-vs-project-classic",
+     "kind": "unit"
+    },
+    {
+     "title": "How to create a project",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-work-github-projects/3-how-to-create-project",
+     "kind": "unit"
+    },
+    {
+     "title": "How to organize your project",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-work-github-projects/4-how-to-organize-your-project",
+     "kind": "unit"
+    },
+    {
+     "title": "How to organize and automate your project",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-work-github-projects/5-how-to-organize-automate-project",
+     "kind": "unit"
+    },
+    {
+     "title": "Insight and automation with projects",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-work-github-projects/6-insight-automation-with-projects",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-work-github-projects/7-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-work-github-projects/8-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1170,6 +2513,7 @@
    "coverage": "introduces",
    "checkpoint": "Set up a project board for a small piece of work with an issue for each task and its status.",
    "requires": [],
+   "setup": "A free GitHub account",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -1199,6 +2543,44 @@
    ],
    "provider_prerequisites": "Basic knowledge of navigating the Azure portal; Basic knowledge of file and folder backup concepts; Basic knowledge of Azure Files shares, Azure VMs, and Azure Managed Disks; Basic knowledge of on-premises backup scenarios; Introduction min ; What is Azure Backup? min ; How Azure Backup works min ; When to use Azure Backup min ; Module assessment min ; Summary min ; Take the module assessment Modu",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-azure-backup/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "What is Azure Backup?",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-azure-backup/2-what-is-azure-backup",
+     "kind": "unit"
+    },
+    {
+     "title": "How Azure Backup works",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-azure-backup/3-how-azure-backup-works",
+     "kind": "unit"
+    },
+    {
+     "title": "When to use Azure Backup",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-azure-backup/4-when-to-use-azure-backup",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-azure-backup/5-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-azure-backup/6-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1209,6 +2591,7 @@
    "coverage": "introduces",
    "checkpoint": "Write a backup plan for a small office: what is backed up, how often, where it is kept and how a restore is tested.",
    "requires": [],
+   "setup": "A text document or paper",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -1239,6 +2622,86 @@
    ],
    "provider_prerequisites": "Basic knowledge of .NET and C# at the intermediate level; Basic knowledge of web development with ASP.NET at the beginner level, including controllers and Razor syntax; Familiarity with software development and release cycle at the beginner level; Basic concepts and terminology of cloud hosting and security tooling, including automation and release process",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/owasp-top-10-for-dotnet-developers/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "What is OWASP Top 10?",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/owasp-top-10-for-dotnet-developers/2-what-is-owasp-top-10",
+     "kind": "unit"
+    },
+    {
+     "title": "Broken access control",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/owasp-top-10-for-dotnet-developers/3-broken-access-control",
+     "kind": "unit"
+    },
+    {
+     "title": "Cryptographic failures",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/owasp-top-10-for-dotnet-developers/4-cryptographic-failures",
+     "kind": "unit"
+    },
+    {
+     "title": "Injection",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/owasp-top-10-for-dotnet-developers/5-injection",
+     "kind": "unit"
+    },
+    {
+     "title": "Insecure design",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/owasp-top-10-for-dotnet-developers/6-insecure-design",
+     "kind": "unit"
+    },
+    {
+     "title": "Security misconfiguration",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/owasp-top-10-for-dotnet-developers/7-security-misconfiguration",
+     "kind": "unit"
+    },
+    {
+     "title": "Vulnerable and outdated components",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/owasp-top-10-for-dotnet-developers/8-vulnerable-outdated-components",
+     "kind": "unit"
+    },
+    {
+     "title": "Identification and authentication failures",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/owasp-top-10-for-dotnet-developers/9-identification-authentication-failures",
+     "kind": "unit"
+    },
+    {
+     "title": "Software and data integrity failures",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/owasp-top-10-for-dotnet-developers/10-software-data-integrity-failures",
+     "kind": "unit"
+    },
+    {
+     "title": "Security logging and monitoring",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/owasp-top-10-for-dotnet-developers/11-security-logging-monitoring",
+     "kind": "unit"
+    },
+    {
+     "title": "Server-side request forgery",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/owasp-top-10-for-dotnet-developers/12-server-side-request-forgery",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/owasp-top-10-for-dotnet-developers/13-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1249,6 +2712,7 @@
    "coverage": "introduces",
    "checkpoint": "Review a small web app against the OWASP Top 10 and list each risk found with its fix.",
    "requires": [],
+   "setup": "The small web app you review and a text document",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -1284,6 +2748,74 @@
    ],
    "provider_prerequisites": "Basic familiarity with computers.; Basic understanding of IT infrastructure and data management.; Knowledge of computer hardware and networking basics.; Basic knowledge of system monitoring and maintenance.",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-best-practices-datacenter-operations/0-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Datacenter monitoring",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-best-practices-datacenter-operations/1-datacenter-monitoring",
+     "kind": "unit"
+    },
+    {
+     "title": "Key aspects of datacenter monitoring",
+     "minutes": 14,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-best-practices-datacenter-operations/2-key-aspects-datacenter-monitoring",
+     "kind": "unit"
+    },
+    {
+     "title": "Datacenter maintenance",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-best-practices-datacenter-operations/3-datacenter-maintenance",
+     "kind": "unit"
+    },
+    {
+     "title": "Key aspects of datacenter maintenance",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-best-practices-datacenter-operations/4-key-aspects-datacenter-maintenance",
+     "kind": "unit"
+    },
+    {
+     "title": "Key aspects of datacenter maintenance - continued",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-best-practices-datacenter-operations/5-key-aspects-datacenter-maintenance-continued",
+     "kind": "unit"
+    },
+    {
+     "title": "Reliability and resiliency in datacenters",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-best-practices-datacenter-operations/6-reliability-resiliency-datacenters",
+     "kind": "unit"
+    },
+    {
+     "title": "Disaster recovery in datacenters",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-best-practices-datacenter-operations/7-disaster-recovery-datacenters",
+     "kind": "unit"
+    },
+    {
+     "title": "Low latency operations in datacenters",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-best-practices-datacenter-operations/8-low-latency-operations-datacenters",
+     "kind": "unit"
+    },
+    {
+     "title": "Knowledge check",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-best-practices-datacenter-operations/9-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-best-practices-datacenter-operations/10-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1294,6 +2826,7 @@
    "coverage": "introduces",
    "checkpoint": "Write a monthly maintenance checklist for the computers and network you look after.",
    "requires": [],
+   "setup": "A text document or paper",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -1321,6 +2854,50 @@
    ],
    "provider_prerequisites": "Basic understanding of AI, generative AI, and reasoning engines.",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/responsible-ai/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Using AI responsibly: Best practices",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/responsible-ai/2-using-ai-responsibly-best-practices",
+     "kind": "unit"
+    },
+    {
+     "title": "Principles of responsible AI",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/responsible-ai/3-principles-responsible-ai",
+     "kind": "unit"
+    },
+    {
+     "title": "Deepfakes and copyright in AI",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/responsible-ai/4-deepfakes-copyright-ai",
+     "kind": "unit"
+    },
+    {
+     "title": "Human-AI interaction and global implications",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/responsible-ai/5-human-ai-interaction-global-implications",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/responsible-ai/6-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/responsible-ai/7-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1356,6 +2933,62 @@
    ],
    "provider_prerequisites": "Access to Microsoft Copilot and an Editor.",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-budgeting-for-students/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "What is budgeting?",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-budgeting-for-students/2-what-is-budgeting",
+     "kind": "unit"
+    },
+    {
+     "title": "Create a list of your needs and wants using Copilot",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-budgeting-for-students/3-create-list-of-your-needs",
+     "kind": "unit"
+    },
+    {
+     "title": "Knowledge check",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-budgeting-for-students/4-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Why is budgeting helpful?",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-budgeting-for-students/5-why-budgeting-is-helpful",
+     "kind": "unit"
+    },
+    {
+     "title": "Responsible spending and financial planning",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-budgeting-for-students/6-responsible-spending-financial-planning",
+     "kind": "unit"
+    },
+    {
+     "title": "Create your personal budget plan using Microsoft Copilot",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-budgeting-for-students/7-create-your-personal-budget-plan",
+     "kind": "unit"
+    },
+    {
+     "title": "Knowledge check",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-budgeting-for-students/8-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-budgeting-for-students/9-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1366,6 +2999,7 @@
    "coverage": "introduces",
    "checkpoint": "Build a 12-month budget in a spreadsheet with actual and budget columns and a variance for each month.",
    "requires": [],
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -1399,6 +3033,44 @@
    ],
    "provider_prerequisites": "Ability to write Python scripts; Familiarity with command-line tools and executing scripts; Basic familiarity with writing and running pytest tests, including test discovery and assertions; Python 3.10 or later, which matches the minimum supported version for pytest 9.x, and pytest installed in a virtual environment. For Windows setup, see Set up your Python development environment on Windows . Fo",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/python-advanced-pytest/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Pytest parametrization",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/python-advanced-pytest/2-parametrize",
+     "kind": "unit"
+    },
+    {
+     "title": "Pytest fixtures",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/python-advanced-pytest/4-fixtures",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/python-advanced-pytest/5-exercise",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/python-advanced-pytest/6-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/python-advanced-pytest/7-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1411,6 +3083,7 @@
    "requires": [
     "learn.test-python-with-pytest"
    ],
+   "setup": "Python with pytest and a code editor (all free), with the tests from your earlier step",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -1441,6 +3114,38 @@
    ],
    "provider_prerequisites": "Must have basic knowledge of prototyping; Must have a basic familiarity with product market fit; Introduction min ; What is UX? min ; What is design thinking? min ; Module assessment min ; Summary min ; Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions correctly to earn a pass designation on your profile. ; Start en-us Y",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/ux-design/1-introduction-ux-and-design-thinking",
+     "kind": "unit"
+    },
+    {
+     "title": "What is UX?",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/ux-design/2-what-is-ux",
+     "kind": "unit"
+    },
+    {
+     "title": "What is design thinking?",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/ux-design/3-what-is-design-thinking",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/ux-design/4-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/ux-design/5-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1451,6 +3156,7 @@
    "coverage": "introduces",
    "checkpoint": "Sketch two screens for an app and explain how each design choice serves its users.",
    "requires": [],
+   "setup": "Paper",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -1482,6 +3188,44 @@
    ],
    "provider_prerequisites": "A GitHub account.; Basic familiarity with using a command-line interface (CLI).; A code editor, such as Visual Studio Code .",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-git/0-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "What is version control?",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-git/1-what-is-vc",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Try out Git",
+     "minutes": 60,
+     "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-git/2-exercise-configure-git",
+     "kind": "unit"
+    },
+    {
+     "title": "Basic Git commands",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-git/3-basic-git-commands",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-git/4-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/intro-to-git/5-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1520,6 +3264,44 @@
    ],
    "provider_prerequisites": "Ability to write Python scripts; Familiarity with command-line tools and executing scripts; Python 3.13 or later and a virtual environment with Pytest installed on your computer. Follow the steps in Python 3.13.3 module. Choose the installer for your configuration: Windows, Linux, or macOS.",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/test-python-with-pytest/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Pytest basics",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/test-python-with-pytest/2-pytest-basics",
+     "kind": "unit"
+    },
+    {
+     "title": "Test classes and methods",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/test-python-with-pytest/4-test-classes-and-methods",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/test-python-with-pytest/5-exercise",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/test-python-with-pytest/6-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/test-python-with-pytest/7-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1532,6 +3314,7 @@
    "requires": [
     "learn.wwl.get-started-with-python-fundamentals"
    ],
+   "setup": "Python with pytest and a code editor (all free), with the program from your earlier step",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -1560,6 +3343,38 @@
    ],
    "provider_prerequisites": "None",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/tm-use-recommended-tools-to-create-a-data-flow-diagram/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Recommended tools",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/tm-use-recommended-tools-to-create-a-data-flow-diagram/1b-recommended-tools",
+     "kind": "unit"
+    },
+    {
+     "title": "Threat modeling tool",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/tm-use-recommended-tools-to-create-a-data-flow-diagram/2-threat-modeling-tool",
+     "kind": "unit"
+    },
+    {
+     "title": "Visio",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/tm-use-recommended-tools-to-create-a-data-flow-diagram/3-visio",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/tm-use-recommended-tools-to-create-a-data-flow-diagram/5-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1570,6 +3385,7 @@
    "coverage": "introduces",
    "checkpoint": "Draw a data-flow diagram of an app you know and label where data is stored and sent.",
    "requires": [],
+   "setup": "Paper or a free diagram tool",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -1602,6 +3418,26 @@
    ],
    "provider_prerequisites": "None Add Achievement Code Would you like to request an achievement code? Request achievement code",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Build your first HTML webpage",
+     "minutes": 31,
+     "url": "https://learn.microsoft.com/en-us/training/modules/build-first-html-webpage/",
+     "kind": "module"
+    },
+    {
+     "title": "Use CSS styles in a webpage",
+     "minutes": 35,
+     "url": "https://learn.microsoft.com/en-us/training/modules/use-css-styles/",
+     "kind": "module"
+    },
+    {
+     "title": "Learn the basics of web accessibility",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/web-development-101-accessibility/",
+     "kind": "module"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1612,6 +3448,7 @@
    "coverage": "practises",
    "checkpoint": "Build a two-page site with HTML and CSS and keep its source in a repository.",
    "requires": [],
+   "setup": "Visual Studio Code (free), a web browser, and Git or a free GitHub account for the repository",
    "practice_hours": 1.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -1641,6 +3478,44 @@
    ],
    "provider_prerequisites": "None",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-authentication-authorization-cybersecurity/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Define authentication",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-authentication-authorization-cybersecurity/2-define-authentication",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe authentication-based attacks",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-authentication-authorization-cybersecurity/3-based-attacks",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe authorization security techniques",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-authentication-authorization-cybersecurity/4-describe-authorization-security-techniques",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-authentication-authorization-cybersecurity/5-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary and resources",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-authentication-authorization-cybersecurity/6-summary-resources",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1651,6 +3526,7 @@
    "coverage": "introduces",
    "checkpoint": "Document how user accounts and permissions are set up on a shared computer and one change that would reduce risk.",
    "requires": [],
+   "setup": "A shared computer you may inspect and a text document",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -1682,6 +3558,50 @@
    ],
    "provider_prerequisites": "",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-basic-cybersecurity-threats-attacks-mitigations/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe what is cybersecurity",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-basic-cybersecurity-threats-attacks-mitigations/2-describe-what-is-cybersecurity",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe the threat landscape",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-basic-cybersecurity-threats-attacks-mitigations/3-describe-threat-landscape",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe malware",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-basic-cybersecurity-threats-attacks-mitigations/4-describe-malware",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe basic mitigation strategies",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-basic-cybersecurity-threats-attacks-mitigations/5-mitigation-strategies",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-basic-cybersecurity-threats-attacks-mitigations/6-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary and resources",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-basic-cybersecurity-threats-attacks-mitigations/7-summary-resources",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1692,6 +3612,7 @@
    "coverage": "introduces",
    "checkpoint": "Assess one small organisation's setup against five common threats and list a mitigation for each.",
    "requires": [],
+   "setup": "A text document or paper",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -1719,6 +3640,20 @@
    ],
    "provider_prerequisites": "None",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Describe security and compliance concepts",
+     "minutes": 48,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-security-concepts-methodologies/",
+     "kind": "module"
+    },
+    {
+     "title": "Describe identity concepts",
+     "minutes": 49,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-identity-principles-concepts/",
+     "kind": "module"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1729,6 +3664,7 @@
    "coverage": "introduces",
    "checkpoint": "Write a one-page note on how identity, access and data protection apply to a small shop's computers.",
    "requires": [],
+   "setup": "A text document or paper",
    "practice_hours": 1.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -1759,6 +3695,44 @@
    ],
    "provider_prerequisites": "",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-device-based-threats-security-controls/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe what your device knows about you",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-device-based-threats-security-controls/2-describe-what-your-device-knows-about-you",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe how devices become cybersecurity threats",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-device-based-threats-security-controls/3-describe-how-devices-become-cybersecurity-threats",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe how to mitigate against device-related threats",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-device-based-threats-security-controls/4-describe-how-to-mitigate-against-device-related-threats",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-device-based-threats-security-controls/5-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary and resources",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-device-based-threats-security-controls/6-summary-resources",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1769,6 +3743,7 @@
    "coverage": "introduces",
    "checkpoint": "List the devices in a small office, the main threat to each and the control you would apply.",
    "requires": [],
+   "setup": "A text document or paper",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -1799,6 +3774,50 @@
    ],
    "provider_prerequisites": "None; Introduction min ; Describe expense management capabilities min ; Describe fixed asset management capabilities min ; Describe budgeting capabilities min ; Describe project management and accounting capabilities min ; Knowledge check min ; Summary min ; Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions correctly to",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-expense-management-fixed-asset-management/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe expense management capabilities",
+     "minutes": 25,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-expense-management-fixed-asset-management/2-describe-expense-management",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe fixed asset management capabilities",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-expense-management-fixed-asset-management/3-describe-fixed-asset-management-capabilities",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe budgeting capabilities",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-expense-management-fixed-asset-management/4-describe-budgeting-capabilities",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe project management and accounting capabilities",
+     "minutes": 40,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-expense-management-fixed-asset-management/5-describe-project-management-accounting-capabilities",
+     "kind": "unit"
+    },
+    {
+     "title": "Knowledge check",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-expense-management-fixed-asset-management/6-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-expense-management-fixed-asset-management/7-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1809,6 +3828,7 @@
    "coverage": "introduces",
    "checkpoint": "Build an expense and asset register for a synthetic shop and compare it with the budget.",
    "requires": [],
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 1.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -1845,6 +3865,80 @@
    ],
    "provider_prerequisites": "None; Introduction min ; Define fiscal and ledger calendars in Dynamics 365 Finance min ; Describe charts of accounts and main accounts min ; Describe financial dimensions and set concepts min ; Describe accounting structures in General ledger min ; Describe financial journals in Dynamics 365 Finance min ; Describe financial reporting capabilities in Dynamics 365 Finance min ; Describe cash and ba",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-general-ledger-cash-bank-management/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Define fiscal and ledger calendars in Dynamics 365 Finance",
+     "minutes": 12,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-general-ledger-cash-bank-management/2-concept-fiscal-calendar",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe charts of accounts and main accounts",
+     "minutes": 9,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-general-ledger-cash-bank-management/3-describe-chart-accounts-functionality",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe financial dimensions and set concepts",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-general-ledger-cash-bank-management/4-describe-financial-dimensions-set-concepts",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe accounting structures in General ledger",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-general-ledger-cash-bank-management/5-describe-accounting-structure",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe financial journals in Dynamics 365 Finance",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-general-ledger-cash-bank-management/6-describe-financial-journals",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe financial reporting capabilities in Dynamics 365 Finance",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-general-ledger-cash-bank-management/7-describe-financial-reporting-capabilities",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe cash and bank management in Dynamics 365 Finance",
+     "minutes": 30,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-general-ledger-cash-bank-management/8-describe-cash-bank-management",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe use cases for allocations and accruals",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-general-ledger-cash-bank-management/9-describe-use-cases-allocations-accruals",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe periodic financial processes in Dynamics 365 Finance",
+     "minutes": 12,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-general-ledger-cash-bank-management/10-describe-periodic-financial-processes",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-general-ledger-cash-bank-management/11-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-general-ledger-cash-bank-management/12-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": false,
@@ -1881,6 +3975,50 @@
    ],
    "provider_prerequisites": "",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-network-based-threats-mitigations/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe the different types of networks",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-network-based-threats-mitigations/2-describe-different-types-of-networks",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe how data moves around a network",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-network-based-threats-mitigations/3-describe-how-data-moves-around-network",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe threats to network security",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-network-based-threats-mitigations/4-describe-threats-to-network-security",
+     "kind": "unit"
+    },
+    {
+     "title": "Protect your network",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-network-based-threats-mitigations/5-protect-your-network",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-network-based-threats-mitigations/6-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary and resources",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-network-based-threats-mitigations/7-summary-resources",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1893,6 +4031,7 @@
    "requires": [
     "learn.azure.network-fundamentals"
    ],
+   "setup": "Access to a home or office router's settings page, and a text document",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -1925,6 +4064,50 @@
    ],
    "provider_prerequisites": "None",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-security-concepts-methodologies/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe the shared responsibility model",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-security-concepts-methodologies/2-describe-shared-responsibility-model",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe defense in depth",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-security-concepts-methodologies/3-describe-defense-depth",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe the Zero Trust model",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-security-concepts-methodologies/4-describe-zero-trust-model",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe governance, risk, and compliance (GRC) concepts",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-security-concepts-methodologies/6-describe-compliance-concepts",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-security-concepts-methodologies/7-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary and resources",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/describe-security-concepts-methodologies/8-summary-resources",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": false,
@@ -1935,6 +4118,7 @@
    "coverage": "introduces",
    "checkpoint": "Write a one-page security policy for a small shop: passwords, updates, backups and who has admin rights.",
    "requires": [],
+   "setup": "A text document or paper",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -1967,6 +4151,38 @@
    ],
    "provider_prerequisites": "You should have experience with networking concepts, such as IP addressing, Domain Name System (DNS), and routing ; You should have experience with network connectivity methods, such as VPN or WAN ; You should have experience with the Azure portal and Azure PowerShell ; Introduction min ; Monitor your networks using Azure Monitor min ; Exercise: Monitor a load balancer resource using Azure monitor",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/design-implement-network-monitoring/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Monitor your networks using Azure Monitor",
+     "minutes": 11,
+     "url": "https://learn.microsoft.com/en-us/training/modules/design-implement-network-monitoring/2-monitor-networks-using-azure-monitor",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise: Monitor a load balancer resource using Azure monitor",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/design-implement-network-monitoring/3-exercise-monitor-load-balancer-resource-using-azure-monitor",
+     "kind": "unit"
+    },
+    {
+     "title": "Monitor your networks using Azure Network Watcher",
+     "minutes": 9,
+     "url": "https://learn.microsoft.com/en-us/training/modules/design-implement-network-monitoring/4-monitor-networks-using-azure-network-watcher",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary ",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/design-implement-network-monitoring/5-summary-resources",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -1979,6 +4195,7 @@
    "requires": [
     "learn.azure.network-fundamentals"
    ],
+   "setup": "A text document or paper",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2014,6 +4231,62 @@
    ],
    "provider_prerequisites": "None Introduction min ; Describe core accounts payable components min ; Describe vendor payments and settlements min ; Describe core accounts receivable components min ; Describe credit management processes min ; Describe credit and collection processes min ; Describe the concept of subscription billing min ; Module assessment min ; Summary and resources min ; Take the module assessment Module Ass",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-accounts-payable-accounts-receivable-microsoft/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe core accounts payable components",
+     "minutes": 12,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-accounts-payable-accounts-receivable-microsoft/2-explore-core-accounts-payable-components",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe vendor payments and settlements",
+     "minutes": 14,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-accounts-payable-accounts-receivable-microsoft/3-explore-vendor-payments-settlements",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe core accounts receivable components",
+     "minutes": 12,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-accounts-payable-accounts-receivable-microsoft/4-explore-core-components",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe credit management processes",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-accounts-payable-accounts-receivable-microsoft/5-explore-credit-collection-processes",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe credit and collection processes",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-accounts-payable-accounts-receivable-microsoft/6-collection-process",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe the concept of subscription billing",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-accounts-payable-accounts-receivable-microsoft/7-explore-revenue-recognition",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-accounts-payable-accounts-receivable-microsoft/8-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary and resources",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-accounts-payable-accounts-receivable-microsoft/9-summary",
+     "kind": "unit"
+    }
+   ],
    "access": "Free to read; its walkthroughs use Dynamics 365, which you do not need for the checkpoint here.",
    "practice_product": "Dynamics 365",
    "verified_on": "2026-10-22",
@@ -2026,6 +4299,7 @@
    "coverage": "introduces",
    "checkpoint": "Record a month of synthetic supplier invoices and customer receipts in a spreadsheet ledger and list what is outstanding.",
    "requires": [],
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2055,6 +4329,62 @@
    ],
    "provider_prerequisites": "Knowledge of basic mathematics; Some experience programming in Python; Familiarity with Jupyter notebooks",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-analyze-data-with-python/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Explore data with NumPy and Pandas",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-analyze-data-with-python/2-explore-data-numpy-pandas",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Explore data with NumPy and Pandas",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-analyze-data-with-python/3-exercise-explore-data",
+     "kind": "unit"
+    },
+    {
+     "title": "Visualize data",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-analyze-data-with-python/4-visualize-data",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Visualize data with Matplotlib",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-analyze-data-with-python/5-exercise-visualize-data",
+     "kind": "unit"
+    },
+    {
+     "title": "Examine real world data",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-analyze-data-with-python/6-examine-real-world-data",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Examine real world data",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-analyze-data-with-python/7-exercise-real-world-data",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-analyze-data-with-python/8-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-analyze-data-with-python/9-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -2067,6 +4397,7 @@
    "requires": [
     "learn.wwl.get-started-with-python-fundamentals"
    ],
+   "setup": "Python in a Jupyter notebook (free, for example inside Visual Studio Code)",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2101,6 +4432,50 @@
    ],
    "provider_prerequisites": "None",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-data-visualization/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe Power BI tools and workflow",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-data-visualization/2-power-bi",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe core concepts of data modeling",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-data-visualization/3-data-modeling",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe considerations for data visualization",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-data-visualization/4-data-visualizations",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Explore fundamentals of data visualization with Power BI",
+     "minutes": 20,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-data-visualization/5-exercise-power-bi",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-data-visualization/6-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-data-visualization/7-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -2111,6 +4486,7 @@
    "coverage": "introduces",
    "checkpoint": "Build one dashboard page from a public dataset and note what question each chart answers.",
    "requires": [],
+   "setup": "A public dataset and a free charting tool or spreadsheet",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2144,6 +4520,62 @@
    ],
    "provider_prerequisites": "None Introduction min ; Describe the chart of accounts functionality min ; Describe the concept of a fiscal calendar min ; Describe financial dimensions and dimension set concepts min ; Describe the accounting structure min ; Describe journaling concepts min ; Describe periodic financial processes min ; Module assessment min ; Summary and resources min ; Take the module assessment Module Assessmen",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-general-ledger-dynamics-365/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe the chart of accounts functionality",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-general-ledger-dynamics-365/2-explore-chart-accounts-functionality",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe the concept of a fiscal calendar",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-general-ledger-dynamics-365/3-concept-fiscal-calendar",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe financial dimensions and dimension set concepts ",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-general-ledger-dynamics-365/4-explore-financial-dimensions-set-concepts",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe the accounting structure",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-general-ledger-dynamics-365/5-describe-accounting-structure",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe journaling concepts",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-general-ledger-dynamics-365/6-explore-journaling-concepts",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe periodic financial processes",
+     "minutes": 12,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-general-ledger-dynamics-365/7-explore-periodic-financial-processes",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-general-ledger-dynamics-365/8-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary and resources",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-general-ledger-dynamics-365/9-summary",
+     "kind": "unit"
+    }
+   ],
    "access": "Free to read; its walkthroughs use Dynamics 365, which you do not need for the checkpoint here.",
    "practice_product": "Dynamics 365",
    "verified_on": "2026-10-22",
@@ -2156,6 +4588,7 @@
    "coverage": "introduces",
    "checkpoint": "Draw up a chart of accounts for a small business you know and post five sample transactions.",
    "requires": [],
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 1.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2186,6 +4619,50 @@
    ],
    "provider_prerequisites": "Ability to use tools for running queries against a Microsoft SQL database, either on-premises on cloud-based.; Ability to write code in the SQL language, particularly the Microsoft T-SQL dialect, at a basic level.; Basic understanding of structure and usage of SQL Server indexes.; Basic understanding of relational database concepts.; Introduction min ; Describe normalization min ; Choose appropria",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-performance-based-design/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe normalization",
+     "minutes": 13,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-performance-based-design/2-describe-normalization",
+     "kind": "unit"
+    },
+    {
+     "title": "Choose appropriate data types",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-performance-based-design/3-choose-appropriate-data-types",
+     "kind": "unit"
+    },
+    {
+     "title": "Design indexes",
+     "minutes": 20,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-performance-based-design/4-design-indexes",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise: Identify database design issues",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-performance-based-design/5-exercise-identify-issues-database-design",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-performance-based-design/6-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-performance-based-design/7-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -2196,6 +4673,7 @@
    "coverage": "introduces",
    "checkpoint": "Design the tables for a small booking system and note how you would investigate a slow query.",
    "requires": [],
+   "setup": "A text document or paper",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2229,6 +4707,68 @@
    ],
    "provider_prerequisites": "Familiarity with basic computing concepts and terminology such as operating systems, networking, and data processing; Ability to install and uninstall software on a Windows computer; Ability to execute commands from a command line prompt; Introduction min ; Explain the purpose of Windows Package Manager min ; Install and uninstall software with Windows Package Manager min ; Update software with Wi",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-windows-package-manager-tool/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Explain the purpose of Windows Package Manager",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-windows-package-manager-tool/2-explain-purpose-of",
+     "kind": "unit"
+    },
+    {
+     "title": "Install and uninstall software with Windows Package Manager",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-windows-package-manager-tool/3-install-uninstall-software",
+     "kind": "unit"
+    },
+    {
+     "title": "Update software with Windows Package Manager",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-windows-package-manager-tool/4-update-software",
+     "kind": "unit"
+    },
+    {
+     "title": "Discuss the Windows Package Manager repository",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-windows-package-manager-tool/5-discuss-repository",
+     "kind": "unit"
+    },
+    {
+     "title": "Contribute to the Windows Package Manager repository",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-windows-package-manager-tool/6-contribute-to-repository",
+     "kind": "unit"
+    },
+    {
+     "title": "Host your own Windows Package Manager repository",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-windows-package-manager-tool/7-host-your-own-repository",
+     "kind": "unit"
+    },
+    {
+     "title": "Control Windows Package Manager with Group Policy",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-windows-package-manager-tool/8-control-group-policy",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-windows-package-manager-tool/9-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-windows-package-manager-tool/10-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -2239,6 +4779,7 @@
    "coverage": "practises",
    "checkpoint": "Write a list of package-manager commands that installs and updates a standard set of applications, and test it on one machine.",
    "requires": [],
+   "setup": "A Windows 10 or 11 machine you may install software on (Windows Package Manager comes with current Windows)",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2272,6 +4813,74 @@
    ],
    "provider_prerequisites": "Before starting this module, you should have: A basic knowledge of mathematics; Introduction min ; Machine learning models min ; Types of machine learning model min ; Regression min ; Binary classification min ; Multiclass classification min ; Clustering min ; Deep learning min ; Exercise - Explore machine learning scenarios min ; Module assessment min ; Summary min ; Take the module assessment Mo",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/fundamentals-machine-learning/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Machine learning models",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/fundamentals-machine-learning/2-what-is-machine-learning",
+     "kind": "unit"
+    },
+    {
+     "title": "Types of machine learning model",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/fundamentals-machine-learning/3-types-of-machine-learning",
+     "kind": "unit"
+    },
+    {
+     "title": "Regression",
+     "minutes": 12,
+     "url": "https://learn.microsoft.com/en-us/training/modules/fundamentals-machine-learning/4-regression",
+     "kind": "unit"
+    },
+    {
+     "title": "Binary classification",
+     "minutes": 12,
+     "url": "https://learn.microsoft.com/en-us/training/modules/fundamentals-machine-learning/5-binary-classification",
+     "kind": "unit"
+    },
+    {
+     "title": "Multiclass classification",
+     "minutes": 12,
+     "url": "https://learn.microsoft.com/en-us/training/modules/fundamentals-machine-learning/6-multiclass-classification",
+     "kind": "unit"
+    },
+    {
+     "title": "Clustering",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/fundamentals-machine-learning/7-clustering",
+     "kind": "unit"
+    },
+    {
+     "title": "Deep learning",
+     "minutes": 12,
+     "url": "https://learn.microsoft.com/en-us/training/modules/fundamentals-machine-learning/8-deep-learning",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Explore machine learning scenarios",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/fundamentals-machine-learning/9-exercise",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/fundamentals-machine-learning/11-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/fundamentals-machine-learning/12-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -2282,6 +4891,7 @@
    "coverage": "introduces",
    "checkpoint": "For three questions from a business you know, write which kind of model (regression, classification or clustering) would answer each and why.",
    "requires": [],
+   "setup": "A text document or paper",
    "practice_hours": 1.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2313,6 +4923,50 @@
    ],
    "provider_prerequisites": "You should be familiar with basic computing concepts and terminology.; Introduction min ; Aggregate data min ; Group data min ; Visualize data min ; Exercise: Analyze data min ; Module assessment min ; Summary min ; Take the module assessment Module Assessment Results Assess your understanding of this module. Sign in and answer all questions correctly to earn a pass designation on your profile. ",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/get-started-data-analytics/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Aggregate data",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/get-started-data-analytics/2-aggregate-data",
+     "kind": "unit"
+    },
+    {
+     "title": "Group data",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/get-started-data-analytics/3-group-data",
+     "kind": "unit"
+    },
+    {
+     "title": "Visualize data",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/get-started-data-analytics/4-visualize-data",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise: Analyze data",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/get-started-data-analytics/5-exercise-analyze-data",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/get-started-data-analytics/6-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/get-started-data-analytics/7-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -2323,6 +4977,7 @@
    "coverage": "introduces",
    "checkpoint": "Pick a public dataset and write the question, the analysis steps and the answer for one business question.",
    "requires": [],
+   "setup": "A public dataset and a spreadsheet",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2355,6 +5010,44 @@
    ],
    "provider_prerequisites": "Familiarity with working with tables of data, for example in a spreadsheet. Add Achievement Code Would you like to request an achievement code? Request achievement code",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction to Transact-SQL",
+     "minutes": 61,
+     "url": "https://learn.microsoft.com/en-us/training/modules/introduction-to-transact-sql/",
+     "kind": "module"
+    },
+    {
+     "title": "Sort and filter results in T-SQL",
+     "minutes": 57,
+     "url": "https://learn.microsoft.com/en-us/training/modules/sort-filter-queries/",
+     "kind": "module"
+    },
+    {
+     "title": "Combine multiple tables with JOINs in T-SQL",
+     "minutes": 62,
+     "url": "https://learn.microsoft.com/en-us/training/modules/query-multiple-tables-with-joins/",
+     "kind": "module"
+    },
+    {
+     "title": "Write Subqueries in T-SQL",
+     "minutes": 50,
+     "url": "https://learn.microsoft.com/en-us/training/modules/write-subqueries/",
+     "kind": "module"
+    },
+    {
+     "title": "Use built-in functions and GROUP BY in Transact-SQL",
+     "minutes": 59,
+     "url": "https://learn.microsoft.com/en-us/training/modules/use-built-functions-transact-sql/",
+     "kind": "module"
+    },
+    {
+     "title": "Modify data with T-SQL",
+     "minutes": 56,
+     "url": "https://learn.microsoft.com/en-us/training/modules/modify-data-with-transact-sql/",
+     "kind": "module"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -2365,6 +5058,7 @@
    "coverage": "practises",
    "checkpoint": "Write and save the queries that answer five questions about a sample database.",
    "requires": [],
+   "setup": "A SQL query tool and a sample database; the provider's exercise pages describe the set-up",
    "practice_hours": 3.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2395,6 +5089,32 @@
    ],
    "provider_prerequisites": "",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Write your first Python code",
+     "minutes": 39,
+     "url": "https://learn.microsoft.com/en-us/training/modules/write-first-python-code/",
+     "kind": "module"
+    },
+    {
+     "title": "Work with data in Python",
+     "minutes": 48,
+     "url": "https://learn.microsoft.com/en-us/training/modules/work-with-data-python/",
+     "kind": "module"
+    },
+    {
+     "title": "Install and configure Visual Studio Code",
+     "minutes": 54,
+     "url": "https://learn.microsoft.com/en-us/training/modules/install-configure-visual-studio-code-python/",
+     "kind": "module"
+    },
+    {
+     "title": "Add decision-making to your code",
+     "minutes": 51,
+     "url": "https://learn.microsoft.com/en-us/training/modules/add-decision-making-python/",
+     "kind": "module"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -2405,6 +5125,7 @@
    "coverage": "introduces",
    "checkpoint": "Write a small program that solves a task from your own work (for example totalling a day's deliveries) and keep it in a repository.",
    "requires": [],
+   "setup": "Python and a code editor such as Visual Studio Code (both free), and Git or a free GitHub account for the repository",
    "practice_hours": 2.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2440,6 +5161,50 @@
    ],
    "provider_prerequisites": "Familiarity with Windows networking technologies and implementation; Familiarity with Windows Server administration, maintenance, and troubleshooting; Familiarity with Windows PowerShell and its commands to perform specific tasks",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-network-service-settings-for-windows-devices-use-powershell-cmdlets/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Manage IP addresses in PowerShell",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-network-service-settings-for-windows-devices-use-powershell-cmdlets/2-manage-ip-addresses-powershell",
+     "kind": "unit"
+    },
+    {
+     "title": "Manage IP routing in PowerShell",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-network-service-settings-for-windows-devices-use-powershell-cmdlets/3-manage-ip-route-powershell",
+     "kind": "unit"
+    },
+    {
+     "title": "Manage DNS clients in PowerShell",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-network-service-settings-for-windows-devices-use-powershell-cmdlets/4-manage-dns-clients-powershell",
+     "kind": "unit"
+    },
+    {
+     "title": "Manage Windows Firewall settings in PowerShell",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-network-service-settings-for-windows-devices-use-powershell-cmdlets/5-manage-windows-firewall-settings-powershell",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-network-service-settings-for-windows-devices-use-powershell-cmdlets/6-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-network-service-settings-for-windows-devices-use-powershell-cmdlets/7-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -2452,6 +5217,7 @@
    "requires": [
     "learn.azure.network-fundamentals"
    ],
+   "setup": "A Windows test machine you are allowed to change (PowerShell comes with Windows)",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2486,6 +5252,68 @@
    ],
    "provider_prerequisites": "Knowledge of and experience working with: Windows Server. ; Core networking technologies. ; Introduction min ; Configure user account rights min ; Configure user account rights to restrict access min ; Delegate permissions in Active Directory min ; Protect User Accounts with the Protected Users group min ; Describe Windows Defender Credential Guard min ; Block Windows NTLM authentication min ; Loc",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-security-active-directory/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Configure user account rights",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-security-active-directory/2-configure-user-account-rights",
+     "kind": "unit"
+    },
+    {
+     "title": "Configure user account rights to restrict access",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-security-active-directory/3-configure-user-account-rights-restrict-access",
+     "kind": "unit"
+    },
+    {
+     "title": "Delegate permissions in Active Directory",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-security-active-directory/4-delegate-permissions",
+     "kind": "unit"
+    },
+    {
+     "title": "Protect User Accounts with the Protected Users group",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-security-active-directory/5-protect-user-accounts-protected-users-group",
+     "kind": "unit"
+    },
+    {
+     "title": "Describe Windows Defender Credential Guard",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-security-active-directory/6-describe-windows-defender-credential-guard",
+     "kind": "unit"
+    },
+    {
+     "title": "Block Windows NTLM authentication",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-security-active-directory/7-block-windows-ntlm-authentication",
+     "kind": "unit"
+    },
+    {
+     "title": "Locate problematic accounts",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-security-active-directory/8-locate-problematic-accounts",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-security-active-directory/9-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/manage-security-active-directory/10-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -2498,6 +5326,7 @@
    "requires": [
     "learn.wwl.describe-authentication-authorization-cybersecurity"
    ],
+   "setup": "A text document or paper",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2532,6 +5361,68 @@
    ],
    "provider_prerequisites": "Basic familiarity with Intune reporting and Microsoft Entra ID groups; Introduction min ; Understand the role of monitoring in endpoint management min ; Use Endpoint Analytics to monitor device health and performance min ; Use Remediations to fix common device issues min ; Monitor Windows Update rings and feature update deployments min ; View device and policy health in the Intune admin center min",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-maintain-devices-intune/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Understand the role of monitoring in endpoint management",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-maintain-devices-intune/2-role-of-monitoring",
+     "kind": "unit"
+    },
+    {
+     "title": "Use Endpoint Analytics to monitor device health and performance",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-maintain-devices-intune/3-endpoint-analytics",
+     "kind": "unit"
+    },
+    {
+     "title": "Use Remediations to fix common device issues",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-maintain-devices-intune/4-proactive-remediations",
+     "kind": "unit"
+    },
+    {
+     "title": "Monitor Windows Update rings and feature update deployments",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-maintain-devices-intune/5-update-rings-feature-updates",
+     "kind": "unit"
+    },
+    {
+     "title": "View device and policy health in the Intune admin center",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-maintain-devices-intune/6-view-device-policy-health",
+     "kind": "unit"
+    },
+    {
+     "title": "Generate and interpret device and compliance reports",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-maintain-devices-intune/7-generate-interpret-reports",
+     "kind": "unit"
+    },
+    {
+     "title": "Automate management tasks using PowerShell",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-maintain-devices-intune/8-automate-management-powershell",
+     "kind": "unit"
+    },
+    {
+     "title": "Knowledge check",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-maintain-devices-intune/9-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-maintain-devices-intune/10-summary",
+     "kind": "unit"
+    }
+   ],
    "access": "Free to read; its walkthroughs use Microsoft Intune, which you do not need for the checkpoint here.",
    "practice_product": "Microsoft Intune",
    "verified_on": "2026-10-22",
@@ -2544,6 +5435,7 @@
    "coverage": "introduces",
    "checkpoint": "List the monthly health checks you would run on the devices you support and what result counts as a problem.",
    "requires": [],
+   "setup": "A text document or paper",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2575,6 +5467,86 @@
    ],
    "provider_prerequisites": "Working knowledge of common Windows Server management tools; Some experience managing typical Windows Server workloads; Familiarity with basic PowerShell commands and syntax; Introduction min ; Use Performance Monitor to identify performance problems min ; Use Resource Monitor to review current resource usage min ; Review reliability with Reliability Monitor min ; Implement a performance monitorin",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-windows-server-performance/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Use Performance Monitor to identify performance problems",
+     "minutes": 10,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-windows-server-performance/2-use-performance-monitor-to-identify-performance-problems",
+     "kind": "unit"
+    },
+    {
+     "title": "Use Resource Monitor to review current resource usage",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-windows-server-performance/3-use-resource-monitor-to-review-current-resource-usage",
+     "kind": "unit"
+    },
+    {
+     "title": "Review reliability with Reliability Monitor",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-windows-server-performance/4-review-reliability-with-reliability-monitor",
+     "kind": "unit"
+    },
+    {
+     "title": "Implement a performance monitoring methodology",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-windows-server-performance/5-implement-performance-monitoring-methodology",
+     "kind": "unit"
+    },
+    {
+     "title": "Use Data Collector Sets to analyze server performance",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-windows-server-performance/6-use-data-collector-sets-to-analyze-server-performance",
+     "kind": "unit"
+    },
+    {
+     "title": "Monitor network infrastructure services",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-windows-server-performance/7-monitor-network-infrastructure-services",
+     "kind": "unit"
+    },
+    {
+     "title": "Monitor virtual machines running Windows Server",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-windows-server-performance/8-monitor-virtual-machines-running-windows-server",
+     "kind": "unit"
+    },
+    {
+     "title": "Monitor performance with Windows Admin Center",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-windows-server-performance/9-monitor-performance-with-windows-admin-center",
+     "kind": "unit"
+    },
+    {
+     "title": "Use System Insights to help predict future capacity issues",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-windows-server-performance/10-use-system-insights-to-help-predict-future-capacity-issues",
+     "kind": "unit"
+    },
+    {
+     "title": "Optimize the performance of Windows Server",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-windows-server-performance/11-optimize-performance-of-windows-server",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-windows-server-performance/12-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary and resources",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/monitor-windows-server-performance/13-summary-resources",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -2585,6 +5557,7 @@
    "coverage": "practises",
    "checkpoint": "Collect a performance baseline for one machine and note one finding with the counter that shows it.",
    "requires": [],
+   "setup": "A Windows computer (Performance Monitor comes with Windows)",
    "practice_hours": 1.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2617,6 +5590,44 @@
    ],
    "provider_prerequisites": "An installation of Visual Studio Code that's configured for C# application development. ; Ability to develop C# console applications that implement business logic using iteration statements, selection statements, and custom methods. ; Introduction min ; Get started with testing, debugging, and exception handling min ; Examine the code debugger approach to debugging code min ; Examine exceptions an",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/review-principles-code-debugging-exception-handling-c-sharp/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Get started with testing, debugging, and exception handling",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/review-principles-code-debugging-exception-handling-c-sharp/2-get-started-test-debug-exception",
+     "kind": "unit"
+    },
+    {
+     "title": "Examine the code debugger approach to debugging code",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/review-principles-code-debugging-exception-handling-c-sharp/3-examine-code-debug",
+     "kind": "unit"
+    },
+    {
+     "title": "Examine exceptions and how exceptions are used",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/review-principles-code-debugging-exception-handling-c-sharp/4-examine-code-exception",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/review-principles-code-debugging-exception-handling-c-sharp/5-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/review-principles-code-debugging-exception-handling-c-sharp/6-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -2627,6 +5638,7 @@
    "coverage": "introduces",
    "checkpoint": "Write a debugging log for one bug: how you reproduced it, what you inspected, the fix and the test that proves it.",
    "requires": [],
+   "setup": "Visual Studio Code set up for C#, as the provider states, and a text document for the log",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2660,6 +5672,74 @@
    ],
    "provider_prerequisites": "Familiarity with GitHub and GitHub Copilot.; Basic understanding of software development workflows.; Introduction min ; What is spec-driven development? min ; Examine spec-driven development principles and processes min ; Compare spec-driven development to other methodologies min ; Examine spec-driven development workflow phases min ; What is GitHub Spec Kit? min ; Set up GitHub Spec Kit in your e",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/spec-driven-development-github-spec-kit-greenfield-intro/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "What is spec-driven development?",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/spec-driven-development-github-spec-kit-greenfield-intro/2-what-spec-driven-development",
+     "kind": "unit"
+    },
+    {
+     "title": "Examine spec-driven development principles and processes",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/spec-driven-development-github-spec-kit-greenfield-intro/3-examine-spec-driven-development-principles-processes",
+     "kind": "unit"
+    },
+    {
+     "title": "Compare spec-driven development to other methodologies",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/spec-driven-development-github-spec-kit-greenfield-intro/4-compare-spec-driven-development-other-methodologies",
+     "kind": "unit"
+    },
+    {
+     "title": "Examine spec-driven development workflow phases",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/spec-driven-development-github-spec-kit-greenfield-intro/5-examine-spec-driven-development-workflow-phases",
+     "kind": "unit"
+    },
+    {
+     "title": "What is GitHub Spec Kit?",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/spec-driven-development-github-spec-kit-greenfield-intro/6-introduction-github-spec-kit",
+     "kind": "unit"
+    },
+    {
+     "title": "Set up GitHub Spec Kit in your environment",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/spec-driven-development-github-spec-kit-greenfield-intro/7-examine-github-spec-kit-environment-installation",
+     "kind": "unit"
+    },
+    {
+     "title": "Examine GitHub Spec Kit commands and results",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/spec-driven-development-github-spec-kit-greenfield-intro/8-examine-github-spec-kit-commands-results",
+     "kind": "unit"
+    },
+    {
+     "title": "Develop a greenfield application using GitHub Spec Kit",
+     "minutes": 60,
+     "url": "https://learn.microsoft.com/en-us/training/modules/spec-driven-development-github-spec-kit-greenfield-intro/9-exercise-create-greenfield-application-github-spec-kit",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/spec-driven-development-github-spec-kit-greenfield-intro/10-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/spec-driven-development-github-spec-kit-greenfield-intro/11-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -2670,6 +5750,7 @@
    "coverage": "introduces",
    "checkpoint": "Write a one-page specification for a small app: its users, requirements and acceptance checks.",
    "requires": [],
+   "setup": "A text document or paper",
    "practice_hours": 1.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2703,6 +5784,50 @@
    ],
    "provider_prerequisites": "Basic mathematical concepts; Programming with Python",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/train-evaluate-cluster-models/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "What is clustering?",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/train-evaluate-cluster-models/2-what-is-clustering",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Train and evaluate a clustering model",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/train-evaluate-cluster-models/3-exercise-model",
+     "kind": "unit"
+    },
+    {
+     "title": "Evaluate different types of clustering",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/train-evaluate-cluster-models/4-different-types-clustering",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Train and evaluate advanced clustering models",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/train-evaluate-cluster-models/5-exercise-new-models",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/train-evaluate-cluster-models/6-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/train-evaluate-cluster-models/7-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -2715,6 +5840,7 @@
    "requires": [
     "learn.wwl.explore-analyze-data-with-python"
    ],
+   "setup": "Python in a Jupyter notebook (free, for example inside Visual Studio Code)",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2748,6 +5874,62 @@
    ],
    "provider_prerequisites": "Basic mathematical concepts; Programming with Python; Familiarity with Jupyter notebooks",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/train-evaluate-regression-models/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "What is regression?",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/train-evaluate-regression-models/2-what-is-regression",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Train and evaluate a regression model",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/train-evaluate-regression-models/3-exercise-model",
+     "kind": "unit"
+    },
+    {
+     "title": "Discover new regression models",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/train-evaluate-regression-models/4-discover-new-regression-models",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Experiment with more powerful regression models",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/train-evaluate-regression-models/5-exercise-powerful-models",
+     "kind": "unit"
+    },
+    {
+     "title": "Improve models with hyperparameters",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/train-evaluate-regression-models/6-improve-models",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Optimize and save models",
+     "minutes": 15,
+     "url": "https://learn.microsoft.com/en-us/training/modules/train-evaluate-regression-models/7-exercise-optimize-save-models",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/train-evaluate-regression-models/8-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/train-evaluate-regression-models/9-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -2760,6 +5942,7 @@
    "requires": [
     "learn.wwl.explore-analyze-data-with-python"
    ],
+   "setup": "Python in a Jupyter notebook (free, for example inside Visual Studio Code)",
    "practice_hours": 1.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2793,6 +5976,62 @@
    ],
    "provider_prerequisites": "Familiarity with Intune administration and device enrollment concepts; Introduction min ; Understand the troubleshooting workflow in Microsoft Intune min ; Troubleshoot device enrollment and compliance failures min ; Troubleshoot configuration profile and policy conflicts min ; Use logs and diagnostics to investigate device issues min ; Use the Intune Troubleshooting blade for user-based diagnosti",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/troubleshoot-intune-devices/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Understand the troubleshooting workflow in Microsoft Intune",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/troubleshoot-intune-devices/2-troubleshooting-workflow",
+     "kind": "unit"
+    },
+    {
+     "title": "Troubleshoot device enrollment and compliance failures",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/troubleshoot-intune-devices/3-troubleshoot-enrollment-compliance-failures",
+     "kind": "unit"
+    },
+    {
+     "title": "Troubleshoot configuration profile and policy conflicts",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/troubleshoot-intune-devices/4-troubleshoot-configuration-profile-conflicts",
+     "kind": "unit"
+    },
+    {
+     "title": "Use logs and diagnostics to investigate device issues",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/troubleshoot-intune-devices/5-logs-diagnostics-investigation",
+     "kind": "unit"
+    },
+    {
+     "title": "Use the Intune Troubleshooting blade for user-based diagnostics",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/troubleshoot-intune-devices/6-intune-troubleshooting-blade",
+     "kind": "unit"
+    },
+    {
+     "title": "Automate issue resolution using remediation scripts",
+     "minutes": 7,
+     "url": "https://learn.microsoft.com/en-us/training/modules/troubleshoot-intune-devices/7-automate-issue-resolution-remediation-scripts",
+     "kind": "unit"
+    },
+    {
+     "title": "Knowledge check",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/troubleshoot-intune-devices/8-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/troubleshoot-intune-devices/9-summary",
+     "kind": "unit"
+    }
+   ],
    "access": "Free to read; its walkthroughs use Microsoft Intune, which you do not need for the checkpoint here.",
    "practice_product": "Microsoft Intune",
    "verified_on": "2026-10-22",
@@ -2805,6 +6044,7 @@
    "coverage": "practises",
    "checkpoint": "Write a troubleshooting log for one real or practice problem: symptom, checks in order, cause, fix and how you confirmed it.",
    "requires": [],
+   "setup": "A text document or paper",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2830,6 +6070,14 @@
    ],
    "provider_prerequisites": "Familiarity with Microsoft productivity applications, like Word, Excel, Outlook, and PowerPoint. Add Achievement Code Would you like to request an achievement code? Request achievement code",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Work smarter with AI",
+     "minutes": 42,
+     "url": "https://learn.microsoft.com/en-us/training/modules/explore-microsoft-copilot-business-users/",
+     "kind": "module"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -2864,6 +6112,50 @@
    ],
    "provider_prerequisites": "You should be familiar with accessing and using Microsoft 365.; Introduction min ; Write an effective prompt min ; Review prompting best practices min ; Personalize Copilot with memory and custom instructions min ; Discover, share, and save prompts with Prompt Lab min ; Module assessment min ; Summary min ; Take the module assessment Module Assessment Results Assess your understanding of this modu",
    "provider_exercise": false,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/write-effective-prompts-do-more-prompting/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Write an effective prompt",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/write-effective-prompts-do-more-prompting/2-write-effective-prompt",
+     "kind": "unit"
+    },
+    {
+     "title": "Review prompting best practices",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/write-effective-prompts-do-more-prompting/3-review-prompting-best-practices",
+     "kind": "unit"
+    },
+    {
+     "title": "Personalize Copilot with memory and custom instructions",
+     "minutes": 5,
+     "url": "https://learn.microsoft.com/en-us/training/modules/write-effective-prompts-do-more-prompting/3a-personalize-copilot-memory-instructions",
+     "kind": "unit"
+    },
+    {
+     "title": "Discover, share, and save prompts with Prompt Lab",
+     "minutes": 4,
+     "url": "https://learn.microsoft.com/en-us/training/modules/write-effective-prompts-do-more-prompting/4-discover-share-save-prompts-copilot-prompt-gallery",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/write-effective-prompts-do-more-prompting/5-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/write-effective-prompts-do-more-prompting/6-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -2904,6 +6196,56 @@
    ],
    "provider_prerequisites": "",
    "provider_exercise": true,
+   "units": [
+    {
+     "title": "Introduction",
+     "minutes": 2,
+     "url": "https://learn.microsoft.com/en-us/training/modules/write-reusable-code-python/1-introduction",
+     "kind": "unit"
+    },
+    {
+     "title": "Create functions with parameters",
+     "minutes": 8,
+     "url": "https://learn.microsoft.com/en-us/training/modules/write-reusable-code-python/2-create-functions-with-parameters",
+     "kind": "unit"
+    },
+    {
+     "title": "Return values from functions",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/write-reusable-code-python/3-return-values-from-functions",
+     "kind": "unit"
+    },
+    {
+     "title": "Manage variable scope",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/write-reusable-code-python/4-manage-variable-scope",
+     "kind": "unit"
+    },
+    {
+     "title": "Create importable modules",
+     "minutes": 6,
+     "url": "https://learn.microsoft.com/en-us/training/modules/write-reusable-code-python/5-create-importable-modules",
+     "kind": "unit"
+    },
+    {
+     "title": "Exercise - Create a calculator",
+     "minutes": 25,
+     "url": "https://learn.microsoft.com/en-us/training/modules/write-reusable-code-python/6-exercise",
+     "kind": "unit"
+    },
+    {
+     "title": "Module assessment",
+     "minutes": 3,
+     "url": "https://learn.microsoft.com/en-us/training/modules/write-reusable-code-python/7-knowledge-check",
+     "kind": "unit"
+    },
+    {
+     "title": "Summary",
+     "minutes": 1,
+     "url": "https://learn.microsoft.com/en-us/training/modules/write-reusable-code-python/8-summary",
+     "kind": "unit"
+    }
+   ],
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,
@@ -2916,6 +6258,7 @@
    "requires": [
     "learn.wwl.get-started-with-python-fundamentals"
    ],
+   "setup": "Python and a code editor such as Visual Studio Code (both free)",
    "practice_hours": 0.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -2962,6 +6305,7 @@
    "coverage": "practises",
    "checkpoint": "Record a month of synthetic transactions for a small shop, produce its trial balance, income statement and balance sheet, and note one internal control you would add.",
    "requires": [],
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 31.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -3006,6 +6350,7 @@
    "coverage": "practises",
    "checkpoint": "Build a monthly budget for a synthetic shop, enter a month of actual spending beside it, calculate each line's variance in RM and as a percentage, and write one sentence explaining every variance over 10%.",
    "requires": [],
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)",
    "focus": "Units 7 (Budgets) and 8 (Variance Analysis)",
    "practice_hours": 26.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
@@ -3049,6 +6394,7 @@
    "coverage": "practises",
    "checkpoint": "Write replies to three synthetic customer complaints, one by email, and an escalation note for the one you cannot resolve.",
    "requires": [],
+   "setup": "A text document or paper",
    "practice_hours": 13.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -3092,6 +6438,7 @@
    "coverage": "introduces",
    "checkpoint": "Compute five ratios from a listed company's published statements and write what they say about it.",
    "requires": [],
+   "setup": "A spreadsheet and a listed company's published financial statements",
    "practice_hours": 16.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -3137,6 +6484,7 @@
    "coverage": "practises",
    "checkpoint": "Compute liquidity, profitability and debt ratios for a listed company from its published statements and write five sentences on what they say about it.",
    "requires": [],
+   "setup": "A spreadsheet and a listed company's published financial statements",
    "practice_hours": 5.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -3182,6 +6530,7 @@
    "coverage": "practises",
    "checkpoint": "Build a loan repayment table in a spreadsheet for a synthetic car loan and check the monthly payment against the unit's formula.",
    "requires": [],
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 1.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -3226,6 +6575,7 @@
    "requires": [
     "saylor.bus202.u3"
    ],
+   "setup": "A spreadsheet and a current bond and share price",
    "practice_hours": 3.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -3268,6 +6618,7 @@
    "coverage": "introduces",
    "checkpoint": "Compute the expected return and spread of a two-share portfolio from synthetic yearly returns, and say how adding the second share changes the risk.",
    "requires": [],
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 1.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -3314,6 +6665,7 @@
    "requires": [
     "saylor.bus202.u3"
    ],
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 1.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -3356,6 +6708,7 @@
    "coverage": "introduces",
    "checkpoint": "Prepare a twelve-week cash forecast for a synthetic small shop and mark the weeks when it would need short-term credit.",
    "requires": [],
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 1.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -3399,6 +6752,7 @@
    "coverage": "introduces",
    "checkpoint": "Analyse a synthetic customer dataset, report three findings with one chart each and state the limits of the data.",
    "requires": [],
+   "setup": "A spreadsheet with charts (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 23.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -3440,6 +6794,7 @@
    "coverage": "introduces",
    "checkpoint": "Plan the IP addressing and subnets for a synthetic three-department office and document the plan in a table.",
    "requires": [],
+   "setup": "A spreadsheet or a table in a text document",
    "practice_hours": 19.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -3482,6 +6837,7 @@
    "coverage": "introduces",
    "checkpoint": "Write a one-page step-by-step procedure for a task you already do (for example restoring a backup), revise it with the course's editing strategies and keep both drafts.",
    "requires": [],
+   "setup": "A text document or paper",
    "practice_hours": 6.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -3524,6 +6880,7 @@
    "coverage": "practises",
    "checkpoint": "Build a monthly budget and an invoice template for a synthetic small shop, with a formula behind every total.",
    "requires": [],
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 2.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -3568,6 +6925,7 @@
    "requires": [
     "saylor.prdv004"
    ],
+   "setup": "A spreadsheet with SUMIFS and a lookup function (free ones such as Google Sheets or LibreOffice Calc have both)",
    "practice_hours": 5.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -3612,6 +6970,7 @@
    "requires": [
     "saylor.prdv004"
    ],
+   "setup": "A spreadsheet with charts (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 5.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -3655,6 +7014,7 @@
    "coverage": "introduces",
    "checkpoint": "Prepare a budget and debt summary for a synthetic household and write three pieces of advice, each tied to a figure.",
    "requires": [],
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 11.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -3696,6 +7056,7 @@
    "coverage": "practises",
    "checkpoint": "Build a one-page dashboard from a synthetic dataset for a manager, then list any chart that could mislead and how you fixed it.",
    "requires": [],
+   "setup": "A spreadsheet with charts (a free one such as Google Sheets or LibreOffice Calc works)",
    "practice_hours": 4.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -3738,6 +7099,7 @@
    "coverage": "practises",
    "checkpoint": "Write a one-page brief on a recent tool or practice in your target field from three sources, with your search terms and why you trusted each source.",
    "requires": [],
+   "setup": "A web browser and a text document",
    "practice_hours": 3.5,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   },
@@ -3780,6 +7142,7 @@
    "coverage": "practises",
    "checkpoint": "Ask an AI assistant for the formulas that summarise a synthetic expense sheet, check each result by hand and record any it got wrong.",
    "requires": [],
+   "setup": "A free AI assistant and a spreadsheet",
    "practice_hours": 5.0,
    "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"
   }

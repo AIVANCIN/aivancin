@@ -431,10 +431,10 @@
       "release": "2026-10-22",
       "licence": "Links to third-party pages; see each entry",
       "access_date": "2026-10-22",
-      "original_sha256": "9efbaf545afd03b521a9261c5816e41697c7551ef56f45ec3cfbaa03d9151710",
+      "original_sha256": "8a3b08b4eb25a4e817e833d98d4638660cd2b7c3742bd474d8920f4b7da7e98d",
       "derived_rows": 90,
       "derived_path": "catalogue/courses.json",
-      "derived_sha256": "9efbaf545afd03b521a9261c5816e41697c7551ef56f45ec3cfbaa03d9151710"
+      "derived_sha256": "8a3b08b4eb25a4e817e833d98d4638660cd2b7c3742bd474d8920f4b7da7e98d"
     },
     {
       "source_id": "aei-report-2511.15080",

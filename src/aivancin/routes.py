@@ -90,6 +90,29 @@ def access_fields(c, titles=None):
             "requires_titles": [titles[r] for r in c.get("requires", []) if titles and r in titles]}
 
 
+_NOT_A_TASK = re.compile(r"(?:Introduction|Summary(?: and resources)?|Module assessment|Knowledge check|Check your knowledge)\s*", re.I)
+_EXERCISE = re.compile(r"Exercise\s*[-–:]\s*", re.I)
+
+
+def first_task(c):
+    """The exact first thing to do in an entry (22 Oct): a module's first exercise unit when it has one, otherwise its
+    first lesson after the introduction; a learning path's first module; for a course, the units the route needs
+    (focus) or the whole entry. Minutes are the provider's stated ones."""
+    units = c.get("units") or []
+    body = [u for u in units if not _NOT_A_TASK.fullmatch(u["title"])]
+    exercises = [u for u in body if _EXERCISE.match(u["title"])]
+    pick = (exercises or body or [None])[0]
+    if pick is None:
+        return {"kind": "focus" if c.get("focus") else "entry", "title": c.get("focus") or c["title"], "minutes": None,
+                "url": c["url"], "exercises": 0, "exercise_minutes": None, "parts": len(units)}
+    minutes = lambda u: None if u.get("minutes") is None else fig(u["minutes"], CAT)  # noqa: E731
+    kind = "module" if pick["kind"] == "module" else "exercise" if exercises else "lesson"
+    return {"kind": kind, "title": _EXERCISE.sub("", pick["title"]), "minutes": minutes(pick), "url": pick["url"],
+            "exercises": len(exercises),
+            "exercise_minutes": fig(sum(u["minutes"] or 0 for u in exercises), CAT) if exercises else None,
+            "parts": len(body)}
+
+
 def fits_family(c, family):
     """An entry limited to some destination families serves only those (its activities mean other work elsewhere)."""
     return not c.get("families") or family in c["families"]
@@ -226,7 +249,10 @@ class Planner:
         supported = {g["dwa_id"] for c in courses for g in serves(c)}
 
         def order(c):
-            key = (-max(weight[g["dwa_id"]] for g in serves(c)), c["cost_rm"], effort(c), c["id"])
+            # Largest gap first; among entries reaching the same largest gap, the one serving more of the priority
+            # gaps' weight first (22 Oct; before, the cheaper and shorter entry, then the identifier, decided).
+            ws = [weight[g["dwa_id"]] for g in serves(c)]
+            key = (-max(ws), -sum(ws), c["cost_rm"], effort(c), c["id"])
             if o.get("gap_order") != "growing":
                 return key
             # SPEC 11.3: entries serving a gap in growing jobs come first (the best skill-demand rank among the gaps
@@ -275,6 +301,7 @@ class Planner:
                 "provider_hours": fig(c["hours"], CAT), "practice_hours": fig(c.get("practice_hours", 0.0), CAT, estimate=True),
                 "cost_rm": fig(c["cost_rm"], CAT), "checked_on": c["link_check"]["checked_on"],
                 "requires": c.get("requires", []), "checkpoint": checkpoint, "form": form, "reason": reason,
+                "output": c["checkpoint"], "setup": c.get("setup", ""), "first_task": first_task(c),
                 "completed": c["id"] in completed, **access_fields(c, self.titles)}
 
     def _forms(self, step_gaps, months, o):
@@ -437,6 +464,8 @@ class Planner:
                       "cost_rm": fig(round(spent, 2), CAT), "capacity_hours": fig(o["capacity"], o["input_src"]),
                       "gaps_served": sorted(served), "uncovered": [{"dwa_id": g["dwa_id"], "name": g["name"]} for g in uncovered],
                       "status": ("covers all prioritized gaps that have a resource" if all_supported_served else "partial"),
+                      "start": next((s["id"] for s in steps if not s["completed"]), None),
+                      "weekly_hours": fig(profile["weekly_hours"], o["input_src"]),
                       "scenario_differs": differ,
                       "scenario_extra_hours": {s: fig(round(sum(effort(c) for c in extra[s]), 1), CAT) for s in outlook.SCENARIOS},
                       "base_hours": fig(round(b["used"], 1), CAT), "gap_order": o["gap_order"], "order_diff": order_diff,

@@ -452,7 +452,9 @@ def test_c7_option_off_is_the_default_and_the_plan_names_the_difference(planner,
                 assert (set(diff["added"]), set(diff["removed"])) == (after - before, before - after)
                 assert diff["reordered"] == ([s["id"] for s in a["block"]["steps"] if s["kind"] != "ai_practice"]
                                              != [s["id"] for s in b["block"]["steps"] if s["kind"] != "ai_practice"])
-                changed += bool(diff["added"] or diff["removed"])
+                # 22 Oct: since the tie-break by priority-gap weight, the option reorders these blocks without
+                # changing their steps, so a reorder counts as the option's effect too
+                changed += bool(diff["added"] or diff["removed"] or diff["reordered"])
     assert changed > 0  # the option changes at least one persona block
 
 

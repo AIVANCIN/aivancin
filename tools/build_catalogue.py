@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parent.parent
 CURATION = ROOT / "tools" / "catalogue_curation.json"
 OUT = ROOT / "data" / "catalogue" / "courses.json"
 API = "https://learn.microsoft.com/api/catalog/?type=modules,learningPaths&locale=en-us"
+UNITS_API = "https://learn.microsoft.com/api/catalog/?type=units&locale=en-us&uid="
 SAYLOR = "https://learn.saylor.org/course/"
 SAYLOR_ACCESS = "Free; enrolling needs a free Saylor account"
 UA = "Mozilla/5.0 (aivancin-catalogue-builder)"
@@ -70,13 +71,13 @@ def link_check(url, title):
     try:
         status, body = get(url)
     except Exception as exc:
-        return {"ok": False, "status": getattr(exc, "code", None), "detail": type(exc).__name__}, "", "", False
+        return {"ok": False, "status": getattr(exc, "code", None), "detail": type(exc).__name__}, "", "", False, {}
     html = body.decode("utf-8", "replace")
     page_title = re.search(r"<title>([^<]*)", html)
     page_title = page_title.group(1) if page_title else ""
     ok = status == 200 and "not found" not in page_title.lower() and title.lower()[:30] in page_title.lower()
     objectives, prereq = page_facts(html)
-    return {"ok": ok, "status": status, "page_title": page_title.strip()}, objectives, prereq, has_exercise(html)
+    return {"ok": ok, "status": status, "page_title": page_title.strip()}, objectives, prereq, has_exercise(html), unit_links(html)
 
 
 def saylor_facts(code):
@@ -151,6 +152,31 @@ def saylor_unit_facts(code, section, label):
         {"ok": ok, "status": status, "page_title": title or ""}
 
 
+def unit_facts(uids, batch=15):
+    """Title and stated minutes of Microsoft Learn units, from the catalog API, by unit uid."""
+    out = {}
+    for i in range(0, len(uids), batch):
+        _, body = get(UNITS_API + ",".join(uids[i:i + batch]), timeout=120)
+        for u in json.loads(body).get("units", []):
+            out[u["uid"]] = {"title": u["title"], "minutes": u.get("duration_in_minutes")}
+    return out
+
+
+def unit_links(html):
+    """Each unit's link on the module page, by unit uid (a unit's page name need not match its uid)."""
+    return dict(re.findall(r'data-unit-uid="([^"]+)".*?class="unit-title[^"]*"\s+href="([^"]+)"', html, re.S))
+
+
+def parts(p, url, items, units, links):
+    """A module's units, or a learning path's modules, in the provider's order with their stated minutes, so the plan
+    can name the exact first task. A unit without a link on the module page points to the module page."""
+    if p["type"] == "learningPath":
+        return [{"title": items[m]["title"], "minutes": items[m].get("duration_in_minutes"), "url": items[m]["url"].split("?")[0],
+                 "kind": "module"} for m in p.get("modules", []) if m in items]
+    return [{**units[u], "url": url.rstrip("/") + "/" + links[u] if u in links else url, "kind": "unit"}
+            for u in p.get("units", []) if u in units]
+
+
 def practice_hours(provider_hours):
     """Curated estimate for the practice checkpoint: half the provider's time, at least 30 minutes, in half hours."""
     return max(0.5, math.ceil(provider_hours) / 2 if provider_hours >= 1 else 0.5)
@@ -167,11 +193,13 @@ def main():
     unknown = sorted({d for c in curation["items"] for d in c.get("dwas", []) if d not in dwa_ids})
     if missing or unknown:
         sys.exit(f"curation does not match its sources: missing items {missing}, unknown activities {unknown}")
+    units = unit_facts(sorted({u for c in curation["items"] if c["uid"] in items for u in items[c["uid"]].get("units", [])}))
 
     def route_fields(c, hours):
         if not c.get("checkpoint"):
             return {}
         return {"coverage": c["coverage"], "checkpoint": c["checkpoint"], "requires": c.get("requires", []),
+                **({"setup": c["setup"]} if c.get("setup") else {}),
                 **({"focus": c["focus"]} if c.get("focus") else {}),
                 "practice_hours": practice_hours(hours),
                 "practice_source": "curated estimate: half the provider's stated time, at least 30 minutes"}
@@ -211,7 +239,7 @@ def main():
         p = items[c["uid"]]
         url = p["url"].split("?")[0]
         hours = round(p["duration_in_minutes"] / 60, 1)
-        check, objectives, prereq, exercise = link_check(url, p["title"])
+        check, objectives, prereq, exercise, links = link_check(url, p["title"])
         entry = {"id": c["uid"], "title": p["title"], "provider": "Microsoft Learn", "url": url,
                  "kind": "learning path" if p["type"] == "learningPath" else "module",
                  "level": p.get("levels", []), "cost_rm": 0, "hours": hours,
@@ -220,7 +248,7 @@ def main():
                  "dwas": c.get("dwas", []), "tools": c.get("tools", []), "ai_skill": bool(c.get("ai_skill")),
                  "families": c.get("families", []),
                  "objectives": objectives or [p.get("summary", "")], "provider_prerequisites": prereq,
-                 "provider_exercise": exercise,
+                 "provider_exercise": exercise, "units": parts(p, url, items, units, links),
                  **({"access": access_text(c["practice_access"], exercise), "practice_product": c["practice_access"]}
                     if c.get("practice_access") else {}),
                  "verified_on": today, "link_check": {**check, "checked_on": today}}

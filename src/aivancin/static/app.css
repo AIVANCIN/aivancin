@@ -527,9 +527,18 @@ textarea::placeholder, input::placeholder { color: var(--text2); opacity: 1; }
 @media (min-width: 760px) { .plan-head { padding: 28px; } }
 .ph-top { display: flex; gap: 14px; align-items: center; }
 .plan-title { margin-top: 2px; font: 700 1.5rem/1.2 var(--display); letter-spacing: -0.02em; }
-.plan-head .next { display: flex; gap: 8px; align-items: flex-start; margin-top: 14px; padding: 14px 16px; border-radius: 14px; background: var(--accent-tint); font-size: 1rem; line-height: 1.4; }
-.plan-head .next .ico { margin-top: 3px; color: var(--accent); }
-.plan-head .next b { margin-right: 4px; }
+/* Start here: the next session, label beside its line on wider screens */
+.start-list .step-expects { margin-top: 2px; }
+.start-card > .d-kicker { margin-bottom: 2px; }
+.start-card > h2 { margin-bottom: 2px; }
+.start-list { display: grid; gap: 12px; margin: 14px 0 0; }
+.start-list > div { display: grid; gap: 2px; }
+.start-list dt { font-size: 0.8125rem; font-weight: 600; color: var(--text2); }
+.start-list dd { margin: 0; line-height: 1.45; overflow-wrap: anywhere; }
+@media (min-width: 600px) { .start-list > div { grid-template-columns: 8.5rem 1fr; gap: 12px; } }
+.start-card > .foot { margin-top: 12px; }
+.start-card > .d-kicker + h2 + .foot { margin-top: 0; }
+.start-open { margin-top: 14px; }
 details.plan-scen, details.plan-order { margin-top: 12px; padding: 0 20px; border-radius: 18px; background: var(--card); box-shadow: var(--shadow-card); }
 .plan-scen > summary, .plan-order > summary, .checkpoint > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 52px; cursor: pointer; list-style: none; font-weight: 600; }
 .plan-scen > summary::-webkit-details-marker, .plan-order > summary::-webkit-details-marker, .checkpoint > summary::-webkit-details-marker { display: none; }

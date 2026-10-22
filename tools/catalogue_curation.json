@@ -1,5 +1,5 @@
 {
- "note": "Curated Microsoft Learn items and Saylor University courses. For each Microsoft Learn item the encoder proposed activities from the provider's title and summary; for each Saylor course the curator read the stated course learning outcomes. The curator kept only the links listed here (dwas), named the in-demand tools it teaches (tools, using O*NET software example names) and marked items that teach directing and checking AI output (ai_skill). Titles, URLs and durations come from the Microsoft Learn catalog API and from each Saylor course page when tools/build_catalogue.py runs. Route entries also record a coverage grade (introduces or practises), a practice checkpoint that produces an inspectable artifact and the entries they require first; Saylor states no prerequisites, so a requires link there is the curator's reading of the course sequence. families, where present, limits an entry to destination families in which its activities mean the same work (an activity such as \"Test software performance\" is unit testing for a developer but not for IT support). practice_access names a paid product the provider's own exercises need; the app then says the reading is free and the checkpoint works without it. focus names the units of a long course that serve the route.",
+ "note": "Curated Microsoft Learn items and Saylor University courses. For each Microsoft Learn item the encoder proposed activities from the provider's title and summary; for each Saylor course the curator read the stated course learning outcomes. The curator kept only the links listed here (dwas), named the in-demand tools it teaches (tools, using O*NET software example names) and marked items that teach directing and checking AI output (ai_skill). Titles, URLs and durations come from the Microsoft Learn catalog API and from each Saylor course page when tools/build_catalogue.py runs. Route entries also record a coverage grade (introduces or practises), a practice checkpoint that produces an inspectable artifact and the entries they require first; Saylor states no prerequisites, so a requires link there is the curator's reading of the course sequence. families, where present, limits an entry to destination families in which its activities mean the same work (an activity such as \"Test software performance\" is unit testing for a developer but not for IT support). practice_access names a paid product the provider's own exercises need; the app then says the reading is free and the checkpoint works without it. focus names the units of a long course that serve the route. setup names what the practice checkpoint needs (software, accounts or materials), read from the checkpoint and the provider's stated prerequisites; a paid product the provider's own exercises use stays in practice_access.",
  "curated_on": "2026-10-22",
  "items": [
   {
@@ -14,7 +14,8 @@
     "Cascading style sheets CSS"
    ],
    "coverage": "practises",
-   "checkpoint": "Build a two-page site with HTML and CSS and keep its source in a repository."
+   "checkpoint": "Build a two-page site with HTML and CSS and keep its source in a repository.",
+   "setup": "Visual Studio Code (free), a web browser, and Git or a free GitHub account for the repository"
   },
   {
    "uid": "learn-windows.introduction-to-web-development",
@@ -30,7 +31,8 @@
     "JavaScript"
    ],
    "coverage": "introduces",
-   "checkpoint": "Add a small script to your site and record how you checked it in the browser's developer tools."
+   "checkpoint": "Add a small script to your site and record how you checked it in the browser's developer tools.",
+   "setup": "Visual Studio Code (free) and a web browser on Windows 10 or 11, macOS or Linux"
   },
   {
    "uid": "learn.startup.ux-design",
@@ -39,7 +41,8 @@
     "4.A.2.b.2.b.8"
    ],
    "coverage": "introduces",
-   "checkpoint": "Sketch two screens for an app and explain how each design choice serves its users."
+   "checkpoint": "Sketch two screens for an app and explain how each design choice serves its users.",
+   "setup": "Paper"
   },
   {
    "uid": "learn.cela-accessibility.web-accessibility-principles-guidelines",
@@ -47,7 +50,8 @@
     "4.A.3.b.2.a.3"
    ],
    "coverage": "introduces",
-   "checkpoint": "List the accessibility requirements you would write into a website specification."
+   "checkpoint": "List the accessibility requirements you would write into a website specification.",
+   "setup": "A text document or paper"
   },
   {
    "uid": "learn.azure.network-fundamentals",
@@ -57,7 +61,8 @@
     "4.A.4.b.6.d.5"
    ],
    "coverage": "introduces",
-   "checkpoint": "Draw a labelled diagram of a home or small-office network (router, switch, devices, address ranges) and list the order in which you would check for a connection fault."
+   "checkpoint": "Draw a labelled diagram of a home or small-office network (router, switch, devices, address ranges) and list the order in which you would check for a connection fault.",
+   "setup": "Paper or a free diagram tool"
   },
   {
    "uid": "learn.wwl.get-started-with-python-fundamentals",
@@ -69,7 +74,8 @@
     "Python"
    ],
    "coverage": "introduces",
-   "checkpoint": "Write a small program that solves a task from your own work (for example totalling a day's deliveries) and keep it in a repository."
+   "checkpoint": "Write a small program that solves a task from your own work (for example totalling a day's deliveries) and keep it in a repository.",
+   "setup": "Python and a code editor such as Visual Studio Code (both free), and Git or a free GitHub account for the repository"
   },
   {
    "uid": "learn.test-python-with-pytest",
@@ -85,7 +91,8 @@
    ],
    "requires": [
     "learn.wwl.get-started-with-python-fundamentals"
-   ]
+   ],
+   "setup": "Python with pytest and a code editor (all free), with the program from your earlier step"
   },
   {
    "uid": "learn.build-with-playwright",
@@ -98,7 +105,8 @@
    "checkpoint": "Write an end-to-end test for one page of a site and a bug report for any failure you find.",
    "families": [
     "software"
-   ]
+   ],
+   "setup": "Visual Studio Code, Node.js and npm (all free), as the provider states"
   },
   {
    "uid": "learn.wwl.get-started-querying-with-transact-sql",
@@ -112,7 +120,8 @@
     "Microsoft SQL Server"
    ],
    "coverage": "practises",
-   "checkpoint": "Write and save the queries that answer five questions about a sample database."
+   "checkpoint": "Write and save the queries that answer five questions about a sample database.",
+   "setup": "A SQL query tool and a sample database; the provider's exercise pages describe the set-up"
   },
   {
    "uid": "learn.introduction-to-azure-backup",
@@ -121,7 +130,8 @@
     "4.A.2.b.2.p.2"
    ],
    "coverage": "introduces",
-   "checkpoint": "Write a backup plan for a small office: what is backed up, how often, where it is kept and how a restore is tested."
+   "checkpoint": "Write a backup plan for a small office: what is backed up, how often, where it is kept and how a restore is tested.",
+   "setup": "A text document or paper"
   },
   {
    "uid": "learn.wwl.monitor-maintain-devices-intune",
@@ -135,7 +145,8 @@
    "families": [
     "it_support"
    ],
-   "practice_access": "Microsoft Intune"
+   "practice_access": "Microsoft Intune",
+   "setup": "A text document or paper"
   },
   {
    "uid": "learn.wwl.describe-concepts-of-security-compliance-identity",
@@ -143,7 +154,8 @@
     "4.A.3.b.1.b.1"
    ],
    "coverage": "introduces",
-   "checkpoint": "Write a one-page note on how identity, access and data protection apply to a small shop's computers."
+   "checkpoint": "Write a one-page note on how identity, access and data protection apply to a small shop's computers.",
+   "setup": "A text document or paper"
   },
   {
    "uid": "learn.wwl.describe-device-based-threats-security-controls",
@@ -152,7 +164,8 @@
     "4.A.3.b.1.b.1"
    ],
    "coverage": "introduces",
-   "checkpoint": "List the devices in a small office, the main threat to each and the control you would apply."
+   "checkpoint": "List the devices in a small office, the main threat to each and the control you would apply.",
+   "setup": "A text document or paper"
   },
   {
    "uid": "learn.student-evangelism.introduction-to-git",
@@ -186,7 +199,8 @@
     "Microsoft Power BI"
    ],
    "coverage": "introduces",
-   "checkpoint": "Build one dashboard page from a public dataset and note what question each chart answers."
+   "checkpoint": "Build one dashboard page from a public dataset and note what question each chart answers.",
+   "setup": "A public dataset and a free charting tool or spreadsheet"
   },
   {
    "uid": "learn-bizapps.get-started-with-power-bi",
@@ -197,7 +211,8 @@
     "Microsoft Power BI"
    ],
    "coverage": "introduces",
-   "checkpoint": "Load a public dataset into Power BI and publish one report page."
+   "checkpoint": "Load a public dataset into Power BI and publish one report page.",
+   "setup": "Power BI Desktop (free, Windows only) and a public dataset; publishing the page needs a Power BI sign-in, which asks for a work or school email"
   },
   {
    "uid": "learn.wwl.explore-accounts-payable-accounts-receivable-microsoft-dynamics-365-finance",
@@ -209,7 +224,8 @@
    ],
    "coverage": "introduces",
    "checkpoint": "Record a month of synthetic supplier invoices and customer receipts in a spreadsheet ledger and list what is outstanding.",
-   "practice_access": "Dynamics 365"
+   "practice_access": "Dynamics 365",
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "learn.wwl.describe-general-ledger-cash-bank-management",
@@ -229,7 +245,8 @@
    ],
    "coverage": "practises",
    "checkpoint": "Reconcile a synthetic bank statement against a cash book and explain each difference.",
-   "practice_access": "Dynamics 365"
+   "practice_access": "Dynamics 365",
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "learn-dynamics.create-financial-reports-dynamics-365-business-central",
@@ -241,7 +258,8 @@
    ],
    "coverage": "practises",
    "checkpoint": "Produce a profit and loss statement and a balance sheet for a synthetic shop and write three observations.",
-   "practice_access": "Dynamics 365"
+   "practice_access": "Dynamics 365",
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "learn-dynamics.work-taxes-finance",
@@ -257,7 +275,8 @@
    "practice_access": "Dynamics 365",
    "requires": [
     "learn-dynamics.set-up-taxes-finance"
-   ]
+   ],
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "learn.wwl.describe-expense-management-fixed-asset-management",
@@ -265,7 +284,8 @@
     "4.A.1.a.2.c.2"
    ],
    "coverage": "introduces",
-   "checkpoint": "Build an expense and asset register for a synthetic shop and compare it with the budget."
+   "checkpoint": "Build an expense and asset register for a synthetic shop and compare it with the budget.",
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "learn-dynamics.setup-use-basic-budgeting-finance",
@@ -275,7 +295,8 @@
    ],
    "coverage": "practises",
    "checkpoint": "Build a yearly budget for a synthetic business with monthly figures and a variance column.",
-   "practice_access": "Dynamics 365"
+   "practice_access": "Dynamics 365",
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "learn-dynamics.accounts-receivable-daily-procedures-in-dynamics-365-finance-ops",
@@ -287,7 +308,8 @@
    ],
    "coverage": "practises",
    "checkpoint": "Issue three synthetic invoices, record the payments and produce an aged receivables list.",
-   "practice_access": "Dynamics 365"
+   "practice_access": "Dynamics 365",
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "learn.dpu.summarize-sales-data",
@@ -301,7 +323,8 @@
    "ai_skill": true,
    "coverage": "introduces",
    "checkpoint": "Summarise a synthetic sales sheet with formulas, then check every figure an AI assistant produced against them.",
-   "practice_access": "Microsoft 365 Copilot in Excel"
+   "practice_access": "Microsoft 365 Copilot in Excel",
+   "setup": "A free AI assistant and a spreadsheet"
   },
   {
    "uid": "learn.dpu.work-smarter-excel",
@@ -359,7 +382,8 @@
    "checkpoint": "Record the commands you used to view and change a test machine's network settings, with the output before and after.",
    "families": [
     "it_support"
-   ]
+   ],
+   "setup": "A Windows test machine you are allowed to change (PowerShell comes with Windows)"
   },
   {
    "uid": "learn.wwl.design-implement-network-monitoring",
@@ -370,7 +394,8 @@
    "requires": [
     "learn.azure.network-fundamentals"
    ],
-   "checkpoint": "Write a one-page monitoring plan: the signals you would watch on a small network, the alert threshold for each and who is told."
+   "checkpoint": "Write a one-page monitoring plan: the signals you would watch on a small network, the alert threshold for each and who is told.",
+   "setup": "A text document or paper"
   },
   {
    "uid": "learn.devrel.understand-windows-packet-monitor",
@@ -382,7 +407,8 @@
    "requires": [
     "learn.azure.network-fundamentals"
    ],
-   "checkpoint": "Capture traffic for a failing connection on a test machine and write up what the capture showed."
+   "checkpoint": "Capture traffic for a failing connection on a test machine and write up what the capture showed.",
+   "setup": "A Windows 10 or 11 test machine you are allowed to change (Packet Monitor comes with Windows)"
   },
   {
    "uid": "learn.philanthropies.describe-best-practices-datacenter-operations",
@@ -395,7 +421,8 @@
    "checkpoint": "Write a monthly maintenance checklist for the computers and network you look after.",
    "families": [
     "it_support"
-   ]
+   ],
+   "setup": "A text document or paper"
   },
   {
    "uid": "learn.wwl.monitor-windows-server-performance",
@@ -407,7 +434,8 @@
    "checkpoint": "Collect a performance baseline for one machine and note one finding with the counter that shows it.",
    "families": [
     "it_support"
-   ]
+   ],
+   "setup": "A Windows computer (Performance Monitor comes with Windows)"
   },
   {
    "uid": "learn.wwl.explore-windows-package-manager-tool",
@@ -420,7 +448,8 @@
    "families": [
     "it_support",
     "software"
-   ]
+   ],
+   "setup": "A Windows 10 or 11 machine you may install software on (Windows Package Manager comes with current Windows)"
   },
   {
    "uid": "learn.wwl.troubleshoot-intune-devices",
@@ -433,7 +462,8 @@
    "families": [
     "it_support"
    ],
-   "practice_access": "Microsoft Intune"
+   "practice_access": "Microsoft Intune",
+   "setup": "A text document or paper"
   },
   {
    "uid": "learn.wwl.describe-security-concepts-methodologies",
@@ -442,7 +472,8 @@
     "4.A.3.b.2.f.9"
    ],
    "coverage": "introduces",
-   "checkpoint": "Write a one-page security policy for a small shop: passwords, updates, backups and who has admin rights."
+   "checkpoint": "Write a one-page security policy for a small shop: passwords, updates, backups and who has admin rights.",
+   "setup": "A text document or paper"
   },
   {
    "uid": "learn.wwl.describe-basic-cybersecurity-threats-attacks-mitigations",
@@ -451,7 +482,8 @@
     "4.A.3.b.1.b.1"
    ],
    "coverage": "introduces",
-   "checkpoint": "Assess one small organisation's setup against five common threats and list a mitigation for each."
+   "checkpoint": "Assess one small organisation's setup against five common threats and list a mitigation for each.",
+   "setup": "A text document or paper"
   },
   {
    "uid": "learn.wwl.describe-authentication-authorization-cybersecurity",
@@ -459,7 +491,8 @@
     "4.A.3.b.1.b.1"
    ],
    "coverage": "introduces",
-   "checkpoint": "Document how user accounts and permissions are set up on a shared computer and one change that would reduce risk."
+   "checkpoint": "Document how user accounts and permissions are set up on a shared computer and one change that would reduce risk.",
+   "setup": "A shared computer you may inspect and a text document"
   },
   {
    "uid": "learn.wwl.describe-network-based-threats-mitigations",
@@ -471,7 +504,8 @@
    "requires": [
     "learn.azure.network-fundamentals"
    ],
-   "checkpoint": "Review a home or office router's settings and record three changes that reduce network risk."
+   "checkpoint": "Review a home or office router's settings and record three changes that reduce network risk.",
+   "setup": "Access to a home or office router's settings page, and a text document"
   },
   {
    "uid": "learn.wwl.manage-security-active-directory",
@@ -483,7 +517,8 @@
    "requires": [
     "learn.wwl.describe-authentication-authorization-cybersecurity"
    ],
-   "checkpoint": "Write the account, group and password rules you would set for a ten-person office."
+   "checkpoint": "Write the account, group and password rules you would set for a ten-person office.",
+   "setup": "A text document or paper"
   },
   {
    "uid": "learn.wwl.write-reusable-code-python",
@@ -495,7 +530,8 @@
    "requires": [
     "learn.wwl.get-started-with-python-fundamentals"
    ],
-   "checkpoint": "Refactor your earlier program into reusable functions and note what changed and why."
+   "checkpoint": "Refactor your earlier program into reusable functions and note what changed and why.",
+   "setup": "Python and a code editor such as Visual Studio Code (both free)"
   },
   {
    "uid": "learn.wwl.explore-analyze-data-with-python",
@@ -507,7 +543,8 @@
    "requires": [
     "learn.wwl.get-started-with-python-fundamentals"
    ],
-   "checkpoint": "Load a public dataset, clean it and write three findings with the code that produced them."
+   "checkpoint": "Load a public dataset, clean it and write three findings with the code that produced them.",
+   "setup": "Python in a Jupyter notebook (free, for example inside Visual Studio Code)"
   },
   {
    "uid": "learn.python-advanced-pytest",
@@ -522,7 +559,8 @@
    "checkpoint": "Add parametrised tests and a fixture to your test suite and keep the run output.",
    "families": [
     "software"
-   ]
+   ],
+   "setup": "Python with pytest and a code editor (all free), with the tests from your earlier step"
   },
   {
    "uid": "learn.cela-accessibility.accessibility-evaluation-and-testing",
@@ -533,7 +571,8 @@
    "checkpoint": "Test one web page for accessibility and write three recommended changes with the problem each fixes.",
    "families": [
     "software"
-   ]
+   ],
+   "setup": "A web browser and a free checker such as Accessibility Insights for Web"
   },
   {
    "uid": "learn.github.manage-work-github-projects",
@@ -542,7 +581,8 @@
     "4.A.4.b.4.e.7"
    ],
    "coverage": "introduces",
-   "checkpoint": "Set up a project board for a small piece of work with an issue for each task and its status."
+   "checkpoint": "Set up a project board for a small piece of work with an issue for each task and its status.",
+   "setup": "A free GitHub account"
   },
   {
    "uid": "learn.wwl.spec-driven-development-github-spec-kit-greenfield-intro",
@@ -555,7 +595,8 @@
    "checkpoint": "Write a one-page specification for a small app: its users, requirements and acceptance checks.",
    "families": [
     "software"
-   ]
+   ],
+   "setup": "A text document or paper"
   },
   {
    "uid": "learn.azure.inclusive-design-principles",
@@ -564,7 +605,8 @@
     "4.A.4.a.2.h.7"
    ],
    "coverage": "introduces",
-   "checkpoint": "Review one app screen against inclusive design principles and propose two changes."
+   "checkpoint": "Review one app screen against inclusive design principles and propose two changes.",
+   "setup": "An app you use and a text document"
   },
   {
    "uid": "learn.wwl.explore-performance-based-design",
@@ -573,7 +615,8 @@
     "4.A.2.b.2.f.4"
    ],
    "coverage": "introduces",
-   "checkpoint": "Design the tables for a small booking system and note how you would investigate a slow query."
+   "checkpoint": "Design the tables for a small booking system and note how you would investigate a slow query.",
+   "setup": "A text document or paper"
   },
   {
    "uid": "learn.wwl.review-principles-code-debugging-exception-handling-c-sharp",
@@ -585,7 +628,8 @@
    "checkpoint": "Write a debugging log for one bug: how you reproduced it, what you inspected, the fix and the test that proves it.",
    "families": [
     "software"
-   ]
+   ],
+   "setup": "Visual Studio Code set up for C#, as the provider states, and a text document for the log"
   },
   {
    "uid": "learn.tm-use-recommended-tools-to-create-a-data-flow-diagram",
@@ -593,7 +637,8 @@
     "4.A.2.b.2.o.13"
    ],
    "coverage": "introduces",
-   "checkpoint": "Draw a data-flow diagram of an app you know and label where data is stored and sent."
+   "checkpoint": "Draw a data-flow diagram of an app you know and label where data is stored and sent.",
+   "setup": "Paper or a free diagram tool"
   },
   {
    "uid": "learn.owasp-top-10-for-dotnet-developers",
@@ -602,7 +647,8 @@
     "4.A.2.a.4.l.2"
    ],
    "coverage": "introduces",
-   "checkpoint": "Review a small web app against the OWASP Top 10 and list each risk found with its fix."
+   "checkpoint": "Review a small web app against the OWASP Top 10 and list each risk found with its fix.",
+   "setup": "The small web app you review and a text document"
   },
   {
    "uid": "learn.wwl.explore-general-ledger-dynamics-365",
@@ -612,7 +658,8 @@
    ],
    "coverage": "introduces",
    "checkpoint": "Draw up a chart of accounts for a small business you know and post five sample transactions.",
-   "practice_access": "Dynamics 365"
+   "practice_access": "Dynamics 365",
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "learn-dynamics.general-ledger-daily-procedures-in-dynamics-365-finance-ops",
@@ -625,7 +672,8 @@
     "learn.wwl.explore-general-ledger-dynamics-365"
    ],
    "checkpoint": "Prepare a month's journal entries and a trial balance for a synthetic shop in a spreadsheet.",
-   "practice_access": "Dynamics 365"
+   "practice_access": "Dynamics 365",
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "learn.philanthropies.intro-to-budgeting-for-students",
@@ -633,7 +681,8 @@
     "4.A.3.b.6.a.2"
    ],
    "coverage": "introduces",
-   "checkpoint": "Build a 12-month budget in a spreadsheet with actual and budget columns and a variance for each month."
+   "checkpoint": "Build a 12-month budget in a spreadsheet with actual and budget columns and a variance for each month.",
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "learn-dynamics.explore-reporting-tools-dynamics-365-finance-operations",
@@ -648,7 +697,8 @@
    ],
    "coverage": "practises",
    "checkpoint": "Assess three synthetic customers' payment histories and recommend a credit limit for each with reasons.",
-   "practice_access": "Dynamics 365"
+   "practice_access": "Dynamics 365",
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "learn.wwl.get-started-data-analytics",
@@ -658,7 +708,8 @@
     "4.A.2.a.4.d.2"
    ],
    "coverage": "introduces",
-   "checkpoint": "Pick a public dataset and write the question, the analysis steps and the answer for one business question."
+   "checkpoint": "Pick a public dataset and write the question, the analysis steps and the answer for one business question.",
+   "setup": "A public dataset and a spreadsheet"
   },
   {
    "uid": "learn-bizapps.data-analytics-microsoft",
@@ -667,7 +718,8 @@
     "4.A.2.a.4.k.4"
    ],
    "coverage": "introduces",
-   "checkpoint": "Describe each stage of the analytics process for one dataset you know, from source to report."
+   "checkpoint": "Describe each stage of the analytics process for one dataset you know, from source to report.",
+   "setup": "A text document or paper"
   },
   {
    "uid": "learn-bizapps.power-bi-effective-requirements",
@@ -675,7 +727,8 @@
     "4.A.3.b.6.i.4"
    ],
    "coverage": "introduces",
-   "checkpoint": "Write the requirements for a report: its audience, questions, measures and refresh frequency."
+   "checkpoint": "Write the requirements for a report: its audience, questions, measures and refresh frequency.",
+   "setup": "A text document or paper"
   },
   {
    "uid": "saylor.prdv004",
@@ -691,7 +744,8 @@
     "Google Sheets"
    ],
    "coverage": "practises",
-   "checkpoint": "Build a monthly budget and an invoice template for a synthetic small shop, with a formula behind every total."
+   "checkpoint": "Build a monthly budget and an invoice template for a synthetic small shop, with a formula behind every total.",
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "saylor.prdv006",
@@ -708,7 +762,8 @@
    "requires": [
     "saylor.prdv004"
    ],
-   "checkpoint": "Summarise a synthetic year of shop expenses by category and month with SUMIFS and a lookup, and write what the totals show."
+   "checkpoint": "Summarise a synthetic year of shop expenses by category and month with SUMIFS and a lookup, and write what the totals show.",
+   "setup": "A spreadsheet with SUMIFS and a lookup function (free ones such as Google Sheets or LibreOffice Calc have both)"
   },
   {
    "uid": "saylor.prdv007",
@@ -725,7 +780,8 @@
    "requires": [
     "saylor.prdv004"
    ],
-   "checkpoint": "Turn a synthetic sales table into a filtered table and two charts, one with a trendline, and write two sentences on what they show."
+   "checkpoint": "Turn a synthetic sales table into a filtered table and two charts, one with a trendline, and write two sentences on what they show.",
+   "setup": "A spreadsheet with charts (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "saylor.prdv200",
@@ -736,7 +792,8 @@
     "4.A.4.a.2.c.10"
    ],
    "coverage": "practises",
-   "checkpoint": "Build a one-page dashboard from a synthetic dataset for a manager, then list any chart that could mislead and how you fixed it."
+   "checkpoint": "Build a one-page dashboard from a synthetic dataset for a manager, then list any chart that could mislead and how you fixed it.",
+   "setup": "A spreadsheet with charts (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "saylor.prdv433",
@@ -751,7 +808,8 @@
    ],
    "ai_skill": true,
    "coverage": "practises",
-   "checkpoint": "Ask an AI assistant for the formulas that summarise a synthetic expense sheet, check each result by hand and record any it got wrong."
+   "checkpoint": "Ask an AI assistant for the formulas that summarise a synthetic expense sheet, check each result by hand and record any it got wrong.",
+   "setup": "A free AI assistant and a spreadsheet"
   },
   {
    "uid": "saylor.prdv002",
@@ -764,7 +822,8 @@
     "4.A.4.a.2.c.10"
    ],
    "coverage": "introduces",
-   "checkpoint": "Write a one-page step-by-step procedure for a task you already do (for example restoring a backup), revise it with the course's editing strategies and keep both drafts."
+   "checkpoint": "Write a one-page step-by-step procedure for a task you already do (for example restoring a backup), revise it with the course's editing strategies and keep both drafts.",
+   "setup": "A text document or paper"
   },
   {
    "uid": "saylor.prdv201",
@@ -777,7 +836,8 @@
     "4.A.2.b.3.a.21"
    ],
    "coverage": "practises",
-   "checkpoint": "Write a one-page brief on a recent tool or practice in your target field from three sources, with your search terms and why you trusted each source."
+   "checkpoint": "Write a one-page brief on a recent tool or practice in your target field from three sources, with your search terms and why you trusted each source.",
+   "setup": "A web browser and a text document"
   },
   {
    "uid": "saylor.prdv011",
@@ -788,7 +848,8 @@
     "4.A.2.a.1.i.2"
    ],
    "coverage": "introduces",
-   "checkpoint": "Prepare a budget and debt summary for a synthetic household and write three pieces of advice, each tied to a figure."
+   "checkpoint": "Prepare a budget and debt summary for a synthetic household and write three pieces of advice, each tied to a figure.",
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "saylor.bus202",
@@ -799,7 +860,8 @@
     "4.A.2.a.4.b.4"
    ],
    "coverage": "introduces",
-   "checkpoint": "Compute five ratios from a listed company's published statements and write what they say about it."
+   "checkpoint": "Compute five ratios from a listed company's published statements and write what they say about it.",
+   "setup": "A spreadsheet and a listed company's published financial statements"
   },
   {
    "uid": "saylor.bus103",
@@ -814,7 +876,8 @@
     "4.A.2.a.4.k.1"
    ],
    "coverage": "practises",
-   "checkpoint": "Record a month of synthetic transactions for a small shop, produce its trial balance, income statement and balance sheet, and note one internal control you would add."
+   "checkpoint": "Record a month of synthetic transactions for a small shop, produce its trial balance, income statement and balance sheet, and note one internal control you would add.",
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "saylor.bus107",
@@ -824,7 +887,8 @@
     "4.A.4.a.8.c.6"
    ],
    "coverage": "practises",
-   "checkpoint": "Write replies to three synthetic customer complaints, one by email, and an escalation note for the one you cannot resolve."
+   "checkpoint": "Write replies to three synthetic customer complaints, one by email, and an escalation note for the one you cannot resolve.",
+   "setup": "A text document or paper"
   },
   {
    "uid": "saylor.bus250",
@@ -835,7 +899,8 @@
     "4.A.3.b.6.c.5"
    ],
    "coverage": "introduces",
-   "checkpoint": "Analyse a synthetic customer dataset, report three findings with one chart each and state the limits of the data."
+   "checkpoint": "Analyse a synthetic customer dataset, report three findings with one chart each and state the limits of the data.",
+   "setup": "A spreadsheet with charts (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "saylor.cs402",
@@ -845,7 +910,8 @@
     "4.A.3.b.1.c.4"
    ],
    "coverage": "introduces",
-   "checkpoint": "Plan the IP addressing and subnets for a synthetic three-department office and document the plan in a table."
+   "checkpoint": "Plan the IP addressing and subnets for a synthetic three-department office and document the plan in a table.",
+   "setup": "A spreadsheet or a table in a text document"
   },
   {
    "uid": "learn.dpu.windows-11-readiness-assessment",
@@ -856,7 +922,8 @@
    "checkpoint": "Assess one computer you look after (or the module's example) for Windows 11 and write an upgrade recommendation naming each requirement it meets or misses.",
    "families": [
     "it_support"
-   ]
+   ],
+   "setup": "The computer you assess and Microsoft's free PC Health Check app"
   },
   {
    "uid": "learn.dpu.work-smarter-copilot-finance",
@@ -870,7 +937,8 @@
    "ai_skill": true,
    "coverage": "introduces",
    "checkpoint": "Ask an AI assistant to draft a monthly cost summary from a synthetic ledger, then check every figure against your own totals and note each correction.",
-   "practice_access": "Microsoft 365 Copilot"
+   "practice_access": "Microsoft 365 Copilot",
+   "setup": "A free AI assistant and a spreadsheet"
   },
   {
    "uid": "saylor.bus202.u2",
@@ -891,7 +959,8 @@
     "finance_analytics"
    ],
    "coverage": "practises",
-   "checkpoint": "Compute liquidity, profitability and debt ratios for a listed company from its published statements and write five sentences on what they say about it."
+   "checkpoint": "Compute liquidity, profitability and debt ratios for a listed company from its published statements and write five sentences on what they say about it.",
+   "setup": "A spreadsheet and a listed company's published financial statements"
   },
   {
    "uid": "saylor.bus202.u3",
@@ -911,7 +980,8 @@
     "finance_analytics"
    ],
    "coverage": "practises",
-   "checkpoint": "Build a loan repayment table in a spreadsheet for a synthetic car loan and check the monthly payment against the unit's formula."
+   "checkpoint": "Build a loan repayment table in a spreadsheet for a synthetic car loan and check the monthly payment against the unit's formula.",
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "saylor.bus202.u4",
@@ -930,7 +1000,8 @@
     "saylor.bus202.u3"
    ],
    "coverage": "practises",
-   "checkpoint": "Value one bond and one dividend-paying share with the unit's formulas and compare each value with its market price."
+   "checkpoint": "Value one bond and one dividend-paying share with the unit's formulas and compare each value with its market price.",
+   "setup": "A spreadsheet and a current bond and share price"
   },
   {
    "uid": "saylor.bus202.u5",
@@ -946,7 +1017,8 @@
     "finance_analytics"
    ],
    "coverage": "introduces",
-   "checkpoint": "Compute the expected return and spread of a two-share portfolio from synthetic yearly returns, and say how adding the second share changes the risk."
+   "checkpoint": "Compute the expected return and spread of a two-share portfolio from synthetic yearly returns, and say how adding the second share changes the risk.",
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "saylor.bus202.u6",
@@ -969,7 +1041,8 @@
     "saylor.bus202.u3"
    ],
    "coverage": "practises",
-   "checkpoint": "Compute the NPV, IRR and payback of two synthetic projects in a spreadsheet and recommend one in a short memo."
+   "checkpoint": "Compute the NPV, IRR and payback of two synthetic projects in a spreadsheet and recommend one in a short memo.",
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "saylor.bus202.u8",
@@ -987,7 +1060,8 @@
     "finance_analytics"
    ],
    "coverage": "introduces",
-   "checkpoint": "Prepare a twelve-week cash forecast for a synthetic small shop and mark the weeks when it would need short-term credit."
+   "checkpoint": "Prepare a twelve-week cash forecast for a synthetic small shop and mark the weeks when it would need short-term credit.",
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "learn.wwl.fundamentals-machine-learning",
@@ -999,7 +1073,8 @@
     "finance_analytics"
    ],
    "coverage": "introduces",
-   "checkpoint": "For three questions from a business you know, write which kind of model (regression, classification or clustering) would answer each and why."
+   "checkpoint": "For three questions from a business you know, write which kind of model (regression, classification or clustering) would answer each and why.",
+   "setup": "A text document or paper"
   },
   {
    "uid": "learn.wwl.train-evaluate-regression-models",
@@ -1017,7 +1092,8 @@
     "learn.wwl.explore-analyze-data-with-python"
    ],
    "coverage": "practises",
-   "checkpoint": "Train a regression model on a public dataset in a notebook and write down its error on rows it did not see."
+   "checkpoint": "Train a regression model on a public dataset in a notebook and write down its error on rows it did not see.",
+   "setup": "Python in a Jupyter notebook (free, for example inside Visual Studio Code)"
   },
   {
    "uid": "learn.wwl.train-evaluate-cluster-models",
@@ -1035,7 +1111,8 @@
     "learn.wwl.explore-analyze-data-with-python"
    ],
    "coverage": "practises",
-   "checkpoint": "Group a public customer dataset into clusters in a notebook and describe each group in one sentence."
+   "checkpoint": "Group a public customer dataset into clusters in a notebook and describe each group in one sentence.",
+   "setup": "Python in a Jupyter notebook (free, for example inside Visual Studio Code)"
   },
   {
    "uid": "saylor.bus105",
@@ -1052,7 +1129,8 @@
     "finance_analytics"
    ],
    "focus": "Units 7 (Budgets) and 8 (Variance Analysis)",
-   "checkpoint": "Build a monthly budget for a synthetic shop, enter a month of actual spending beside it, calculate each line's variance in RM and as a percentage, and write one sentence explaining every variance over 10%."
+   "checkpoint": "Build a monthly budget for a synthetic shop, enter a month of actual spending beside it, calculate each line's variance in RM and as a percentage, and write one sentence explaining every variance over 10%.",
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)"
   },
   {
    "uid": "learn-dynamics.set-up-taxes-finance",
@@ -1061,7 +1139,8 @@
    ],
    "coverage": "introduces",
    "practice_access": "Dynamics 365",
-   "checkpoint": "In a spreadsheet, make a tax-code table (code, rate, tax authority, settlement period) and use it to calculate the tax on ten synthetic invoices, with the working for each."
+   "checkpoint": "In a spreadsheet, make a tax-code table (code, rate, tax authority, settlement period) and use it to calculate the tax on ten synthetic invoices, with the working for each.",
+   "setup": "A spreadsheet (a free one such as Google Sheets or LibreOffice Calc works)"
   }
  ]
 }

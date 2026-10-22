@@ -92,8 +92,9 @@ def test_budget_route_offers_variance_teaching_and_drops_loose_mappings(snaps, p
     assert "saylor.bus105" in [o["id"] for o in analyse["options"]]
     assert budget["block_limits"] and "BUS105" in budget["block_limits"][0]["text"]
     # with enough time the variance course joins the block (12 h a week since 22 Oct: the bank reconciliation module
-    # now serves "Verify accuracy of financial information" first, so 120 hours leave 2.2 too few for BUS105)
-    long = planner.routes(_profile(snaps, ["4.A.3.b.6.a.1", "4.A.2.a.3.c.2"], 12.0), {"target": "13-2031.00", "weeks": 12}, TODAY)
+    # now serves "Verify accuracy of financial information" first, so 120 hours leave 2.2 too few for BUS105; 14 h
+    # since the later 22 Oct tie-break, which takes BUS103 first at 12 h because it serves more priority-gap weight)
+    long = planner.routes(_profile(snaps, ["4.A.3.b.6.a.1", "4.A.2.a.3.c.2"], 14.0), {"target": "13-2031.00", "weeks": 12}, TODAY)
     assert "saylor.bus105" in [s["id"] for s in next(r for r in long["routes"] if r["code"] == "13-2031.00")["block"]["steps"]]
 
 
