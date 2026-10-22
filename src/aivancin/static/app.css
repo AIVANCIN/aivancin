@@ -1064,3 +1064,11 @@ body[data-counted="yes"] .topbar .brand { display: none; }
 .chg-basis { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
 .chg-lead { margin: 16px 0 0; }
 .limited-note .inline-link { display: inline; min-height: 0; padding: 0; font-size: inherit; }
+/* One optional follow-up for missed work */
+.follow { display: grid; gap: 10px; margin-top: 14px; padding: 14px; border-radius: 14px; background: var(--fill); }
+.follow-q { font-size: 15px; line-height: 1.45; }
+.follow textarea { width: 100%; min-height: 84px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--sep); background: var(--card); color: var(--text); font: inherit; font-size: 16px; resize: vertical; }
+.follow-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.follow-err:empty { display: none; }
+.follow-done { display: flex; gap: 6px; align-items: center; margin-top: 10px; }
+.follow-card .follow { margin-top: 10px; }

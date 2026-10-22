@@ -15,7 +15,7 @@ const state = {
   title: null, titleActs: [], untickedTitle: new Set(), cip: null,
   // ticked: activity -> { override, from: the sentences it was ticked on }; dismissed: sentence -> the activities
   // "None of these fit" took out of it, so "Show them again" can put them back.
-  suggest: null, ticked: new Map(), dismissed: new Map(), manual: new Map(),
+  suggest: null, ticked: new Map(), dismissed: new Map(), manual: new Map(), followed: new Set(),
   lane: "all", opts: { lambda: 0, mu: 0, nu: 0, scenario: "moderate", threshold: 50, pace: 1.444, release: null, horizon: "plan", scope: "skilled" },
   knownTools: new Set(), results: null, baseline: null, selected: null, target: null, lastIntake: null,
 };
@@ -328,7 +328,7 @@ async function readWork(e) {
   try {
     const sug = await api("/api/suggest", body);
     state.suggest = sug;
-    state.ticked = new Map(); state.dismissed = new Map(); state.manual = new Map();
+    state.ticked = new Map(); state.dismissed = new Map(); state.manual = new Map(); state.followed = new Set();
     state.lastIntake = body;
     // New answers make the compared routes stale until Compare routes runs again; the chosen route, ticked steps and saved routes stay.
     routeState.data = null; routesReached = false;
@@ -436,7 +436,7 @@ function renderReview() {
       <p class="src">${src}</p>
       <blockquote class="words"><mark class="words">${esc(s.text)}</mark></blockquote>
       ${shortFormHint(s)}
-      ${dismissed ? `<p class="dismissed">You said none of the 5 suggestions fit. <button type="button" class="link-btn" data-undismiss="${s.index}">Show them again</button></p>`
+      ${dismissed ? `<p class="dismissed">You said none of the 5 suggestions fit. <button type="button" class="link-btn" data-undismiss="${s.index}">Show them again</button></p>${followBox(s)}`
         : `<fieldset class="sugg"><legend class="vh">Activities suggested for this sentence</legend>${rows}</fieldset>
       <div class="sent-actions"><button type="button" class="btn btn-gray" data-dismiss="${s.index}">None of these fit</button><button type="button" class="btn btn-gray" data-find="${s.index}">${icon("search", "sm")}Find another activity</button></div>
       <div class="find" data-find-box="${s.index}" hidden></div>`}
@@ -500,6 +500,64 @@ function renderReviewNav(at = Math.min(Math.max(current.page, 1), reviewPages)) 
     return `<li><button type="button" class="rv-item${mark ? ` ${mark}` : ""}" data-rv-go="${i + 1}"${i + 1 === at ? ' aria-current="step"' : ""}>
       <span class="rv-mark" aria-hidden="true">${glyph}</span><span class="rv-text"><span class="rv-label">${label}</span><span class="rv-note">${note}</span></span></button></li>`;
   }).join("");
+}
+
+/* One optional follow-up for work the first reading missed: what the person personally does, the records or tools
+   they use and what they produce. The answer joins the same answer box and goes through the same reading, guard and
+   ticks; earlier answers, ticks and rejections stay. Asked once per sentence, never required. */
+const FOLLOW_Q = "What do you personally do for this? Describe the records or tools you use and what you produce.";
+const sentKey = x => `${x.field}|${x.start}|${x.text}`;
+function followBox(s, where = "review") {
+  if (state.followed.has(sentKey(s))) return `<p class="foot follow-done">${icon("check", "sm")}You added more about this. Its new sentences follow in your review.</p>`;
+  return `<div class="follow" data-follow-box="${s.index}">
+    <p class="follow-q"><b>Tell us more?</b> ${where === "routes" ? `You wrote: <mark class="words">${esc(s.text)}</mark> ` : ""}${FOLLOW_Q}</p>
+    <label class="vh" for="fu-${where}-${s.index}">What you personally do</label>
+    <textarea id="fu-${where}-${s.index}" rows="3" placeholder="The steps you take, the tools or records you use, and what you hand over at the end."></textarea>
+    <div class="follow-actions"><button type="button" class="btn btn-gray" data-follow-go="${s.index}">Read this too</button><span class="foot">Optional. Your other answers and ticks stay.</span></div>
+    <p class="follow-err err" role="alert"></p></div>`;
+}
+
+/* The sentence a Routes follow-up asks about: one the person rejected, else the first unticked sentence of work. */
+function followCandidate() {
+  const sents = (state.suggest?.available ? state.suggest.sentences : []).filter(x => !x.intro && !x.guard && x.field !== "studies" && !state.followed.has(sentKey(x)));
+  return sents.find(x => state.dismissed.has(x.index)) || sents.find(x => !x.top.some(id => tickedOn(id, x.index))) || null;
+}
+
+async function followUp(idx, answer, box) {
+  const text = answer.trim();
+  const err = $(".follow-err", box);
+  if (text.split(/\s+/).length < 3) { err.textContent = "Write a sentence or two about what you do."; return; }
+  const old = state.suggest;
+  const s = old.sentences.find(x => x.index === idx);
+  const ta = $(FIELD_PAGE[s.field][1]);
+  const prev = ta.value;
+  const base = prev.trim();
+  ta.value = `${base}${base && !/[.!?]$/.test(base) ? "." : ""}${base ? " " : ""}${text}${/[.!?]$/.test(text) ? "" : "."}`;
+  const btn = $("[data-follow-go]", box);
+  btn.disabled = true; btn.textContent = "Reading";
+  try {
+    const body = intakeBody();
+    const sug = await api("/api/suggest", body);
+    // Same sentences keep their ticks and rejections under their new numbers; new ones wait for a tick.
+    const at = new Map(sug.sentences.map(x => [sentKey(x), x.index]));
+    const move = new Map(old.sentences.map(x => [x.index, at.get(sentKey(x))]));
+    for (const [id, t] of [...state.ticked]) {
+      t.from = t.from.map(i => move.get(i)).filter(i => i !== undefined && sug.sentences[i]?.top.includes(id));
+      if (!t.from.length) state.ticked.delete(id);
+    }
+    state.dismissed = new Map([...state.dismissed].map(([i, ids]) => [move.get(i), ids]).filter(([i]) => i !== undefined));
+    state.followed.add(sentKey(s));
+    const fresh = sug.sentences.filter(x => !old.sentences.some(o => sentKey(o) === sentKey(x)));
+    state.suggest = sug; state.lastIntake = body;
+    routeState.data = null; routesReached = false;
+    renderReview();
+    const page = reviewMeta.findIndex(m => fresh.length && m.index === fresh[0].index) + 1;
+    navigate("review", page || 1);
+  } catch (e) {
+    ta.value = prev;
+    btn.disabled = false; btn.textContent = "Read this too";
+    err.textContent = "Something went wrong while reading your answer. Please try again.";
+  }
 }
 
 /* The small model does not know most short forms (IOC, SIEM, KYC) and matches the rest of the sentence instead. */
@@ -655,6 +713,9 @@ function reviewEvents() {
       state.dismissed.set(idx, taken);
       renderReview();
       $(`[data-undismiss="${b.dataset.dismiss}"]`)?.focus();
+    } else if (b.dataset.followGo !== undefined) {
+      const box = b.closest(".follow");
+      followUp(Number(b.dataset.followGo), $("textarea", box).value, box);
     } else if (b.dataset.undismiss !== undefined) {
       const idx = Number(b.dataset.undismiss);
       (state.dismissed.get(idx) || []).forEach(id => tickOn(id, idx));
@@ -1458,6 +1519,7 @@ function renderRoutes() {
       (!personal || d.exploration?.length || d.near_routes?.length ? `<div class="callout">${icon("info")}<p>${d.near_routes?.length
         ? `Your confirmed work overlaps ${d.near_routes.length === 1 ? "a supported role" : `${d.near_routes.length} supported roles`}, but none counts ${fig(d.min_done, "int")} of your activities yet, so there is no route. Confirm more of your work, or explore the roles below.`
         : "None of the supported routes counts at least two of your confirmed activities yet. Explore all roles, or tick more activities."}</p></div>` : "")}
+    ${personal && d.routes.length < 2 && followCandidate() ? `<section class="soft-card follow-card" aria-labelledby="h-follow"><h2 id="h-follow">Did we miss some of your work?</h2>${followBox(followCandidate(), "routes")}</section>` : ""}
     ${personal && d.routes.length < 2 && d.near_routes?.length ? nearSection(d.near_routes, d.min_done) : ""}
     ${personal && d.routes.length < 2 ? (d.exploration?.length ? explorationSection(d.exploration) : d.near_routes?.length ? "" : noRoleCard()) : ""}
     ${shared ? `<section class="soft-card" data-scope aria-labelledby="h-shared"><h2 id="h-shared">${icon("layers", "sm")}Shared foundations</h2>
@@ -2212,6 +2274,7 @@ function routeEvents() {
     else if (b.dataset.action === "rank" && !b.closest("#review")) rank();
     else if (b.dataset.exploreRole) openExplorationRole(b.dataset.exploreRole);
     else if (b.dataset.action === "explore-all") { state.opts.scope = "all"; rank(); }
+    else if (b.dataset.followGo !== undefined && !b.closest("#review")) { const box = b.closest(".follow"); followUp(Number(b.dataset.followGo), $("textarea", box).value, box); }
   });
   $("#routes").addEventListener("change", e => {
     if (e.target.matches('input[name="rfilter"]')) {
@@ -2271,7 +2334,7 @@ function saveProgress() {
   if (!state.lastIntake && !typed && !state.title && !routeState.target && !routeState.saved.size && !routeState.data) return;
   const data = {
     v: 1, mode, persona: examplePersona, form, title: state.title, titleActs: state.titleActs, untickedTitle: [...state.untickedTitle], cip: state.cip,
-    lastIntake: state.lastIntake, suggest: state.suggest, ticked: [...state.ticked], dismissed: [...state.dismissed], manual: [...state.manual],
+    lastIntake: state.lastIntake, suggest: state.suggest, ticked: [...state.ticked], dismissed: [...state.dismissed], manual: [...state.manual], followed: [...state.followed],
     lane: state.lane, knownTools: [...state.knownTools],
     routes: { reached: (Boolean(routeState.data) && isPersonal()) || routesReached, target: routeState.target, completed: [...routeState.completed], opts: routeState.opts,
       sort: routeState.sort, saved: [...routeState.saved], seen: [...routeState.seen], kept: routeState.kept || null },
@@ -2293,7 +2356,7 @@ function restoreProgress() {
     examplePersona = mode === "example" ? d.persona : null;
     $(".examples").hidden = mode !== "example";
     state.lastIntake = d.lastIntake; state.suggest = d.suggest;
-    state.ticked = new Map(d.ticked); state.manual = new Map(d.manual);
+    state.ticked = new Map(d.ticked); state.manual = new Map(d.manual); state.followed = new Set(d.followed || []);
     // Records saved before ticks were kept per sentence: a tick counted on every sentence that suggested it, and a
     // rejected sentence was a bare index. A rejected sentence now keeps none of its ticks.
     state.dismissed = new Map((d.dismissed || []).map(x => (Array.isArray(x) ? x : [x, []])));

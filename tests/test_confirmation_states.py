@@ -138,3 +138,34 @@ def test_near_roles_never_count_as_routes_and_need_real_overlap(snaps, planner):
     hafiz_side = ["4.A.3.b.1.d.1", "4.A.3.b.1.d.3", "4.A.3.b.1.c.1", "4.A.3.b.1.b.2", "4.A.3.b.1.f.4", "4.A.2.b.2.b.8"]
     out = planner.routes(_profile(snaps, hafiz_side), {}, TODAY)
     assert len(out["routes"]) >= 2 and out["near_routes"] == []
+
+
+# ---- follow-up for missed work (22 Oct) ----------------------------------------------------------------------------
+BOOKS = {**TEXT, "current_job": "I drive a lorry for a logistics company.", "other_work": "I keep the books for our shop."}
+ANSWER = "I enter supplier bills, reconcile the bank statement every month and prepare the profit and loss statement."
+
+
+def test_follow_up_answer_keeps_earlier_sentences_and_adds_clearer_evidence(snaps, ai):
+    """The answer is appended to the same answer; earlier sentences keep their field, offsets and text (the client
+    moves ticks and rejections by that key), and the new sentence brings the bookkeeping activities the first
+    reading missed, confirmable only by a tick on the new sentence."""
+    encoder, vectors = ai
+    before = intake.suggest(BOOKS, encoder, vectors, snaps.onet)
+    books = before["sentences"][1]
+    assert not {"4.A.2.a.2.d.1", "4.A.3.b.6.a.1"} & set(books["top"])  # the miss
+    after = intake.suggest({**BOOKS, "other_work": BOOKS["other_work"] + " " + ANSWER}, encoder, vectors, snaps.onet)
+    key = lambda x: (x["field"], x["start"], x["text"])  # noqa: E731
+    assert [key(x) for x in before["sentences"]] == [key(x) for x in after["sentences"][:2]]
+    new = after["sentences"][2]
+    assert new["guard"] is None and {"4.A.2.a.2.d.1", "4.A.3.b.6.a.1", "4.A.3.b.6.j.3"} <= set(new["top"])
+    prof = intake.build_profile({**BOOKS, "other_work": BOOKS["other_work"] + " " + ANSWER, "confirmed": [
+        {"dwa_id": d, "source": "suggested", "sentences": [new["index"]]} for d in ("4.A.2.a.2.d.1", "4.A.3.b.6.a.1")]},
+        snaps.onet, after)
+    assert {a["dwa_id"] for a in prof["activities"]} == {"4.A.2.a.2.d.1", "4.A.3.b.6.a.1"}
+
+
+def test_follow_up_about_someone_elses_work_is_held_back(snaps, ai):
+    encoder, vectors = ai
+    after = intake.suggest({**BOOKS, "other_work": BOOKS["other_work"] + " My uncle prepares the accounts and I watch."},
+                           encoder, vectors, snaps.onet)
+    assert after["sentences"][2]["guard"]["kind"] == "someone else"
