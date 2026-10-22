@@ -90,3 +90,22 @@ def test_unrelated_update_leaves_the_plan_unchanged(planner, people):
     c = _change(planner, people["hafiz"], "15-1244.00", "2026-06-26", "2026-06-26")
     assert c["changed_count"] == 0 and c["weak_count"] == 0 and c["assumption_count"] == 0
     assert all(x["change"] == "retained" for x in c["changes"])
+
+
+def test_each_scenario_reports_the_ai_practice_it_adds(planner, people):
+    """22 Oct: the plan's scenario comparison names, per scenario, the AI-practice steps that join within time and
+    budget and those that would need more time; the selected scenario's are exactly the plan's AI-practice steps."""
+    seen = 0
+    for prof in people.values():
+        for code, weeks in [(r["code"], w) for r in planner.routes(prof, {}, TODAY)["routes"] for w in (4, 8)]:
+            runs = {s: next(r for r in planner.routes(prof, {"target": code, "scenario": s, "weeks": weeks}, TODAY)["routes"]
+                            if r["code"] == code) for s in ("slower", "moderate", "faster")}
+            reports = [r["block"]["scenario_practice"] for r in runs.values()]
+            assert all(x == reports[0] for x in reports)  # the same whichever scenario is shown
+            for s, r in runs.items():
+                sp = r["block"]["scenario_practice"][s]
+                assert [x["id"] for x in sp["joins"]] == [x["id"] for x in r["block"]["steps"] if x["kind"] == "ai_practice"]
+                assert not {x["id"] for x in sp["joins"]} & {x["id"] for x in sp["needs_time"]}
+                assert r["block"]["effort_hours"]["v"] <= r["block"]["capacity_hours"]["v"] + 1e-9
+                seen += len(sp["joins"])
+    assert seen > 0

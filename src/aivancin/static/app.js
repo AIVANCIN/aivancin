@@ -2168,6 +2168,61 @@ function startCard(b, s) {
     <div class="srcs-slot"></div></section>`;
 }
 
+/* If AI moves faster or slower (22 Oct): what the three scenarios change in this plan, from the plan's own figures.
+   The courses and their order are the same in every scenario; a checkpoint adds AI checking where the activity's
+   projected AI share reaches the threshold, and an AI-practice step joins where one exists and time allows. Each
+   change names the figure that decides it, and each step that stays says why (a later step needs it, or AI stays
+   below the threshold). Scenarios are assumptions, so nothing here is presented as a forecast of a career. */
+const SCENS = ["slower", "moderate", "faster"];
+const scenList = list => (list.length === 3 ? "every scenario" : `the ${list.join(" and ")} scenario${list.length === 1 ? "" : "s"}`);
+function scenarioCard(r, d) {
+  const b = r.block;
+  const steps = b.steps.filter(s => s.kind !== "ai_practice" && s.forms);
+  if (!steps.length) return "";
+  const t = d.threshold;
+  const aiIn = s => SCENS.filter(k => s.forms[k] === "ai");
+  const counts = SCENS.map(k => steps.filter(s => s.forms[k] === "ai").length);
+  const practice = b.scenario_practice || {};
+  const n = v => fig({ v, src: ["aivancin-catalogue", "your-input"] }, "int");
+  const varying = steps.filter(s => aiIn(s).length && aiIn(s).length < 3);
+  const always = steps.filter(s => aiIn(s).length === 3);
+  const never = steps.filter(s => !aiIn(s).length);
+  const needed = id => b.steps.filter(x => (x.requires || []).includes(id)).map(x => x.title);
+  // The figure that decides a step: of its activities, the one projected highest in the first scenario where the
+  // step adds AI checking.
+  const decides = s => {
+    const k = aiIn(s)[0];
+    const rows = s.reason.filter(g => g.projected[k].v >= t.v).sort((a, z) => z.projected[k].v - a.projected[k].v);
+    const g = rows[0];
+    return g && `“${esc(g.name.replace(/\.$/, ""))}”: AI does it directly in ${fig(g.now, "pct")} of observed Claude conversations now; in ${fig(b.horizon.months, "")} months about ${fig(g.projected.slower, "pct")}, ${fig(g.projected.moderate, "pct")} or ${fig(g.projected.faster, "pct")} (slower, moderate, faster; threshold ${fig(t, "pct")}).${g.weak ? ` <span class="tag weak">Evidence weak</span>` : ""}`;
+  };
+  const stays = s => {
+    const later = needed(s.id);
+    if (later.length) return `<b>${esc(s.title)}</b>: ${later.map(x => `“${esc(x)}”`).join(" and ")} need${later.length === 1 ? "s" : ""} it first.`;
+    if (!s.reason.length) return `<b>${esc(s.title)}</b>: no AI-usage evidence for its activities.`;
+    return `<b>${esc(s.title)}</b>: AI stays below the threshold in every scenario.`;
+  };
+  const joined = [...new Map(SCENS.flatMap(k => (practice[k]?.joins || []).map(x => [x.id, x]))).values()];
+  const joinIn = x => SCENS.filter(k => (practice[k]?.joins || []).some(y => y.id === x.id));
+  const moreTime = [...new Map(SCENS.flatMap(k => (practice[k]?.needs_time || []).map(x => [x.id, x]))).values()];
+  return `<section class="soft-card scen-card" data-scope aria-labelledby="h-scen-card">
+    <h2 id="h-scen-card">If AI moves faster or slower</h2>
+    <p>Your courses stay the same in every scenario. What changes is which checkpoints add checking an AI's work${joined.length ? ", and whether AI-practice steps join" : ""}.</p>
+    <ul class="scen-grid" aria-label="Checkpoints that add AI checking, per scenario">${SCENS.map((k, i) => `<li class="${d.scenario === k ? "on" : ""}"><b>${n(counts[i])} of ${n(steps.length)}</b><span>${capitalise(k)}${d.scenario === k ? ", shown" : ""}</span>${(practice[k]?.joins || []).length ? `<span>+ ${n(practice[k].joins.length)} AI practice</span>` : ""}</li>`).join("")}</ul>
+    <p class="foot">Checkpoints that add AI checking, per scenario.</p>
+    ${joined.length ? `<ul class="scen-list">${joined.map(x => `<li><b>${esc(x.title)}</b> (${fig(x.hours, "")} h) joins in ${scenList(joinIn(x))}: practice in checking AI output on an activity that reaches the threshold there.</li>`).join("")}</ul>` : ""}
+    ${moreTime.length ? `<p class="foot">With more weekly time, ${moreTime.map(x => `“${esc(x.title)}” (${fig(x.hours, "")} h)`).join(" and ")} would also join where its activity reaches the threshold.</p>` : ""}
+    ${varying.length ? `<details class="more"><summary class="link-btn">Why ${n(varying.length)} checkpoint${varying.length === 1 ? " changes" : "s change"}</summary>
+      <ul class="scen-list">${varying.map(s => `<li><b>${esc(s.title)}</b>: in ${scenList(aiIn(s))}. <span class="foot">${decides(s)}</span></li>`).join("")}</ul></details>`
+      : `<p class="foot">No checkpoint changes between scenarios in this plan.</p>`}
+    <details class="more"><summary class="link-btn">What stays, and why</summary>
+      ${always.length ? `<p class="foot"><b>AI checking in every scenario:</b> ${always.map(s => esc(s.title)).join("; ")}. Even the slower scenario keeps their activities at or above the threshold.</p>` : ""}
+      ${never.length ? `<ul class="scen-list foot">${never.map(s => `<li>${stays(s)}</li>`).join("")}</ul>` : ""}
+      ${steps.filter(s => aiIn(s).length && needed(s.id).length).map(s => `<p class="foot"><b>${esc(s.title)}</b> stays before ${needed(s.id).map(x => `“${esc(x)}”`).join(" and ")} in every scenario.</p>`).join("")}</details>
+    <p class="foot">A changed checkpoint means you still do the task yourself first, then compare an AI assistant's version and write down every error. It adds no course hours. Scenarios are assumptions, not forecasts of your career.</p>
+    <div class="srcs-slot"></div></section>`;
+}
+
 /* What a step expects and needs, beside it: the units of a long course that matter, a step it builds on, a paid
    product its own exercises use (the checkpoint never does), and what the provider expects you to know. */
 function stepAccess(s, needs = [], short = false) {
@@ -2242,7 +2297,7 @@ function renderPlan() {
       <summary><span>Future scenario <span class="foot">${esc(capitalise(d.scenario))}${b.scenario_differs.length ? `, changes ${fig({ v: b.scenario_differs.length, src: r.contribution.s82.checkpoints.src.concat(["your-input"]) }, "int")} checkpoint${b.scenario_differs.length === 1 ? "" : "s"}` : ""}</span></span>${icon("chevron-down", "sm")}</summary>
       <fieldset><legend class="vh">Future scenario for the checkpoints</legend>
       <div class="seg-ctl small scen-ctl" style="--n:3">${["slower", "moderate", "faster"].map(k => `<label><input type="radio" name="pscen" value="${k}" ${d.scenario === k ? "checked" : ""}>${k === "moderate" ? "Moderate" : capitalise(k)}</label>`).join("")}</div></fieldset>
-      <p class="foot">Looking ${fig(b.horizon.months, "")} months ahead (${esc(b.horizon.basis)}). A step's checkpoint adds AI checking when AI does its activity directly in at least ${fig(d.threshold, "pct")} of observed Claude conversations by then. ${b.scenario_differs.length ? `Steps that change between scenarios: ${esc(b.scenario_differs.join("; "))}.` : "No step changes between scenarios."} Slower and faster are assumptions, not forecasts.</p></details>
+      <p class="foot">Looking ${fig(b.horizon.months, "")} months ahead (${esc(b.horizon.basis)}). A step's checkpoint adds AI checking when AI does its activity directly in at least ${fig(d.threshold, "pct")} of observed Claude conversations by then. “If AI moves faster or slower” shows what each scenario changes. Slower and faster are assumptions, not forecasts.</p></details>
     <details class="plan-order" data-scope ${routeState.orderOpen ? "open" : ""}>
       <summary><span>Step order <span class="foot">${b.gap_order === "growing" ? "More growth than decline first" : "Largest gaps first"}</span></span>${icon("chevron-down", "sm")}</summary>
       <label class="check-line"><input type="checkbox" id="p-growing" ${b.gap_order === "growing" ? "checked" : ""}> Skills with more growth than decline first</label>
@@ -2251,6 +2306,7 @@ function renderPlan() {
     </details>
     </div><div class="plan-main">
     ${startCard(b, next)}
+    ${scenarioCard(r, d)}
     <h2 class="vh">Steps</h2>
     <ol class="psteps">${b.steps.map(stepItem).join("")}</ol>
     ${blockLimits(r)}

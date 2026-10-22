@@ -403,13 +403,19 @@ class Planner:
                     ai = next((c for c in ai_pool if g["dwa_id"] in c.get("dwas", [])), None)
                     if ai and ai["id"] not in {e["id"] for e in extra[s]}:
                         extra[s].append(ai)
-        # Activity-specific AI-practice entries join the selected scenario's block when capacity and budget allow.
-        added = []
-        for ai in extra[o["scenario"]]:
-            if used + effort(ai) <= o["capacity"] + 1e-9 and spent + ai["cost_rm"] <= o["budget"] + 1e-9:
-                used += effort(ai)
-                spent += ai["cost_rm"]
-                added.append(self._step(ai, b["serves"], o["completed"], "ai", [], kind="ai_practice"))
+        # Activity-specific AI-practice entries join a scenario's block when capacity and budget allow; the selected
+        # scenario's join the plan, and every scenario's are reported so the plan can say what each one adds.
+        joins = {}
+        for s in outlook.SCENARIOS:
+            u, k, joins[s] = used, spent, []
+            for ai in extra[s]:
+                if u + effort(ai) <= o["capacity"] + 1e-9 and k + ai["cost_rm"] <= o["budget"] + 1e-9:
+                    u += effort(ai)
+                    k += ai["cost_rm"]
+                    joins[s].append(ai)
+        added = [self._step(ai, b["serves"], o["completed"], "ai", [], kind="ai_practice") for ai in joins[o["scenario"]]]
+        used += sum(effort(ai) for ai in joins[o["scenario"]])
+        spent += sum(ai["cost_rm"] for ai in joins[o["scenario"]])
         steps += added
         for s in steps:
             s["sdg"] = sdg.step_tags(s, CAT)
@@ -468,6 +474,13 @@ class Planner:
                       "weekly_hours": fig(profile["weekly_hours"], o["input_src"]),
                       "scenario_differs": differ,
                       "scenario_extra_hours": {s: fig(round(sum(effort(c) for c in extra[s]), 1), CAT) for s in outlook.SCENARIOS},
+                      # per scenario: AI-practice entries that join within time and budget, and those that would
+                      # need more time or budget (22 Oct, for the plan's scenario comparison)
+                      "scenario_practice": {s: {"joins": [{"id": c["id"], "title": c["title"], "hours": fig(round(effort(c), 1), CAT)}
+                                                          for c in joins[s]],
+                                                "needs_time": [{"id": c["id"], "title": c["title"], "hours": fig(round(effort(c), 1), CAT)}
+                                                               for c in extra[s] if c not in joins[s]]}
+                                            for s in outlook.SCENARIOS},
                       "base_hours": fig(round(b["used"], 1), CAT), "gap_order": o["gap_order"], "order_diff": order_diff,
                       "horizon": {"months": fig(round(months, 1), o["input_src"], estimate=True), "basis": basis}},
         }

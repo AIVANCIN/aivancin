@@ -527,6 +527,16 @@ textarea::placeholder, input::placeholder { color: var(--text2); opacity: 1; }
 @media (min-width: 760px) { .plan-head { padding: 28px; } }
 .ph-top { display: flex; gap: 14px; align-items: center; }
 .plan-title { margin-top: 2px; font: 700 1.5rem/1.2 var(--display); letter-spacing: -0.02em; }
+/* If AI moves faster or slower: three scenario counts side by side, then the reasons */
+.scen-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 12px 0 0; padding: 0; list-style: none; }
+.scen-grid > li { display: grid; align-content: start; gap: 2px; padding: 10px 12px; border-radius: 14px; background: var(--fill); font-size: 0.8125rem; line-height: 1.35; color: var(--text2); }
+.scen-grid > li b { font-size: 1rem; font-weight: 600; color: var(--text); }
+.scen-grid > li.on { background: var(--accent-tint); color: var(--text); box-shadow: inset 0 0 0 1px var(--accent); }
+.scen-grid + .foot { margin-top: 6px; }
+.scen-card h3 { margin-top: 16px; font-size: 0.9375rem; font-weight: 600; }
+.scen-list { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 8px; line-height: 1.45; }
+.scen-list .tag { margin-left: 4px; }
+.scen-card > .foot:last-of-type { margin-top: 12px; }
 /* Start here: the next session, label beside its line on wider screens */
 .start-list .step-expects { margin-top: 2px; }
 .start-card > .d-kicker { margin-bottom: 2px; }
