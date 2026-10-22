@@ -66,7 +66,8 @@ def test_guard_leaves_plain_statements_alone(sentence):
     ("I built a SIEM dashboard and triage IOCs.", ["SIEM", "IOC"]),
     ("I do KYC checks and R&D on the POS system.", ["KYC", "R&D", "POS"]),
     ("I handle the POS and EOD reports.", ["POS", "EOD"]),
-    ("I give IT support and update CVs.", ["IT", "CV"]),
+    # IT is not flagged since 22 Oct: the encoder's copy spells it out (SPEC 11.12)
+    ("I give IT support and update CVs.", ["CV"]),
 ])
 def test_short_forms_are_flagged_for_plain_words(sentence, expected):
     assert intake.short_forms(sentence) == expected
@@ -366,3 +367,32 @@ def test_a_name_that_is_also_a_word_does_not_change_suggestions(snaps, ai):
         assert res["sentences"][0]["intro"] is True and res["sentences"][0]["top"] == []
         tops[name] = [s["top"] for s in res["sentences"]]
     assert len({str(v) for v in tops.values()}) == 1
+
+
+@pytest.mark.parametrize("text, copy", [
+    ("I do the bookkeeping for our stall.", "I do the financial record keeping for our stall."),
+    ("Book-keeping for two shops.", "financial record keeping for two shops."),
+    ("I work as a bookkeeper.", "I work as a financial record keeper."),
+    ("I keep the books for my mum.", "I keep the financial records for my mum."),
+    ("She did her books every month.", "She did her financial records every month."),
+    ("I give IT support at my church.", "I give information technology support at my church."),
+    ("I studied I.T. at college.", "I studied information technology at college."),
+    ("I look after their cyber-security.", "I look after their computer and information security."),
+    # left alone: physical books, lower-case "it", a sentence in capitals
+    ("I keep the books tidy on the shelves.", "I keep the books tidy on the shelves."),
+    ("I put the books back on the shelves.", "I put the books back on the shelves."),
+    ("I read books and it is fun.", "I read books and it is fun."),
+    ("IT WAS A LONG DAY.", "IT WAS A LONG DAY."),
+])
+def test_misread_work_terms_are_written_in_onet_words(text, copy):
+    assert intake.work_terms(text) == copy
+
+
+def test_bookkeeping_suggests_financial_records_and_the_person_keeps_their_words(snaps, ai):
+    encoder, vectors = ai
+    for text in ("I do the bookkeeping for my sister's stall.", "I keep the books for our family shop."):
+        res = intake.suggest({"other_work": text}, encoder, vectors, snaps.onet)
+        s = res["sentences"][0]
+        assert s["text"] == text
+        assert "4.A.3.b.6.j.3" in s["top"]  # Maintain financial or account records.
+        assert "4.A.3.a.1.c.18" not in s["top"]  # Perform housekeeping duties.

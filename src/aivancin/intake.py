@@ -120,9 +120,10 @@ def ownership(sentence):
 # Capitalised short forms such as IOC, SIEM or KYC: the small encoder does not know most of them and matches the
 # rest of the sentence instead, so the review asks for plain words. Everyday ones it reads well are left alone.
 _SHORT_FORM_RE = re.compile(r"\b([A-Z][A-Z0-9&]{1,5})(?:'?s)?\b")
-# Checked 20 Oct: "IT support" and "CVs" read badly, so IT and CV are flagged; PC, HR, CCTV and GPS read well.
+# Checked 20 Oct: "IT support" and "CVs" read badly, so CV is flagged; PC, HR, CCTV and GPS read well. IT is left
+# alone since 22 Oct because the encoder's copy spells it out (work_terms).
 _EVERYDAY_SHORT_FORMS = {"HR", "PC", "CEO", "TV", "AM", "PM", "OK", "UK", "US", "USA", "GPS", "PDF", "SMS", "ATM",
-                         "USB", "CCTV", "ID"}
+                         "USB", "CCTV", "ID", "IT"}
 
 
 class IntakeError(ValueError):
@@ -244,11 +245,39 @@ def strip_intro(sentence):
     return out.strip()
 
 
+# Work terms the encoder misreads (SPEC 11.12, checked 22 Oct): "bookkeeping" reads as housekeeping, "the books" as
+# library books, "IT support" as safety equipment and "cybersecurity" as buying products. The encoder's copy uses
+# O*NET's own words for them. Physical books ("keep the books tidy", "put the books back on the shelves") and a
+# sentence in capitals ("IT WAS A LONG DAY") are left alone.
+_BOOKS_VERBS = ("keep keeps kept keeping do does did doing done handle handles handled handling manage manages managed "
+                "managing").split()
+_WORK_TERMS = [
+    (re.compile(r"\bbook[- ]?keep(ing|ers?)\b", re.IGNORECASE),
+     lambda m: "financial record keeping" if m.group(1).lower() == "ing" else "financial record keeper"),
+    (re.compile(r"\b(" + "|".join(_BOOKS_VERBS) + r")\s+(the|my|our|their|his|her|its)\s+books\b"
+                r"(?!\s+(?:tidy|neat|clean|dusted|back|on\s+(?:the\s+)?shel))", re.IGNORECASE),
+     lambda m: f"{m.group(1)} {m.group(2)} financial records"),
+    (re.compile(r"\bcyber[- ]?security\b", re.IGNORECASE), lambda m: "computer and information security"),
+]
+_IT_RE = re.compile(r"\bI\.T\.|\bIT\b")
+
+
+def work_terms(sentence):
+    """The sentence with the work terms the encoder misreads written in O*NET's words."""
+    out = sentence
+    for rx, repl in _WORK_TERMS:
+        out = rx.sub(repl, out)
+    letters = [c for c in out if c.isalpha()]
+    if not letters or sum(c.isupper() for c in letters) / len(letters) <= 0.6:
+        out = _IT_RE.sub("information technology", out)
+    return out
+
+
 def neutral_text(sentence, onet):
-    """The copy of a sentence the encoder reads: self-introductions removed; names, gendered words and stated ages
-    made neutral."""
+    """The copy of a sentence the encoder reads: self-introductions removed; misread work terms in O*NET's words;
+    names, gendered words and stated ages made neutral."""
     vocab = _vocabulary(onet)
-    out = _AGE_RE.sub(lambda m: (m.group(1) + " 30") if m.group(1) else "30-year-old", strip_intro(sentence))
+    out = _AGE_RE.sub(lambda m: (m.group(1) + " 30") if m.group(1) else "30-year-old", work_terms(strip_intro(sentence)))
     out = _WORD_RE.sub(lambda m: m.group(0) if all(w.lower() in vocab for w in m.group(0).split()) else "Sam", out)
     out = _GENDERED_RE.sub(lambda m: _NEUTRAL[m.group(1).lower()], out)
     return re.sub(r"\s{2,}", " ", out).strip()
