@@ -268,6 +268,7 @@ class Reporter:
         p = bt.get("primary", {})
         return {"error_mae": fig(p.get("mae", {}).get("mean"), BACKTEST_SRC) if p else None,
                 "error_p80": fig(p.get("mean_abs_error_p80"), BACKTEST_SRC) if p else None,
+                "error_target": p.get("target") if p else None,
                 "calibrated": bt.get("coverage", {}).get("calibrated"),
                 "direction_labels": bool(bt.get("direction_gate_pass")),
                 "slower_drop": fig(self.skills.drop, *[f"aei-{r}" for r in self.snaps.evidence.ids]),
@@ -291,6 +292,10 @@ class Reporter:
                                "mae_line": fig(p["mae"]["line"], BACKTEST_SRC), "p80": fig(p["mean_abs_error_p80"], BACKTEST_SRC),
                                "calibrated": bt.get("coverage", {}).get("calibrated"),
                                "inside": fig(pct(bt.get("coverage", {}).get("share_inside", 0)), BACKTEST_SRC),
+                               # the coverage test's band comes from a second, separate backtest (March 2026 predicted
+                               # from the two releases before it), not from the June errors above
+                               "secondary_target": bt.get("secondary", {}).get("target"),
+                               "secondary_band": fig(bt.get("coverage", {}).get("band_from_secondary_p80"), BACKTEST_SRC),
                                "direction_share": fig(pct(bt.get("direction", {}).get("same_sign_share") or 0), BACKTEST_SRC),
                                "direction_eligible": fig(bt.get("direction", {}).get("eligible"), BACKTEST_SRC),
                                "direction_labels": bool(bt.get("direction_gate_pass")), "run_date": bt.get("run_date")},

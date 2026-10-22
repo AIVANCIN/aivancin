@@ -87,13 +87,13 @@ def test_demand_counts_each_bls_unit_once(snaps, planner):
 
 
 def test_demand_labels_and_ranks(planner):
-    assert outlook.demand_label(0.25, 5) == "mostly in growing jobs"
-    assert outlook.demand_label(-0.25, 5) == "mostly in declining jobs"
+    assert outlook.demand_label(0.25, 5) == "more growth than decline"
+    assert outlook.demand_label(-0.25, 5) == "more decline than growth"
     assert outlook.demand_label(0.249, 5) == "mixed"
     assert outlook.demand_label(0.9, 0) == "no projection"
     assert planner.rep.demand.get("no-such-activity")["label"] == "no projection"
-    assert outlook.DEMAND_RANK["mostly in growing jobs"] < outlook.DEMAND_RANK["mixed"] < \
-        outlook.DEMAND_RANK["no projection"] < outlook.DEMAND_RANK["mostly in declining jobs"]
+    assert outlook.DEMAND_RANK["more growth than decline"] < outlook.DEMAND_RANK["mixed"] < \
+        outlook.DEMAND_RANK["no projection"] < outlook.DEMAND_RANK["more decline than growth"]
 
 
 def test_c2_sensitivity_is_reported(snaps, planner):
@@ -277,8 +277,8 @@ def test_c6_classes_agree_with_projections_and_thresholds(planner, hafiz, priya,
                 else "people mostly work with AI" if v < 30 else "shared")
 
     def label(net, roles):
-        return ("no projection" if not roles else "mostly in growing jobs" if net >= 0.25
-                else "mostly in declining jobs" if net <= -0.25 else "mixed")
+        return ("no projection" if not roles else "more growth than decline" if net >= 0.25
+                else "more decline than growth" if net <= -0.25 else "mixed")
     rows_seen, kinds = 0, set()
     for name, res, _ in c6_payloads(planner, hafiz, priya):
         rd = res["radar"]
@@ -358,8 +358,36 @@ def test_route_future_tab_parts(planner, hafiz, snaps):
 def test_demand_never_changes_routes_or_order(planner, hafiz, monkeypatch):
     """F2 is shown, never used for overlap, qualification or the default order."""
     before = [(r["code"], r["overlap"]["v"]) for r in planner.routes(hafiz, {}, today=TODAY)["routes"]]
-    monkeypatch.setattr(planner.rep.demand, "get", lambda d: {"label": "mostly in declining jobs", "roles": 9, "grow": 0,
+    monkeypatch.setattr(planner.rep.demand, "get", lambda d: {"label": "more decline than growth", "roles": 9, "grow": 0,
                                                                "decline": 1, "net": -1, "openings": 0, "few": False,
                                                                "openings_period": None, "src": outlook.DEMAND_SRC})
     after = [(r["code"], r["overlap"]["v"]) for r in planner.routes(hafiz, {}, today=TODAY)["routes"]]
     assert before == after
+
+
+def test_demand_labels_say_which_side_is_larger_not_that_most_is_growing(snaps):
+    """22 Oct: the label used to read "mostly in growing jobs", but the rule only compares the growing and declining
+    shares. Worked examples, then the data: many labelled activities have under half their weight in growing roles."""
+    assert outlook.demand_label(0.40 - 0.10, 5) == "more growth than decline"  # 40% growing, 10% declining
+    assert outlook.demand_label(0.30 - 0.10, 5) == "mixed"  # growth leads, but by under 25 points
+    assert outlook.demand_label(0.05 - 0.45, 5) == "more decline than growth"
+    m = Matcher(snaps)
+    demand = Reporter(snaps, m).demand
+    labelled = [demand.get(d) for d in snaps.onet.dwa_ids]
+    growth = [x for x in labelled if x["label"] == "more growth than decline"]
+    assert growth and all(x["grow"] - x["decline"] >= 0.25 for x in growth)
+    assert sum(x["grow"] < 0.5 for x in growth) > 0  # "mostly in growing jobs" would be false for these
+
+
+def test_how_sure_keeps_the_two_error_bands_apart(snaps):
+    """The June error band (primary backtest) and the coverage test's band (from the March backtest) are separate
+    numbers from separate evaluations, each named with its target release."""
+    m = Matcher(snaps)
+    rep = Reporter(snaps, m)
+    b = rep.forecast_basis(1.444)["backtest"]
+    bt = snaps.backtest
+    assert b["target"] == bt["primary"]["target"] and b["p80"]["v"] == bt["primary"]["mean_abs_error_p80"]
+    assert b["secondary_target"] == bt["secondary"]["target"] != b["target"]
+    assert b["secondary_band"]["v"] == bt["coverage"]["band_from_secondary_p80"] != b["p80"]["v"]
+    assert b["calibrated"] is False and b["secondary_band"]["src"]
+    assert rep._forecast_meta(50)["error_target"] == bt["primary"]["target"]

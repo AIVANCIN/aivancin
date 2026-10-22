@@ -813,7 +813,7 @@ function radarBlock(r) {
       <td data-label="Now">${x.now ? fig(x.now, "pct") : `<span class="foot">no data</span>`}</td>
       ${["slower", "moderate", "faster"].map(k => `<td data-label="${k === "moderate" ? "Moderate" : capitalise(k)}" class="${k === sc ? "sel" : ""}">${x.now ? fig(x.projected[k], "pct") : ""}</td>`).join("")}
       <td data-label="In the ${esc(sc)} scenario"><span class="cls cls-${clsKey(x.classes[sc])}">${esc(x.classes[sc])}</span></td></tr>`).join("");
-  const err = f.error_mae ? `Moderate keeps the historical average; its typical error is ${fig(f.error_mae, "")} points and 80% of errors are within ${fig(f.error_p80, "")} points (backtest on the June 2026 release${f.calibrated === false ? "; the band is not calibrated" : ""}). ` : "";
+  const err = f.error_mae ? `Moderate keeps the historical average. Predicting the ${esc(releaseLabel(f.error_target))} release from the earlier ones, that average was off by ${fig(f.error_mae, "")} points on average and 80% of its errors were within ${fig(f.error_p80, "")} points: a past error, not a calibrated range. ` : "";
   const dir = f.direction_labels ? "" : "Past release-to-release changes reversed more often than they continued, so the radar shows no rising or falling labels; change appears only through the scenarios. ";
   return `<section class="sec-block radar" data-scope aria-labelledby="h-radar"><h5 id="h-radar">${icon("history", "sm")} Future Skills Radar</h5>
     <p class="foot">How much of each activity AI does directly in observed Claude use (global), now and projected ${fig(hz.months, "")} months ahead, ${esc(hzText)}. These are estimates of how the work shifts between doing it and directing and checking AI, not forecasts of jobs.</p>
@@ -1049,7 +1049,7 @@ function renderHow() {
     <section class="how-step" data-scope><h3>${icon("pencil-line", "sm")}1. Describe your work</h3>
       <p>You write what you do in your own words. A small language model that runs on this server, all-MiniLM-L6-v2 fine-tuned on O*NET's own links between task statements and work activities, compares each sentence with the ${n(2087, ["onet31-dwas"])} work activities O*NET records and suggests the closest five. Nothing counts until you tick it. Sentences about work not done, plans, free time, attempts that did not work out or someone else's work are held back, and names, gender and age are read neutrally.</p></section>
     <section class="how-step" data-scope><h3>${icon("radar", "sm")}2. The Radar</h3>
-      <p>Four separate signals for your skills and routes: US job projections (BLS), how much of each activity sits in growing jobs, how much of it AI already does in observed Claude use under slower, moderate and faster scenarios, and Malaysia's observed trend for the skill group. They are never combined into one score.</p></section>
+      <p>Four separate signals for your skills and routes: US job projections (BLS), whether more of each activity sits in US jobs projected to grow or to decline, how much of it AI already does in observed Claude use under slower, moderate and faster scenarios, and Malaysia's observed trend for the skill group. They are never combined into one score.</p></section>
     <section class="how-step" data-scope><h3>${icon("route", "sm")}3. Routes</h3>
       <p>${state.status?.supported_destinations ? fig(state.status.supported_destinations, "int") : "The"} supported graduate roles in IT support, software, and finance and data. A route needs at least two of your confirmed activities and shows its requirements, outlook and a first learning block; when fewer than two qualify, the closest other roles are there to explore.</p></section>
     <section class="how-step" data-scope><h3>${icon("list-checks", "sm")}4. Your plan</h3>
@@ -1502,19 +1502,21 @@ const ASSUMPTION_NOTE = "Built on starting assumptions: 6 hours a week and no bu
 
 /* ---------- forecast signals (SPEC 11.1): shared pieces of the route's Future tab and the Radar ---------- */
 const SCEN_NAME = { slower: "Slower", moderate: "Moderate", faster: "Faster" };
-const DEMAND_CLASS = { "mostly in growing jobs": "grow", "mostly in declining jobs": "limit", "no projection": "weak", mixed: "" };
+const DEMAND_CLASS = { "more growth than decline": "grow", "more decline than growth": "limit", "no projection": "weak", mixed: "" };
+/* The skill-demand pool: Job Zone 3 and 4 roles, which include vocationally prepared work, so not "graduate jobs". */
+const DEMAND_POOL = "US roles that usually need vocational training or a degree (O*NET Job Zones 3 and 4, managers excluded)";
 
 function demandChip(dm) {
   return `<span class="tag ${DEMAND_CLASS[dm.label] ?? ""}">${esc(capitalise(dm.label))}</span>`;
 }
 function demandText(dm) {
-  if (!dm.grow) return `No US projection for the graduate roles that record it.${srcMarks(dm.src)}`;
-  return `Of the ${fig(dm.roles, "int")} US graduate roles that record it, weighted by how often it appears in their tasks, ${fig(dm.grow, "pct")} are projected to grow faster than average and ${fig(dm.decline, "pct")} to decline (BLS 2025-2035)${dm.few ? `, based on ${fig(dm.roles, "int")} roles` : ""}.`;
+  if (!dm.grow) return `No US projection for the roles that record it.${srcMarks(dm.src)}`;
+  return `Of the ${fig(dm.roles, "int")} ${DEMAND_POOL} that record it, weighted by how often it appears in their tasks, ${fig(dm.grow, "pct")} are projected to grow faster than average and ${fig(dm.decline, "pct")} to decline (BLS 2025-2035)${dm.few ? `, based on ${fig(dm.roles, "int")} roles` : ""}.`;
 }
 /* One line per activity; the full wording is said once above the list. */
 function demandShort(dm) {
   if (!dm.grow) return `${demandChip(dm)}${srcMarks(dm.src)}`;
-  return `${demandChip(dm)} ${fig(dm.grow, "pct")} growing · ${fig(dm.decline, "pct")} declining · ${fig(dm.roles, "int")} role${dm.roles.v === 1 ? "" : "s"}`;
+  return `${demandChip(dm)} ${fig(dm.grow, "pct")} in growing roles · ${fig(dm.decline, "pct")} in declining roles · ${fig(dm.roles, "int")} role${dm.roles.v === 1 ? "" : "s"}`;
 }
 function tttText(t) {
   return t.months && t.months.v > 0 ? `about ${fig(t.months, "int")} months (estimate)` : esc(t.text);
@@ -1553,7 +1555,7 @@ function futurePanel(r) {
       ${sure ? `<p class="foot">How sure: “${esc(sure.bls.quote)}” (BLS evaluation of its 2014-24 projections)${srcMarks(sure.bls.src)}. A projection, not a promise of a job.</p>` : ""}</section>
     <section class="soft-card" data-scope aria-labelledby="h-fu-my"><h2 id="h-fu-my">${icon("map-pin", "sm")}Malaysia, observed</h2>${trendBlock(r.future.trend)}
       <p class="foot">${esc(r.local_evidence)}</p></section></div>
-    <p class="rd-lead">This role's ${fig({ v: ai.length, src: ["onet31-task-dwas", "onet31-tasks"] }, "int")} largest activities. For each: the share AI does directly when people use Claude for it (up to ${esc(releaseLabel(d.release))}), where that share may be ${fig(hz.months, "")} months ahead in the ${esc(sc)} scenario, and skill demand: of the US graduate roles that record the activity, weighted by how often it appears in their tasks, the share projected to grow faster than average and the share projected to decline (BLS 2025-2035).</p>
+    <p class="rd-lead">This role's ${fig({ v: ai.length, src: ["onet31-task-dwas", "onet31-tasks"] }, "int")} largest activities. For each: the share AI does directly when people use Claude for it (up to ${esc(releaseLabel(d.release))}), where that share may be ${fig(hz.months, "")} months ahead in the ${esc(sc)} scenario, and skill demand: of the ${DEMAND_POOL} that record the activity, weighted by how often it appears in their tasks, the share projected to grow faster than average and the share projected to decline (BLS 2025-2035).</p>
     ${groups}
     <section class="soft-card" data-scope aria-labelledby="h-fu-em"><h2 id="h-fu-em">${icon("sparkles", "sm")}What's emerging</h2>
       ${em.tasks.length ? `<ul class="emerging">${em.tasks.map(t => `<li>${esc(t.task)} <span class="foot">(${esc(t.category)}, ${esc(t.date)})${srcMarks(t.src)}</span></li>`).join("")}</ul>` : `<p class="foot">No emerging-task record in O*NET 31.0.</p>`}
@@ -1568,7 +1570,7 @@ function blockPanel(r) {
   return `
     <section class="soft-card" data-scope aria-labelledby="h-rd-block"><h2 id="h-rd-block">First ${fig(d.weeks, "int")}-week block</h2>
       <div class="stat-row"><p><b>${fig(b.effort_hours, "")}</b><span>of ${fig(b.capacity_hours, "")} hours</span></p><p><b>${fig(b.cost_rm, "rm")}</b><span>of ${fig(d.budget_rm, "rm")} budget</span></p><p><b>${fig({ v: served, src: GAP_SRC }, "int")}/${gapCount(r)}</b><span>priority gaps served</span></p></div>
-      ${b.gap_order === "growing" ? `<p class="foot">Steps for skills in growing jobs first (set on Plan).</p>` : ""}
+      ${b.gap_order === "growing" ? `<p class="foot">Steps for skills with more growth than decline first (set on Plan).</p>` : ""}
       <p class="foot">${esc(capitalise(b.status))}. Verified resources exist for ${fig(r.supported_share, "pct")} of the priority gaps. A first block is a start, not a complete transition.</p>
       ${isPersonal() ? "" : `<p class="foot">${ASSUMPTION_NOTE}</p>`}
       <ol class="mini-steps">${b.steps.map(s => `<li><span>${esc(s.title)}</span><span class="foot">${esc(s.provider)} · ${fig({ v: Math.round((s.provider_hours.v + s.practice_hours.v) * 10) / 10, src: s.provider_hours.src }, "")} h</span></li>`).join("")}</ol></section>`;
@@ -1633,7 +1635,7 @@ function radarSkills(rd) {
   const legend = `<ul class="rc-legend" aria-label="Legend">${kinds.length > 1 ? kinds.map(k => `<li><svg width="12" height="12" aria-hidden="true">${k === "you" ? `<circle cx="6" cy="6" r="5" class="rc-you"/>` : `<rect x="1.5" y="1.5" width="9" height="9" rx="1.5" transform="rotate(45 6 6)" class="rc-gap"/>`}</svg>${SKILL_KIND[k][1]}</li>`).join("") : ""}
     <li><svg width="16" height="12" aria-hidden="true"><line x1="0" x2="16" y1="6" y2="6" class="rc-thr"/></svg>Threshold ${fig(rd.threshold, "pct")}</li></ul>`;
   const rows = rd.skills.map(s => `<tr><th scope="row"><span class="act-name">${esc(s.name)}</span><span class="kind">${SKILL_KIND[s.group][1]}${s.weak ? " · evidence weak" : ""}</span></th>
-      <td data-label="Skill demand">${s.demand.net ? `${fig(s.demand.grow, "pct")} growing, ${fig(s.demand.decline, "pct")} declining` : `<span class="foot">no projection</span>${srcMarks(s.demand.src)}`}</td>
+      <td data-label="Skill demand">${s.demand.net ? `${fig(s.demand.grow, "pct")} in growing roles, ${fig(s.demand.decline, "pct")} in declining roles` : `<span class="foot">no projection</span>${srcMarks(s.demand.src)}`}</td>
       <td data-label="AI now">${s.now ? fig(s.now, "pct") : `<span class="foot">no data</span>`}</td>
       <td data-label="${SCEN_NAME[sc]}, ${rd.horizon.months.v} months">${s.now ? fig(s.projected[sc], "pct") : ""}</td>
       <td data-label="Time to threshold">${tttText(s.ttt[sc])}</td></tr>`).join("");
@@ -1648,7 +1650,7 @@ function radarSkills(rd) {
     <details class="more rc-table"><summary class="link-btn">Every value as a table</summary>
       <div class="radar-wrap"><table class="radar-t"><thead><tr><th scope="col">Activity</th><th scope="col">Skill demand</th><th scope="col">AI now</th><th scope="col">${SCEN_NAME[sc]}, ${fig(rd.horizon.months, "")} months</th><th scope="col">Time to threshold</th></tr></thead><tbody>${rows}</tbody></table></div></details>
     <details class="more"><summary class="link-btn">How to read this chart</summary>
-      <p class="foot">${personal ? "Your confirmed activities and your routes' largest gaps." : "The supported roles' main activities. Describe your work to personalise them."} Across: the balance of US roles projected to grow or decline, weighted by their tasks. Up: how much AI does directly in observed Claude use. Select a point for its activity and values.</p>
+      <p class="foot">${personal ? "Your confirmed activities and your routes' largest gaps." : "The supported roles' main activities. Describe your work to personalise them."} Across: the balance of ${DEMAND_POOL} projected to grow or decline, weighted by their tasks. Up: how much AI does directly in observed Claude use. Select a point for its activity and values.</p>
       <p class="foot">Looking ${fig(rd.horizon.months, "")} months ahead (${esc(rd.horizon.basis)}). These controls also set your plan's checkpoints. Slower and faster are assumptions. Two separate signals, never added together; the job projection comes from BLS through O*NET task links.</p></details></section>`;
 }
 
@@ -1699,7 +1701,7 @@ function chartTip(i, pointer) {
     [s.name, "rt-name"],
     [`${SKILL_KIND[s.group][1]}${s.weak ? " · evidence weak" : ""}`, "rt-kind"],
     [`AI does it directly: ${s.now.v.toFixed(1)}% now, ${s.projected[sc].v.toFixed(1)}% ${sc} in ${rd.horizon.months.v} months`, ""],
-    [`Skill demand: ${s.demand.grow.v.toFixed(1)}% growing, ${s.demand.decline.v.toFixed(1)}% declining (${s.demand.roles.v} role${s.demand.roles.v === 1 ? "" : "s"})`, ""],
+    [`Skill demand: ${s.demand.grow.v.toFixed(1)}% in growing roles, ${s.demand.decline.v.toFixed(1)}% in declining roles (${s.demand.roles.v} role${s.demand.roles.v === 1 ? "" : "s"})`, ""],
     [`Threshold ${rd.threshold.v}%: ${t.months && t.months.v > 0 ? `about ${t.months.v} months (estimate)` : t.text}`, ""],
   ];
   tip.replaceChildren(...lines.map(([text, cls]) => { const el = document.createElement("p"); el.textContent = text; if (cls) el.className = cls; return el; }));
@@ -1760,13 +1762,15 @@ function radarSure(rd) {
   return `<section class="soft-card" data-scope aria-labelledby="h-sure"><h2 id="h-sure">${icon("gauge", "sm")}How sure is this</h2>
     <dl class="sure">
       <dt>AI shift</dt>
-      ${b ? `<dd>Tested on the ${esc(releaseLabel(b.target))} release for ${fig(b.units, "int")} activities: the average across earlier releases was off by ${fig(b.mae_mean, "")} points on average, the last value by ${fig(b.mae_persistence, "")} and a trend line by ${fig(b.mae_line, "")}. 80% of errors were within ${fig(b.p80, "")} points${b.calibrated === false ? `; that band held ${fig(b.inside, "pct")} of values, so it is not calibrated` : ""}. Past changes continued only ${fig(b.direction_share, "pct")} of the time (${fig(b.direction_eligible, "int")} cases), so no rising or falling labels are shown.${srcMarks(b.p80.src)}</dd>` : ""}
+      ${b ? `<dd>Tested on the ${esc(releaseLabel(b.target))} release for ${fig(b.units, "int")} activities: the average across earlier releases was off by ${fig(b.mae_mean, "")} points on average, the last value by ${fig(b.mae_persistence, "")} and a trend line by ${fig(b.mae_line, "")}. 80% of those errors were within ${fig(b.p80, "")} points.</dd>
+      ${b.secondary_band ? `<dd>Calibration, a separate test: the 80% error band from predicting the ${esc(releaseLabel(b.secondary_target))} release from the two before it (${fig(b.secondary_band, "")} points) contained ${fig(b.inside, "pct")} of the ${esc(releaseLabel(b.target))} values; a calibrated band would hold 70% to 90%. ${b.calibrated ? "This one passed that test once; it is still a past error, not a guarantee." : "So the bands are not calibrated: treat the ranges as rough."}${srcMarks(b.secondary_band.src)}</dd>` : ""}
+      <dd>Past changes continued only ${fig(b.direction_share, "pct")} of the time (${fig(b.direction_eligible, "int")} cases), so no rising or falling labels are shown.${srcMarks(b.p80.src)}</dd>` : ""}
       <dd><ul class="bases">${["slower", "moderate", "faster"].map(k => `<li>${esc(s.bases[k].text)}${srcMarks(k === "faster" ? s.bases.faster.pace.src : k === "slower" ? s.bases.slower.drop.src : ["aivancin-backtest"])}</li>`).join("")}</ul></dd>
       <dd>Mean share over the ${fig(s.common_tasks, "int")} tasks in every bundled release: ${s.release_means.map(r => `${esc(releaseLabel(r.release))} ${fig(r.mean, "pct")}`).join(", ")}. ${s.release_means.filter(r => r.note).map(r => `${esc(releaseLabel(r.release))}: ${esc(r.note)}`).join(" ")}</dd>
       <dt>US jobs</dt>
       <dd>“${esc(s.bls.quote)}” For detailed occupations, BLS's projections had a lower summed error than a model that keeps each occupation's share fixed (${fig(s.bls.detailed.bls, "")} against ${fig(s.bls.detailed.naive, "")}) and the better score for ${fig(s.bls.detailed.bls_better, "int")} occupations against ${fig(s.bls.detailed.naive_better, "int")} (Occupational Projections Evaluation: 2014-24).${srcMarks(s.bls.src)}</dd>
       <dt>Skill demand</dt>
-      <dd>Carries BLS's projection to activities, so it shares its uncertainty. Labels use a 25-point cut-off between growing and declining shares (an initial value); with fewer than three roles behind an activity it says so.${srcMarks(DEMAND_SRC)}</dd>
+      <dd>Carries BLS's projection to activities, so it shares its uncertainty. Labels compare the two shares: "more growth than decline" when the growing share leads by 25 points or more (an initial value), "more decline than growth" for the reverse, otherwise "mixed". A label says which side is larger, not that most of the activity sits in growing jobs. The pool is ${DEMAND_POOL}, so it includes vocationally prepared work. With fewer than three roles behind an activity it says so.${srcMarks(DEMAND_SRC)}</dd>
       <dt>Malaysia</dt>
       <dd>Observed DOSM figures for the whole skill group, from 2016 to the latest year. Not projected.</dd>
       ${s.registered ? `<dt>Checking ourselves</dt><dd>Today's AI-shift outlook for ${fig(s.registered.count, "int")} activities was frozen on ${esc(fmtDate(s.registered.date))} (SHA-256 <code>${esc(s.registered.sha256.slice(0, 12))}</code>) and will be scored against the next AI-usage release.${srcMarks(s.registered.src)}</dd>` : ""}
@@ -2050,10 +2054,10 @@ function renderPlan() {
       <div class="seg-ctl small scen-ctl" style="--n:3">${["slower", "moderate", "faster"].map(k => `<label><input type="radio" name="pscen" value="${k}" ${d.scenario === k ? "checked" : ""}>${k === "moderate" ? "Moderate" : capitalise(k)}</label>`).join("")}</div></fieldset>
       <p class="foot">Looking ${fig(b.horizon.months, "")} months ahead (${esc(b.horizon.basis)}). A step's checkpoint adds AI checking when AI does its activity directly in at least ${fig(d.threshold, "pct")} of observed Claude conversations by then. ${b.scenario_differs.length ? `Steps that change between scenarios: ${esc(b.scenario_differs.join("; "))}.` : "No step changes between scenarios."} Slower and faster are assumptions, not forecasts.</p></details>
     <details class="plan-order" data-scope ${routeState.orderOpen ? "open" : ""}>
-      <summary><span>Step order <span class="foot">${b.gap_order === "growing" ? "Skills in growing jobs first" : "Largest gaps first"}</span></span>${icon("chevron-down", "sm")}</summary>
-      <label class="check-line"><input type="checkbox" id="p-growing" ${b.gap_order === "growing" ? "checked" : ""}> Skills in growing jobs first</label>
+      <summary><span>Step order <span class="foot">${b.gap_order === "growing" ? "More growth than decline first" : "Largest gaps first"}</span></span>${icon("chevron-down", "sm")}</summary>
+      <label class="check-line"><input type="checkbox" id="p-growing" ${b.gap_order === "growing" ? "checked" : ""}> Skills with more growth than decline first</label>
       <p class="foot">${b.gap_order === "growing" ? orderDiffText(b.order_diff)
-        : "Steps go to the route's largest gaps first. With this option, steps for skills that sit mostly in US graduate jobs projected to grow come first; time, budget and prerequisites still decide what fits."}${srcMarks(DEMAND_SRC)}</p>
+        : "Steps go to the route's largest gaps first. With this option, steps for skills labelled “more growth than decline” (more of the activity in US roles projected to grow than to decline) come first; time, budget and prerequisites still decide what fits."}${srcMarks(DEMAND_SRC)}</p>
     </details>
     </div><div class="plan-main">
     <h2 class="vh">Steps</h2>

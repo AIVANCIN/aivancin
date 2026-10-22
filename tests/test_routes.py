@@ -394,8 +394,8 @@ def test_explore_lists_every_supported_role_with_nothing_counted_and_assumptions
 @pytest.mark.parametrize("order,expected", [("default", {"short-g1"}), ("growing", {"short-g2"})])
 def test_c7_growing_order_puts_gaps_in_growing_jobs_first(planner, monkeypatch, order, expected):
     """Worked by hand: 3 hours fit one 3-hour entry. By weight the heavier gap g1 goes first; with the option, g2,
-    whose activity sits mostly in growing jobs, goes before g1, whose activity sits mostly in declining jobs."""
-    labels = {"g1": "mostly in declining jobs", "g2": "mostly in growing jobs"}
+    whose activity has more growth than decline, goes before g1, whose activity has more decline than growth."""
+    labels = {"g1": "more decline than growth", "g2": "more growth than decline"}
     monkeypatch.setattr(planner.rep.demand, "get", lambda d: {"label": labels[d]})
     missing = [{"dwa_id": "g1", "weight": 4.0, "name": "g1"}, {"dwa_id": "g2", "weight": 1.0, "name": "g2"}]
     courses = [_entry("short-g1", "g1", 2.0, 1.0), _entry("short-g2", "g2", 2.0, 1.0)]

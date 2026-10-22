@@ -55,7 +55,7 @@ def f2_raw(data=DATA, cut=0.25):
         units = {(out[c]["employment"], out[c]["growth_band"], out[c]["openings"]): int(out[c]["openings"])
                  for c, _ in items if out[c]["openings"]}
         net = g - k
-        label = "mostly in growing jobs" if net >= cut else "mostly in declining jobs" if net <= -cut else "mixed"
+        label = "more growth than decline" if net >= cut else "more decline than growth" if net <= -cut else "mixed"
         res[d] = {"grow": round(g, 3), "decline": round(k, 3), "net": round(net, 3), "roles": len(items),
                   "openings": sum(units.values()), "label": label}
     return res

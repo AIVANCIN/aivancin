@@ -24,9 +24,12 @@ BAND_SCORE = {"Decline": -1.0, "Little or no change": 0.0, "Slower than average"
 OUTLOOK_WEIGHT = 0.3  # initial nu when the user picks the outlook order
 GROW_BANDS = ("Faster than average", "Much faster than average")
 DECLINE_BANDS = ("Decline",)
-NET_CUT = 0.25  # initial (SPEC 11.1): net share at or beyond this is "mostly in growing" or "mostly in declining" jobs
+# initial (SPEC 11.1): a net share (growing minus declining) at or beyond this reads "more growth than decline" or
+# "more decline than growth". The net says only which side is larger, not that most of the activity sits in growing jobs.
+NET_CUT = 0.25
 FEW_ROLES = 3  # initial: fewer pool roles than this are shown as "based on N roles"
-DEMAND_RANK = {"mostly in growing jobs": 0, "mixed": 1, "no projection": 2, "mostly in declining jobs": 3}
+GROWTH, DECLINE = "more growth than decline", "more decline than growth"
+DEMAND_RANK = {GROWTH: 0, "mixed": 1, "no projection": 2, DECLINE: 3}
 DEMAND_SRC = ["onet-online-outlook", "onet31-task-dwas", "onet31-tasks", "onet31-job-zones"]
 TTT_MAX_MONTHS = 60
 TREND_START = 2016  # initial (SPEC 11.1): the series shows breaks between 2010 and 2011 and between 2015 and 2016
@@ -41,9 +44,9 @@ def demand_label(net, roles, cut=NET_CUT):
     if not roles:
         return "no projection"
     if net >= cut:
-        return "mostly in growing jobs"
+        return GROWTH
     if net <= -cut:
-        return "mostly in declining jobs"
+        return DECLINE
     return "mixed"
 
 
