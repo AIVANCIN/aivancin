@@ -1,5 +1,5 @@
 """Route support and update evidence beside the decision (22 Oct): what stands behind each route, and whether a
-proposed plan change rests on weak evidence or on a scenario assumption. The two-activity route rule is unchanged."""
+proposed plan change rests on weak evidence or on a scenario assumption."""
 import pytest
 
 from aivancin.matching import Matcher
@@ -27,10 +27,14 @@ def test_each_route_says_what_supports_it(planner, people):
         for r in out["routes"]:
             sp = r["support"]
             assert sp["exact"]["v"] == len(r["done"]) == r["done_count"]["v"]
-            assert sp["related"]["v"] == len(r["related"])
+            assert sp["related"]["v"] == len(r["related"]) and sp["once"]["v"] == len(r["counted_once"])
+            # each role activity counts once (22 Oct): the counted ones are distinct, and so are the twins behind them
+            stands = [x["dwa_id"] for x in r["done"]] + [x["role_dwa_id"] for x in r["related"]]
+            assert len(stands) == len(set(stands)) == sp["counted"]["v"]
+            assert all(x["role_dwa_id"] in stands for x in r["counted_once"])
             assert sp["counted"]["v"] == sp["exact"]["v"] + sp["related"]["v"] >= MIN_DONE  # the rule still admits it
             assert sp["limited"] == (sp["counted"]["v"] <= MIN_DONE or sp["exact"]["v"] < MIN_DONE)
-            assert all(x["src"] for x in (sp["exact"], sp["related"], sp["counted"], sp["needed"]))
+            assert all(x["src"] for x in (sp["exact"], sp["related"], sp["once"], sp["counted"], sp["needed"]))
 
 
 def test_a_route_on_the_minimum_is_marked_limited_and_kept(snaps, planner):

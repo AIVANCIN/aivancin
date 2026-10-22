@@ -91,15 +91,47 @@ def test_b2_a_sibling_activity_counts_toward_the_two_activity_rule(snaps, planne
     role, direct, sibling, other = "15-1252.00", "4.A.2.b.2.b.10", "4.A.2.b.2.b.4", "4.A.3.a.2.c.7"  # other: Cook foods
     w = planner.m.w[role]
     assert direct in w and sibling not in w and other not in w and iwa[direct] == iwa[sibling] != iwa[other]
-    got_direct, related = planner.credited(role, {direct, sibling, other})
-    assert got_direct == [direct] and [d for d, _ in related] == [sibling]
+    # Changed 22 Oct (each role activity counts once): this example used to open the route by counting "Design
+    # software applications" twice, once as itself and once through its twin. The twin now counts toward a role
+    # activity nobody else stands for; here it duplicates the confirmed one, so it is listed as counted once.
+    modify = "4.A.2.b.2.b.7"  # Modify software programs to improve performance, recorded for the role
+    assert modify in w and iwa[modify] == iwa[sibling]
+    got_direct, related, once = planner.credited(role, {modify, sibling, other})
+    assert got_direct == [modify] and related == [(sibling, direct)] and once == []
     assert iwa[related[0][1]] == iwa[sibling] and related[0][1] in w
 
-    prof = _manual_profile(snaps, [direct, sibling])
+    prof = _manual_profile(snaps, [modify, sibling])
     codes = [r["code"] for r in planner.routes(prof, {"weeks": 4}, today=TODAY)["routes"]]
     assert role in codes
     monkeypatch.setattr(routes_mod, "SIBLING_CREDIT", False)
     assert role not in [r["code"] for r in planner.routes(prof, {"weeks": 4}, today=TODAY)["routes"]]
+
+
+def test_b2_one_role_activity_never_counts_twice(snaps, planner):
+    """Confirming an activity and its near-twin is one piece of the role's work, not two: no route, and the role
+    stays visible as close to the work with the duplicate named (22 Oct)."""
+    role, direct, sibling = "15-1252.00", "4.A.2.b.2.b.10", "4.A.2.b.2.b.4"
+    assert planner.credited(role, {direct, sibling}) == ([direct], [], [(sibling, direct)])
+    out = planner.routes(_manual_profile(snaps, [direct, sibling]), {"weeks": 4}, today=TODAY)
+    assert role not in [r["code"] for r in out["routes"]]
+    near = {r["code"]: r for r in out["near_routes"]}
+    assert near[role]["near"]["counted"]["v"] == 1 and near[role]["support"]["once"]["v"] == 1
+    assert near[role]["counted_once"] == [{"dwa_id": sibling, "name": snaps.onet.dwa_names[sibling],
+                                          "role_dwa_id": direct, "role_name": snaps.onet.dwa_names[direct]}]
+
+
+def test_b2_near_twins_take_distinct_role_activities():
+    """Two near-twins of overlapping role activities each count when a one-to-one assignment exists (the largest
+    matching), and a third twin of the same activities counts once."""
+    class Fake(Planner):
+        def __init__(self):
+            self.m = type("M", (), {"w": {"R": {"a": 3.0, "b": 2.0, "c": 1.0}}})()
+            self.dests = {"R": {"siblings": {"a": ["x", "y", "z"], "b": ["x"]}}}
+    p = Fake()
+    assert p.credited("R", {"y", "x"}) == ([], [("x", "b"), ("y", "a")], [])
+    assert p.credited("R", {"x", "y", "z"}) == ([], [("x", "b"), ("y", "a")], [("z", "a")])
+    assert p.credited("R", {"a", "x", "y"}) == (["a"], [("x", "b")], [("y", "a")])
+    assert p.credited("R", {"c", "z"}) == (["c"], [("z", "a")], [])
 
 
 def test_b2_sibling_tables_hold_only_near_twins(snaps, planner, ai):
@@ -125,8 +157,8 @@ def test_b2_a_loose_group_member_does_not_count(snaps, planner):
     role, maps, docs = "15-1232.00", "4.A.1.a.1.b.2", "4.A.1.a.1.b.7"
     assert snaps.onet.dwa_names[maps].startswith("Read maps") and docs in planner.m.w[role]
     assert snaps.onet.dwa_iwa[maps] == snaps.onet.dwa_iwa[docs]
-    _, related = planner.credited(role, {maps})
-    assert related == []
+    _, related, once = planner.credited(role, {maps})
+    assert related == [] and once == []
 
 def test_b2_a_route_still_needs_one_exact_activity(snaps, planner):
     """Siblings alone never open a route: overlap with the role's own activities must be above zero."""

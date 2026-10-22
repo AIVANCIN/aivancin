@@ -1475,14 +1475,23 @@ function explorationSection(cards) {
 
 /* Limited evidence: supported roles that record some of the confirmed work but count fewer activities than a route
    needs. Each opens its full route detail to explore; it cannot be chosen until more work is confirmed. */
+/* What a near role is missing, in its own terms: a confirmed activity that only repeats one already counted, and the
+   role's largest activity still to build as an example of what would count. */
+function nearMissing(r) {
+  const once = (r.counted_once || []).map(x => `“${esc(x.name.replace(/\.$/, ""))}” and “${esc(x.role_name.replace(/\.$/, ""))}” stand for the same activity in this role (O*NET groups them), so they count once.`);
+  const gap = r.prioritized[0];
+  return `<span class="rr-support">${once.length ? `<span>${once.join(" ")}${srcMarks(r.support.once.src)}</span>` : ""}
+    ${gap ? `<span><b>Still needed:</b> one more of the role's activities, such as “${esc(gap.name.replace(/\.$/, ""))}”${srcMarks(gap.weight.src)}</span>` : ""}</span>`;
+}
 function nearSection(list, need) {
   return `<section class="explore-cards" data-scope aria-labelledby="h-near"><h2 id="h-near">Close to your work, not yet a route</h2>
-    <p class="foot">These supported roles record some of what you confirmed. A route needs ${fig(need, "int")} of your activities to count for the role; confirm more of your work to see whether one qualifies.</p>
+    <p class="foot">These supported roles record some of what you confirmed. A route needs ${fig(need, "int")} of the role's activities, each backed by a different activity you confirmed; confirm more of your work to see whether one qualifies.</p>
     <ul class="route-list">${list.map(r => `<li class="route-item"><button type="button" class="route-row" data-open-route="${esc(r.code)}">
       ${familyTile(r)}
       <span class="rr-body"><span class="rr-title">${esc(r.title)}</span>
         <span class="chips"><span class="chip you">${fig(r.near.counted, "int")} of ${fig(need, "int")} activities counted</span>${entryChip(r)}</span>
-        <span class="rr-desc">${esc(r.done.map(x => x.name.replace(/\.$/, "")).join("; "))}${srcMarks(r.done_count.src)}</span></span>
+        <span class="rr-desc">${esc(r.done.map(x => x.name.replace(/\.$/, "")).join("; "))}${srcMarks(r.done_count.src)}</span>
+        ${nearMissing(r)}</span>
       <span class="rr-open" aria-hidden="true">${icon("chevron-right", "sm")}</span></button></li>`).join("")}<li class="list-srcs srcs-slot"></li></ul>
     <div class="describe-actions"><button type="button" class="btn btn-gray" data-go="edit">Describe more of your work</button></div></section>`;
 }
@@ -1592,7 +1601,8 @@ function workSections(r, served) {
         <p>You already do ${fig(r.done_count, "int")} of its ${fig(r.total_count, "int")} recorded activities. Overlap (${fig(r.overlap, "pct")}) is not how much of the job you can do.</p></div>
       ${r.support?.limited ? `<p class="callout limit-note">${icon("info", "sm")}<span>Limited support: this route counts ${fig(r.support.counted, "int")} of your activities (${fig(r.support.exact, "int")} exact, ${fig(r.support.related, "int")} related), the minimum is ${fig(r.support.needed, "int")}. Confirm more of your work to test it.</span></p>` : ""}
       <ul class="did">${groupDone(r.done)}</ul>
-      ${r.related.length ? `<p class="foot">Also counted: ${r.related.map(x => `“${esc(x.name.replace(/\.$/, ""))}”, which O*NET groups with “${esc(x.role_name.replace(/\.$/, ""))}”`).join("; ")}. Not part of the overlap or the gaps.</p>` : ""}</section>
+      ${r.related.length ? `<p class="foot">Also counted: ${r.related.map(x => `“${esc(x.name.replace(/\.$/, ""))}”, which O*NET groups with “${esc(x.role_name.replace(/\.$/, ""))}”`).join("; ")}. Not part of the overlap or the gaps.</p>` : ""}
+      ${r.counted_once?.length ? `<p class="foot">Counted once: ${r.counted_once.map(x => `“${esc(x.name.replace(/\.$/, ""))}” and “${esc(x.role_name.replace(/\.$/, ""))}” stand for the same activity in this role`).join("; ")}. O*NET groups them, and each of the role's activities counts once toward a route.</p>` : ""}</section>
     <section class="soft-card" data-scope aria-labelledby="h-rd-gaps"><h2 id="h-rd-gaps">Still to build</h2>
       <p class="foot">The role's ${gapCount(r)} largest activities you have not confirmed, most frequent first.</p>
       <ul class="gaps">${r.prioritized.map(g => {
