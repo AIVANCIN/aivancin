@@ -1,0 +1,43 @@
+{
+ "written": "2026-10-22, before any change to the encoder's copy of a sentence for work terms. Builder-written sentences, used once to judge the change. Targets use a work term the encoder misread in a probe with one fixed frame ('I do X for a small shop.': bookkeeping, 'the books', IT, cybersecurity); here each term appears in other wording. A target hits when any expected activity is among the sentence's five suggestions. Controls use the same words in other senses (reading books, lower-case 'it', capitals, security guards); their five suggestions must be identical before and after the change. n11 is a known hard case (a bookshop section) and is reported, not excused.",
+ "expected": {
+  "fin": ["4.A.3.b.6.j.3", "4.A.3.b.6.j.2", "4.A.2.a.2.d.1", "4.A.3.b.6.a.1"],
+  "it": ["4.A.4.b.6.d.2", "4.A.4.b.6.d.5", "4.A.3.b.5.c.6", "4.A.3.b.1.d.1", "4.A.3.b.1.d.3", "4.A.3.b.1.d.2", "4.A.3.b.1.c.1",
+         "4.A.3.b.1.c.2", "4.A.3.b.1.c.4", "4.A.4.b.1.a.3", "4.A.3.b.5.c.2"],
+  "sec": ["4.A.3.b.1.b.1", "4.A.1.a.2.j.1", "4.A.2.a.4.l.2", "4.A.3.b.2.f.9"]
+ },
+ "pass_rule": "Ship only if target hits rise, at least 14 of 18 targets hit, every control except n11 keeps identical suggestions, and the existing A1-A3, A6, fairness, ownership, held-out and B7 results are not lower.",
+ "targets": [
+  {"id": "b01", "kind": "fin", "text": "Every Sunday I do the bookkeeping for my brother's phone repair stall."},
+  {"id": "b02", "kind": "fin", "text": "I have been doing book-keeping for a kopitiam near my house for two years."},
+  {"id": "b03", "kind": "fin", "text": "Bookkeeping for two small businesses, mostly in Excel."},
+  {"id": "b04", "kind": "fin", "text": "I help my aunt with bookkeeping and send her the monthly figures."},
+  {"id": "b05", "kind": "fin", "text": "After my shift I do book keeping for a friend's car wash."},
+  {"id": "b06", "kind": "fin", "text": "My part-time job is bookkeeping at a small clinic."},
+  {"id": "b07", "kind": "fin", "text": "I work part-time as a bookkeeper for a hardware shop."},
+  {"id": "k01", "kind": "fin", "text": "My mum runs a tailoring shop and I keep the books for her."},
+  {"id": "k02", "kind": "fin", "text": "I do the books for a friend's bakery every month-end."},
+  {"id": "k03", "kind": "fin", "text": "I kept the books for my university's badminton club for two years."},
+  {"id": "k04", "kind": "fin", "text": "On weekends I handle the books and pay the suppliers for our family grocery."},
+  {"id": "i01", "kind": "it", "text": "I handle IT for my church: the projector, the laptops and the wifi."},
+  {"id": "i02", "kind": "it", "text": "I am the unofficial IT person at my office and fix whatever breaks."},
+  {"id": "i03", "kind": "it", "text": "I help with IT support at my cousin's travel agency."},
+  {"id": "i04", "kind": "it", "text": "I do basic IT work for a small accounting firm, like setting up new laptops."},
+  {"id": "c01", "kind": "sec", "text": "I check my family's devices for malware and look after their cybersecurity."},
+  {"id": "c02", "kind": "sec", "text": "I do cyber security checks on the computers in my uncle's shop."},
+  {"id": "c03", "kind": "sec", "text": "I take care of cybersecurity for a small online store, mostly passwords and backups."}
+ ],
+ "controls": [
+  {"id": "n01", "text": "I read books to the kids at the library on Saturdays."},
+  {"id": "n02", "text": "I keep the books tidy on the library shelves."},
+  {"id": "n03", "text": "I deliver books for an online bookshop."},
+  {"id": "n04", "text": "It is a busy job and it pays the bills."},
+  {"id": "n05", "text": "IT WAS A LONG DAY AT THE WAREHOUSE."},
+  {"id": "n06", "text": "I booked tickets and kept the receipts for our family trip."},
+  {"id": "n07", "text": "I work as a security guard at a shopping mall at night."},
+  {"id": "n08", "text": "I do the housekeeping at a hotel in Melaka."},
+  {"id": "n09", "text": "I put the books back on the shelves after closing."},
+  {"id": "n10", "text": "I keep it simple and just drive."},
+  {"id": "n11", "text": "I do the books and magazines section at a bookstore."}
+ ]
+}
