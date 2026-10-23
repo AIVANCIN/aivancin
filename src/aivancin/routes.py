@@ -823,4 +823,8 @@ class Planner:
                                                 f"No change: the {frm} and {to} evidence lead to the same plan for this target."),
                 "hours_before": a["block"]["effort_hours"], "hours_after": b["block"]["effort_hours"],
                 "cost_before": a["block"]["cost_rm"], "cost_after": b["block"]["cost_rm"],
-                "comparability_note": aei.COMPARABILITY.get(to)}
+                "comparability_note": aei.COMPARABILITY.get(to),
+                # 23 Oct: the slower scenario's fall as it could be known with each bundle; when it differs, part of a
+                # slower-scenario change comes from that assumption, not only from the activities' own figures
+                "slower_drop": {"before": fig(self.rep.skills.drop_at(frm), *[f"aei-{r}" for r in self.rep._upto(frm)]),
+                                "after": fig(self.rep.skills.drop_at(to), *[f"aei-{r}" for r in self.rep._upto(to)])}}

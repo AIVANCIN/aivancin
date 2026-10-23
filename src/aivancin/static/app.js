@@ -2833,7 +2833,8 @@ function renderChanged(res) {
     <div class="ctl change-ctl"><label for="c-from">Earlier evidence</label>${sel("c-from", res.from_release)}<label for="c-to">Later evidence</label>${sel("c-to", res.to_release)}</div>
     <div class="callout" data-scope>${icon("history")}<div><p><b>${res.changed_count ? `${fig({ v: res.changed_count, src: [`aei-${res.from_release}`, `aei-${res.to_release}`, "aivancin-catalogue"] }, "int")} step${res.changed_count === 1 ? "" : "s"} changed between the ${esc(res.from_release)} and ${esc(res.to_release)} evidence.` : esc(res.summary)}</b></p>
       <p class="foot">Effort ${fig(res.hours_before, "")} h → ${fig(res.hours_after, "")} h; cost ${fig(res.cost_before, "rm")} → ${fig(res.cost_after, "rm")}. Your completed steps and chosen target are kept.</p>
-      ${res.comparability_note ? `<details class="more"><summary class="link-btn">The method changed between these releases</summary><p class="foot">${esc(res.comparability_note)}</p></details>` : ""}</div></div>
+      ${res.comparability_note ? `<details class="more"><summary class="link-btn">The method changed between these releases</summary><p class="foot">${esc(res.comparability_note)}</p></details>` : ""}
+      ${routeState.opts.scenario === "slower" && res.slower_drop && res.slower_drop.before.v !== res.slower_drop.after.v ? `<p class="foot">The slower scenario's fall is worked out from the releases available at each point: ${fig(res.slower_drop.before, "")} points with the earlier evidence, ${fig(res.slower_drop.after, "")} with the later. Part of these changes comes from that assumption, not only from each activity's own figures.</p>` : ""}</div></div>
     ${changeSummary(res)}
     ${moved.length ? `<ol class="changes">${moved.map(c => `<li class="chg ${c.change.replace(" ", "-")}" data-scope>
       <p class="gap-name"><span data-src="aivancin-catalogue">${esc(c.title)}</span>${doneTag(c)}</p>

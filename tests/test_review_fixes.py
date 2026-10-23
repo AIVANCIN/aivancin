@@ -287,3 +287,15 @@ def test_negation_counts_only_for_the_persons_own_work(sentence, held):
         assert intake.guard(sentence)["kind"] == "negated"  # the rule before 23 Oct held every one back
     finally:
         intake.NEGATION_SCOPE = True
+
+
+def test_what_changed_reports_the_slower_fall_known_at_each_bundle(planner, snaps, ai, hafiz_req):
+    prof = intake.build_profile(hafiz_req, snaps.onet, intake.suggest(hafiz_req, *ai, snaps.onet), snaps.cip)
+    ids = snaps.evidence.ids
+    c = planner.compare(prof, {"target": "15-1231.00", "scenario": "slower", "from_release": ids[0], "to_release": ids[1]})
+    skills = planner.rep.skills
+    assert c["slower_drop"]["before"]["v"] == skills.drop_at(ids[0]) == 0.0
+    assert c["slower_drop"]["after"]["v"] == skills.drop_at(ids[1]) and c["slower_drop"]["after"]["src"] == [f"aei-{r}" for r in ids[:2]]
+    # In the moderate scenario no bundled release changes this plan (the fall plays no part there).
+    m = planner.compare(prof, {"target": "15-1231.00", "scenario": "moderate", "from_release": ids[0], "to_release": ids[1]})
+    assert m["changed_count"] == 0
