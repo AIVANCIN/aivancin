@@ -1,0 +1,26 @@
+{
+ "check": "Negation scope (PROJECT 95-point list item 1): a negation about a thing or someone else's action inside a sentence of the person's own work must not hold the sentence back; a negation of the person's own work must",
+ "written": "2026-10-23 about 12:05 MYT, before the candidate rule was implemented and before any run on these sentences. Guided by three sentences already seen (long-sentence set l01, set 8 e01 and e11), which are not in this set. The author knew the intended rule (a negation counts when its clause has the person as subject or no subject)",
+ "author": "AIVANCIN builder (Claude Code; model reported by the client: Claude Opus 5.5). Synthetic, agent-written English",
+ "pass_rule": "Ship only if every own_work sentence is not flagged as negated, every negated sentence stays flagged (negated, or another hold-back kind), and none of the A6 guard sets, ownership pairs or long-sentence controls change from caught to not caught",
+ "own_work": [
+  "When the shop's card machine does not connect, I restart it and call the bank's helpdesk.",
+  "I fix the office printer whenever it will not print from the laptops.",
+  "I check the delivery list so that no parcel is sent to the wrong address.",
+  "If a customer's payment has not cleared, I follow up by email and update the invoice.",
+  "I rebuilt the spreadsheet because the old one could not handle more than a month of sales.",
+  "I test each new version of the booking page so that bookings are not lost.",
+  "When the stock count does not match the system, I investigate and correct the records.",
+  "I reset passwords for staff who cannot log in to the shared drive."
+ ],
+ "negated": [
+  "I have not set up a network for anyone yet.",
+  "I don't do the accounts for the shop; my sister does.",
+  "Never built a website, but I would like to.",
+  "It is not my job to reconcile the bank statements.",
+  "We do not repair computers at my workplace.",
+  "I no longer keep the books for my father's shop.",
+  "I can't write code, so I copy formulas from YouTube.",
+  "I was never trained to test software."
+ ]
+}
