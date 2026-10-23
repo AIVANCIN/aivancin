@@ -18,9 +18,14 @@ const state = {
   suggest: null, ticked: new Map(), dismissed: new Map(), manual: new Map(), followed: new Set(),
   lane: "all", opts: { lambda: 0, mu: 0, nu: 0, scenario: "moderate", threshold: 50, pace: 1.444, release: null, horizon: "plan", scope: "skilled" },
   knownTools: new Set(), results: null, baseline: null, selected: null, target: null, lastIntake: null,
+  // readFrom: whose answers the last read was (own or an example), so ticks never carry over to another person's text;
+  // editSummary: what a re-read kept and what it needs confirmed.
+  readFrom: null, editSummary: null,
 };
-/* Compare routes, the chosen plan and what changed (SPEC section 10). */
-const routeState = { data: null, target: null, completed: new Set(), opts: { weeks: 4, willing_long: false, scenario: "moderate", threshold: 50, horizon: "plan" }, change: null,
+/* Compare routes, the chosen plan and what changed (SPEC section 10). lostTarget: a chosen route that no longer
+   qualifies after the person's work changed, kept only to say why; stale: routes still built on answers since edited. */
+const routeState = { data: null, target: null, lostTarget: null, stale: false,
+  completed: new Set(), opts: { weeks: 4, willing_long: false, scenario: "moderate", threshold: 50, horizon: "plan" }, change: null,
   sort: "overlap", filter: "all", open: null, tab: "overview", openCp: new Set(), scenOpen: false, learn: null, saved: new Map(), seen: new Set(),
   kept: null, newer: null, figs: false };
 /* Saved progress: routes were compared before the page was reloaded, so Continue can rebuild them. */
@@ -130,12 +135,8 @@ const TAB_OF = { routes: "routes", route: "routes", results: "routes", radar: "r
 const tabLast = {};
 
 function show(screen, page = 1, focus = true) {
+  if (screen === "work" && state.lastIntake && !editBase) beginEdit(current.screen);
   current = { screen, page };
-  const backNames = { welcome: "start", routes: "routes", route: "role", radar: "Radar", plan: "plan",
-    changed: "What changed", learn: "Learn", profile: "Profile", work: "your work", review: "review", results: "all roles", cohort: "cohort" };
-  const backText = history.state?.back ? `Back to ${backNames[history.state.back] || "previous screen"}` : "Back";
-  $("#back-label").textContent = backText;
-  $("#back").setAttribute("aria-label", backText);
   $$(".screen").forEach(s => { s.hidden = s.id !== screen; });
   document.body.dataset.screen = screen;
   $("#bar").hidden = screen === "welcome";
@@ -170,6 +171,9 @@ function show(screen, page = 1, focus = true) {
   else if (screen === "cohort") renderCohort();
   let heading = $("[tabindex='-1']", document.getElementById(screen));
   if (screen === "work") {
+    // Answers already read: say what reading them again changes, and offer to leave without changing anything.
+    $("#work-edit-note").hidden = !editBase || page !== 1;
+    $("#cancel-edit").hidden = !editBase;
     $$(".q-page").forEach(q => { q.hidden = Number(q.dataset.page) !== page; });
     // The wide-screen panel's list of questions follows the same page.
     $$(".q-steps li").forEach(li => {
@@ -195,7 +199,7 @@ function canShow(screen) {
 }
 
 function navigate(screen, page = 1) {
-  if (current.screen !== screen || current.page !== page) history.pushState({ screen, page, back: current.screen }, "");
+  if (current.screen !== screen || current.page !== page) history.pushState({ screen, page }, "");
   show(screen, page);
 }
 const showStage = navigate;
@@ -304,9 +308,56 @@ function snapshotIntake() {
 }
 function restoreIntake(d) {
   d.fields.forEach(([el, v]) => { if (el.type === "radio") el.checked = v; else el.value = v; });
-  state.title = d.title; state.titleActs = d.titleActs; state.untickedTitle = d.untickedTitle;
+  state.title = d.title; state.titleActs = d.titleActs; state.untickedTitle = new Set(d.untickedTitle);
   renderChosen($("#f-title"), d.title ? `${d.title.title} (${d.title.code})` : null, () => setTitle(null));
   setCip(d.cip);
+}
+const readKey = () => (mode === "example" ? `example:${examplePersona}` : "own");
+
+/* Editing answers that were already read (SPEC 11.17): everything the person had when the edit began (answers, ticks,
+   rejections, added activities, routes and the chosen route) is kept aside until they compare routes again, so Cancel
+   on the questions, or Undo on the review, puts it all back exactly. A failed read changes nothing. */
+let editBase = null;
+const copyTicks = m => new Map([...m].map(([id, t]) => [id, { override: Boolean(t.override), from: [...t.from] }]));
+function beginEdit(from) {
+  editBase = {
+    from, form: snapshotIntake(), mode, persona: examplePersona, readFrom: state.readFrom,
+    lastIntake: state.lastIntake, suggest: state.suggest, lane: state.lane, ticked: copyTicks(state.ticked),
+    dismissed: new Map([...state.dismissed].map(([i, ids]) => [i, [...ids]])), manual: new Map(state.manual), followed: new Set(state.followed),
+    routes: { data: routeState.data, target: routeState.target, lost: routeState.lostTarget, stale: routeState.stale },
+  };
+}
+function cancelEdit() {
+  const b = editBase;
+  editBase = null;
+  let rebuild = false;
+  if (b) {
+    restoreIntake(b.form);
+    mode = b.mode; examplePersona = b.persona;
+    $(".examples").hidden = mode !== "example";
+    $$("#personas [data-persona]").forEach(x => x.setAttribute("aria-pressed", String(x.dataset.persona === examplePersona)));
+    Object.assign(state, { readFrom: b.readFrom, lastIntake: b.lastIntake, suggest: b.suggest, lane: b.lane, ticked: b.ticked,
+      dismissed: b.dismissed, manual: b.manual, followed: b.followed, editSummary: null });
+    // A plan update during the edit used the edited work; rebuild from the restored answers.
+    rebuild = Boolean(b.routes.data) && routeState.data !== b.routes.data;
+    Object.assign(routeState, { data: b.routes.data, target: b.routes.target, lostTarget: b.routes.lost, stale: b.routes.stale });
+    if (state.suggest) renderReview();
+  } else if (state.lastIntake) {
+    // Without the copy (the page was reloaded during the edit), the answers last read come back.
+    const li = state.lastIntake;
+    [["#f-current", li.current_job], ["#f-other", li.other_work], ["#f-studies", li.studies], ["#f-hours", li.weekly_hours], ["#f-budget", li.budget_rm]]
+      .forEach(([sel, v]) => { $(sel).value = v ?? ""; });
+    const deg = $(`#intake input[name="degree_level"][value="${li.degree_level}"]`);
+    if (deg) deg.checked = true;
+    if ((state.title?.code || null) !== (li.title_code || null)) setTitle(li.title_code || null);
+    if ((state.cip?.cip || null) !== (li.cip_code || null)) setCip(li.cip_code ? { cip: li.cip_code, title: li.degree_field } : null);
+  }
+  showFieldErrors({});
+  setStatus("");
+  const dest = b && canShow(b.from) && !["work", "reading"].includes(b.from) ? b.from : routeState.data ? "profile" : state.suggest ? "review" : "welcome";
+  navigate(dest);
+  announce("Edit cancelled. Your previous answers and activities are back.");
+  if (rebuild) refreshPlan();
 }
 async function setMode(next) {
   if (next === "example" && mode !== "example") {
@@ -345,11 +396,15 @@ async function readWork(e) {
   const slow = setTimeout(() => show("reading"), 400);
   try {
     const sug = await api("/api/suggest", body);
+    // Reading the same person's answers again keeps what they decided on sentences they left as they were.
+    const again = Boolean(state.suggest) && state.readFrom === readKey();
+    state.editSummary = again ? carryDecisions(state.suggest, sug) : null;
+    if (!again) { state.ticked = new Map(); state.dismissed = new Map(); state.manual = new Map(); state.followed = new Set(); }
     state.suggest = sug;
-    state.ticked = new Map(); state.dismissed = new Map(); state.manual = new Map(); state.followed = new Set();
     state.lastIntake = body;
-    // New answers make the compared routes stale until Compare routes runs again; the chosen route, ticked steps and saved routes stay.
-    routeState.data = null; routesReached = false;
+    state.readFrom = readKey();
+    // Routes built on the earlier answers stay usable, marked as such, until Compare routes runs again.
+    if (routeState.data && isPersonal()) routeState.stale = true;
     renderReview();
     clearTimeout(slow);
     navigate("review");
@@ -361,6 +416,33 @@ async function readWork(e) {
     $("#read-btn").disabled = false;
     $("#read-btn").textContent = "Read my work";
   }
+}
+
+/* SPEC 11.17: a sentence is unchanged when the same answer box holds the same words and the guard reads it the same
+   way. Its ticks (for activities still suggested for it), its "None of these fit" and its follow-up stay; ticks that
+   rested only on changed or removed sentences go, and new or changed sentences wait for the person's tick. Activities
+   added by search stay. Returns what the review says was kept. */
+function carryDecisions(old, sug) {
+  const before = old.available ? old.sentences : [], after = sug.available ? sug.sentences : [];
+  const guardOf = s => s.guard?.kind || "";
+  const move = new Map(), same = new Set();
+  for (const o of before) {
+    const n = after.find(x => !same.has(x.index) && x.field === o.field && x.text.trim() === o.text.trim() && guardOf(x) === guardOf(o));
+    if (n) { move.set(o.index, n); same.add(n.index); }
+  }
+  const ticked = new Map();
+  let dropped = 0;
+  for (const [id, t] of state.ticked) {
+    const from = t.from.map(i => move.get(i)).filter(n => n && n.top.includes(id) && (!n.guard || t.override));
+    if (from.length) ticked.set(id, { override: Boolean(t.override && from.some(n => n.guard)), from: from.map(n => n.index) });
+    else dropped += 1;
+  }
+  state.dismissed = new Map([...state.dismissed].filter(([i]) => move.has(i))
+    .map(([i, ids]) => [move.get(i).index, ids.filter(id => move.get(i).top.includes(id))]));
+  state.followed = new Set(before.filter(o => move.has(o.index) && state.followed.has(sentKey(o))).map(o => sentKey(move.get(o.index))));
+  state.ticked = ticked;
+  return { kept: ticked.size, added: state.manual.size, dropped, unchanged: after.filter(x => !x.intro && same.has(x.index)).length,
+    fresh: after.filter(x => !x.intro && !same.has(x.index)).map(x => x.index) };
 }
 
 /* The status line sits above the form's button, so it shows on every question. A warning about the
@@ -479,8 +561,24 @@ function renderReview() {
   box.innerHTML = pages.map((h, i) => `<section class="rv-page" data-rv="${i + 1}" hidden>${h}${i + 1 < pages.length ? nav : ""}</section>`).join("");
   const manual = $('[data-find-box="manual"]', box);
   if (manual) openFind(manual, "other_work", false);
+  renderEditSummary();
   renderRail();
   showReviewPage(current.screen === "review" ? current.page : 1);
+}
+
+/* After answers are read again: what was kept, what needs a tick, and a way back to the answers as they were. */
+function renderEditSummary() {
+  const es = state.editSummary, box = $("#review-edit-note");
+  if (!es) { box.innerHTML = ""; return; }
+  const plural = (n, one, many) => `${youFig(n)} ${n === 1 ? one : many}`;
+  const kept = [es.kept ? `${plural(es.kept, "activity", "activities")} you confirmed on sentences you did not change` : "",
+    es.added ? `${plural(es.added, "activity", "activities")} you added` : ""].filter(Boolean);
+  const first = es.fresh.length ? reviewMeta.findIndex(m => m.index === es.fresh[0]) + 1 : 0;
+  box.innerHTML = `<div class="callout edit-summary">${icon("check")}<div>
+    <p><b>Kept:</b> ${kept.length ? kept.join(", and ") : "nothing yet: no confirmed activity was on an unchanged sentence"}.</p>
+    ${es.dropped ? `<p><b>Removed:</b> ${plural(es.dropped, "confirmation", "confirmations")} from sentences you changed or removed.</p>` : ""}
+    <p><b>To check:</b> ${es.fresh.length ? `${plural(es.fresh.length, "new or changed sentence", "new or changed sentences")}. Nothing on ${es.fresh.length === 1 ? "it" : "them"} counts until you tick it.` : "nothing new; your sentences are unchanged."}</p>
+    <p class="edit-actions">${first > 1 ? `<button type="button" class="link-btn" data-rv-go="${first}">Go to the first ${es.fresh.length === 1 ? "one" : "of them"}</button>` : ""}${editBase ? `<button type="button" class="link-btn" data-edit-undo>Undo the edit</button>` : ""}</p></div></div>`;
 }
 
 function showReviewPage(page) {
@@ -491,6 +589,7 @@ function showReviewPage(page) {
   $$("#review .mob-cta [data-rv-next]").forEach(b => { b.hidden = last; });
   $$("#review .mob-cta [data-action=routes]").forEach(b => { b.hidden = !last; });
   $("#review .review-lead").hidden = n !== 1;
+  $("#review-edit-note").hidden = n !== 1 || !state.editSummary;
   renderReviewNav(n);
   return n;
 }
@@ -505,7 +604,7 @@ function renderReviewNav(at = Math.min(Math.max(current.page, 1), reviewPages)) 
       const ticked = m.ids.some(id => tickedOn(id, m.index)), none = state.dismissed.has(m.index);
       mark = ticked ? "done" : m.kind === "guard" ? "held" : none ? "none" : "";
       label = `<mark class="words">${esc(m.text)}</mark>`;
-      note = `${FIELD_LABEL[m.field]} · ${m.kind === "guard" ? (ticked ? "held back, confirmed by you" : "held back") : none ? "none of these fit" : ticked ? "ticked" : "not ticked yet"}`;
+      note = `${FIELD_LABEL[m.field]}${state.editSummary?.fresh.includes(m.index) ? " · new or changed" : ""} · ${m.kind === "guard" ? (ticked ? "held back, confirmed by you" : "held back") : none ? "none of these fit" : ticked ? "ticked" : "not ticked yet"}`;
     } else if (m.kind === "title") {
       mark = state.titleActs.length > state.untickedTitle.size ? "done" : "";
       label = "From your job title"; note = esc(state.title?.title || "");
@@ -567,7 +666,7 @@ async function followUp(idx, answer, box) {
     state.followed.add(sentKey(s));
     const fresh = sug.sentences.filter(x => !old.sentences.some(o => sentKey(o) === sentKey(x)));
     state.suggest = sug; state.lastIntake = body;
-    routeState.data = null; routesReached = false;
+    if (routeState.data && isPersonal()) routeState.stale = true;
     renderReview();
     const page = reviewMeta.findIndex(m => fresh.length && m.index === fresh[0].index) + 1;
     navigate("review", page || 1);
@@ -1277,13 +1376,18 @@ async function start() {
     else if (go === "continue") continueProgress();
     else if (go === "edit") navigate("work", 1);
     else if (go === "start") openApp();
-    else if (go === "describe") { await setMode("own"); navigate("work", 1); }
-    else if (go === "example") { await setMode("example"); navigate("work", 1); }
+    // Switching between your own words and an example changes the form, so an edit of read answers starts before it.
+    else if (go === "describe" || go === "example") {
+      if (state.lastIntake && !editBase) beginEdit(current.screen);
+      await setMode(go === "example" ? "example" : "own");
+      navigate("work", 1);
+    }
     else if (go === "own") { await setMode("own"); $("#h-work").focus(); }
     else if (go === "cohort") navigate("cohort");
   });
   $("#intake").addEventListener("submit", readWork);
   $("#read-now").addEventListener("click", () => { readNow = true; $("#intake").requestSubmit(); });
+  $("#cancel-edit").addEventListener("click", cancelEdit);
   combo($("#f-title"), $("#f-title-list"), async q => (await api(`/api/occupations?q=${encodeURIComponent(q)}`)).map(o => ({ ...o, label: o.title, meta: o.code })), it => setTitle(it.code));
   combo($("#f-field"), $("#f-field-list"), async q => (await api(`/api/fields?q=${encodeURIComponent(q)}`)).map(o => ({ ...o, label: o.title, meta: `CIP ${o.cip}` })), it => setCip({ cip: it.cip, title: it.title }));
   reviewEvents();
@@ -1336,11 +1440,46 @@ async function openApp() {
   navigate(routeState.target && isPersonal() ? "plan" : "routes");
 }
 
+/* The chosen route after the person's work changed (SPEC 11.17). It stays chosen while it still qualifies, and a
+   route chosen while exploring stays as before (10.7). It stops being the route, with the reason shown, when it
+   becomes the person's current job, or when it qualified before and their updated activities leave it below the
+   two-activity rule. Ranking and the rule itself are the server's and unchanged. */
+const qualifies = (r, d) => r.overlap.v > 0 && r.support.counted.v >= d.min_done.v;
+function lostTarget(data) {
+  const code = routeState.target;
+  const r = code && data.routes.find(x => x.code === code);
+  if (!r) return null;
+  if (code === state.lastIntake?.title_code) return { code, title: r.title, why: "current" };
+  const prev = routeState.data && isPersonal() ? routeState.data.routes.find(x => x.code === code) : null;
+  if (!prev || !qualifies(prev, routeState.data) || qualifies(r, data)) return null;
+  return { code, title: r.title, why: "below", counted: r.support.counted, needed: data.min_done };
+}
+/* Routes for the person's own work. When the chosen route no longer qualifies, the routes are compared again without
+   it; nothing is applied until every request has succeeded, so a failure leaves the previous routes and choice. */
+async function personalRoutes() {
+  let data = await api("/api/routes", routesRequest(), 15000);
+  const lost = lostTarget(data);
+  if (lost) data = await api("/api/routes", routesRequest({ target: undefined }), 15000);
+  return { data, lost };
+}
+function applyRoutes({ data, lost }) {
+  if (lost) {
+    Object.assign(routeState, { target: null, lostTarget: lost, kept: null, newer: null });
+    announce(`${lost.title} is no longer your route. ${lost.why === "current" ? "It is your current job." : "Your updated work no longer counts enough of its activities."}`);
+  }
+  routeState.data = data;
+  routeState.stale = false;
+  routesReached = true;
+}
+
 async function compareRoutes() {
   $("#rank-err").textContent = "";
   readRouteOpts();
   try {
-    routeState.data = await api("/api/routes", routesRequest());
+    applyRoutes(await personalRoutes());
+    // Comparing again settles an edit: its answers become the ones to keep.
+    editBase = null;
+    state.editSummary = null;
     renderRoutes();
     showStage("routes");
   } catch (err) {
@@ -1352,7 +1491,8 @@ async function compareRoutes() {
       first?.closest(".field")?.querySelector("input, textarea")?.focus();
       return;
     }
-    $("#rank-err").textContent = errors.activities || Object.values(errors)[0] || "Something went wrong. Please try again.";
+    $("#rank-err").textContent = errors.activities || Object.values(errors)[0]
+      || (routeState.data ? "Could not compare routes. Your previous routes are unchanged. Try again." : "Something went wrong. Please try again.");
   }
 }
 
@@ -1432,10 +1572,11 @@ function entryChip(r) {
   if (!isPersonal()) return "";
   const n = missingReqs(r);
   const planned = r.requirements.filter(q => q.status === "planned").length;
-  const decide = r.requirements.filter(q => q.status === "you decide").length;
+  const open = r.requirements.filter(q => q.status === "you decide");
+  const decide = open.length ? `${fig({ v: open.length, src: [...new Set(open.flatMap(q => q.src || []))] }, "int")} for you to decide` : "";
   if (n) return `<span class="chip limit">${fig({ v: n, src: reqSrc(r) }, "int")} requirement${n === 1 ? "" : "s"} missing</span>`;
-  if (planned) return `<span class="chip">Qualification planned${decide ? ` · ${decide} for you to decide` : ""}</span>`;
-  return `<span class="chip">${decide ? `${decide} for you to decide` : "Requirements met"}</span>`;
+  if (planned) return `<span class="chip">Qualification planned${decide ? ` · ${decide}` : ""}</span>`;
+  return `<span class="chip">${decide || "Requirements met"}</span>`;
 }
 
 /* With the Decent work order, each card shows what the order uses: the group median, and the step when known. */
@@ -1464,19 +1605,71 @@ const limitedChip = r => (r.support?.limited ? `<span class="chip weak-chip">Lim
 
 /* While exploring, a card names the family in a word or two and, under the outlook order, the outlook on the same line. */
 const FAMILY_SHORT = { it_support: "IT and networks", software: "Software", finance_analytics: "Finance and analytics" };
-function routeRow(r) {
+/* With two or more routes the comparison below the cards carries the support details, so a card keeps its chips. */
+function routeRow(r, compared = false) {
   const chosen = routeState.target === r.code;
   const outlook = sortKey() === "outlook" ? `US outlook: ${esc(bandShort(r.job_outlook))}${srcMarks(r.job_outlook.src)}` : "";
   return `<li class="route-item"><button type="button" class="route-row${chosen ? " chosen" : ""}" data-open-route="${esc(r.code)}">
     ${familyTile(r)}
     <span class="rr-body"><span class="rr-title">${esc(r.title)}</span>
       ${chosen ? `<span class="rr-chosen">${icon("check", "sm")}Your route</span>` : ""}
-      ${isPersonal() ? `<span class="chips">${workChip(r)}${limitedChip(r)}</span>`
+      ${isPersonal() ? `<span class="chips">${workChip(r)}${compared ? entryChip(r) : ""}${limitedChip(r)}</span>`
         : `<span class="rr-family">${esc(FAMILY_SHORT[r.family] || r.family_label)}${outlook ? ` · ${outlook}` : ""}</span>`}
-      ${isPersonal() && r.support ? routeSupport(r) : ""}
+      ${isPersonal() && r.support && !compared ? routeSupport(r) : ""}
       ${isPersonal() && outlook ? `<span class="rr-order">${outlook}</span>` : sortKey() === "decent" ? `<span class="chips">${decentChip(r)}</span>` : ""}</span>
     <span class="rr-open" aria-hidden="true">${icon("chevron-right", "sm")}</span>
     </button>${saveBtn(r)}</li>`;
+}
+
+/* A chosen route that stopped qualifying after the person's work changed: said where the route was shown (Routes,
+   Plan), with what is kept and the way on. Choosing a route, or Dismiss, clears it. */
+function lostNote(where) {
+  const x = routeState.lostTarget;
+  if (!x || !isPersonal()) return "";
+  const why = x.why === "current" ? "It is your current job title now, so it is not a move to a new role."
+    : x.why === "below" ? `With your updated activities it counts ${fig(x.counted, "int")} of the ${fig(x.needed, "int")} activities a route needs.`
+    : "It is no longer one of the supported routes.";
+  return `<div class="callout lost-note" data-scope>${icon("triangle-alert")}<div>
+    <p><b>${esc(x.title)} is no longer your route.</b> ${why} Your saved routes and done steps are kept.</p>
+    <p class="note-actions">${where === "plan" ? `<button type="button" class="link-btn" data-tab-go="routes">Choose a route</button>` : ""}<button type="button" class="link-btn" data-tab-go="review">Review your activities</button>${where === "routes" ? `<button type="button" class="link-btn" data-lost-ok>Dismiss</button>` : ""}</p>
+    <div class="srcs-slot"></div></div></div>`;
+}
+
+/* Routes still built on answers the person has since edited and read again: say so until they compare again. */
+function staleNote() {
+  if (!routeState.stale || !isPersonal()) return "";
+  return `<div class="callout stale-note">${icon("info")}<div><p><b>These routes use your earlier answers.</b> Check your activities and compare again to update them.</p>
+    <p class="note-actions"><button type="button" class="link-btn" data-tab-go="review">Check and compare</button>${editBase ? `<button type="button" class="link-btn" data-edit-undo>Undo the edit</button>` : ""}</p></div></div>`;
+}
+
+/* Side by side (SPEC 11.17): the routes in columns and the same four rows, entry requirements first because they can
+   stop a move: each requirement by status, the person's work the route records, the priority gaps its first block
+   serves, and the block's hours and cost with each course counted once. Values only, in the cards' order; nothing is
+   combined into a score. Narrow screens and large text stack each row, naming the route beside each value. */
+const REQ_ORDER = { missing: 0, planned: 1, "you decide": 2, met: 3 };
+const REQ_ICON = { missing: "triangle-alert", planned: "clock", met: "check", "you decide": "circle-dashed" };
+function compareTable(list, d) {
+  const chosen = r => (routeState.target === r.code ? ` class="cmp-chosen"` : "");
+  const cell = (r, html) => `<td role="cell"${chosen(r)}><span class="cmp-who">${esc(r.title)}</span>${html}</td>`;
+  const rows = [
+    ["Entry requirements", r => `<ul class="cmp-reqs">${[...r.requirements].sort((a, b) => REQ_ORDER[a.status] - REQ_ORDER[b.status]).map(q =>
+      `<li><span class="tag ${STATUS_CLASS[q.status] || "weak"}">${icon(REQ_ICON[q.status] || "info", "sm")}${esc(REQ_STATUS[q.status] || capitalise(q.status))}</span> ${esc(REQ_SHORT(q))}${srcMarks(q.src)}</li>`).join("")}</ul>`],
+    ["Your work", r => `<b>${fig(r.done_count, "int")} of ${fig(r.total_count, "int")}</b> activities
+      <span class="cmp-sub">${fig(r.support.exact, "int")} exact${r.support.related.v ? ` + ${fig(r.support.related, "int")} related` : ""} counted</span>${r.support.limited ? `<span class="tag weak">Limited support</span>` : ""}`],
+    ["Priority gaps served", r => `<b>${fig({ v: r.prioritized.filter(g => g.served).length, src: GAP_SRC }, "int")} of ${gapCount(r)}</b>
+      <span class="cmp-sub">by the first block</span>`],
+    [`First block, ${fig(d.weeks, "int")} weeks`, r => `<b>${fig(r.block.effort_hours, "")} h · ${fig(r.block.cost_rm, "rm")}</b>
+      <span class="cmp-sub">${fig({ v: r.block.steps.length, src: GAP_SRC }, "int")} step${r.block.steps.length === 1 ? "" : "s"}, each course counted once</span>`],
+  ];
+  return `<section class="soft-card route-compare" data-scope aria-labelledby="h-compare">
+    <h2 id="h-compare"><span class="sec-ico" aria-hidden="true">${icon("layers", "sm")}</span>Side by side</h2>
+    <p class="foot">Entry requirements come first, since they can stop a move. Activities are the work the US job database O*NET records for each role. Nothing here is a score: you choose.${srcMarks(["onet31-task-dwas", "onet31-tasks"])}</p>
+    <div class="cmp-wrap"><table class="compare-t" role="table" aria-labelledby="h-compare">
+      <thead><tr role="row"><td></td>${list.map(r => `<th scope="col" role="columnheader"${chosen(r)}><button type="button" class="cmp-route" data-open-route="${esc(r.code)}">
+        ${familyTile(r)}<span class="cmp-name">${esc(r.title)}${routeState.target === r.code ? `<span class="rr-chosen">${icon("check", "sm")}Your route</span>` : ""}</span>${icon("chevron-right", "sm")}</button></th>`).join("")}</tr></thead>
+      <tbody>${rows.map(([label, value]) => `<tr role="row"><th scope="row" role="rowheader">${label}</th>${list.map(r => cell(r, value(r))).join("")}</tr>`).join("")}</tbody>
+    </table></div>
+    <div class="srcs-slot"></div></section>`;
 }
 
 /* No dead end (SPEC 11.7): with fewer than two routes, the closest other skilled roles from the exploration ranking,
@@ -1540,17 +1733,21 @@ function renderRoutes() {
   const sorts = personal ? SORTS : EXPLORE_SORTS;
   $("#routes .eyebrow").textContent = personal ? "Compare routes" : "Explore routes";
   $("#h-routes").textContent = personal ? "Routes that use your work" : "Roles you can grow into";
+  // What this section is for, and where the other kind of comparison lives.
   $("#routes-lead").innerHTML = personal
-    ? `<p>Open a route to explore its requirements, outlook and learning plan.</p>`
+    ? `<p>Compare the routes that use your work, then open one to choose it. <button type="button" class="link-btn inline-link" data-tab-go="radar">Radar</button> shows how their skills are changing.</p>`
     : `<p>Explore IT, software and finance. Open a role to see the way in.</p>`;
   const shared = d.shared;
   const chosenRoute = d.routes.find(r => r.code === routeState.target);
   // Bookmarked routes: a Saved filter appears once any shown route is saved (the list itself is in Profile).
   const savedHere = d.routes.filter(r => routeState.saved.has(r.code));
   const filter = savedHere.length ? routeState.filter : "all";
-  const shown = filter === "saved" ? savedHere : d.routes;
+  const shown = sortedRoutes(filter === "saved" ? savedHere : d.routes);
+  const compared = personal && shown.length > 1;
   $("#routes-body").innerHTML = `
     ${personal ? "" : describeCard()}
+    ${staleNote()}
+    ${lostNote("routes")}
     ${d.fewer_note && d.routes.length ? `<div class="callout">${icon("info")}<p>${esc(d.fewer_note)}</p></div>` : ""}
     ${d.routes.length ? `
       ${d.routes.length > 1 ? `<fieldset class="sort-ctl"><legend class="vh">Order routes by</legend>
@@ -1558,7 +1755,8 @@ function renderRoutes() {
         <details class="sort-help"><summary>About this order</summary><p class="foot">${sorts[sort][1]} No combined score: you choose.</p></details></fieldset>` : ""}
       ${savedHere.length ? `<fieldset class="filter-ctl"><legend class="vh">Show</legend>
         <div class="seg-ctl filter-seg" style="--n:2"><label><input type="radio" name="rfilter" value="all" ${filter === "all" ? "checked" : ""}>All routes</label><label><input type="radio" name="rfilter" value="saved" ${filter === "saved" ? "checked" : ""}>Saved (${savedHere.length})</label></div></fieldset>` : ""}
-      <ul class="route-list" aria-label="${filter === "saved" ? "Saved routes" : "Routes"}" data-scope>${sortedRoutes(shown).map(routeRow).join("")}<li class="list-srcs srcs-slot"></li></ul>
+      <ul class="route-list" aria-label="${filter === "saved" ? "Saved routes" : "Routes"}" data-scope>${shown.map(r => routeRow(r, compared)).join("")}<li class="list-srcs srcs-slot"></li></ul>
+      ${compared ? compareTable(shown, d) : ""}
       ${personal && shown.some(r => r.support?.limited) ? `<p class="foot limited-note">Limited support means the route rests on the minimum of ${fig(d.min_done, "int")} confirmed activities, or partly on related ones. It stays a route. Confirm more of your work, or <button type="button" class="link-btn inline-link" data-action="rank">compare all roles by overlap</button>.</p>` : ""}` :
       (!personal || d.exploration?.length || d.near_routes?.length ? `<div class="callout">${icon("info")}<p>${d.near_routes?.length
         ? `Your confirmed work overlaps ${d.near_routes.length === 1 ? "a supported role" : `${fig({ v: d.near_routes.length, src: ["aivancin-routes", "onet31-task-dwas"] }, "int")} supported roles`}, but none counts ${fig(d.min_done, "int")} of your activities yet, so there is no route. Confirm more of your work, or explore the roles below.`
@@ -1595,7 +1793,7 @@ function overviewPanel(r) {
   // The header shows the first sentence; the rest of the description and the role's codes wait behind About this role.
   const more = r.description.text.slice(r.description.first.length).trim();
   const work = isPersonal() ? workSections(r, served) : `<section class="soft-card" data-scope aria-labelledby="h-rd-acts"><h2 id="h-rd-acts"><span class="sec-ico" aria-hidden="true">${icon("list-checks", "sm")}</span>Main activities</h2>
-      <p class="foot">The ${r.prioritized.length} largest of the ${fig(r.total_count, "int")} activities O*NET records for this role.</p>
+      <p class="foot">The ${r.prioritized.length} largest of the ${fig(r.total_count, "int")} activities the US job database O*NET records for this role.</p>
       <ul class="gaps">${r.prioritized.map(g => `<li>${actTile(g.name)}<span class="act-body"><span class="act-name">${esc(g.name)}</span>${served.has(g.dwa_id) ? `<span class="gap-note">In the first block</span>` : ""}</span><b class="${served.has(g.dwa_id) ? "in-block" : ""}" aria-hidden="true"></b></li>`).join("")}</ul>
       <button type="button" class="btn btn-gray" data-go="describe">${icon("pencil-line", "sm")}Describe your work</button>
       <p class="foot">See how many of these you already do.</p></section>`;
@@ -1603,8 +1801,8 @@ function overviewPanel(r) {
     ${work}
     <section class="soft-card" data-scope aria-labelledby="h-rd-req"><h2 id="h-rd-req"><span class="sec-ico" aria-hidden="true">${icon("graduation-cap", "sm")}</span>Requirements</h2><ul class="reqs">${r.requirements.map(reqRow).join("")}</ul>${reqNote(r.requirements)}</section>
     <section class="soft-card" data-scope aria-labelledby="h-rd-opp"><h2 id="h-rd-opp"><span class="sec-ico" aria-hidden="true">${icon("chart-column", "sm")}</span>Opportunity</h2>
-      <dl class="opportunity-metrics"><div><dt>US job outlook</dt><dd><span class="tag ${bandClass(r.job_outlook) || "good"}">${esc(bandShort(r.job_outlook))}</span>${srcMarks(r.job_outlook.src)}</dd><dd class="foot">${esc(r.job_outlook.period || "No projection period")}</dd></div>
-      ${r.pay ? `<div><dt>Malaysia: group pay difference</dt><dd class="metric-value">${fig(r.pay.step, "step")}<span class="metric-unit"> / month</span></dd><dd class="foot">DOSM 2025, from your current skill group. Group medians, not a salary offer.</dd></div>` : ""}</dl>
+      <dl class="opportunity-metrics"><div><dt>US job outlook</dt><dd><span class="tag ${bandClass(r.job_outlook) || "good"}">${esc(bandShort(r.job_outlook))}</span>${srcMarks(r.job_outlook.src)}</dd><dd class="foot">${esc(r.job_outlook.period || "No projection period")}, BLS projection</dd></div>
+      ${r.pay ? `<div><dt>Malaysia: pay difference between skill groups</dt><dd class="metric-value">${fig(r.pay.step, "step")}<span class="metric-unit"> / month</span></dd><dd class="foot">This role's skill-group median monthly pay${r.median ? ` (${fig(r.median, "rm")})` : ""} minus your current group's, DOSM 2025. Group medians, not a salary offer.</dd></div>` : ""}</dl>
       ${r.job_outlook.bright.length ? `<p><span class="tag sdg">Bright Outlook</span>${srcMarks(r.job_outlook.src)}</p>` : ""}
       <p class="foot"><b>SDG 8.5:</b> ${esc(r.sdg[0].reason)}${srcMarks(r.sdg[0].src)}</p>
       <details class="more"><summary class="link-btn">Malaysia, observed</summary>
@@ -1619,7 +1817,7 @@ function workSections(r, served) {
   return `
     <section class="soft-card" data-scope aria-labelledby="h-rd-work"><h2 id="h-rd-work"><span class="sec-ico you" aria-hidden="true">${icon("check", "sm")}</span>Your work in this role</h2>
       <div class="ring-row"><span class="ring-box">${ring(r.done_count.v, r.total_count.v)}<span class="ring-num" aria-hidden="true" data-src="${esc(r.done_count.src.join(" "))}">${esc(r.done_count.v)}/${esc(r.total_count.v)}</span></span>
-        <p>You already do ${fig(r.done_count, "int")} of its ${fig(r.total_count, "int")} recorded activities. Overlap (${fig(r.overlap, "pct")}) is not how much of the job you can do.</p></div>
+        <p>You already do ${fig(r.done_count, "int")} of the ${fig(r.total_count, "int")} activities the US job database O*NET records for this role. That shared work (${fig(r.overlap, "pct")} overlap) is not how much of the job you can do yet.</p></div>
       ${r.support?.limited ? `<p class="callout limit-note">${icon("info", "sm")}<span>Limited support: this route counts ${fig(r.support.counted, "int")} of your activities (${fig(r.support.exact, "int")} exact, ${fig(r.support.related, "int")} related), the minimum is ${fig(r.support.needed, "int")}. Confirm more of your work to test it.</span></p>` : ""}
       <ul class="did">${groupDone(r.done)}</ul>
       ${r.related.length || r.counted_once?.length ? `<details class="more counted-more"><summary class="link-btn">Related activities and counting</summary>
@@ -1638,6 +1836,9 @@ const ASSUMPTION_NOTE = "Built on starting assumptions: 6 hours a week and no bu
 
 /* ---------- forecast signals (SPEC 11.1): shared pieces of the route's Future tab and the Radar ---------- */
 const SCEN_NAME = { slower: "Slower", moderate: "Moderate", faster: "Faster" };
+/* Plain words for two terms people meet often (SPEC 11.17), said where they appear. */
+const SCEN_PLAIN = "moderate keeps today's share; slower and faster are assumptions, not forecasts";
+const blockMeaning = (d, b) => `The first block is your first ${fig(d.weeks, "int")} weeks of courses, fitted to ${fig(b.weekly_hours, "")} hours a week and a ${fig(d.budget_rm, "rm")} budget, each course counted once.`;
 const DEMAND_CLASS = { "more growth than decline": "grow", "more decline than growth": "limit", "no projection": "weak", mixed: "" };
 /* The skill-demand pool: Job Zone 3 and 4 roles, which include vocationally prepared work, so not "graduate jobs". */
 const ZONE_SRC = ["onet31-job-zones", "onet31-job-zone-reference"];
@@ -1697,6 +1898,7 @@ function futurePanel(r) {
   }).join("");
   const em = r.future.emerging;
   return `
+    <p class="foot role-future-note">This role only. <button type="button" class="link-btn inline-link" data-tab-go="radar">Radar</button> compares these signals across ${isPersonal() ? "all your routes and skills" : "every supported role"}.</p>
     <div class="fut-top"><section class="soft-card" data-scope aria-labelledby="h-fu-jobs"><h2 id="h-fu-jobs"><span class="sec-ico" aria-hidden="true">${icon("trending-up", "sm")}</span>Jobs in the United States</h2>
       <p class="outlook-period foot">BLS projection ${esc(jo.period || "period unavailable")}${srcMarks(jo.src)}</p>
       <p class="outlook-headline">${jo.band ? esc(jo.band) : "No projection published for this role."}${srcMarks(jo.src)}</p>
@@ -1708,7 +1910,7 @@ function futurePanel(r) {
     <div class="fut-head"><p class="rd-lead">This role's ${fig({ v: ai.length, src: ["onet31-task-dwas", "onet31-tasks"] }, "int")} largest activities, by how much AI does them directly when people use Claude (up to ${esc(releaseLabel(d.release))}).${srcMarks([`aei-${d.release}`])}</p>
       <label class="check-line fig-toggle"><input type="checkbox" role="switch" id="fut-figs" ${routeState.figs ? "checked" : ""}> Show figures</label></div>
     <details class="more fut-how"><summary class="link-btn">How to read these</summary>
-      <p class="foot">For each activity: the share AI does directly when people use Claude for it, where that share may be ${fig(hz.months, "")} months ahead in the ${esc(sc)} scenario, and skill demand: of the ${demandPool()} that record the activity, weighted by how often it appears in their tasks, the share projected to grow faster than average and the share projected to decline (BLS 2025-2035).</p></details>
+      <p class="foot">For each activity: the share AI does directly when people use Claude for it, where that share may be ${fig(hz.months, "")} months ahead in the ${esc(sc)} scenario (${SCEN_PLAIN}), and skill demand: of the ${demandPool()} that record the activity, weighted by how often it appears in their tasks, the share projected to grow faster than average and the share projected to decline (BLS 2025-2035).</p></details>
     ${groups}
     <section class="soft-card" data-scope aria-labelledby="h-fu-em"><h2 id="h-fu-em"><span class="sec-ico ev" aria-hidden="true">${icon("sparkles", "sm")}</span>What's emerging</h2>
       ${em.tasks.length ? `<ul class="emerging">${em.tasks.map(t => `<li>${esc(t.task)} <span class="foot">(${esc(t.category)}, ${esc(t.date)})${srcMarks(t.src)}</span></li>`).join("")}</ul>` : `<p class="foot">No emerging-task record in O*NET 31.0.</p>`}
@@ -1724,7 +1926,7 @@ function blockPanel(r) {
     <section class="soft-card" data-scope aria-labelledby="h-rd-block"><h2 id="h-rd-block"><span class="sec-ico" aria-hidden="true">${icon("list-checks", "sm")}</span><span>First ${fig(d.weeks, "int")}-week block</span></h2>
       <div class="stat-row"><p><b>${fig(b.effort_hours, "")}</b><span>of ${fig(b.capacity_hours, "")} hours</span></p><p><b>${fig(b.cost_rm, "rm")}</b><span>of ${fig(d.budget_rm, "rm")} budget</span></p><p><b>${fig({ v: served, src: GAP_SRC }, "int")}/${gapCount(r)}</b><span>priority gaps served</span></p></div>
       ${b.gap_order === "growing" ? `<p class="foot">Steps for skills with more growth than decline first (set on Plan).</p>` : ""}
-      <p class="foot">${esc(capitalise(b.status))}. Verified resources exist for ${fig(r.supported_share, "pct")} of the priority gaps. A first block is a start, not a complete transition.</p>
+      <p class="foot">${blockMeaning(d, b)} ${esc(capitalise(b.status))}. Verified resources exist for ${fig(r.supported_share, "pct")} of the priority gaps. A first block is a start, not a complete transition.</p>
       ${blockLimits(r)}
       ${isPersonal() ? "" : `<p class="foot">${ASSUMPTION_NOTE}</p>`}
       <ol class="mini-steps">${b.steps.map(s => `<li><span>${esc(s.title)}</span><span class="foot">${esc(s.provider)} · ${fig({ v: Math.round((s.provider_hours.v + s.practice_hours.v) * 10) / 10, src: s.provider_hours.src }, "")} h</span></li>`).join("")}</ol></section>`;
@@ -1800,6 +2002,7 @@ function radarSkills(rd) {
     ${legend}
     <div class="rchart" id="rchart"></div>
     <p class="vh" id="rc-live" aria-live="polite"></p>
+    ${radarNote()}
     ${left ? `<p class="foot">${fig({ v: left, src: chartSrc }, "int")} of ${fig({ v: rd.skills.length, src: chartSrc }, "int")} not drawn: no AI-usage evidence in the bundled releases or no US projection. They are in the table.</p>` : ""}
     <details class="more rc-table"><summary class="link-btn">Every value as a table</summary>
       <div class="radar-wrap"><table class="radar-t"><thead><tr><th scope="col">Activity</th><th scope="col">Skill demand</th><th scope="col">AI now</th><th scope="col">${SCEN_NAME[sc]}, ${fig(rd.horizon.months, "")} months</th><th scope="col">Time to threshold</th></tr></thead><tbody>${rows}</tbody></table></div></details>
@@ -1871,6 +2074,13 @@ function chartTip(i, pointer) {
   if (!pointer) $("#rc-live").textContent = lines.map(l => l[0].replace(/\.$/, "")).join(". ") + ".";
 }
 
+/* Under the chart: what a scenario is, and the one-role view (a route's Future tab) beside this all-roles one. */
+function radarNote() {
+  const d = routeState.data, one = d.routes.find(r => r.code === routeState.target) || sortedRoutes(d.routes)[0];
+  return `<p class="foot radar-note">A scenario is how much AI might do each activity by then: ${SCEN_PLAIN}.${one
+    ? ` For one role in detail, open its <button type="button" class="link-btn inline-link" data-open-future="${esc(one.code)}" aria-label="${esc(one.title)}: Future tab">Future tab</button>.` : ""}</p>`;
+}
+
 const CHANGING_SHOWN = 3;
 function changingItem(c) {
   const routes = [...new Set(c.where.map(w => w.route_title))];
@@ -1935,10 +2145,12 @@ function radarSure(rd) {
 
 let radarApplied = null, radarRetryOptions = null;
 function renderRadar() {
-  const d = routeState.data, box = $("#radar-body");
-  if (!d || !d.radar) { box.innerHTML = ""; return; }
+  const d = routeState.data, box = $("#radar-body"), lead = $("#radar-lead");
+  if (!d || !d.radar) { box.innerHTML = ""; lead.innerHTML = ""; return; }
   const rd = d.radar;
   radarApplied = { scenario: rd.scenario, horizon: routeState.opts.horizon };
+  // Radar is every route and skill at once (one short line, so the chart stays in the first screen on phones, 11.4).
+  lead.innerHTML = `<p>${isPersonal() ? "All your routes and skills" : "Every supported role"} at once.</p>`;
   box.innerHTML = `
     <div class="radar-layout"><div class="radar-primary">
     ${radarSkills(rd)}
@@ -1955,10 +2167,12 @@ function renderRadar() {
 
 function radarEvents() {
   const box = $("#radar");
-  box.addEventListener("click", e => { if (e.target.closest("#radar-retry")) { Object.assign(routeState.opts, radarRetryOptions); refreshPlan(); } });
+  // The chart's own line says what it shows; the update is also announced once it applies.
+  const radarNote = d => `Chart and plan updated: ${SCEN_NAME[d.radar.scenario].toLowerCase()} scenario, ${d.radar.horizon.months.v} months ahead.`;
+  box.addEventListener("click", e => { if (e.target.closest("#radar-retry")) { Object.assign(routeState.opts, radarRetryOptions); refreshPlan(radarNote); } });
   box.addEventListener("change", e => {
-    if (e.target.matches('input[name="rscen"]')) { routeState.opts.scenario = e.target.value; refreshPlan(); }
-    else if (e.target.id === "r-hz") { routeState.opts.horizon = e.target.value === "plan" ? "plan" : Number(e.target.value); refreshPlan(); }
+    if (e.target.matches('input[name="rscen"]')) { routeState.opts.scenario = e.target.value; refreshPlan(radarNote); }
+    else if (e.target.id === "r-hz") { routeState.opts.horizon = e.target.value === "plan" ? "plan" : Number(e.target.value); refreshPlan(radarNote); }
   });
   const nearest = (px, py) => {
     let best = -1, dist = 28 * 28;
@@ -2012,9 +2226,10 @@ function renderRoute() {
   attachSources(box);
 }
 
-function openRoute(code) {
+function openRoute(code, tab = "overview") {
   routeState.open = code;
-  routeState.tab = "overview";
+  routeState.tab = tab;
+  if (tab === "future") { routeState.seen.add("future"); saveProgress(); }
   renderRoute();
   navigate("route");
 }
@@ -2028,13 +2243,27 @@ async function openExplorationRole(code) {
   if (matchMedia("(max-width: 979px)").matches) $("#detail").scrollIntoView({ block: "start" });
 }
 
-async function choose(code) {
+async function choose(code, btn) {
+  const before = { target: routeState.target, release: routeState.opts.release, kept: routeState.kept, newer: routeState.newer };
+  const title = routeState.data?.routes.find(x => x.code === code)?.title || "";
   routeState.target = code;
   // A chosen plan records the AI-usage evidence it was built on (SPEC 11.6); a new choice starts on the latest.
   routeState.opts.release = latestRelease();
   routeState.kept = null;
   routeState.newer = null;
-  await refreshPlan();
+  const ok = await refreshPlan(() => `${title} is your route. Your plan is ready.`);
+  if (ok === null) return;
+  if (!ok) {
+    // Nothing changes: the previous route (or none) stays, and the person can try again from the same button.
+    Object.assign(routeState, { target: before.target, kept: before.kept, newer: before.newer });
+    routeState.opts.release = before.release;
+    const label = btn?.closest(".stage-cta")?.querySelector(".cta-label");
+    if (label) label.innerHTML = `<span class="cta-kicker">Not chosen yet</span><span role="alert">Could not build the plan. Try again.</span>`;
+    else announce("Could not build the plan. Try again.");
+    return;
+  }
+  routeState.lostTarget = null;
+  saveProgress();
   showStage("plan");
 }
 
@@ -2063,21 +2292,36 @@ async function checkNewer() {
 function newerText(n) {
   return `Newer AI-usage evidence (${releaseLabel(n.to)}) is available. ${n.count ? `It changes ${n.count} of your plan's steps.` : "It changes none of your plan's steps."}`;
 }
-async function decideEvidence(choice) {
+async function decideEvidence(choice, btn) {
   const n = routeState.newer;
   if (!n) return;
-  if (choice === "use") routeState.opts.release = n.to; else routeState.kept = n.to;
+  if (choice === "use") {
+    routeState.opts.release = n.to;
+    const ok = await refreshPlan(() => `Your plan now uses the ${releaseLabel(n.to)} evidence.`);
+    if (ok === null) return;
+    if (!ok) {
+      // The plan stays on its evidence and the choice stays open.
+      routeState.opts.release = n.from;
+      $$("#changed .decide .inline-err").forEach(x => x.remove());
+      btn?.closest(".decide")?.insertAdjacentHTML("beforeend", `<p class="inline-err" role="alert">${icon("triangle-alert", "sm")}<span>Could not update your plan. It still uses the ${esc(releaseLabel(n.from))} evidence.</span></p>`);
+      return;
+    }
+  } else routeState.kept = n.to;
   routeState.newer = null;
   routeState.change = null;
   saveProgress();
-  if (choice === "use") await refreshPlan();
   navigate("plan");
 }
 
 /* Quick successive changes (scenario, look-ahead, a ticked step) each start a refresh; only the latest one renders,
    so an older response arriving last can never put back a setting the person already changed. */
 let planSeq = 0;
-async function refreshPlan() {
+/* planApplied: the settings behind the plan on screen; planRetry: an update that failed, for its Retry. */
+let planApplied = null, planRetry = null;
+/* Returns true once the update applied, false when it failed (the previous view stays, with a retry beside the
+   control that asked), and null when a later update replaced it. note(data) is what to announce once it applied;
+   sel finds the control that asked again after the plan is redrawn. */
+async function refreshPlan(note = null, sel = null) {
   const seq = ++planSeq;
   const radarOpen = $$("#radar-body details").map(el => el.open);
   const radarMessage = $("#radar-feedback");
@@ -2086,15 +2330,21 @@ async function refreshPlan() {
     $("#rchart").setAttribute("aria-busy", "true");
   }
   const active = document.activeElement;
+  const fromRetry = active?.dataset.planRetry !== undefined;
+  // Pending: the plan dims after a moment (a fast update never flickers) and any earlier failure note goes.
+  $("#plan .plan-layout")?.setAttribute("aria-busy", "true");
+  $$("#plan .inline-err").forEach(x => x.remove());
   const focusDone = active?.dataset.done;
   const focusScenario = ["pscen", "rscen"].includes(active?.name) ? active.value : null;
   const focusName = active?.name || active?.id;
   try {
-    const data = await loadRoutes(isPersonal());
-    if (seq !== planSeq) return;
-    routeState.data = data;
+    const personal = isPersonal();
+    const res = personal ? await personalRoutes() : { data: await loadRoutes(false), lost: null };
+    if (seq !== planSeq) return null;
+    if (personal) applyRoutes(res); else routeState.data = res.data;
+    planRetry = null;
     await checkNewer();
-    if (seq !== planSeq) return;
+    if (seq !== planSeq) return null;
     const keepFocus = document.activeElement === active;
     renderRoutes();
     renderPlan();
@@ -2102,12 +2352,16 @@ async function refreshPlan() {
     ({ learn: renderLearn, radar: renderRadar, profile: renderProfile })[current.screen]?.();
     if (current.screen === "radar") $$("#radar-body details").forEach((el, i) => { el.open = radarOpen[i] || false; });
     saveProgress();
-    const restore = focusDone ? $$("#plan input[data-done]").find(input => input.dataset.done === focusDone)
+    const restore = fromRetry && sel ? $(sel)
+      : focusDone ? $$("#plan input[data-done]").find(input => input.dataset.done === focusDone)
       : focusScenario ? $$(`input[name='${focusName}']`).find(input => input.value === focusScenario)
       : focusName === "radar-retry" ? $("#radar input[name=rscen]:checked") : focusName === "r-hz" ? $("#r-hz") : focusName === "p-growing" ? $("#p-growing") : null;
-    if (keepFocus) restore?.focus({ preventScroll: true });
+    if (keepFocus || fromRetry) restore?.focus({ preventScroll: true });
+    if (note) announce(note(routeState.data));
+    return true;
   } catch (err) {
-    if (seq !== planSeq) return;
+    if (seq !== planSeq) return null;
+    $("#plan .plan-layout")?.removeAttribute("aria-busy");
     if (current.screen === "radar") {
       radarRetryOptions = { scenario: routeState.opts.scenario, horizon: routeState.opts.horizon };
       Object.assign(routeState.opts, radarApplied);
@@ -2116,10 +2370,30 @@ async function refreshPlan() {
       $("#radar-feedback").textContent = "Could not update. The chart still shows the previous settings. Retry or choose another scenario.";
       $("#radar-retry").hidden = false;
       $("#rchart").removeAttribute("aria-busy");
-    } else {
+    } else if (current.screen === "plan" && planApplied && $("#plan .plan-layout")) {
+      // The plan on screen is still the last one that applied: put its settings back, redraw it, and say so beside
+      // the control that asked, with a retry of the same change.
+      planRetry = { scenario: routeState.opts.scenario, gap_order: routeState.opts.gap_order, completed: new Set(routeState.completed), note, sel };
+      Object.assign(routeState.opts, { scenario: planApplied.scenario, gap_order: planApplied.gap_order });
+      routeState.completed = new Set(planApplied.completed);
+      renderPlan();
+      const at = sel && $(sel);
+      const spot = at && (at.closest(".pstep-foot") || at.closest("fieldset, .check-line"));
+      const msg = `<p class="inline-err" role="alert">${icon("triangle-alert", "sm")}<span>Could not update your plan, so it still shows your previous choice.</span><button type="button" class="link-btn" data-plan-retry>Retry</button></p>`;
+      if (spot) spot.insertAdjacentHTML("afterend", msg); else $("#plan .plan-main").insertAdjacentHTML("afterbegin", msg);
+      (at || $("#plan [data-plan-retry]"))?.focus({ preventScroll: true });
+    } else if (!routeState.data) {
       $("#plan-body").innerHTML = `<div class="callout">${icon("triangle-alert")}<p>${esc(Object.values(err.data?.errors || {})[0] || "Could not build the plan.")}</p></div>`;
     }
+    return false;
   }
+}
+function retryPlan() {
+  const r = planRetry;
+  if (!r) return;
+  Object.assign(routeState.opts, { scenario: r.scenario, gap_order: r.gap_order });
+  routeState.completed = new Set(r.completed);
+  refreshPlan(r.note, r.sel);
 }
 
 /* A plan step reads like a timeline entry: what it builds, the resource that teaches it, and its hours.
@@ -2308,11 +2582,25 @@ function orderDiffText(diff) {
 function renderPlan() {
   const d = routeState.data;
   const r = d.routes.find(x => x.code === routeState.target);
-  if (!r) { $("#plan-body").innerHTML = emptyState("list-checks", "No route chosen yet", "Open a route and choose it to see its first learning block here.", "routes", "Compare routes"); return; }
+  // What Plan is for, against Learn, and what a first block is, in one line above it.
+  $("#plan-lead").innerHTML = r ? `<p>Start with the next task below. ${blockMeaning(d, r.block)} <button type="button" class="link-btn inline-link" data-tab-go="learn">Learn</button> lists every other course for ${esc(r.title)}.</p>` : "";
+  if (!r) {
+    planApplied = null;
+    $("#plan-body").innerHTML = `${staleNote()}${lostNote("plan")}${routeState.lostTarget ? ""
+      : emptyState("list-checks", "No route chosen yet", "Open a route and choose it to see its first learning block here.", "routes", "Compare routes")}`;
+    attachSources($("#plan"));
+    renderSideRoute();
+    return;
+  }
   const b = r.block;
+  planApplied = { scenario: d.scenario, gap_order: b.gap_order, completed: new Set(routeState.completed) };
   const next = b.steps.find(s => !s.completed);
   const done = b.steps.filter(s => s.completed).length;
+  // Start here leads: on one column it comes straight after the route's summary, before the scenario and order
+  // settings; with the pinned side column it heads the steps.
+  const start = startCard(b, next), wide = planWide = PLAN_WIDE.matches;
   $("#plan-body").innerHTML = `
+    ${staleNote()}
     ${routeState.newer && isPersonal() ? `<div class="callout newer" role="status">${icon("history")}<div><p><b>${esc(newerText(routeState.newer))}</b></p>
       <button type="button" class="link-btn" data-action="changed">Review the change</button></div></div>` : ""}
     <div class="plan-layout"><div class="plan-side">
@@ -2325,11 +2613,12 @@ function renderPlan() {
       <p class="foot">AI-usage evidence up to ${esc(releaseLabel(planRelease()))}.${srcMarks([`aei-${planRelease()}`])}</p>
       <div class="srcs-slot"></div></details>
     </div>
+    ${wide ? "" : start}
     <details class="plan-scen" data-scope ${routeState.scenOpen ? "open" : ""}>
       <summary><span>Future scenario <span class="foot">${esc(capitalise(d.scenario))}${b.scenario_differs.length ? `, changes ${fig({ v: b.scenario_differs.length, src: r.contribution.s82.checkpoints.src.concat(["your-input"]) }, "int")} checkpoint${b.scenario_differs.length === 1 ? "" : "s"}` : ""}</span></span>${icon("chevron-down", "sm")}</summary>
       <fieldset><legend class="vh">Future scenario for the checkpoints</legend>
       <div class="seg-ctl small scen-ctl" style="--n:3">${["slower", "moderate", "faster"].map(k => `<label><input type="radio" name="pscen" value="${k}" ${d.scenario === k ? "checked" : ""}>${k === "moderate" ? "Moderate" : capitalise(k)}</label>`).join("")}</div></fieldset>
-      <p class="foot">Looking ${fig(b.horizon.months, "")} months ahead (${esc(b.horizon.basis)}). A step's checkpoint adds AI checking when AI does its activity directly in at least ${fig(d.threshold, "pct")} of observed Claude conversations by then. “If AI moves faster or slower” shows what each scenario changes. Slower and faster are assumptions, not forecasts.</p></details>
+      <p class="foot">A scenario is how much AI might do each activity ${fig(b.horizon.months, "")} months ahead (${esc(b.horizon.basis)}): ${SCEN_PLAIN}. A step's checkpoint adds AI checking when AI does its activity directly in at least ${fig(d.threshold, "pct")} of observed Claude conversations by then. “If AI moves faster or slower” shows what each scenario changes.</p></details>
     <details class="plan-order" data-scope ${routeState.orderOpen ? "open" : ""}>
       <summary><span>Step order <span class="foot">${b.gap_order === "growing" ? "More growth than decline first" : "Largest gaps first"}</span></span>${icon("chevron-down", "sm")}</summary>
       <label class="check-line"><input type="checkbox" id="p-growing" ${b.gap_order === "growing" ? "checked" : ""}> Skills with more growth than decline first</label>
@@ -2337,7 +2626,7 @@ function renderPlan() {
         : "Steps go to the route's largest gaps first. With this option, steps for skills labelled “more growth than decline” (more of the activity in US roles projected to grow than to decline) come first; time, budget and prerequisites still decide what fits."}${srcMarks(DEMAND_SRC)}</p>
     </details>
     </div><div class="plan-main">
-    ${startCard(b, next)}
+    ${wide ? start : ""}
     ${scenarioCard(r, d)}
     <h2 class="vh">Steps</h2>
     <ol class="psteps">${b.steps.map(stepItem).join("")}</ol>
@@ -2353,6 +2642,11 @@ function renderPlan() {
   attachSources($("#plan"));
   renderSideRoute();
 }
+
+// Redrawn only when the layout really changes (a browser can report the same width again, as when printing).
+const PLAN_WIDE = matchMedia("(min-width: 1280px)");
+let planWide = null;
+PLAN_WIDE.addEventListener("change", e => { if (e.matches !== planWide && current.screen === "plan" && routeState.data) renderPlan(); });
 
 async function showChanged() {
   const ids = state.status.releases;
@@ -2442,13 +2736,22 @@ function routeEvents() {
     const b = e.target.closest("button");
     if (!b) return;
     if (b.dataset.openRoute) openRoute(b.dataset.openRoute);
+    else if (b.dataset.openFuture) openRoute(b.dataset.openFuture, "future");
     else if (b.dataset.save) toggleSaved(b.dataset.save);
-    else if (b.dataset.unsave) { routeState.saved.delete(b.dataset.unsave); saveProgress(); renderProfile(); renderRoutes(); $("#h-saved-routes")?.focus(); }
+    else if (b.dataset.unsave) {
+      const title = routeState.saved.get(b.dataset.unsave);
+      routeState.saved.delete(b.dataset.unsave); saveProgress(); renderProfile(); renderRoutes();
+      ($("#h-saved-routes") || $("#h-profile")).focus();
+      announce(`Removed ${title} from saved routes.`);
+    }
     else if (b.dataset.tabGo) navigate(b.dataset.tabGo);
     else if (b.dataset.action === "routes") compareRoutes();
-    else if (b.classList.contains("choose-route")) choose(b.dataset.route);
+    else if (b.classList.contains("choose-route")) choose(b.dataset.route, b);
     else if (b.dataset.action === "changed") showChanged();
-    else if (b.dataset.evidence) decideEvidence(b.dataset.evidence);
+    else if (b.dataset.evidence) decideEvidence(b.dataset.evidence, b);
+    else if (b.dataset.planRetry !== undefined) retryPlan();
+    else if (b.dataset.editUndo !== undefined) cancelEdit();
+    else if (b.dataset.lostOk !== undefined) { routeState.lostTarget = null; saveProgress(); renderRoutes(); $("#h-routes").focus(); }
     else if (b.dataset.action === "rank" && !b.closest("#review")) rank();
     else if (b.dataset.exploreRole) openExplorationRole(b.dataset.exploreRole);
     else if (b.dataset.action === "explore-all") { state.opts.scope = "all"; rank(); }
@@ -2481,17 +2784,29 @@ function routeEvents() {
     else if (d.classList?.contains("plan-order")) routeState.orderOpen = d.open;
     else if (d.classList?.contains("plan-scen")) routeState.scenOpen = d.open;
   }, true);
+  // Each change shows at once in its control, applies when the plan comes back, and is announced then; a failure
+  // shows beside the control with a retry (refreshPlan).
+  const planNow = d => d.routes.find(x => x.code === routeState.target)?.block;
   $("#plan").addEventListener("change", e => {
     if (e.target.matches("input[data-done]")) {
-      const id = e.target.dataset.done;
-      if (e.target.checked) routeState.completed.add(id); else routeState.completed.delete(id);
-      refreshPlan();
+      const id = e.target.dataset.done, on = e.target.checked;
+      if (on) routeState.completed.add(id); else routeState.completed.delete(id);
+      refreshPlan(d => {
+        const b = planNow(d);
+        if (!b) return "Plan updated.";
+        const s = b.steps.find(x => x.id === id), next = b.steps.find(x => !x.completed);
+        return `${s ? s.title : "Step"} marked ${on ? "done" : "not done"}. ${b.steps.filter(x => x.completed).length} of ${b.steps.length} steps done.${next ? ` Start here: ${next.title}.` : ""}`;
+      }, `#plan input[data-done="${CSS.escape(id)}"]`);
     } else if (e.target.matches('input[name="pscen"]')) {
       routeState.opts.scenario = e.target.value;
-      refreshPlan();
+      refreshPlan(d => {
+        const b = planNow(d);
+        return `${SCEN_NAME[d.scenario]} scenario.${b ? ` ${b.steps.filter(s => s.form === "ai").length} of ${b.steps.length} checkpoints add AI checking.` : ""}`;
+      }, "#plan input[name=pscen]:checked");
     } else if (e.target.id === "p-growing") {
       routeState.opts.gap_order = e.target.checked ? "growing" : "default";
-      refreshPlan();
+      refreshPlan(d => (d.routes.find(x => x.code === routeState.target)?.block.gap_order === "growing"
+        ? "Steps for skills with more growth than decline come first." : "Steps for the largest gaps come first."), "#p-growing");
     }
   });
 }
@@ -2514,9 +2829,9 @@ function saveProgress() {
   const data = {
     v: 1, mode, persona: examplePersona, form, title: state.title, titleActs: state.titleActs, untickedTitle: [...state.untickedTitle], cip: state.cip,
     lastIntake: state.lastIntake, suggest: state.suggest, ticked: [...state.ticked], dismissed: [...state.dismissed], manual: [...state.manual], followed: [...state.followed],
-    lane: state.lane, knownTools: [...state.knownTools],
+    lane: state.lane, knownTools: [...state.knownTools], readFrom: state.readFrom,
     routes: { reached: (Boolean(routeState.data) && isPersonal()) || routesReached, target: routeState.target, completed: [...routeState.completed], opts: routeState.opts,
-      sort: routeState.sort, saved: [...routeState.saved], seen: [...routeState.seen], kept: routeState.kept || null },
+      sort: routeState.sort, saved: [...routeState.saved], seen: [...routeState.seen], kept: routeState.kept || null, lost: routeState.lostTarget },
   };
   try { localStorage.setItem(STORE, JSON.stringify(data)); } catch (e) { /* storage unavailable or full: progress lasts for this visit only */ }
 }
@@ -2546,8 +2861,11 @@ function restoreProgress() {
       if (!t.from.length) state.ticked.delete(id);
     }
     state.lane = d.lane || "all"; state.knownTools = new Set(d.knownTools);
+    // Records from before readFrom was kept: their read was of the answers saved with them.
+    state.readFrom = d.readFrom || (d.suggest ? (mode === "example" ? `example:${examplePersona}` : "own") : null);
     const r = d.routes || {};
-    Object.assign(routeState, { target: r.target || null, completed: new Set(r.completed), sort: r.sort || "overlap", saved: new Map(r.saved), seen: new Set(r.seen), kept: r.kept || null });
+    Object.assign(routeState, { target: r.target || null, completed: new Set(r.completed), sort: r.sort || "overlap", saved: new Map(r.saved),
+      seen: new Set(r.seen), kept: r.kept || null, lostTarget: r.lost || null });
     if (r.opts) Object.assign(routeState.opts, r.opts);
     routesReached = Boolean(r.reached);
     if (state.suggest) renderReview();
@@ -2582,12 +2900,16 @@ function updateContinue() {
 
 async function continueProgress() {
   if (!routeState.data && routesReached) {
+    const was = routeState.target;
     try {
       routeState.data = await api("/api/routes", routesRequest());
     } catch (err) {
       // The chosen route may no longer be supported; compare again without it before giving up.
       routeState.target = null;
       try { routeState.data = await api("/api/routes", routesRequest()); } catch (e) { routeState.data = null; }
+      // Said only when the routes came back without it; a failure of both leaves the choice as it was.
+      if (routeState.data && was) routeState.lostTarget = { code: was, title: routeState.saved.get(was) || "Your chosen route", why: "unsupported" };
+      else routeState.target = was;
     }
     if (routeState.data && routeState.target && !routeState.data.routes.some(r => r.code === routeState.target)) routeState.target = null;
     if (routeState.data) renderRoutes();
@@ -2626,11 +2948,24 @@ function goTab(tab) {
 
 function toggleSaved(code) {
   const r = routeState.data?.routes.find(x => x.code === code);
+  const title = routeState.saved.get(code) || r?.title;
   if (routeState.saved.has(code)) routeState.saved.delete(code); else if (r) routeState.saved.set(code, r.title);
+  const on = routeState.saved.has(code);
   saveProgress();
-  if (current.screen === "profile") { renderProfile(); $("#h-saved-routes")?.focus(); return; }
+  // The bookmark fills or empties where it was pressed; the announcement says where saved routes are kept.
+  const said = on ? `Saved ${title}. Saved routes are in Profile and under the Saved filter.` : `Removed ${title} from saved routes.`;
+  if (current.screen === "profile") { renderProfile(); $("#h-saved-routes")?.focus(); announce(said); return; }
   if (current.screen === "route") renderRoute(); else renderRoutes();
   ($(`#${current.screen} [data-save="${CSS.escape(code)}"]`) || $("#routes input[name='rfilter']:checked") || $("#h-routes"))?.focus();
+  announce(said);
+}
+
+/* One polite announcement region for results that show elsewhere on screen (saved, step done, plan updated). It is
+   cleared first so the same words twice are still read. */
+function announce(text) {
+  const el = $("#announce");
+  el.textContent = "";
+  setTimeout(() => { el.textContent = text; }, 60);
 }
 
 function emptyState(ico, title, text, tab, label) {
@@ -2667,7 +3002,7 @@ function renderLearn() {
   const groups = items => items.map(g => `<section class="learn-group"><h3 class="learn-act-head">${actTile(g.name)}<span class="act-name">${esc(g.name)}</span></h3>
     <ul class="res-list">${g.options.map(courseRow).join("")}</ul></section>`).join("");
   box.innerHTML = `
-    <p class="lead-left">Build your next skill, one course at a time.</p>
+    <p class="lead-left">Every verified course for a route's priority gaps, first-block courses first. <button type="button" class="link-btn inline-link" data-tab-go="plan">Plan</button> puts your first block in order, starting with the next task.</p>
     <div class="learn-heading"><span class="learn-family">${familyTile(r)}</span><div class="ctl learn-pick"><label for="learn-route">Learning for</label>
       <select id="learn-route">${sortedRoutes(d.routes).map(x => `<option value="${esc(x.code)}" ${x.code === r.code ? "selected" : ""}>${esc(x.title)}${x.code === routeState.target ? " (your route)" : ""}</option>`).join("")}</select></div></div>
     <div class="learn-courses fam-${esc(r.family)}" data-scope>
@@ -2734,10 +3069,12 @@ function renderProfile() {
   box.innerHTML = `
     ${persona ? `<div class="callout">${icon("info")}<p>${esc(persona.name)}'s example, a synthetic person. Describe your work to use your own words.</p></div>` : ""}
     <div class="profile-main">
+    ${staleNote()}
     <section class="soft-card" aria-labelledby="h-prog"><h2 id="h-prog"><span class="sec-ico you" aria-hidden="true">${icon("list-checks", "sm")}</span>Your progress</h2>
+      ${next ? `<div class="next-milestone"><p class="d-kicker">Next milestone</p><button type="button" class="profile-next" ${next[2]}>${esc(next[0])}${icon("arrow-right", "sm")}</button></div>` : ""}
       <div class="ring-row"><span class="ring-box">${ring(done, items.length)}<span class="ring-num" aria-hidden="true" data-src="your-input">${done}/${items.length}</span></span>
-        <div><p>${youFig(done)} of ${youFig(items.length)} app milestones done.</p>${next ? `<button type="button" class="link-btn profile-next" ${next[2]}>Next: ${esc(next[0].toLowerCase())}${icon("arrow-right", "sm")}</button>` : `<p class="foot">Every app milestone is done.</p>`}</div></div>
-      <ul class="progress-list">${items.map(([t, ok, action]) => `<li class="${ok ? "ok" : ""}"><button type="button" ${action}><span class="pl-mark" aria-hidden="true">${ok ? icon("check", "sm") : ""}</span><span>${esc(t)}<span class="vh">${ok ? ", done" : ", not yet"}</span></span>${icon("chevron-right", "sm")}</button></li>`).join("")}</ul></section>
+        <div><p>${youFig(done)} of ${youFig(items.length)} app milestones done.</p>${next ? "" : `<p class="foot">Every app milestone is done.</p>`}</div></div>
+      <ul class="progress-list">${items.map(([t, ok, action]) => { const up = !ok && next?.[0] === t; return `<li class="${ok ? "ok" : up ? "next-ms" : ""}"><button type="button" ${action}><span class="pl-mark" aria-hidden="true">${ok ? icon("check", "sm") : up ? icon("arrow-right", "sm") : ""}</span><span>${esc(t)}<span class="vh">${ok ? ", done" : up ? ", next" : ", not yet"}</span></span>${icon("chevron-right", "sm")}</button></li>`; }).join("")}</ul></section>
     ${pathSection()}
     ${savedSection()}
     ${state.lastIntake ? `<section class="soft-card" aria-labelledby="h-answers"><h2 id="h-answers"><span class="sec-ico you" aria-hidden="true">${icon("pencil-line", "sm")}</span>Your answers</h2>
@@ -2749,7 +3086,7 @@ function renderProfile() {
         <dt>Time and budget</dt><dd>${li.weekly_hours == null ? "?" : youFig(li.weekly_hours)} hours a week, ${fig({ v: li.budget_rm ?? 0, src: ["your-input"] }, "rm")} budget, first block of ${youFig(routeState.opts.weeks)} weeks</dd>
       </dl>
       <button type="button" class="btn btn-gray" data-go="edit">${icon("pencil-line", "sm")}Edit answers</button>
-      <p class="foot">Reading your answers again asks you to confirm your activities again.</p></section>` : ""}
+      <p class="foot">Sentences you leave unchanged keep their confirmed activities; new or changed ones need your tick. Routes and your plan update when you compare again.</p></section>` : ""}
     </div><div class="profile-aside">
     ${state.lastIntake ? `<section class="soft-card" aria-labelledby="h-acts"><h2 id="h-acts"><span class="sec-ico you" aria-hidden="true">${icon("clipboard-check", "sm")}</span>Your activities <span class="num" data-src="your-input">${c.all}</span></h2>
       ${names.length ? `<ul class="plain-rows">${names.map(n => `<li>${actTile(n, "you")}<span class="act-name">${esc(n)}</span><span class="act-tick" aria-hidden="true">${icon("check", "sm")}</span></li>`).join("")}</ul>` : ""}
@@ -2758,6 +3095,7 @@ function renderProfile() {
     <section class="soft-card" aria-labelledby="h-data"><h2 id="h-data"><span class="sec-ico" aria-hidden="true">${icon("shield-check", "sm")}</span>Your data</h2>
       <p class="foot">Your answers, activities, route and progress are kept in this browser only. The server keeps nothing.</p>
       <button type="button" class="btn btn-gray btn-danger-text" id="clear-open">${icon("trash-2", "sm")}Clear my data</button></section></div>`;
+  attachSources(box);
 }
 
 function sectionEvents() {

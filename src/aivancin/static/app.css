@@ -228,21 +228,25 @@ details.title-acts > summary { cursor: pointer; font: 600 1rem/1.35 var(--displa
 .rr-outlook { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
 .rr-outlook .tag { font-size: 0.75rem; padding: 2px 8px; }
 .ctl select { display: block; width: 100%; max-width: 320px; margin-top: 8px; min-height: 40px; padding: 0 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--card); color: var(--text); font: inherit; font-size: 0.9375rem; }
-.radar-wrap { margin-top: 12px; }
+.radar-wrap { margin-top: 12px; overflow-x: auto; }
 .radar-t { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
 .radar-t th, .radar-t td { text-align: left; vertical-align: top; padding: 10px 14px 10px 0; border-top: 1px solid var(--sep); }
 .radar-t thead th { font-size: 0.75rem; font-weight: 600; color: var(--text2); letter-spacing: 0.02em; border-top: 0; padding-top: 0; }
 .radar-t th[scope="row"] { font-weight: 500; }
 .radar-t .act-name { display: block; font-size: 0.9375rem; line-height: 1.35; color: var(--text); }
 .radar-t .kind { display: block; margin-top: 2px; font-size: 0.75rem; color: var(--text2); }
-.radar-t td { white-space: nowrap; font-size: 0.875rem; }
+/* Text cells wrap so the table fits its card (Jad, 23 Oct); figures have no break point, so they stay whole. */
+.radar-t td { font-size: 0.875rem; }
 .radar-t td.sel { font-weight: 600; }
 .cls { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 0.75rem; font-weight: 500; white-space: normal; background: var(--fill); color: var(--text); }
 .cls-ai { background: var(--evidence-tint); color: var(--evidence); }
 .cls-none { color: var(--text2); }
 .notes { margin: 12px 0 0; padding-left: 18px; font-size: 0.875rem; color: var(--text2); line-height: 1.45; }
 .notes li + li { margin-top: 4px; }
-@media (max-width: 759px) {
+/* Stacked, labelled rows whenever the table's own width is short for its text (phones, and large text beside the
+   Radar's side column), so it never runs out of its card (Jad, 23 Oct). */
+.radar-wrap { container-type: inline-size; }
+@container (max-width: 34rem) {
   .radar-t, .radar-t tbody { display: block; }
   .radar-t thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .radar-t tr { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 16px 0; border-top: 1px solid var(--sep); }
@@ -1154,9 +1158,6 @@ html[data-text-size="3"] :is(.stage-cta, .mob-cta), html[data-text-size="4"] :is
 .req-note { margin-top: 12px; }
 
 /* Aqil's hierarchy refinement: quiet groups, explicit actions and dated figures. */
-#back { display: inline-flex; align-items: center; gap: 4px; width: auto; min-width: 44px; padding-inline: 8px; border-radius: 10px; font-size: 0.875rem; }
-#back .ico { flex: none; }
-body[data-counted="yes"] #back-label { display: none; }
 .btn-tinted { background: var(--accent-tint); color: var(--accent); font-weight: 600; }
 .btn-tinted:hover { background: var(--fill); }
 .side-route .btn-tinted { width: 100%; justify-content: space-between; margin-top: 12px; padding-inline: 12px; }
@@ -1220,12 +1221,6 @@ body[data-counted="yes"] #back-label { display: none; }
   #profile-body > .profile-main, #profile-body > .profile-aside { display: block; margin: 0; }
 }
 @media (max-width: 1279px) { .profile-aside { margin-top: 16px; } }
-@media (max-width: 979px) {
-  body[data-counted="no"] .bar-in { grid-template-columns: minmax(44px, 1fr) auto 44px; }
-  #back { max-width: 100%; }
-  #back-label { font-size: 0.8125rem; line-height: 1.2; }
-  html[data-text-size="3"] #back-label, html[data-text-size="4"] #back-label { display: none; }
-}
 
 /* Route: the codes and the rest of the description wait behind About this role. */
 .rd-about { margin-top: 16px; }
@@ -1413,3 +1408,71 @@ html[data-bold="on"] :is(.act-tile, .sec-ico, .fact dt .tile-ico, .res-tile, .le
 .evidence-panel > summary .ep-title { display: inline-flex; align-items: center; gap: 12px; min-width: 0; }
 .evidence-panel > .soft-card { padding: 4px 0 0; background: none; box-shadow: none; }
 :root[data-contrast="more"] :is(details.more > summary, .sort-help > summary, .req-more > summary) { box-shadow: inset 0 0 0 1px var(--border); }
+
+/* UI/UX priorities (SPEC 11.17): edit and recovery notes, local feedback, routes side by side, next milestone. */
+.edit-note { margin: 16px 0 0; padding: 14px 16px; font-size: 0.9375rem; line-height: 1.45; background: var(--accent-tint); box-shadow: none; }
+.edit-note > .ico { color: var(--accent); flex: none; }
+/* Read my work now and Cancel editing share one line under the main button, so editing adds no height there. */
+.q-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 20px; margin-top: 6px; }
+.q-links .read-now { margin: 0; }
+.cancel-edit { font-size: 0.9375rem; }
+@media (min-width: 760px) { .q-links { display: inline-flex; margin: 0 0 0 16px; vertical-align: middle; } .q-links .read-now { margin: 0; } }
+.inline-link { display: inline; min-height: 0; padding: 0; font-size: inherit; line-height: inherit; vertical-align: baseline; }
+#review-edit-note .callout { margin-top: 16px; background: var(--you-tint); box-shadow: none; }
+#review-edit-note .callout > .ico { color: var(--you); flex: none; }
+:is(.edit-actions, .note-actions) { display: flex; flex-wrap: wrap; gap: 0 20px; margin-top: 2px; }
+.stale-note { margin-top: 16px; background: var(--fill); box-shadow: none; }
+/* A chosen route that no longer qualifies is a limit, so it uses the limit colours (orange). */
+.callout.lost-note { margin-top: 16px; background: var(--rust-tint); box-shadow: none; }
+.callout.lost-note > .ico { color: var(--rust); flex: none; }
+.inline-err { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; margin-top: 10px; padding: 6px 12px; border-radius: 12px; background: var(--rust-tint); color: var(--rust); font-size: 0.875rem; font-weight: 500; line-height: 1.35; }
+.inline-err > span { flex: 1 1 12rem; }
+.inline-err .ico { flex: none; }
+.pstep-foot + .inline-err { margin-top: 12px; }
+/* Pending: the plan dims only if an update takes longer than a moment, so a fast one never flickers. */
+.plan-layout { transition: opacity 120ms var(--ease); }
+.plan-layout[aria-busy="true"] { opacity: 0.55; transition-delay: 250ms; }
+
+/* Side by side: stacked rows, each naming the route beside its value, until the card is wide enough for a table
+   (40rem, so larger text keeps the stacked form longer). */
+.route-compare { container-type: inline-size; }
+.cmp-wrap { margin-top: 8px; }
+.compare-t { width: 100%; border-collapse: collapse; font-size: 0.9375rem; line-height: 1.4; }
+.compare-t, .compare-t tbody, .compare-t tr, .compare-t th, .compare-t td { display: block; }
+.compare-t thead { display: none; }
+.compare-t tbody tr { padding: 12px 0 6px; border-top: 1px solid var(--sep); }
+.compare-t tbody th { font-size: 0.8125rem; font-weight: 600; color: var(--text2); text-align: left; }
+.compare-t td { padding: 6px 0; }
+.compare-t b { font-weight: 600; }
+.cmp-who { display: block; font-weight: 600; font-size: 0.875rem; color: var(--text); }
+.compare-t td.cmp-chosen .cmp-who { color: var(--you); }
+.cmp-sub { display: block; font-size: 0.8125rem; color: var(--text2); }
+.compare-t .tag { white-space: normal; }
+.compare-t td > .tag { margin-top: 4px; }
+.cmp-reqs { display: grid; gap: 6px; margin: 2px 0 0; padding: 0; list-style: none; }
+.cmp-reqs li { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 4px 8px; }
+.cmp-route { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 6px; border: 0; border-radius: 12px; background: none; color: var(--text); text-align: left; font-weight: 600; cursor: pointer; }
+.cmp-route:hover { background: var(--fill); }
+.cmp-route .fam-tile { width: 36px; height: 36px; border-radius: 10px; }
+.cmp-route > .ico { flex: none; color: var(--text2); }
+.cmp-name { flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
+.cmp-name .rr-chosen { display: flex; }
+@container (min-width: 40rem) {
+  .compare-t { display: table; table-layout: fixed; }
+  .compare-t thead { display: table-header-group; }
+  .compare-t tbody { display: table-row-group; }
+  .compare-t tr { display: table-row; }
+  .compare-t th, .compare-t td { display: table-cell; padding: 12px 10px; vertical-align: top; text-align: left; border-top: 1px solid var(--sep); }
+  .compare-t thead :is(th, td) { padding: 0 4px 8px; border-top: 0; }
+  .compare-t thead td { width: 8.5rem; }
+  .compare-t tbody th { padding-left: 0; }
+  .compare-t :is(td, th).cmp-chosen { background: var(--you-tint); }
+  .cmp-who { display: none; }
+}
+
+.next-milestone { margin: 4px 0 6px; }
+.next-milestone .d-kicker { margin-bottom: 6px; }
+.next-milestone .profile-next { display: flex; width: 100%; justify-content: space-between; margin-top: 0; padding: 10px 16px; border-radius: 14px; line-height: 1.3; text-align: left; }
+.progress-list li.next-ms button { font-weight: 600; }
+.progress-list li.next-ms .pl-mark { border-color: var(--accent); color: var(--accent); }
+.progress-list li.next-ms .pl-mark .ico { width: 14px; height: 14px; }

@@ -93,7 +93,7 @@
       <span class="brand-mark" aria-hidden="true"></span>AIVANCIN
     </button>
     <div class="bar-mid">
-      <button type="button" class="icon-btn" id="back" aria-label="Back"><svg class="ico" aria-hidden="true"><use href="#i-chevron-left"/></svg><span id="back-label">Back</span></button>
+      <button type="button" class="icon-btn" id="back" aria-label="Back"><svg class="ico" aria-hidden="true"><use href="#i-chevron-left"/></svg></button>
       <div class="progress" aria-hidden="true"><span class="progress-fill" id="progress-fill"></span></div>
       <p class="bar-step"><span aria-hidden="true" id="bar-count">1/4</span><span class="vh" id="bar-label">Step 1 of 4, Your work</span></p>
     </div>
@@ -128,6 +128,7 @@
 <section class="screen q-screen" id="work" aria-label="Your work" hidden>
   <div class="wrap q-wrap">
   <form id="intake" novalidate>
+    <div class="callout edit-note" id="work-edit-note" hidden><svg class="ico" aria-hidden="true"><use href="#i-info"/></svg><p><b>Editing answers you checked.</b> Sentences you leave unchanged keep their ticks; new or changed ones need yours. Routes update when you compare again.</p></div>
     <div class="q-page" data-page="1">
       <div class="examples" hidden>
         <p class="examples-label">Example people, synthetic</p>
@@ -219,7 +220,8 @@
     <p class="status-line" id="ai-status" role="status"></p>
     <div class="q-actions">
       <button class="btn btn-primary btn-block" type="submit" id="read-btn">Continue</button>
-      <button class="link-btn read-now" type="button" id="read-now">Read my work now</button>
+      <div class="q-links"><button class="link-btn read-now" type="button" id="read-now">Read my work now</button>
+      <button class="link-btn cancel-edit" type="button" id="cancel-edit" hidden>Cancel editing</button></div>
       <p class="foot privacy" id="read-note">Read on this server and not kept there. Your answers stay in this browser until you clear them.</p>
     </div>
   </form>
@@ -249,6 +251,7 @@
     <p class="eyebrow">Your work</p>
     <h1 id="h-review" class="page-title" tabindex="-1">Check what we read</h1>
     <p class="lead-left review-lead">A small model matched each sentence to work activities. Tick the ones that are true for you; nothing counts until you do.</p>
+    <div id="review-edit-note" hidden></div>
     <div class="review">
       <nav class="rv-list-wrap" aria-labelledby="h-rv-list"><h2 class="rv-list-h" id="h-rv-list">What we read</h2><ol class="rv-list" id="rv-list"></ol></nav>
       <div id="sentences"></div>
@@ -294,6 +297,7 @@
   <div class="wrap narrow">
     <p class="eyebrow">Your plan</p>
     <h1 id="h-plan-stage" class="page-title" tabindex="-1">Your first learning block</h1>
+    <div class="lead-left" id="plan-lead"></div>
     <div id="plan-body"></div>
   </div>
 </section>
@@ -342,6 +346,7 @@
   <div class="wrap narrow">
     <p class="eyebrow">Radar</p>
     <h1 id="h-radar-tab" class="page-title" tabindex="-1">Future Skills Radar</h1>
+    <div class="lead-left" id="radar-lead"></div>
     <div id="radar-body"></div>
   </div>
 </section>
@@ -350,6 +355,7 @@
   <div class="wrap narrow">
     <p class="eyebrow">Profile</p>
     <h1 id="h-profile" class="page-title" tabindex="-1">You and your progress</h1>
+    <p class="lead-left">Your answers, saved routes and progress.</p>
     <div id="profile-body"></div>
   </div>
 </section>
@@ -377,6 +383,7 @@
   <button type="button" class="tab" data-tab="profile"><svg class="ico" aria-hidden="true"><use href="#i-circle-user-round"/></svg><span>Profile</span></button>
   <div class="side-route" id="side-route"></div>
 </nav>
+<p class="vh" id="announce" role="status" aria-live="polite"></p>
 
 <dialog class="sheet" id="clear-sheet" aria-labelledby="h-clear">
   <form method="dialog">
