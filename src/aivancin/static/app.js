@@ -12,7 +12,9 @@ const FIELD_PAGE = { current_job: [1, "#f-current"], other_work: [2, "#f-other"]
 
 const state = {
   status: null, personas: [], sources: {}, sourceNo: {},
-  title: null, titleActs: [], untickedTitle: new Set(), cip: null,
+  // affirmedTitle: the job title's O*NET activities the person ticked; a title alone is context until then.
+  // timeSeen: the person has seen the time and budget question, so its values are theirs, not starting assumptions.
+  title: null, titleActs: [], affirmedTitle: new Set(), cip: null, timeSeen: false,
   // ticked: activity -> { override, from: the sentences it was ticked on }; dismissed: sentence -> the activities
   // "None of these fit" took out of it, so "Show them again" can put them back.
   suggest: null, ticked: new Map(), dismissed: new Map(), manual: new Map(), followed: new Set(),
@@ -27,6 +29,8 @@ const state = {
 const routeState = { data: null, target: null, lostTarget: null, stale: false,
   completed: new Set(), opts: { weeks: 4, willing_long: false, scenario: "moderate", threshold: 50, horizon: "plan" }, change: null,
   sort: "overlap", filter: "all", open: null, tab: "overview", openCp: new Set(), scenOpen: false, learn: null, saved: new Map(), seen: new Set(),
+  // outcomes: step -> how its checkpoint went ("made", "practice", "stuck"), the person's own mark (SPEC 11.18)
+  outcomes: new Map(),
   kept: null, newer: null, figs: false };
 /* Saved progress: routes were compared before the page was reloaded, so Continue can rebuild them. */
 let routesReached = false;
@@ -153,6 +157,7 @@ function show(screen, page = 1, focus = true) {
   // tab bar or the screen's own heading says where you are.
   let count = null;
   if (screen === "work") count = [page, PAGES, `Question ${page} of ${PAGES}`];
+  if (screen === "work" && page === PAGES) state.timeSeen = true;
   else if (screen === "review") { const n = showReviewPage(page); count = [n, reviewPages, `Checking what we read, page ${n} of ${reviewPages}`]; }
   document.body.dataset.counted = count ? "yes" : "no";
   if (count) {
@@ -258,7 +263,7 @@ async function setTitle(code) {
   const d = await api(`/api/occupations/${encodeURIComponent(code)}/activities`);
   state.title = { code: d.code, title: d.title };
   state.titleActs = d.activities;
-  state.untickedTitle = new Set();
+  state.affirmedTitle = new Set();
   renderChosen($("#f-title"), `${d.title} (${d.code})`, () => setTitle(null));
 }
 function setCip(cip) {
@@ -272,8 +277,9 @@ function intakeBody() {
   return {
     current_job: $("#f-current").value, other_work: $("#f-other").value, studies: $("#f-studies").value,
     title_code: state.title ? state.title.code : null, cip_code: state.cip ? state.cip.cip : null,
-    degree_field: state.cip ? state.cip.title : "", degree_level: f.elements.degree_level.value,
+    degree_field: state.cip ? state.cip.title : "", degree_level: f.elements.degree_level.value || null,
     weekly_hours: num("weekly_hours"), budget_rm: num("budget_rm"),
+    assumed: state.timeSeen ? [] : ["weekly_hours", "budget_rm"],
   };
 }
 
@@ -291,7 +297,10 @@ async function loadPersona(p) {
   $("#f-current").value = p.current_job; $("#f-other").value = p.other_work; $("#f-studies").value = p.studies;
   $("#f-hours").value = p.weekly_hours; $("#f-budget").value = p.budget_rm;
   $(`#intake input[name="degree_level"][value="${p.degree_level}"]`).checked = true;
+  state.timeSeen = true;
   await setTitle(p.title_code);
+  // An example person's job-title activities are part of their example (the work their story describes).
+  state.affirmedTitle = new Set(state.titleActs.map(a => a.dwa_id));
   setCip(p.cip_code ? { cip: p.cip_code, title: p.cip_title || p.degree_field } : null);
   examplePersona = p.id;
   $$("#personas [data-persona]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.persona === p.id)));
@@ -304,11 +313,11 @@ async function loadPersona(p) {
 let mode = "own", ownDraft = null, examplePersona = null;
 function snapshotIntake() {
   return { fields: [...$("#intake").elements].filter(el => el.matches("input, textarea, select")).map(el => [el, el.type === "radio" ? el.checked : el.value]),
-    title: state.title, titleActs: state.titleActs, untickedTitle: new Set(state.untickedTitle), cip: state.cip };
+    title: state.title, titleActs: state.titleActs, affirmedTitle: new Set(state.affirmedTitle), cip: state.cip, timeSeen: state.timeSeen };
 }
 function restoreIntake(d) {
   d.fields.forEach(([el, v]) => { if (el.type === "radio") el.checked = v; else el.value = v; });
-  state.title = d.title; state.titleActs = d.titleActs; state.untickedTitle = new Set(d.untickedTitle);
+  state.title = d.title; state.titleActs = d.titleActs; state.affirmedTitle = new Set(d.affirmedTitle); state.timeSeen = d.timeSeen;
   renderChosen($("#f-title"), d.title ? `${d.title.title} (${d.title.code})` : null, () => setTitle(null));
   setCip(d.cip);
 }
@@ -348,7 +357,7 @@ function cancelEdit() {
     [["#f-current", li.current_job], ["#f-other", li.other_work], ["#f-studies", li.studies], ["#f-hours", li.weekly_hours], ["#f-budget", li.budget_rm]]
       .forEach(([sel, v]) => { $(sel).value = v ?? ""; });
     const deg = $(`#intake input[name="degree_level"][value="${li.degree_level}"]`);
-    if (deg) deg.checked = true;
+    if (deg) deg.checked = true; else $$('#intake input[name="degree_level"]').forEach(x => { x.checked = false; });
     if ((state.title?.code || null) !== (li.title_code || null)) setTitle(li.title_code || null);
     if ((state.cip?.cip || null) !== (li.cip_code || null)) setCip(li.cip_code ? { cip: li.cip_code, title: li.degree_field } : null);
   }
@@ -410,6 +419,9 @@ async function readWork(e) {
     navigate("review");
   } catch (err) {
     clearTimeout(slow);
+    // A field the server refused (too long, too many sentences) is shown at its question; nothing was read.
+    const first = showFieldErrors(err.data?.errors);
+    if (first) { navigate("work", pageOf(first)); first.closest(".field")?.querySelector("textarea, input")?.focus(); return; }
     if (current.screen === "reading") show("work", PAGES);
     setStatus("Something went wrong while reading your text. Please try again.", true);
   } finally {
@@ -454,10 +466,15 @@ function setStatus(text, warn = false) {
   el.classList.toggle("warn", Boolean(warn || (!text && serviceWarning)));
 }
 
+/* The server's own limits (SPEC 11.18), checked here first so nothing is sent that it would refuse. */
+const TEXT_LIMIT = 5000;
 function clientChecks(b) {
   const e = {};
-  if (!(b.weekly_hours > 0)) e.weekly_hours = "Enter the hours you can spend each week (more than 0).";
-  if (b.budget_rm === null || !(b.budget_rm >= 0)) e.budget_rm = "Enter a budget of RM0 or more.";
+  if (!(b.weekly_hours > 0 && b.weekly_hours <= 80)) e.weekly_hours = "Enter the hours you can spend each week (more than 0, up to 80).";
+  if (b.budget_rm === null || !(b.budget_rm >= 0 && b.budget_rm <= 100000)) e.budget_rm = "Enter a budget from RM0 to RM100,000.";
+  for (const k of ["current_job", "other_work", "studies"]) {
+    if ((b[k] || "").length > TEXT_LIMIT) e[k] = `This answer has ${b[k].length.toLocaleString("en-MY")} characters. Shorten it to ${TEXT_LIMIT.toLocaleString("en-MY")} or fewer.`;
+  }
   return e;
 }
 
@@ -534,6 +551,7 @@ function renderReview() {
     const dismissed = state.dismissed.has(s.index);
     pages.push(`<div class="sent" data-sentence="${s.index}">
       <p class="src">${src}</p>
+      ${s.parts ? `<p class="foot long-note">${icon("info", "sm")}A long sentence: it was read in parts, so its suggestions can come from any part of it. Tick only what you did.</p>` : ""}
       <blockquote class="words"><mark class="words">${esc(s.text)}</mark></blockquote>
       ${shortFormHint(s)}
       ${dismissed ? `<p class="dismissed">You said none of the ${fig({ v: s.top.length, src: ["minilm-onnx", "onet31-dwas"] }, "int")} suggestions fit. <button type="button" class="link-btn" data-undismiss="${s.index}">Show them again</button></p>${followBox(s)}`
@@ -544,12 +562,13 @@ function renderReview() {
   }
   // Your own sentences first; the job title's activities come after them.
   if (state.titleActs.length) {
-    const kept = state.titleActs.filter(a => !state.untickedTitle.has(a.dwa_id)).length;
+    const kept = state.titleActs.filter(a => state.affirmedTitle.has(a.dwa_id)).length;
     reviewMeta.push({ kind: "title" });
     pages.push(`<div class="sent title-acts"><p class="src">${icon("briefcase-business", "sm")}From your job title</p>
-      <h2 class="rv-q">${esc(state.title.title)}: <span class="num" id="title-kept" data-src="${TITLE_SRC.join(" ")}">${kept}</span> of ${fig({ v: state.titleActs.length, src: TITLE_SRC.slice(1) }, "int")} O*NET activities</h2>
-      <p class="foot">These form your current-job lane. Untick any you do not do.</p>
-      <fieldset class="sugg">${state.titleActs.map(a => `<label class="opt"><input type="checkbox" data-title="${esc(a.dwa_id)}" ${state.untickedTitle.has(a.dwa_id) ? "" : "checked"}><span class="t">${esc(a.name)}</span></label>`).join("")}</fieldset></div>`);
+      <h2 class="rv-q">${esc(state.title.title)}: which of these do you do?</h2>
+      <p class="foot">O*NET lists ${fig({ v: state.titleActs.length, src: TITLE_SRC.slice(1) }, "int")} activities for this job. A job title alone does not count as your work: only the ones you tick count toward routes. <span class="num" id="title-kept" data-src="${TITLE_SRC.join(" ")}">${kept}</span> ticked.</p>
+      <p class="title-all"><button type="button" class="link-btn" data-title-all>I do all of these</button><button type="button" class="link-btn" data-title-none>Clear</button></p>
+      <fieldset class="sugg"><legend class="vh">Activities O*NET lists for ${esc(state.title.title)}</legend>${state.titleActs.map(a => `<label class="opt"><input type="checkbox" data-title="${esc(a.dwa_id)}" ${state.affirmedTitle.has(a.dwa_id) ? "checked" : ""}><span class="t">${esc(a.name)}</span></label>`).join("")}</fieldset></div>`);
     reviewTitlePage = pages.length;
   }
   const none = sug.available && !sents.length ? `<p class="cap">${icon("info")}No sentences to read. Add text in step 1, or search for activities below.</p>` : "";
@@ -606,8 +625,8 @@ function renderReviewNav(at = Math.min(Math.max(current.page, 1), reviewPages)) 
       label = `<mark class="words">${esc(m.text)}</mark>`;
       note = `${FIELD_LABEL[m.field]}${state.editSummary?.fresh.includes(m.index) ? " · new or changed" : ""} · ${m.kind === "guard" ? (ticked ? "held back, confirmed by you" : "held back") : none ? "none of these fit" : ticked ? "ticked" : "not ticked yet"}`;
     } else if (m.kind === "title") {
-      mark = state.titleActs.length > state.untickedTitle.size ? "done" : "";
-      label = "From your job title"; note = esc(state.title?.title || "");
+      mark = state.affirmedTitle.size ? "done" : "";
+      label = "From your job title"; note = `${esc(state.title?.title || "")} · ${state.affirmedTitle.size ? `${youFig(state.affirmedTitle.size)} ticked` : "none ticked yet"}`;
     } else if (m.kind === "last") {
       label = "Anything we missed?"; note = "Search to add an activity";
     } else {
@@ -757,7 +776,7 @@ function laneCounts() {
     new Set(t.from.map(sentenceField).filter(Boolean)).forEach(l => { c[l] += 1; });
   }
   for (const [id, m] of state.manual) { all.add(id); c[m.lane] += 1; }
-  const titleKept = state.titleActs.filter(a => !state.untickedTitle.has(a.dwa_id));
+  const titleKept = state.titleActs.filter(a => state.affirmedTitle.has(a.dwa_id));
   titleKept.forEach(a => all.add(a.dwa_id));
   c.current_job += titleKept.length;
   return { ...c, all: all.size, confirmed: state.ticked.size + state.manual.size, title: titleKept.length };
@@ -773,7 +792,7 @@ function renderRail() {
   const c = laneCounts();
   // Job-title activities count too, so the rail shows them as one row rather than a total that does not add up.
   if (c.title) {
-    $("#mine").insertAdjacentHTML("beforeend", `<li class="title-row">${icon("briefcase-business", "sm")}<span class="mine-text">${fig({ v: c.title, src: TITLE_SRC }, "int")} from your job title<span class="mine-note">${esc(state.title.title)}, as O*NET lists it. <button type="button" class="link-btn" data-open-title>Review them</button></span></span></li>`);
+    $("#mine").insertAdjacentHTML("beforeend", `<li class="title-row">${icon("briefcase-business", "sm")}<span class="mine-text">${fig({ v: c.title, src: TITLE_SRC }, "int")} from your job title<span class="mine-note">${esc(state.title.title)}, ticked by you from O*NET's list. <button type="button" class="link-btn" data-open-title>Review them</button></span></span></li>`);
   }
   $("#mine-empty").hidden = items.length > 0;
   $("#count").textContent = c.all;
@@ -806,8 +825,8 @@ function reviewEvents() {
       refreshRows(id, idx);
       renderRail();
     } else if (t.matches("input[data-title]")) {
-      if (t.checked) state.untickedTitle.delete(t.dataset.title); else state.untickedTitle.add(t.dataset.title);
-      $("#title-kept").textContent = state.titleActs.length - state.untickedTitle.size;
+      if (t.checked) state.affirmedTitle.add(t.dataset.title); else state.affirmedTitle.delete(t.dataset.title);
+      $("#title-kept").textContent = state.affirmedTitle.size;
       renderRail();
     } else if (t.matches('#lane-ctl input')) {
       state.lane = t.value;
@@ -868,6 +887,13 @@ function reviewEvents() {
       ta.setSelectionRange(s.start, s.end);
     } else if (b.dataset.openTitle !== undefined) {
       navigate("review", reviewTitlePage);
+    } else if (b.dataset.titleAll !== undefined || b.dataset.titleNone !== undefined) {
+      const all = b.dataset.titleAll !== undefined;
+      state.affirmedTitle = new Set(all ? state.titleActs.map(a => a.dwa_id) : []);
+      $$("#sentences input[data-title]").forEach(x => { x.checked = all; });
+      $("#title-kept").textContent = state.affirmedTitle.size;
+      renderRail();
+      announce(all ? `All ${state.titleActs.length} job-title activities ticked.` : "Job-title activities cleared.");
     }
   });
 }
@@ -879,7 +905,7 @@ function resultsBody(extraOpts = {}) {
     .filter(c => smap.has(c.dwa_id))
     .concat([...state.manual].map(([id, m]) => ({ dwa_id: id, source: "added_by_you", lane: m.lane })));
   return {
-    ...state.lastIntake, confirmed, unticked_title_activities: [...state.untickedTitle],
+    ...state.lastIntake, confirmed, ...(state.lastIntake?.title_code ? { affirmed_title_activities: [...state.affirmedTitle] } : {}),
     options: { lane: state.lane, ...state.opts, known_tools: [...state.knownTools], ...extraOpts },
   };
 }
@@ -894,7 +920,8 @@ async function rank(select = null) {
     state.baseline = null;
     if (state.title && state.lane !== "current_job") {
       try {
-        state.baseline = await api("/api/results", { ...resultsBody({ lane: "current_job", lambda: 0, mu: 0 }), confirmed: [], unticked_title_activities: [] });
+        // What the job title alone would give, every listed activity counted: the comparison, not the person's profile.
+        state.baseline = await api("/api/results", { ...resultsBody({ lane: "current_job", lambda: 0, mu: 0 }), confirmed: [], affirmed_title_activities: undefined, unticked_title_activities: [] });
       } catch (e) { state.baseline = null; }
     }
     renderResults();
@@ -992,15 +1019,16 @@ function radarBlock(r) {
   const hzText = `${hz.basis === "your choice" ? "the look-ahead you chose" : `an estimated planning horizon (${hz.basis})`}`;
   const rows = r.radar.map(x => `<tr>
       <th scope="row"><span class="act-name">${esc(x.name)}</span><span class="kind">${esc(x.kind)}${x.weak ? " · evidence weak" : ""}</span></th>
-      <td data-label="Now">${x.now ? fig(x.now, "pct") : `<span class="foot">no data</span>`}</td>
+      <td data-label="Average">${x.now ? fig(x.now, "pct") : `<span class="foot">no data</span>`}</td>
+      <td data-label="Latest">${x.latest && x.latest.of > 1 ? `${fig(x.latest, "pct")} <span class="foot">${esc(releaseLabel(x.latest.release))}</span>` : ""}</td>
       ${["slower", "moderate", "faster"].map(k => `<td data-label="${k === "moderate" ? "Moderate" : capitalise(k)}" class="${k === sc ? "sel" : ""}">${x.now ? fig(x.projected[k], "pct") : ""}</td>`).join("")}
       <td data-label="In the ${esc(sc)} scenario"><span class="cls cls-${clsKey(x.classes[sc])}">${esc(x.classes[sc])}</span></td></tr>`).join("");
   const err = f.error_mae ? `Moderate keeps the historical average. Predicting the ${esc(releaseLabel(f.error_target))} release from the earlier ones, that average was off by ${fig(f.error_mae, "")} points on average and 80% of its errors were within ${fig(f.error_p80, "")} points: a past error, not a calibrated range. ` : "";
   const dir = f.direction_labels ? "" : "Past release-to-release changes reversed more often than they continued, so the radar shows no rising or falling labels; change appears only through the scenarios. ";
   return `<section class="sec-block radar" data-scope aria-labelledby="h-radar"><h5 id="h-radar">${icon("history", "sm")} Future Skills Radar</h5>
-    <p class="foot">How much of each activity AI does directly in observed Claude use (global), now and projected ${fig(hz.months, "")} months ahead, ${esc(hzText)}. These are estimates of how the work shifts between doing it and directing and checking AI, not forecasts of jobs.</p>
+    <p class="foot">How much of each activity AI does directly in observed Claude use (global), averaged over the bundled releases, and projected ${fig(hz.months, "")} months ahead, ${esc(hzText)}. These are estimates of how the work shifts between doing it and directing and checking AI, not forecasts of jobs.</p>
     <details class="more"><summary class="link-btn">Every activity's figures</summary>
-    <div class="radar-wrap"><table class="radar-t"><thead><tr><th scope="col">Activity</th><th scope="col">Now</th><th scope="col">Slower</th><th scope="col">Moderate</th><th scope="col">Faster</th><th scope="col">In the ${esc(sc)} scenario</th></tr></thead><tbody>${rows}</tbody></table></div></details>
+    <div class="radar-wrap"><table class="radar-t"><thead><tr><th scope="col">Activity</th><th scope="col">Average</th><th scope="col">Latest</th><th scope="col">Slower</th><th scope="col">Moderate</th><th scope="col">Faster</th><th scope="col">In the ${esc(sc)} scenario</th></tr></thead><tbody>${rows}</tbody></table></div></details>
     <p class="foot">${err}Slower subtracts ${fig(f.slower_drop, "")} points, the largest fall between bundled releases. ${dir}Thresholds: ${fig(f.threshold, "")}% for "AI does most of it directly", below ${fig(f.lower_cut, "")}% for "people mostly work with AI".</p>${srcMarks(["aivancin-backtest"])}
   </section>`;
 }
@@ -1110,7 +1138,7 @@ function renderDetail() {
       <p class="meta">${esc(s.course.provider)} · ${fig(s.course.cost_rm, "rm")} · ${fig(s.course.hours, "")} hours${s.cum_weeks ? ` · ${fig(s.cum_weeks, "")} weeks so far at your pace` : ""} · link checked ${esc(s.course.checked_on)} · SDG 4.4${s.status !== "verified" ? ` · ${esc(s.status)}` : ""}</p></li>`;
   }).join("");
   const aiSteps = plan.ai_steps.map(s => `<li class="ai"><p class="gap-name">Learn to direct and check AI output on: ${esc(s.gap.name)}</p>
-      <p class="meta">AI does it directly in ${fig({ v: s.reason.now, src: s.reason.src }, "pct")} of observed Claude conversations now, ${fig({ v: s.reason.projected, src: s.reason.src.concat(["your-input"]) }, "pct")} in ${fig(r.horizon.months, "")} months (${esc(state.results.scenario)}); threshold ${fig(state.results.threshold, "pct")}.${s.reason.weak ? " Evidence weak." : ""}</p>
+      <p class="meta">AI does it directly in ${fig({ v: s.reason.now, src: s.reason.src }, "pct")} of observed Claude conversations (average across releases), ${fig({ v: s.reason.projected, src: s.reason.src.concat(["your-input"]) }, "pct")} in ${fig(r.horizon.months, "")} months (${esc(state.results.scenario)}); threshold ${fig(state.results.threshold, "pct")}.${s.reason.weak ? " Evidence weak." : ""}</p>
       ${s.course ? `<p class="course"><a href="${esc(s.course.url)}" target="_blank" rel="noopener">${esc(s.course.title)} ${icon("external-link", "sm")}</a> · ${fig(s.course.hours, "")} hours</p>
         <p class="meta">${s.match === "activity" ? "Teaches AI use on this activity" : "General guide to directing and checking AI output; no verified resource teaches AI use on this activity"}${s.status === "covered by an earlier step" ? " · already counted in an earlier step" : ""} · SDG 4.4</p>` : `<p class="meta">No verified resource · SDG 4.4</p>`}</li>`).join("");
   const tools = r.emerging.technologies;
@@ -1375,6 +1403,8 @@ async function start() {
     if (go === "home") navigate("welcome");
     else if (go === "continue") continueProgress();
     else if (go === "edit") navigate("work", 1);
+    else if (go === "time") navigate("work", PAGES);
+    else if (go === "other") navigate("work", 2);
     else if (go === "start") openApp();
     // Switching between your own words and an example changes the form, so an edit of read answers starts before it.
     else if (go === "describe" || go === "example") {
@@ -1415,9 +1445,11 @@ async function start() {
 
 /* ---------- adopted revision: compare routes, your plan, what changed (SPEC section 10) ---------- */
 
+/* The chosen order goes with every personal request (SPEC 11.18): the server applies it to every qualifying route
+   before picking the three, so the routes shown and the plan's routes are always the same set. */
 function routesRequest(extra = {}) {
   const base = resultsBody();
-  return { ...base, options: { ...routeState.opts, completed: [...routeState.completed], ...(routeState.target ? { target: routeState.target } : {}), ...extra } };
+  return { ...base, options: { ...routeState.opts, order: routeState.sort, completed: [...routeState.completed], ...(routeState.target ? { target: routeState.target } : {}), ...extra } };
 }
 
 function readRouteOpts() {
@@ -1484,7 +1516,7 @@ async function compareRoutes() {
     showStage("routes");
   } catch (err) {
     const errors = err.data?.errors || {};
-    if (["weekly_hours", "budget_rm", "degree_level"].some(k => k in errors)) {
+    if (["weekly_hours", "budget_rm", "degree_level", "current_job", "other_work", "studies"].some(k => k in errors)) {
       const first = showFieldErrors(errors);
       $("#rank-err").textContent = "Some details in step 1 need attention.";
       showStage("work", pageOf(first));
@@ -1635,6 +1667,15 @@ function lostNote(where) {
     <div class="srcs-slot"></div></div></div>`;
 }
 
+/* Hours or budget the person skipped ("Read my work now" before the time question): the plan uses the starting
+   values, said where they shape a decision, with the way to set them (SPEC 11.18). */
+function assumedNote() {
+  const d = routeState.data;
+  if (!isPersonal() || !d?.assumed?.length) return "";
+  return `<div class="callout assumed-note" data-scope>${icon("info")}<div><p><b>Your plan assumes ${fig({ v: d.capacity_hours.v / d.weeks.v, src: d.capacity_hours.src }, "")} hours a week and a ${fig(d.budget_rm, "rm")} budget.</b> You skipped that question, so these are the starting values, not yours.</p>
+    <p class="note-actions"><button type="button" class="link-btn" data-go="time">Set your time and budget</button></p></div></div>`;
+}
+
 /* Routes still built on answers the person has since edited and read again: say so until they compare again. */
 function staleNote() {
   if (!routeState.stale || !isPersonal()) return "";
@@ -1647,6 +1688,20 @@ function staleNote() {
    serves, and the block's hours and cost with each course counted once. Values only, in the cards' order; nothing is
    combined into a score. Narrow screens and large text stack each row, naming the route beside each value. */
 const REQ_ORDER = { missing: 0, planned: 1, "you decide": 2, met: 3 };
+/* What can settle the choice (SPEC 11.18), from the route's own fields: its largest known barrier (a missing
+   requirement, one for the person to decide, or a priority gap with no verified course), what the first open step
+   makes, and the US outlook. Facts side by side, never a combined score. */
+function decides(r) {
+  const miss = r.requirements.find(q => q.status === "missing"), open = r.requirements.find(q => q.status === "you decide");
+  const gap = r.block.uncovered[0];
+  const barrier = miss ? `${esc(capitalise(REQ_SHORT(miss)))} missing${srcMarks(miss.src)}`
+    : open ? `${esc(capitalise(REQ_SHORT(open)))}: you decide${srcMarks(open.src)}`
+    : gap ? `No course yet for “${esc(gap.name.replace(/\.$/, ""))}”${srcMarks(GAP_SRC)}` : "None recorded";
+  const first = r.block.steps.find(x => !x.completed);
+  return `<span class="cmp-sub"><b>Barrier:</b> ${barrier}</span>
+    <span class="cmp-sub"><b>First result:</b> ${first ? `${esc(first.output)}${srcMarks(["aivancin-catalogue"])}` : "every step done"}</span>
+    <span class="cmp-sub"><b>US outlook:</b> ${esc(bandShort(r.job_outlook))}${srcMarks(r.job_outlook.src)}</span>`;
+}
 const REQ_ICON = { missing: "triangle-alert", planned: "clock", met: "check", "you decide": "circle-dashed" };
 function compareTable(list, d) {
   const chosen = r => (routeState.target === r.code ? ` class="cmp-chosen"` : "");
@@ -1660,6 +1715,7 @@ function compareTable(list, d) {
       <span class="cmp-sub">by the first block</span>`],
     [`First block, ${fig(d.weeks, "int")} weeks`, r => `<b>${fig(r.block.effort_hours, "")} h · ${fig(r.block.cost_rm, "rm")}</b>
       <span class="cmp-sub">${fig({ v: r.block.steps.length, src: GAP_SRC }, "int")} step${r.block.steps.length === 1 ? "" : "s"}, each course counted once</span>`],
+    ["What decides it", decides],
   ];
   return `<section class="soft-card route-compare" data-scope aria-labelledby="h-compare">
     <h2 id="h-compare"><span class="sec-ico" aria-hidden="true">${icon("layers", "sm")}</span>Side by side</h2>
@@ -1709,6 +1765,21 @@ function nearSection(list, need) {
     <div class="describe-actions"><button type="button" class="btn btn-gray" data-go="edit">Describe more of your work</button></div></section>`;
 }
 
+/* Why fewer than two routes qualify (SPEC 11.18), so the next step fits: only the job title's activities were
+   confirmed, none of the confirmed work is recorded for a supported route, or some is but not enough. */
+function fallbackText(d) {
+  const f = d.fallback;
+  const fams = (f?.families || []).map(esc).join("; ");
+  if (f?.kind === "title_only") return `So far only your job title's activities count, and no supported route records enough of them. The other work you do (side jobs, family business, volunteering) and your studies are where graduate-level work usually shows.${srcMarks(f.src)}`;
+  if (f?.kind === "outside_supported") return `None of the work you confirmed is recorded for AIVANCIN's supported routes (${fams}). Describe other work you do, or explore every role, including ones without a curated first block.${srcMarks(f.src)}`;
+  return "None of the supported routes counts at least two of your confirmed activities yet. Explore all roles, or describe more of your work.";
+}
+const fallbackOwn = d => ["title_only", "outside_supported"].includes(d.fallback?.kind);
+function fallbackActions() {
+  return `<div class="describe-actions"><button type="button" class="btn btn-primary" data-go="other">Describe other work you do</button>
+    <button type="button" class="btn btn-gray" data-action="explore-all">Explore all roles</button></div>`;
+}
+
 /* Not even the exploration ranking has a graduate-level role sharing this work: say so and offer the next steps. */
 function noRoleCard() {
   return `<section class="soft-card no-role" aria-labelledby="h-no-role"><h2 id="h-no-role"><span class="sec-ico" aria-hidden="true">${icon("info", "sm")}</span>No graduate-level role shares this work yet</h2>
@@ -1747,23 +1818,27 @@ function renderRoutes() {
   $("#routes-body").innerHTML = `
     ${personal ? "" : describeCard()}
     ${staleNote()}
+    ${assumedNote()}
     ${lostNote("routes")}
     ${d.fewer_note && d.routes.length ? `<div class="callout">${icon("info")}<p>${esc(d.fewer_note)}</p></div>` : ""}
     ${d.routes.length ? `
       ${d.routes.length > 1 ? `<fieldset class="sort-ctl"><legend class="vh">Order routes by</legend>
         <div class="seg-ctl sort-seg${personal ? "" : " two"}" style="--n:${Object.keys(sorts).length}">${Object.entries(sorts).map(([k, [label]]) => `<label><input type="radio" name="rsort" value="${k}" ${sort === k ? "checked" : ""}>${label}</label>`).join("")}</div>
-        <details class="sort-help"><summary>About this order</summary><p class="foot">${sorts[sort][1]} No combined score: you choose.</p></details></fieldset>` : ""}
+        <details class="sort-help"><summary>About this order</summary><p class="foot">${sorts[sort][1]} No combined score: you choose.</p></details>
+        ${personal && d.qualifying && d.qualifying.v > d.routes.length ? `<p class="foot qual-note">${fig(d.qualifying, "int")} routes qualify. This order picks the first three shown.</p>` : ""}
+        <p class="err" id="sort-err" role="alert">${esc(routeState.sortErr || "")}</p></fieldset>` : ""}
       ${savedHere.length ? `<fieldset class="filter-ctl"><legend class="vh">Show</legend>
         <div class="seg-ctl filter-seg" style="--n:2"><label><input type="radio" name="rfilter" value="all" ${filter === "all" ? "checked" : ""}>All routes</label><label><input type="radio" name="rfilter" value="saved" ${filter === "saved" ? "checked" : ""}>Saved (${savedHere.length})</label></div></fieldset>` : ""}
       <ul class="route-list" aria-label="${filter === "saved" ? "Saved routes" : "Routes"}" data-scope>${shown.map(r => routeRow(r, compared)).join("")}<li class="list-srcs srcs-slot"></li></ul>
       ${compared ? compareTable(shown, d) : ""}
       ${personal && shown.some(r => r.support?.limited) ? `<p class="foot limited-note">Limited support means the route rests on the minimum of ${fig(d.min_done, "int")} confirmed activities, or partly on related ones. It stays a route. Confirm more of your work, or <button type="button" class="link-btn inline-link" data-action="rank">compare all roles by overlap</button>.</p>` : ""}` :
-      (!personal || d.exploration?.length || d.near_routes?.length ? `<div class="callout">${icon("info")}<p>${d.near_routes?.length
+      (!personal || d.exploration?.length || d.near_routes?.length || fallbackOwn(d) ? `<div class="callout">${icon("info")}<p>${d.near_routes?.length
         ? `Your confirmed work overlaps ${d.near_routes.length === 1 ? "a supported role" : `${fig({ v: d.near_routes.length, src: ["aivancin-routes", "onet31-task-dwas"] }, "int")} supported roles`}, but none counts ${fig(d.min_done, "int")} of your activities yet, so there is no route. Confirm more of your work, or explore the roles below.`
-        : "None of the supported routes counts at least two of your confirmed activities yet. Explore all roles, or tick more activities."}</p></div>` : "")}
+        : fallbackText(d)}</p></div>` : "")}
+    ${personal && d.routes.length < 2 && fallbackOwn(d) ? fallbackActions() : ""}
     ${personal && d.routes.length < 2 && followCandidate() ? `<section class="soft-card follow-card" aria-labelledby="h-follow"><h2 id="h-follow"><span class="sec-ico you" aria-hidden="true">${icon("pencil-line", "sm")}</span>Did we miss some of your work?</h2>${followBox(followCandidate(), "routes")}</section>` : ""}
     ${personal && d.routes.length < 2 && d.near_routes?.length ? nearSection(d.near_routes, d.min_done) : ""}
-    ${personal && d.routes.length < 2 ? (d.exploration?.length ? explorationSection(d.exploration) : d.near_routes?.length ? "" : noRoleCard()) : ""}
+    ${personal && d.routes.length < 2 ? (d.exploration?.length ? explorationSection(d.exploration) : d.near_routes?.length || fallbackOwn(d) ? "" : noRoleCard()) : ""}
     ${shared ? `<section class="soft-card" data-scope aria-labelledby="h-shared"><h2 id="h-shared"><span class="sec-ico" aria-hidden="true">${icon("layers", "sm")}</span>Shared foundations</h2>
       <p>${shared.common_steps.length ? `${fig(shared.common_count, "")} step${shared.common_steps.length === 1 ? " appears" : "s appear"} (${fig(shared.common_hours, "")} hours) in every route's first block, so ${shared.common_steps.length === 1 ? "it keeps" : "they keep"} these options open.` : "No step is common to every route's first block."}</p>
       ${shared.common_steps.length ? `<ul>${shared.extra_hours.map(e => `<li>${esc(e.title)}: ${fig(e.hours, "")} hours beyond the shared steps</li>`).join("")}</ul>` : ""}
@@ -1837,7 +1912,13 @@ const ASSUMPTION_NOTE = "Built on starting assumptions: 6 hours a week and no bu
 /* ---------- forecast signals (SPEC 11.1): shared pieces of the route's Future tab and the Radar ---------- */
 const SCEN_NAME = { slower: "Slower", moderate: "Moderate", faster: "Faster" };
 /* Plain words for two terms people meet often (SPEC 11.17), said where they appear. */
-const SCEN_PLAIN = "moderate keeps today's share; slower and faster are assumptions, not forecasts";
+const SCEN_PLAIN = "moderate keeps each activity's average share across the bundled releases; slower and faster are assumptions, not forecasts";
+/* The AI-use baseline (SPEC 11.18): each activity's average across the bundled releases up to the chosen one, which
+   the scenarios start from because it beat the latest value in the backtest. The latest release's own value is shown
+   beside it, never in its place. */
+const avgOf = x => (x.latest && x.latest.of > 1 ? `averaged over ${fig({ v: x.latest.of, src: x.now.src }, "int")} releases` : "in one release");
+const latestOf = x => (x.latest && x.latest.of > 1 ? `latest, ${esc(releaseLabel(x.latest.release))}: ${fig(x.latest, "pct")}` : "");
+const aiShareText = x => `${fig(x.now, "pct")} of observed Claude conversations (${avgOf(x)}${latestOf(x) ? `; ${latestOf(x)}` : ""})`;
 const blockMeaning = (d, b) => `The first block is your first ${fig(d.weeks, "int")} weeks of courses, fitted to ${fig(b.weekly_hours, "")} hours a week and a ${fig(d.budget_rm, "rm")} budget, each course counted once.`;
 const DEMAND_CLASS = { "more growth than decline": "grow", "more decline than growth": "limit", "no projection": "weak", mixed: "" };
 /* The skill-demand pool: Job Zone 3 and 4 roles, which include vocationally prepared work, so not "graduate jobs". */
@@ -1888,7 +1969,8 @@ function futurePanel(r) {
       <div class="fa-top">${actTile(a.name, a.done ? "you" : "")}<span class="ai-name">${esc(a.name)}${a.done ? ` <span class="tag you">${icon("check", "sm")}You do this</span>` : ""}${a.weak ? ` <span class="tag weak">Evidence weak</span>` : ""}</span>${a.now ? `<span class="ai-val">${fig(a.now, "pct")}</span>` : ""}</div>
       <p class="fa-line fa-label">${demandChip(a.demand)}${srcMarks(a.demand.src)}</p>
       <div class="fa-figs">${a.now ? `<div class="direct-share" aria-hidden="true"><span style="width:${Math.max(0, Math.min(100, a.now.v))}%"></span></div>` : ""}<p class="fa-line">${demandShort(a.demand)}</p>
-      ${a.now ? `<p class="fa-line">${esc(SCEN_NAME[sc])}, ${fig(hz.months, "")} months: ${fig(a.projected[sc], "pct")} · threshold: ${tttText(a.ttt[sc])}</p>
+      ${a.now ? `<p class="fa-line">Average ${fig(a.now, "pct")}${latestOf(a) ? ` · ${latestOf(a)}` : ""}</p>
+        <p class="fa-line">${esc(SCEN_NAME[sc])}, ${fig(hz.months, "")} months: ${fig(a.projected[sc], "pct")} · threshold: ${tttText(a.ttt[sc])}</p>
         <p class="fa-line foot">By release: ${releaseLine(a)}</p>` : ""}</div></li>`;
   const groups = AI_GROUPS.map(([key, ico, title, sub]) => {
     const items = ai.filter(a => a.class === key);
@@ -1907,10 +1989,10 @@ function futurePanel(r) {
       <p class="foot">A projection, not a promise of a job.</p>
       ${sure ? `<details class="more"><summary class="link-btn">How sure is this</summary><p class="foot">“${esc(sure.bls.quote)}” (BLS evaluation of its 2014-24 projections)${srcMarks(sure.bls.src)}.</p></details>` : ""}</section>
     <section class="soft-card" data-scope aria-labelledby="h-fu-my"><h2 id="h-fu-my"><span class="sec-ico" aria-hidden="true">${icon("map-pin", "sm")}</span>Malaysia, observed</h2>${trendBlock(r.future.trend, null, r.local_evidence)}</section></div>
-    <div class="fut-head"><p class="rd-lead">This role's ${fig({ v: ai.length, src: ["onet31-task-dwas", "onet31-tasks"] }, "int")} largest activities, by how much AI does them directly when people use Claude (up to ${esc(releaseLabel(d.release))}).${srcMarks([`aei-${d.release}`])}</p>
+    <div class="fut-head"><p class="rd-lead">This role's ${fig({ v: ai.length, src: ["onet31-task-dwas", "onet31-tasks"] }, "int")} largest activities, by how much AI does them directly when people use Claude, averaged over the releases up to ${esc(releaseLabel(d.release))}.${srcMarks([`aei-${d.release}`])}</p>
       <label class="check-line fig-toggle"><input type="checkbox" role="switch" id="fut-figs" ${routeState.figs ? "checked" : ""}> Show figures</label></div>
     <details class="more fut-how"><summary class="link-btn">How to read these</summary>
-      <p class="foot">For each activity: the share AI does directly when people use Claude for it, where that share may be ${fig(hz.months, "")} months ahead in the ${esc(sc)} scenario (${SCEN_PLAIN}), and skill demand: of the ${demandPool()} that record the activity, weighted by how often it appears in their tasks, the share projected to grow faster than average and the share projected to decline (BLS 2025-2035).</p></details>
+      <p class="foot">For each activity: the share AI does directly when people use Claude for it, averaged over the bundled releases (the latest release's own value is shown beside it), where that share may be ${fig(hz.months, "")} months ahead in the ${esc(sc)} scenario (${SCEN_PLAIN}), and skill demand: of the ${demandPool()} that record the activity, weighted by how often it appears in their tasks, the share projected to grow faster than average and the share projected to decline (BLS 2025-2035).</p></details>
     ${groups}
     <section class="soft-card" data-scope aria-labelledby="h-fu-em"><h2 id="h-fu-em"><span class="sec-ico ev" aria-hidden="true">${icon("sparkles", "sm")}</span>What's emerging</h2>
       ${em.tasks.length ? `<ul class="emerging">${em.tasks.map(t => `<li>${esc(t.task)} <span class="foot">(${esc(t.category)}, ${esc(t.date)})${srcMarks(t.src)}</span></li>`).join("")}</ul>` : `<p class="foot">No emerging-task record in O*NET 31.0.</p>`}
@@ -1992,12 +2074,12 @@ function radarSkills(rd) {
     <li><svg width="16" height="12" aria-hidden="true"><line x1="0" x2="16" y1="6" y2="6" class="rc-thr"/></svg>Threshold ${fig(rd.threshold, "pct")}</li></ul>`;
   const rows = rd.skills.map(s => `<tr><th scope="row"><span class="act-name">${esc(s.name)}</span><span class="kind">${SKILL_KIND[s.group][1]}${s.weak ? " · evidence weak" : ""}</span></th>
       <td data-label="Skill demand">${s.demand.net ? `${fig(s.demand.grow, "pct")} in growing roles, ${fig(s.demand.decline, "pct")} in declining roles` : `<span class="foot">no projection</span>${srcMarks(s.demand.src)}`}</td>
-      <td data-label="AI now">${s.now ? fig(s.now, "pct") : `<span class="foot">no data</span>`}</td>
+      <td data-label="AI share, average">${s.now ? `${fig(s.now, "pct")}${latestOf(s) ? `<span class="foot"> ${latestOf(s)}</span>` : ""}` : `<span class="foot">no data</span>`}</td>
       <td data-label="${SCEN_NAME[sc]}, ${rd.horizon.months.v} months">${s.now ? fig(s.projected[sc], "pct") : ""}</td>
       <td data-label="Time to threshold">${tttText(s.ttt[sc])}</td></tr>`).join("");
   return `<section class="soft-card radar-main" data-scope aria-labelledby="h-rs"><h2 id="h-rs"><span class="sec-ico${personal ? " you" : ""}" aria-hidden="true">${icon("radar", "sm")}</span>${personal ? "Your skills" : "Skills these roles use"}</h2>
     ${radarControls(rd)}
-    <p class="radar-feedback foot" id="radar-feedback" role="status">${sc === "moderate" ? "Moderate holds today's values at every horizon." : `Arrows show the ${sc} assumption ${fig(rd.horizon.months, "")} months ahead.`}</p>
+    <p class="radar-feedback foot" id="radar-feedback" role="status">${sc === "moderate" ? "Moderate holds each activity's average at every horizon." : `Arrows show the ${sc} assumption ${fig(rd.horizon.months, "")} months ahead.`}</p>
     <button type="button" class="link-btn" id="radar-retry" hidden>Retry update</button>
     ${legend}
     <div class="rchart" id="rchart"></div>
@@ -2005,7 +2087,7 @@ function radarSkills(rd) {
     ${radarNote()}
     ${left ? `<p class="foot">${fig({ v: left, src: chartSrc }, "int")} of ${fig({ v: rd.skills.length, src: chartSrc }, "int")} not drawn: no AI-usage evidence in the bundled releases or no US projection. They are in the table.</p>` : ""}
     <details class="more rc-table"><summary class="link-btn">Every value as a table</summary>
-      <div class="radar-wrap"><table class="radar-t"><thead><tr><th scope="col">Activity</th><th scope="col">Skill demand</th><th scope="col">AI now</th><th scope="col">${SCEN_NAME[sc]}, ${fig(rd.horizon.months, "")} months</th><th scope="col">Time to threshold</th></tr></thead><tbody>${rows}</tbody></table></div></details>
+      <div class="radar-wrap"><table class="radar-t"><thead><tr><th scope="col">Activity</th><th scope="col">Skill demand</th><th scope="col">AI share, average</th><th scope="col">${SCEN_NAME[sc]}, ${fig(rd.horizon.months, "")} months</th><th scope="col">Time to threshold</th></tr></thead><tbody>${rows}</tbody></table></div></details>
     <details class="more"><summary class="link-btn">How to read this chart</summary>
       <p class="foot">${personal ? "Your confirmed activities and your routes' largest gaps." : "The supported roles' main activities. Describe your work to personalise them."} Across: the balance of ${demandPool()} projected to grow or decline, weighted by their tasks. Up: how much AI does directly in observed Claude use. Select a point for its activity and values.</p>
       <p class="foot">Looking ${fig(rd.horizon.months, "")} months ahead (${esc(rd.horizon.basis)}). These controls also set your plan's checkpoints. Slower and faster are assumptions. Two separate signals, never added together; the job projection comes from BLS through O*NET task links.</p></details></section>`;
@@ -2057,7 +2139,7 @@ function chartTip(i, pointer) {
   const lines = [
     [s.name, "rt-name"],
     [`${SKILL_KIND[s.group][1]}${s.weak ? " · evidence weak" : ""}`, "rt-kind"],
-    [`AI does it directly: ${s.now.v.toFixed(1)}% now, ${s.projected[sc].v.toFixed(1)}% ${sc} in ${rd.horizon.months.v} months`, ""],
+    [`AI does it directly: ${s.now.v.toFixed(1)}% on average${s.latest && s.latest.of > 1 ? ` (latest ${s.latest.v.toFixed(1)}%)` : ""}, ${s.projected[sc].v.toFixed(1)}% ${sc} in ${rd.horizon.months.v} months`, ""],
     [`Skill demand: ${s.demand.grow.v.toFixed(1)}% in growing roles, ${s.demand.decline.v.toFixed(1)}% in declining roles (${s.demand.roles.v} role${s.demand.roles.v === 1 ? "" : "s"})`, ""],
     [`Threshold ${rd.threshold.v}%: ${t.months && t.months.v > 0 ? `about ${t.months.v} months (estimate)` : t.text}`, ""],
   ];
@@ -2087,7 +2169,7 @@ function changingItem(c) {
   const steps = [...new Set(c.where.map(w => w.step))];
   const by = c.where[0];
   return `<li class="chg-item">${actTile(c.name, "ev")}<div class="chg-body"><p class="gap-name">${esc(c.name)}</p>
-    <p class="foot">Now ${fig(c.now, "pct")}${c.weak ? " (evidence weak)" : ""}, ${fig(by.projected, "pct")} by ${fig(by.horizon_months, "")} months · threshold: ${tttText(c.ttt)}</p>
+    <p class="foot">Average ${fig(c.now, "pct")}${c.weak ? " (evidence weak)" : ""}, ${fig(by.projected, "pct")} by ${fig(by.horizon_months, "")} months · threshold: ${tttText(c.ttt)}</p>
     <p class="foot">${isPersonal() ? `Checkpoint of “${esc(steps.join("”, “"))}” in ${esc(routes.join(", "))}` : `In ${fig({ v: routes.length, src: ["aivancin-routes"] }, "int")} role${routes.length === 1 ? "" : "s"}: ${esc(routes.join(", "))}`}</p></div></li>`;
 }
 
@@ -2405,7 +2487,7 @@ function stepItem(s, i) {
   const heading = s.kind === "prerequisite" ? "Required first by a later step" : s.kind === "ai_practice" ? "AI practice on an activity in this plan"
     : s.serves.map(g => g.name.replace(/\.$/, "")).join("; ");
   const because = ai && why.length
-    ? `<p class="foot">Because ${why.map(r => `AI does “${esc(r.name.replace(/\.$/, ""))}” directly in ${fig(r.now, "pct")} of observed Claude conversations now, ${fig(r.projected[d.scenario], "pct")} projected in the ${esc(d.scenario)} scenario`).join("; ")}; threshold ${fig(d.threshold, "pct")}.</p>`
+    ? `<p class="foot">Because ${why.map(r => `AI does “${esc(r.name.replace(/\.$/, ""))}” directly in ${aiShareText(r)}, ${fig(r.projected[d.scenario], "pct")} projected in the ${esc(d.scenario)} scenario`).join("; ")}; threshold ${fig(d.threshold, "pct")}.</p>`
     : "";
   const hours = { v: Math.round((s.provider_hours.v + s.practice_hours.v) * 10) / 10, src: s.provider_hours.src };
   const price = s.cost_rm.v ? fig(s.cost_rm, "rm") : `${s.practice_product ? "Free to read" : s.access || "Free"}${srcMarks(s.cost_rm.src)}`;
@@ -2414,18 +2496,52 @@ function stepItem(s, i) {
     <span class="pnum" aria-hidden="true">${s.completed ? icon("check", "sm") : i + 1}</span>
     <div class="pstep-top">${actTile(heading)}<h3 class="gap-name">${esc(heading)}</h3><span class="p-hours">${fig(hours, "")} h</span></div>
     <a class="res-row" href="${esc(s.url)}" target="_blank" rel="noopener"><span class="res-tile" aria-hidden="true">${icon("book-open")}</span>
-      <span class="res-text"><b>${esc(s.title)}</b><span>${esc(s.provider)} · ${price}</span></span>${icon("external-link", "sm")}<span class="vh">(opens in a new tab)</span></a>
+      <span class="res-text"><b>${esc(s.title)}</b><span>${esc(s.provider)} · ${price}</span>${s.coverage === "introduces" ? `<span class="res-tags"><span class="tag weak">Introductory</span></span>` : ""}</span>${icon("external-link", "sm")}<span class="vh">(opens in a new tab)</span></a>
     ${stepAccess(s, needs, true)}
     <details class="checkpoint${ai ? " ai" : ""}" data-cp="${esc(s.id)}" ${routeState.openCp.has(s.id) ? "open" : ""}>
       <summary><span><b>Checkpoint</b>${ai ? `<span class="tag ai-tag">with AI checking</span>` : ""}</span>${icon("chevron-down", "sm")}</summary>
       <p>${esc(s.checkpoint)}</p>${because}
       ${s.objective ? `<p class="foot">Provider's objective: “${esc(s.objective)}”</p>` : ""}
+      ${s.coverage === "introduces" ? `<p class="foot">Introductory: a first look at this work, not enough practice on its own.${srcMarks(["aivancin-catalogue"])}</p>` : ""}
       <p class="foot">${fig(s.provider_hours, "")} h course + ${fig(s.practice_hours, "")} h practice (estimate) · ${fig(s.cost_rm, "rm")} · link checked ${esc(s.checked_on)}</p>
       <ul class="sdg-why">${s.sdg.map(t => `<li><b>SDG ${esc(t.goal)}</b> ${esc(t.reason)}${srcMarks(t.src)}</li>`).join("")}</ul>
       <div class="srcs-slot"></div></details>
     <div class="pstep-foot"><label class="check-line"><input type="checkbox" data-done="${esc(s.id)}" ${s.completed ? "checked" : ""}> Step done</label>
       <span class="tag sdg" title="${esc(s.sdg.map(t => `SDG ${t.goal}: ${t.reason}`).join(" "))}">SDG ${esc(s.sdg.map(t => t.goal).join(" · "))}</span></div>
+    ${s.completed ? outcomeControl(s) : ""}
   </li>`;
+}
+
+/* Checkpoint outcomes (SPEC 11.18): after a step is done the person can say how its checkpoint went. The mark stays
+   in this browser and only suggests the next learning action; it never certifies a skill, adds a confirmed work
+   activity or meets a job requirement. */
+const OUTCOMES = { made: "Output made", practice: "Needs more practice", stuck: "Stuck" };
+function outcomeControl(s) {
+  const at = routeState.outcomes.get(s.id);
+  return `<fieldset class="outcome"><legend>How did the checkpoint go?</legend>
+    <div class="seg-ctl small outcome-seg" style="--n:3">${Object.entries(OUTCOMES).map(([k, t]) => `<label><input type="radio" name="oc-${esc(s.id)}" value="${k}" data-outcome="${esc(s.id)}" ${at === k ? "checked" : ""}>${t}</label>`).join("")}</div></fieldset>`;
+}
+/* The next learning action for the latest step marked "needs more practice" or "stuck": another verified course for
+   the same gap from Learn (for practice, one that practises; when stuck, an introductory one or what the step builds
+   on), or the provider's exercise again when no other course serves it. */
+function outcomeCard(r) {
+  const marked = [...routeState.outcomes].filter(([id, v]) => v !== "made" && r.block.steps.some(x => x.id === id && x.completed));
+  if (!marked.length) return "";
+  const [id, v] = marked[marked.length - 1];
+  const s = r.block.steps.find(x => x.id === id);
+  const gaps = new Set(s.serves.map(g => g.dwa_id));
+  const pool = r.resources.filter(g => gaps.has(g.dwa_id)).flatMap(g => g.options)
+    .filter(o => o.id !== s.id && !routeState.completed.has(o.id) && !o.ai_practice);
+  const pick = (v === "stuck" ? pool.find(o => o.coverage === "introduces") : pool.find(o => o.coverage === "practises")) || pool[0];
+  const alt = pick ? `<a href="${esc(pick.url)}" target="_blank" rel="noopener">“${esc(pick.title)}”<span class="vh"> (opens in a new tab)</span></a> (${esc(pick.provider)}, ${fig(pick.provider_hours, "")} h${pick.in_block ? ", already in this block" : ""})` : "";
+  const builds = s.requires_titles?.length ? ` Go back over ${s.requires_titles.map(t => `“${esc(t)}”`).join(" and ")}, which it builds on.` : "";
+  const next = v === "stuck"
+    ? `${builds}${alt ? ` Then try an easier way in: ${alt}.` : " No other verified course serves this work yet; reread the provider's first unit and redo the checkpoint on a smaller example."}`
+    : alt ? ` Practise it again with ${alt}, then redo the checkpoint on new data.` : " No other verified course serves this work yet; repeat the provider's exercise and redo the checkpoint on new data.";
+  return `<section class="soft-card outcome-card" data-scope aria-labelledby="h-outcome"><h2 id="h-outcome"><span class="sec-ico you" aria-hidden="true">${icon("route", "sm")}</span>Your next learning action</h2>
+    <p>You marked “${esc(s.title)}” as ${v === "stuck" ? "stuck" : "needing more practice"}.${next}</p>
+    <p class="foot">Your marks stay in this browser. They suggest what to do next; they do not certify a skill or meet a job requirement.</p>
+    <div class="srcs-slot"></div></section>`;
 }
 
 /* Start here (22 Oct): what the person can do in their next session, from the first open step: the exact unit to
@@ -2500,7 +2616,7 @@ function scenarioCard(r, d) {
     const k = aiIn(s)[0];
     const rows = s.reason.filter(g => g.projected[k].v >= t.v).sort((a, z) => z.projected[k].v - a.projected[k].v);
     const g = rows[0];
-    return g && `“${esc(g.name.replace(/\.$/, ""))}”: AI does it directly in ${fig(g.now, "pct")} of observed Claude conversations now; in ${fig(b.horizon.months, "")} months about ${fig(g.projected.slower, "pct")}, ${fig(g.projected.moderate, "pct")} or ${fig(g.projected.faster, "pct")} (slower, moderate, faster; threshold ${fig(t, "pct")}).${g.weak ? ` <span class="tag weak">Evidence weak</span>` : ""}`;
+    return g && `“${esc(g.name.replace(/\.$/, ""))}”: AI does it directly in ${aiShareText(g)}; in ${fig(b.horizon.months, "")} months about ${fig(g.projected.slower, "pct")}, ${fig(g.projected.moderate, "pct")} or ${fig(g.projected.faster, "pct")} (slower, moderate, faster; threshold ${fig(t, "pct")}).${g.weak ? ` <span class="tag weak">Evidence weak</span>` : ""}`;
   };
   const stays = s => {
     const later = needed(s.id);
@@ -2560,6 +2676,7 @@ function contributionCard(r) {
       <div><dt>SDG 8.5 · decent work</dt><dd>${s85}${srcMarks(r.sdg[0].src)}</dd></div>
       <div><dt>SDG 4.4 · skills for employment</dt><dd>This block serves ${fig(c.s44.gaps, "int")} of the route's priority gaps in ${fig(c.s44.hours, "")} hours.</dd></div>
       <div><dt>SDG 4.3 · affordable learning</dt><dd>${fig(c.s43.free, "int")} of ${fig(c.s43.of, "int")} steps are free.</dd></div>
+      <div><dt>So far, by your own marks</dt><dd>${youFig(r.block.steps.filter(s => s.completed).length)} of ${fig({ v: r.block.steps.length, src: ["aivancin-catalogue"] }, "int")} steps done, ${youFig(r.block.steps.filter(s => s.completed && routeState.outcomes.get(s.id) === "made").length)} with an output made. Planned learning above is not completed learning, a skill check or a job.</dd></div>
       <div><dt>SDG 8.2 · productivity through technology</dt><dd>${fig(c.s82.checkpoints, "int")} checkpoint${c.s82.checkpoints.v === 1 ? "" : "s"} add AI checking in the ${esc(routeState.data.scenario)} scenario${c.s82.practice.v ? `, plus ${fig(c.s82.practice, "int")} AI-practice step${c.s82.practice.v === 1 ? "" : "s"}` : ""}.</dd></div>
     </dl>
     <details class="more"><summary class="link-btn">Why it matters in Malaysia</summary>
@@ -2598,9 +2715,10 @@ function renderPlan() {
   const done = b.steps.filter(s => s.completed).length;
   // Start here leads: on one column it comes straight after the route's summary, before the scenario and order
   // settings; with the pinned side column it heads the steps.
-  const start = startCard(b, next), wide = planWide = PLAN_WIDE.matches;
+  const start = outcomeCard(r) + startCard(b, next), wide = planWide = PLAN_WIDE.matches;
   $("#plan-body").innerHTML = `
     ${staleNote()}
+    ${assumedNote()}
     ${routeState.newer && isPersonal() ? `<div class="callout newer" role="status">${icon("history")}<div><p><b>${esc(newerText(routeState.newer))}</b></p>
       <button type="button" class="link-btn" data-action="changed">Review the change</button></div></div>` : ""}
     <div class="plan-layout"><div class="plan-side">
@@ -2704,7 +2822,7 @@ function renderChanged(res) {
       ? `, ${fig(x.conversations, "int")} conversations` : ", no counts published"})`).join("; ")}.</p>`).join("");
   const reasonText = c => (c.after.reason || []).map(r => {
     const b0 = (c.before.reason || []).find(x => x.dwa_id === r.dwa_id);
-    return `${esc(r.name.replace(/\.$/, ""))}: ${b0 ? `${fig(b0.now, "pct")} → ` : ""}${fig(r.now, "pct")} of observed Claude conversations where AI does it directly`;
+    return `${esc(r.name.replace(/\.$/, ""))}: average ${b0 ? `${fig(b0.now, "pct")} → ` : ""}${fig(r.now, "pct")} of observed Claude conversations where AI does it directly${latestOf(r) ? ` (${latestOf(r)})` : ""}`;
   }).join("; ");
   // Steps that changed stay as cards; kept steps share one list, each with what its form depends on.
   const moved = res.changes.filter(c => c.change !== "retained"), kept = res.changes.filter(c => c.change === "retained");
@@ -2729,6 +2847,29 @@ function renderChanged(res) {
   const go = () => { routeState.change = { from: $("#c-from").value, to: $("#c-to").value }; showChanged(); };
   $("#c-from").addEventListener("change", go);
   $("#c-to").addEventListener("change", go);
+}
+
+/* A new order (SPEC 11.18). When more routes qualify than are shown, the order picks which ones are shown, so the
+   routes are asked for again; a failure keeps the previous order and routes and says so beside the control. */
+async function reorderRoutes(sort) {
+  const prev = routeState.sort, d = routeState.data;
+  routeState.sort = sort;
+  routeState.sortErr = "";
+  const refetch = isPersonal() && d.qualifying && d.qualifying.v > d.routes.length;
+  if (refetch) {
+    $("#routes-body").setAttribute("aria-busy", "true");
+    try {
+      applyRoutes(await personalRoutes());
+    } catch (err) {
+      routeState.sort = prev;
+      routeState.sortErr = "Could not reorder the routes. Your previous order and routes are unchanged.";
+    }
+    $("#routes-body").removeAttribute("aria-busy");
+  }
+  saveProgress();
+  renderRoutes();
+  $(`#routes input[name="rsort"][value="${routeState.sort}"]`)?.focus();
+  if (!routeState.sortErr) announce(`Ordered by ${(isPersonal() ? SORTS : EXPLORE_SORTS)[sortKey()][0].toLowerCase()}.${refetch ? ` Showing ${routeState.data.routes.length} of ${routeState.data.qualifying.v} routes that qualify.` : ""}`);
 }
 
 function routeEvents() {
@@ -2765,9 +2906,7 @@ function routeEvents() {
       return;
     }
     if (!e.target.matches('input[name="rsort"]')) return;
-    routeState.sort = e.target.value;
-    renderRoutes();
-    $(`#routes input[name="rsort"][value="${routeState.sort}"]`)?.focus();
+    reorderRoutes(e.target.value);
   });
   // Switching tabs redraws the route and returns focus to the tab control.
   $("#route").addEventListener("change", e => {
@@ -2803,6 +2942,12 @@ function routeEvents() {
         const b = planNow(d);
         return `${SCEN_NAME[d.scenario]} scenario.${b ? ` ${b.steps.filter(s => s.form === "ai").length} of ${b.steps.length} checkpoints add AI checking.` : ""}`;
       }, "#plan input[name=pscen]:checked");
+    } else if (e.target.matches("input[data-outcome]")) {
+      routeState.outcomes.set(e.target.dataset.outcome, e.target.value);
+      saveProgress();
+      renderPlan();
+      $(`#plan input[data-outcome="${CSS.escape(e.target.dataset.outcome)}"][value="${e.target.value}"]`)?.focus();
+      announce(`Checkpoint marked: ${OUTCOMES[e.target.value]}.${e.target.value === "made" ? "" : " Your next learning action is above the steps."}`);
     } else if (e.target.id === "p-growing") {
       routeState.opts.gap_order = e.target.checked ? "growing" : "default";
       refreshPlan(d => (d.routes.find(x => x.code === routeState.target)?.block.gap_order === "growing"
@@ -2827,11 +2972,12 @@ function saveProgress() {
   const typed = form.some(([n, v]) => ["current_job", "other_work", "studies"].includes(n) && v.trim());
   if (!state.lastIntake && !typed && !state.title && !routeState.target && !routeState.saved.size && !routeState.data) return;
   const data = {
-    v: 1, mode, persona: examplePersona, form, title: state.title, titleActs: state.titleActs, untickedTitle: [...state.untickedTitle], cip: state.cip,
+    v: 1, mode, persona: examplePersona, form, title: state.title, titleActs: state.titleActs, affirmedTitle: [...state.affirmedTitle], timeSeen: state.timeSeen, cip: state.cip,
     lastIntake: state.lastIntake, suggest: state.suggest, ticked: [...state.ticked], dismissed: [...state.dismissed], manual: [...state.manual], followed: [...state.followed],
     lane: state.lane, knownTools: [...state.knownTools], readFrom: state.readFrom,
     routes: { reached: (Boolean(routeState.data) && isPersonal()) || routesReached, target: routeState.target, completed: [...routeState.completed], opts: routeState.opts,
-      sort: routeState.sort, saved: [...routeState.saved], seen: [...routeState.seen], kept: routeState.kept || null, lost: routeState.lostTarget },
+      sort: routeState.sort, saved: [...routeState.saved], seen: [...routeState.seen], kept: routeState.kept || null, lost: routeState.lostTarget,
+      outcomes: [...routeState.outcomes] },
   };
   try { localStorage.setItem(STORE, JSON.stringify(data)); } catch (e) { /* storage unavailable or full: progress lasts for this visit only */ }
 }
@@ -2843,7 +2989,10 @@ function restoreProgress() {
   try {
     const f = $("#intake");
     d.form.forEach(([n, v]) => { const el = f.elements[n]; if (el) el.value = v; });
-    state.title = d.title; state.titleActs = d.titleActs || []; state.untickedTitle = new Set(d.untickedTitle);
+    state.title = d.title; state.titleActs = d.titleActs || [];
+    // Records from before 23 Oct listed the title activities the person unticked; the rest had counted.
+    state.affirmedTitle = new Set(d.affirmedTitle || state.titleActs.map(a => a.dwa_id).filter(id => !(d.untickedTitle || []).includes(id)));
+    state.timeSeen = d.timeSeen ?? Boolean(d.lastIntake);
     renderChosen($("#f-title"), d.title ? `${d.title.title} (${d.title.code})` : null, () => setTitle(null));
     setCip(d.cip);
     mode = d.mode === "example" ? "example" : "own";
@@ -2865,7 +3014,7 @@ function restoreProgress() {
     state.readFrom = d.readFrom || (d.suggest ? (mode === "example" ? `example:${examplePersona}` : "own") : null);
     const r = d.routes || {};
     Object.assign(routeState, { target: r.target || null, completed: new Set(r.completed), sort: r.sort || "overlap", saved: new Map(r.saved),
-      seen: new Set(r.seen), kept: r.kept || null, lostTarget: r.lost || null });
+      seen: new Set(r.seen), kept: r.kept || null, lostTarget: r.lost || null, outcomes: new Map(r.outcomes || []) });
     if (r.opts) Object.assign(routeState.opts, r.opts);
     routesReached = Boolean(r.reached);
     if (state.suggest) renderReview();
@@ -2983,7 +3132,7 @@ function courseRow(o) {
   const price = o.cost_rm.v ? fig(o.cost_rm, "rm") : `${o.practice_product ? "Free to read" : esc(o.access || "Free")}${srcMarks(o.cost_rm.src)}`;
   const needs = o.requires_titles || [];
   // The section a course sits in already says whether it is in the first block.
-  const tags = o.ai_practice ? `<span class="tag good">AI practice</span>` : "";
+  const tags = (o.ai_practice ? `<span class="tag good">AI practice</span>` : "") + (o.coverage === "introduces" ? `<span class="tag weak">Introductory</span>` : "");
   return `<li><details class="course-item"><summary class="res-row"><span class="res-tile" aria-hidden="true">${icon(o.ai_practice ? "sparkles" : "book-open")}</span>
     <span class="res-text"><b>${esc(o.title)}</b><span>${esc(o.provider)} · ${price} · ${fig(o.provider_hours, "")} h</span>${tags ? `<span class="res-tags">${tags}</span>` : ""}</span>
     ${icon("chevron-down", "sm")}</summary><div class="course-detail">${stepAccess(o, needs)}<p class="foot">Link checked ${esc(o.checked_on)}. ${esc(o.access || "See provider for access details.")}${srcMarks(o.cost_rm.src)}</p><a class="btn btn-tinted course-open" href="${esc(o.url)}" target="_blank" rel="noopener">Open course ${icon("external-link", "sm")}<span class="vh">(opens in a new tab)</span></a></div></details></li>`;
@@ -3065,7 +3214,7 @@ function renderProfile() {
   const words = v => (v && v.trim() ? `<mark class="words">${esc(v)}</mark>` : `<span class="foot">Not answered</span>`);
   const names = activityNames();
   const named = new Set([...state.ticked.keys(), ...state.manual.keys()]);
-  const titleOnly = state.titleActs.filter(a => !state.untickedTitle.has(a.dwa_id) && !named.has(a.dwa_id));
+  const titleOnly = state.titleActs.filter(a => state.affirmedTitle.has(a.dwa_id) && !named.has(a.dwa_id));
   box.innerHTML = `
     ${persona ? `<div class="callout">${icon("info")}<p>${esc(persona.name)}'s example, a synthetic person. Describe your work to use your own words.</p></div>` : ""}
     <div class="profile-main">
@@ -3081,9 +3230,9 @@ function renderProfile() {
       <details class="more answers-more"><summary class="link-btn">Show what you wrote</summary><dl class="answers">
         <dt>Current job${state.title ? `, ${esc(state.title.title)}` : ""}</dt><dd>${words(li.current_job)}</dd>
         <dt>Other work</dt><dd>${words(li.other_work)}</dd>
-        <dt>Studies${state.cip ? `, ${esc(state.cip.title)}` : ""}</dt><dd>${words(li.studies)}</dd></dl></details>
+        <dt>Studies${state.cip ? `, ${esc(state.cip.title)}` : ""}${li.degree_level ? `, ${esc(li.degree_level)}` : ", level not stated"}</dt><dd>${words(li.studies)}</dd></dl></details>
       <dl class="answers">
-        <dt>Time and budget</dt><dd>${li.weekly_hours == null ? "?" : youFig(li.weekly_hours)} hours a week, ${fig({ v: li.budget_rm ?? 0, src: ["your-input"] }, "rm")} budget, first block of ${youFig(routeState.opts.weeks)} weeks</dd>
+        <dt>Time and budget</dt><dd>${li.weekly_hours == null ? "?" : youFig(li.weekly_hours)} hours a week, ${fig({ v: li.budget_rm ?? 0, src: ["your-input"] }, "rm")} budget, first block of ${youFig(routeState.opts.weeks)} weeks${li.assumed?.length ? " (starting values: you skipped this question)" : ""}</dd>
       </dl>
       <button type="button" class="btn btn-gray" data-go="edit">${icon("pencil-line", "sm")}Edit answers</button>
       <p class="foot">Sentences you leave unchanged keep their confirmed activities; new or changed ones need your tick. Routes and your plan update when you compare again.</p></section>` : ""}

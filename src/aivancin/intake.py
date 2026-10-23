@@ -33,6 +33,7 @@ _ASPIRATION += [r"my dream is", r"one day i", r"someday", r"my goal is to", r"i'
 # left alone because it often describes a habit ("I will usually reconcile the cash at closing time"), and so is work
 # about a coming period ("the budget for the next year", "next month's sales").
 _ASPIRATION += [r"(?<!the )(?<!for )next (?:week|month|year|semester|term)(?!'s)"]
+NEGATION_SCOPE = True  # False: any cue anywhere in the sentence counts (the rule before 23 Oct), for checks
 _NEGATION_RE = re.compile(r"\b(?:" + "|".join(_NEGATION) + r")\b", re.IGNORECASE)
 _ASPIRATION_RE = re.compile(r"\b(?:" + "|".join(_ASPIRATION) + r")\b", re.IGNORECASE)
 _FUTURE_START_RE = re.compile(
@@ -185,10 +186,39 @@ def split_sentences(text):
     return spans
 
 
+# Negation scope (23 Oct): "When the laptop will not connect, I fix it" and "so that duplicate calls are not counted"
+# negate a thing, not the person's work. A cue counts when its clause (from the last comma or joining word before it)
+# has the person as subject ("I have never", "we do not"), no subject of its own ("Never built a website"), or a
+# placeholder one ("It is not my job to ..."); not when the clause is about a thing or begins "who", "which" or "that"
+# without the person in it. Someone else's work is still held back by the ownership rule.
+_CLAUSE_START_RE = re.compile(r"[,;:]|\b(?:when|whenever|if|because|so that|so|until|unless|after|before|while|but|and|or|"
+                              r"since|as|which|who|that)\b", re.IGNORECASE)
+_FIRST_RE = re.compile(r"\b(?:i|we)\b", re.IGNORECASE)
+_PLACEHOLDER_RE = re.compile(r"^\W*(?:it|this|there)(?:\s+(?:is|was)|'s)\s*$", re.IGNORECASE)  # "It is not my job ..."
+
+
+# "My boss doesn't let me handle the cash": a negated permission or request about the person negates their work.
+_NOT_LET_ME_RE = re.compile(r"^\s+(?:\w+\s+)?(?:let|lets|allow|allows|ask|asks|want|wants|trust|trusts|need|needs)\s+(?:me|us)\b", re.IGNORECASE)
+
+
+def _negates_person(norm, m):
+    if _NOT_LET_ME_RE.match(norm[m.end():]):
+        return True
+    last = None
+    for b in _CLAUSE_START_RE.finditer(norm, 0, m.start()):
+        last = b
+    prefix = norm[last.end() if last else 0:m.start()]
+    if _FIRST_RE.search(prefix):
+        return True
+    if last and last.group(0).strip().lower() in ("who", "which", "that"):
+        return False
+    return not prefix.strip() or bool(_PLACEHOLDER_RE.match(prefix))
+
+
 def guard(sentence):
     """Flag a sentence that says the work was not done, or is only wanted. Returns None or {kind, cue}."""
     norm = sentence.replace("’", "'").replace("‘", "'")
-    m = _NEGATION_RE.search(norm)
+    m = next((x for x in _NEGATION_RE.finditer(norm) if NEGATION_SCOPE is False or _negates_person(norm, x)), None)
     if m:
         return {"kind": "negated", "cue": m.group(0)}
     m = _ASPIRATION_RE.search(norm)
@@ -502,6 +532,12 @@ def build_profile(req, onet, suggestion_result, cip=None):
     if not isinstance(confirmed, list):
         errors["confirmed"] = "Confirmed activities must be a list."
         confirmed = []
+    # Starting values the person has not seen yet (23 Oct: "Read my work now" skips the time question); they stay
+    # usable and are labelled as assumptions wherever they shape a plan.
+    assumed = req.get("assumed") or []
+    if not isinstance(assumed, list) or not set(assumed) <= {"weekly_hours", "budget_rm"}:
+        errors["assumed"] = "Assumed values must name weekly_hours or budget_rm."
+        assumed = []
     for key in ("unticked_title_activities", "affirmed_title_activities"):
         v = req.get(key)
         if v is not None and (not isinstance(v, list) or not all(isinstance(x, str) for x in v)):
@@ -592,5 +628,6 @@ def build_profile(req, onet, suggestion_result, cip=None):
         "weekly_hours": hours,
         "budget_rm": budget,
         "without_ai_suggestions": suggestion_result is None,
+        "assumed": sorted(set(assumed)),
         "activities": sorted(activities.values(), key=lambda a: a["dwa_id"]),
     }

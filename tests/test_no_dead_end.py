@@ -8,7 +8,7 @@ import pytest
 
 from aivancin.matching import Matcher
 from aivancin.report import Reporter
-from aivancin.routes import EXPLORATION_CARDS, EXPLORATION_LABEL, Planner
+from aivancin.routes import EXPLORATION_CARDS, EXPLORATION_LABEL, EXPLORATION_MIN_SHARED, Planner
 
 from .test_routes import TODAY, profile, HAFIZ_SIDE_WORK
 
@@ -47,8 +47,12 @@ def test_c15_out_of_scope_profiles_get_exploration_cards(snaps, ai, planner):
             failed.add(pid)
             assert cards == [], pid
             continue
-        assert 1 <= len(cards) <= EXPLORATION_CARDS, pid
-        listed = [r["code"] for r in planner.rep.report(prof, {"lane": "all"}, today=TODAY)["roles"]]
+        assert len(cards) <= EXPLORATION_CARDS, pid
+        assert res["fallback"]["kind"] in ("title_only", "thin_support", "outside_supported"), pid
+        ranked = planner.rep.report(prof, {"lane": "all"}, today=TODAY)["roles"]
+        listed = [r["code"] for r in ranked]
+        # 23 Oct: a card shares at least two confirmed activities (one heavily weighted activity is not shared work).
+        sharing = [r["code"] for r in ranked if r["done_count"]["v"] >= EXPLORATION_MIN_SHARED]
         shown = {r["code"] for r in res["routes"]}
         for c in cards:
             assert c["label"] == EXPLORATION_LABEL
@@ -57,7 +61,8 @@ def test_c15_out_of_scope_profiles_get_exploration_cards(snaps, ai, planner):
             assert planner.rep.is_skilled(c["code"])
             assert c["overlap"]["src"] and c["done_count"]["src"]
         # Cards follow the exploration order.
-        assert [c["code"] for c in cards] == [x for x in listed if x not in planner.dests and x not in shown][:EXPLORATION_CARDS]
+        assert [c["code"] for c in cards] == [x for x in sharing if x not in planner.dests and x not in shown][:EXPLORATION_CARDS]
+        assert all(c["done_count"]["v"] >= EXPLORATION_MIN_SHARED for c in cards)
     assert seen == 6
     assert failed == KNOWN_C15_FAILURES
 

@@ -395,7 +395,8 @@
     "learn.azure.network-fundamentals"
    ],
    "checkpoint": "Write a one-page monitoring plan: the signals you would watch on a small network, the alert threshold for each and who is told.",
-   "setup": "A text document or paper"
+   "setup": "A text document or paper",
+   "practice_access": "Microsoft Azure"
   },
   {
    "uid": "learn.devrel.understand-windows-packet-monitor",

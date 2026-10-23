@@ -4183,6 +4183,8 @@
      "kind": "unit"
     }
    ],
+   "access": "Free to read. The provider's exercises need Microsoft Azure (paid, or a trial that may need a work account); the checkpoint here works in a free spreadsheet or on paper instead.",
+   "practice_product": "Microsoft Azure",
    "verified_on": "2026-10-22",
    "link_check": {
     "ok": true,

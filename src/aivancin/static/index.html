@@ -140,6 +140,7 @@
       <p class="q-lead" id="ex-current">A few short sentences in plain words, one thing you do in each, as you would tell a friend.</p>
       <div class="field">
         <textarea id="f-current" name="current_job" rows="5" aria-labelledby="h-work" aria-describedby="ex-current" placeholder="For example: I drive a van delivering parcels. I plan the route between drops."></textarea>
+        <p class="err" data-err="current_job"></p>
       </div>
       <div class="field combo" data-kind="occupations">
         <label for="f-title">Job title <span class="opt-tag">optional</span></label>
@@ -156,6 +157,7 @@
       <p class="q-lead" id="ex-other">Side jobs, family business, volunteering, helping friends, in plain words. This is often where graduate-level work shows.</p>
       <div class="field">
         <textarea id="f-other" name="other_work" rows="6" aria-labelledby="h-other" aria-describedby="ex-other" placeholder="For example: I keep the books for my mother's catering business."></textarea>
+        <p class="err" data-err="other_work"></p>
       </div>
     </div>
 
@@ -173,14 +175,16 @@
       <fieldset class="field">
         <legend>Level</legend>
         <div class="seg-ctl level" style="--n:2">
-          <label><input type="radio" name="degree_level" value="diploma" checked>Diploma</label>
+          <label><input type="radio" name="degree_level" value="diploma">Diploma</label>
           <label><input type="radio" name="degree_level" value="degree">Degree</label>
         </div>
+        <p class="ex">If you leave this unanswered, AIVANCIN does not judge degree requirements for you.</p>
         <p class="err" data-err="degree_level"></p>
       </fieldset>
       <div class="field">
         <label for="f-studies">What did you do in your studies?</label>
         <textarea id="f-studies" name="studies" rows="3" placeholder="For example: I built a small inventory app in Java for my final project."></textarea>
+        <p class="err" data-err="studies"></p>
       </div>
     </div>
 

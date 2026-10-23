@@ -59,6 +59,10 @@ body[data-counted="no"] .progress, body[data-counted="no"] .bar-step { visibilit
 .short-hint .ico { margin-top: 2px; color: var(--text2); }
 .short-hint .link-btn { position: relative; min-height: 0; font-size: 0.875rem; }
 .short-hint .link-btn::after { content: ""; position: absolute; inset: -13px -8px; }
+/* A long sentence read in parts, and the job title's activities to tick (SPEC 11.18). */
+.long-note { display: flex; gap: 8px; align-items: flex-start; margin: -6px 0 14px; }
+.long-note .ico { margin-top: 2px; color: var(--text2); flex: none; }
+.title-all { display: flex; flex-wrap: wrap; gap: 0 20px; margin: 4px 0 8px; }
 .sent-actions .btn { min-height: 36px; font-size: 0.875rem; padding: 0 14px; }
 .find { margin-top: 14px; }
 .find input { margin-top: 0; }
@@ -1421,6 +1425,8 @@ html[data-bold="on"] :is(.act-tile, .sec-ico, .fact dt .tile-ico, .res-tile, .le
 #review-edit-note .callout { margin-top: 16px; background: var(--you-tint); box-shadow: none; }
 #review-edit-note .callout > .ico { color: var(--you); flex: none; }
 :is(.edit-actions, .note-actions) { display: flex; flex-wrap: wrap; gap: 0 20px; margin-top: 2px; }
+.qual-note { margin: 6px 0 0; }
+#sort-err:empty { display: none; }
 .stale-note { margin-top: 16px; background: var(--fill); box-shadow: none; }
 /* A chosen route that no longer qualifies is a limit, so it uses the limit colours (orange). */
 .callout.lost-note { margin-top: 16px; background: var(--rust-tint); box-shadow: none; }
@@ -1476,3 +1482,7 @@ html[data-bold="on"] :is(.act-tile, .sec-ico, .fact dt .tile-ico, .res-tile, .le
 .progress-list li.next-ms button { font-weight: 600; }
 .progress-list li.next-ms .pl-mark { border-color: var(--accent); color: var(--accent); }
 .progress-list li.next-ms .pl-mark .ico { width: 14px; height: 14px; }
+/* A done step's checkpoint outcome, the person's own mark (SPEC 11.18). */
+.outcome { margin: 10px 0 0; padding: 0; border: 0; }
+.outcome legend { font-size: 0.875rem; color: var(--text2); margin-bottom: 6px; }
+.outcome-card .foot { margin-top: 6px; }

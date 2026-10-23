@@ -42,6 +42,9 @@ EXPLORE_SRC = "explore-defaults"
 RADAR_MAIN = 3  # initial: before work is described, the Radar shows each supported role's three largest activities
 EXPLORATION_CARDS = 3  # SPEC 11.7: at most three exploration cards when fewer than two routes qualify
 EXPLORATION_LABEL = "Exploration: no curated first block yet"
+# 23 Oct: an exploration card needs at least two of the person's confirmed activities (a taxi title alone gave "Airfield
+# Operations Specialists" on one heavily weighted driving activity), so a card is a role that shares work, not one task.
+EXPLORATION_MIN_SHARED = 2
 NEAR_ROUTES = 3  # at most three supported roles shown as close to the work when fewer than two routes qualify
 
 
@@ -119,6 +122,23 @@ def first_task(c):
             "exercises": len(exercises),
             "exercise_minutes": fig(sum(u["minutes"] or 0 for u in exercises), CAT) if exercises else None,
             "parts": len(body)}
+
+
+_WORD = re.compile(r"[a-z]{4,}")
+
+
+def objective_for(c, gaps):
+    """The provider's stated objective shown for a step: its first, unless another names the step's gaps clearly better
+    (23 Oct: the first objective alone showed "plan your day" for a finance step serving financial reports). Another
+    objective is used only when it shares at least two word stems with the gaps' names and more than the first does.
+    Stated by the provider, never generated."""
+    objectives = [o for o in c.get("objectives") or [] if o]
+    if not objectives:
+        return ""
+    stems = {w[:5] for g in gaps for w in _WORD.findall(g["name"].lower())}
+    shared = [len(stems & {w[:5] for w in _WORD.findall(o.lower())}) for o in objectives]
+    best = max(range(len(objectives)), key=lambda i: (shared[i], -i))
+    return objectives[best] if shared[best] >= 2 and shared[best] > shared[0] else objectives[0]
 
 
 def fits_family(c, family):
@@ -339,7 +359,7 @@ class Planner:
                 "serves": [{"dwa_id": g["dwa_id"], "name": g["name"]} for g in gaps],
                 "purpose": ("Builds: " + "; ".join(g["name"].rstrip(".") for g in gaps) + ".") if gaps else
                            "Required first by a later step.",
-                "objective": (c.get("objectives") or [""])[0], "coverage": c.get("coverage"),
+                "objective": objective_for(c, gaps), "coverage": c.get("coverage"),
                 "provider_hours": fig(c["hours"], CAT), "practice_hours": fig(c.get("practice_hours", 0.0), CAT, estimate=True),
                 "cost_rm": fig(c["cost_rm"], CAT), "checked_on": c["link_check"]["checked_on"],
                 "requires": c.get("requires", []), "checkpoint": checkpoint, "form": form, "reason": reason,
@@ -516,11 +536,11 @@ class Planner:
             "supported_share": fig(pct(len(b["supported"]) / len(b["prioritized"])) if b["prioritized"] else 0.0, CAT, *ONET_SRC),
             "block": {"steps": steps, "effort_hours": fig(round(provider + practice, 1), CAT),
                       "provider_hours": fig(round(provider, 1), CAT), "practice_hours": fig(round(practice, 1), CAT, estimate=True),
-                      "cost_rm": fig(round(spent, 2), CAT), "capacity_hours": fig(o["capacity"], o["input_src"]),
+                      "cost_rm": fig(round(spent, 2), CAT), "capacity_hours": fig(o["capacity"], o.get("hours_src", o["input_src"])),
                       "gaps_served": sorted(served), "uncovered": [{"dwa_id": g["dwa_id"], "name": g["name"]} for g in uncovered],
                       "status": ("covers all prioritized gaps that have a resource" if all_supported_served else "partial"),
                       "start": next((s["id"] for s in steps if not s["completed"]), None),
-                      "weekly_hours": fig(profile["weekly_hours"], o["input_src"]),
+                      "weekly_hours": fig(profile["weekly_hours"], o.get("hours_src", o["input_src"])),
                       "scenario_differs": differ,
                       "scenario_extra_hours": {s: fig(round(sum(left(c)[0] for c in extra[s]), 1), CAT) for s in outlook.SCENARIOS},
                       # per scenario: AI-practice entries that join within time and budget, and those that would
@@ -565,6 +585,10 @@ class Planner:
     def routes(self, profile, opts, today=None, explore=False, with_radar=True):
         o = self.options(opts, profile)
         o["input_src"] = EXPLORE_SRC if explore else "your-input"
+        # Hours or budget the person skipped are the starting assumptions, cited as such (23 Oct).
+        assumed = set(profile.get("assumed") or [])
+        o["hours_src"] = EXPLORE_SRC if explore or "weekly_hours" in assumed else "your-input"
+        o["budget_src"] = EXPLORE_SRC if explore or "budget_rm" in assumed else "your-input"
         verified = pathway.verified_courses(self.snaps.catalogue, today or dt.date.today())
         courses = [c for c in verified if c.get("checkpoint") and not c.get("ai_skill")]
         # AI-practice entries that teach AI use on a named activity (copies; the snapshot stays untouched)
@@ -598,12 +622,12 @@ class Planner:
                 r = self.route(code, prof, profile, courses, ai_courses, o)
                 r["near"] = {"counted": r["support"]["counted"], "needed": fig(MIN_DONE, ROUTES_SRC)}
                 near_routes.append(r)
-        src = o["input_src"]
         return {"routes": routes, "near_routes": near_routes, "min_done": fig(MIN_DONE, ROUTES_SRC),
                 "order": o["order"], "qualifying": None if explore else fig(len(fits), ROUTES_SRC, *ONET_SRC),
                 "shared": None if explore else self.shared(routes), "target": o["target"], "personal": not explore,
-                "weeks": fig(o["weeks"], "your-input"), "capacity_hours": fig(o["capacity"], src),
-                "budget_rm": fig(o["budget"], src), "scenario": o["scenario"], "release": o["release"],
+                "weeks": fig(o["weeks"], "your-input"), "capacity_hours": fig(o["capacity"], o.get("hours_src", o["input_src"])),
+                "budget_rm": fig(o["budget"], o["budget_src"]), "scenario": o["scenario"], "release": o["release"],
+                "assumed": [] if explore else sorted(assumed),
                 "threshold": fig(o["threshold"], "your-input"), "willing_long": o["willing_long"],
                 "fewer_note": (None if explore or len(fits) >= MAX_ROUTES else
                                f"{len(fits)} supported route{'s' if len(fits) != 1 else ''} qualified. Explore all roles to see others, "
@@ -611,6 +635,7 @@ class Planner:
                 "supported_destinations": fig(len(self.dests), ROUTES_SRC),
                 "decent_order": decent_order(routes),
                 "exploration": [] if explore or len(fits) >= 2 or not with_radar else self.exploration_cards(profile, set(chosen), today or dt.date.today()),
+                "fallback": None if explore or len(fits) >= 2 else self.fallback(profile, prof),
                 "forecast": self.rep._forecast_meta(o["threshold"], o["release"]),
                 "radar": self.radar(routes, prof, o, explore) if with_radar else None}
 
@@ -697,7 +722,7 @@ class Planner:
         onet = self.snaps.onet
         out = []
         for r in rep["roles"]:
-            if r["code"] in shown or r["code"] in self.dests:
+            if r["code"] in shown or r["code"] in self.dests or r["done_count"]["v"] < EXPLORATION_MIN_SHARED:
                 continue
             desc = onet.descriptions.get(r["code"], "")
             out.append({"code": r["code"], "title": r["title"], "label": EXPLORATION_LABEL,
@@ -707,6 +732,18 @@ class Planner:
             if len(out) == EXPLORATION_CARDS:
                 break
         return out
+
+    def fallback(self, profile, prof):
+        """Why fewer than two routes qualify, so the next step can fit (23 Oct): the profile rests only on the job
+        title's activities ("title_only"); no supported destination records any confirmed activity ("outside_supported");
+        or some do, but not enough of them ("thin_support"). Counts, not a judgement of the person."""
+        own = [a for a in profile["activities"] if set(a["sources"]) - {"title"}]
+        touched = any(prof & set(self.m.w[c]) for c in self.dests if c != profile.get("title_code"))
+        kind = "title_only" if not own else "thin_support" if touched else "outside_supported"
+        families = sorted({d["family_label"] for d in self.dests.values()})
+        return {"kind": kind, "own": fig(len(own), "your-input"),
+                "title": fig(len(profile["activities"]) - len(own), "your-input", *ONET_SRC),
+                "families": families, "src": [ROUTES_SRC]}
 
     def explore(self, opts, today=None):
         """Every supported role before any work is described: nothing counts as done, requirements the profile

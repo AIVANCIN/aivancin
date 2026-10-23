@@ -245,3 +245,45 @@ def test_two_peoples_work_in_one_sentence_asks_who_did_it():
     # The person's own work, with or without someone else, is unchanged.
     assert intake.guard("I reconcile the sales records while my manager checks the shelves") is None
     assert intake.guard("He showed me how to build spreadsheets, and now I make them") is None
+
+
+# ---- item 13: a fallback that says why there is no route --------------------------------------------------------
+def test_fallback_names_why_fewer_than_two_routes_qualify(planner, snaps):
+    base = {"degree_level": "degree", "weekly_hours": 6, "budget_rm": 0}
+    taxi = [a["dwa_id"] for a in intake.title_activities(snaps.onet, "53-3054.00")]
+    prof = intake.build_profile({**base, "title_code": "53-3054.00", "affirmed_title_activities": taxi}, snaps.onet, None, snaps.cip)
+    res = planner.routes(prof, {})
+    assert res["fallback"]["kind"] == "title_only" and res["fallback"]["own"]["v"] == 0
+    # One heavily weighted driving activity no longer makes "Airfield Operations Specialists" a card.
+    assert all(c["done_count"]["v"] >= 2 for c in res["exploration"])
+    assert "53-2022.00" not in [c["code"] for c in res["exploration"]]
+
+    def own(*ids):
+        req = {**base, "confirmed": [{"dwa_id": d, "source": "added_by_you", "lane": "other_work"} for d in ids]}
+        return planner.routes(intake.build_profile(req, snaps.onet, None, snaps.cip), {})
+    cleaning = next(d for d, n in snaps.onet.dwa_names.items() if n.startswith("Clean facilities or work areas"))
+    assert own(cleaning)["fallback"]["kind"] == "outside_supported"
+    assert own("4.A.3.b.1.d.1")["fallback"]["kind"] == "thin_support"  # Resolve computer network problems.
+    assert planner.routes(intake.build_profile({**base, "confirmed": [
+        {"dwa_id": d, "source": "added_by_you", "lane": "other_work"} for d in HAFIZ_TICKS]}, snaps.onet, None, snaps.cip), {})["fallback"] is None
+
+
+# ---- item 1: a negation about a thing does not hold back the person's own work --------------------------------------
+@pytest.mark.parametrize("sentence, held", [
+    ("I am the person my church calls when the projector or the laptop will not connect.", False),
+    ("I also cleaned the data so that duplicate calls are not counted twice.", False),
+    ("I reset passwords for staff who cannot log in to the shared drive.", False),
+    ("I fix the office printer whenever it will not print from the laptops.", False),
+    ("I have not set up a network for anyone yet.", True),
+    ("Never built a website, but I would like to.", True),
+    ("It is not my job to reconcile the bank statements.", True),
+    ("We do not repair computers at my workplace.", True),
+])
+def test_negation_counts_only_for_the_persons_own_work(sentence, held):
+    g = intake.guard(sentence)
+    assert (g is not None and g["kind"] == "negated") == held
+    intake.NEGATION_SCOPE = False
+    try:
+        assert intake.guard(sentence)["kind"] == "negated"  # the rule before 23 Oct held every one back
+    finally:
+        intake.NEGATION_SCOPE = True
