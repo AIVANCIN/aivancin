@@ -1257,6 +1257,16 @@ function renderHow() {
     return `<li><span class="tag ${cls}">${label}</span> <b>${esc(k.name)}</b><span class="foot">${esc(k.what)}: ${main}${second}${k.bar ? ` (bar ${n(k.bar, src)})` : ""} · ${esc(when)} · <code>${esc(k.command)}</code>${srcMarks(src)}</span></li>`;
   }).join("") : "";
   $("#how-body").innerHTML = `
+    <section class="how-overview" aria-label="Your path through AIVANCIN">
+      <img class="comprehension-art" data-placeholder src="/art/illustrations/experience-to-learning-workflow.png" width="1200" height="600" alt="" aria-hidden="true" decoding="async">
+      <ol class="how-journey">
+        <li><b>Describe your work</b><span>Include your job, side work and studies.</span></li>
+        <li><b>Confirm what fits</b><span>Only activities you tick count.</span></li>
+        <li><b>Compare routes</b><span>Check shared work, requirements and future signals.</span></li>
+        <li><b>Start your plan</b><span>Choose a route, then take the first learning task.</span></li>
+      </ol>
+    </section>
+    <details class="more how-details"><summary class="link-btn">How matching, evidence and plans work</summary>
     <section class="how-step" data-scope><h3>${icon("pencil-line", "sm")}1. Describe your work</h3>
       <p>You write what you do in your own words. A small language model that runs on this server, all-MiniLM-L6-v2 fine-tuned on O*NET's own links between task statements and work activities, compares each sentence with the ${n(2087, ["onet31-dwas"])} work activities O*NET records and suggests the closest five. Nothing counts until you tick it. Sentences about work not done, plans, free time, attempts that did not work out or someone else's work are held back, and names, gender and age are read neutrally.</p></section>
     <section class="how-step" data-scope><h3>${icon("radar", "sm")}2. The Radar</h3>
@@ -1265,10 +1275,13 @@ function renderHow() {
       <p>${state.status?.supported_destinations ? fig(state.status.supported_destinations, "int") : "The"} supported graduate roles in IT support, software, and finance and data. A route needs two of the role's activities, each backed by a different activity you confirmed, and shows its requirements, outlook and a first learning block; when fewer than two qualify, the closest other roles are there to explore.</p></section>
     <section class="how-step" data-scope><h3>${icon("list-checks", "sm")}4. Your plan</h3>
       <p>A first block of free, link-checked courses that fits your weeks, hours and budget, each step with a practice checkpoint. When a scenario says AI will do most of a gap's work directly, its checkpoint adds checking an AI's output. Each step names the SDG targets it serves and why, and newer evidence never changes your plan unless you choose it.</p></section>
+    </details>
+    <details class="more how-details"><summary class="link-btn">Malaysian and US data</summary>
     <section class="how-step" data-scope><h3>${icon("map-pin", "sm")}Malaysian and US data</h3>
       <p>Malaysian data from DOSM sets the problem (how many employed graduates aged 25 to 34 work in semi- or low-skilled jobs) and the broad pay context (median pay for each skill group). US occupational data from O*NET and BLS supplies each role's detailed activities, requirements and job outlook. AIVANCIN does not predict Malaysian vacancies or employment. The next development step is checking each supported role against Malaysian occupation-level evidence, such as the MyCOL critical-occupations list, once its reuse is permitted.${srcMarks(["dosm-sru-age", "dosm-wages-occupation", "onet31-task-dwas", "onet-online-outlook"])}</p></section>
-    ${checks ? `<section class="how-step" data-scope><h3>${icon("gauge", "sm")}What we measured</h3>
-      <p class="foot">${esc(c.note)}</p><ul class="how-checks">${checks}</ul></section>` : ""}`;
+    </details>
+    ${checks ? `<details class="more how-details"><summary class="link-btn">What we measured</summary><section class="how-step" data-scope><h3>${icon("gauge", "sm")}What we measured</h3>
+      <p class="foot">${esc(c.note)}</p><ul class="how-checks">${checks}</ul></section></details>` : ""}`;
   attachSources($("#how-body"));
 }
 
@@ -3119,7 +3132,8 @@ function announce(text) {
 }
 
 function emptyState(ico, title, text, tab, label) {
-  return `<div class="empty">${icon(ico)}<h2>${esc(title)}</h2><p>${esc(text)}</p>${tab ? `<button type="button" class="btn btn-gray" data-tab-go="${tab}">${esc(label)}</button>` : ""}</div>`;
+  const visual = tab === "routes" ? `<img class="comprehension-art" data-placeholder src="/art/illustrations/choose-route-to-build-plan.png" width="960" height="640" alt="" aria-hidden="true" decoding="async">` : icon(ico);
+  return `<div class="empty">${visual}<h2>${esc(title)}</h2><p>${esc(text)}</p>${tab ? `<button type="button" class="btn btn-gray" data-tab-go="${tab}">${esc(label)}</button>` : ""}</div>`;
 }
 
 /* ---------- Learn: every verified course for one route's priority gaps ---------- */
@@ -3143,7 +3157,7 @@ function renderLearn() {
   const d = routeState.data, box = $("#learn-body");
   if (!d) { box.innerHTML = ""; return; }
   const r = d.routes.length ? learnRoute() : null;
-  if (!r) { box.innerHTML = emptyState("book-open", "No route to learn for yet", "Courses appear here once a route counts your work.", "routes", "Compare routes"); return; }
+  if (!r) { box.innerHTML = emptyState("book-open", "No route to learn for yet", "Compare routes and open one to explore its courses. Describe your work to personalise them.", "routes", "Compare routes"); return; }
   const total = r.resources.reduce((s, g) => s + g.options.length, 0);
   const left = r.resources.reduce((s, g) => s + g.options.filter(o => !o.in_block).length, 0);
   const active = r.resources.map(g => ({ ...g, options: g.options.filter(o => o.in_block) })).filter(g => g.options.length);

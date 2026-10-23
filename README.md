@@ -215,7 +215,12 @@ Running the encoder locally on precomputed vectors keeps the demo offline, free 
 2. No secrets are needed.
 3. Click **Run**. Replit uses `.replit` to start `python src/main.py` on its Python 3.12 module.
 
-Verified 23 October 2026: the published deployment answers `/api/status` successfully and serves `app.js` and `app.css` byte-identical to the final app source. The documentation site is hosted at https://aivancin.vercel.app.
+Deployment check, 23 October 2026: the published app answered `/api/status` successfully, and its `app.js` and `app.css` matched the source at that check. The later illustration-placeholder changes are verified locally and have not been republished as part of that change. The documentation site is hosted at https://aivancin.vercel.app.
+
+### Illustration slots
+
+Four reserved illustrations support informal-work examples, activity confirmation, the workflow overview and the empty learning-plan state. The current files are blank white canvases; the interface reserves their proportions without displaying an opaque rectangle in either appearance. Context and actions remain in HTML while finished artwork is pending.
+
 
 ### Option 2: Run Locally
 
