@@ -1258,7 +1258,7 @@ function renderHow() {
   }).join("") : "";
   $("#how-body").innerHTML = `
     <section class="how-overview" aria-label="Your path through AIVANCIN">
-      <img class="comprehension-art" data-placeholder src="/art/illustrations/experience-to-learning-workflow.png" width="1200" height="600" alt="" aria-hidden="true" decoding="async">
+      <img class="comprehension-art" src="/art/illustrations/experience-to-learning-workflow.png" width="1200" height="600" alt="" aria-hidden="true" decoding="async">
       <ol class="how-journey">
         <li><b>Describe your work</b><span>Include your job, side work and studies.</span></li>
         <li><b>Confirm what fits</b><span>Only activities you tick count.</span></li>
@@ -3132,7 +3132,7 @@ function announce(text) {
 }
 
 function emptyState(ico, title, text, tab, label) {
-  const visual = tab === "routes" ? `<img class="comprehension-art" data-placeholder src="/art/illustrations/choose-route-to-build-plan.png" width="960" height="640" alt="" aria-hidden="true" decoding="async">` : icon(ico);
+  const visual = tab === "routes" ? `<img class="comprehension-art" src="/art/illustrations/choose-route-to-build-plan.png" width="960" height="640" alt="" aria-hidden="true" decoding="async">` : icon(ico);
   return `<div class="empty">${visual}<h2>${esc(title)}</h2><p>${esc(text)}</p>${tab ? `<button type="button" class="btn btn-gray" data-tab-go="${tab}">${esc(label)}</button>` : ""}</div>`;
 }
 

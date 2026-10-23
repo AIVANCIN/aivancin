@@ -1492,12 +1492,11 @@ html[data-bold="on"] :is(.act-tile, .sec-ico, .fact dt .tile-ico, .res-tile, .le
 .outcome legend { font-size: 0.875rem; color: var(--text2); margin-bottom: 6px; }
 .outcome-card .foot { margin-top: 6px; }
 
-/* Comprehension illustrations share the surrounding surface. White canvases are temporary slots;
-   reserved blank space follows both appearances. Final art uses alpha. */
+/* Supplied comprehension illustrations use alpha to share both appearance surfaces.
+   Native text and controls carry the meaning independently of the images. */
 .comprehension-art { display: block; width: 100%; height: auto; object-fit: contain; flex: none; }
-.comprehension-art[data-placeholder] { opacity: 0; }
 .other-work-guide { display: flex; align-items: center; gap: 20px; margin-top: 12px; isolation: isolate; background: var(--page-q); }
-.other-work-guide .comprehension-art { width: min(34%, 180px); }
+.other-work-guide .comprehension-art { width: min(40%, 240px); }
 .other-work-guide .q-lead { flex: 1; min-width: 0; margin: 0; }
 .review-lead { display: flex; align-items: center; gap: 16px; isolation: isolate; background: var(--canvas); }
 .review-lead .comprehension-art { width: min(28%, 144px); }
@@ -1515,7 +1514,7 @@ html[data-bold="on"] :is(.act-tile, .sec-ico, .fact dt .tile-ico, .res-tile, .le
 .empty .comprehension-art { width: min(100%, 240px); margin: 0 auto 4px; }
 @media (max-width: 479px) {
   .other-work-guide { flex-direction: column; align-items: flex-start; gap: 8px; }
-  .other-work-guide .comprehension-art { width: min(100%, 160px); align-self: center; }
+  .other-work-guide .comprehension-art { width: min(100%, 240px); align-self: center; }
   .review-lead { flex-direction: column; align-items: flex-start; gap: 8px; }
   .review-lead .comprehension-art { width: min(100%, 144px); align-self: center; }
   .empty .comprehension-art { width: min(100%, 180px); }
@@ -1523,3 +1522,9 @@ html[data-bold="on"] :is(.act-tile, .sec-ico, .fact dt .tile-ico, .res-tile, .le
 @media (max-width: 359px) { .how-journey { grid-template-columns: minmax(0, 1fr); } }
 
 @container (max-width: 20rem) { .how-journey { grid-template-columns: minmax(0, 1fr); } }
+
+/* Keep the supplied fine linework visible on the dark question surface. */
+:root[data-theme="dark"] .other-work-guide .comprehension-art { filter: brightness(1.4); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"] ) .other-work-guide .comprehension-art { filter: brightness(1.4); }
+}

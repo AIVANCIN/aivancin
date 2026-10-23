@@ -215,11 +215,11 @@ Running the encoder locally on precomputed vectors keeps the demo offline, free 
 2. No secrets are needed.
 3. Click **Run**. Replit uses `.replit` to start `python src/main.py` on its Python 3.12 module.
 
-Deployment check, 23 October 2026: the published app answered `/api/status` successfully, and its `app.js` and `app.css` matched the source at that check. The later illustration-placeholder changes are verified locally and have not been republished as part of that change. The documentation site is hosted at https://aivancin.vercel.app.
+Deployment check, 23 October 2026: the published app answered `/api/status` successfully, and its `app.js` and `app.css` matched the source at that check. The later illustration changes are verified locally and have not been republished as part of that change. The documentation site is hosted at https://aivancin.vercel.app.
 
-### Illustration slots
+### Illustrations
 
-Four reserved illustrations support informal-work examples, activity confirmation, the workflow overview and the empty learning-plan state. The current files are blank white canvases; the interface reserves their proportions without displaying an opaque rectangle in either appearance. Context and actions remain in HTML while finished artwork is pending.
+Four supplied illustrations explain informal-work examples, activity confirmation, the workflow overview and choosing a route before building a learning plan. Transparent backgrounds blend with light and dark appearances. Images retain their proportions and internal padding; native text and controls keep the workflow usable if an image does not load.
 
 
 ### Option 2: Run Locally
@@ -296,7 +296,7 @@ One GPU training job, no endpoint: the app never calls RunPod, and the fine-tune
 
 ## Credits, dependencies and AI disclosure
 
-The product code, tests and synthetic personas were written during the event. The app icon was designed by Jad Fahmi; the welcome artwork was generated with ChatGPT image generation (OpenAI GPT image). Development used AI assistants: Claude Code (Claude Opus 5.5 and Sonnet 5.5) for most code, tests, documentation, the submission documents and the demo video assembly; Codex (OpenAI GPT-6 family) for project-selection research, early interface work, proposal and deck drafts, and the final documentation/submission refresh; Antigravity (Google Gemini) for documentation-website work and a design review; and Replit Agent for the Replit run settings and publishing. The team directs the work and reviews the output; the evidence section identifies the checks actually run and retains failed quality gates. The product's own AI is the local all-MiniLM-L6-v2 encoder described above. All of these are listed in the Technical & Tools Declaration ([submission/SDC2026_DOVUN_TechDeclaration.pdf](submission/SDC2026_DOVUN_TechDeclaration.pdf)).
+The product code, tests and synthetic personas were written during the event. The app icon was designed by Jad Fahmi; the welcome artwork was generated with ChatGPT image generation (OpenAI GPT image). Jad supplied the four generated interface illustrations, which were fitted to their UI slots using proportional resizing and transparent padding. Development used AI assistants: Claude Code (Claude Opus 5.5 and Sonnet 5.5) for most code, tests, documentation, the submission documents and the demo video assembly; Codex (OpenAI GPT-6 family) for project-selection research, early interface work, proposal and deck drafts, and the final documentation/submission refresh; Antigravity (Google Gemini) for documentation-website work and a design review; and Replit Agent for the Replit run settings and publishing. The team directs the work and reviews the output; the evidence section identifies the checks actually run and retains failed quality gates. The product's own AI is the local all-MiniLM-L6-v2 encoder described above. All of these are listed in the Technical & Tools Declaration ([submission/SDC2026_DOVUN_TechDeclaration.pdf](submission/SDC2026_DOVUN_TechDeclaration.pdf)).
 
 | Resource | Origin and rights | How it was actually used | Declaration / approval |
 | --- | --- | --- | --- |
