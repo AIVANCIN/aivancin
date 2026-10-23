@@ -376,13 +376,13 @@
       "title": "AIVANCIN measured checks (README, Evidence and limitations)",
       "publisher": "AIVANCIN (team DOVUN)",
       "url": "README.md#evidence-and-limitations",
-      "release": "2026-10-21",
+      "release": "2026-10-23",
       "licence": "Project results",
-      "access_date": "2026-10-21",
-      "original_sha256": "e91b04e968f75358b7fb431238cc339133c60aa0c519c0bc9f1ed44922129834",
+      "access_date": "2026-10-23",
+      "original_sha256": "32e3f5089708ad6867b94268b02160ce27c71ac301df01180e5021b6ca6fcf02",
       "derived_rows": null,
       "derived_path": "checks.json",
-      "derived_sha256": "e91b04e968f75358b7fb431238cc339133c60aa0c519c0bc9f1ed44922129834"
+      "derived_sha256": "32e3f5089708ad6867b94268b02160ce27c71ac301df01180e5021b6ca6fcf02"
     },
     {
       "source_id": "aivancin-source-status",

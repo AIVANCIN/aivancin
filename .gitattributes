@@ -3,3 +3,6 @@
 data/** -text
 # Supplied artwork is kept byte for byte.
 assets/icon/** -text
+
+# Preserve submission PDFs byte for byte on every checkout.
+*.pdf binary
