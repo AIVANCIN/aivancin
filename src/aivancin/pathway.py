@@ -76,7 +76,7 @@ def scenario_check(gaps, skill_outlook, release, months, threshold, pace):
             out.append({"dwa_id": g["dwa_id"], "name": g["name"], "outlook": None,
                         "crosses": {s: False for s in SCENARIOS}})
             continue
-        proj = {s: round(skill_outlook.project(o["now"], s, months, pace), 1) for s in SCENARIOS}
+        proj = {s: round(skill_outlook.project(o["now"], s, months, pace, release), 1) for s in SCENARIOS}
         out.append({"dwa_id": g["dwa_id"], "name": g["name"], "outlook": o, "projected": proj,
                     "crosses": {s: proj[s] >= threshold for s in SCENARIOS}})
     return out

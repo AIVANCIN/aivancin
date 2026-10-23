@@ -162,6 +162,9 @@ class Reporter:
         release = opts.get("release") or (ev.ids[-1] if ev.ids else None)
         if release and release not in ev.ids:
             errors["release"] = "Choose one of the bundled releases."
+        tools = opts.get("known_tools") or []
+        if not isinstance(tools, list) or not all(isinstance(t, str) for t in tools):
+            errors["known_tools"] = "Known tools must be a list of names."
         if lane == "studies" and not profile.get("cip_code"):
             errors["lane"] = "Choose what you studied to use the studies lane."
         if errors:
@@ -198,7 +201,7 @@ class Reporter:
                            "is unmapped are left out rather than guessed." if scope == "skilled" else
                            "Exploration: includes semi-skilled and unmapped roles; their skill level is shown on each role."),
             "horizon": horizon,
-            "forecast": self._forecast_meta(threshold),
+            "forecast": self._forecast_meta(threshold, release),
             "threshold": fig(threshold, "your-input"), "pace": fig(pace, "aei-report-2511.15080", "your-input"),
             "without_ai_suggestions": profile.get("without_ai_suggestions", False),
             "profile_size": fig(len(prof), "your-input"),
@@ -233,22 +236,29 @@ class Reporter:
         if o is None:
             return {**row, "now": None, "classes": {s: outlook.classify(None, threshold) for s in SCENARIOS},
                     "ttt": self.ttt(None, [], threshold, pace)}
-        proj = {s: round(self.skills.project(o["now"], s, months, pace), 1) for s in SCENARIOS}
+        proj = {s: round(self.skills.project(o["now"], s, months, pace, release), 1) for s in SCENARIOS}
         src = o["src"]
-        return {**row, "now": fig(o["now"], *src), "weak": o["weak"],
+        return {**row, "now": fig(o["now"], *src), "weak": o["weak"], "latest": self.latest_fig(o),
                 "releases": [{**x, "share": fig(x["share"], f"aei-{x['release']}"), "src": [f"aei-{x['release']}"]}
                              for x in o["releases"]],
                 # slower's drop is computed from the bundled releases; faster's pace is the cited report's, editable
                 "projected": {s: fig(v, *src, *(["aei-report-2511.15080", "your-input"] if s == "faster" else []))
                               for s, v in proj.items()},
                 "classes": {s: outlook.classify(v, threshold) for s, v in proj.items()},
-                "ttt": self.ttt(o["now"], src, threshold, pace)}
+                "ttt": self.ttt(o["now"], src, threshold, pace, release)}
 
-    def ttt(self, now, src, threshold, pace):
+    @staticmethod
+    def latest_fig(o):
+        """The latest release's own value for an activity, with its release, shown beside the average baseline."""
+        x = o["latest"]
+        return {**fig(x["share"], f"aei-{x['release']}", "onet31-task-dwas"), "release": x["release"],
+                "of": len(o["releases"])}
+
+    def ttt(self, now, src, threshold, pace, release=None):
         """Time to threshold per scenario (SPEC 11.1), an estimate under each stated scenario."""
         out = {}
         for s in SCENARIOS:
-            months, text = outlook.time_to_threshold(now, threshold, s, pace, self.skills.drop)
+            months, text = outlook.time_to_threshold(now, threshold, s, pace, self.skills.drop_at(release))
             extra = ["aei-report-2511.15080", "your-input"] if s == "faster" else ["your-input"]
             out[s] = {"months": None if months is None else fig(months, *src, *extra, estimate=True), "text": text}
         return out
@@ -263,7 +273,11 @@ class Reporter:
                 "net": fig(d["net"], *src), "roles": fig(d["roles"], *src), "few": d["few"],
                 "openings": fig(d["openings"], *src), "openings_period": d["openings_period"], "src": src}
 
-    def _forecast_meta(self, threshold):
+    def _upto(self, release):
+        ids = self.snaps.evidence.ids
+        return ids if release not in ids else ids[: ids.index(release) + 1]
+
+    def _forecast_meta(self, threshold, release=None):
         bt = self.snaps.backtest or {}
         p = bt.get("primary", {})
         return {"error_mae": fig(p.get("mae", {}).get("mean"), BACKTEST_SRC) if p else None,
@@ -271,11 +285,11 @@ class Reporter:
                 "error_target": p.get("target") if p else None,
                 "calibrated": bt.get("coverage", {}).get("calibrated"),
                 "direction_labels": bool(bt.get("direction_gate_pass")),
-                "slower_drop": fig(self.skills.drop, *[f"aei-{r}" for r in self.snaps.evidence.ids]),
+                "slower_drop": fig(self.skills.drop_at(release), *[f"aei-{r}" for r in self._upto(release)]),
                 "lower_cut": fig(outlook.LOWER_CUT, "your-input"), "threshold": fig(threshold, "your-input"),
                 "degree_months": fig(outlook.DEGREE_TOPUP_MONTHS, "your-input")}
 
-    def forecast_basis(self, pace):
+    def forecast_basis(self, pace, release=None):
         """How sure each signal is (SPEC 11.4): the backtest, BLS's own evaluation, the registered forecast,
         the scenario bases and the release means, each with its source and date."""
         bt = self.snaps.backtest or {}
@@ -284,7 +298,7 @@ class Reporter:
         rel_src = [f"aei-{r}" for r in ev.ids]
         reg = self.snaps.registered or {}
         reg_rec = next((r for r in self.snaps.manifest["snapshots"] if r["source_id"] == "aivancin-registered-forecasts"), None)
-        drop = self.skills.drop
+        drop = self.skills.drop_at(release)
         n = self.skills.common_tasks
         return {
             "backtest": p and {"units": fig(bt.get("units"), BACKTEST_SRC), "target": p.get("target"),
@@ -306,13 +320,15 @@ class Reporter:
             "registered": reg and {"date": reg["registered_on"], "count": fig(reg["count"], REGISTERED_SRC),
                                    "latest_release": reg["latest_release"],
                                    "sha256": reg_rec["derived_sha256"] if reg_rec else None, "src": [REGISTERED_SRC]},
-            "bases": {"slower": {"drop": fig(drop, *rel_src), "tasks": fig(n, *rel_src),
-                                 "text": f"Slower (assumption): the now value minus {drop:g} points, the largest fall between "
-                                         f"consecutive bundled releases in the mean share of the {n} tasks present in all of them."},
+            "bases": {"slower": {"drop": fig(drop, *[f"aei-{r}" for r in self._upto(release)]), "tasks": fig(n, *rel_src),
+                                 "text": f"Slower (assumption): the average share minus {drop:g} points, the largest fall between "
+                                         "consecutive bundled releases, up to the chosen one, in the mean share of the tasks "
+                                         "present in all of them."},
                       "moderate": {"text": "Moderate: the activity's own average across the bundled releases holds. In the "
-                                           "backtest it was closer than the last value or a trend line."},
+                                           "backtest it was closer than the latest value or a trend line, so it is the "
+                                           "baseline; the latest value is shown beside it."},
                       "faster": {"pace": fig(pace, "aei-report-2511.15080", "your-input"),
-                                 "text": f"Faster (assumption): the now value grows {pace:g} times every eight months, the "
+                                 "text": f"Faster (assumption): the average share grows {pace:g} times every eight months, the "
                                          "fastest recorded aggregate pace (directive use 27% to 39% in eight months), "
                                          "capped at 100%."}},
             "release_means": [{"release": rid, "mean": fig(round(m, 1), f"aei-{rid}", "onet31-tasks"),

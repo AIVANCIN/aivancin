@@ -194,13 +194,14 @@ class SkillOutlook:
                 groups[dwa][text].append(tid)
         # distinct task statements per activity, each with its task IDs in a fixed order
         self.groups = {d: [sorted(set(ids), key=int) for _, ids in sorted(g.items())] for d, g in groups.items()}
-        self.means, self.common_tasks = self._release_means()
-        self.drop = self._largest_drop()
+        self.means, self.common_tasks = self._release_means(self.ev.releases)
+        self.drop = self._largest_drop(self.means)
+        self._drops = {}
         self._cache = {}
 
-    def _release_means(self):
-        """Mean automation share per release over the tasks present in every bundled release."""
-        rel = self.ev.releases
+    @staticmethod
+    def _release_means(rel):
+        """Mean automation share per release over the tasks present in every one of the given releases."""
         if not rel:
             return [], 0
         common = set(rel[0][1])
@@ -210,11 +211,23 @@ class SkillOutlook:
             return [], 0
         return [(rid, sum(tasks[t]["share"] for t in common) / len(common)) for rid, tasks, _ in rel], len(common)
 
-    def _largest_drop(self):
-        means = [m for _, m in self.means]
-        if len(means) < 2:
+    @staticmethod
+    def _largest_drop(means):
+        values = [m for _, m in means]
+        if len(values) < 2:
             return 0.0
-        return round(max(0.0, max(a - b for a, b in zip(means, means[1:]))), 1)
+        return round(max(0.0, max(a - b for a, b in zip(values, values[1:]))), 1)
+
+    def drop_at(self, release=None):
+        """The slower scenario's fall as it could be known at a release (23 Oct): computed from that release and the
+        ones before it only, so a replay of older evidence does not use later releases. The latest release gives
+        `drop` (all bundled releases)."""
+        if release is None or release == (self.ev.ids[-1] if self.ev.ids else None):
+            return self.drop
+        if release not in self._drops:
+            upto = self.ev.releases[: self.ev.ids.index(release) + 1]
+            self._drops[release] = self._largest_drop(self._release_means(upto)[0])
+        return self._drops[release]
 
     def release_values(self, dwa):
         """[(release_id, value, tasks_used)] for every bundled release that covers the activity."""
@@ -253,18 +266,20 @@ class SkillOutlook:
         else:
             now = sum(v for _, v, _ in vals) / len(vals)
             conv = self.release_conversations(dwa)
-            res = {"now": round(now, 1), "releases": [{"release": r, "share": round(v, 1), "tasks": n, "conversations": conv.get(r)}
+            # "now" is the scenario baseline: the average of the release values up to the chosen release (it beat
+            # the last value in the backtest). The latest observation is reported beside it, never in its place.
+            res = {"now": round(now, 1), "latest": {"release": vals[-1][0], "share": round(vals[-1][1], 1)}, "releases": [{"release": r, "share": round(v, 1), "tasks": n, "conversations": conv.get(r)}
                                                       for r, v, n in vals],
                    "weak": len(vals) < 2 or all(n == 1 for _, _, n in vals),
                    "src": [f"aei-{r}" for r, _, _ in vals] + ["onet31-task-dwas"]}
         self._cache[key] = res
         return res
 
-    def project(self, a0, scenario, months, pace):
+    def project(self, a0, scenario, months, pace, release=None):
         if scenario == "faster":
             return min(100.0, a0 * pace ** (months / PACE_MONTHS))
         if scenario == "slower":
-            return max(0.0, a0 - self.drop) if months > 0 else a0
+            return max(0.0, a0 - self.drop_at(release)) if months > 0 else a0
         return a0
 
 

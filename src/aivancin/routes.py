@@ -18,6 +18,9 @@ SIBLING_CREDIT = True  # a confirmed near-twin of one of the role's activities c
 PER_GAP = 2  # initial: at most two entries per prioritized gap in a block (an introduction, then practice)
 LONG_SHARE = 0.5  # initial: an entry needing more than this share of the block's hours waits for the shorter ones
 GAP_ORDERS = ("default", "growing")  # SPEC 11.3: "Skills in growing jobs first" is the block option "growing"
+# The person's route order (23 Oct): applied to every qualifying route before the three are picked, so a preference can
+# bring in a route that the overlap order leaves out. Each key is the one the Routes screen sorts by.
+ROUTE_ORDERS = ("overlap", "outlook", "entry", "decent")
 CAT = "aivancin-catalogue"
 ROUTES_SRC = "aivancin-routes"
 AI_FORM = ("Do it yourself first, then ask an AI assistant to do the same task and check its output against yours; "
@@ -158,16 +161,19 @@ class Planner:
         if not isinstance(completed, list) or not all(isinstance(x, str) for x in completed):
             errors["completed"] = "Completed steps must be a list of step identifiers."
         target = opts.get("target")
-        if target is not None and target not in self.dests:
+        if target is not None and (not isinstance(target, str) or target not in self.dests):
             errors["target"] = "Choose one of the supported destinations."
         gap_order = opts.get("gap_order", "default")
         if gap_order not in GAP_ORDERS:
             errors["gap_order"] = "Choose the default order or skills in growing jobs first."
+        order = opts.get("order", "overlap")
+        if order not in ROUTE_ORDERS:
+            errors["order"] = "Order routes by overlap, job outlook, easier entry or decent work."
         if errors:
             raise ReportError(errors)
         return {"weeks": weeks, "willing_long": willing, "scenario": scenario, "threshold": float(threshold),
                 "pace": float(pace), "release": release, "horizon": horizon, "completed": set(completed), "target": target,
-                "gap_order": gap_order, "capacity": weeks * profile["weekly_hours"], "budget": profile["budget_rm"]}
+                "gap_order": gap_order, "order": order, "capacity": weeks * profile["weekly_hours"], "budget": profile["budget_rm"]}
 
     def credited(self, code, prof):
         """Confirmed activities that count toward the two-activity rule: the role's own, and (with SIBLING_CREDIT)
@@ -208,18 +214,41 @@ class Planner:
         once = [(x, twins[x][0]) for x in sorted(twins) if x not in stands_for]
         return direct, related, once
 
+    def rank_key(self, code, ov, profile, o):
+        """Sort key of a qualifying route under the person's order; ties fall to activity overlap, then code."""
+        if o["order"] == "outlook":
+            return (-outlook.band_score(self.rep.job_outlook(code).get("band")), -ov, code)
+        if o["order"] == "entry":
+            missing = sum(self.requirement_status(r, profile, o)[0] == "missing"
+                          for r in merged_requirements(self.dests[code]["requirements"]))
+            return (missing, self.snaps.onet.job_zones.get(code) or 9, -ov, code)
+        if o["order"] == "decent":
+            median = self.rep.median(self.rep.masco(code).get("major"))
+            return (median is None, -(median or 0), -ov, code)
+        return (-ov, code)
+
     # ---- requirements ----------------------------------------------------------------------------
     def requirement_status(self, req, profile, o):
+        """A requirement's status for this person. O*NET records the usual preparation in the US (Job Zone, and the
+        survey's most common answer with its share); a status says only how the person's stated level compares with
+        that, never that an employer will or will not ask for it."""
         if req["judge"] == "degree":
             if profile["degree_level"] is None:
-                return "you decide", "Describe your work and studies to check this."
+                if o["input_src"] == EXPLORE_SRC:
+                    return "you decide", "Describe your work and studies to check this."
+                return "you decide", "You have not said whether you hold a diploma or a degree, so AIVANCIN does not judge this."
             if profile["degree_level"] == "degree":
                 return "met", "You hold a degree."
             if o["willing_long"]:
                 return "planned", "You said you would take a longer qualification (a degree top-up)."
-            return "missing", "You hold a diploma and did not choose a longer qualification."
+            return "missing", ("The usual preparation O*NET records for this role. You hold a diploma and did not choose a "
+                               "longer qualification; some employers accept other preparation.")
         if req["judge"] == "none":
-            return "met", "No related experience is usually required."
+            # 23 Oct: the survey's most common answer (28-39% for the four roles) is not a requirement the person meets.
+            share = re.search(r"\((\d+)% of respondents\)", req["text"])
+            return "you decide", ("O*NET's most common answer is no related experience"
+                                  + (f", from {share.group(1)}% of respondents; the others reported some" if share else "")
+                                  + ". Each employer decides, and AIVANCIN cannot judge your experience from your description.")
         return "you decide", "AIVANCIN cannot judge this from your description."
 
     # ---- blocks ----------------------------------------------------------------------------------
@@ -288,6 +317,14 @@ class Planner:
                         per_gap[g["dwa_id"]] = per_gap.get(g["dwa_id"], 0) + 1
                 used += e
                 spent += k
+        # A completed prerequisite of a chosen entry stays visible as completed (23 Oct), like completed gap entries.
+        needed, todo = set(), [r for x in chosen.values() for r in x.get("requires", [])]
+        while todo:
+            rid = todo.pop()
+            if rid not in needed and rid in by_id:
+                needed.add(rid)
+                todo += by_id[rid].get("requires", [])
+        done = [by_id[i] for i in sorted(o["completed"] & needed) if by_id[i] not in done] + done
         ordered = done + list(chosen.values())
         served = {g["dwa_id"] for x in ordered for g in serves(x)}
         return {"prioritized": prioritized, "supported": supported, "served": served, "steps": ordered,
@@ -316,8 +353,9 @@ class Planner:
             ol = self.rep.skills.outlook(g["dwa_id"], o["release"])
             if ol is None:
                 continue
-            proj = {s: round(self.rep.skills.project(ol["now"], s, months, o["pace"]), 1) for s in outlook.SCENARIOS}
+            proj = {s: round(self.rep.skills.project(ol["now"], s, months, o["pace"], o["release"]), 1) for s in outlook.SCENARIOS}
             reason.append({"dwa_id": g["dwa_id"], "name": g["name"], "now": fig(ol["now"], *ol["src"]),
+                           "latest": self.rep.latest_fig(ol),
                            "projected": {s: fig(v, *ol["src"], *(["aei-report-2511.15080", "your-input"] if s == "faster" else []))
                                          for s, v in proj.items()},
                            "releases": [r["release"] for r in ol["releases"]], "weak": ol["weak"],
@@ -409,18 +447,24 @@ class Planner:
                     if ai and ai["id"] not in {e["id"] for e in extra[s]}:
                         extra[s].append(ai)
         # Activity-specific AI-practice entries join a scenario's block when capacity and budget allow; the selected
-        # scenario's join the plan, and every scenario's are reported so the plan can say what each one adds.
+        # scenario's join the plan, and every scenario's are reported so the plan can say what each one adds. Completed
+        # work takes none of the remaining time or budget (23 Oct: a completed one-hour practice used to keep a 0.8-hour
+        # one out of a 20-hour block holding 19 hours of open work) and stays in the plan, marked completed, in every
+        # scenario while it serves one of the route's prioritized gaps.
+        left = lambda c: (0.0, 0.0) if c["id"] in o["completed"] else (effort(c), c["cost_rm"])  # noqa: E731
         joins = {}
         for s in outlook.SCENARIOS:
             u, k, joins[s] = used, spent, []
             for ai in extra[s]:
-                if u + effort(ai) <= o["capacity"] + 1e-9 and k + ai["cost_rm"] <= o["budget"] + 1e-9:
-                    u += effort(ai)
-                    k += ai["cost_rm"]
+                e, m = left(ai)
+                if u + e <= o["capacity"] + 1e-9 and k + m <= o["budget"] + 1e-9:
+                    u += e
+                    k += m
                     joins[s].append(ai)
-        added = [self._step(ai, b["serves"], o["completed"], "ai", [], kind="ai_practice") for ai in joins[o["scenario"]]]
-        used += sum(effort(ai) for ai in joins[o["scenario"]])
-        spent += sum(ai["cost_rm"] for ai in joins[o["scenario"]])
+        kept = [c for c in ai_pool if c["id"] in o["completed"] and b["serves"](c) and c not in joins[o["scenario"]]]
+        added = [self._step(ai, b["serves"], o["completed"], "ai", [], kind="ai_practice") for ai in kept + joins[o["scenario"]]]
+        used += sum(left(ai)[0] for ai in joins[o["scenario"]])
+        spent += sum(left(ai)[1] for ai in joins[o["scenario"]])
         steps += added
         for s in steps:
             s["sdg"] = sdg.step_tags(s, CAT)
@@ -478,7 +522,7 @@ class Planner:
                       "start": next((s["id"] for s in steps if not s["completed"]), None),
                       "weekly_hours": fig(profile["weekly_hours"], o["input_src"]),
                       "scenario_differs": differ,
-                      "scenario_extra_hours": {s: fig(round(sum(effort(c) for c in extra[s]), 1), CAT) for s in outlook.SCENARIOS},
+                      "scenario_extra_hours": {s: fig(round(sum(left(c)[0] for c in extra[s]), 1), CAT) for s in outlook.SCENARIOS},
                       # per scenario: AI-practice entries that join within time and budget, and those that would
                       # need more time or budget (22 Oct, for the plan's scenario comparison)
                       "scenario_practice": {s: {"joins": [{"id": c["id"], "title": c["title"], "hours": fig(round(effort(c), 1), CAT)}
@@ -539,7 +583,7 @@ class Planner:
                 fits.append((ov, code))
             elif direct:
                 near.append((-(len(direct) + len(related)), -ov, code))
-        fits.sort(key=lambda t: (-t[0], t[1]))
+        fits.sort(key=lambda t: self.rank_key(t[1], t[0], profile, o))
         chosen = sorted(self.dests) if explore else [c for _, c in fits[:MAX_ROUTES]]
         if o["target"] and o["target"] not in chosen:
             chosen.append(o["target"])
@@ -556,6 +600,7 @@ class Planner:
                 near_routes.append(r)
         src = o["input_src"]
         return {"routes": routes, "near_routes": near_routes, "min_done": fig(MIN_DONE, ROUTES_SRC),
+                "order": o["order"], "qualifying": None if explore else fig(len(fits), ROUTES_SRC, *ONET_SRC),
                 "shared": None if explore else self.shared(routes), "target": o["target"], "personal": not explore,
                 "weeks": fig(o["weeks"], "your-input"), "capacity_hours": fig(o["capacity"], src),
                 "budget_rm": fig(o["budget"], src), "scenario": o["scenario"], "release": o["release"],
@@ -566,7 +611,7 @@ class Planner:
                 "supported_destinations": fig(len(self.dests), ROUTES_SRC),
                 "decent_order": decent_order(routes),
                 "exploration": [] if explore or len(fits) >= 2 or not with_radar else self.exploration_cards(profile, set(chosen), today or dt.date.today()),
-                "forecast": self.rep._forecast_meta(o["threshold"]),
+                "forecast": self.rep._forecast_meta(o["threshold"], o["release"]),
                 "radar": self.radar(routes, prof, o, explore) if with_radar else None}
 
     # ---- Future Skills Radar (SPEC 11.4) ---------------------------------------------------------------
@@ -631,7 +676,7 @@ class Planner:
                         continue
                     c = changing.setdefault(g["dwa_id"], {
                         "dwa_id": g["dwa_id"], "name": g["name"], "now": g["now"], "weak": g["weak"], "where": [],
-                        "ttt": self.rep.ttt(g["now"]["v"], g["now"]["src"], o["threshold"], o["pace"])[o["scenario"]]})
+                        "ttt": self.rep.ttt(g["now"]["v"], g["now"]["src"], o["threshold"], o["pace"], o["release"])[o["scenario"]]})
                     c["where"].append({"route": r["code"], "route_title": r["title"], "step": s["title"],
                                        "projected": g["projected"][o["scenario"]],
                                        "horizon_months": r["block"]["horizon"]["months"]})
@@ -639,7 +684,7 @@ class Planner:
         return {"horizon": {"months": hz, "basis": basis},
                 "scenario": o["scenario"], "threshold": fig(o["threshold"], "your-input"), "release": o["release"],
                 "jobs": jobs, "trends": trends, "skills": skills, "changing": changing,
-                "sru_trend": outlook.sru_trend(self.snaps), "sure": self.rep.forecast_basis(o["pace"])}
+                "sru_trend": outlook.sru_trend(self.snaps), "sure": self.rep.forecast_basis(o["pace"], o["release"])}
 
     def exploration_cards(self, profile, shown, today):
         """No dead end (SPEC 11.7): with fewer than two qualifying routes, up to three of the closest skilled roles

@@ -21,6 +21,17 @@ ART = Path(__file__).resolve().parents[2] / "assets" / "art"
 FONTS = Path(__file__).resolve().parents[2] / "assets" / "fonts"
 
 AI_UNAVAILABLE = "AI suggestions are unavailable. You can still add activities by searching the list."
+QUERY_LIMIT = 200  # characters in a search box
+
+
+def options_of(req):
+    """The request's options object; a value of another type is a field error, not a crash or a silent default."""
+    opts = req.get("options")
+    if opts is None:
+        return {}
+    if not isinstance(opts, dict):
+        raise ReportError({"options": "Options must be an object of named settings."})
+    return opts
 
 
 def create_app(data_dir=snapshots.DEFAULT_DATA_DIR):
@@ -44,8 +55,8 @@ def create_app(data_dir=snapshots.DEFAULT_DATA_DIR):
     app.add_middleware(GZipMiddleware, minimum_size=2048)
 
     def suggestions_for(texts):
-        if encoder is None:
-            return None
+        if encoder is None or intake.text_errors(texts):
+            return None  # without usable text there is nothing to read; build_profile reports the field errors
         return intake.suggest({f: texts.get(f) or "" for f in intake.FIELDS}, encoder, vectors, onet)
 
     @app.get("/api/status")
@@ -65,12 +76,19 @@ def create_app(data_dir=snapshots.DEFAULT_DATA_DIR):
     def list_personas():
         return personas
 
+    def query_too_long(q):
+        return JSONResponse(status_code=422, content={"errors": {"q": f"Search with {QUERY_LIMIT} characters or fewer."}})
+
     @app.get("/api/activities")
     def activities(q: str = ""):
+        if len(q) > QUERY_LIMIT:
+            return query_too_long(q)
         return intake.search_activities(onet, q, encoder=encoder, index=vectors)
 
     @app.get("/api/occupations")
     def occupations(q: str = ""):
+        if len(q) > QUERY_LIMIT:
+            return query_too_long(q)
         return intake.search_occupations(onet, q)
 
     @app.get("/api/occupations/{code}/activities")
@@ -81,10 +99,15 @@ def create_app(data_dir=snapshots.DEFAULT_DATA_DIR):
 
     @app.get("/api/fields")
     def fields(q: str = ""):
+        if len(q) > QUERY_LIMIT:
+            return query_too_long(q)
         return intake.search_fields(snaps.cip, q)
 
     @app.post("/api/suggest")
     def suggest(texts: dict):
+        errors = intake.text_errors(texts)
+        if errors:
+            return JSONResponse(status_code=422, content={"errors": errors})
         result = suggestions_for(texts)
         if result is None:
             return {"available": False, "message": AI_UNAVAILABLE}
@@ -102,7 +125,7 @@ def create_app(data_dir=snapshots.DEFAULT_DATA_DIR):
         """Rebuild the confirmed profile from the submitted intake, then rank and explain roles."""
         try:
             prof = intake.build_profile(req, onet, suggestions_for(req), snaps.cip)
-            return reporter.report(prof, req.get("options") or {})
+            return reporter.report(prof, options_of(req))
         except (intake.IntakeError, ReportError) as exc:
             return JSONResponse(status_code=422, content={"errors": exc.errors})
 
@@ -111,7 +134,7 @@ def create_app(data_dir=snapshots.DEFAULT_DATA_DIR):
         """Compare up to three supported routes with their first learning blocks (SPEC section 10)."""
         try:
             prof = intake.build_profile(req, onet, suggestions_for(req), snaps.cip)
-            return planner.routes(prof, req.get("options") or {})
+            return planner.routes(prof, options_of(req))
         except (intake.IntakeError, ReportError) as exc:
             return JSONResponse(status_code=422, content={"errors": exc.errors})
 
@@ -119,7 +142,7 @@ def create_app(data_dir=snapshots.DEFAULT_DATA_DIR):
     def explore(req: dict):
         """Every supported role before the person describes their work (SPEC section 10.7)."""
         try:
-            return planner.explore(req.get("options") or {})
+            return planner.explore(options_of(req))
         except ReportError as exc:
             return JSONResponse(status_code=422, content={"errors": exc.errors})
 
@@ -139,7 +162,7 @@ def create_app(data_dir=snapshots.DEFAULT_DATA_DIR):
         """What changed in the chosen route's plan between two evidence bundles (SPEC section 10.6)."""
         try:
             prof = intake.build_profile(req, onet, suggestions_for(req), snaps.cip)
-            return planner.compare(prof, req.get("options") or {})
+            return planner.compare(prof, options_of(req))
         except (intake.IntakeError, ReportError) as exc:
             return JSONResponse(status_code=422, content={"errors": exc.errors})
 

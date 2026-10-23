@@ -3,6 +3,7 @@
 Nothing the model suggests enters a profile without an explicit tick, and a suggestion that only came
 from a negated or aspirational sentence needs a second, deliberate override.
 """
+import math
 import re
 
 import numpy as np
@@ -10,6 +11,12 @@ import numpy as np
 FIELDS = ("current_job", "other_work", "studies")
 LEVELS = ("diploma", "degree")
 TOP_K = 5
+# Bounds on one request's work (23 Oct): an answer box holds up to this many characters (about 900 words, several
+# times the longest example) and sentences; longer input is refused with a field message, never cut silently.
+TEXT_LIMIT = 5000
+SENTENCE_LIMIT = 40
+MAX_WEEKLY_HOURS = 80  # the questionnaire's own maximum
+MAX_BUDGET_RM = 100000
 
 _BOUNDARY = re.compile(r"[.!?;]+(?=\s|$)|\n")
 _LETTER = re.compile(r"[^\W\d_]")
@@ -97,6 +104,12 @@ def _own_agent(text):
     return any(m.group(1).lower() not in _NON_AGENT for m in _FP_AGENT_RE.finditer(text))
 
 
+# Two people's work in one sentence (23 Oct): "My manager reconciles the sales records ... while I stack the shelves".
+# The person acts only in the "while I" part, so the sentence's suggestions (which a long sentence now draws from every
+# part) need the person to say which work is theirs.
+_WHILE_ME_RE = re.compile(r"\b(?:while|whereas)\s+(?:i|we)\b", re.IGNORECASE)
+
+
 def ownership(sentence):
     """None for the person's own work; else {kind, cue}: "someone else" or, when the person may have done part of it,
     "unclear who" (the review asks)."""
@@ -107,9 +120,12 @@ def ownership(sentence):
         if m:
             cue = cue or m.group(0).strip()
             rest = rx.sub(" ", rest)
+    start = _PERSON_START_RE.match(norm)
+    mine = _WHILE_ME_RE.search(rest)
+    if start and mine and not _own_agent(rest[:mine.start()]):
+        return {"kind": "unclear who", "cue": start.group(1)}
     if _own_agent(rest):
         return None
-    start = _PERSON_START_RE.match(norm)
     if start and _HELPED_RE.search(norm):
         return {"kind": "unclear who", "cue": _HELPED_RE.search(norm).group(0)}
     if cue or start:
@@ -130,6 +146,26 @@ class IntakeError(ValueError):
     def __init__(self, errors):
         super().__init__("; ".join(f"{k}: {v}" for k, v in errors.items()))
         self.errors = errors
+
+
+def text_errors(texts):
+    """Field messages for answer boxes that are not text or exceed the request bounds; {} when all are usable."""
+    errors = {}
+    for f in FIELDS:
+        v = texts.get(f)
+        if v is None:
+            continue
+        if not isinstance(v, str):
+            errors[f] = "Write this answer as text."
+        elif len(v) > TEXT_LIMIT:
+            errors[f] = f"This answer has {len(v):,} characters. Shorten it to {TEXT_LIMIT:,} or fewer; nothing was read."
+        elif len(split_sentences(v)) > SENTENCE_LIMIT:
+            errors[f] = f"This answer has more than {SENTENCE_LIMIT} sentences. Keep the ones about your work; nothing was read."
+    return errors
+
+
+def finite_number(v):
+    return isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v)
 
 
 def split_sentences(text):
@@ -297,9 +333,50 @@ def neutral_text(sentence, onet):
     return re.sub(r"\s{2,}", " ", out).strip()
 
 
+# Long sentences (23 Oct): the encoder reads at most 256 word pieces and averages over what it reads, so the end of a
+# run-on sentence was dropped or drowned ("I drive the van ... and on Saturdays I configure the wifi routers"). A
+# sentence whose encoder copy has more than LONG_WORDS words is also read in parts: overlapping windows of WINDOW_WORDS
+# words and its clauses (split at commas, semicolons and joining words). Each activity keeps its best score over the
+# whole sentence and its parts, and the parts' own best suggestions join by score, so a short piece of work at the end
+# of a long sentence is not outweighed. Parts are only for reading: the guard still reads the whole sentence, and the
+# person still sees and confirms against their own whole sentence.
+LONG_WORDS = 40
+WINDOW_WORDS, WINDOW_STEP = 24, 12
+WINDOW_K, LONG_K = 2, 10
+_CLAUSE_RE = re.compile(r"\s*[,;:]\s*|\s+(?:and|then|while|but|so)\s+", re.IGNORECASE)
+CLAUSE_MIN_WORDS = 4
+
+
+def windows(text):
+    """The parts a long text is also read in (overlapping word windows, then its clauses), or [] when it is read
+    whole."""
+    words = text.split()
+    if LONG_WORDS is None or len(words) <= LONG_WORDS:
+        return []
+    starts = list(range(0, len(words) - WINDOW_WORDS, WINDOW_STEP)) + [len(words) - WINDOW_WORDS]
+    parts = [" ".join(words[i:i + WINDOW_WORDS]) for i in dict.fromkeys(starts)]
+    clauses = []
+    for c in (x.strip() for x in _CLAUSE_RE.split(text)):
+        if not c:
+            continue
+        if clauses and len(c.split()) < CLAUSE_MIN_WORDS:
+            clauses[-1] += " " + c
+        else:
+            clauses.append(c)
+    return list(dict.fromkeys(parts + [c for c in clauses if len(c.split()) >= CLAUSE_MIN_WORDS]))
+
+
+def _scores(text, encoder, index):
+    sims = index.scores(encoder.encode([text])[0])
+    core = without_beneficiary(text)
+    if core != text:
+        sims = 0.5 * sims + 0.5 * index.scores(encoder.encode([core])[0])
+    return sims
+
+
 def suggest(texts, encoder, index, onet, k=TOP_K):
     """Top-k activities per sentence by the activity index's score (encoder.ActivityIndex), merged so each activity
-    appears once."""
+    appears once. A long sentence is also read in parts (see LONG_WORDS) and can have up to LONG_K suggestions."""
     sentences = []
     for f in FIELDS:
         for start, end, body in split_sentences(texts.get(f) or ""):
@@ -314,11 +391,22 @@ def suggest(texts, encoder, index, onet, k=TOP_K):
             continue
         # One sentence per call keeps each sentence's scores independent of the rest of the input.
         text = neutral_text(s["text"], onet)
-        sims = index.scores(encoder.encode([text])[0])
-        core = without_beneficiary(text)
-        if core != text:
-            sims = 0.5 * sims + 0.5 * index.scores(encoder.encode([core])[0])
-        order = np.argsort(-sims, kind="stable")[:k]
+        sims = _scores(text, encoder, index)
+        parts = [_scores(w, encoder, index) for w in windows(text)]
+        s["parts"] = len(parts)
+        if parts:
+            sims = np.maximum.reduce([sims, *parts])
+            order = list(np.argsort(-sims, kind="stable")[:k])
+            # each part's best suggestions, strongest first, until the sentence has LONG_K
+            best = sorted(((float(part[i]), int(i)) for part in parts for i in np.argsort(-part, kind="stable")[:WINDOW_K]),
+                          key=lambda t: (-t[0], t[1]))
+            for _, i in best:
+                if len(order) >= LONG_K:
+                    break
+                if i not in order:
+                    order.append(i)
+        else:
+            order = np.argsort(-sims, kind="stable")[:k]
         s["top"] = []
         for rank, i in enumerate(order, 1):
             dwa_id, score = onet.dwa_ids[i], round(float(sims[i]), 4)
@@ -390,22 +478,37 @@ def build_profile(req, onet, suggestion_result, cip=None):
     `suggestion_result` is recomputed by the server from the submitted text (None when AI suggestions
     are unavailable), so a client cannot confirm an activity the model never suggested or skip the guard.
     """
-    errors = {}
+    errors = text_errors(req)
     hours = req.get("weekly_hours")
-    if not isinstance(hours, (int, float)) or isinstance(hours, bool) or hours <= 0:
-        errors["weekly_hours"] = "Enter the hours you can spend each week (more than 0)."
+    if not finite_number(hours) or not 0 < hours <= MAX_WEEKLY_HOURS:
+        errors["weekly_hours"] = f"Enter the hours you can spend each week (more than 0, up to {MAX_WEEKLY_HOURS})."
     budget = req.get("budget_rm")
-    if not isinstance(budget, (int, float)) or isinstance(budget, bool) or budget < 0:
-        errors["budget_rm"] = "Enter a budget of RM0 or more."
+    if not finite_number(budget) or not 0 <= budget <= MAX_BUDGET_RM:
+        errors["budget_rm"] = f"Enter a budget from RM0 to RM{MAX_BUDGET_RM:,}."
+    # An unanswered level stays unknown (23 Oct): nothing about the person's qualification is assumed from it.
     level = req.get("degree_level")
-    if level not in LEVELS:
-        errors["degree_level"] = "Choose diploma or degree."
+    if level is not None and level not in LEVELS:
+        errors["degree_level"] = "Choose diploma or degree, or leave it unanswered."
     code = req.get("title_code") or None
-    if code is not None and code not in onet.occupations:
+    if code is not None and (not isinstance(code, str) or code not in onet.occupations):
         errors["title_code"] = "Choose a job title from the list."
     cip_code = req.get("cip_code") or None
-    if cip_code is not None and cip is not None and cip_code not in cip:
+    if cip_code is not None and (not isinstance(cip_code, str) or (cip is not None and cip_code not in cip)):
         errors["cip_code"] = "Choose what you studied from the list."
+    field = req.get("degree_field")
+    if field is not None and not isinstance(field, str):
+        errors["degree_field"] = "Choose what you studied from the list."
+    confirmed = req.get("confirmed") or []
+    if not isinstance(confirmed, list):
+        errors["confirmed"] = "Confirmed activities must be a list."
+        confirmed = []
+    for key in ("unticked_title_activities", "affirmed_title_activities"):
+        v = req.get(key)
+        if v is not None and (not isinstance(v, list) or not all(isinstance(x, str) for x in v)):
+            errors[key] = "Job-title activities must be a list of activity identifiers."
+
+    if any(f in errors for f in FIELDS):
+        raise IntakeError(errors)  # unreadable answers: report them before judging ticks made on them
 
     activities = {}
 
@@ -417,17 +520,31 @@ def build_profile(req, onet, suggestion_result, cip=None):
         entry["lanes"] = sorted(set(entry["lanes"]) | set(lanes), key=FIELDS.index)
         entry["guard_override"] = entry["guard_override"] or override
 
-    if code is not None and "title_code" not in errors:
-        unticked = set(req.get("unticked_title_activities") or [])
-        for a in title_activities(onet, code):
-            if a["dwa_id"] not in unticked:
+    # Job-title activities (23 Oct): with `affirmed_title_activities` only the ones the person ticked count; a title
+    # alone is context until then. Without it (older callers and the title-only comparison) every title activity
+    # counts unless listed in `unticked_title_activities`.
+    title_listed = title_activities(onet, code) if code is not None and "title_code" not in errors else []
+    affirmed = req.get("affirmed_title_activities")
+    if title_listed and "affirmed_title_activities" not in errors and "unticked_title_activities" not in errors:
+        if affirmed is not None:
+            listed = {a["dwa_id"] for a in title_listed}
+            if any(d not in listed for d in affirmed):
+                errors["affirmed_title_activities"] = "Tick only activities listed for your job title."
+            take = set(affirmed) & listed
+        else:
+            take = {a["dwa_id"] for a in title_listed} - set(req.get("unticked_title_activities") or [])
+        for a in title_listed:
+            if a["dwa_id"] in take:
                 add(a["dwa_id"], "title", ["current_job"])
 
     by_id = {s["dwa_id"]: s for s in (suggestion_result or {}).get("suggestions", [])}
     fields = {s["index"]: s["field"] for s in (suggestion_result or {}).get("sentences", [])}
-    for i, c in enumerate(req.get("confirmed") or []):
-        dwa_id, source = c.get("dwa_id"), c.get("source")
+    for i, c in enumerate(confirmed):
         key = f"confirmed[{i}]"
+        if not isinstance(c, dict) or not isinstance(c.get("dwa_id"), str):
+            errors[key] = "Unknown activity."
+            continue
+        dwa_id, source = c.get("dwa_id"), c.get("source")
         if dwa_id not in onet.dwa_names:
             errors[key] = "Unknown activity."
         elif source == "suggested":
@@ -462,8 +579,9 @@ def build_profile(req, onet, suggestion_result, cip=None):
         else:
             errors[key] = "Unknown activity source."
 
-    if not activities and "title_code" not in errors:
-        errors["activities"] = "Tick at least one activity or choose your current job title."
+    if not activities and "title_code" not in errors and (code is None or affirmed is not None):
+        errors["activities"] = ("Tick at least one activity you do, including any your job title lists." if code else
+                                "Tick at least one activity or choose your current job title.")
     if errors:
         raise IntakeError(errors)
     return {
