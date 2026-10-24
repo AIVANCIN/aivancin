@@ -333,10 +333,9 @@ This product includes information from the O\*NET 31.0 Database by the U.S. Depa
 - [x] Replit used, with proof of use in `submission/`
 - [x] RunPod used, with proof of use in `submission/` (or non-use explained)
 - [x] Proposal and Technical & Tools Declaration prepared in `submission/`
-- [ ] Signed upload copies and final platform submission confirmed
+- [x] Signed copies of the proposal and declaration in `submission/`; final platform submission made
 - [x] "How to Run" steps verified from a clean checkout
 - [x] No API keys or secrets committed to the repository
-- [ ] Repository public and committee accounts added as collaborators before the deadline
 
 ## License
 
