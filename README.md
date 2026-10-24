@@ -38,7 +38,7 @@ You describe what you actually do, in your own words. An AI suggests the matchin
 | GitHub Repository | https://github.com/AIVANCIN/aivancin |
 | Replit Project | Deployed from the team leader's Replit account; proof in [submission/Replit Proof of Use.pdf](submission/Replit%20Proof%20of%20Use.pdf) |
 | Live Demo | https://aivancin--jadfahmi.replit.app |
-| RunPod Endpoint | None: RunPod ran one training pod, not an endpoint (see How We Use RunPod) |
+| RunPod Endpoint | None: RunPod ran one training pod, not an endpoint (see [How We Use RunPod](#how-we-use-runpod-required)) |
 | Slide Deck | [submission/AIVANCIN_Pitch_Deck.pdf](submission/AIVANCIN_Pitch_Deck.pdf) |
 | Documentation Website | https://aivancin.vercel.app |
 | Demo Video | https://youtu.be/f3Ue4wpKSeQ |
@@ -306,7 +306,7 @@ The product code, tests and synthetic personas were written during the event. Th
 | FastAPI, Uvicorn, ONNX Runtime, Tokenizers, NumPy | Open-source: MIT (FastAPI, ONNX Runtime), BSD-3-Clause (Uvicorn, NumPy, which also bundles 0BSD, MIT, Zlib and CC0 parts), Apache 2.0 (Tokenizers) | API server, model runtime, tokenization, vector search | Declared in the Technical & Tools Declaration |
 | pytest, HTTPX | Open-source: MIT (pytest), BSD-3-Clause (HTTPX) | Tests only | Declared in the Technical & Tools Declaration |
 | PyTorch, Sentence Transformers, Transformers, Datasets, Accelerate, ONNX | Open-source: BSD-3-Clause (PyTorch), Apache 2.0 (the others) | Fine-tuning and export on the RunPod pod only (`tools/finetune/requirements-runpod.txt`); not app dependencies | Declared in the Technical & Tools Declaration |
-| RunPod | RunPod, team account on the event's US$25 credit | One GPU training pod (see How We Use RunPod) | Declared in the Technical & Tools Declaration |
+| RunPod | RunPod, team account on the event's US$25 credit | One GPU training pod (see [How We Use RunPod](#how-we-use-runpod-required)) | Declared in the Technical & Tools Declaration |
 | Anthropic Economic Index, four releases (Sep 2025 to Jun 2026) | Anthropic, CC BY (as recorded in `data/manifest.json`) | Share of Claude conversations on each task where AI does the work directly: evidence, replay and skill outlook | Declared in the Technical & Tools Declaration |
 | OpenDOSM wages and skill-related underemployment | Department of Statistics Malaysia, CC BY 4.0 | Pay steps by MASCO major group; the problem baseline | Declared in the Technical & Tools Declaration |
 | ESCO O\*NET-ISCO crosswalk and ESCO API | European Commission, reuse with attribution under Commission Decision 2011/833/EU | Mapping occupations to ISCO and MASCO major groups | Declared in the Technical & Tools Declaration |
