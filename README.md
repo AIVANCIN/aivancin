@@ -41,7 +41,7 @@ You describe what you actually do, in your own words. An AI suggests the matchin
 | RunPod Endpoint | None: RunPod ran one training pod, not an endpoint (see How We Use RunPod) |
 | Slide Deck | [submission/AIVANCIN_Pitch_Deck.pdf](submission/AIVANCIN_Pitch_Deck.pdf) |
 | Documentation Website | https://aivancin.vercel.app |
-| Demo Video | Updated recording prepared for teammate dubbing; YouTube link pending |
+| Demo Video | https://youtu.be/f3Ue4wpKSeQ |
 
 </div>
 
@@ -329,7 +329,7 @@ This product includes information from the O\*NET 31.0 Database by the U.S. Depa
 
 - [x] Team name, domain (Domain 1) and SDG track filled in
 - [x] Slide deck link added
-- [ ] Demo video link added
+- [x] Demo video link added
 - [x] Replit used, with proof of use in `submission/`
 - [x] RunPod used, with proof of use in `submission/` (or non-use explained)
 - [x] Proposal and Technical & Tools Declaration prepared in `submission/`
