@@ -1,31 +1,46 @@
-<div align="center">
-
-<img src="assets/icon/icon-readme.png" alt="AIVANCIN icon" width="120" />
-
 # AIVANCIN
 
-### From the work you already do to the closest graduate roles, for underemployed Malaysian graduates.
+AIVANCIN is a prototype that turns the work an underemployed Malaysian graduate already does into the closest graduate-level roles, showing what each role still requires, what AI is already doing in its tasks, and a free, verified plan for the gaps.
 
-You describe what you actually do, in your own words. An AI suggests the matching work activities, you confirm the ones that are true, and AIVANCIN shows the closest graduate-level roles that use that work, what each still requires, what AI is already doing in those tasks, and a free, verified plan for the gaps.
+[Live demo](https://aivancin--jadfahmi.replit.app) | [Pitch deck](submission/AIVANCIN_Pitch_Deck.pdf) | [Demo video](https://youtu.be/f3Ue4wpKSeQ) | [Results](#evidence-and-limitations) | [Run locally](#how-to-run)
 
-<sub>Built for SDC Hackathon 2026 · Team DOVUN · Domain One: The Aiversecity Future-Ready Workforce Domain</sub>
+![AIVANCIN on a desktop in dark appearance: the Routes screen with a side navigation and career route cards](assets/screenshots/desktop-dark-routes.webp)
 
-<table>
-<tr>
-<td align="center" valign="middle"><img src="assets/screenshots/desktop-dark-routes.webp" alt="AIVANCIN on a desktop in dark appearance: the Routes screen with a side navigation and career route cards" width="600" /></td>
-<td align="center" valign="middle"><img src="assets/screenshots/phone-dark-confirm.webp" alt="AIVANCIN on a phone in dark appearance: confirming the work activities suggested for a sentence" width="200" /></td>
-</tr>
-</table>
+*Routes screen on a desktop in dark appearance, using the synthetic persona Hafiz. Built for SDC Hackathon 2026, Team DOVUN, Domain One: The Aiversecity Future-Ready Workforce Domain.*
 
-**[Live demo](https://aivancin--jadfahmi.replit.app)** · [Visual documentation](https://aivancin.vercel.app) · [Pitch deck](submission/AIVANCIN_Pitch_Deck.pdf) · [Run locally](#how-to-run)
+> **Status, 28 October 2026:** the team was not selected for the final. The submission is the code at commit `551eeb6`. The commit after it is a UI refresh only: a new visual system, filled icon set, logo and career illustrations, with no change to the matching, data or API code. The live demo still shows the earlier interface.
 
-</div>
+## Overview
 
-> **Status, 28 October 2026:** the team was not selected for the final. The submission is the code at commit `551eeb6`. The commit after it is a UI refresh only: a new visual system, filled icon set, logo and career illustrations, with no change to the matching, data or API code. The live demo and the visual documentation site still show the earlier interface.
+The intended user is a Malaysian diploma or degree holder working below their qualification, deciding whether retraining is worth their evenings and savings. They describe what they actually do in their own words. A local model suggests the matching O\*NET work activities, the user confirms each one, and roles are matched by activity overlap.
+
+**Distinctive contribution:** each suggestion points to the user's own sentence, each route rests on confirmed activity links, and entry barriers and the first learning output can be compared side by side. No live comparison with a general chatbot has been run.
+
+**Strongest measured result:** on the same synthetic text, 32 relevant roles against 20 for a keyword baseline (A3, margin 12, 23 October 2026). The end-to-end route target (B7) failed at 7/12 against 80%; see [Evidence and limitations](#evidence-and-limitations).
+
+| Snapshot | Details |
+| --- | --- |
+| **Who it's for** | A Malaysian diploma or degree holder aged 25-34 working in a semi- or low-skilled job (for example a van driver, cashier or call-centre agent), before committing to retraining |
+| **What works now** | Intake with suggestions, guard and confirmation; route comparison over 17 supported destinations; first learning blocks with practice checkpoints; what-changed comparison between evidence releases; role matching by lane; requirement labels; job outlook with an optional outlook order; AI-usage evidence across four releases with replay; Future Skills Radar tab with four separate signals (US job projections, skill demand, AI shift with time to threshold, Malaysia's observed trend) under slower, moderate and faster scenarios; registered forecasts for the next release to score; plan; SDG tags; a cohort view for career centres on a synthetic cohort; web interface, live at https://aivancin--jadfahmi.replit.app |
+| **Demo mode** | Model inference runs live on the CPU from bundled files; data are bundled, dated snapshots; personas are synthetic |
+| **Verification date** | Submitted app source checked 23 October 2026; UI refresh checked 28 October 2026 (Windows 11, Python 3.13); historical measurements below keep their own dates |
+
+## Demo
+
+| Component | Mode | What it demonstrates |
+| --- | --- | --- |
+| Live app on Replit | LIVE, earlier interface | The submitted app source with the local encoder on the CPU |
+| Local run of this repository | LIVE, current interface | The 28 October UI refresh; see [How to Run](#how-to-run) |
+| Demo personas and cohort view | SYNTHETIC | Builder-written people and sentences; no real user data |
+| Demo video | RECORDED | Walkthrough of the submitted app |
+
+Open the [live app](https://aivancin--jadfahmi.replit.app), choose **Try an example**, and load Hafiz. Confirm the activities behind his laptop, wifi, software, backup and website work. Compare routes, open Web Developers, inspect Future and choose the route. Plan begins with the next unit and an output, followed by the block and its scenario comparison. The example is synthetic.
+
+For a clear scenario contrast, load Priya, confirm the first two suggestions on each sentence and choose Accountants and Auditors at 6 hours a week. The Plan card compares slower, moderate and faster assumptions, names the checkpoints that add AI checking and keeps the general-ledger prerequisite before daily procedures. These are alternative assumptions, not three observed futures.
+
+**Evidence updates:** Hafiz's current moderate-scenario demo has no changed steps across the bundled releases. What changed reports that honestly. The dedicated offline replay fixture uses a fixed network-administration profile and January/March 2026 evidence; `python tools/checks/replay.py` checks its traceable checkpoint change against a separate raw-data calculation. It demonstrates traceability, not a reliable trend or a Malaysian employment forecast.
 
 ## Team Information
-
-<div align="center">
 
 | Field | Details |
 | --- | --- |
@@ -36,11 +51,7 @@ You describe what you actually do, in your own words. An AI suggests the matchin
 | **University** | German-Malaysian Institute |
 | **Number of Members** | 5 |
 
-</div>
-
 ## Links
-
-<div align="center">
 
 | Resource | Link |
 | --- | --- |
@@ -49,12 +60,7 @@ You describe what you actually do, in your own words. An AI suggests the matchin
 | Live Demo | https://aivancin--jadfahmi.replit.app |
 | RunPod Endpoint | None: RunPod ran one training pod, not an endpoint (see [How We Use RunPod](#how-we-use-runpod-required)) |
 | Slide Deck | [submission/AIVANCIN_Pitch_Deck.pdf](submission/AIVANCIN_Pitch_Deck.pdf) |
-| Documentation Website | https://aivancin.vercel.app |
 | Demo Video | https://youtu.be/f3Ue4wpKSeQ |
-
-</div>
-
----
 
 ## Screenshots
 
@@ -86,18 +92,7 @@ Dark appearance on desktop:
 | :---: | :---: |
 | <img src="assets/screenshots/desktop-dark-routes.webp" alt="Desktop Routes screen in dark appearance" width="440" /> | <img src="assets/screenshots/desktop-dark-plan.webp" alt="Desktop plan screen in dark appearance" width="440" /> |
 
-## Overview
-
-> **The problem:** many Malaysian graduates work in jobs below their qualification, and before spending evenings and savings on retraining they cannot easily see which graduate-level job is closest to what they already do.
-> **Our approach:** read the user's own description of their work, suggest the matching O\*NET work activities with a local AI model, let the user confirm each one, then match roles by activity overlap.
-> **The result today:** a working web app, live on Replit and runnable locally from the same bundled files: free text in, activity suggestions with the sentence that triggered each, a guard against "I have never..." statements and confirmation; then up to three supported career routes as summary cards, each opening to the work, its future (US job projections, Malaysia's observed trend, and how its activities are shifting) and its first block, a chosen route's first learning block that fits your weeks, hours and budget, a Future Skills Radar tab for your skills and routes, and what changes when the AI-usage evidence changes. An exploration view still lists the closest graduate-level roles by activity overlap, each with requirement labels, a US job outlook, dated AI-usage evidence, a Future Skills Radar projecting how each activity shifts under three scenarios, a DOSM pay step, SDG reasons and a plan from link-checked free courses.
-
-| Snapshot | Details |
-| --- | --- |
-| **Who it's for** | A Malaysian diploma or degree holder aged 25-34 working in a semi- or low-skilled job (for example a van driver, cashier or call-centre agent), before committing to retraining |
-| **What works now** | Intake with suggestions, guard and confirmation; route comparison over 17 supported destinations; first learning blocks with practice checkpoints; what-changed comparison between evidence releases; role matching by lane; requirement labels; job outlook with an optional outlook order; AI-usage evidence across four releases with replay; Future Skills Radar tab with four separate signals (US job projections, skill demand, AI shift with time to threshold, Malaysia's observed trend) under slower, moderate and faster scenarios; registered forecasts for the next release to score; plan; SDG tags; a cohort view for career centres on a synthetic cohort; web interface, live at https://aivancin--jadfahmi.replit.app |
-| **Demo mode** | Model inference runs live on the CPU from bundled files; data are bundled, dated snapshots; personas are synthetic |
-| **Verification date** | Submitted app source checked 23 October 2026; UI refresh checked 28 October 2026 (Windows 11, Python 3.13); historical measurements below keep their own dates |
+## Project context
 
 ### Problem
 
@@ -119,14 +114,6 @@ The interface has Routes, Radar, Plan, Learn and Profile tabs on phones and a si
 
 The encoder is quantized ONNX, about 23 MB, and runs on the server CPU. It compares each sentence with 2,087 O*NET 31.0 activity names and 17,578 linked task statements (70% name, 30% best task score). Sentences over 40 words are also read in windows and clauses and can return up to ten suggestions. A rule-based guard holds back negated, planned, ambiguous or other people's work for deliberate confirmation. Names, ages and gendered words are neutralised in the encoder's copy; work terms such as bookkeeping are expanded. These rules can still miss unfamiliar wording. After confirmation, matching, requirements, scenarios and plans are deterministic computations from dated sources. No generative model runs in the app.
 
-### Try the prototype
-
-Open the [live app](https://aivancin--jadfahmi.replit.app), choose **Try an example**, and load Hafiz. Confirm the activities behind his laptop, wifi, software, backup and website work. Compare routes, open Web Developers, inspect Future and choose the route. Plan begins with the next unit and an output, followed by the block and its scenario comparison. The example is synthetic.
-
-For a clear scenario contrast, load Priya, confirm the first two suggestions on each sentence and choose Accountants and Auditors at 6 hours a week. The Plan card compares slower, moderate and faster assumptions, names the checkpoints that add AI checking and keeps the general-ledger prerequisite before daily procedures. These are alternative assumptions, not three observed futures.
-
-**Evidence updates:** Hafiz's current moderate-scenario demo has no changed steps across the bundled releases. What changed reports that honestly. The dedicated offline replay fixture uses a fixed network-administration profile and January/March 2026 evidence; `python tools/checks/replay.py` checks its traceable checkpoint change against a separate raw-data calculation. It demonstrates traceability, not a reliable trend or a Malaysian employment forecast.
-
 The API at `/docs` includes `/api/suggest`, `/api/profile`, `/api/results`, `/api/routes`, `/api/update` and `/api/cohort`. Wrong-shaped input returns field errors (422); missing or mismatched inference assets leave keyword search available. Dataset hash mismatches stop startup.
 
 ## What is implemented
@@ -147,7 +134,7 @@ The API at `/docs` includes `/api/suggest`, `/api/profile`, `/api/results`, `/ap
 
 ## Evidence and limitations
 
-All evaluation people and sentences below are synthetic and builder-written. These checks establish prototype behaviour on those inputs. Real-user learning, employment and usability outcomes have not been measured. [The visual guide](https://aivancin.vercel.app) shows the current interface.
+All evaluation people and sentences below are synthetic and builder-written. These checks establish prototype behaviour on those inputs. Real-user learning, employment and usability outcomes have not been measured.
 
 | Check | Result | Date, method and interpretation |
 | --- | --- | --- |
@@ -191,8 +178,6 @@ All evaluation people and sentences below are synthetic and builder-written. The
 - **Sharing:** none. The server makes no external model or data API calls during use; browser requests go to the app itself, and inference runs on its CPU. The source watch (`tools/check_sources.py`) reads public release pages only when someone runs it. Course and job-search links open the other site only when the user clicks them.
 - **Security:** inputs are validated server-side, and the server recomputes suggestions rather than trusting the client. No secrets are needed or stored.
 - **Failure behaviour:** a missing or altered model, tokenizer or vector file switches to keyword search with a clear message; an altered dataset file stops the app at start-up rather than serving wrong data.
-
----
 
 ## Project Structure
 
@@ -246,8 +231,6 @@ Browser ──► FastAPI app (src/main.py) ──► intake: sentence split, gu
 
 Running the encoder locally on precomputed vectors keeps the demo offline, free and reproducible: there is no API key, no per-request cost and no external service to fail.
 
----
-
 ## How to Run
 
 ### Option 1: Run on Replit (Recommended)
@@ -256,7 +239,7 @@ Running the encoder locally on precomputed vectors keeps the demo offline, free 
 2. No secrets are needed.
 3. Click **Run**. Replit uses `.replit` to start `python src/main.py` on its Python 3.12 module.
 
-Deployment check, 23 October 2026: the published app answered `/api/status` successfully, and its `app.js` and `app.css` matched the source at that check. The deployment has not been republished since, so it does not include the 28 October UI refresh; run the repository locally to see it. The documentation site is hosted at https://aivancin.vercel.app and also shows the earlier interface.
+Deployment check, 23 October 2026: the published app answered `/api/status` successfully, and its `app.js` and `app.css` matched the source at that check. The deployment has not been republished since, so it does not include the 28 October UI refresh; run the repository locally to see it.
 
 ### Illustrations
 
@@ -289,8 +272,6 @@ python -m pytest
 **Expected result:** `354 passed` (23 Oct 2026, rerun 28 Oct 2026). Tests run offline; outbound network access is blocked.
 **Rebuild the data (optional):** `python tools/build_snapshots.py` downloads the original files into `.cache/` and rebuilds `data/`; pinned files (model, AEI releases) are checked against their hashes, while live sources such as DOSM and the ESCO API can change. `python tools/build_catalogue.py` refreshes the course list and its link checks.
 
----
-
 ## How We Use Replit *(Required)*
 
 Replit hosts the live prototype judges use: **https://aivancin--jadfahmi.replit.app**, published from the team leader's Replit account.
@@ -307,8 +288,6 @@ One GPU training job, no endpoint: the app never calls RunPod, and the fine-tune
 - **How it was judged:** locally on the CPU with the app's own scoring, against a gate written before training: 45 of 60 held-out casual descriptions with a correct activity in the top five, against 39 for the original model and 40 for the base model put through the same export; the earlier complete-chain regression not lower (32 of 50 against 31). The held-out sentences never went to the pod.
 - **Proof:** [submission/RunPod Proof of Use.pdf](submission/RunPod%20Proof%20of%20Use.pdf) (pod ID, GPU type, runtime and cost from the team's RunPod dashboard), also Appendix B of the Technical & Tools Declaration.
 - **What changed:** the tuned model replaced `data/model/model.onnx`; the activity and task-statement vectors and the route sibling tables were recomputed for it. The record (pod, GPU, runtime, cost, training data and model hashes, gate results) is `data/model/finetune.json`, with `tools/finetune/run_20261021T1047Z.json` and `tools/finetune/gate_20261021T1047Z.json`; the snapshot builder refuses model files that do not match it.
-
----
 
 ## Challenges & Learnings
 
@@ -357,7 +336,6 @@ The product code, tests and synthetic personas were written during the event. Th
 | KL Pro typeface | Created for Dovun before the event (October 2026); all rights reserved, separate licence in `assets/fonts/kl-pro/LICENSE.txt`, not covered by Apache 2.0 | Interface typeface; the four web font files, unmodified | Declared as pre-existing material in the proposal |
 | Jost | Owen Earl and the Jost Project Authors, [SIL Open Font License 1.1](assets/fonts/jost/OFL.txt) | Wordmark only: SemiBold (600) instance, cut to Basic Latin | Declared in the Technical & Tools Declaration |
 | Replit | Replit, team leader's account | Hosting the live prototype (see How We Use Replit) | Declared in the Technical & Tools Declaration |
-| Vercel | Vercel | Static visual documentation at https://aivancin.vercel.app | Declared in the Technical & Tools Declaration |
 | Claude Code (Claude Opus 5.5, Sonnet 5.5) | Anthropic | Development assistance (major), reviewed by the team | Declared in the Technical & Tools Declaration |
 | Codex (GPT-6 family) | OpenAI | Selection research, early interface work, proposal/deck drafts and final documentation/submission refresh (moderate) | Declared in the Technical & Tools Declaration |
 | Antigravity (Gemini) | Google | Documentation-website work and a design review (minor) | Declared in the Technical & Tools Declaration |
