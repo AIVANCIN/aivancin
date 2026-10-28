@@ -1,18 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1254 1254" fill="none">
-<title>A ribbon - refined blue</title>
-<desc>The original white, blue and blush ribbon, extending to the edges of a unified blue gradient.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1254 1254" fill="none" role="img" aria-labelledby="title"><title id="title">AIVANCIN app icon</title>
 <defs>
-
-<linearGradient id="background" x1="627" y1="0" x2="627" y2="1254" gradientUnits="userSpaceOnUse"><stop stop-color="#249FF5"/><stop offset="1" stop-color="#0955D4"/></linearGradient>
-<linearGradient id="fold" x1="627" y1="322" x2="627" y2="968" gradientUnits="userSpaceOnUse"><stop stop-color="#2085E8"/><stop offset="1" stop-color="#1266D9"/></linearGradient>
+  <linearGradient id="cyan" x1="470" y1="340" x2="480" y2="1050" gradientUnits="userSpaceOnUse"><stop stop-color="#51CFE2"/><stop offset="1" stop-color="#35B2C7"/></linearGradient>
+  <linearGradient id="cyan-shadow" x1="132" y1="834" x2="452" y2="1008" gradientUnits="userSpaceOnUse"><stop stop-color="#2FA3B7"/><stop offset="1" stop-color="#34A9BC"/></linearGradient>
+  <linearGradient id="orange" x1="654" y1="257" x2="884" y2="555" gradientUnits="userSpaceOnUse"><stop stop-color="#F3824D"/><stop offset="1" stop-color="#FA8B50"/></linearGradient>
+  <linearGradient id="mulberry" x1="642" y1="472" x2="870" y2="698" gradientUnits="userSpaceOnUse"><stop stop-color="#B96180"/><stop offset="1" stop-color="#B75E7D"/></linearGradient>
+  <linearGradient id="mulberry-shadow" x1="639" y1="355" x2="816" y2="540" gradientUnits="userSpaceOnUse"><stop stop-color="#A24765"/><stop offset="1" stop-color="#9E4260"/></linearGradient>
+  <linearGradient id="indigo" x1="881" y1="624" x2="1141" y2="998" gradientUnits="userSpaceOnUse"><stop stop-color="#6D7CEB"/><stop offset="1" stop-color="#6A78E7"/></linearGradient>
+  <linearGradient id="indigo-shadow" x1="779" y1="691" x2="1009" y2="1032" gradientUnits="userSpaceOnUse"><stop stop-color="#4F5BB0"/><stop offset="1" stop-color="#4E59AD"/></linearGradient>
+  <radialGradient id="ink"><stop stop-color="#272839"/><stop offset="1" stop-color="#292A3A"/></radialGradient>
 </defs>
-<g>
-<path fill="url(#background)" d="M0 0H1254V1254H0Z"/>
-<g>
-<path fill="#83C9FF" d="M0 1098C127 963 315 870 446 771C508 724 556 673 523 638C607 668 675 697 700 756C728 822 687 899 625 968C541 1061 487 1143 476 1254H0Z"/>
-<path fill="#FFFFFF" d="M0 1007 556 151C574 123 599 107 627 107C655 107 680 123 698 151L1254 1007V1228L1106 963C1041 847 966 785 872 715L700 588C651 556 627 533 627 480V322Q624 322 622 325L440 545C423 565 426 587 446 598C472 612 506 620 523 638C556 673 508 724 446 771C315 870 127 963 0 1098Z"/>
-<path fill="url(#fold)" d="M627 322 627 480C627 533 651 556 700 588C748 619 785 649 798 696C827 800 726 883 625 968C687 899 728 822 700 756C675 697 607 668 523 638C506 620 472 612 446 598C426 587 423 565 440 545L622 325Q624 322 627 322Z"/>
-<path fill="#F6BADA" d="M627 322Q630 322 632 325L763 471C818 532 888 557 975.355 578L1254 1007V1228L1106 963C1041 847 966 785 872 715L700 588C651 556 627 533 627 480Z"/>
-</g>
-</g>
+
+<path fill="url(#ink)" d="M0 0h1254v1254H0z"/>
+<path fill="url(#indigo)" d="M760 660L921 583C1015 729 1125 910 1202 1044C1209 1057 1204 1063 1190 1063H1074C1010 1063 978 1040 947 1000C935 983 926 969 916 950L760 660Z"/>
+<path fill="url(#indigo-shadow)" d="M760 660C799 690 830 721 859 752C928 842 967 987 1020 1055C984 1044 963 1022 947 1000C935 983 926 969 916 950Z"/>
+<path fill="url(#mulberry)" d="M625 348L921 583C880 605 863 702 859 752C798 691 756 655 680 600C635 569 625 550 625 499Z"/>
+<path fill="url(#mulberry-shadow)" d="M625 348L921 583C874 570 824 551 783 536C725 517 661 505 625 480Z"/>
+<path fill="url(#orange)" d="M664 193C686 205 695 223 710 246L921 583C836 560 797 549 748 498C709 457 663 398 625 348C655 299 691 211 664 193Z"/>
+<path fill="url(#cyan)" d="M75 1063C49 1063 39 1050 59 1008Q73 977 91 950L550 233C579 188 606 175 628 181C642 181 654 187 664 193C691 211 655 299 625 348C591 404 547 463 500 521C467 563 466 581 487 598C497 606 513 612 532 620C601 648 688 671 692 739C697 811 539 923 434 1031C412 1051 391 1063 365 1063Z"/>
+<path fill="url(#cyan-shadow)" d="M59 1008C160 884 383 814 497 716C530 687 554 650 532 620C579 650 509 817 393 1058C383 1062 374 1063 365 1063H75C49 1063 39 1050 59 1008Z"/>
 </svg>
