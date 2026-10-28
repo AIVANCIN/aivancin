@@ -10,9 +10,13 @@ You describe what you actually do, in your own words. An AI suggests the matchin
 
 <sub>Built for SDC Hackathon 2026 · Team DOVUN · Domain One: The Aiversecity Future-Ready Workforce Domain</sub>
 
+<img src="assets/screenshots/desktop-light-routes.webp" alt="AIVANCIN on a desktop: the Routes screen with a side navigation and three career route cards" width="720" />
+
 **[Live demo](https://aivancin--jadfahmi.replit.app)** · [Visual documentation](https://aivancin.vercel.app) · [Pitch deck](submission/AIVANCIN_Pitch_Deck.pdf) · [Run locally](#how-to-run)
 
 </div>
+
+> **Status, 28 October 2026:** the team was not selected for the final. The submission is the code at commit `551eeb6`. The commit after it is a UI refresh only: a new visual system, filled icon set, logo and career illustrations, with no change to the matching, data or API code. The live demo and the visual documentation site still show the earlier interface.
 
 ## Team Information
 
@@ -47,6 +51,36 @@ You describe what you actually do, in your own words. An AI suggests the matchin
 
 ---
 
+## Screenshots
+
+Captured on 28 October 2026 from the app at this commit, using the synthetic persona Hafiz (scripted Edge, phone 390 x 844, desktop 1440 x 900). The same flow was captured in light and dark appearance.
+
+### Phone
+
+| Welcome | Confirm what we read | Compare routes | Your plan | Radar |
+| :---: | :---: | :---: | :---: | :---: |
+| <img src="assets/screenshots/phone-light-welcome.webp" alt="Welcome screen: You have more to build on than you think, with a Get started button and a guide character" width="170" /> | <img src="assets/screenshots/phone-light-confirm.webp" alt="Confirmation step: a user's sentence highlighted with five suggested work activities to tick" width="170" /> | <img src="assets/screenshots/phone-light-routes-cards.webp" alt="Route cards with a character illustration, activity overlap and requirement badges" width="170" /> | <img src="assets/screenshots/phone-light-plan.webp" alt="Plan screen: first learning block with hours, weeks, budget and progress" width="170" /> | <img src="assets/screenshots/phone-light-radar.webp" alt="Future Skills Radar chart with slower, moderate and faster scenarios" width="170" /> |
+
+Dark appearance:
+
+| Confirm what we read | Compare routes | Your plan |
+| :---: | :---: | :---: |
+| <img src="assets/screenshots/phone-dark-confirm.webp" alt="Confirmation step in dark appearance" width="200" /> | <img src="assets/screenshots/phone-dark-routes-cards.webp" alt="Route cards in dark appearance" width="200" /> | <img src="assets/screenshots/phone-dark-plan.webp" alt="Plan screen in dark appearance" width="200" /> |
+
+### Desktop
+
+| Welcome | Compare routes |
+| :---: | :---: |
+| <img src="assets/screenshots/desktop-light-welcome.webp" alt="Desktop welcome screen with headline, Get started button and the guide character" width="440" /> | <img src="assets/screenshots/desktop-light-routes.webp" alt="Desktop Routes screen with side navigation and three route cards" width="440" /> |
+| **Your plan** | **Radar** |
+| <img src="assets/screenshots/desktop-light-plan.webp" alt="Desktop plan screen with the first learning block and the learning path" width="440" /> | <img src="assets/screenshots/desktop-light-radar.webp" alt="Desktop Future Skills Radar with scenario chart and skills that are changing" width="440" /> |
+
+Dark appearance on desktop:
+
+| Compare routes | Your plan |
+| :---: | :---: |
+| <img src="assets/screenshots/desktop-dark-routes.webp" alt="Desktop Routes screen in dark appearance" width="440" /> | <img src="assets/screenshots/desktop-dark-plan.webp" alt="Desktop plan screen in dark appearance" width="440" /> |
+
 ## Overview
 
 > **The problem:** many Malaysian graduates work in jobs below their qualification, and before spending evenings and savings on retraining they cannot easily see which graduate-level job is closest to what they already do.
@@ -58,7 +92,7 @@ You describe what you actually do, in your own words. An AI suggests the matchin
 | **Who it's for** | A Malaysian diploma or degree holder aged 25-34 working in a semi- or low-skilled job (for example a van driver, cashier or call-centre agent), before committing to retraining |
 | **What works now** | Intake with suggestions, guard and confirmation; route comparison over 17 supported destinations; first learning blocks with practice checkpoints; what-changed comparison between evidence releases; role matching by lane; requirement labels; job outlook with an optional outlook order; AI-usage evidence across four releases with replay; Future Skills Radar tab with four separate signals (US job projections, skill demand, AI shift with time to threshold, Malaysia's observed trend) under slower, moderate and faster scenarios; registered forecasts for the next release to score; plan; SDG tags; a cohort view for career centres on a synthetic cohort; web interface, live at https://aivancin--jadfahmi.replit.app |
 | **Demo mode** | Model inference runs live on the CPU from bundled files; data are bundled, dated snapshots; personas are synthetic |
-| **Verification date** | Final app source checked 23 October 2026 (Windows 11, Python 3.13); historical measurements below keep their own dates |
+| **Verification date** | Submitted app source checked 23 October 2026; UI refresh checked 28 October 2026 (Windows 11, Python 3.13); historical measurements below keep their own dates |
 
 ### Problem
 
@@ -76,7 +110,7 @@ In Q2 2026, 40.7% of employed tertiary-educated Malaysians aged 25-34 (751,100 p
 4. **Start a feasible block.** Choose a route for an ordered first learning block within your weeks, hours and budget. Start here names the exact first unit, setup and output. Courses show prerequisites, access limits, link-check dates and introductory scope. Scenario comparison explains which checkpoints add AI checking and which steps stay fixed. Finished work takes no remaining capacity. Mark a checkpoint as Output made, Needs more practice or Stuck for a next action from verified resources, when one exists.
 5. **Keep control as things change.** What changed compares dated evidence bundles with the same work, target, limits and completed steps. Keep the plan or accept the update. In the slower scenario the view also identifies changes in the assumed fall. Editing preserves applicable progress, offers Cancel and Undo, and marks earlier routes until a new comparison is ready. A synthetic cohort view aggregates shared gaps for career centres.
 
-The interface has Routes, Radar, Plan, Learn and Profile tabs on phones and a sidebar on wide screens. Display & accessibility supports device/light/dark appearance, text up to 175%, bold text, increased contrast and reduced motion. Answers and progress stay in this browser; Profile offers Clear my data. No accounts are required.
+The interface has Routes, Radar, Plan, Learn and Profile tabs on phones and a sidebar on wide screens. Each supported role has its own character illustration on its route card, a guide character leads the welcome and learning screens, and the interface uses a warm light palette and a matching dark one with a filled icon set. Display & accessibility supports device/light/dark appearance, text up to 175%, bold text, increased contrast and reduced motion. Answers and progress stay in this browser; Profile offers Clear my data. No accounts are required.
 
 The encoder is quantized ONNX, about 23 MB, and runs on the server CPU. It compares each sentence with 2,087 O*NET 31.0 activity names and 17,578 linked task statements (70% name, 30% best task score). Sentences over 40 words are also read in windows and clauses and can return up to ten suggestions. A rule-based guard holds back negated, planned, ambiguous or other people's work for deliberate confirmation. Names, ages and gendered words are neutralised in the encoder's copy; work terms such as bookkeeping are expanded. These rules can still miss unfamiliar wording. After confirmation, matching, requirements, scenarios and plans are deterministic computations from dated sources. No generative model runs in the app.
 
@@ -112,7 +146,7 @@ All evaluation people and sentences below are synthetic and builder-written. The
 
 | Check | Result | Date, method and interpretation |
 | --- | --- | --- |
-| Core path and recovery | **PASS, 354/354** Python tests; **14/14** Node tests | 23 Oct 2026, final app source. `python -m pytest`; Node command above. Offline, including malformed input, hash failures, fallback, accounting and saved state. |
+| Core path and recovery | **PASS, 354/354** Python tests; **14/14** Node tests | 23 Oct 2026, submitted app source; rerun 28 Oct 2026 on the UI refresh with the same counts. `python -m pytest`; Node command above. Offline, including malformed input, hash failures, fallback, accounting and saved state. |
 | Suggestion accuracy (A1) | **PASS, 20/20** on each of two sets | Re-run 23 Oct, `python tools/checks/a1_a3.py [result.json] [sets.json]`. Both sets guided earlier changes; these reruns are regression evidence. |
 | Complete chain and keyword baseline (A2/A3) | **A2 FAIL:** 32/50 relevant top-five roles, but 5/10 people with at least three (bar: 7). **A3 PASS:** 32 against 20 keyword roles (margin 12; bar: 10). | 23 Oct, same text, strict simulated confirmation, other-work lane. `tools/checks/a1_a3.py`. The guard fix also helped the keyword baseline; the older 32:16 comparison no longer describes this source. |
 | Route-and-block target (B7, newest set 8) | **FAIL, 7/12 (58.3%)**, target 80%. Same people: title-only 0/12, BM25 2/12. All 4 out-of-scope controls pass; 0 invalid blocks and 0 errors. | `python tools/checks/fresh_eval.py`, 23 Oct. Profiles committed before first run; all three modes affirm the same title activities. First run: 7/12 with 28/57 true activities confirmed; final-source rerun after negation fixes: 7/12 with 31/57. Final run has 21 relevant and 5 off-family routes among in-scope people. The rerun is not independent. |
@@ -124,7 +158,7 @@ All evaluation people and sentences below are synthetic and builder-written. The
 | Forecast signals and provenance | **PASS:** 1,721 skill-demand values separately reproduced; 30,810 sourced Radar/Future figures in the declared C6 cases. | 21 Oct, `tools/checks/forecast_checks.py`, `tests/test_forecast.py -k c6`. Rendered C16 regression 23 Oct: 4/4 viewport/theme runs, 22 screens each. |
 | AI-use forecast quality (A18) | **FAIL direction/calibration gates:** historical-average MAE 16.33 percentage points; 80% error band 25.96 points. | `tools/checks/a18_backtest.py`, 21 Oct, predicting June from three older releases. Last-value MAE 17.81, trend-line 22.0; only 31.9% of 364 past changes continued. One target release across a format change. Scenarios are rough assumptions. |
 | Cohort aggregation | **PASS:** 60 synthetic members, 50 with a route; 48/50 first routes lead to skilled work; 183 gaps served, 224/224 steps free, 118 AI-checking checkpoints. | Current bundled cohort, computed 23 Oct; aggregation verified by `tests/test_cohort.py`. These describe suggested blocks, not completed learning or employment. |
-| Rendered interface | **PASS:** latest feature checks 22/22; UI/UX 43/43; C16 4/4; UI and design 8/8 each. | 23 Oct, scripted Edge, phone/desktop viewports, light/dark and large text. Four relevant injected faults were rejected. Emulated viewports do not verify physical devices or screen readers. |
+| Rendered interface | **PASS:** latest feature checks 22/22; UI/UX 43/43; C16 4/4; UI and design 8/8 each. | 23 Oct, scripted Edge, phone/desktop viewports, light/dark and large text. Four relevant injected faults were rejected. Emulated viewports do not verify physical devices or screen readers. The 28 Oct UI refresh was captured through the same Hafiz flow in 4 phone/desktop and light/dark runs (32 screens): no console errors, failed requests or horizontal overflow. The earlier feature and accessibility checks above were not rerun on it. |
 | Target-user benefit, physical devices and screen readers | **NOT RUN** | No user-outcome claim. |
 
 ### Known limits
@@ -159,7 +193,9 @@ All evaluation people and sentences below are synthetic and builder-written. The
 
 ```
 .
-├── assets/icon/            # App icon
+├── assets/icon/            # App icon and logo
+├── assets/art/             # Welcome artwork, explainer scenes and the career illustrations (illustrations/vance/)
+├── assets/screenshots/     # Interface screenshots used in this README
 ├── assets/fonts/           # KL Pro (separate licence) and Jost (OFL 1.1) web fonts
 ├── data/                   # Bundled snapshots: manifest.json, onet/, aei/, dosm/, crosswalk/, catalogue/, forecast/, model/, vectors/, personas.json
 ├── src/
@@ -215,11 +251,11 @@ Running the encoder locally on precomputed vectors keeps the demo offline, free 
 2. No secrets are needed.
 3. Click **Run**. Replit uses `.replit` to start `python src/main.py` on its Python 3.12 module.
 
-Deployment check, 23 October 2026: the published app answered `/api/status` successfully, and its `app.js` and `app.css` matched the source at that check. The later illustration changes are verified locally and have not been republished as part of that change. The documentation site is hosted at https://aivancin.vercel.app.
+Deployment check, 23 October 2026: the published app answered `/api/status` successfully, and its `app.js` and `app.css` matched the source at that check. The deployment has not been republished since, so it does not include the 28 October UI refresh; run the repository locally to see it. The documentation site is hosted at https://aivancin.vercel.app and also shows the earlier interface.
 
 ### Illustrations
 
-Four supplied illustrations explain informal-work examples, activity confirmation, the workflow overview and choosing a route before building a learning plan. Transparent backgrounds blend with light and dark appearances. Images retain their proportions and internal padding; native text and controls keep the workflow usable if an image does not load.
+Illustrations sit in `assets/art/`. Four explainer scenes cover informal-work examples, activity confirmation, the workflow overview and choosing a route before building a learning plan. `assets/art/illustrations/vance/` holds the guide character and one scene per supported role, used on the route cards, in the learning path and on the confirmation and welcome screens. Images keep their proportions and padding; native text and controls keep the workflow usable if an image does not load.
 
 
 ### Option 2: Run Locally
@@ -245,7 +281,7 @@ pip install -r requirements-dev.txt
 python -m pytest
 ```
 
-**Expected result:** `354 passed` (23 Oct 2026). Tests run offline; outbound network access is blocked.
+**Expected result:** `354 passed` (23 Oct 2026, rerun 28 Oct 2026). Tests run offline; outbound network access is blocked.
 **Rebuild the data (optional):** `python tools/build_snapshots.py` downloads the original files into `.cache/` and rebuilds `data/`; pinned files (model, AEI releases) are checked against their hashes, while live sources such as DOSM and the ESCO API can change. `python tools/build_catalogue.py` refreshes the course list and its link checks.
 
 ---
@@ -296,7 +332,7 @@ One GPU training job, no endpoint: the app never calls RunPod, and the fine-tune
 
 ## Credits, dependencies and AI disclosure
 
-The product code, tests and synthetic personas were written during the event. The app icon was designed by Jad Fahmi; the welcome artwork was generated with ChatGPT image generation (OpenAI GPT image). Jad supplied the four generated interface illustrations, which were fitted to their UI slots using proportional resizing and transparent padding. Development used AI assistants: Claude Code (Claude Opus 5.5 and Sonnet 5.5) for most code, tests, documentation, the submission documents and the demo video assembly; Codex (OpenAI GPT-6 family) for project-selection research, early interface work, proposal and deck drafts, and the final documentation/submission refresh; Antigravity (Google Gemini) for documentation-website work and a design review; and Replit Agent for the Replit run settings and publishing. The team directs the work and reviews the output; the evidence section identifies the checks actually run and retains failed quality gates. The product's own AI is the local all-MiniLM-L6-v2 encoder described above. All of these are listed in the Technical & Tools Declaration ([submission/SDC2026_DOVUN_TechDeclaration.pdf](submission/SDC2026_DOVUN_TechDeclaration.pdf)).
+The product code, tests and synthetic personas were written during the event. The app icon was designed by Jad Fahmi; the welcome artwork was generated with ChatGPT image generation (OpenAI GPT image). Jad supplied the interface illustrations: the four explainer scenes, which were fitted to their UI slots using proportional resizing and transparent padding, and the guide character and career scenes in `assets/art/illustrations/vance/`. Development used AI assistants: Claude Code (Claude Opus 5.5 and Sonnet 5.5) for most code, tests, documentation, the submission documents and the demo video assembly; Codex (OpenAI GPT-6 family) for project-selection research, early interface work, proposal and deck drafts, and the final documentation/submission refresh; Antigravity (Google Gemini) for documentation-website work and a design review; and Replit Agent for the Replit run settings and publishing. The team directs the work and reviews the output; the evidence section identifies the checks actually run and retains failed quality gates. The product's own AI is the local all-MiniLM-L6-v2 encoder described above. All of these are listed in the Technical & Tools Declaration ([submission/SDC2026_DOVUN_TechDeclaration.pdf](submission/SDC2026_DOVUN_TechDeclaration.pdf)).
 
 | Resource | Origin and rights | How it was actually used | Declaration / approval |
 | --- | --- | --- | --- |
