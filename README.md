@@ -1,22 +1,158 @@
+<div align="center">
+
+<img src="assets/icon/icon-readme.png" width="84" alt="AIVANCIN mark" />
+
 # AIVANCIN
 
-AIVANCIN is a prototype that turns the work an underemployed Malaysian graduate already does into the closest graduate-level roles, showing what each role still requires, what AI is already doing in its tasks, and a free, verified plan for the gaps.
+### From the work you already do to the closest graduate roles, for underemployed Malaysian graduates.
 
-[Live demo](https://aivancin--jadfahmi.replit.app) | [Pitch deck](submission/AIVANCIN_Pitch_Deck.pdf) | [Demo video](https://youtu.be/f3Ue4wpKSeQ) | [Results](#evidence-and-limitations) | [Run locally](#how-to-run)
+<a href="https://aivancin--jadfahmi.replit.app"><img alt="Live demo" src="https://img.shields.io/badge/Live-Replit_demo-2A9D8F?style=for-the-badge&labelColor=0A0B0D" /></a>
+<a href="https://youtu.be/f3Ue4wpKSeQ"><img alt="Watch the demo" src="https://img.shields.io/badge/Demo-video-FF3B30?style=for-the-badge&labelColor=0A0B0D&logo=youtube&logoColor=white" /></a>
+<a href="submission/AIVANCIN_Pitch_Deck.pdf"><img alt="Pitch deck" src="https://img.shields.io/badge/Pitch-deck_PDF-F4B01F?style=for-the-badge&labelColor=0A0B0D" /></a>
 
-![AIVANCIN on a desktop in dark appearance: the Routes screen with a side navigation and career route cards](assets/screenshots/desktop-dark-routes.webp)
+<br/>
 
-*Routes screen on a desktop in dark appearance, using the synthetic persona Hafiz. Built for SDC Hackathon 2026, Team DOVUN, Domain One: The Aiversecity Future-Ready Workforce Domain.*
+<a href="https://aivancin--jadfahmi.replit.app">
+  <img src="assets/screenshots/desktop-dark-routes.webp" alt="AIVANCIN on a desktop in dark appearance: the Routes screen with a side navigation and career route cards" width="820" />
+</a>
+
+<br/>
+<br/>
+
+<!-- Stack chips -->
+
+<a href="https://www.python.org"><img alt="Python" src="https://img.shields.io/badge/Python_3.13-3776AB?style=flat-square&logo=python&logoColor=white" /></a>
+<a href="https://fastapi.tiangolo.com"><img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" /></a>
+<a href="https://onnxruntime.ai"><img alt="ONNX Runtime" src="https://img.shields.io/badge/ONNX_Runtime-005CED?style=flat-square&logo=onnx&logoColor=white" /></a>
+<a href="https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2"><img alt="all-MiniLM-L6-v2" src="https://img.shields.io/badge/MiniLM_L6_v2-FFD21E?style=flat-square&logo=huggingface&logoColor=black" /></a>
+<img alt="HTML, CSS and JavaScript" src="https://img.shields.io/badge/HTML_CSS_JS-F7DF1E?style=flat-square&logo=javascript&logoColor=black" />
+<a href="https://www.onetonline.org"><img alt="O*NET 31.0" src="https://img.shields.io/badge/O*NET_31.0-1F4E79?style=flat-square&logoColor=white" /></a>
+<a href="https://replit.com"><img alt="Replit" src="https://img.shields.io/badge/Replit-F26207?style=flat-square&logo=replit&logoColor=white" /></a>
+<a href="https://www.runpod.io"><img alt="RunPod" src="https://img.shields.io/badge/RunPod-673AB7?style=flat-square&logoColor=white" /></a>
+
+</div>
+
+---
+
+<!-- Stats strip -->
+
+<table align="center" width="100%">
+  <tr align="center">
+    <td><h3>354</h3><sub>Python tests passing</sub></td>
+    <td><h3>17</h3><sub>supported destinations</sub></td>
+    <td><h3>2,087</h3><sub>O*NET activities</sub></td>
+    <td><h3>90</h3><sub>free catalogue courses</sub></td>
+    <td><h3>23 MB</h3><sub>encoder, runs on CPU</sub></td>
+    <td><h3>5</h3><sub>builders</sub></td>
+  </tr>
+</table>
 
 > **Status, 28 October 2026:** the team was not selected for the final. The submission is the code at commit `551eeb6`. The commit after it is a UI refresh only: a new visual system, filled icon set, logo and career illustrations, with no change to the matching, data or API code. The live demo still shows the earlier interface.
 
-## Overview
+---
 
-The intended user is a Malaysian diploma or degree holder working below their qualification, deciding whether retraining is worth their evenings and savings. They describe what they actually do in their own words. A local model suggests the matching O\*NET work activities, the user confirms each one, and roles are matched by activity overlap.
+## ▶ Watch the demo
 
-**Distinctive contribution:** each suggestion points to the user's own sentence, each route rests on confirmed activity links, and entry barriers and the first learning output can be compared side by side. No live comparison with a general chatbot has been run.
+<div align="center">
 
-**Strongest measured result:** on the same synthetic text, 32 relevant roles against 20 for a keyword baseline (A3, margin 12, 23 October 2026). The end-to-end route target (B7) failed at 7/12 against 80%; see [Evidence and limitations](#evidence-and-limitations).
+<a href="https://youtu.be/f3Ue4wpKSeQ" title="Watch the AIVANCIN demo on YouTube">
+  <img src="https://img.youtube.com/vi/f3Ue4wpKSeQ/maxresdefault.jpg" alt="AIVANCIN demo video" width="780" />
+</a>
+
+<br/>
+
+<a href="https://youtu.be/f3Ue4wpKSeQ"><img alt="Play on YouTube" src="https://img.shields.io/badge/Play_on_YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white&labelColor=0A0B0D" /></a>
+
+<sub><i>Submission video: a synthetic user describes their work, confirms the suggested activities, compares routes and opens a first learning block.</i></sub>
+
+</div>
+
+---
+
+## TL;DR
+
+- **What.** A career-route finder for underemployed graduates. The user describes their work in their own words, a local sentence encoder suggests the matching O\*NET activities with the sentence behind each, and the user confirms the ones that are true. Roles are then matched by activity overlap, with requirements, AI-usage evidence and a free, link-checked first learning block.
+- **Why.** In Q2 2026, 40.7% of employed tertiary-educated Malaysians aged 25-34 (751,100 people) worked in semi- or low-skilled jobs ([DOSM](https://storage.dosm.gov.my/labour/lfs_qtr_sru_age.csv)). Job-title search misses the work they already do, which is what leads to graduate roles.
+- **How.** One local ONNX encoder on the server CPU, no API keys and no external calls during use. After the user confirms, matching, requirements, scenarios and plans are deterministic computations from dated sources.
+- **Result.** Built for SDC Hackathon 2026 (Team DOVUN, Domain One, SDG 8.5). The team was not selected for the final. The checks passed and failed are listed openly under [Evidence and limitations](#evidence-and-limitations).
+
+## 🔗 Links and artifacts
+
+<table>
+  <tr>
+    <td>🌐&nbsp;<a href="https://aivancin--jadfahmi.replit.app"><b>Live demo</b></a></td>
+    <td><sub>Replit deployment, earlier interface</sub></td>
+  </tr>
+  <tr>
+    <td>🎥&nbsp;<a href="https://youtu.be/f3Ue4wpKSeQ"><b>Demo video</b></a></td>
+    <td><sub>The submission walkthrough</sub></td>
+  </tr>
+  <tr>
+    <td>📊&nbsp;<a href="submission/AIVANCIN_Pitch_Deck.pdf"><b>Slide deck</b></a></td>
+    <td><sub>Pitch deck, PDF</sub></td>
+  </tr>
+  <tr>
+    <td>💻&nbsp;<a href="https://github.com/AIVANCIN/aivancin"><b>GitHub repository</b></a></td>
+    <td><sub>Apache 2.0</sub></td>
+  </tr>
+  <tr>
+    <td>🧾&nbsp;<a href="submission/SDC2026_DOVUN_TechDeclaration.pdf"><b>Technical &amp; Tools Declaration</b></a></td>
+    <td><sub>Tools, datasets and licences</sub></td>
+  </tr>
+  <tr>
+    <td>🚀&nbsp;<a href="submission/Replit%20Proof%20of%20Use.pdf"><b>Replit proof of use</b></a></td>
+    <td><sub>Deployed from the team leader's Replit account</sub></td>
+  </tr>
+  <tr>
+    <td>⚡&nbsp;<a href="submission/RunPod%20Proof%20of%20Use.pdf"><b>RunPod proof of use</b></a></td>
+    <td><sub>One training pod, no endpoint</sub></td>
+  </tr>
+</table>
+
+## ✨ What it does
+
+<table>
+  <tr>
+    <td valign="top" width="50%">
+
+### 💬 Describe and confirm
+Answer up to four questions about your job, other work, studies, and time and budget. A local all-MiniLM-L6-v2 encoder suggests O\*NET activities with the sentence behind each. You tick what is true.
+    </td>
+    <td valign="top" width="50%">
+
+### 🧭 Compare destinations
+Up to three routes from 17 supported roles in IT support, software, finance and data. Shared activities, entry requirements, the first block and the largest barrier sit side by side.
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" width="50%">
+
+### 🔮 Inspect the future evidence
+The Future tab and Future Skills Radar separate US job projections, activity demand, observed AI use and Malaysian group statistics under slower, moderate and faster scenarios.
+    </td>
+    <td valign="top" width="50%">
+
+### 🧱 Start a feasible block
+An ordered first learning block fits your weeks, hours and budget. It names the first unit, its output and link-checked free courses, with checkpoints marked Output made, Needs more practice or Stuck.
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" width="50%">
+
+### 🔄 Keep control as things change
+What changed compares dated evidence bundles for the same work, target and limits. Keep the plan or accept the update. Editing preserves applicable progress, with Cancel and Undo.
+    </td>
+    <td valign="top" width="50%">
+
+### 🔒 Private and offline by design
+No accounts, no API keys and no external calls during use. Answers and progress stay in your browser, and Clear my data removes them. A rule-based guard holds back negated, planned or other people's work for deliberate confirmation.
+    </td>
+  </tr>
+</table>
+
+The interface has Routes, Radar, Plan, Learn and Profile tabs on phones and a sidebar on wide screens, with light and dark appearance, text up to 175%, bold text, increased contrast and reduced motion.
+
+## Project snapshot
 
 | Snapshot | Details |
 | --- | --- |
@@ -25,7 +161,7 @@ The intended user is a Malaysian diploma or degree holder working below their qu
 | **Demo mode** | Model inference runs live on the CPU from bundled files; data are bundled, dated snapshots; personas are synthetic |
 | **Verification date** | Submitted app source checked 23 October 2026; UI refresh checked 28 October 2026 (Windows 11, Python 3.13); historical measurements below keep their own dates |
 
-## Demo
+## 🧪 Try it
 
 | Component | Mode | What it demonstrates |
 | --- | --- | --- |
@@ -40,29 +176,7 @@ For a clear scenario contrast, load Priya, confirm the first two suggestions on 
 
 **Evidence updates:** Hafiz's current moderate-scenario demo has no changed steps across the bundled releases. What changed reports that honestly. The dedicated offline replay fixture uses a fixed network-administration profile and January/March 2026 evidence; `python tools/checks/replay.py` checks its traceable checkpoint change against a separate raw-data calculation. It demonstrates traceability, not a reliable trend or a Malaysian employment forecast.
 
-## Team Information
-
-| Field | Details |
-| --- | --- |
-| **Team Name** | DOVUN |
-| **Team Domain** | Domain 1: The Aiversecity Future-Ready Workforce Domain |
-| **SDG Track (1-17)** | SDG 8: Decent Work and Economic Growth (target 8.5) |
-| **Team Leader** | Jad Fahmi |
-| **University** | German-Malaysian Institute |
-| **Number of Members** | 5 |
-
-## Links
-
-| Resource | Link |
-| --- | --- |
-| GitHub Repository | https://github.com/AIVANCIN/aivancin |
-| Replit Project | Deployed from the team leader's Replit account; proof in [submission/Replit Proof of Use.pdf](submission/Replit%20Proof%20of%20Use.pdf) |
-| Live Demo | https://aivancin--jadfahmi.replit.app |
-| RunPod Endpoint | None: RunPod ran one training pod, not an endpoint (see [How We Use RunPod](#how-we-use-runpod-required)) |
-| Slide Deck | [submission/AIVANCIN_Pitch_Deck.pdf](submission/AIVANCIN_Pitch_Deck.pdf) |
-| Demo Video | https://youtu.be/f3Ue4wpKSeQ |
-
-## Screenshots
+## 📸 Screenshots
 
 Captured on 28 October 2026 from the app at this commit, using the synthetic persona Hafiz (scripted Edge, phone 390 x 844, desktop 1440 x 900). The same flow was captured in light and dark appearance.
 
@@ -91,6 +205,65 @@ Dark appearance on desktop:
 | Compare routes | Your plan |
 | :---: | :---: |
 | <img src="assets/screenshots/desktop-dark-routes.webp" alt="Desktop Routes screen in dark appearance" width="440" /> | <img src="assets/screenshots/desktop-dark-plan.webp" alt="Desktop plan screen in dark appearance" width="440" /> |
+
+## 🏗 Architecture
+
+```mermaid
+flowchart LR
+    User[User<br/>Browser]:::signal
+    App[FastAPI app<br/>src/main.py]:::phosphor
+    Intake[Intake<br/>split, guard, validate]
+    Encoder[Encoder<br/>ONNX on CPU]:::sodium
+    Vectors[Bundled<br/>activity vectors]
+    Match[Matching<br/>activity overlap by lane]
+    Routes[Routes<br/>blocks, what changed, Radar]
+    Report[Report<br/>labels, outlook, SDG, plan]
+    Data[(Dated snapshots<br/>O*NET, AEI, DOSM)]
+
+    User -- sentence --> App
+    App --> Intake
+    Intake --> Encoder
+    Encoder --> Vectors
+    App --> Match
+    App --> Routes
+    App --> Report
+    Match --> Data
+    Routes --> Data
+    Report --> Data
+    App -- page and JSON --> User
+
+    classDef signal stroke:#FF3B30,stroke-width:1.5px;
+    classDef sodium stroke:#F4B01F,stroke-width:1.5px;
+    classDef phosphor stroke:#2A9D8F,stroke-width:1.5px;
+```
+
+The user's sentence is split and checked by the guard, then compared with 2,087 O\*NET 31.0 activity names and 17,578 linked task statements using the quantized encoder on the server CPU. Everything after confirmation is deterministic, and every number in the page is tagged with its source. Running the encoder locally on precomputed vectors keeps the demo offline, free and reproducible: there is no API key, no per-request cost and no external service to fail.
+
+## 🧰 Stack
+
+<table>
+  <tr><th align="left">Layer</th><th align="left">Tools</th></tr>
+  <tr>
+    <td>Frontend</td>
+    <td><b>HTML, CSS and JavaScript</b> without a build step, served by the app · light and dark appearance</td>
+  </tr>
+  <tr>
+    <td>Backend</td>
+    <td><b>Python 3.13</b> · <b>FastAPI 0.150</b> · <b>Uvicorn 0.54</b></td>
+  </tr>
+  <tr>
+    <td>Data</td>
+    <td>No database. Bundled CSV, JSON and NumPy files: O*NET, AEI, DOSM, crosswalk and catalogue extracts, activity vectors, manifest</td>
+  </tr>
+  <tr>
+    <td>Inference</td>
+    <td><b>all-MiniLM-L6-v2</b>, fine-tuned once on a <b>RunPod</b> RTX 4090, run as quantized ONNX on the CPU with <b>ONNX Runtime 1.31</b> and <b>Tokenizers 0.23</b></td>
+  </tr>
+  <tr>
+    <td>Hosting</td>
+    <td><b>Replit Deployments</b> (Cloud Run target, Python 3.12 module)</td>
+  </tr>
+</table>
 
 ## Project context
 
@@ -162,16 +335,6 @@ All evaluation people and sentences below are synthetic and builder-written. The
 - **Future evidence:** global Claude conversations measure use of one product, not Malaysian labour demand. Historical activity averages and the latest release are shown separately. Older task text matches about 83% to O*NET; unmatched tasks are omitted. BLS projections inherit US uncertainty. The moderate AI-use forecast has large error and uncalibrated ranges; faster/slower assumptions are not observations.
 - **Operations:** one host, no redundancy. No deployment latency or memory benchmark; no real-user learning or employment validation. The app is a decision aid, not recruitment or placement.
 
-### Tech Stack
-
-| Layer | Technology | Responsibility |
-| --- | --- | --- |
-| Frontend | HTML, CSS and JavaScript without a build step, served by the app | Intake, review, results; light and dark appearance |
-| Backend | Python 3.13, FastAPI 0.150, Uvicorn 0.54 | Intake, matching, evidence and plan API |
-| Database | None; bundled CSV, JSON and NumPy files | O\*NET, AEI, DOSM, crosswalk and catalogue extracts, activity vectors, manifest |
-| AI / Compute | all-MiniLM-L6-v2, fine-tuned once on a RunPod GPU (RTX 4090), run as quantized ONNX on the CPU with ONNX Runtime 1.31 and Tokenizers 0.23 | Sentence encoding for activity suggestions |
-| Hosting / Dev | Replit Deployments (Cloud Run target, Python 3.12 module) | Live prototype at https://aivancin--jadfahmi.replit.app |
-
 ### Privacy, safety and reliability
 
 - **Data:** text is processed in memory for the request and not stored or logged by the server. Your answers, confirmed activities, chosen route, ticked steps and saved routes are kept in your browser's local storage so you can continue later; Clear my data in Profile removes them. There are no accounts. Demo personas and the cohort view's members are synthetic; the cohort view accepts no upload.
@@ -179,7 +342,7 @@ All evaluation people and sentences below are synthetic and builder-written. The
 - **Security:** inputs are validated server-side, and the server recomputes suggestions rather than trusting the client. No secrets are needed or stored.
 - **Failure behaviour:** a missing or altered model, tokenizer or vector file switches to keyword search with a clear message; an altered dataset file stops the app at start-up rather than serving wrong data.
 
-## Project Structure
+## 🗂 Repository layout
 
 ```
 .
@@ -217,20 +380,6 @@ All evaluation people and sentences below are synthetic and builder-written. The
 └── README.md
 ```
 
-### Architecture
-
-```
-Browser ──► FastAPI app (src/main.py) ──► intake: sentence split, guard, validation
-                  │                            └──► local encoder (ONNX, CPU) + bundled activity vectors
-                  ├──► matching: activity overlap by lane over O*NET Job Zone 3-4 roles
-                  ├──► routes: supported destinations, first learning blocks, shared foundations, what changed, the Radar
-                  ├──► outlook: skill demand (BLS via task links), AI shift and time to threshold, Malaysian group trend (observed)
-                  ├──► report: labels, job outlook, AEI evidence and replay, skill outlook, DOSM pay step, SDG, scenarios, plan
-                  └──► page and JSON, every number tagged with its source
-```
-
-Running the encoder locally on precomputed vectors keeps the demo offline, free and reproducible: there is no API key, no per-request cost and no external service to fail.
-
 ## How to Run
 
 ### Option 1: Run on Replit (Recommended)
@@ -244,7 +393,6 @@ Deployment check, 23 October 2026: the published app answered `/api/status` succ
 ### Illustrations
 
 Illustrations sit in `assets/art/`. Four explainer scenes cover informal-work examples, activity confirmation, the workflow overview and choosing a route before building a learning plan. `assets/art/illustrations/vance/` holds the guide character and one scene per supported role, used on the route cards, in the learning path and on the confirmation and welcome screens. Images keep their proportions and padding; native text and controls keep the workflow usable if an image does not load.
-
 
 ### Option 2: Run Locally
 
@@ -304,15 +452,63 @@ One GPU training job, no endpoint: the app never calls RunPod, and the fine-tune
 - [ ] Malay descriptions, after their own checked test set passes.
 - [ ] Testing with real underemployed graduates.
 
-## Team
+## 👥 Team
 
-| Name | Role | Responsibility | GitHub |
-| --- | --- | --- | --- |
-| Jad Fahmi | Team Lead & Developer | Coordinates delivery and leads implementation | [@jad-fahmi](https://github.com/jad-fahmi) |
-| Aqil Amin | Quality Assurance Tester | Tests user flows, reproduces defects and reports findings | [@fakebat2-da](https://github.com/fakebat2-da) |
-| Khairin Darwisy | Quality Assurance Tester | Tests user flows, reproduces defects and reports findings | [@KhaiWisy](https://github.com/KhaiWisy) |
-| Adam Hasif | Documentation Website Developer | Builds and maintains the project's documentation website | [@Lukecyan1](https://github.com/Lukecyan1) |
-| Ammar Hakeem | Documentation Website Developer | Builds and maintains the project's documentation website | GitHub account pending |
+<table>
+  <tr>
+    <td align="center" valign="top" width="20%">
+      <h4>Jad Fahmi</h4>
+      <sub><i>Team Lead &amp; Developer</i></sub>
+      <br/><br/>
+      <a href="https://github.com/jad-fahmi">@jad-fahmi</a>
+      <br/><br/>
+      <sub>Coordinates delivery and leads implementation.</sub>
+    </td>
+    <td align="center" valign="top" width="20%">
+      <h4>Aqil Amin</h4>
+      <sub><i>Quality Assurance Tester</i></sub>
+      <br/><br/>
+      <a href="https://github.com/fakebat2-da">@fakebat2-da</a>
+      <br/><br/>
+      <sub>Tests user flows, reproduces defects and reports findings.</sub>
+    </td>
+    <td align="center" valign="top" width="20%">
+      <h4>Khairin Darwisy</h4>
+      <sub><i>Quality Assurance Tester</i></sub>
+      <br/><br/>
+      <a href="https://github.com/KhaiWisy">@KhaiWisy</a>
+      <br/><br/>
+      <sub>Tests user flows, reproduces defects and reports findings.</sub>
+    </td>
+    <td align="center" valign="top" width="20%">
+      <h4>Adam Hasif</h4>
+      <sub><i>Documentation Website Developer</i></sub>
+      <br/><br/>
+      <a href="https://github.com/Lukecyan1">@Lukecyan1</a>
+      <br/><br/>
+      <sub>Builds and maintains the project's documentation website.</sub>
+    </td>
+    <td align="center" valign="top" width="20%">
+      <h4>Ammar Hakeem</h4>
+      <sub><i>Documentation Website Developer</i></sub>
+      <br/><br/>
+      <sub>GitHub account pending</sub>
+      <br/><br/>
+      <sub>Builds and maintains the project's documentation website.</sub>
+    </td>
+  </tr>
+</table>
+
+## 🪪 Team information
+
+| Field | Details |
+| --- | --- |
+| **Team Name** | DOVUN |
+| **Team Domain** | Domain 1: The Aiversecity Future-Ready Workforce Domain |
+| **SDG Track (1-17)** | SDG 8: Decent Work and Economic Growth (target 8.5) |
+| **Team Leader** | Jad Fahmi |
+| **University** | German-Malaysian Institute |
+| **Number of Members** | 5 |
 
 ## Credits, dependencies and AI disclosure
 
@@ -359,3 +555,10 @@ This product includes information from the O\*NET 31.0 Database by the U.S. Depa
 ## License
 
 This project is licensed under the [Apache License 2.0](LICENSE). Third-party components and datasets keep their own licences. The KL Pro font files in `assets/fonts/kl-pro/` are not covered by the Apache License 2.0; see their own licence file.
+
+<div align="center">
+<br/>
+<sub>Built for SDC Hackathon 2026 · Team DOVUN · Domain One: The Aiversecity Future-Ready Workforce Domain · SDG 8.5</sub>
+<br/>
+<sub><a href="https://aivancin--jadfahmi.replit.app">aivancin--jadfahmi.replit.app</a> · <a href="https://github.com/AIVANCIN/aivancin">github.com/AIVANCIN/aivancin</a></sub>
+</div>
