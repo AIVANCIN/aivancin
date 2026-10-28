@@ -10,7 +10,12 @@ You describe what you actually do, in your own words. An AI suggests the matchin
 
 <sub>Built for SDC Hackathon 2026 · Team DOVUN · Domain One: The Aiversecity Future-Ready Workforce Domain</sub>
 
-<img src="assets/screenshots/desktop-light-routes.webp" alt="AIVANCIN on a desktop: the Routes screen with a side navigation and three career route cards" width="720" />
+<table>
+<tr>
+<td align="center" valign="middle"><img src="assets/screenshots/desktop-dark-routes.webp" alt="AIVANCIN on a desktop in dark appearance: the Routes screen with a side navigation and career route cards" width="600" /></td>
+<td align="center" valign="middle"><img src="assets/screenshots/phone-dark-confirm.webp" alt="AIVANCIN on a phone in dark appearance: confirming the work activities suggested for a sentence" width="200" /></td>
+</tr>
+</table>
 
 **[Live demo](https://aivancin--jadfahmi.replit.app)** · [Visual documentation](https://aivancin.vercel.app) · [Pitch deck](submission/AIVANCIN_Pitch_Deck.pdf) · [Run locally](#how-to-run)
 
